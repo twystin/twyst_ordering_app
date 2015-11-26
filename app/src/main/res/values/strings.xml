@@ -1,0 +1,140 @@
+<resources>
+    <string name="app_name">Twyst</string>
+    <string name="FACEBOOK_APP_ID">1642609692619860</string>
+    <string name="GOOGLE_MAP_KEY_ID">AIzaSyD-p3JFdMl2cGLyJX4ql1MYfzC90cWp6yk</string>
+    <string name="action_search">Search</string>
+    <string name="action_notifications">Notifications</string>
+    <string name="action_wallet">Wallet</string>
+    <string name="action_home">Home</string>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <string name="hint_mobile"><small><i>10 digit mobile number</i></small></string>
+    <string name="hint_otp_code"><small><i>Enter 4-digit code</i></small></string>
+    <string name="hint_email"><small><i>Enter your email id</i></small></string>
+    <string name="call">call</string>
+    <string name="follow">follow</string>
+    <string name="map">map</string>
+    <string name="feedback">feedback</string>
+    <string name="discover">Discover</string>
+    <string name="wallet">My Wallet</string>
+    <string name="outlet_detail">Outlet Detail</string>
+    <string name="offer_detail">Offer Detail</string>
+    <string name="notification">Notifications</string>
+    <string name="invite">Invite Friends</string>
+    <string name="upload_bill">Upload Bill</string>
+    <string name="write_to_us">Write to us</string>
+    <string name="order_online">Order Online</string>
+    <string name="submit_offer">Submit Offer</string>
+    <string name="suggest_outlet">Suggest an outlet</string>
+    <string name="faq">FAQs</string>
+    <string name="profile">Profile</string>
+
+
+
+    <string name="action_deep_link">twyst</string>
+
+    <string name="invites">Send invitations!</string>
+    <string name="welcome">App Invite\nQuickstart</string>
+    <string name="referrer_hint">Deep link not provided</string>
+    <string name="deep_link_default">Deep link not set</string>
+    <string name="invitation_id_default">Invitation ID not set</string>
+    <string name="invite_friends">Invite Friends</string>
+
+    <string name="invitation_title">Send App Invite Quickstart Invitation</string>
+    <string name="invitation_message">This app is terrific, give it a try!</string>
+    <string name="invitation_deep_link">demo://</string>
+
+    <string name="deep_link_fmt">Deep Link: %s</string>
+    <string name="invitation_id_fmt">Invitation ID: %s</string>
+
+    <string name="sent_invitations_fmt">Sent %d invitations</string>
+    <string name="send_failed">Sending invitations failed</string>
+    <string name="invite_dialog_title">You got an invitation!</string>
+    <string name="checkin">Check-in Success!</string>
+ <string name="account">Accounts</string>
+ <string name="connected_account">Connected Accounts</string>
+
+ <string name="terms_conditions">
+     &#8226; Offers (2 or more) cannot be clubbed.\n
+     &#8226; Offers are not valid on specially priced combinations e.g. any other buffet/brunch deal/corporate dining rate/happy hours etc.\n
+     &#8226; Only 1 voucher/offer can be used per bill generated.\n
+     &#8226; In certain cases, specific items may be part of the offer. The availability of the specific items is not guaranteed and must be checked with the outlet before using the offer.\n
+     &#8226; The offers are provided at the sole discretion of the merchant, and the merchant reserves the right to alter or withdraw the offer at any time.\n
+     &#8226; Offers/ vouchers consisting of alcohol/alcohol-based products will be available only to individuals above legal drinking age. The establishment reserves the right to verify the customer\'s age before providing such reward.</string>
+
+ <string name="faq_support_text">For more, write to us at </string>
+ <string name="faq_support_mail">support@twyst.in</string>
+
+ <string name="faq_body">
+     <![CDATA[
+<p><b>How to Twyst?</b></p>
+<p><b>&middot; &nbsp; &nbsp; How do I use Twyst?</b></p>
+<p>It&rsquo;s easy &ndash; scroll or search for the offer you are looking for, and tap &lsquo;Use Offer&rsquo; to use them! Most offers are available to use immediately, some can be unlocked when you check-in. You can plan ahead as well, by tapping on your current location and choosing a different location, date or time.</p>
+<p>&nbsp;</p>
+<p><b>&middot; &nbsp; &nbsp; What&rsquo;s the number I sometimes see next to &lsquo;Use Offer&rsquo;?</b></p>
+<p>That number signifies the cost of the offer in Twyst Bucks. Twyst Bucks are the points on Twyst, that you need to use some offers. You can also use Twyst Bucks to extend your coupons and grab your friends&rsquo; coupons.</p>
+<p>&nbsp;</p>
+<p><b>&middot; &nbsp; &nbsp; So, how do I earn Twyst Bucks?</b></p>
+<p>You earn Twyst Bucks each time you check-in by uploading a restaurant bill or scanning a QR code. You can also invite friends to join you on Twyst, and get 250 Twyst Bucks for each friend who joins Twyst on your invitation. Also earn Twyst Bucks when you follow an outlet, like an offer, submit an offer and suggest an outlet on Twyst.</p>
+<p>&nbsp;</p>
+<p><b>&middot; &nbsp; &nbsp; Why should I upload the bill? Can I upload from home?</b></p>
+<p>Uploading a bill is a way of checking-in at an outlet. You can upload your bills whether you went out to eat or ordered in. One bill can be uploaded only once for approval. When an uploaded bill is approved, you get a check-in at that outlet, and some Twyst Bucks!</p>
+<p>&nbsp;</p>
+<p><b>&middot; &nbsp; &nbsp; On Twyst, what are friends for?</b></p>
+<p>To get you more offers, that&rsquo;s what! Get 250 Twyst Bucks for each friend who joins Twyst on your invitation &ndash; use those Bucks to use some yummy offers! What&rsquo;s more, when your friends check-in and unlock some cool coupons, you get to Grab and use those coupons as well. Remember, they too get to grab the coupons you unlock!</p>
+<p>&nbsp;</p>
+<p><b>&middot; &nbsp; &nbsp; What are &lsquo;Grab Offer&rsquo; and &lsquo;Extend&rsquo;?</b></p>
+<p>Grab Offer is how you use your friends&rsquo; coupons. If a friend has checked-in and unlocked a coupon, but has not used it until the lapse date, the voucher becomes available to you (and all his other friends on Twyst) to &lsquo;grab&rsquo;. Once grabbed, the coupon goes into your Wallet and is exclusively available to you until it expires.</p>
+<p>If you have unlocked a coupon, and the lapse date is coming up, but you do not wish your friends to be able to grab it (it&rsquo;s good to be selfish sometimes!), you can extend the coupon till its expiry date. When you extend it, your friends do not get to see or grab your coupon.</p>
+<p>You need to use Twyst Bucks to grab as well as extend coupons.</p>
+]]>
+ </string><string name="earn_more_body">
+     <![CDATA[
+<p>&middot; &nbsp; Upload your bill every time you visit or order from a Twyst
+outlet.</p>
+<p>&middot; &nbsp; Invite friends to join you on Twyst – get Twyst bucks for
+each friend who joins.</p>
+<p>&middot; &nbsp; Submit offers!</p>
+<p>&middot; &nbsp; Suggest outlets you want on Twyst!</p>
+<p>&middot; &nbsp; Favourite an outlet.</p>
+<p>&middot; &nbsp; Like an offer.</p>
+]]>
+ </string>
+
+    <string name="use_offer">Use Offer</string>
+    <string name="remind_me">Remind Me</string>
+    <string name="grab_offer">Grab Offer</string>
+
+    <string name="redeem_code_get_twyst_bucks">Upload your bill and\nget %1$d Twyst bucks</string>
+    <string name="bucks_earned_follow_outlet">You have earned 20 Twyst Bucks!</string>
+    <string name="bucks_earned_like_offer">You have earned 10 Twyst Bucks!</string>
+
+    <string name="offer_redeem_info">To use this offer, please present the coupon code (on the next screen) to your server at the outlet or on the phone. This offer will cost you %1$d Twyst bucks</string>
+
+    <string name="icon_voucher_available">voucher_available</string>
+    <string name="icon_voucher_redeemed">voucher_redeemed</string>
+    <string name="icon_voucher_pending">voucher_pending</string>
+    <string name="icon_active_voucher_nearby">active_voucher_nearby</string>
+    <string name="icon_new_offers">new_offers</string>
+    <string name="icon_offers_nearby">offers_nearby</string>
+    <string name="icon_reactivate_user">reactivate_user</string>
+    <string name="icon_grab_offer">grab_offer</string>
+    <string name="icon_new_features">new_features</string>
+    <string name="icon_coupon_grabbed">coupon_grabbed</string>
+    <string name="icon_birthday">birthday</string>
+    <string name="icon_offer_approved_and_live">offer_approved_and_live</string>
+    <string name="icon_outlet_specific_offer">outlet_specific_offer</string>
+    <string name="icon_winback">winback</string>
+    <string name="icon_bill_rejected">bill_rejected</string>
+    <string name="icon_bill_approved">bill_approved</string>
+    <string name="icon_wallet">wallet</string>
+
+    <string name="invite_friends_text">Share rewards! Use offers your friends unlock (and vice versa). Get %1$d Twyst bucks for each friend you add to Twyst.</string>
+
+    <string name="submit_offer_card_text">See an offer not listed on Twyst?\nBe the first to tell us &amp; earn %1$d Twyst Bucks!</string>
+    <string name="checkin_offer_card_text_exclusive">Upload bill to check-in and unlock exclusive offers! You also get %1$d Twyst Bucks!</string>
+    <string name="checkin_offer_card_text">Upload bill and get %1$d Twyst Bucks!</string>
+
+</resources>

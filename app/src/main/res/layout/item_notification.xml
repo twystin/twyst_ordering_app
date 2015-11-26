@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/notificationitem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="horizontal"
+    android:weightSum="100">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="27">
+
+        <RelativeLayout
+            android:id="@+id/notifyCircle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/round_shape">
+
+            <ImageView
+                android:id="@+id/notificationBtn"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="73">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/notifyHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="Voucher Available"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/notification_header_text"
+                tools:ignore="MissingPrefix"
+                fontPath="fonts/Roboto-Bold.ttf"
+                />
+
+            <TextView
+                android:id="@+id/notifyDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Your voucher for free Briyani with an order of Rs 400 Briyani Paradise, Sec 31 is now available!"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/notification_detail_text"
+                android:textStyle="normal" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>
