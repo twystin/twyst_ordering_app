@@ -23,12 +23,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.gdata.client.Query;
-import com.google.gdata.client.contacts.ContactsService;
-import com.google.gdata.data.contacts.ContactEntry;
-import com.google.gdata.data.contacts.ContactFeed;
-import com.google.gdata.data.extensions.Email;
-import com.google.gdata.data.extensions.Name;
+//import com.google.gdata.client.Query;
+//import com.google.gdata.client.contacts.ContactsService;
+//import com.google.gdata.data.contacts.ContactEntry;
+//import com.google.gdata.data.contacts.ContactFeed;
+//import com.google.gdata.data.extensions.Email;
+//import com.google.gdata.data.extensions.Name;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -126,109 +126,109 @@ public class InviteEmailFragment extends Fragment {
         auth_dialog.show();
     }
 
-    private class GetGoogleContacts extends
-            AsyncTask<String, String, List<ContactEntry>> {
-
-        private ProgressDialog pDialog;
-        private Context context;
-
-        public GetGoogleContacts(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new ProgressDialog(context);
-            pDialog.setMessage("Authenticated. Getting Google Contacts ...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
-            pDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                    getActivity().finish();
-                }
-            });
-            pDialog.show();
-        }
-
-        @Override
-        protected List<ContactEntry> doInBackground(String... args) {
-            String accessToken = args[0];
-            ContactsService contactsService = new ContactsService(GoogleConstants.APP);
-            contactsService.setHeader("Authorization", "Bearer " + accessToken);
-            contactsService.setHeader("GData-Version", "3.0");
-            List<ContactEntry> contactEntries = null;
-            try {
-                URL feedUrl = new URL(GoogleConstants.CONTACTS_URL);
-                Query myQuery = new Query(feedUrl);
-                myQuery.setMaxResults(5000);
-                ContactFeed resultFeed = contactsService.getFeed(myQuery, ContactFeed.class);
-                contactEntries = resultFeed.getEntries();
-            } catch (Exception e) {
-                pDialog.dismiss();
-                Toast.makeText(context, "Failed to get Contacts",
-                        Toast.LENGTH_SHORT).show();
-            }
-            return contactEntries;
-        }
-
-        @Override
-        protected void onPostExecute(List<ContactEntry> googleContacts) {
-            if (null != googleContacts && googleContacts.size() > 0) {
-                List<GoogleContact> contacts = new ArrayList<GoogleContact>();
-
-                for (ContactEntry contactEntry : googleContacts) {
-                    String name = "";
-                    String email = "";
-
-                    if (contactEntry.hasName()) {
-                        Name tmpName = contactEntry.getName();
-                        if (tmpName.hasFullName()) {
-                            name = tmpName.getFullName().getValue();
-                        } else {
-                            if (tmpName.hasGivenName()) {
-                                name = tmpName.getGivenName().getValue();
-                                if (tmpName.getGivenName().hasYomi()) {
-                                    name += " ("
-                                            + tmpName.getGivenName().getYomi()
-                                            + ")";
-                                }
-                                if (tmpName.hasFamilyName()) {
-                                    name += tmpName.getFamilyName().getValue();
-                                    if (tmpName.getFamilyName().hasYomi()) {
-                                        name += " ("
-                                                + tmpName.getFamilyName()
-                                                .getYomi() + ")";
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    List<Email> emails = contactEntry.getEmailAddresses();
-                    if (null != emails && emails.size() > 0) {
-                        Email tempEmail = (Email) emails.get(0);
-                        email = tempEmail.getAddress();
-                    }
-
-                    if (TextUtils.isEmpty(name) || TextUtils.isEmpty(email)) {
-                        continue;
-                    }
-
-                    GoogleContact googleContact = new GoogleContact(Utils.capitalize(name), email);
-                    contacts.add(googleContact);
-                }
-
-                setContactList(contacts);
-
-            } else {
-                Log.e(TAG, "No GoogleContact Found.");
-                Toast.makeText(context, "No GoogleContact Found.", Toast.LENGTH_SHORT).show();
-            }
-            pDialog.dismiss();
-        }
-
-    }
+//    private class GetGoogleContacts extends
+//            AsyncTask<String, String, List<ContactEntry>> {
+//
+//        private ProgressDialog pDialog;
+//        private Context context;
+//
+//        public GetGoogleContacts(Context context) {
+//            this.context = context;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            pDialog = new ProgressDialog(context);
+//            pDialog.setMessage("Authenticated. Getting Google Contacts ...");
+//            pDialog.setIndeterminate(false);
+//            pDialog.setCancelable(true);
+//            pDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+//                @Override
+//                public void onCancel(DialogInterface dialog) {
+//                    getActivity().finish();
+//                }
+//            });
+//            pDialog.show();
+//        }
+//
+//        @Override
+//        protected List<ContactEntry> doInBackground(String... args) {
+//            String accessToken = args[0];
+//            ContactsService contactsService = new ContactsService(GoogleConstants.APP);
+//            contactsService.setHeader("Authorization", "Bearer " + accessToken);
+//            contactsService.setHeader("GData-Version", "3.0");
+//            List<ContactEntry> contactEntries = null;
+//            try {
+//                URL feedUrl = new URL(GoogleConstants.CONTACTS_URL);
+//                Query myQuery = new Query(feedUrl);
+//                myQuery.setMaxResults(5000);
+//                ContactFeed resultFeed = contactsService.getFeed(myQuery, ContactFeed.class);
+//                contactEntries = resultFeed.getEntries();
+//            } catch (Exception e) {
+//                pDialog.dismiss();
+//                Toast.makeText(context, "Failed to get Contacts",
+//                        Toast.LENGTH_SHORT).show();
+//            }
+//            return contactEntries;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(List<ContactEntry> googleContacts) {
+//            if (null != googleContacts && googleContacts.size() > 0) {
+//                List<GoogleContact> contacts = new ArrayList<GoogleContact>();
+//
+//                for (ContactEntry contactEntry : googleContacts) {
+//                    String name = "";
+//                    String email = "";
+//
+//                    if (contactEntry.hasName()) {
+//                        Name tmpName = contactEntry.getName();
+//                        if (tmpName.hasFullName()) {
+//                            name = tmpName.getFullName().getValue();
+//                        } else {
+//                            if (tmpName.hasGivenName()) {
+//                                name = tmpName.getGivenName().getValue();
+//                                if (tmpName.getGivenName().hasYomi()) {
+//                                    name += " ("
+//                                            + tmpName.getGivenName().getYomi()
+//                                            + ")";
+//                                }
+//                                if (tmpName.hasFamilyName()) {
+//                                    name += tmpName.getFamilyName().getValue();
+//                                    if (tmpName.getFamilyName().hasYomi()) {
+//                                        name += " ("
+//                                                + tmpName.getFamilyName()
+//                                                .getYomi() + ")";
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                    List<Email> emails = contactEntry.getEmailAddresses();
+//                    if (null != emails && emails.size() > 0) {
+//                        Email tempEmail = (Email) emails.get(0);
+//                        email = tempEmail.getAddress();
+//                    }
+//
+//                    if (TextUtils.isEmpty(name) || TextUtils.isEmpty(email)) {
+//                        continue;
+//                    }
+//
+//                    GoogleContact googleContact = new GoogleContact(Utils.capitalize(name), email);
+//                    contacts.add(googleContact);
+//                }
+//
+//                setContactList(contacts);
+//
+//            } else {
+//                Log.e(TAG, "No GoogleContact Found.");
+//                Toast.makeText(context, "No GoogleContact Found.", Toast.LENGTH_SHORT).show();
+//            }
+//            pDialog.dismiss();
+//        }
+//
+//    }
 
     private void setContactList(final List<GoogleContact> contacts) {
         Collections.sort(contacts, new Comparator<GoogleContact>() {
@@ -337,11 +337,12 @@ public class InviteEmailFragment extends Fragment {
         protected JSONObject doInBackground(String... args) {
             String authCode = args[0];
             GetAccessToken jParser = new GetAccessToken();
-            JSONObject json = jParser.gettoken(GoogleConstants.TOKEN_URL,
-                    authCode, GoogleConstants.CLIENT_ID,
-                    GoogleConstants.CLIENT_SECRET,
-                    GoogleConstants.REDIRECT_URI, GoogleConstants.GRANT_TYPE);
-            return json;
+            return null;
+//            JSONObject json = jParser.gettoken(GoogleConstants.TOKEN_URL,
+//                    authCode, GoogleConstants.CLIENT_ID,
+//                    GoogleConstants.CLIENT_SECRET,
+//                    GoogleConstants.REDIRECT_URI, GoogleConstants.GRANT_TYPE);
+            //return json;
         }
 
         @Override
@@ -352,7 +353,7 @@ public class InviteEmailFragment extends Fragment {
                     String tok = json.getString("access_token");
                     String expire = json.getString("expires_in");
                     String refresh = json.getString("refresh_token");
-                    new GetGoogleContacts(context).execute(tok);
+                   // new GetGoogleContacts(context).execute(tok);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
