@@ -60,7 +60,6 @@ import com.twyst.app.android.util.TwystProgressHUD;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.mortbay.util.ajax.JSON;
 
 import retrofit.RetrofitError;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;

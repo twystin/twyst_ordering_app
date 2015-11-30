@@ -31,8 +31,12 @@ android {
 
     buildTypes {
         release {
+            minifyEnabled false
             resValue "drawable","ic_launcher", "drawable/ic_laucnher"
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    'proguard-rules.pro',
+                    'progaurd-retrofit.pro',
+                    'progaurd-android-support.pro'
         }
 
         debug {
@@ -77,7 +81,7 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.4.0'
     compile 'com.squareup.okhttp:okhttp:2.4.0'
-    compile 'com.facebook.android:facebook-android-sdk:4.3.0'
+    compile 'com.facebook.android:facebook-android-sdk:4.7.0'
     compile 'com.github.castorflex.smoothprogressbar:library:1.1.0'
     compile 'com.github.castorflex.smoothprogressbar:library-circular:1.1.0'
     compile 'com.getbase:floatingactionbutton:1.10.0'
