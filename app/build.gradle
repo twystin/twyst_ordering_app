@@ -41,7 +41,7 @@ android {
 
         debug {
             applicationIdSuffix ".debug"
-            resValue "drawable","ic_launcher", "drawable/ic_laucnher_debug"
+            resValue "drawable","ic_laucnher_debug", "drawable/ic_laucnher_debug"
         }
     }
 

@@ -15,18 +15,19 @@
             android:id="@+id/toolbarWrapper"
             layout="@layout/toolbar_wrapper" />
 
-        <com.github.ksoichiro.android.observablescrollview.ObservableScrollView
-            android:id="@+id/observableScrollView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/middleLayout"
-            android:fillViewport="true"
-            android:overScrollMode="never">
+        <!--<com.github.ksoichiro.android.observablescrollview.ObservableScrollView-->
+        <!--android:id="@+id/observableScrollView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_below="@+id/middleLayout"-->
+        <!--android:fillViewport="true"-->
+        <!--android:overScrollMode="never">-->
 
         <LinearLayout
             android:id="@+id/bottomLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/middleLayout"
             android:layout_margin="5dp"
             android:background="@android:color/white"
             android:orientation="vertical">
@@ -53,7 +54,7 @@
                 android:background="@color/outlet_txt_color_grey" />
         </LinearLayout>
 
-        </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
+        <!--</com.github.ksoichiro.android.observablescrollview.ObservableScrollView>-->
 
         <RelativeLayout
             android:id="@+id/topLayout"
@@ -169,8 +170,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/topLayout"
             android:layout_margin="5dp"
-            android:visibility="gone"
-            android:background="@android:color/white">
+            android:background="@android:color/white"
+            android:visibility="gone">
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/scrollingOffersPager"
@@ -179,6 +180,14 @@
                 android:overScrollMode="never" />
 
         </RelativeLayout>
+
+        <include
+            android:id="@+id/cartLowerLayout"
+            layout="@layout/cart_lower_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" />
+
     </RelativeLayout>
 
     <include

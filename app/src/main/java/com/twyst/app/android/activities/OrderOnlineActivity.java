@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * Created by Vipul Sharma on 11/16/2015.
  */
-public class OrderOnlineActivity extends BaseActivity implements MenuPageFragment.OnFragmentScrollChangedListener, ObservableScrollViewCallbacks {
+public class OrderOnlineActivity extends BaseActivity {//implements MenuPageFragment.OnFragmentScrollChangedListener, ObservableScrollViewCallbacks {
 
     private ScrollingOffersAdapter mScrollingOffersAdapter;
     private ViewPager mScrollingOffersViewPager;
@@ -42,9 +42,9 @@ public class OrderOnlineActivity extends BaseActivity implements MenuPageFragmen
         setupScrollingOfferAdapters();
         setupMenu();
 
-        final ObservableScrollView observableScrollView = (ObservableScrollView) findViewById(R.id.observableScrollView);
+//        final ObservableScrollView observableScrollView = (ObservableScrollView) findViewById(R.id.observableScrollView);
 //        mRecyclerView.setHasFixedSize(true);
-        observableScrollView.setScrollViewCallbacks(this);
+//        observableScrollView.setScrollViewCallbacks(this);
 
         final RelativeLayout rlTopLayout = (RelativeLayout) findViewById(R.id.topLayout);
         final RelativeLayout rHidableLayout = (RelativeLayout) findViewById(R.id.hideableLayout);
@@ -57,8 +57,6 @@ public class OrderOnlineActivity extends BaseActivity implements MenuPageFragmen
                 mLowerLimit = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, rlTopLayout.getHeight() - rHidableLayout.getHeight(), getResources().getDisplayMetrics());
                 mUpperLimit = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, rlTopLayout.getHeight(), getResources().getDisplayMetrics());
 
-                observableScrollView.requestFocus();
-
                 rHidableLayout.getViewTreeObserver().removeGlobalOnLayoutListener(
                         this);
             }
@@ -66,6 +64,7 @@ public class OrderOnlineActivity extends BaseActivity implements MenuPageFragmen
     }
 
     private void setupMenu() {
+//        String me ="me";
         String menuString = getMenuString();
         Gson gson = new Gson();
         MenuData[] menuDataArray = gson.fromJson(menuString, MenuData[].class);
@@ -99,65 +98,65 @@ public class OrderOnlineActivity extends BaseActivity implements MenuPageFragmen
         return R.layout.activity_order_online;
     }
 
-    @Override
-    public void onFragmentScrollChange(int scrollY, boolean firstScroll, boolean dragging) {
-//        final int lowerLimit = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
-//        final int upperLimit = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics());
-
-        final View topLayout = findViewById(R.id.topLayout);
-        final View hideableLayout = findViewById(R.id.hideableLayout);
-
-//        Log.d(getTagName(), "scrollY: " + scrollY + " upperLimit:" + upperLimit + " lowerLimit:" + lowerLimit);
-        final int diff = mUpperLimit - scrollY;
-        if (diff > mUpperLimit) {
-            topLayout.getLayoutParams().height = mUpperLimit;
-            topLayout.requestLayout();
-            hideableLayout.setAlpha(1f);
-        } else if (diff < mLowerLimit) {
-            topLayout.getLayoutParams().height = mLowerLimit;
-            topLayout.requestLayout();
-            hideableLayout.setAlpha(0f);
-        } else if (diff <= mUpperLimit && diff > mLowerLimit) {
-            topLayout.getLayoutParams().height = diff;
-            topLayout.requestLayout();
-            float ratio = (scrollY * 1f / (mUpperLimit - mLowerLimit) * 1f) * 1f;
-            hideableLayout.setAlpha(1f - ratio);
-        }
-
-    }
-
-    @Override
-    public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-
-        final View topLayout = findViewById(R.id.topLayout);
-        final View hideableLayout = findViewById(R.id.hideableLayout);
-
-        final int diff = mUpperLimit - scrollY;
-        if (diff > mUpperLimit) {
-            topLayout.getLayoutParams().height = mUpperLimit;
-            topLayout.requestLayout();
-            hideableLayout.setAlpha(1f);
-        } else if (diff < mLowerLimit) {
-            topLayout.getLayoutParams().height = mLowerLimit;
-            topLayout.requestLayout();
-            hideableLayout.setAlpha(0f);
-        } else if (diff <= mUpperLimit && diff > mLowerLimit) {
-            topLayout.getLayoutParams().height = diff;
-            topLayout.requestLayout();
-            float ratio = (scrollY * 1f / (mUpperLimit - mLowerLimit) * 1f) * 1f;
-            hideableLayout.setAlpha(1f - ratio);
-        }
-    }
-
-    @Override
-    public void onDownMotionEvent() {
-
-    }
-
-    @Override
-    public void onUpOrCancelMotionEvent(ScrollState scrollState) {
-
-    }
+//    @Override
+//    public void onFragmentScrollChange(int scrollY, boolean firstScroll, boolean dragging) {
+////        final int lowerLimit = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
+////        final int upperLimit = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics());
+//
+//        final View topLayout = findViewById(R.id.topLayout);
+//        final View hideableLayout = findViewById(R.id.hideableLayout);
+//
+////        Log.d(getTagName(), "scrollY: " + scrollY + " upperLimit:" + upperLimit + " lowerLimit:" + lowerLimit);
+//        final int diff = mUpperLimit - scrollY;
+//        if (diff > mUpperLimit) {
+//            topLayout.getLayoutParams().height = mUpperLimit;
+//            topLayout.requestLayout();
+//            hideableLayout.setAlpha(1f);
+//        } else if (diff < mLowerLimit) {
+//            topLayout.getLayoutParams().height = mLowerLimit;
+//            topLayout.requestLayout();
+//            hideableLayout.setAlpha(0f);
+//        } else if (diff <= mUpperLimit && diff > mLowerLimit) {
+//            topLayout.getLayoutParams().height = diff;
+//            topLayout.requestLayout();
+//            float ratio = (scrollY * 1f / (mUpperLimit - mLowerLimit) * 1f) * 1f;
+//            hideableLayout.setAlpha(1f - ratio);
+//        }
+//
+//    }
+//
+//    @Override
+//    public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
+//
+//        final View topLayout = findViewById(R.id.topLayout);
+//        final View hideableLayout = findViewById(R.id.hideableLayout);
+//
+//        final int diff = mUpperLimit - scrollY;
+//        if (diff > mUpperLimit) {
+//            topLayout.getLayoutParams().height = mUpperLimit;
+//            topLayout.requestLayout();
+//            hideableLayout.setAlpha(1f);
+//        } else if (diff < mLowerLimit) {
+//            topLayout.getLayoutParams().height = mLowerLimit;
+//            topLayout.requestLayout();
+//            hideableLayout.setAlpha(0f);
+//        } else if (diff <= mUpperLimit && diff > mLowerLimit) {
+//            topLayout.getLayoutParams().height = diff;
+//            topLayout.requestLayout();
+//            float ratio = (scrollY * 1f / (mUpperLimit - mLowerLimit) * 1f) * 1f;
+//            hideableLayout.setAlpha(1f - ratio);
+//        }
+//    }
+//
+//    @Override
+//    public void onDownMotionEvent() {
+//
+//    }
+//
+//    @Override
+//    public void onUpOrCancelMotionEvent(ScrollState scrollState) {
+//
+//    }
 
     private MenuData getMenuData(List<MenuData> menuDataList) {
         for(int i = 0 ; i < menuDataList.size() ; i++){

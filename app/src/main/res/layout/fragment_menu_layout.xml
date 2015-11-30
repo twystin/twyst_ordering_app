@@ -4,10 +4,20 @@
     android:layout_height="match_parent"
     tools:context="com.twyst.app.android.fragments.MenuPageFragment">
 
-    <com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView
-        android:id="@+id/menuRecyclerView"
+    <!--<com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView-->
+        <!--android:id="@+id/menuRecyclerView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:scrollbars="vertical" />-->
+
+    <com.diegocarloslima.fgelv.lib.FloatingGroupExpandableListView
+        android:id="@+id/menuList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical" />
+        android:layout_height="wrap_content"
+        android:cacheColorHint="@android:color/transparent"
+        android:childDivider="@color/half_black"
+        android:groupIndicator="@null"
+        android:divider="@color/half_black"
+        android:dividerHeight="1dp" />
 
 </RelativeLayout>
