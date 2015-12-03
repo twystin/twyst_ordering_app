@@ -1,8 +1,6 @@
 package com.twyst.app.android.adapters;
 
 import android.content.Context;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +12,9 @@ import com.twyst.app.android.R;
 import com.twyst.app.android.model.menu.Sections;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Vipul Sharma on 11/20/2015.
@@ -23,42 +24,9 @@ public class MenuAdapter extends BaseExpandableListAdapter {
     private final Context mContext;
     private final LayoutInflater mLayoutInflater;
     ArrayList<Sections> mSectionsList;
+    private List<Integer> mGroupPositionsInflated = new ArrayList<>();
 
-//    private final String[] mGroups = {
-//            "Cupcake",
-//            "Donut",
-//            "Eclair",
-//            "Froyo",
-//            "Gingerbread",
-//            "Honeycomb",
-//            "Ice Cream Sandwich",
-//            "Jelly Bean",
-//            "KitKat"
-//    };
-
-//    private final int[] mGroupDrawables = {
-//            R.drawable.cupcake,
-//            R.drawable.donut,
-//            R.drawable.eclair,
-//            R.drawable.froyo,
-//            R.drawable.gingerbread,
-//            R.drawable.honeycomb,
-//            R.drawable.ice_cream_sandwich,
-//            R.drawable.jelly_bean,
-//            R.drawable.kitkat
-//    };
-
-//    private final String[][] mChilds = {
-//            {"1.5"},
-//            {"1.6"},
-//            {"2.0","2.0.1","2.1"},
-//            {"2.2","2.2.1","2.2.2","2.2.3"},
-//            {"2.3","2.3.1","2.3.2","2.3.3","2.3.4","2.3.5","2.3.6","2.3.7"},
-//            {"3.0","3.1","3.2","3.2.1","3.2.2","3.2.3","3.2.4","3.2.5","3.2.6"},
-//            {"4.0", "4.0.1", "4.0.2", "4.0.3", "4.0.4"},
-//            {"4.1", "4.1.1", "4.1.2", "4.2", "4.2.1", "4.2.2", "4.3", "4.3.1"},
-//            {"4.4"}
-//    };
+    Map<String,ChildViewHolder> mChildViewHolderMap = new HashMap<>();
 
     public MenuAdapter(Context context, ArrayList<Sections> sectionsList) {
         mContext = context;
@@ -68,7 +36,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        if(convertView == null) {
+        if (convertView == null) {
             convertView = mLayoutInflater.inflate(R.layout.layout_menu_group, parent, false);
         }
 
@@ -83,35 +51,60 @@ public class MenuAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        if(convertView == null) {
+    public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        String positionString = String.valueOf(groupPosition) + String.valueOf(childPosition);
+        ChildViewHolder childViewHolder = (ChildViewHolder) mChildViewHolderMap.get(positionString);
+
+//        int positions = Integer.parseInt(String.valueOf(groupPosition) + String.valueOf(childPosition));
+        if (childViewHolder==null) {
+//            mGroupPositionsInflated.add(positions);
             convertView = mLayoutInflater.inflate(R.layout.layout_menu_card, parent, false);
+            childViewHolder = new ChildViewHolder(convertView);
+            mChildViewHolderMap.put(positionString, childViewHolder);
+//            convertView.setTag(childViewHolder);
         }
+//        } else {
+//
+//            childViewHolder = (ChildViewHolder) convertView.getTag();
+//        }
 
-        final TextView text = (TextView) convertView.findViewById(R.id.menuItem);
-        text.setText(mSectionsList.get(groupPosition).getItemsList().get(childPosition).getItemName());//mChilds[groupPosition][childPosition]);
+        childViewHolder.mIvPLus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                add();
+            }
 
+        });
+        childViewHolder.menuItemName.setText(mSectionsList.get(groupPosition).getItemsList().get(childPosition).getItemName());
         return convertView;
+    }
+
+    private void add() {
+        String positionString = String.valueOf(get) + String.valueOf(childPosition);
+        ChildViewHolder childViewHolder = mChildViewHolderMap.get(positionString);
+        childViewHolder.mIvMinus.setVisibility(View.VISIBLE);
     }
 
     @Override
     public int getGroupCount() {
-        return mSectionsList.size(); //mGroups.length;
+        int groupCount = mSectionsList.size();
+        return groupCount;
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return mSectionsList.get(groupPosition).getItemsList().size(); //mChilds[groupPosition].length;
+        int childCount = mSectionsList.get(groupPosition).getItemsList().size();
+        return childCount;
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-       return mSectionsList.get(groupPosition);//mGroups[i];
+        return mSectionsList.get(groupPosition);
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return mSectionsList.get(groupPosition).getItemsList();//mChilds[groupPosition][childPosition];
+        return mSectionsList.get(groupPosition).getItemsList().get(childPosition);
     }
 
     @Override
@@ -130,44 +123,26 @@ public class MenuAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public boolean isChildSelectable(int i, int i1) {
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
         return false;
     }
-//    @Override
-//    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//
-//        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_menu_card, parent, false);
-//
-//        RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-//        layoutParams.setMargins(10, 10, 10, -5);
-//        //layoutParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 170, actionBarActivity.getResources().getDisplayMetrics());
-//        v.setLayoutParams(layoutParams);
-//
-//        MenuViewHolder vh = new MenuViewHolder(v);
-//        return vh;
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-//        MenuViewHolder menuViewHolder = (MenuViewHolder) holder;
-//
-//        TextView menuItem = (TextView) menuViewHolder.itemView.findViewById(R.id.menuItem);
-//        if (position == 1) {
-//            menuItem.setText("position1");
-//        }
-//    }
 
-//    @Override
-//    public int getItemCount() {
-//        return 7;
-//    }
+    public final class GroupViewHolder {
 
-    public static class MenuViewHolder extends RecyclerView.ViewHolder {
-        TextView menuItem;
+        TextView mContactName;
+        ImageView mContactImage;
+    }
 
-        public MenuViewHolder(View itemView) {
-            super(itemView);
-            menuItem = (TextView) itemView.findViewById(R.id.menuItem);
+    private class ChildViewHolder {
+        ImageView mIvMinus;
+        ImageView mIvPLus;
+        TextView menuItemName;
+
+        public ChildViewHolder(View itemView) {
+            this.mIvMinus = (ImageView) itemView.findViewById(R.id.ivMinus);
+            this.mIvPLus = (ImageView) itemView.findViewById(R.id.ivPlus);
+            this.menuItemName = (TextView) itemView.findViewById(R.id.menuItem);
         }
     }
+
 }

@@ -7,7 +7,7 @@
     <com.diegocarloslima.fgelv.lib.FloatingGroupExpandableListView
         android:id="@+id/menuList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:cacheColorHint="@android:color/transparent"
         android:childDivider="@color/half_black"
         android:groupIndicator="@null"

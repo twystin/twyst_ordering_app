@@ -13,20 +13,11 @@ android {
 
     defaultConfig {
         applicationId "com.twyst.app.android"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 23
         versionCode 20006
         versionName "3.2"
         multiDexEnabled true
-    }
-
-    productFlavors {
-        preKitKat {
-
-        }
-        postLollipop {
-            minSdkVersion 21
-        }
     }
 
     buildTypes {
