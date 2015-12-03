@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
+
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.DiscoverData;
 import com.twyst.app.android.model.Outlet;
@@ -54,6 +55,7 @@ public class FetchOutletsTask {
 
         int start= 1;
         int end = start + AppConstants.DISCOVER_LIST_PAGESIZE - 1;
+
 
         HttpService.getInstance().getRecommendedOutlets(userToken, start, end, latitude, longitude, mDate, mTime, new Callback<BaseResponse<DiscoverData>>() {
             @Override

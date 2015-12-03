@@ -3,7 +3,6 @@ package com.twyst.app.android.activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -20,36 +19,32 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.appsflyer.AppsFlyerConversionListener;
+import com.appsflyer.AppsFlyerLib;
+import com.appsflyer.DebugLogQueue;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.appsflyer.*;
-
-import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsResult;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.tagmanager.Container;
 import com.google.android.gms.tagmanager.ContainerHolder;
 import com.google.android.gms.tagmanager.TagManager;
 import com.google.gson.Gson;
 import com.twyst.app.android.R;
-import com.twyst.app.android.asynctask.FetchOutletsTask;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.ContainerHolderSingleton;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.PhoneBookContacts;
+
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -587,8 +582,8 @@ private static class CustomTagCallback implements Container.FunctionCallTagCallb
             sharedPreferences.putString(AppConstants.PREFERENCE_CURRENT_USED_LAT, lat);
             sharedPreferences.putString(AppConstants.PREFERENCE_CURRENT_USED_LNG, lng);
             if (sharedPreferences.commit()){
-                new FetchOutletsTask(getApplicationContext()).fetch();
-                fromSplashScreenDownloading = true;
+                // new FetchOutletsTask(getApplicationContext()).fetch();
+                // fromSplashScreenDownloading = true;
             }
         }
         }

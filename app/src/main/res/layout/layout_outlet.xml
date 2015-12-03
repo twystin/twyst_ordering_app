@@ -1,121 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:isScrollContainer="true">
+    android:layout_height="wrap_content"
+    android:isScrollContainer="true"
+    android:touchscreenBlocksFocus="false"
+    android:orientation="vertical"
+    android:background="@drawable/layout_bg"
+    android:layout_margin="4dp">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/notification_light_gray">
 
-    <ImageView
-        android:id="@+id/outletImage"
-        android:layout_width="@dimen/outlet_info_width"
-        android:layout_height="@dimen/outlet_card_height"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:scaleType="centerCrop"/>
-
-    <RelativeLayout
-        android:layout_width="@dimen/outlet_info_width"
-        android:layout_height="@dimen/outlet_card_height"
-        android:background="#7e000000">
-
-        <TextView
-            android:id="@+id/outletName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="Striker Pub &amp; Brewery"
-            android:textColor="@android:color/white"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:textSize="@dimen/outlet_offer_header_textsize"/>
-
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/pizza"
+            android:padding="4dp"
+            android:scaleType="fitCenter"
+            android:layout_weight="1"
+            android:layout_gravity="left"/>
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/outletName"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/outletName"
+                android:paddingLeft="2dp"
+                android:textStyle="bold"
+                android:text="Striker Pub &amp; Brewery"
+                android:gravity="bottom|left"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
 
-            <ImageView
-                android:id="@+id/locImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="2dp"
-                android:layout_marginTop="0.5dp"
-                android:src="@drawable/icon_discover_location"/>
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
-                android:orientation="vertical">
-
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="start"
+                    android:src="@drawable/location"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:id="@+id/location"/>
                 <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
                     android:id="@+id/outletAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="Sector 15, Gurgaon"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/outlet_offer_address_textsize"/>
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@id/location"/>
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Delivery Experience"
+                android:ellipsize="end"
+                android:textSize="12sp"
+                android:gravity="bottom|center"/>
 
-                <TextView
-                    android:id="@+id/distance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="15.3 km"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/outlet_offer_address_textsize"/>
-
-            </LinearLayout>
+            <RatingBar
+                android:isIndicator="true"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/ratingBar"
+                android:numStars="5"
+                android:stepSize="1.0"
+                android:rating="3.0"
+                android:layout_gravity="center"
+                style="?android:attr/ratingBarStyleSmall"/>
 
 
         </LinearLayout>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:text="Cuisines: "
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp"
+            android:id="@+id/cuisines"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="chinese,italian"
+            android:layout_alignBaseline="@id/cuisines"
+            android:paddingTop="8dp"
+            android:layout_toEndOf="@id/cuisines" />
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/clock"
+            android:layout_below="@id/cuisines"
+            android:id="@+id/clock"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delivers in 45 minutes"
+            android:layout_toRightOf="@id/clock"
+            android:paddingTop="8dp"
+            android:layout_below="@id/cuisines"
+            android:textSize="12dp"
+            android:id="@+id/delivery_time"/>
 
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/bill"
+            android:layout_below="@id/clock"
+            android:id="@+id/bill"/>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/outlet_info_bottom_height"
-            android:layout_alignParentBottom="true"
-            android:background="#9b000000"
-            android:orientation="horizontal"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:text="300 min order"
+            android:layout_toRightOf="@id/bill"
+            android:layout_below="@id/delivery_time"
+            android:gravity="center|left"
+            android:textSize="12dp"
+            android:id="@+id/min_order"/>
 
-            <ImageView
-                android:id="@+id/callOutletBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="false"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:padding="8dp"
-                android:src="@drawable/icon_discover_call_outlet"/>
+        <ImageView
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/offer_scroll_22"
+            android:layout_alignParentRight="true"
+            android:id="@+id/offers"/>
 
-            <ImageView
-                android:id="@+id/followOutletBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:padding="8dp"
-                android:src="@drawable/icon_discover_follow_outlet_no"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3 Offers Available"
+            android:layout_below="@id/offers"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@id/min_order"
+            android:paddingRight="8dp"
+            android:textSize="8dp"
+            android:gravity="top"/>
 
-        </RelativeLayout>
     </RelativeLayout>
 
-    <android.support.v4.view.ViewPager
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/outlet_card_height"
-        android:layout_marginLeft="@dimen/outlet_info_width"
-        android:overScrollMode="never"
-        android:id="@+id/pager">
 
-
-    </android.support.v4.view.ViewPager>
-
-</RelativeLayout>
+</LinearLayout>

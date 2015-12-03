@@ -1,44 +1,23 @@
 package com.twyst.app.android.adapters;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.twyst.app.android.R;
+import com.twyst.app.android.model.Offer;
+import com.twyst.app.android.model.Outlet;
+import com.twyst.app.android.util.AppConstants;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.twyst.app.android.R;
-import com.twyst.app.android.activities.DiscoverActivity;
-import com.twyst.app.android.activities.OrderOnlineActivity;
-import com.twyst.app.android.activities.OutletDetailsActivity;
-import com.twyst.app.android.activities.UploadBillActivity;
-import com.twyst.app.android.model.BaseResponse;
-import com.twyst.app.android.model.Data;
-import com.twyst.app.android.model.Offer;
-import com.twyst.app.android.model.Outlet;
-import com.twyst.app.android.service.HttpService;
-import com.twyst.app.android.util.AppConstants;
-import com.twyst.app.android.util.RoundedTransformation;
-import com.twyst.app.android.util.TwystProgressHUD;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 /**
  * Created by satish on 06/06/15.
@@ -66,6 +45,12 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public void updateList(ArrayList<Outlet> outlets) {
+        items.clear();
+        items.addAll(outlets);
+        this.notifyDataSetChanged();
+    }
+
+    public void updateListl(List<Outlet> outlets) {
         items.clear();
         items.addAll(outlets);
         this.notifyDataSetChanged();
@@ -126,20 +111,20 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             final Outlet outlet = items.get(position);
             View view = outletViewHolder.itemView;
 
-            outletViewHolder.outletImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    //Order online
-                    Intent intent= new Intent(view.getContext(), OrderOnlineActivity.class);
-                    intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_ID, outlet.get_id());
-                    view.getContext().startActivity(intent);
-
-//                    Intent intent= new Intent(view.getContext(), OutletDetailsActivity.class);
-//                    intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_OBJECT, outlet);
+//            outletViewHolder.outletImage.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//
+//                    //Order online
+//                    Intent intent= new Intent(view.getContext(), OrderOnlineActivity.class);
+//                    intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_ID, outlet.get_id());
 //                    view.getContext().startActivity(intent);
-                }
-            });
+//
+////                    Intent intent= new Intent(view.getContext(), OutletDetailsActivity.class);
+////                    intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_OBJECT, outlet);
+////                    view.getContext().startActivity(intent);
+//                }
+//            });
 
             outletViewHolder.outletName.setText(outlet.getName());
 
@@ -168,13 +153,23 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             outletViewHolder.outletAddress.setText(address);
 
-            if (TextUtils.isEmpty(outlet.getDistance())) {
-                outletViewHolder.outletDistance.setText("");
-                outletViewHolder.outletDistance.setVisibility(View.GONE);
+//            if (TextUtils.isEmpty(outlet.getDistance())) {
+//                outletViewHolder.outletDistance.setText("");
+//                outletViewHolder.outletDistance.setVisibility(View.GONE);
+//            } else {
+//                outletViewHolder.outletDistance.setText(outlet.getDistance() + " km");
+//                outletViewHolder.outletDistance.setVisibility(View.VISIBLE);
+//            }
+
+            // rating
+            if (outlet.getRating() == null) {
+                outletViewHolder.ratingBar.setNumStars(5);
+                outletViewHolder.ratingBar.setRating(1.0f);
             } else {
-                outletViewHolder.outletDistance.setText(outlet.getDistance() + " km");
-                outletViewHolder.outletDistance.setVisibility(View.VISIBLE);
+                outletViewHolder.ratingBar.setNumStars(5);
+                outletViewHolder.ratingBar.setRating(Float.parseFloat(outlet.getRating()));
             }
+
 
             List<Offer> subList;
             boolean hasMoreOffers = false;
@@ -186,109 +181,109 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 hasMoreOffers = false;
             }
 
-            outletViewHolder.viewPager.setAdapter(new DiscoverOfferPagerAdapter(subList, outlet, isCheckinExclusiveOffersAvailable(outlet.getOffers()), hasMoreOffers));
+            //outletViewHolder.viewPager.setAdapter(new DiscoverOfferPagerAdapter(subList, outlet, isCheckinExclusiveOffersAvailable(outlet.getOffers()), hasMoreOffers));
 
             Picasso picasso = Picasso.with(view.getContext());
             picasso.setIndicatorsEnabled(AppConstants.DEGUG_PICASSO);
             picasso.setLoggingEnabled(AppConstants.DEGUG_PICASSO);
-            picasso.load(outlet.getBackground())
-                    .noFade()
-                    .centerCrop()
-                    .resize(250, 372)
-                    .transform(new RoundedTransformation(24, 0))
-                    .into(outletViewHolder.outletImage);
+//            picasso.load(outlet.getBackground())
+//                    .noFade()
+//                    .centerCrop()
+//                    .resize(250, 372)
+//                    .transform(new RoundedTransformation(24, 0))
+//                    .into(outletViewHolder.outletImage);
 
-            if (outlet.isFollowing()) {
-                outletViewHolder.followOutletBtn.setImageResource(R.drawable.icon_discover_follow_outlet);
-            } else {
-                outletViewHolder.followOutletBtn.setImageResource(R.drawable.icon_discover_follow_outlet_no);
-            }
+//            if (outlet.isFollowing()) {
+//                outletViewHolder.followOutletBtn.setImageResource(R.drawable.icon_discover_follow_outlet);
+//            } else {
+//                outletViewHolder.followOutletBtn.setImageResource(R.drawable.icon_discover_follow_outlet_no);
+//            }
             SharedPreferences prefs = view.getContext().getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
             final String userToken = prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");
 
-            outletViewHolder.followOutletBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View view) {
-                    final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(view.getContext(), false, null);
-                    if (outlet.isFollowing()) {
-                        outletViewHolder.followOutletBtn.setImageResource(R.drawable.icon_discover_follow_outlet_no);
-                        HttpService.getInstance().unFollowEvent(userToken, outlet.get_id(), new Callback<BaseResponse<Data>>() {
-                            @Override
-                            public void success(BaseResponse<Data> dataBaseResponse, Response response) {
-                                if (dataBaseResponse.isResponse()) {
-                                    outlet.setFollowing(false);
-                                    outletViewHolder.followOutletBtn.setImageResource(R.drawable.icon_discover_follow_outlet_no);
-                                    twystProgressHUD.dismiss();
-                                    Log.i("unfollow event response", "" + response);
-                                } else {
-                                    outletViewHolder.followOutletBtn.setImageResource(R.drawable.icon_discover_follow_outlet);
-                                    Log.i("false response", "" + dataBaseResponse.getMessage());
-                                }
-                            }
-                            @Override
-                            public void failure(RetrofitError error) {
-                                twystProgressHUD.dismiss();
-                                DiscoverActivity discoverActivity = (DiscoverActivity) view.getContext();
-                                discoverActivity.handleRetrofitError(error);
-                            }
-                        });
+//            outletViewHolder.followOutletBtn.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(final View view) {
+//                    final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(view.getContext(), false, null);
+//                    if (outlet.isFollowing()) {
+//                        outletViewHolder.followOutletBtn.setImageResource(R.drawable.icon_discover_follow_outlet_no);
+//                        HttpService.getInstance().unFollowEvent(userToken, outlet.get_id(), new Callback<BaseResponse<Data>>() {
+//                            @Override
+//                            public void success(BaseResponse<Data> dataBaseResponse, Response response) {
+//                                if (dataBaseResponse.isResponse()) {
+//                                    outlet.setFollowing(false);
+//                                    outletViewHolder.followOutletBtn.setImageResource(R.drawable.icon_discover_follow_outlet_no);
+//                                    twystProgressHUD.dismiss();
+//                                    Log.i("unfollow event response", "" + response);
+//                                } else {
+//                                    outletViewHolder.followOutletBtn.setImageResource(R.drawable.icon_discover_follow_outlet);
+//                                    Log.i("false response", "" + dataBaseResponse.getMessage());
+//                                }
+//                            }
+//                            @Override
+//                            public void failure(RetrofitError error) {
+//                                twystProgressHUD.dismiss();
+//                                DiscoverActivity discoverActivity = (DiscoverActivity) view.getContext();
+//                                discoverActivity.handleRetrofitError(error);
+//                            }
+//                        });
+//
+//
+//                    } else {
+//                        outletViewHolder.followOutletBtn.setImageResource(R.drawable.icon_discover_follow_outlet);
+//                        HttpService.getInstance().followEvent(userToken, outlet.get_id(), new Callback<BaseResponse<Data>>() {
+//                            @Override
+//                            public void success(BaseResponse<Data> dataBaseResponse, Response response) {
+//                                if (dataBaseResponse.isResponse()) {
+//                                    int twystBucks = dataBaseResponse.getData().getTwyst_bucks();
+//                                    DiscoverActivity discoverActivity = (DiscoverActivity) view.getContext();
+//                                    if (twystBucks > discoverActivity.getTwystBucks()){
+//                                        discoverActivity.setTwystBucks(twystBucks);
+//                                        Toast.makeText(discoverActivity, discoverActivity.getResources().getString(R.string.bucks_earned_follow_outlet), Toast.LENGTH_SHORT).show();
+//                                    }
+//                                    outletViewHolder.followOutletBtn.setImageResource(R.drawable.icon_discover_follow_outlet);
+//                                    outlet.setFollowing(true);
+//                                    twystProgressHUD.dismiss();
+//                                    Log.i("follow event response", "" + response);
+//                                } else {
+//                                    outletViewHolder.followOutletBtn.setImageResource(R.drawable.icon_discover_follow_outlet_no);
+//                                    Log.i("false response", "" + dataBaseResponse.getMessage());
+//                                }
+//                            }
+//                            @Override
+//                            public void failure(RetrofitError error) {
+//                                twystProgressHUD.dismiss();
+//                                DiscoverActivity discoverActivity = (DiscoverActivity) view.getContext();
+//                                discoverActivity.handleRetrofitError(error);
+//                            }
+//                        });
+//
+//                    }
+//                }
+//            });
 
-
-                    } else {
-                        outletViewHolder.followOutletBtn.setImageResource(R.drawable.icon_discover_follow_outlet);
-                        HttpService.getInstance().followEvent(userToken, outlet.get_id(), new Callback<BaseResponse<Data>>() {
-                            @Override
-                            public void success(BaseResponse<Data> dataBaseResponse, Response response) {
-                                if (dataBaseResponse.isResponse()) {
-                                    int twystBucks = dataBaseResponse.getData().getTwyst_bucks();
-                                    DiscoverActivity discoverActivity = (DiscoverActivity) view.getContext();
-                                    if (twystBucks > discoverActivity.getTwystBucks()){
-                                        discoverActivity.setTwystBucks(twystBucks);
-                                        Toast.makeText(discoverActivity, discoverActivity.getResources().getString(R.string.bucks_earned_follow_outlet), Toast.LENGTH_SHORT).show();
-                                    }
-                                    outletViewHolder.followOutletBtn.setImageResource(R.drawable.icon_discover_follow_outlet);
-                                    outlet.setFollowing(true);
-                                    twystProgressHUD.dismiss();
-                                    Log.i("follow event response", "" + response);
-                                } else {
-                                    outletViewHolder.followOutletBtn.setImageResource(R.drawable.icon_discover_follow_outlet_no);
-                                    Log.i("false response", "" + dataBaseResponse.getMessage());
-                                }
-                            }
-                            @Override
-                            public void failure(RetrofitError error) {
-                                twystProgressHUD.dismiss();
-                                DiscoverActivity discoverActivity = (DiscoverActivity) view.getContext();
-                                discoverActivity.handleRetrofitError(error);
-                            }
-                        });
-
-                    }
-                }
-            });
-
-            outletViewHolder.callOutletBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View view) {
-                    // Call outlet
-                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                    builder.setTitle("Do you want to call "+outlet.getName() +"?")
-                            .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    String number = "tel:" + outlet.getPhone();
-                                    view.getContext().startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(number)));
-                                }
-                            })
-                            .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    // User cancelled the dialog
-                                }
-                            });
-                    builder.create().show();
-
-                }
-            });
+//            outletViewHolder.callOutletBtn.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(final View view) {
+//                    // Call outlet
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+//                    builder.setTitle("Do you want to call "+outlet.getName() +"?")
+//                            .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    String number = "tel:" + outlet.getPhone();
+//                                    view.getContext().startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(number)));
+//                                }
+//                            })
+//                            .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int id) {
+//                                    // User cancelled the dialog
+//                                }
+//                            });
+//                    builder.create().show();
+//
+//                }
+//            });
 
         } else {
 
@@ -333,27 +328,34 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         TextView outletName;
         TextView outletAddress;
-        TextView outletDistance;
+       // TextView outletDistance;
+        RatingBar ratingBar;
 
-        ImageView outletImage;
-        ImageView followOutletBtn;
-        ImageView callOutletBtn;
+       // ImageView outletImage;
+       // ImageView followOutletBtn;
+       // ImageView callOutletBtn;
 
-        ViewPager viewPager;
+        //
+        //
+        // ViewPager viewPager;
 
         public OutletViewHolder(View itemView) {
             super(itemView);
 
             outletName = (TextView) itemView.findViewById(R.id.outletName);
             outletAddress = (TextView) itemView.findViewById(R.id.outletAddress);
-            outletDistance = (TextView) itemView.findViewById(R.id.distance);
+            ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
+          //  outletDistance = (TextView) itemView.findViewById(R.id.distance);
 
-            outletImage = (ImageView) itemView.findViewById(R.id.outletImage);
-            followOutletBtn = (ImageView) itemView.findViewById(R.id.followOutletBtn);
-            callOutletBtn = (ImageView) itemView.findViewById(R.id.callOutletBtn);
+         //   outletImage = (ImageView) itemView.findViewById(R.id.outletImage);
+          //  followOutletBtn = (ImageView) itemView.findViewById(R.id.followOutletBtn);
+          //  callOutletBtn = (ImageView) itemView.findViewById(R.id.callOutletBtn);
 
-            viewPager = (ViewPager) itemView.findViewById(R.id.pager);
+            //viewPager = (ViewPager) itemView.findViewById(R.id.pager);
 
         }
     }
+
 }
+
+

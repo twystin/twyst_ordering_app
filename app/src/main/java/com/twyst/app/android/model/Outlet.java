@@ -31,6 +31,8 @@ public class Outlet extends Data implements Serializable {
 
     private String phone;
 
+    private String rating;
+
     private List<Offer> offers;
 
     public String getLng() {
@@ -145,6 +147,9 @@ public class Outlet extends Data implements Serializable {
         this.open = open;
     }
 
+    public void setRating(String rating) { this.rating = rating; }
+
+    public String getRating() { return rating;}
 
     public List<Offer> getOffers() {
         return offers;
