@@ -24,6 +24,16 @@ public class Items implements Serializable {
     @SerializedName("item_tags")
     private ArrayList<String> itemTagsList;
 
+    private int itemQuantity;
+
+    public int getItemQuantity() {
+        return itemQuantity;
+    }
+
+    public void setItemQuantity(int itemQuantity) {
+        this.itemQuantity = itemQuantity;
+    }
+
     public ArrayList<ItemOptions> getItemOptionsList() {
         return itemOptionsList;
     }

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
+import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.menu.Sections;
 
 import java.util.ArrayList;
@@ -24,9 +25,6 @@ public class MenuAdapter extends BaseExpandableListAdapter {
     private final Context mContext;
     private final LayoutInflater mLayoutInflater;
     ArrayList<Sections> mSectionsList;
-    private List<Integer> mGroupPositionsInflated = new ArrayList<>();
-
-    Map<String,ChildViewHolder> mChildViewHolderMap = new HashMap<>();
 
     public MenuAdapter(Context context, ArrayList<Sections> sectionsList) {
         mContext = context;
@@ -52,49 +50,45 @@ public class MenuAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        String positionString = String.valueOf(groupPosition) + String.valueOf(childPosition);
-        ChildViewHolder childViewHolder = (ChildViewHolder) mChildViewHolderMap.get(positionString);
-
-//        int positions = Integer.parseInt(String.valueOf(groupPosition) + String.valueOf(childPosition));
-        if (childViewHolder==null) {
-//            mGroupPositionsInflated.add(positions);
-            convertView = mLayoutInflater.inflate(R.layout.layout_menu_card, parent, false);
-            childViewHolder = new ChildViewHolder(convertView);
-            mChildViewHolderMap.put(positionString, childViewHolder);
-//            convertView.setTag(childViewHolder);
-        }
-//        } else {
-//
-//            childViewHolder = (ChildViewHolder) convertView.getTag();
+        convertView = mLayoutInflater.inflate(R.layout.layout_menu_card, parent, false);
+        ChildViewHolder childViewHolder = new ChildViewHolder(convertView);
 //        }
-
         childViewHolder.mIvPLus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add();
+                add(groupPosition, childPosition);
             }
-
         });
-        childViewHolder.menuItemName.setText(mSectionsList.get(groupPosition).getItemsList().get(childPosition).getItemName());
+
+        Items item = mSectionsList.get(groupPosition).getItemsList().get(childPosition);
+        if (item.getItemQuantity() == 0) {
+            childViewHolder.mIvMinus.setVisibility(View.INVISIBLE);
+            childViewHolder.tvQuantity.setVisibility(View.INVISIBLE);
+        } else {
+            childViewHolder.mIvMinus.setVisibility(View.VISIBLE);
+            childViewHolder.tvQuantity.setVisibility(View.VISIBLE);
+            childViewHolder.tvQuantity.setText(String.valueOf(item.getItemQuantity()));
+        }
+
+
+        childViewHolder.menuItemName.setText(item.getItemName());
         return convertView;
     }
 
-    private void add() {
-//        String positionString = String.valueOf(get) + String.valueOf(childPosition);
-//        ChildViewHolder childViewHolder = mChildViewHolderMap.get(positionString);
-//        childViewHolder.mIvMinus.setVisibility(View.VISIBLE);
+    private void add(int groupPosition, int childPosition) {
+        Items item = mSectionsList.get(groupPosition).getItemsList().get(childPosition);
+        item.setItemQuantity(item.getItemQuantity() + 1);
+        this.notifyDataSetChanged();
     }
 
     @Override
     public int getGroupCount() {
-        int groupCount = mSectionsList.size();
-        return groupCount;
+        return mSectionsList.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        int childCount = mSectionsList.get(groupPosition).getItemsList().size();
-        return childCount;
+        return mSectionsList.get(groupPosition).getItemsList().size();
     }
 
     @Override
@@ -137,11 +131,13 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         ImageView mIvMinus;
         ImageView mIvPLus;
         TextView menuItemName;
+        TextView tvQuantity;
 
         public ChildViewHolder(View itemView) {
             this.mIvMinus = (ImageView) itemView.findViewById(R.id.ivMinus);
             this.mIvPLus = (ImageView) itemView.findViewById(R.id.ivPlus);
             this.menuItemName = (TextView) itemView.findViewById(R.id.menuItem);
+            this.tvQuantity = (TextView) itemView.findViewById(R.id.tvQuantity);
         }
     }
 
