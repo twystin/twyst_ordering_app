@@ -80,9 +80,9 @@ public class MenuAdapter extends BaseExpandableListAdapter {
     }
 
     private void add() {
-        String positionString = String.valueOf(get) + String.valueOf(childPosition);
-        ChildViewHolder childViewHolder = mChildViewHolderMap.get(positionString);
-        childViewHolder.mIvMinus.setVisibility(View.VISIBLE);
+//        String positionString = String.valueOf(get) + String.valueOf(childPosition);
+//        ChildViewHolder childViewHolder = mChildViewHolderMap.get(positionString);
+//        childViewHolder.mIvMinus.setVisibility(View.VISIBLE);
     }
 
     @Override

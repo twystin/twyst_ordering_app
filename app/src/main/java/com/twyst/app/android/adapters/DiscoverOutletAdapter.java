@@ -1,6 +1,7 @@
 package com.twyst.app.android.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.twyst.app.android.R;
+import com.twyst.app.android.activities.OrderOnlineActivity;
 import com.twyst.app.android.model.Offer;
 import com.twyst.app.android.model.Outlet;
 import com.twyst.app.android.util.AppConstants;
@@ -110,6 +112,17 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             final Outlet outlet = items.get(position);
             View view = outletViewHolder.itemView;
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //Order online
+                    Intent intent = new Intent(view.getContext(), OrderOnlineActivity.class);
+                    intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_ID, outlet.get_id());
+                    view.getContext().startActivity(intent);
+                }
+            });
+
 
 //            outletViewHolder.outletImage.setOnClickListener(new View.OnClickListener() {
 //                @Override

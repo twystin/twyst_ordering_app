@@ -40,7 +40,6 @@
                 android:layout_height="match_parent"
                 android:clickable="true"
                 android:focusable="false"
-                android:visibility="gone"
                 android:orientation="vertical">
 
                 <include
