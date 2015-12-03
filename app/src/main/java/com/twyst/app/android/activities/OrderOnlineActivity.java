@@ -3,24 +3,22 @@ package com.twyst.app.android.activities;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.design.widget.TabLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
-import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.google.gson.Gson;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.twyst.app.android.R;
+import com.twyst.app.android.adapters.CartAdapter;
+import com.twyst.app.android.adapters.MenuAdapter;
 import com.twyst.app.android.adapters.MenuTabsPagerAdapter;
 import com.twyst.app.android.adapters.ScrollingOffersAdapter;
-import com.twyst.app.android.fragments.MenuPageFragment;
 import com.twyst.app.android.model.menu.MenuData;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,12 +26,17 @@ import java.util.List;
 /**
  * Created by Vipul Sharma on 11/16/2015.
  */
-public class OrderOnlineActivity extends BaseActivity {//implements MenuPageFragment.OnFragmentScrollChangedListener, ObservableScrollViewCallbacks {
+public class OrderOnlineActivity extends BaseActivity implements MenuAdapter.DataTransferInterface {
 
     private ScrollingOffersAdapter mScrollingOffersAdapter;
     private ViewPager mScrollingOffersViewPager;
     private ViewPager mMenuViewPager;
     int mLowerLimit, mUpperLimit;
+
+    SlidingUpPanelLayout mSlidingUpPanelLayout;
+
+    RecyclerView mCartRecyclerView;
+    CartAdapter mCartAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,7 @@ public class OrderOnlineActivity extends BaseActivity {//implements MenuPageFrag
 
         setupScrollingOfferAdapters();
         setupMenu();
+        setupCartRecyclerView();
 
 //        final ObservableScrollView observableScrollView = (ObservableScrollView) findViewById(R.id.observableScrollView);
 //        mRecyclerView.setHasFixedSize(true);
@@ -80,6 +84,23 @@ public class OrderOnlineActivity extends BaseActivity {//implements MenuPageFrag
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(mMenuViewPager);
+    }
+
+    private void setupCartRecyclerView() {
+        mCartRecyclerView = (RecyclerView) findViewById(R.id.cartRecyclerView);
+        mCartRecyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(OrderOnlineActivity.this, LinearLayoutManager.VERTICAL, false);
+        mCartRecyclerView.setLayoutManager(mLayoutManager);
+        mCartAdapter = new CartAdapter();
+        mCartRecyclerView.setAdapter(mCartAdapter);
+        mSlidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        mSlidingUpPanelLayout.setPanelHeight(0);
+    }
+
+    @Override
+    public void addToCart() {
+        mSlidingUpPanelLayout.setPanelHeight(getResources().getDimensionPixelSize(R.dimen.slidingup_panel_height));
     }
 
     private void setupScrollingOfferAdapters() {
@@ -159,9 +180,9 @@ public class OrderOnlineActivity extends BaseActivity {//implements MenuPageFrag
 //    }
 
     private MenuData getMenuData(List<MenuData> menuDataList) {
-        for(int i = 0 ; i < menuDataList.size() ; i++){
+        for (int i = 0; i < menuDataList.size(); i++) {
             MenuData menuData = (MenuData) menuDataList.get(i);
-            if (menuData.getMenuType().equalsIgnoreCase("All") || menuData.getMenuType().equalsIgnoreCase("Delivery")){
+            if (menuData.getMenuType().equalsIgnoreCase("All") || menuData.getMenuType().equalsIgnoreCase("Delivery")) {
                 return menuData;
             }
         }

@@ -21,6 +21,7 @@
             android:textSize="@dimen/outlet_offer_header_textsize" />
 
         <TextView
+            android:id="@+id/tvCost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

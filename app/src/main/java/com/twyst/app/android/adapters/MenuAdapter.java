@@ -1,6 +1,8 @@
 package com.twyst.app.android.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +28,11 @@ public class MenuAdapter extends BaseExpandableListAdapter {
     private final LayoutInflater mLayoutInflater;
     ArrayList<Sections> mSectionsList;
 
+    DataTransferInterface mDataTransferInterface;
+
     public MenuAdapter(Context context, ArrayList<Sections> sectionsList) {
         mContext = context;
+        mDataTransferInterface = (DataTransferInterface) context;
         mSectionsList = sectionsList;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -70,6 +75,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
             childViewHolder.tvQuantity.setText(String.valueOf(item.getItemQuantity()));
         }
 
+        childViewHolder.tvCost.setText(item.getItemCost());
 
         childViewHolder.menuItemName.setText(item.getItemName());
         return convertView;
@@ -79,6 +85,8 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         Items item = mSectionsList.get(groupPosition).getItemsList().get(childPosition);
         item.setItemQuantity(item.getItemQuantity() + 1);
         this.notifyDataSetChanged();
+
+        mDataTransferInterface.addToCart();
     }
 
     @Override
@@ -132,13 +140,19 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         ImageView mIvPLus;
         TextView menuItemName;
         TextView tvQuantity;
+        TextView tvCost;
 
         public ChildViewHolder(View itemView) {
             this.mIvMinus = (ImageView) itemView.findViewById(R.id.ivMinus);
             this.mIvPLus = (ImageView) itemView.findViewById(R.id.ivPlus);
             this.menuItemName = (TextView) itemView.findViewById(R.id.menuItem);
             this.tvQuantity = (TextView) itemView.findViewById(R.id.tvQuantity);
+            this.tvCost = (TextView) itemView.findViewById(R.id.tvCost);
         }
+    }
+
+    public interface DataTransferInterface {
+        public void addToCart();
     }
 
 }
