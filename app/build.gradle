@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.twyst.app.android"
-        minSdkVersion 21
+        minSdkVersion 16
         targetSdkVersion 23
         versionCode 20006
         versionName "3.2"
@@ -23,7 +23,8 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            resValue "drawable","ic_launcher", "drawable/ic_laucnher"
+            resValue "drawable", "ic_launcher_icon", "@drawable/ic_launcher"
+            resValue "string", "app_name", "Twyst"
             proguardFiles getDefaultProguardFile('proguard-android.txt'),
                     'proguard-rules.pro',
                     'progaurd-retrofit.pro',
@@ -32,7 +33,15 @@ android {
 
         debug {
             applicationIdSuffix ".debug"
-            resValue "drawable","ic_laucnher_debug", "drawable/ic_laucnher_debug"
+            versionNameSuffix ".debug"
+            resValue "drawable", "ic_launcher_icon", "@drawable/ic_launcher_debug"
+            resValue "string", "app_name", "TwystTest"
+        }
+    }
+
+    productFlavors {
+        postLollipop {
+            minSdkVersion 21
         }
     }
 
@@ -63,7 +72,6 @@ dependencies {
     compile "com.google.android.gms:play-services-plus:${PLAY_SERVICE_VERSION}"
     compile "com.google.android.gms:play-services-maps:${PLAY_SERVICE_VERSION}"
     compile "com.google.android.gms:play-services-gcm:${PLAY_SERVICE_VERSION}"
-
     compile "com.android.support:appcompat-v7:${ANDROID_SUPPORT_LIB_VERSION}"
     compile "com.android.support:support-v4:${ANDROID_SUPPORT_LIB_VERSION}"
     compile "com.android.support:design:${ANDROID_SUPPORT_LIB_VERSION}"
