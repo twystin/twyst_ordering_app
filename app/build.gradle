@@ -40,6 +40,8 @@ android {
     }
 
     productFlavors {
+        preKitkat{
+        }
         postLollipop {
             minSdkVersion 21
         }
