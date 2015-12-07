@@ -1,26 +1,15 @@
 package com.twyst.app.android.fragments;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.diegocarloslima.fgelv.lib.FloatingGroupExpandableListView;
 import com.diegocarloslima.fgelv.lib.WrapperExpandableListAdapter;
-import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
-import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.twyst.app.android.R;
-import com.twyst.app.android.adapters.DiscoverOutletAdapter;
 import com.twyst.app.android.adapters.MenuAdapter;
-import com.twyst.app.android.model.menu.Sections;
+import com.twyst.app.android.model.menu.SubCategories;
 
 import java.util.ArrayList;
 
@@ -36,7 +25,7 @@ public class MenuPageFragment extends Fragment{// implements ObservableScrollVie
     public MenuPageFragment() {
     }
 
-    public static MenuPageFragment newInstance(ArrayList<Sections> sectionsList) {
+    public static MenuPageFragment newInstance(ArrayList<SubCategories> sectionsList) {
         MenuPageFragment fragment = new MenuPageFragment();
         Bundle args = new Bundle();
         args.putSerializable(ARG_SECTION_LIST, sectionsList);
@@ -51,7 +40,7 @@ public class MenuPageFragment extends Fragment{// implements ObservableScrollVie
 
         final FloatingGroupExpandableListView list = (FloatingGroupExpandableListView) rootView.findViewById(R.id.menuList);
 
-        ArrayList<Sections> sectionsList = (ArrayList<Sections>) (getArguments().getSerializable(ARG_SECTION_LIST));
+        ArrayList<SubCategories> sectionsList = (ArrayList<SubCategories>) (getArguments().getSerializable(ARG_SECTION_LIST));
 
         final MenuAdapter adapter = new MenuAdapter(getActivity(), sectionsList);
         final WrapperExpandableListAdapter wrapperAdapter = new WrapperExpandableListAdapter(adapter);

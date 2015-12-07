@@ -46,10 +46,6 @@ public class OrderOnlineActivity extends BaseActivity implements MenuAdapter.Dat
         setupMenu();
         setupCartRecyclerView();
 
-//        final ObservableScrollView observableScrollView = (ObservableScrollView) findViewById(R.id.observableScrollView);
-//        mRecyclerView.setHasFixedSize(true);
-//        observableScrollView.setScrollViewCallbacks(this);
-
         final RelativeLayout rlTopLayout = (RelativeLayout) findViewById(R.id.topLayout);
         final RelativeLayout rHidableLayout = (RelativeLayout) findViewById(R.id.hideableLayout);
 
@@ -77,7 +73,7 @@ public class OrderOnlineActivity extends BaseActivity implements MenuAdapter.Dat
         MenuData menuData = getMenuData(menuDataList);
 
 // Get the ViewPager and set it's PagerAdapter so that it can display items
-        MenuTabsPagerAdapter adapter = new MenuTabsPagerAdapter(menuData.getMenuDescriptionList(), getSupportFragmentManager(), OrderOnlineActivity.this);
+        MenuTabsPagerAdapter adapter = new MenuTabsPagerAdapter(menuData.getMenuCategoriesList(), getSupportFragmentManager(), OrderOnlineActivity.this);
         mMenuViewPager = (ViewPager) findViewById(R.id.menuPager);
         mMenuViewPager.setAdapter(adapter);
 
@@ -119,78 +115,18 @@ public class OrderOnlineActivity extends BaseActivity implements MenuAdapter.Dat
         return R.layout.activity_order_online;
     }
 
-//    @Override
-//    public void onFragmentScrollChange(int scrollY, boolean firstScroll, boolean dragging) {
-////        final int lowerLimit = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
-////        final int upperLimit = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics());
-//
-//        final View topLayout = findViewById(R.id.topLayout);
-//        final View hideableLayout = findViewById(R.id.hideableLayout);
-//
-////        Log.d(getTagName(), "scrollY: " + scrollY + " upperLimit:" + upperLimit + " lowerLimit:" + lowerLimit);
-//        final int diff = mUpperLimit - scrollY;
-//        if (diff > mUpperLimit) {
-//            topLayout.getLayoutParams().height = mUpperLimit;
-//            topLayout.requestLayout();
-//            hideableLayout.setAlpha(1f);
-//        } else if (diff < mLowerLimit) {
-//            topLayout.getLayoutParams().height = mLowerLimit;
-//            topLayout.requestLayout();
-//            hideableLayout.setAlpha(0f);
-//        } else if (diff <= mUpperLimit && diff > mLowerLimit) {
-//            topLayout.getLayoutParams().height = diff;
-//            topLayout.requestLayout();
-//            float ratio = (scrollY * 1f / (mUpperLimit - mLowerLimit) * 1f) * 1f;
-//            hideableLayout.setAlpha(1f - ratio);
-//        }
-//
-//    }
-//
-//    @Override
-//    public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-//
-//        final View topLayout = findViewById(R.id.topLayout);
-//        final View hideableLayout = findViewById(R.id.hideableLayout);
-//
-//        final int diff = mUpperLimit - scrollY;
-//        if (diff > mUpperLimit) {
-//            topLayout.getLayoutParams().height = mUpperLimit;
-//            topLayout.requestLayout();
-//            hideableLayout.setAlpha(1f);
-//        } else if (diff < mLowerLimit) {
-//            topLayout.getLayoutParams().height = mLowerLimit;
-//            topLayout.requestLayout();
-//            hideableLayout.setAlpha(0f);
-//        } else if (diff <= mUpperLimit && diff > mLowerLimit) {
-//            topLayout.getLayoutParams().height = diff;
-//            topLayout.requestLayout();
-//            float ratio = (scrollY * 1f / (mUpperLimit - mLowerLimit) * 1f) * 1f;
-//            hideableLayout.setAlpha(1f - ratio);
-//        }
-//    }
-//
-//    @Override
-//    public void onDownMotionEvent() {
-//
-//    }
-//
-//    @Override
-//    public void onUpOrCancelMotionEvent(ScrollState scrollState) {
-//
-//    }
-
     private MenuData getMenuData(List<MenuData> menuDataList) {
         for (int i = 0; i < menuDataList.size(); i++) {
             MenuData menuData = (MenuData) menuDataList.get(i);
-            if (menuData.getMenuType().equalsIgnoreCase("All") || menuData.getMenuType().equalsIgnoreCase("Delivery")) {
+//            if (menuData.getMenuType().equalsIgnoreCase("All") || menuData.getMenuType().equalsIgnoreCase("Delivery")) {
                 return menuData;
-            }
+//            }
         }
         return null;
     }
 
     private String getMenuString() {
-        return "[{\"status\":\"draft\",\"menu_description\":[{\"sections\":[{\"items\":[{\"item_options\":[{\"add_on\":[],\"option\":\"Double Aloo\",\"option_cost\":20}],\"item_name\":\"Aloo Roll\",\"item_description\":\"Single Aloo Roll\",\"item_tags\":[\"Aloo Roll\"],\"item_cost\":40},{\"item_options\":[{\"add_on\":[],\"option\":\"Double Veggie\",\"option_cost\":20}],\"item_name\":\"Veggie Roll\",\"item_description\":\"Single Veggie Roll\",\"item_tags\":[\"Veggie Roll\"],\"item_cost\":50},{\"item_options\":[]}],\"section_name\":\"Veg - Kathi Roll\",\"section_description\":\"Vegetarian Kathi Rolls\"},{\"items\":[{\"item_options\":[{\"add_on\":[],\"option\":\"Double Egg Roll\",\"option_cost\":10}],\"item_name\":\"Egg Roll\",\"item_description\":\"Single Egg Roll\",\"item_tags\":[\"Egg Roll\"],\"item_cost\":30}],\"section_name\":\"Non Veg - Kathi Roll\",\"section_description\":\"Non Veg - Kathi Roll\"},{\"items\":[{\"item_options\":[],\"item_name\":\"Veg Jumbo Roll\",\"item_description\":\"Roll with Soya Chunks + Paneer + Vegetables (as available)\",\"item_tags\":[\"Veg Jumbo Roll Soya Paneer Vegetables\"],\"item_cost\":120},{\"item_options\":[],\"item_name\":\"Non Veg Jumbo Roll\",\"item_description\":\"Roll with Chicken + Mutton + Seekh Kebab filling\",\"item_tags\":[\"Non Veg Jumbo Roll Seekh Mutton Chicken\"],\"item_cost\":140}],\"section_name\":\"Jumbo Rolls\"}],\"menu_category\":\"Indian\"},{\"sections\":[{\"items\":[{\"item_options\":[{\"add_on\":[],\"option\":\"Double Aloo\",\"option_cost\":20}],\"item_name\":\"Aloo Roll\",\"item_description\":\"Single Aloo Roll\",\"item_tags\":[\"Aloo Roll\"],\"item_cost\":40},{\"item_options\":[{\"add_on\":[],\"option\":\"Double Veggie\",\"option_cost\":20}],\"item_name\":\"Veggie Roll\",\"item_description\":\"Single Veggie Roll\",\"item_tags\":[\"Veggie Roll\"],\"item_cost\":50},{\"item_options\":[]}],\"section_name\":\"Veg - Kathi Roll\",\"section_description\":\"Vegetarian Kathi Rolls\"},{\"items\":[{\"item_options\":[{\"add_on\":[],\"option\":\"Double Egg Roll\",\"option_cost\":10}],\"item_name\":\"Egg Roll\",\"item_description\":\"Single Egg Roll\",\"item_tags\":[\"Egg Roll\"],\"item_cost\":30}],\"section_name\":\"Non Veg - Kathi Roll\",\"section_description\":\"Non Veg - Kathi Roll\"},{\"items\":[{\"item_options\":[],\"item_name\":\"Veg Jumbo Roll\",\"item_description\":\"Roll with Soya Chunks + Paneer + Vegetables (as available)\",\"item_tags\":[\"Veg Jumbo Roll Soya Paneer Vegetables\"],\"item_cost\":120},{\"item_options\":[],\"item_name\":\"Non Veg Jumbo Roll\",\"item_description\":\"Roll with Chicken + Mutton + Seekh Kebab filling\",\"item_tags\":[\"Non Veg Jumbo Roll Seekh Mutton Chicken\"],\"item_cost\":140}],\"section_name\":\"Jumbo Rolls\"}],\"menu_category\":\"Indian2\"}],\"menu_type\":\"All\",\"outlet\":{\"_id\":\"56505b7d550a479f031efd80\",\"name\":\"Kathi Junction\",\"loc1\":\"\",\"loc2\":\"Netaji Subhash Place\"},\"_id\":\"5652b8be550a479f031f016a\"},{\"status\":\"draft\",\"menu_description\":[{\"sections\":[{\"items\":[{\"item_options\":[{\"add_on\":[],\"option\":\"Double Aloo\",\"option_cost\":20}],\"item_name\":\"Aloo Roll\",\"item_description\":\"Single Aloo Roll\",\"item_tags\":[\"Aloo Roll\"],\"item_cost\":40},{\"item_options\":[{\"add_on\":[],\"option\":\"Double Veggie\",\"option_cost\":20}],\"item_name\":\"Veggie Roll\",\"item_description\":\"Single Veggie Roll\",\"item_tags\":[\"Veggie Roll\"],\"item_cost\":50},{\"item_options\":[]}],\"section_name\":\"Veg - Kathi Roll\",\"section_description\":\"Vegetarian Kathi Rolls\"},{\"items\":[{\"item_options\":[{\"add_on\":[],\"option\":\"Double Egg Roll\",\"option_cost\":10}],\"item_name\":\"Egg Roll\",\"item_description\":\"Single Egg Roll\",\"item_tags\":[\"Egg Roll\"],\"item_cost\":30}],\"section_name\":\"Non Veg - Kathi Roll\",\"section_description\":\"Non Veg - Kathi Roll\"},{\"items\":[{\"item_options\":[],\"item_name\":\"Veg Jumbo Roll\",\"item_description\":\"Roll with Soya Chunks + Paneer + Vegetables (as available)\",\"item_tags\":[\"Veg Jumbo Roll Soya Paneer Vegetables\"],\"item_cost\":120},{\"item_options\":[],\"item_name\":\"Non Veg Jumbo Roll\",\"item_description\":\"Roll with Chicken + Mutton + Seekh Kebab filling\",\"item_tags\":[\"Non Veg Jumbo Roll Seekh Mutton Chicken\"],\"item_cost\":140}],\"section_name\":\"Jumbo Rolls\"}],\"menu_category\":\"Indian3\"}],\"menu_type\":\"All\",\"outlet\":{\"_id\":\"56505b7d550a479f031efd80\",\"name\":\"Kathi Junction\",\"loc1\":\"\",\"loc2\":\"Netaji Subhash Place\"},\"_id\":\"5652b8be550a479f031f016a\"}]";
+        return "[{\"status\":\"active\",\"menu_categories\":[{\"sub_categories\":[{\"sub_category_name\":\"Default\",\"items\":[{\"options\":[{\"sub_options\":[],\"addons\":[],\"option_value\":\"Default\",\"option_cost\":168}],\"is_vegetarian\":true,\"option_is_addon\":false,\"item_name\":\"Garden Dream\",\"item_cost\":168,\"item_description\":\"Lettuce, Tomato, Caramalized Onions\",\"item_tags\":[\"garden\",\"dream\",\"burger\",\"veg\"],\"option_title\":\"Default\"}]},{\"sub_category_name\":\"Default1\",\"items\":[{\"options\":[{\"sub_options\":[],\"addons\":[],\"option_value\":\"Default\",\"option_cost\":168}],\"is_vegetarian\":true,\"option_is_addon\":false,\"item_name\":\"Garden Dream\",\"item_cost\":168,\"item_description\":\"Lettuce, Tomato, Caramalized Onions\",\"item_tags\":[\"garden\",\"dream\",\"burger\",\"veg\"],\"option_title\":\"Default\"}]},{\"sub_category_name\":\"Default2\",\"items\":[{\"options\":[{\"sub_options\":[],\"addons\":[],\"option_value\":\"Default\",\"option_cost\":168}],\"is_vegetarian\":true,\"option_is_addon\":false,\"item_name\":\"Garden Dream\",\"item_cost\":168,\"item_description\":\"Lettuce, Tomato, Caramalized Onions\",\"item_tags\":[\"garden\",\"dream\",\"burger\",\"veg\"],\"option_title\":\"Default\"}]}],\"category_name\":\"Burgers\"},{\"sub_categories\":[{\"sub_category_name\":\"Default\",\"items\":[{\"options\":[{\"sub_options\":[],\"addons\":[{\"addon_set\":[{\"addon_value\":\"Grilled Chicken\",\"addon_cost\":38}],\"addon_title\":\"Addons\"}],\"option_value\":\"Default\",\"option_cost\":138}],\"is_vegetarian\":false,\"option_is_addon\":false,\"item_name\":\"Garden Goodness\",\"item_cost\":138,\"item_description\":\"Garden Goodness\",\"item_tags\":[\"garden\",\"goodness\"],\"option_title\":\"Default\"}]}],\"category_name\":\"Salads\"},{\"sub_categories\":[{\"sub_category_name\":\"Default\",\"items\":[{\"options\":[{\"sub_options\":[],\"addons\":[],\"option_value\":\"Thin\",\"option_cost\":348},{\"sub_options\":[],\"addons\":[],\"option_value\":\"Pan\",\"option_cost\":378}],\"is_vegetarian\":true,\"option_is_addon\":false,\"item_name\":\"Garden Field\",\"item_cost\":348,\"item_description\":\"sample\",\"item_tags\":[\"sample\",\"tag\",\"set\"],\"option_title\":\"Crust\"}]}],\"category_name\":\"Pizza\"}],\"menu_type\":\"Menu\",\"outlet\":\"54d0b4a6ea25f3200dfe124a\"}]";
     }
 
 }

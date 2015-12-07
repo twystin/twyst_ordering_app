@@ -9,23 +9,29 @@ import java.util.ArrayList;
  * Created by Vipul Sharma on 11/24/2015.
  */
 public class MenuData implements Serializable{
-    private Outlet outlet;
+    @SerializedName("menu_categories")
+    private ArrayList<MenuCategories> menuCategoriesList;
+
+    private String outlet;
 
     @SerializedName("menu_type")
     private String menuType;
 
-    private String _id;
-
     private String status;
 
-    @SerializedName("menu_description")
-    private ArrayList<MenuDescription> menuDescriptionList;
+    public ArrayList<MenuCategories> getMenuCategoriesList() {
+        return menuCategoriesList;
+    }
 
-    public Outlet getOutlet() {
+    public void setMenuCategoriesList(ArrayList<MenuCategories> menuCategoriesList) {
+        this.menuCategoriesList = menuCategoriesList;
+    }
+
+    public String getOutlet() {
         return outlet;
     }
 
-    public void setOutlet(Outlet outlet) {
+    public void setOutlet(String outlet) {
         this.outlet = outlet;
     }
 
@@ -37,27 +43,11 @@ public class MenuData implements Serializable{
         this.menuType = menuType;
     }
 
-    public String get_id() {
-        return _id;
-    }
-
-    public void set_id(String _id) {
-        this._id = _id;
-    }
-
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public ArrayList<MenuDescription> getMenuDescriptionList() {
-        return menuDescriptionList;
-    }
-
-    public void setMenuDescriptionList(ArrayList<MenuDescription> menuDescriptionList) {
-        this.menuDescriptionList = menuDescriptionList;
     }
 }

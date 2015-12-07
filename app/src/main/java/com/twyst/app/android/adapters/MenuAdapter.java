@@ -2,9 +2,6 @@ package com.twyst.app.android.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ScaleDrawable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +12,9 @@ import android.widget.TextView;
 
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.menu.Items;
-import com.twyst.app.android.model.menu.Sections;
+import com.twyst.app.android.model.menu.SubCategories;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Vipul Sharma on 11/20/2015.
@@ -29,11 +23,11 @@ public class MenuAdapter extends BaseExpandableListAdapter {
 
     private final Context mContext;
     private final LayoutInflater mLayoutInflater;
-    ArrayList<Sections> mSectionsList;
+    ArrayList<SubCategories> mSectionsList;
 
     DataTransferInterface mDataTransferInterface;
 
-    public MenuAdapter(Context context, ArrayList<Sections> sectionsList) {
+    public MenuAdapter(Context context, ArrayList<SubCategories> sectionsList) {
         mContext = context;
         mDataTransferInterface = (DataTransferInterface) context;
         mSectionsList = sectionsList;
@@ -47,7 +41,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         }
 
         final TextView text = (TextView) convertView.findViewById(R.id.menu_group_text);
-        text.setText(mSectionsList.get(groupPosition).getSectionName());
+        text.setText(mSectionsList.get(groupPosition).getSubCategoryName());
 
         final ImageView expandedImage = (ImageView) convertView.findViewById(R.id.menu_group_arrow);
         final int resId = isExpanded ? R.drawable.expanded : R.drawable.collapsed;
@@ -81,18 +75,20 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         childViewHolder.menuItemName.setText(item.getItemName());
 
         final TextView tv =  childViewHolder.menuItemName;
+
+        final ViewTreeObserver.OnGlobalLayoutListener listener = new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Drawable img = mContext.getResources().getDrawable(
+                        R.drawable.veg);
+                img.setBounds(0, 0, (int) (tv.getMeasuredHeight() * 0.5), (int) (tv.getMeasuredHeight() * 0.5));
+                tv.setCompoundDrawables(img, null, null, null);
+                tv.setCompoundDrawablePadding(10);
+//                tv.removeOnLayoutChangeListener(this);
+            }
+        };
         tv.getViewTreeObserver()
-                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        Drawable img = mContext.getResources().getDrawable(
-                                R.drawable.veg);
-                        img.setBounds(0, 0, (int) (tv.getMeasuredHeight() * 0.5), (int) (tv.getMeasuredHeight() * 0.5));
-                        tv.setCompoundDrawables(img, null, null, null);
-                        tv.setCompoundDrawablePadding(5);
-//                        tv.removeOnLayoutChangeListener(this);
-                    }
-                });
+                .addOnGlobalLayoutListener(listener);
 
         childViewHolder.tvCost.setText(item.getItemCost());
         return convertView;

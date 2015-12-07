@@ -10,7 +10,7 @@
         android:layout_height="60dp"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
-        android:background="@color/wallet_background_color"
+        android:background="@color/white"
         android:orientation="horizontal" >
 
         <TextView

@@ -5,9 +5,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.twyst.app.android.fragments.MenuPageFragment;
-import com.twyst.app.android.model.Offer;
-import com.twyst.app.android.model.menu.MenuDescription;
-import com.twyst.app.android.model.menu.Sections;
+import com.twyst.app.android.model.menu.MenuCategories;
+import com.twyst.app.android.model.menu.SubCategories;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +16,9 @@ import java.util.List;
  */
 public class MenuTabsPagerAdapter extends FragmentPagerAdapter {
     private Context mContext;
-    private List<MenuDescription> items = new ArrayList<>();
+    private List<MenuCategories> items = new ArrayList<>();
 
-    public MenuTabsPagerAdapter(List<MenuDescription> items, FragmentManager fm, Context context) {
+    public MenuTabsPagerAdapter(List<MenuCategories> items, FragmentManager fm, Context context) {
         super(fm);
         this.mContext = context;
         this.items = items;
@@ -27,7 +26,7 @@ public class MenuTabsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        ArrayList<Sections> sectionsList = items.get(position).getSectionList();
+        ArrayList<SubCategories> sectionsList = items.get(position).getSubCategoriesList();
         return MenuPageFragment.newInstance(sectionsList);
 //        return MenuPageFragment.newInstance(position + 1);
     }
@@ -39,7 +38,7 @@ public class MenuTabsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return items.get(position).getMenuCategory();
+        return items.get(position).getCategoryName();
 //        return "TAB " + (position + 1);
     }
 }

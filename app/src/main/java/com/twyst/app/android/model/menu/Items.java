@@ -6,11 +6,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Created by Vipul Sharma on 11/24/2015.
+ * Created by Vipul Sharma on 12/7/2015.
  */
 public class Items implements Serializable {
-    @SerializedName("item_options")
-    private ArrayList<ItemOptions> itemOptionsList;
+    private int itemQuantity;
+
+    @SerializedName("is_vegetarian")
+    private String isVegetarian;
 
     @SerializedName("item_cost")
     private String itemCost;
@@ -21,25 +23,24 @@ public class Items implements Serializable {
     @SerializedName("item_description")
     private String itemDescription;
 
+    @SerializedName("option_title")
+    private String optionTitle;
+
+    @SerializedName("option_is_addon")
+    private String optionIsAddon;
+
     @SerializedName("item_tags")
     private ArrayList<String> itemTagsList;
 
-    private int itemQuantity;
+    @SerializedName("options")
+    private ArrayList<Options> optionsList;
 
-    public int getItemQuantity() {
-        return itemQuantity;
+    public String getIsVegetarian() {
+        return isVegetarian;
     }
 
-    public void setItemQuantity(int itemQuantity) {
-        this.itemQuantity = itemQuantity;
-    }
-
-    public ArrayList<ItemOptions> getItemOptionsList() {
-        return itemOptionsList;
-    }
-
-    public void setItemOptionsList(ArrayList<ItemOptions> itemOptionsList) {
-        this.itemOptionsList = itemOptionsList;
+    public void setIsVegetarian(String isVegetarian) {
+        this.isVegetarian = isVegetarian;
     }
 
     public String getItemCost() {
@@ -66,11 +67,43 @@ public class Items implements Serializable {
         this.itemDescription = itemDescription;
     }
 
+    public String getOptionTitle() {
+        return optionTitle;
+    }
+
+    public void setOptionTitle(String optionTitle) {
+        this.optionTitle = optionTitle;
+    }
+
+    public String getOptionIsAddon() {
+        return optionIsAddon;
+    }
+
+    public void setOptionIsAddon(String optionIsAddon) {
+        this.optionIsAddon = optionIsAddon;
+    }
+
     public ArrayList<String> getItemTagsList() {
         return itemTagsList;
     }
 
     public void setItemTagsList(ArrayList<String> itemTagsList) {
         this.itemTagsList = itemTagsList;
+    }
+
+    public ArrayList<Options> getOptionsList() {
+        return optionsList;
+    }
+
+    public void setOptionsList(ArrayList<Options> optionsList) {
+        this.optionsList = optionsList;
+    }
+
+    public int getItemQuantity() {
+        return itemQuantity;
+    }
+
+    public void setItemQuantity(int itemQuantity) {
+        this.itemQuantity = itemQuantity;
     }
 }

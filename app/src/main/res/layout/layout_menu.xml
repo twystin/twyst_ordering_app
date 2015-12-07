@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:layout_margin="20dp"
+    android:padding="10dp"
     android:isScrollContainer="true">
 
     <RelativeLayout
@@ -21,22 +21,6 @@
             android:text="Chicken Maha Burger"
             android:textColor="@android:color/black"
             android:textSize="@dimen/outlet_offer_header_textsize" />
-
-        <!--<RelativeLayout-->
-            <!--android:id="@+id/flVeg"-->
-            <!--android:layout_width="@dimen/outlet_offer_header_textsize"-->
-            <!--android:layout_height="@dimen/outlet_offer_header_textsize"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:layout_toRightOf="@+id/flVeg"-->
-            <!--android:padding="3dp">-->
-
-            <!--<ImageView-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:id="@+id/ivVeg"-->
-                <!--android:layout_centerInParent="true"-->
-                <!--android:src="@drawable/veg" />-->
-        <!--</RelativeLayout>-->
 
         <LinearLayout
             android:id="@+id/linearLayout6"
