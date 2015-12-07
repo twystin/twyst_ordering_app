@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/rlGroup"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:background="@color/wallet_background_color"
@@ -20,13 +20,15 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
+            android:text="Veg Starters"
             android:textColor="@color/half_black"
-            android:textSize="20sp" />
+            android:textSize="@dimen/outlet_offer_header_textsize" />
 
         <ImageView
             android:id="@+id/menu_group_arrow"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="@dimen/outlet_offer_header_textsize"
+            android:layout_height="@dimen/outlet_offer_header_textsize"
+            android:src="@drawable/expanded"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp" />

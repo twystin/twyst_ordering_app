@@ -1,11 +1,14 @@
 package com.twyst.app.android.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,7 +50,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         text.setText(mSectionsList.get(groupPosition).getSectionName());
 
         final ImageView expandedImage = (ImageView) convertView.findViewById(R.id.menu_group_arrow);
-        final int resId = isExpanded ? R.drawable.minus : R.drawable.plus;
+        final int resId = isExpanded ? R.drawable.expanded : R.drawable.collapsed;
         expandedImage.setImageResource(resId);
 
         return convertView;
@@ -55,7 +58,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        convertView = mLayoutInflater.inflate(R.layout.layout_menu_card, parent, false);
+        convertView = mLayoutInflater.inflate(R.layout.layout_menu, parent, false);
         ChildViewHolder childViewHolder = new ChildViewHolder(convertView);
 //        }
         childViewHolder.mIvPLus.setOnClickListener(new View.OnClickListener() {
@@ -75,9 +78,23 @@ public class MenuAdapter extends BaseExpandableListAdapter {
             childViewHolder.tvQuantity.setText(String.valueOf(item.getItemQuantity()));
         }
 
-        childViewHolder.tvCost.setText(item.getItemCost());
-
         childViewHolder.menuItemName.setText(item.getItemName());
+
+        final TextView tv =  childViewHolder.menuItemName;
+        tv.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        Drawable img = mContext.getResources().getDrawable(
+                                R.drawable.veg);
+                        img.setBounds(0, 0, (int) (tv.getMeasuredHeight() * 0.5), (int) (tv.getMeasuredHeight() * 0.5));
+                        tv.setCompoundDrawables(img, null, null, null);
+                        tv.setCompoundDrawablePadding(5);
+//                        tv.removeOnLayoutChangeListener(this);
+                    }
+                });
+
+        childViewHolder.tvCost.setText(item.getItemCost());
         return convertView;
     }
 
