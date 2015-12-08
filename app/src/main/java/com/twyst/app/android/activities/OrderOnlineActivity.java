@@ -116,7 +116,8 @@ public class OrderOnlineActivity extends BaseActivity implements DataTransferInt
     public void onBackPressed() {
         if (mSlidingUpPanelLayout != null &&
                 (mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED ||
-                        mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED)) {
+                        mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED ||
+                        mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.DRAGGING)) {
             mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         } else {
             super.onBackPressed();

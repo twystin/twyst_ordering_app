@@ -10,8 +10,6 @@ import java.util.ArrayList;
  */
 public class Items implements Serializable {
     private int itemQuantity;
-    private int groupPosition;
-    private int childPosition;
 
     @SerializedName("is_vegetarian")
     private boolean isVegetarian;
@@ -107,22 +105,6 @@ public class Items implements Serializable {
 
     public void setOptionIsAddon(boolean optionIsAddon) {
         this.optionIsAddon = optionIsAddon;
-    }
-
-    public int getGroupPosition() {
-        return groupPosition;
-    }
-
-    public void setGroupPosition(int groupPosition) {
-        this.groupPosition = groupPosition;
-    }
-
-    public int getChildPosition() {
-        return childPosition;
-    }
-
-    public void setChildPosition(int childPosition) {
-        this.childPosition = childPosition;
     }
 
     @Override

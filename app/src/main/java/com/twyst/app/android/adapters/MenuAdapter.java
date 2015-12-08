@@ -101,8 +101,6 @@ public class MenuAdapter extends BaseExpandableListAdapter {
 
     private void add(int groupPosition, int childPosition) {
         Items item = mSectionsList.get(groupPosition).getItemsList().get(childPosition);
-        item.setGroupPosition(groupPosition);
-        item.setChildPosition(childPosition);
         item.setItemQuantity(item.getItemQuantity() + 1);
         this.notifyDataSetChanged();
 
