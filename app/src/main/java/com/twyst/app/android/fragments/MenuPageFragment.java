@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.diegocarloslima.fgelv.lib.FloatingGroupExpandableListView;
 import com.diegocarloslima.fgelv.lib.WrapperExpandableListAdapter;
 import com.twyst.app.android.R;
+import com.twyst.app.android.activities.OrderOnlineActivity;
 import com.twyst.app.android.adapters.MenuAdapter;
 import com.twyst.app.android.model.menu.SubCategories;
 
@@ -45,6 +46,9 @@ public class MenuPageFragment extends Fragment{// implements ObservableScrollVie
         final MenuAdapter adapter = new MenuAdapter(getActivity(), sectionsList);
         final WrapperExpandableListAdapter wrapperAdapter = new WrapperExpandableListAdapter(adapter);
         list.setAdapter(wrapperAdapter);
+
+        OrderOnlineActivity activity = (OrderOnlineActivity) container.getContext();
+        activity.addAdaptersList(adapter);
 
 //        for(int i = 0; i < wrapperAdapter.getGroupCount(); i++) {
 //            list.expandGroup(i);

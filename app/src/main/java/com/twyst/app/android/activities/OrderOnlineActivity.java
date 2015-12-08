@@ -23,6 +23,7 @@ import com.twyst.app.android.model.menu.DataTransferInterface;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.menu.MenuData;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,6 +42,7 @@ public class OrderOnlineActivity extends BaseActivity implements DataTransferInt
 
     RecyclerView mCartRecyclerView;
     CartAdapter mCartAdapter;
+    List<MenuAdapter> mMenuAdaptersList = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +105,10 @@ public class OrderOnlineActivity extends BaseActivity implements DataTransferInt
         mSlidingUpPanelLayout.setPanelHeight(0);
     }
 
+    public void addAdaptersList(MenuAdapter menuAdapter){
+        mMenuAdaptersList.add(menuAdapter);
+    }
+
     @Override
     public void addToCart(Items item) {
         mCartAdapter.addToAdapter(item);
@@ -116,6 +122,10 @@ public class OrderOnlineActivity extends BaseActivity implements DataTransferInt
     }
 
     private void updateCart() {
+        for (int i = 0; i < mMenuAdaptersList.size(); i++) {
+            mMenuAdaptersList.get(i).notifyDataSetChanged();
+        }
+
         tvCartCount.setText(String.valueOf(mCartAdapter.getmCartItemsList().size()));
         if (mCartAdapter.getmCartItemsList().size() > 0) {
             mSlidingUpPanelLayout.setPanelHeight(getResources().getDimensionPixelSize(R.dimen.slidingup_panel_height));
