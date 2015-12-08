@@ -74,21 +74,21 @@ public class MenuAdapter extends BaseExpandableListAdapter {
 
         childViewHolder.menuItemName.setText(item.getItemName());
 
-        final TextView tv =  childViewHolder.menuItemName;
-
-        final ViewTreeObserver.OnGlobalLayoutListener listener = new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                Drawable img = mContext.getResources().getDrawable(
-                        R.drawable.veg);
-                img.setBounds(0, 0, (int) (tv.getMeasuredHeight() * 0.5), (int) (tv.getMeasuredHeight() * 0.5));
-                tv.setCompoundDrawables(img, null, null, null);
-                tv.setCompoundDrawablePadding(10);
-//                tv.removeOnLayoutChangeListener(this);
-            }
-        };
-        tv.getViewTreeObserver()
-                .addOnGlobalLayoutListener(listener);
+//        final TextView tv =  childViewHolder.menuItemName;
+//
+//        final ViewTreeObserver.OnGlobalLayoutListener listener = new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                Drawable img = mContext.getResources().getDrawable(
+//                        R.drawable.veg);
+//                img.setBounds(0, 0, (int) (tv.getMeasuredHeight() * 0.5), (int) (tv.getMeasuredHeight() * 0.5));
+//                tv.setCompoundDrawables(img, null, null, null);
+//                tv.setCompoundDrawablePadding(10);
+////                tv.removeOnLayoutChangeListener(this);
+//            }
+//        };
+//        tv.getViewTreeObserver()
+//                .addOnGlobalLayoutListener(listener);
 
         childViewHolder.tvCost.setText(item.getItemCost());
         return convertView;

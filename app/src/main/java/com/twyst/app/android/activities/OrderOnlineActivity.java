@@ -80,6 +80,11 @@ public class OrderOnlineActivity extends BaseActivity implements MenuAdapter.Dat
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(mMenuViewPager);
+//        tabLayout.setTabsFromPagerAdapter(adapter);
+//        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+//        tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mMenuViewPager));
+//        mMenuViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
     }
 
     private void setupCartRecyclerView() {
