@@ -103,7 +103,26 @@ public class OrderOnlineActivity extends BaseActivity implements DataTransferInt
         mSlidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         tvCartCount = (TextView) findViewById(R.id.tv_cart_count);
         mSlidingUpPanelLayout.setPanelHeight(0);
+
+        findViewById(R.id.cartLowerLayout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+            }
+        });
     }
+
+    @Override
+    public void onBackPressed() {
+        if (mSlidingUpPanelLayout != null &&
+                (mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED ||
+                        mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED)) {
+            mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 
     public void addAdaptersList(MenuAdapter menuAdapter){
         mMenuAdaptersList.add(menuAdapter);
@@ -130,6 +149,7 @@ public class OrderOnlineActivity extends BaseActivity implements DataTransferInt
         if (mCartAdapter.getmCartItemsList().size() > 0) {
             mSlidingUpPanelLayout.setPanelHeight(getResources().getDimensionPixelSize(R.dimen.slidingup_panel_height));
         } else {
+            mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
             mSlidingUpPanelLayout.setPanelHeight(0);
         }
     }
