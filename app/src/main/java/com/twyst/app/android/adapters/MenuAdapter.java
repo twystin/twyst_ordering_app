@@ -1,16 +1,15 @@
 package com.twyst.app.android.adapters;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
+import com.twyst.app.android.model.menu.DataTransferInterface;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.menu.SubCategories;
 
@@ -20,7 +19,6 @@ import java.util.ArrayList;
  * Created by Vipul Sharma on 11/20/2015.
  */
 public class MenuAdapter extends BaseExpandableListAdapter {
-
     private final Context mContext;
     private final LayoutInflater mLayoutInflater;
     ArrayList<SubCategories> mSectionsList;
@@ -54,11 +52,18 @@ public class MenuAdapter extends BaseExpandableListAdapter {
     public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         convertView = mLayoutInflater.inflate(R.layout.layout_menu, parent, false);
         ChildViewHolder childViewHolder = new ChildViewHolder(convertView);
-//        }
+
         childViewHolder.mIvPLus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 add(groupPosition, childPosition);
+            }
+        });
+
+        childViewHolder.mIvMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                remove(groupPosition, childPosition);
             }
         });
 
@@ -96,10 +101,20 @@ public class MenuAdapter extends BaseExpandableListAdapter {
 
     private void add(int groupPosition, int childPosition) {
         Items item = mSectionsList.get(groupPosition).getItemsList().get(childPosition);
+        item.setGroupPosition(groupPosition);
+        item.setChildPosition(childPosition);
         item.setItemQuantity(item.getItemQuantity() + 1);
         this.notifyDataSetChanged();
 
-        mDataTransferInterface.addToCart();
+        mDataTransferInterface.addToCart(item);
+    }
+
+    private void remove(int groupPosition, int childPosition) {
+        Items item = mSectionsList.get(groupPosition).getItemsList().get(childPosition);
+        item.setItemQuantity(item.getItemQuantity() - 1);
+        this.notifyDataSetChanged();
+
+        mDataTransferInterface.removeFromCart(item);
     }
 
     @Override
@@ -162,10 +177,6 @@ public class MenuAdapter extends BaseExpandableListAdapter {
             this.tvQuantity = (TextView) itemView.findViewById(R.id.tvQuantity);
             this.tvCost = (TextView) itemView.findViewById(R.id.tvCost);
         }
-    }
-
-    public interface DataTransferInterface {
-        public void addToCart();
     }
 
 }

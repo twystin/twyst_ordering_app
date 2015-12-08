@@ -10,9 +10,11 @@ import java.util.ArrayList;
  */
 public class Items implements Serializable {
     private int itemQuantity;
+    private int groupPosition;
+    private int childPosition;
 
     @SerializedName("is_vegetarian")
-    private String isVegetarian;
+    private boolean isVegetarian;
 
     @SerializedName("item_cost")
     private String itemCost;
@@ -27,21 +29,13 @@ public class Items implements Serializable {
     private String optionTitle;
 
     @SerializedName("option_is_addon")
-    private String optionIsAddon;
+    private boolean optionIsAddon;
 
     @SerializedName("item_tags")
     private ArrayList<String> itemTagsList;
 
     @SerializedName("options")
     private ArrayList<Options> optionsList;
-
-    public String getIsVegetarian() {
-        return isVegetarian;
-    }
-
-    public void setIsVegetarian(String isVegetarian) {
-        this.isVegetarian = isVegetarian;
-    }
 
     public String getItemCost() {
         return itemCost;
@@ -75,14 +69,6 @@ public class Items implements Serializable {
         this.optionTitle = optionTitle;
     }
 
-    public String getOptionIsAddon() {
-        return optionIsAddon;
-    }
-
-    public void setOptionIsAddon(String optionIsAddon) {
-        this.optionIsAddon = optionIsAddon;
-    }
-
     public ArrayList<String> getItemTagsList() {
         return itemTagsList;
     }
@@ -105,5 +91,48 @@ public class Items implements Serializable {
 
     public void setItemQuantity(int itemQuantity) {
         this.itemQuantity = itemQuantity;
+    }
+
+    public boolean isVegetarian() {
+        return isVegetarian;
+    }
+
+    public void setIsVegetarian(boolean isVegetarian) {
+        this.isVegetarian = isVegetarian;
+    }
+
+    public boolean isOptionIsAddon() {
+        return optionIsAddon;
+    }
+
+    public void setOptionIsAddon(boolean optionIsAddon) {
+        this.optionIsAddon = optionIsAddon;
+    }
+
+    public int getGroupPosition() {
+        return groupPosition;
+    }
+
+    public void setGroupPosition(int groupPosition) {
+        this.groupPosition = groupPosition;
+    }
+
+    public int getChildPosition() {
+        return childPosition;
+    }
+
+    public void setChildPosition(int childPosition) {
+        this.childPosition = childPosition;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Items){
+            Items item = (Items) obj;
+            if(item != null && this.itemName.equals(item.itemName)){
+                return true;
+            }
+        }
+        return false;
     }
 }
