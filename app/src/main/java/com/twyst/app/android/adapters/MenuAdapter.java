@@ -89,23 +89,13 @@ public class MenuAdapter extends BaseExpandableListAdapter {
             childViewHolder.tvQuantity.setText(String.valueOf(item.getItemQuantity()));
         }
 
-        childViewHolder.menuItemName.setText(item.getItemName());
+        if (item.isVegetarian()){
+            childViewHolder.mIvVeg.setImageResource(R.drawable.veg);
+        }else{
+            childViewHolder.mIvVeg.setImageResource(R.drawable.nonveg);
+        }
 
-//        final TextView tv =  childViewHolder.menuItemName;
-//
-//        final ViewTreeObserver.OnGlobalLayoutListener listener = new ViewTreeObserver.OnGlobalLayoutListener() {
-//            @Override
-//            public void onGlobalLayout() {
-//                Drawable img = mContext.getResources().getDrawable(
-//                        R.drawable.veg);
-//                img.setBounds(0, 0, (int) (tv.getMeasuredHeight() * 0.5), (int) (tv.getMeasuredHeight() * 0.5));
-//                tv.setCompoundDrawables(img, null, null, null);
-//                tv.setCompoundDrawablePadding(10);
-////                tv.removeOnLayoutChangeListener(this);
-//            }
-//        };
-//        tv.getViewTreeObserver()
-//                .addOnGlobalLayoutListener(listener);
+        childViewHolder.menuItemName.setText(item.getItemName());
 
         childViewHolder.tvCost.setText(item.getItemCost());
         return convertView;
@@ -183,6 +173,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
     private class ChildViewHolder {
         ImageView mIvMinus;
         ImageView mIvPLus;
+        ImageView mIvVeg;
         TextView menuItemName;
         TextView tvQuantity;
         TextView tvCost;
@@ -190,6 +181,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         public ChildViewHolder(View itemView) {
             this.mIvMinus = (ImageView) itemView.findViewById(R.id.ivMinus);
             this.mIvPLus = (ImageView) itemView.findViewById(R.id.ivPlus);
+            this.mIvVeg = (ImageView) itemView.findViewById(R.id.ivVeg);
             this.menuItemName = (TextView) itemView.findViewById(R.id.menuItem);
             this.tvQuantity = (TextView) itemView.findViewById(R.id.tvQuantity);
             this.tvCost = (TextView) itemView.findViewById(R.id.tvCost);
