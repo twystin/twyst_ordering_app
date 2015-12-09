@@ -34,7 +34,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public void setFooterEnabled(boolean footerEnabled){
+    public void setFooterEnabled(boolean footerEnabled) {
         mFooterEnabled = footerEnabled;
     }
 
@@ -44,11 +44,8 @@ public class MenuAdapter extends BaseExpandableListAdapter {
             convertView = mLayoutInflater.inflate(R.layout.layout_footer_menu, parent, false);
 
             final View viewFooterMenu = convertView.findViewById(R.id.viewFooterMenu);
-            if (!mFooterEnabled){
+            if (!mFooterEnabled) {
                 viewFooterMenu.setVisibility(View.GONE);
-//                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) convertView.getLayoutParams();
-//                params.height = 0;
-//                convertView.setLayoutParams(params);
             }
 
         } else {
