@@ -12,6 +12,6 @@
         android:childDivider="@color/half_black"
         android:groupIndicator="@null"
         android:divider="@color/half_black"
-        android:dividerHeight="1dp" />
+        android:dividerHeight="0dp" />
 
 </RelativeLayout>

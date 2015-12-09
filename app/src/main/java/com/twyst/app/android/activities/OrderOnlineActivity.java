@@ -142,16 +142,20 @@ public class OrderOnlineActivity extends BaseActivity implements DataTransferInt
     }
 
     private void updateCart() {
-        for (int i = 0; i < mMenuAdaptersList.size(); i++) {
-            mMenuAdaptersList.get(i).notifyDataSetChanged();
-        }
-
         tvCartCount.setText(String.valueOf(mCartAdapter.getmCartItemsList().size()));
         if (mCartAdapter.getmCartItemsList().size() > 0) {
             mSlidingUpPanelLayout.setPanelHeight(getResources().getDimensionPixelSize(R.dimen.slidingup_panel_height));
+            for (int i = 0; i < mMenuAdaptersList.size(); i++) {
+                mMenuAdaptersList.get(i).setFooterEnabled(true);
+                mMenuAdaptersList.get(i).notifyDataSetChanged();
+            }
         } else {
             mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
             mSlidingUpPanelLayout.setPanelHeight(0);
+            for (int i = 0; i < mMenuAdaptersList.size(); i++) {
+                mMenuAdaptersList.get(i).setFooterEnabled(false);
+                mMenuAdaptersList.get(i).notifyDataSetChanged();
+            }
         }
     }
 

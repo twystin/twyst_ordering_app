@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 public class MenuAdapter extends BaseExpandableListAdapter {
     private final Context mContext;
     private final LayoutInflater mLayoutInflater;
+    private boolean mFooterEnabled = false;
     ArrayList<SubCategories> mSectionsList;
 
     DataTransferInterface mDataTransferInterface;
@@ -32,19 +34,32 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    public void setFooterEnabled(boolean footerEnabled){
+        mFooterEnabled = footerEnabled;
+    }
+
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        if (convertView == null) {
+        if (isFooter(groupPosition)) {
+            convertView = mLayoutInflater.inflate(R.layout.layout_footer_menu, parent, false);
+
+            final View viewFooterMenu = convertView.findViewById(R.id.viewFooterMenu);
+            if (!mFooterEnabled){
+                viewFooterMenu.setVisibility(View.GONE);
+//                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) convertView.getLayoutParams();
+//                params.height = 0;
+//                convertView.setLayoutParams(params);
+            }
+
+        } else {
             convertView = mLayoutInflater.inflate(R.layout.layout_menu_group, parent, false);
+            final TextView text = (TextView) convertView.findViewById(R.id.menu_group_text);
+            text.setText(mSectionsList.get(groupPosition).getSubCategoryName());
+
+            final ImageView expandedImage = (ImageView) convertView.findViewById(R.id.menu_group_arrow);
+            final int resId = isExpanded ? R.drawable.expanded : R.drawable.collapsed;
+            expandedImage.setImageResource(resId);
         }
-
-        final TextView text = (TextView) convertView.findViewById(R.id.menu_group_text);
-        text.setText(mSectionsList.get(groupPosition).getSubCategoryName());
-
-        final ImageView expandedImage = (ImageView) convertView.findViewById(R.id.menu_group_arrow);
-        final int resId = isExpanded ? R.drawable.expanded : R.drawable.collapsed;
-        expandedImage.setImageResource(resId);
-
         return convertView;
     }
 
@@ -117,12 +132,19 @@ public class MenuAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getGroupCount() {
-        return mSectionsList.size();
+        return mSectionsList.size() + 1;
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
+        if (isFooter(groupPosition)) {
+            return 0;
+        }
         return mSectionsList.get(groupPosition).getItemsList().size();
+    }
+
+    private boolean isFooter(int groupPosition) {
+        return (groupPosition == mSectionsList.size());
     }
 
     @Override
