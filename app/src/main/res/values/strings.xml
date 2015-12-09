@@ -31,6 +31,7 @@
     <string name="profile">Profile</string>
 
     <string name="rupee_sign">₹&#160;</string>
+    <string name="x_sign">&#160;&#160;&#160;X&#160;&#160;</string>
 
     <string name="action_deep_link">twyst</string>
 

@@ -2,6 +2,8 @@
 <resources>
 
     <dimen name="scrolling_offer_height">120dp</dimen>
+    <dimen name="menu_icons_width">30dp</dimen>
+    <dimen name="menu_layout_height">90dp</dimen>
 
     <dimen name="activity_horizontal_margin">42dp</dimen>
     <dimen name="navigation_drawer_width">290dp</dimen>
