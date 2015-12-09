@@ -114,6 +114,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     }
 
+    public int getTotalCost(){
+        int totalCost = 0;
+        for (int i=0;i<mCartItemsList.size();i++){
+            int itemCost = Integer.parseInt(mCartItemsList.get(i).getItemCost()) * mCartItemsList.get(i).getItemQuantity();
+            totalCost = totalCost + itemCost;
+        }
+        return totalCost;
+    }
+
     private void add(Items item) {
         item.setItemQuantity(item.getItemQuantity() + 1);
         this.notifyDataSetChanged();

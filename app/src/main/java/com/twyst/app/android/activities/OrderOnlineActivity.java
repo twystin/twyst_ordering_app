@@ -39,6 +39,7 @@ public class OrderOnlineActivity extends BaseActivity implements DataTransferInt
 
     SlidingUpPanelLayout mSlidingUpPanelLayout;
     TextView tvCartCount;
+    TextView tvCartTotalCost;
 
     RecyclerView mCartRecyclerView;
     CartAdapter mCartAdapter;
@@ -102,6 +103,7 @@ public class OrderOnlineActivity extends BaseActivity implements DataTransferInt
         mCartRecyclerView.setAdapter(mCartAdapter);
         mSlidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         tvCartCount = (TextView) findViewById(R.id.tv_cart_count);
+        tvCartTotalCost = (TextView) findViewById(R.id.tvCartTotalCost);
         mSlidingUpPanelLayout.setPanelHeight(0);
 
         findViewById(R.id.cartLowerLayout).setOnClickListener(new View.OnClickListener() {
@@ -142,6 +144,7 @@ public class OrderOnlineActivity extends BaseActivity implements DataTransferInt
     }
 
     private void updateCart() {
+        tvCartTotalCost.setText(String.valueOf(mCartAdapter.getTotalCost()));
         tvCartCount.setText(String.valueOf(mCartAdapter.getmCartItemsList().size()));
         if (mCartAdapter.getmCartItemsList().size() > 0) {
             mSlidingUpPanelLayout.setPanelHeight(getResources().getDimensionPixelSize(R.dimen.slidingup_panel_height));
