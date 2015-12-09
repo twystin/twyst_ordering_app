@@ -23,7 +23,7 @@
             sothree:umanoOverlay="true"
             sothree:umanoPanelHeight="@dimen/slidingup_panel_height"
             sothree:umanoParallaxOffset="100dp"
-            sothree:umanoScrollableView="@+id/cartLayout"
+            sothree:umanoScrollableView="@+id/cartRecyclerView"
             sothree:umanoShadowHeight="4dp"
             android:layout_below="@+id/toolbarWrapper" >
 
