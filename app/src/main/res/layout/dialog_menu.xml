@@ -14,6 +14,7 @@
         android:scrollbarAlwaysDrawVerticalTrack="true">
 
         <TextView
+            android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#323232"
@@ -47,15 +48,15 @@
                 android:gravity="end|right">
 
                 <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/cancelExtendBtn"
+                    android:id="@+id/buttonCancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="14dp"
-                    android:layout_toLeftOf="@+id/extendBtn"
-                    android:layout_toStartOf="@+id/extendBtn"
+                    android:layout_toLeftOf="@+id/buttonOK"
                     app:mrl_rippleOverlay="true">
 
                     <TextView
+                        android:id="@+id/tvCancel"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:background="#fafafa"
@@ -68,7 +69,7 @@
                 </com.balysv.materialripple.MaterialRippleLayout>
 
                 <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/extendBtn"
+                    android:id="@+id/buttonOK"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -76,6 +77,7 @@
                     app:mrl_rippleOverlay="true">
 
                     <Button
+                        android:id="@+id/bOK"
                         android:layout_width="75dp"
                         android:layout_height="30dp"
                         android:background="@drawable/button_red"

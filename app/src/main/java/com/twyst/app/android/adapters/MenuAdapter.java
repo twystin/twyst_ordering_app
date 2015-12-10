@@ -1,19 +1,19 @@
 package com.twyst.app.android.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.menu.DataTransferInterface;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.menu.SubCategories;
-
 import java.util.ArrayList;
 
 /**
@@ -68,6 +68,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         childViewHolder.mIvPLus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                showDialog();
                 add(groupPosition, childPosition);
             }
         });
@@ -103,6 +104,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
 
     private void add(int groupPosition, int childPosition) {
         Items item = mSectionsList.get(groupPosition).getItemsList().get(childPosition);
+
         item.setItemQuantity(item.getItemQuantity() + 1);
         this.notifyDataSetChanged();
 
@@ -115,6 +117,38 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         this.notifyDataSetChanged();
 
         mDataTransferInterface.removeFromCart(item);
+    }
+
+    private void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        final View dialogView = mLayoutInflater.inflate(R.layout.dialog_menu, null);
+
+        TextView tvTitle = (TextView) dialogView.findViewById(R.id.tvTitle);
+        Button bOK = (Button) dialogView.findViewById(R.id.bOK);
+        TextView tvCancel = (TextView) dialogView.findViewById(R.id.tvCancel);
+        bOK.setText("NEXT");
+        tvCancel.setText("CANCEL");
+        tvTitle.setText("Title");
+        builder.setView(dialogView);
+
+        final AlertDialog dialog = builder.create();
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+
+        dialogView.findViewById(R.id.buttonOK).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        dialogView.findViewById(R.id.buttonCancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
     }
 
     @Override
