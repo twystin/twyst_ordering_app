@@ -11,6 +11,15 @@ import java.util.ArrayList;
 public class Items implements Serializable {
     private int itemQuantity;
 
+    @SerializedName("_id")
+    private String id;
+
+    @SerializedName("item_available_on")
+    private ArrayList<String> itemAvailableOnList;
+
+    @SerializedName("is_available")
+    private boolean isAvailable;
+
     @SerializedName("is_vegetarian")
     private boolean isVegetarian;
 
@@ -32,8 +41,43 @@ public class Items implements Serializable {
     @SerializedName("item_tags")
     private ArrayList<String> itemTagsList;
 
+    @SerializedName("item_availability")
+    private ItemAvailability itemAvailability;
+
     @SerializedName("options")
     private ArrayList<Options> optionsList;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public ArrayList<String> getItemAvailableOnList() {
+        return itemAvailableOnList;
+    }
+
+    public void setItemAvailableOnList(ArrayList<String> itemAvailableOnList) {
+        this.itemAvailableOnList = itemAvailableOnList;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setIsAvailable(boolean isAvailable) {
+        this.isAvailable = isAvailable;
+    }
+
+    public ItemAvailability getItemAvailability() {
+        return itemAvailability;
+    }
+
+    public void setItemAvailability(ItemAvailability itemAvailability) {
+        this.itemAvailability = itemAvailability;
+    }
 
     public String getItemCost() {
         return itemCost;

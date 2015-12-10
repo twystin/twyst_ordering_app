@@ -12,8 +12,19 @@ public class MenuCategories implements Serializable {
     @SerializedName("sub_categories")
     private ArrayList<SubCategories> subCategoriesList;
 
+    @SerializedName("_id")
+    private String id;
+
     @SerializedName("category_name")
     private String categoryName;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public ArrayList<SubCategories> getSubCategoriesList() {
         return subCategoriesList;

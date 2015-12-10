@@ -14,10 +14,21 @@ public class MenuData implements Serializable{
 
     private String outlet;
 
+    @SerializedName("_id")
+    private String id;
+
     @SerializedName("menu_type")
     private String menuType;
 
     private String status;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public ArrayList<MenuCategories> getMenuCategoriesList() {
         return menuCategoriesList;
