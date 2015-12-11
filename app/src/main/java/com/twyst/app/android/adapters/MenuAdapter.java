@@ -5,14 +5,17 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.menu.DataTransferInterface;
 import com.twyst.app.android.model.menu.Items;
+import com.twyst.app.android.model.menu.Options;
 import com.twyst.app.android.model.menu.SubCategories;
 import java.util.ArrayList;
 
@@ -68,7 +71,6 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         childViewHolder.mIvPLus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog();
                 add(groupPosition, childPosition);
             }
         });
@@ -104,42 +106,66 @@ public class MenuAdapter extends BaseExpandableListAdapter {
 
     private void add(int groupPosition, int childPosition) {
         Items item = mSectionsList.get(groupPosition).getItemsList().get(childPosition);
+        if (item.getOptionsList().size()>0){
+            showDialogOptions(item);
+        }else{
+            addIncreaseQuantity(item);
+        }
+    }
 
+    private void addIncreaseQuantity(Items item){
         item.setItemQuantity(item.getItemQuantity() + 1);
         this.notifyDataSetChanged();
-
         mDataTransferInterface.addToCart(item);
     }
 
-    private void remove(int groupPosition, int childPosition) {
-        Items item = mSectionsList.get(groupPosition).getItemsList().get(childPosition);
-        item.setItemQuantity(item.getItemQuantity() - 1);
-        this.notifyDataSetChanged();
-
-        mDataTransferInterface.removeFromCart(item);
-    }
-
-    private void showDialog() {
+    private void showDialogOptions(final Items item) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         final View dialogView = mLayoutInflater.inflate(R.layout.dialog_menu, null);
 
         TextView tvTitle = (TextView) dialogView.findViewById(R.id.tvTitle);
-        Button bOK = (Button) dialogView.findViewById(R.id.bOK);
+        final Button bOK = (Button) dialogView.findViewById(R.id.bOK);
         TextView tvCancel = (TextView) dialogView.findViewById(R.id.tvCancel);
-        bOK.setText("NEXT");
+        ListView listMenuOptions = (ListView) dialogView.findViewById(R.id.listMenuOptions);
+        bOK.setText("CONFIRM");
         tvCancel.setText("CANCEL");
-        tvTitle.setText("Title");
+        tvTitle.setText(item.getOptionTitle());
         builder.setView(dialogView);
+        bOK.setEnabled(false);
+//        bOK.setBackgroundColor(mContext.getResources().getColor(R.color.outlet_txt_color_grey));
 
         final AlertDialog dialog = builder.create();
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
 
-        dialogView.findViewById(R.id.buttonOK).setOnClickListener(new View.OnClickListener() {
+        final MenuOptionsAdapter menuOptionsAdapter = new MenuOptionsAdapter(mContext, item.getOptionsList());
+        listMenuOptions.setAdapter(menuOptionsAdapter);
+
+        listMenuOptions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                bOK.setEnabled(true);
+//                bOK.setBackgroundColor(mContext.getResources().getColor(R.color.outlet_txt_color_grey));
+                menuOptionsAdapter.setSelectedPosition(position);
+                menuOptionsAdapter.notifyDataSetChanged();
+            }
+        });
+
+        bOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Options options = item.getOptionsList().get(menuOptionsAdapter.getSelectedPosition());
+                if (options.getSubOptionsList().size() > 0) {
+                    showDialogSubOptions(item, menuOptionsAdapter.getSelectedPosition());
+                } else {
+                    if (options.getAddonsList().size() > 0) {
+                        showDialogAddons(item, menuOptionsAdapter.getSelectedPosition());
+                    } else {
+                        addIncreaseQuantity(item);
+                    }
+                }
             }
         });
 
@@ -149,6 +175,68 @@ public class MenuAdapter extends BaseExpandableListAdapter {
                 dialog.dismiss();
             }
         });
+    }
+
+    private void showDialogSubOptions(final Items item, final int selectedPosition) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        final View dialogView = mLayoutInflater.inflate(R.layout.dialog_menu, null);
+
+        TextView tvTitle = (TextView) dialogView.findViewById(R.id.tvTitle);
+        Button bOK = (Button) dialogView.findViewById(R.id.bOK);
+        TextView tvCancel = (TextView) dialogView.findViewById(R.id.tvCancel);
+        ListView listMenuOptions = (ListView) dialogView.findViewById(R.id.listMenuOptions);
+        bOK.setText("CONFIRM");
+        tvCancel.setText("CANCEL");
+        tvTitle.setText(item.getOptionsList().get(selectedPosition).getSubOptionsList().get(0).getSubOptionTitle());
+        builder.setView(dialogView);
+        dialogView.findViewById(R.id.buttonOK).setEnabled(false);
+
+        final AlertDialog dialog = builder.create();
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+
+        final MenuSubOptionsAdapter menuOptionsAdapter = new MenuSubOptionsAdapter(mContext,item.getOptionsList().get(selectedPosition).getSubOptionsList().get(0).getSubOptionSetList());
+        listMenuOptions.setAdapter(menuOptionsAdapter);
+
+        listMenuOptions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                dialogView.findViewById(R.id.buttonOK).setEnabled(true);
+            }
+        });
+
+        dialogView.findViewById(R.id.buttonOK).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Options options =item.getOptionsList().get(menuOptionsAdapter.getSelectedPosition());
+                    if (options.getAddonsList().size()>0){
+                        showDialogAddons(item, menuOptionsAdapter.getSelectedPosition());
+                    }else{
+                        addIncreaseQuantity(item);
+                    }
+            }
+        });
+
+        dialogView.findViewById(R.id.buttonCancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void showDialogAddons(Items item, int selectedPosition) {
+
+    }
+
+    private void remove(int groupPosition, int childPosition) {
+        Items item = mSectionsList.get(groupPosition).getItemsList().get(childPosition);
+        item.setItemQuantity(item.getItemQuantity() - 1);
+        this.notifyDataSetChanged();
+
+        mDataTransferInterface.removeFromCart(item);
     }
 
     @Override
