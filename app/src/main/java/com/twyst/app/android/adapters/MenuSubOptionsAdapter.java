@@ -30,6 +30,10 @@ public class MenuSubOptionsAdapter extends BaseAdapter {
         mSubOptionsSetList = subOptionsList;
     }
 
+    public void setSelectedPosition(int selectedPosition) {
+        this.selectedPosition = selectedPosition;
+    }
+
     public int getSelectedPosition(){
         return selectedPosition;
     }
@@ -49,13 +53,13 @@ public class MenuSubOptionsAdapter extends BaseAdapter {
         r.setText(mSubOptionsSetList.get(position).getSubOptionValue());
         r.setChecked(position == selectedPosition);
         r.setTag(position);
-        r.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedPosition = (Integer)view.getTag();
-                notifyDataSetChanged();
-            }
-        });
+//        r.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                selectedPosition = (Integer)view.getTag();
+//                notifyDataSetChanged();
+//            }
+//        });
         return v;
     }
 

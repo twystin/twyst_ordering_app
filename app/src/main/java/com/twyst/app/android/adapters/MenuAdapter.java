@@ -132,7 +132,6 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         tvTitle.setText(item.getOptionTitle());
         builder.setView(dialogView);
         bOK.setEnabled(false);
-//        bOK.setBackgroundColor(mContext.getResources().getColor(R.color.outlet_txt_color_grey));
 
         final AlertDialog dialog = builder.create();
         dialog.setCancelable(false);
@@ -147,7 +146,6 @@ public class MenuAdapter extends BaseExpandableListAdapter {
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
                 bOK.setEnabled(true);
-//                bOK.setBackgroundColor(mContext.getResources().getColor(R.color.outlet_txt_color_grey));
                 menuOptionsAdapter.setSelectedPosition(position);
                 menuOptionsAdapter.notifyDataSetChanged();
             }
@@ -166,6 +164,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
                         addIncreaseQuantity(item);
                     }
                 }
+                dialog.dismiss();
             }
         });
 
@@ -182,14 +181,14 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         final View dialogView = mLayoutInflater.inflate(R.layout.dialog_menu, null);
 
         TextView tvTitle = (TextView) dialogView.findViewById(R.id.tvTitle);
-        Button bOK = (Button) dialogView.findViewById(R.id.bOK);
+        final Button bOK = (Button) dialogView.findViewById(R.id.bOK);
         TextView tvCancel = (TextView) dialogView.findViewById(R.id.tvCancel);
         ListView listMenuOptions = (ListView) dialogView.findViewById(R.id.listMenuOptions);
         bOK.setText("CONFIRM");
         tvCancel.setText("CANCEL");
-        tvTitle.setText(item.getOptionsList().get(selectedPosition).getSubOptionsList().get(0).getSubOptionTitle());
+        tvTitle.setText(item.getOptionTitle());
         builder.setView(dialogView);
-        dialogView.findViewById(R.id.buttonOK).setEnabled(false);
+        bOK.setEnabled(false);
 
         final AlertDialog dialog = builder.create();
         dialog.setCancelable(false);
@@ -203,11 +202,13 @@ public class MenuAdapter extends BaseExpandableListAdapter {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
-                dialogView.findViewById(R.id.buttonOK).setEnabled(true);
+                bOK.setEnabled(true);
+                menuOptionsAdapter.setSelectedPosition(position);
+                menuOptionsAdapter.notifyDataSetChanged();
             }
         });
 
-        dialogView.findViewById(R.id.buttonOK).setOnClickListener(new View.OnClickListener() {
+        bOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Options options =item.getOptionsList().get(menuOptionsAdapter.getSelectedPosition());
@@ -216,6 +217,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
                     }else{
                         addIncreaseQuantity(item);
                     }
+                dialog.dismiss();
             }
         });
 
