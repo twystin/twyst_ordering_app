@@ -10,10 +10,6 @@
         android:layout_height="match_parent"
         android:background="@color/app_bg_color">
 
-        <include
-            android:id="@+id/toolbarWrapper"
-            layout="@layout/toolbar_wrapper" />
-
         <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
             android:id="@+id/sliding_layout"
             android:layout_width="match_parent"

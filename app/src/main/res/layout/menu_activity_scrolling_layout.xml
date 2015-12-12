@@ -1,0 +1,139 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:layout_scrollFlags="scroll|enterAlways|snap" />
+
+    <RelativeLayout
+        android:id="@+id/topLayout"
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@android:color/white">
+
+        <ImageView
+            android:id="@+id/outletImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="#ffffffff"
+            android:scaleType="centerCrop" />
+
+        <RelativeLayout
+            android:id="@+id/linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#80000000">
+
+            <RelativeLayout
+                android:id="@+id/layoutOutlet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/offer_detail_padding"
+                android:paddingRight="@dimen/offer_detail_padding">
+
+                <TextView
+                    android:id="@+id/outletName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="false"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_weight=".9"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="Striker Pub &amp; Brewery"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/offer_detail_name_text" />
+
+                <ImageView
+                    android:id="@+id/outletShare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="false"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="false"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="right"
+                    android:layout_marginLeft="591dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_weight=".1"
+                    android:src="@drawable/icon_outlet_detail_share" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/hideableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_below="@+id/layoutOutlet">
+
+                <ImageView
+                    android:id="@+id/placeIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/icon_outlet_detail_location1"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/outletAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_toRightOf="@+id/placeIcon"
+                    android:maxLines="2"
+                    android:text="1st Floor,Global Foyer Mall,Sector 43,Golf Course Road,Gurgaon"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/outlet_detail_address" />
+
+                <TextView
+                    android:id="@+id/outletDistance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/outletAddress"
+                    android:layout_marginLeft="35dp"
+                    android:layout_marginTop="8dp"
+                    android:text="15.3 km"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/outlet_detail_distance" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/middleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/topLayout"
+        android:layout_margin="5dp"
+        android:background="@android:color/white">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/scrollingOffersPager"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/scrolling_offer_height"
+            android:overScrollMode="never" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
