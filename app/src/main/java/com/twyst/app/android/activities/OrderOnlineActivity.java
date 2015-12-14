@@ -87,8 +87,8 @@ public class OrderOnlineActivity extends AppCompatActivity implements DataTransf
                     public void onGlobalLayout() {
                         Drawable img = getResources().getDrawable(
                                 R.drawable.outlet_estimated_icon);
-                        int height = outletDeliveryTime.getMeasuredHeight();
-                        img.setBounds(0, 0, height / 3, height / 3);
+                        int height = outletDeliveryTime.getMeasuredHeight()*2/3;
+                        img.setBounds(0, 0, height, height);
                         outletDeliveryTime.setCompoundDrawables(img, null, null, null);
                         outletDeliveryTime.getViewTreeObserver()
                                 .removeOnGlobalLayoutListener(this);
@@ -102,8 +102,8 @@ public class OrderOnlineActivity extends AppCompatActivity implements DataTransf
                     public void onGlobalLayout() {
                         Drawable img = getResources().getDrawable(
                                 R.drawable.outlet_min_order_icon);
-                        int height = outletMinimumOrder.getMeasuredHeight();
-                        img.setBounds(0, 0, height / 3, height / 3);
+                        int height = outletMinimumOrder.getMeasuredHeight()*2/3;
+                        img.setBounds(0, 0, height, height);
                         outletMinimumOrder.setCompoundDrawables(img, null, null, null);
                         outletMinimumOrder.getViewTreeObserver()
                                 .removeOnGlobalLayoutListener(this);
@@ -125,9 +125,8 @@ public class OrderOnlineActivity extends AppCompatActivity implements DataTransf
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 int scrollRange = appBarLayout.getTotalScrollRange();
                 float ratio = (float)verticalOffset/(-1*scrollRange);
-                if (ratio>.68f){
-                    collapsingToolbar.getTitle()
-                            setTitle("Striker Pub & Brewery");
+                if (ratio > .68f){
+                    collapsingToolbar.setTitle("Striker Pub & Brewery");
                 }else{
                     collapsingToolbar.setTitle("");
                 }

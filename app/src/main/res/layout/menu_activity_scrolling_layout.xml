@@ -27,9 +27,9 @@
             android:src="@drawable/outlet_bg" />
 
         <LinearLayout
-            android:layout_marginLeft="35dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="35dp"
             android:orientation="vertical"
             android:padding="10dp"
             android:weightSum="10">
@@ -40,43 +40,54 @@
                 android:layout_height="0dp"
                 android:layout_weight="4"
                 android:ellipsize="end"
-                android:lines="1"
                 android:gravity="center_vertical"
+                android:lines="1"
                 android:text="Striker Pub &amp; Brewery"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/offer_detail_name_text" />
 
-            <TextView
-                android:id="@+id/outletDeliveryTime"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="3"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:lines="1"
-                android:text="45 Minutes"
-                android:drawablePadding="12dp"
-                android:textColor="@android:color/white"
-                android:textSize="13dp" />
+                android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/outletMinimumOrder"
+                <TextView
+                    android:id="@+id/outletDeliveryTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="10dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    android:text="45 Minutes"
+                    android:textColor="@android:color/white"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="3"
-                android:gravity="center_vertical"
-                android:ellipsize="end"
-                android:drawablePadding="12dp"
-                android:lines="1"
-                android:text="300 Min order"
-                android:textColor="@android:color/white"
-                android:textSize="13dp" />
+                android:gravity="center_vertical">
 
+                <TextView
+                    android:id="@+id/outletMinimumOrder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="10dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    android:text="300 Min order"
+                    android:textColor="@android:color/white"
+                    android:textSize="12dp" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_margin="10dp">
@@ -84,7 +95,7 @@
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/outlet_unfollowed_icon" />
+                android:background="@drawable/outlet_followed_icon" />
 
         </LinearLayout>
 
