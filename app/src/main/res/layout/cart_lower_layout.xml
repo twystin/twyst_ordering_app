@@ -11,6 +11,7 @@
 
         <RelativeLayout
             android:id="@+id/rlCartIcon"
+            android:layout_margin="3dp"
             android:layout_width="@dimen/slidingup_panel_height"
             android:layout_height="@dimen/slidingup_panel_height">
 
@@ -33,22 +34,21 @@
                 android:textColor="@android:color/white" />
         </RelativeLayout>
 
-
         <View
             android:id="@+id/viewDivider"
             android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_height="match_parent"
-            android:background="@color/primary"
-            android:layout_toRightOf="@+id/rlCartIcon"/>
+            android:layout_toRightOf="@+id/rlCartIcon"
+            android:background="@color/primary" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
             android:layout_toRightOf="@+id/viewDivider">
 
             <TextView
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/rupee_sign"
                 android:textColor="@color/primary"
-                android:textSize="25dp" />
+                android:textSize="23dp" />
 
             <TextView
                 android:id="@+id/tvCartTotalCost"
@@ -65,22 +65,26 @@
                 android:layout_height="wrap_content"
                 android:text="275"
                 android:textColor="@color/primary"
-                android:textSize="25dp"/>
+                android:textSize="23dp" />
         </LinearLayout>
 
-        <LinearLayout
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/bCheckOut"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true">
+            android:layout_alignParentRight="true"
+            app:mrl_rippleOverlay="true">
 
             <Button
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="5dp"
                 android:background="@drawable/button_red"
                 android:text="CHECKOUT"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/outlet_details_coupon_txt" />
-        </LinearLayout>
+        </com.balysv.materialripple.MaterialRippleLayout>
     </RelativeLayout>
 
 </LinearLayout>
