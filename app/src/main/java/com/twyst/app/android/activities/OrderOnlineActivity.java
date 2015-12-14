@@ -1,10 +1,14 @@
 package com.twyst.app.android.activities;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.design.widget.TabLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -30,7 +34,7 @@ import java.util.List;
 /**
  * Created by Vipul Sharma on 11/16/2015.
  */
-public class OrderOnlineActivity extends BaseActivity implements DataTransferInterface {
+public class OrderOnlineActivity extends AppCompatActivity implements DataTransferInterface {
 
     private ScrollingOffersAdapter mScrollingOffersAdapter;
     private ViewPager mScrollingOffersViewPager;
@@ -49,6 +53,8 @@ public class OrderOnlineActivity extends BaseActivity implements DataTransferInt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.activity_order_online);
+        setupToolBar();
         setupScrollingOfferAdapters();
         setupMenu();
         setupCartRecyclerView();
@@ -68,6 +74,17 @@ public class OrderOnlineActivity extends BaseActivity implements DataTransferInt
                         this);
             }
         });
+    }
+
+    private void setupToolBar() {
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        CollapsingToolbarLayout collapsingToolbar =
+                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbar.setTitle("Striker Pub");
+
     }
 
     private void setupMenu() {
@@ -167,16 +184,16 @@ public class OrderOnlineActivity extends BaseActivity implements DataTransferInt
         mScrollingOffersViewPager = (ViewPager) findViewById(R.id.scrollingOffersPager);
         mScrollingOffersViewPager.setAdapter(mScrollingOffersAdapter);
     }
-
-    @Override
-    protected String getTagName() {
-        return OrderOnlineActivity.class.getSimpleName();
-    }
-
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_order_online;
-    }
+//
+//    @Override
+//    protected String getTagName() {
+//        return OrderOnlineActivity.class.getSimpleName();
+//    }
+//
+//    @Override
+//    protected int getLayoutResource() {
+//        return R.layout.activity_order_online;
+//    }
 
     private MenuData getMenuData(List<MenuData> menuDataList) {
         for (int i = 0; i < menuDataList.size(); i++) {
