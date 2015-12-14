@@ -4,118 +4,89 @@
     android:layout_height="wrap_content">
 
     <!--<android.support.v7.widget.Toolbar-->
-        <!--android:id="@+id/toolbar"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="?attr/actionBarSize"-->
-        <!--android:background="?attr/colorPrimary"-->
-        <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light"-->
-        <!--app:layout_scrollFlags="scroll|enterAlways|snap" />-->
+    <!--android:id="@+id/toolbar"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="?attr/actionBarSize"-->
+    <!--android:background="?attr/colorPrimary"-->
+    <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light"-->
+    <!--app:layout_scrollFlags="scroll|enterAlways|snap" />-->
 
     <RelativeLayout
         android:id="@+id/topLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_height="90dp"
         android:background="@android:color/white">
 
         <ImageView
             android:id="@+id/outletImage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:background="#ffffffff"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitXY"
+            android:src="@drawable/outlet_bg" />
 
-        <RelativeLayout
-            android:id="@+id/linear_layout"
+        <LinearLayout
+            android:layout_marginLeft="35dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#80000000">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:weightSum="10">
 
-            <RelativeLayout
-                android:id="@+id/layoutOutlet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="5dp"
+            <TextView
+                android:id="@+id/outletName"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="4"
+                android:ellipsize="end"
+                android:lines="1"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/offer_detail_padding"
-                android:paddingRight="@dimen/offer_detail_padding">
+                android:text="Striker Pub &amp; Brewery"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/offer_detail_name_text" />
 
-                <TextView
-                    android:id="@+id/outletName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="false"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_weight=".9"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    android:text="Striker Pub &amp; Brewery"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/offer_detail_name_text" />
+            <TextView
+                android:id="@+id/outletDeliveryTime"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:lines="1"
+                android:text="45 Minutes"
+                android:drawablePadding="12dp"
+                android:textColor="@android:color/white"
+                android:textSize="13dp" />
 
-                <ImageView
-                    android:id="@+id/outletShare"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="false"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="false"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="right"
-                    android:layout_marginLeft="591dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_weight=".1"
-                    android:src="@drawable/icon_outlet_detail_share" />
-            </RelativeLayout>
+            <TextView
+                android:id="@+id/outletMinimumOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:gravity="center_vertical"
+                android:ellipsize="end"
+                android:drawablePadding="12dp"
+                android:lines="1"
+                android:text="300 Min order"
+                android:textColor="@android:color/white"
+                android:textSize="13dp" />
 
+        </LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/hideableLayout"
+        <LinearLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp">
+
+            <ImageButton
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_below="@+id/layoutOutlet">
+                android:layout_height="match_parent"
+                android:background="@drawable/outlet_unfollowed_icon" />
 
-                <ImageView
-                    android:id="@+id/placeIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="16dp"
-                    android:src="@drawable/icon_outlet_detail_location1"
-                    android:visibility="invisible" />
-
-                <TextView
-                    android:id="@+id/outletAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="14dp"
-                    android:layout_toRightOf="@+id/placeIcon"
-                    android:maxLines="2"
-                    android:text="1st Floor,Global Foyer Mall,Sector 43,Golf Course Road,Gurgaon"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/outlet_detail_address" />
-
-                <TextView
-                    android:id="@+id/outletDistance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/outletAddress"
-                    android:layout_marginLeft="35dp"
-                    android:layout_marginTop="8dp"
-                    android:text="15.3 km"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/outlet_detail_distance" />
-            </RelativeLayout>
-        </RelativeLayout>
+        </LinearLayout>
 
     </RelativeLayout>
 

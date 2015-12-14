@@ -1,6 +1,7 @@
 package com.twyst.app.android.activities;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewPager;
@@ -55,6 +56,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements DataTransf
 
         setContentView(R.layout.activity_order_online);
         setupToolBar();
+        setupTopLayout();
         setupScrollingOfferAdapters();
         setupMenu();
         setupCartRecyclerView();
@@ -74,6 +76,38 @@ public class OrderOnlineActivity extends AppCompatActivity implements DataTransf
 //                        this);
 //            }
 //        });
+    }
+
+    private void setupTopLayout() {
+        final TextView outletDeliveryTime = (TextView) findViewById(R.id.outletDeliveryTime);
+        outletDeliveryTime.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        Drawable img = getResources().getDrawable(
+                                R.drawable.outlet_estimated_icon);
+                        int height = outletDeliveryTime.getMeasuredHeight();
+                        img.setBounds(0, 0,height/3 , height/3);
+                        outletDeliveryTime.setCompoundDrawables(img, null, null, null);
+                        outletDeliveryTime.getViewTreeObserver()
+                                .removeOnGlobalLayoutListener(this);
+                    }
+                });
+
+        final TextView outletMinimumOrder = (TextView) findViewById(R.id.outletMinimumOrder);
+        outletMinimumOrder.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        Drawable img = getResources().getDrawable(
+                                R.drawable.outlet_min_order_icon);
+                        int height = outletMinimumOrder.getMeasuredHeight();
+                        img.setBounds(0, 0,height/3 , height/3);
+                        outletMinimumOrder.setCompoundDrawables(img, null, null, null);
+                        outletMinimumOrder.getViewTreeObserver()
+                                .removeOnGlobalLayoutListener(this);
+                    }
+                });
     }
 
     private void setupToolBar() {
