@@ -59,21 +59,21 @@ public class OrderOnlineActivity extends AppCompatActivity implements DataTransf
         setupMenu();
         setupCartRecyclerView();
 
-        final RelativeLayout rlTopLayout = (RelativeLayout) findViewById(R.id.topLayout);
-        final RelativeLayout rHidableLayout = (RelativeLayout) findViewById(R.id.hideableLayout);
-
-        ViewTreeObserver observer = rHidableLayout.getViewTreeObserver();
-        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-
-            @Override
-            public void onGlobalLayout() {
-                mLowerLimit = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, rlTopLayout.getHeight() - rHidableLayout.getHeight(), getResources().getDisplayMetrics());
-                mUpperLimit = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, rlTopLayout.getHeight(), getResources().getDisplayMetrics());
-
-                rHidableLayout.getViewTreeObserver().removeGlobalOnLayoutListener(
-                        this);
-            }
-        });
+//        final RelativeLayout rlTopLayout = (RelativeLayout) findViewById(R.id.topLayout);
+//        final RelativeLayout rHidableLayout = (RelativeLayout) findViewById(R.id.hideableLayout);
+//
+//        ViewTreeObserver observer = rHidableLayout.getViewTreeObserver();
+//        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//
+//            @Override
+//            public void onGlobalLayout() {
+//                mLowerLimit = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, rlTopLayout.getHeight() - rHidableLayout.getHeight(), getResources().getDisplayMetrics());
+//                mUpperLimit = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, rlTopLayout.getHeight(), getResources().getDisplayMetrics());
+//
+//                rHidableLayout.getViewTreeObserver().removeGlobalOnLayoutListener(
+//                        this);
+//            }
+//        });
     }
 
     private void setupToolBar() {
