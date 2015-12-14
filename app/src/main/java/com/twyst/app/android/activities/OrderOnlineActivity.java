@@ -3,6 +3,7 @@ package com.twyst.app.android.activities;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.design.widget.TabLayout;
@@ -87,7 +88,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements DataTransf
                         Drawable img = getResources().getDrawable(
                                 R.drawable.outlet_estimated_icon);
                         int height = outletDeliveryTime.getMeasuredHeight();
-                        img.setBounds(0, 0,height/3 , height/3);
+                        img.setBounds(0, 0, height / 3, height / 3);
                         outletDeliveryTime.setCompoundDrawables(img, null, null, null);
                         outletDeliveryTime.getViewTreeObserver()
                                 .removeOnGlobalLayoutListener(this);
@@ -102,7 +103,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements DataTransf
                         Drawable img = getResources().getDrawable(
                                 R.drawable.outlet_min_order_icon);
                         int height = outletMinimumOrder.getMeasuredHeight();
-                        img.setBounds(0, 0,height/3 , height/3);
+                        img.setBounds(0, 0, height / 3, height / 3);
                         outletMinimumOrder.setCompoundDrawables(img, null, null, null);
                         outletMinimumOrder.getViewTreeObserver()
                                 .removeOnGlobalLayoutListener(this);
@@ -115,10 +116,23 @@ public class OrderOnlineActivity extends AppCompatActivity implements DataTransf
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        CollapsingToolbarLayout collapsingToolbar =
+        final CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle("Striker Pub");
 
+        AppBarLayout appbar = (AppBarLayout) findViewById(R.id.appbar);
+        appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                int scrollRange = appBarLayout.getTotalScrollRange();
+                float ratio = (float)verticalOffset/(-1*scrollRange);
+                if (ratio>.68f){
+                    collapsingToolbar.getTitle()
+                            setTitle("Striker Pub & Brewery");
+                }else{
+                    collapsingToolbar.setTitle("");
+                }
+            }
+        });
     }
 
     private void setupMenu() {
