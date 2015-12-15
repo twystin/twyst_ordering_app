@@ -138,12 +138,6 @@ public class MenuAdapter extends BaseExpandableListAdapter {
 
         childViewHolder.menuItemName.setText(item.getItemName());
 
-        String customisations = "9inches dip chicken 9inches dip chicken 9inches dip chicken 9inches dip chicken";
-        Spannable wordtoSpan = new SpannableString(customisations);
-        wordtoSpan.setSpan(new BackgroundColorSpan(mContext.getResources().getColor(R.color.selected_text_customisations)), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        wordtoSpan.setSpan(new BackgroundColorSpan(mContext.getResources().getColor(R.color.selected_text_customisations)), 8, 11, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        childViewHolder.tvCustomisations.setText(wordtoSpan);
-
         childViewHolder.tvCost.setText(item.getItemCost());
         return convertView;
     }
@@ -341,7 +335,6 @@ public class MenuAdapter extends BaseExpandableListAdapter {
     private class ChildViewHolder {
         ImageView mIvMinus;
         ImageView mIvPLus;
-        TextView tvCustomisations;
         TextView menuItemName;
         TextView tvQuantity;
         TextView tvCost;
@@ -349,7 +342,6 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         public ChildViewHolder(View itemView) {
             this.mIvMinus = (ImageView) itemView.findViewById(R.id.ivMinus);
             this.mIvPLus = (ImageView) itemView.findViewById(R.id.ivPlus);
-            this.tvCustomisations = (TextView) itemView.findViewById(R.id.tvCustomisations);
             this.menuItemName = (TextView) itemView.findViewById(R.id.menuItem);
             this.tvQuantity = (TextView) itemView.findViewById(R.id.tvQuantity);
             this.tvCost = (TextView) itemView.findViewById(R.id.tvCost);

@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.BackgroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -150,6 +153,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             }
         });
 
+        String customisations = "9inches dip chicken 9inches dip chicken 9inches dip chicken 9inches dip chicken";
+        Spannable wordtoSpan = new SpannableString(customisations);
+        wordtoSpan.setSpan(new BackgroundColorSpan(mContext.getResources().getColor(R.color.selected_text_customisations)), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        wordtoSpan.setSpan(new BackgroundColorSpan(mContext.getResources().getColor(R.color.selected_text_customisations)), 8, 11, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.tvCustomisations.setText(wordtoSpan);
+
     }
 
     public int getTotalCost() {
@@ -186,6 +195,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         TextView menuItemName;
         TextView tvQuantity;
         TextView tvCost;
+        TextView tvCustomisations;
 
         public CartViewHolder(View itemView) {
             super(itemView);
@@ -194,6 +204,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             this.menuItemName = (TextView) itemView.findViewById(R.id.menuItem);
             this.tvQuantity = (TextView) itemView.findViewById(R.id.tvQuantity);
             this.tvCost = (TextView) itemView.findViewById(R.id.tvCost);
+            this.tvCustomisations = (TextView) itemView.findViewById(R.id.tvCustomisations);
         }
     }
 }
