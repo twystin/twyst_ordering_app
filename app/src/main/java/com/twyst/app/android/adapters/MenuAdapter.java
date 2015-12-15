@@ -31,6 +31,8 @@ import java.util.ArrayList;
  * Created by Vipul Sharma on 11/20/2015.
  */
 public class MenuAdapter extends BaseExpandableListAdapter {
+    private static int mVegIconHeight = 0; //menuItemName height fixed for a specific device
+
     private final Context mContext;
     private final LayoutInflater mLayoutInflater;
     private boolean mFooterEnabled = false;
@@ -100,27 +102,39 @@ public class MenuAdapter extends BaseExpandableListAdapter {
             childViewHolder.tvQuantity.setText(String.valueOf(item.getItemQuantity()));
         }
 
-        final TextView tvMenuItemName = childViewHolder.menuItemName;
-        tvMenuItemName.getViewTreeObserver()
-                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        Drawable img;
-                        if (item.isVegetarian()) {
-                            img = mContext.getResources().getDrawable(
-                                    R.drawable.veg);
-                        } else {
-                            img = mContext.getResources().getDrawable(
-                                    R.drawable.nonveg);
+        if (mVegIconHeight == 0) {
+            final TextView tvMenuItemName = childViewHolder.menuItemName;
+            tvMenuItemName.getViewTreeObserver()
+                    .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            Drawable img;
+                            if (item.isVegetarian()) {
+                                img = mContext.getResources().getDrawable(
+                                        R.drawable.veg);
+                            } else {
+                                img = mContext.getResources().getDrawable(
+                                        R.drawable.nonveg);
+                            }
+                            mVegIconHeight = tvMenuItemName.getMeasuredHeight() * 2 / 3;
+                            img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
+                            tvMenuItemName.setCompoundDrawables(img, null, null, null);
+                            tvMenuItemName.getViewTreeObserver()
+                                    .removeOnGlobalLayoutListener(this);
                         }
-
-                        int height = tvMenuItemName.getMeasuredHeight() * 2 / 3;
-                        img.setBounds(0, 0, height, height);
-                        tvMenuItemName.setCompoundDrawables(img, null, null, null);
-                        tvMenuItemName.getViewTreeObserver()
-                                .removeOnGlobalLayoutListener(this);
-                    }
-                });
+                    });
+        } else {
+            Drawable img;
+            if (item.isVegetarian()) {
+                img = mContext.getResources().getDrawable(
+                        R.drawable.veg);
+            } else {
+                img = mContext.getResources().getDrawable(
+                        R.drawable.nonveg);
+            }
+            img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
+            childViewHolder.menuItemName.setCompoundDrawables(img, null, null, null);
+        }
 
         childViewHolder.menuItemName.setText(item.getItemName());
 

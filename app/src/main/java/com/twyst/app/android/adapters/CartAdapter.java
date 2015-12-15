@@ -2,10 +2,12 @@ package com.twyst.app.android.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,6 +27,8 @@ import java.util.List;
  * Created by Vipul Sharma on 12/3/2015.
  */
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
+    private static int mVegIconHeight = 0; //menuItemName height fixed for a specific device
+
     private final Context mContext;
     DataTransferInterface mDataTransferInterface;
     private List<Items> mCartItemsList = new ArrayList<>();
@@ -42,24 +46,24 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         this.mCartItemsList = mCartItemsList;
     }
 
-    public void addToAdapter(Items item){
-        if (mCartItemsList.contains(item)){
-            mCartItemsList.set(mCartItemsList.indexOf(item),item);
-        }else{
+    public void addToAdapter(Items item) {
+        if (mCartItemsList.contains(item)) {
+            mCartItemsList.set(mCartItemsList.indexOf(item), item);
+        } else {
             mCartItemsList.add(item);
         }
         this.notifyDataSetChanged();
     }
 
-    public void removeFromAdapter(Items item){
-        if (mCartItemsList.contains(item)){
+    public void removeFromAdapter(Items item) {
+        if (mCartItemsList.contains(item)) {
             int index = mCartItemsList.indexOf(item);
-            if (item.getItemQuantity()==0){
+            if (item.getItemQuantity() == 0) {
                 mCartItemsList.remove(index);
-            }else{
-                mCartItemsList.set(index,item);
+            } else {
+                mCartItemsList.set(index, item);
             }
-        }else{
+        } else {
             mCartItemsList.add(item);
         }
         this.notifyDataSetChanged();
@@ -98,6 +102,40 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             holder.tvQuantity.setText(String.valueOf(item.getItemQuantity()));
         }
 
+        if (mVegIconHeight == 0) {
+            final TextView tvMenuItemName = holder.menuItemName;
+            tvMenuItemName.getViewTreeObserver()
+                    .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            Drawable img;
+                            if (item.isVegetarian()) {
+                                img = mContext.getResources().getDrawable(
+                                        R.drawable.veg);
+                            } else {
+                                img = mContext.getResources().getDrawable(
+                                        R.drawable.nonveg);
+                            }
+                            mVegIconHeight = tvMenuItemName.getMeasuredHeight() * 2 / 3;
+                            img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
+                            tvMenuItemName.setCompoundDrawables(img, null, null, null);
+                            tvMenuItemName.getViewTreeObserver()
+                                    .removeOnGlobalLayoutListener(this);
+                        }
+                    });
+        } else {
+            Drawable img;
+            if (item.isVegetarian()) {
+                img = mContext.getResources().getDrawable(
+                        R.drawable.veg);
+            } else {
+                img = mContext.getResources().getDrawable(
+                        R.drawable.nonveg);
+            }
+            img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
+            holder.menuItemName.setCompoundDrawables(img, null, null, null);
+        }
+
         holder.mIvPLus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,9 +152,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     }
 
-    public int getTotalCost(){
+    public int getTotalCost() {
         int totalCost = 0;
-        for (int i=0;i<mCartItemsList.size();i++){
+        for (int i = 0; i < mCartItemsList.size(); i++) {
             int itemCost = Integer.parseInt(mCartItemsList.get(i).getItemCost()) * mCartItemsList.get(i).getItemQuantity();
             totalCost = totalCost + itemCost;
         }
@@ -133,7 +171,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     private void remove(Items item) {
         item.setItemQuantity(item.getItemQuantity() - 1);
         this.notifyDataSetChanged();
-
         mDataTransferInterface.removeFromCart(item);
     }
 
@@ -142,14 +179,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         return mCartItemsList.size();
     }
 
-    public static class CartViewHolder extends RecyclerView.ViewHolder{
+    public static class CartViewHolder extends RecyclerView.ViewHolder {
 
         ImageView mIvMinus;
         ImageView mIvPLus;
         TextView menuItemName;
         TextView tvQuantity;
         TextView tvCost;
-//        TextView tvCalculatedCost;
 
         public CartViewHolder(View itemView) {
             super(itemView);
@@ -158,7 +194,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             this.menuItemName = (TextView) itemView.findViewById(R.id.menuItem);
             this.tvQuantity = (TextView) itemView.findViewById(R.id.tvQuantity);
             this.tvCost = (TextView) itemView.findViewById(R.id.tvCost);
-//            this.tvCalculatedCost = (TextView) itemView.findViewById(R.id.tvCalculatedCost);
         }
     }
 }
