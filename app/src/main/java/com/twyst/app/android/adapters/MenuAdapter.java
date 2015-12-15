@@ -2,9 +2,16 @@ package com.twyst.app.android.adapters;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
@@ -17,6 +24,7 @@ import com.twyst.app.android.model.menu.DataTransferInterface;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.menu.Options;
 import com.twyst.app.android.model.menu.SubCategories;
+
 import java.util.ArrayList;
 
 /**
@@ -82,7 +90,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
             }
         });
 
-        Items item = mSectionsList.get(groupPosition).getItemsList().get(childPosition);
+        final Items item = mSectionsList.get(groupPosition).getItemsList().get(childPosition);
         if (item.getItemQuantity() == 0) {
             childViewHolder.mIvMinus.setVisibility(View.INVISIBLE);
             childViewHolder.tvQuantity.setVisibility(View.INVISIBLE);
@@ -92,13 +100,35 @@ public class MenuAdapter extends BaseExpandableListAdapter {
             childViewHolder.tvQuantity.setText(String.valueOf(item.getItemQuantity()));
         }
 
-        if (item.isVegetarian()){
-            childViewHolder.mIvVeg.setImageResource(R.drawable.veg);
-        }else{
-            childViewHolder.mIvVeg.setImageResource(R.drawable.nonveg);
-        }
+        final TextView tvMenuItemName = childViewHolder.menuItemName;
+        tvMenuItemName.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        Drawable img;
+                        if (item.isVegetarian()) {
+                            img = mContext.getResources().getDrawable(
+                                    R.drawable.veg);
+                        } else {
+                            img = mContext.getResources().getDrawable(
+                                    R.drawable.nonveg);
+                        }
+
+                        int height = tvMenuItemName.getMeasuredHeight() * 2 / 3;
+                        img.setBounds(0, 0, height, height);
+                        tvMenuItemName.setCompoundDrawables(img, null, null, null);
+                        tvMenuItemName.getViewTreeObserver()
+                                .removeOnGlobalLayoutListener(this);
+                    }
+                });
 
         childViewHolder.menuItemName.setText(item.getItemName());
+
+        String customisations = "9inches dip chicken 9inches dip chicken 9inches dip chicken 9inches dip chicken";
+        Spannable wordtoSpan = new SpannableString(customisations);
+        wordtoSpan.setSpan(new BackgroundColorSpan(mContext.getResources().getColor(R.color.selected_text_customisations)), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        wordtoSpan.setSpan(new BackgroundColorSpan(mContext.getResources().getColor(R.color.selected_text_customisations)), 8, 11, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        childViewHolder.tvCustomisations.setText(wordtoSpan);
 
         childViewHolder.tvCost.setText(item.getItemCost());
         return convertView;
@@ -106,14 +136,14 @@ public class MenuAdapter extends BaseExpandableListAdapter {
 
     private void add(int groupPosition, int childPosition) {
         Items item = mSectionsList.get(groupPosition).getItemsList().get(childPosition);
-        if (item.getOptionsList().size()>0){
+        if (item.getOptionsList().size() > 0) {
             showDialogOptions(item);
-        }else{
+        } else {
             addIncreaseQuantity(item);
         }
     }
 
-    private void addIncreaseQuantity(Items item){
+    private void addIncreaseQuantity(Items item) {
         item.setItemQuantity(item.getItemQuantity() + 1);
         this.notifyDataSetChanged();
         mDataTransferInterface.addToCart(item);
@@ -195,7 +225,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
 
-        final MenuSubOptionsAdapter menuOptionsAdapter = new MenuSubOptionsAdapter(mContext,item.getOptionsList().get(selectedPosition).getSubOptionsList().get(0).getSubOptionSetList());
+        final MenuSubOptionsAdapter menuOptionsAdapter = new MenuSubOptionsAdapter(mContext, item.getOptionsList().get(selectedPosition).getSubOptionsList().get(0).getSubOptionSetList());
         listMenuOptions.setAdapter(menuOptionsAdapter);
 
         listMenuOptions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -211,12 +241,12 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         bOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Options options =item.getOptionsList().get(menuOptionsAdapter.getSelectedPosition());
-                    if (options.getAddonsList().size()>0){
-                        showDialogAddons(item, menuOptionsAdapter.getSelectedPosition());
-                    }else{
-                        addIncreaseQuantity(item);
-                    }
+                Options options = item.getOptionsList().get(menuOptionsAdapter.getSelectedPosition());
+                if (options.getAddonsList().size() > 0) {
+                    showDialogAddons(item, menuOptionsAdapter.getSelectedPosition());
+                } else {
+                    addIncreaseQuantity(item);
+                }
                 dialog.dismiss();
             }
         });
@@ -297,7 +327,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
     private class ChildViewHolder {
         ImageView mIvMinus;
         ImageView mIvPLus;
-        ImageView mIvVeg;
+        TextView tvCustomisations;
         TextView menuItemName;
         TextView tvQuantity;
         TextView tvCost;
@@ -305,7 +335,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         public ChildViewHolder(View itemView) {
             this.mIvMinus = (ImageView) itemView.findViewById(R.id.ivMinus);
             this.mIvPLus = (ImageView) itemView.findViewById(R.id.ivPlus);
-            this.mIvVeg = (ImageView) itemView.findViewById(R.id.ivVeg);
+            this.tvCustomisations = (TextView) itemView.findViewById(R.id.tvCustomisations);
             this.menuItemName = (TextView) itemView.findViewById(R.id.menuItem);
             this.tvQuantity = (TextView) itemView.findViewById(R.id.tvQuantity);
             this.tvCost = (TextView) itemView.findViewById(R.id.tvCost);
