@@ -11,9 +11,9 @@
 
         <RelativeLayout
             android:id="@+id/rlCartIcon"
-            android:layout_margin="3dp"
             android:layout_width="@dimen/slidingup_panel_height"
-            android:layout_height="@dimen/slidingup_panel_height">
+            android:layout_height="@dimen/slidingup_panel_height"
+            android:layout_margin="3dp">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -66,25 +66,56 @@
                 android:text="275"
                 android:textColor="@color/primary"
                 android:textSize="23dp" />
-        </LinearLayout>
 
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/bCheckOut"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            app:mrl_rippleOverlay="true">
-
-            <Button
+            <TextView
+                android:id="@+id/tvTAX"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:text=" + Tax"
+                android:visibility="gone"
+                android:textColor="@android:color/black"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true">
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/bCheckOutLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
+                android:layout_gravity="center_vertical"
+                app:mrl_rippleOverlay="true">
+
+                <Button
+                    android:id="@+id/bCheckOut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_red"
+                    android:text="CHECKOUT"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/outlet_details_coupon_txt" />
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <Button
+                android:id="@+id/bAddNewItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:background="@drawable/button_red"
-                android:text="CHECKOUT"
+                android:layout_gravity="center_vertical"
+                android:text="Add new item"
+                android:textAllCaps="false"
+                android:visibility="gone"
+                android:layout_marginRight="5dp"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/outlet_details_coupon_txt" />
-        </com.balysv.materialripple.MaterialRippleLayout>
+
+        </LinearLayout>
+
     </RelativeLayout>
 
 </LinearLayout>

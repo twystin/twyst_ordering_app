@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -62,21 +63,6 @@ public class OrderOnlineActivity extends AppCompatActivity implements DataTransf
         setupMenu();
         setupCartRecyclerView();
 
-//        final RelativeLayout rlTopLayout = (RelativeLayout) findViewById(R.id.topLayout);
-//        final RelativeLayout rHidableLayout = (RelativeLayout) findViewById(R.id.hideableLayout);
-//
-//        ViewTreeObserver observer = rHidableLayout.getViewTreeObserver();
-//        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//
-//            @Override
-//            public void onGlobalLayout() {
-//                mLowerLimit = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, rlTopLayout.getHeight() - rHidableLayout.getHeight(), getResources().getDisplayMetrics());
-//                mUpperLimit = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, rlTopLayout.getHeight(), getResources().getDisplayMetrics());
-//
-//                rHidableLayout.getViewTreeObserver().removeGlobalOnLayoutListener(
-//                        this);
-//            }
-//        });
     }
 
     private void setupTopLayout() {
@@ -174,6 +160,56 @@ public class OrderOnlineActivity extends AppCompatActivity implements DataTransf
             @Override
             public void onClick(View v) {
                 mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+            }
+        });
+
+        Button bCheckOut = (Button) findViewById(R.id.bCheckOut);
+        bCheckOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        Button bAddNewItem = (Button) findViewById(R.id.bAddNewItem);
+        bAddNewItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            }
+        });
+
+        mSlidingUpPanelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+                findViewById(R.id.tvTAX).setVisibility(View.VISIBLE);
+                findViewById(R.id.bCheckOutLayout).setAlpha(1.0f - slideOffset);
+                findViewById(R.id.bAddNewItem).setAlpha(slideOffset);
+                findViewById(R.id.tvTAX).setAlpha(slideOffset);
+            }
+
+            @Override
+            public void onPanelCollapsed(View panel) {
+                findViewById(R.id.bCheckOutLayout).setVisibility(View.VISIBLE);
+                findViewById(R.id.bAddNewItem).setVisibility(View.GONE);
+                findViewById(R.id.tvTAX).setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onPanelExpanded(View panel) {
+                findViewById(R.id.bCheckOutLayout).setVisibility(View.GONE);
+                findViewById(R.id.bAddNewItem).setVisibility(View.VISIBLE);
+                findViewById(R.id.tvTAX).setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onPanelAnchored(View panel) {
+
+            }
+
+            @Override
+            public void onPanelHidden(View panel) {
+
             }
         });
     }
