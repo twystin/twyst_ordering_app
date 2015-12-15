@@ -73,7 +73,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     @Override
     public CartViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_cart, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_menu, parent, false);
         CartViewHolder viewHolder = new CartViewHolder(v);
         return viewHolder;
     }
@@ -88,7 +88,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.menuItemName.setText(item.getItemName());
         holder.tvCost.setText(item.getItemCost());
         int calculatedCost = Integer.parseInt(item.getItemCost()) * item.getItemQuantity();
-        holder.tvCalculatedCost.setText(String.valueOf(calculatedCost));
+//        holder.tvCalculatedCost.setText(String.valueOf(calculatedCost));
         if (item.getItemQuantity() == 0) {
             holder.mIvMinus.setVisibility(View.INVISIBLE);
             holder.tvQuantity.setVisibility(View.INVISIBLE);
@@ -149,7 +149,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         TextView menuItemName;
         TextView tvQuantity;
         TextView tvCost;
-        TextView tvCalculatedCost;
+//        TextView tvCalculatedCost;
 
         public CartViewHolder(View itemView) {
             super(itemView);
@@ -158,7 +158,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             this.menuItemName = (TextView) itemView.findViewById(R.id.menuItem);
             this.tvQuantity = (TextView) itemView.findViewById(R.id.tvQuantity);
             this.tvCost = (TextView) itemView.findViewById(R.id.tvCost);
-            this.tvCalculatedCost = (TextView) itemView.findViewById(R.id.tvCalculatedCost);
+//            this.tvCalculatedCost = (TextView) itemView.findViewById(R.id.tvCalculatedCost);
         }
     }
 }
