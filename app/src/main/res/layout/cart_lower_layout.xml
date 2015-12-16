@@ -80,24 +80,28 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_margin="5dp"
             android:layout_alignParentRight="true">
 
             <com.balysv.materialripple.MaterialRippleLayout
-                android:id="@+id/bCheckOutLayout"
+                android:id="@+id/bCheckOutMenu"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:layout_gravity="center_vertical"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:background="@drawable/button_red"
                 app:mrl_rippleOverlay="true">
 
-                <Button
-                    android:id="@+id/bCheckOut"
+                <TextView
+                    android:id="@+id/tvCheckOutMenu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/button_red"
+                    android:drawablePadding="5dp"
                     android:text="CHECKOUT"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/outlet_details_coupon_txt" />
+                    android:focusable="false"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@and
+                    roid:color/white"
+                    android:textSize="14dp" />
             </com.balysv.materialripple.MaterialRippleLayout>
 
             <Button
@@ -105,6 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_margin="5dp"
                 android:background="@drawable/button_red"
                 android:layout_gravity="center_vertical"
                 android:text="Add new item"

@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <com.balysv.materialripple.MaterialRippleLayout
-        android:id="@+id/bCheckOut"
+        android:id="@+id/bCheckOutCart"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:padding="10dp"
@@ -16,9 +16,12 @@
         app:mrl_rippleOverlay="true">
 
         <TextView
+            android:id="@+id/tvCheckOutCart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="CHECKOUT"
+            android:focusable="false"
+            android:drawablePadding="10dp"
             android:layout_gravity="right|center_vertical"
             android:textColor="@android:color/white"
             android:textSize="20dp" />
@@ -26,7 +29,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/cartRecyclerView"
-        android:layout_above="@+id/bCheckOut"
+        android:layout_above="@+id/bCheckOutCart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="2dp"

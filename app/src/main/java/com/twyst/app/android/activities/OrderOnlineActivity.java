@@ -73,7 +73,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements DataTransf
                     public void onGlobalLayout() {
                         Drawable img = getResources().getDrawable(
                                 R.drawable.outlet_estimated_icon);
-                        int height = outletDeliveryTime.getMeasuredHeight()*2/3;
+                        int height = outletDeliveryTime.getMeasuredHeight() * 2 / 3;
                         img.setBounds(0, 0, height, height);
                         outletDeliveryTime.setCompoundDrawables(img, null, null, null);
                         outletDeliveryTime.getViewTreeObserver()
@@ -88,7 +88,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements DataTransf
                     public void onGlobalLayout() {
                         Drawable img = getResources().getDrawable(
                                 R.drawable.outlet_min_order_icon);
-                        int height = outletMinimumOrder.getMeasuredHeight()*2/3;
+                        int height = outletMinimumOrder.getMeasuredHeight() * 2 / 3;
                         img.setBounds(0, 0, height, height);
                         outletMinimumOrder.setCompoundDrawables(img, null, null, null);
                         outletMinimumOrder.getViewTreeObserver()
@@ -110,10 +110,10 @@ public class OrderOnlineActivity extends AppCompatActivity implements DataTransf
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 int scrollRange = appBarLayout.getTotalScrollRange();
-                float ratio = (float)verticalOffset/(-1*scrollRange);
-                if (ratio > .68f){
+                float ratio = (float) verticalOffset / (-1 * scrollRange);
+                if (ratio > .68f) {
                     collapsingToolbar.setTitle("Striker Pub & Brewery");
-                }else{
+                } else {
                     collapsingToolbar.setTitle("");
                 }
             }
@@ -163,13 +163,50 @@ public class OrderOnlineActivity extends AppCompatActivity implements DataTransf
             }
         });
 
-        Button bCheckOut = (Button) findViewById(R.id.bCheckOut);
-        bCheckOut.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.bCheckOutMenu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
+
+        findViewById(R.id.bCheckOutCart).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        final TextView tvCheckOutMenu = (TextView) findViewById(R.id.tvCheckOutMenu);
+        tvCheckOutMenu.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        Drawable img = getResources().getDrawable(
+                                R.drawable.checkout_arrow);
+                        int height = tvCheckOutMenu.getMeasuredHeight() * 2 / 3;
+                        img.setBounds(0, 0, height*2, height);
+                        tvCheckOutMenu.setCompoundDrawables(null, null, img, null);
+                        tvCheckOutMenu.getViewTreeObserver()
+                                .removeOnGlobalLayoutListener(this);
+                    }
+                });
+
+        final TextView tvCheckOutCart = (TextView) findViewById(R.id.tvCheckOutCart);
+
+        tvCheckOutCart.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        Drawable img = getResources().getDrawable(
+                                R.drawable.checkout_arrow);
+                        int height = tvCheckOutCart.getMeasuredHeight() * 2 / 3;
+                        img.setBounds(0, 0,height, height);
+                        tvCheckOutCart.setCompoundDrawables(null, null, img, null);
+                        tvCheckOutCart.getViewTreeObserver()
+                                .removeOnGlobalLayoutListener(this);
+                    }
+                });
 
         Button bAddNewItem = (Button) findViewById(R.id.bAddNewItem);
         bAddNewItem.setOnClickListener(new View.OnClickListener() {
@@ -183,21 +220,21 @@ public class OrderOnlineActivity extends AppCompatActivity implements DataTransf
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
                 findViewById(R.id.tvTAX).setVisibility(View.VISIBLE);
-                findViewById(R.id.bCheckOutLayout).setAlpha(1.0f - slideOffset);
+                findViewById(R.id.bCheckOutMenu).setAlpha(1.0f - slideOffset);
                 findViewById(R.id.bAddNewItem).setAlpha(slideOffset);
                 findViewById(R.id.tvTAX).setAlpha(slideOffset);
             }
 
             @Override
             public void onPanelCollapsed(View panel) {
-                findViewById(R.id.bCheckOutLayout).setVisibility(View.VISIBLE);
+                findViewById(R.id.bCheckOutMenu).setVisibility(View.VISIBLE);
                 findViewById(R.id.bAddNewItem).setVisibility(View.GONE);
                 findViewById(R.id.tvTAX).setVisibility(View.GONE);
             }
 
             @Override
             public void onPanelExpanded(View panel) {
-                findViewById(R.id.bCheckOutLayout).setVisibility(View.GONE);
+                findViewById(R.id.bCheckOutMenu).setVisibility(View.GONE);
                 findViewById(R.id.bAddNewItem).setVisibility(View.VISIBLE);
                 findViewById(R.id.tvTAX).setVisibility(View.VISIBLE);
             }
@@ -227,7 +264,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements DataTransf
     }
 
 
-    public void addAdaptersList(MenuAdapter menuAdapter){
+    public void addAdaptersList(MenuAdapter menuAdapter) {
         mMenuAdaptersList.add(menuAdapter);
     }
 
@@ -272,7 +309,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements DataTransf
         for (int i = 0; i < menuDataList.size(); i++) {
             MenuData menuData = (MenuData) menuDataList.get(i);
 //            if (menuData.getMenuType().equalsIgnoreCase("All") || menuData.getMenuType().equalsIgnoreCase("Delivery")) {
-                return menuData;
+            return menuData;
 //            }
         }
         return null;
