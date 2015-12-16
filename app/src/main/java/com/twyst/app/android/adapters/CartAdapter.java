@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -107,6 +108,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         if (mVegIconHeight == 0) {
             final TextView tvMenuItemName = holder.menuItemName;
+            final TextView tvCustomisationsFinal = holder.tvCustomisations;
             tvMenuItemName.getViewTreeObserver()
                     .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                         @Override
@@ -122,6 +124,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                             mVegIconHeight = tvMenuItemName.getMeasuredHeight() * 2 / 3;
                             img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
                             tvMenuItemName.setCompoundDrawables(img, null, null, null);
+                            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)tvCustomisationsFinal.getLayoutParams();
+                            params.setMargins((mVegIconHeight+tvMenuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
+                            tvCustomisationsFinal.setLayoutParams(params);
+
                             tvMenuItemName.getViewTreeObserver()
                                     .removeOnGlobalLayoutListener(this);
                         }
@@ -137,6 +143,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             }
             img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
             holder.menuItemName.setCompoundDrawables(img, null, null, null);
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)holder.tvCustomisations.getLayoutParams();
+            params.setMargins((mVegIconHeight + holder.menuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
+            holder.tvCustomisations.setLayoutParams(params);
+
         }
 
         holder.mIvPLus.setOnClickListener(new View.OnClickListener() {
@@ -158,6 +168,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         wordtoSpan.setSpan(new BackgroundColorSpan(mContext.getResources().getColor(R.color.selected_text_customisations)), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         wordtoSpan.setSpan(new BackgroundColorSpan(mContext.getResources().getColor(R.color.selected_text_customisations)), 8, 11, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.tvCustomisations.setText(wordtoSpan);
+
 
     }
 
