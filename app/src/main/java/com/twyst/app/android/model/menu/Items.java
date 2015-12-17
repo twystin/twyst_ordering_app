@@ -19,6 +19,7 @@ public class Items implements Serializable {
         this.itemDescription = itemOriginal.getItemDescription();
         this.optionTitle = itemOriginal.getOptionTitle();
         this.optionIsAddon = itemOriginal.isOptionIsAddon();
+        this.optionsList = itemOriginal.getOptionsList();
     }
 
     // Compulsory field for the selected item in cart.
@@ -43,9 +44,9 @@ public class Items implements Serializable {
     @SerializedName("option_is_addon")
     private boolean optionIsAddon;
 
-    // Optional field for the selected item in cart.
     @SerializedName("options")
     private ArrayList<Options> optionsList;
+    // Optional field for the selected item in cart.
 
     private Items itemOriginalReference;
 

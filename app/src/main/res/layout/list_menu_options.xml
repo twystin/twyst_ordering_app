@@ -30,11 +30,23 @@
     <RadioButton
         android:id="@+id/rbOption"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:textColor="@color/half_black"
         android:clickable="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:textSize="@dimen/outlet_offer_header_textsize"
-        android:layout_height="wrap_content"
         android:text="text"/>
+
+    <CheckBox
+        android:id="@+id/cbOption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/half_black"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:visibility="gone"
+        android:textSize="@dimen/outlet_offer_header_textsize"
+        android:text="text" />
 </RelativeLayout>

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import java.util.List;
  */
 public class MenuOptionsAdapter extends BaseAdapter {
     private final Context mContext;
+    private final LayoutInflater mLayoutInflater;
     private List<Options> mOptionsList = new ArrayList<>();
     private int selectedPosition = -1;
 
@@ -28,39 +30,35 @@ public class MenuOptionsAdapter extends BaseAdapter {
         super();
         mContext = context;
         mOptionsList = optionsList;
+        mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public void setSelectedPosition(int selectedPosition) {
         this.selectedPosition = selectedPosition;
     }
 
-    public int getSelectedPosition(){
+    public int getSelectedPosition() {
         return selectedPosition;
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        View v = convertView;
-        if (v == null) {
-            LayoutInflater vi = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = vi.inflate(R.layout.list_menu_options, null);
+        if (convertView == null) {
+            convertView = mLayoutInflater.inflate(R.layout.list_menu_options, null);
         }
-//        TextView tv = (TextView)v.findViewById(R.id.textview);
-//        tv.setText("Text view #" + position);
-        RadioButton r = (RadioButton)v.findViewById(R.id.rbOption);
-        TextView tvCost = (TextView)v.findViewById(R.id.tvCost);
+
+        CheckBox cbOption = (CheckBox) convertView.findViewById(R.id.cbOption);
+        RadioButton rbOption = (RadioButton) convertView.findViewById(R.id.rbOption);
+        TextView tvCost = (TextView) convertView.findViewById(R.id.tvCost);
+
+        cbOption.setVisibility(View.GONE);
+        rbOption.setVisibility(View.VISIBLE);
+
+        rbOption.setText(mOptionsList.get(position).getOptionValue());
+        rbOption.setChecked(position == selectedPosition);
+
         tvCost.setText(mOptionsList.get(position).getOptionCost());
-        r.setText(mOptionsList.get(position).getOptionValue());
-        r.setChecked(position == selectedPosition);
-        r.setTag(position);
-//        r.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                selectedPosition = (Integer)view.getTag();
-//                notifyDataSetChanged();
-//            }
-//        });
-        return v;
+        return convertView;
     }
 
     @Override

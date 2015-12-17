@@ -10,26 +10,25 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
-import com.twyst.app.android.model.menu.Options;
+import com.twyst.app.android.model.menu.AddonSet;
 import com.twyst.app.android.model.menu.SubOptionSet;
-import com.twyst.app.android.model.menu.SubOptions;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Vipul Sharma on 12/11/2015.
+ * Created by Vipul Sharma on 12/17/2015.
  */
-public class MenuSubOptionsAdapter extends BaseAdapter {
+public class MenuAddonsAdapter extends BaseAdapter {
     private final Context mContext;
     private final LayoutInflater mLayoutInflater;
-    private List<SubOptionSet> mSubOptionsSetList = new ArrayList<>();
+    private List<AddonSet> mAddonsSetList = new ArrayList<>();
     private int selectedPosition = -1;
 
-    public MenuSubOptionsAdapter(Context context, List<SubOptionSet> subOptionSetListList) {
+    public MenuAddonsAdapter(Context context, List<AddonSet> addonSetList) {
         super();
         mContext = context;
-        mSubOptionsSetList = subOptionSetListList;
+        mAddonsSetList = addonSetList;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -42,7 +41,7 @@ public class MenuSubOptionsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = mLayoutInflater.inflate(R.layout.list_menu_options, null);
         }
@@ -51,19 +50,19 @@ public class MenuSubOptionsAdapter extends BaseAdapter {
         RadioButton rbOption = (RadioButton) convertView.findViewById(R.id.rbOption);
         TextView tvCost = (TextView) convertView.findViewById(R.id.tvCost);
 
-        cbOption.setVisibility(View.GONE);
-        rbOption.setVisibility(View.VISIBLE);
+        cbOption.setVisibility(View.VISIBLE);
+        rbOption.setVisibility(View.GONE);
 
-        rbOption.setText(mSubOptionsSetList.get(position).getSubOptionValue());
-        rbOption.setChecked(position == selectedPosition);
+        cbOption.setText(mAddonsSetList.get(position).getAddonValue());
+        cbOption.setChecked(position == selectedPosition);
 
-        tvCost.setText(mSubOptionsSetList.get(position).getSubOptionCost());
+        tvCost.setText(mAddonsSetList.get(position).getAddonCost());
         return convertView;
     }
 
     @Override
     public int getCount() {
-        return mSubOptionsSetList.size();
+        return mAddonsSetList.size();
     }
 
     @Override
