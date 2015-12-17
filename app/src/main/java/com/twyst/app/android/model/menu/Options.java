@@ -9,26 +9,36 @@ import java.util.ArrayList;
  * Created by Vipul Sharma on 12/7/2015.
  */
 public class Options implements Serializable {
+
+    public Options(Options optionOriginal) {
+        this.id = optionOriginal.getId();
+        this.isVegetarian = optionOriginal.isVegetarian();
+        this.optionCost = optionOriginal.getOptionCost();
+        this.optionValue = optionOriginal.getOptionValue();
+        this.addonsList.addAll(optionOriginal.getAddonsList());
+        this.subOptionsList.addAll(optionOriginal.getSubOptionsList());
+    }
+
     @SerializedName("_id")
     private String id;
-
-    @SerializedName("is_available")
-    private boolean isAvailable;
-
-    @SerializedName("addons")
-    private ArrayList<Addons> addonsList;
 
     @SerializedName("is_vegetarian")
     private boolean isVegetarian;
 
+    @SerializedName("option_cost")
+    private String optionCost;
+
     @SerializedName("option_value")
     private String optionValue;
 
-    @SerializedName("sub_options")
-    private ArrayList<SubOptions> subOptionsList;
+    @SerializedName("addons")
+    private ArrayList<Addons> addonsList = new ArrayList<>();
 
-    @SerializedName("option_cost")
-    private String optionCost;
+    @SerializedName("sub_options")
+    private ArrayList<SubOptions> subOptionsList = new ArrayList<>();
+
+    @SerializedName("is_available")
+    private boolean isAvailable;
 
     public String getId() {
         return id;

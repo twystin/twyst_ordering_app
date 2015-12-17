@@ -195,13 +195,14 @@ public class MenuAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View view) {
                 Options option = cartItem.getOptionsList().get(menuOptionsAdapter.getSelectedPosition());
+                Options optionNew = new Options(option);
                 cartItem.getOptionsList().clear();
-                cartItem.getOptionsList().add(option);
+                cartItem.getOptionsList().add(optionNew);
                 if (option.getSubOptionsList().size() > 0) {
-                        showDialogSubOptions(cartItem,option,0);
+                        showDialogSubOptions(cartItem,optionNew,0);
                 } else {
                     if (option.getAddonsList().size() > 0) {
-                        showDialogAddons(cartItem,option,0);
+                        showDialogAddons(cartItem,optionNew,0);
                     } else {
                         addToCart(cartItem);
                     }
@@ -220,6 +221,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
 
     private void showDialogSubOptions(final Items cartItem, final Options option, final int currentIndex) {
             final SubOptions subOption = option.getSubOptionsList().get(currentIndex);
+        final  SubOptions subOptionsNew = new SubOptions(subOption);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
             final View dialogView = mLayoutInflater.inflate(R.layout.dialog_menu, null);
@@ -230,7 +232,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
             ListView listMenuOptions = (ListView) dialogView.findViewById(R.id.listMenuOptions);
             bOK.setText("CONFIRM");
             tvCancel.setText("CANCEL");
-            tvTitle.setText(subOption.getSubOptionTitle());
+            tvTitle.setText(subOptionsNew.getSubOptionTitle());
             builder.setView(dialogView);
             bOK.setEnabled(false);
 
@@ -239,7 +241,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
             dialog.setCanceledOnTouchOutside(true);
             dialog.show();
 
-            final MenuSubOptionsAdapter menuSubOptionsAdapter = new MenuSubOptionsAdapter(mContext, subOption.getSubOptionSetList());
+            final MenuSubOptionsAdapter menuSubOptionsAdapter = new MenuSubOptionsAdapter(mContext, subOptionsNew.getSubOptionSetList());
             listMenuOptions.setAdapter(menuSubOptionsAdapter);
 
             listMenuOptions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -255,9 +257,9 @@ public class MenuAdapter extends BaseExpandableListAdapter {
             bOK.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SubOptionSet subOptionSet = subOption.getSubOptionSetList().get(menuSubOptionsAdapter.getSelectedPosition());
-                    subOption.getSubOptionSetList().clear();
-                    subOption.getSubOptionSetList().add(subOptionSet);
+                    SubOptionSet subOptionSet = subOptionsNew.getSubOptionSetList().get(menuSubOptionsAdapter.getSelectedPosition());
+                    subOptionsNew.getSubOptionSetList().clear();
+                    subOptionsNew.getSubOptionSetList().add(subOptionSet);
                     if ((currentIndex+1) < option.getSubOptionsList().size()){
                         showDialogSubOptions(cartItem,option,currentIndex+1);
                     }else{
@@ -282,6 +284,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
 
     private void showDialogAddons(final Items cartItem, final Options option, final int currentIndex) {
         final Addons addons = option.getAddonsList().get(currentIndex);
+        final Addons addonsNew = new Addons(addons);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         final View dialogView = mLayoutInflater.inflate(R.layout.dialog_menu, null);
@@ -292,7 +295,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         ListView listMenuOptions = (ListView) dialogView.findViewById(R.id.listMenuOptions);
         bOK.setText("CONFIRM");
         tvCancel.setText("CANCEL");
-        tvTitle.setText(addons.getAddonTitle());
+        tvTitle.setText(addonsNew.getAddonTitle());
         builder.setView(dialogView);
         bOK.setEnabled(false);
 
@@ -301,7 +304,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
 
-        final MenuAddonsAdapter menuAddonsAdapter = new MenuAddonsAdapter(mContext, addons.getAddonSetList());
+        final MenuAddonsAdapter menuAddonsAdapter = new MenuAddonsAdapter(mContext, addonsNew.getAddonSetList());
         listMenuOptions.setAdapter(menuAddonsAdapter);
 
         listMenuOptions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -317,9 +320,9 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         bOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddonSet addonSet = addons.getAddonSetList().get(menuAddonsAdapter.getSelectedPosition());
-                addons.getAddonSetList().clear();
-                addons.getAddonSetList().add(addonSet);
+                AddonSet addonSet = addonsNew.getAddonSetList().get(menuAddonsAdapter.getSelectedPosition());
+                addonsNew.getAddonSetList().clear();
+                addonsNew.getAddonSetList().add(addonSet);
                 if ((currentIndex+1) < option.getSubOptionsList().size()){
                     showDialogAddons(cartItem, option, 0);
                 }else{

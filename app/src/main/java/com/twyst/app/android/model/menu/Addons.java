@@ -9,11 +9,17 @@ import java.util.ArrayList;
  * Created by Vipul Sharma on 12/7/2015.
  */
 public class Addons implements Serializable {
+    public Addons(Addons addonsOriginal) {
+        this.id = addonsOriginal.getId();
+        this.addonTitle = addonsOriginal.getAddonTitle();
+        this.addonSetList.addAll(addonsOriginal.getAddonSetList());
+    }
+
     @SerializedName("_id")
     private String id;
 
     @SerializedName("addon_set")
-    private ArrayList<AddonSet> addonSetList;
+    private ArrayList<AddonSet> addonSetList = new ArrayList<>();
 
     @SerializedName("addon_title")
     private String addonTitle;

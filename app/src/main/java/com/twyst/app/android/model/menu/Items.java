@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class Items implements Serializable {
 
-    public Items(Items itemOriginal){
+    public Items(Items itemOriginal) {
         this.itemOriginalReference = itemOriginal;
         this.id = itemOriginal.getId();
         this.isVegetarian = itemOriginal.isVegetarian();
@@ -19,7 +19,7 @@ public class Items implements Serializable {
         this.itemDescription = itemOriginal.getItemDescription();
         this.optionTitle = itemOriginal.getOptionTitle();
         this.optionIsAddon = itemOriginal.isOptionIsAddon();
-        this.optionsList = itemOriginal.getOptionsList();
+        this.optionsList.addAll(itemOriginal.getOptionsList());
     }
 
     // Compulsory field for the selected item in cart.
@@ -45,7 +45,7 @@ public class Items implements Serializable {
     private boolean optionIsAddon;
 
     @SerializedName("options")
-    private ArrayList<Options> optionsList;
+    private ArrayList<Options> optionsList = new ArrayList<>();
     // Optional field for the selected item in cart.
 
     private Items itemOriginalReference;

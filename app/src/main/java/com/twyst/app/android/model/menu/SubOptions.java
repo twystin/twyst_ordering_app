@@ -9,6 +9,12 @@ import java.util.ArrayList;
  * Created by Vipul Sharma on 12/10/2015.
  */
 public class SubOptions implements Serializable {
+    public SubOptions(SubOptions subOptionsOriginal) {
+        this.id = subOptionsOriginal.getId();
+        this.subOptionTitle = subOptionsOriginal.getSubOptionTitle();
+        this.subOptionSetList.addAll(subOptionsOriginal.getSubOptionSetList());
+    }
+
     @SerializedName("sub_option_title")
     private String subOptionTitle;
 
@@ -16,7 +22,7 @@ public class SubOptions implements Serializable {
     private String id;
 
     @SerializedName("sub_option_set")
-    private ArrayList<SubOptionSet> subOptionSetList;
+    private ArrayList<SubOptionSet> subOptionSetList = new ArrayList<>();
 
     public String getSubOptionTitle() {
         return subOptionTitle;
