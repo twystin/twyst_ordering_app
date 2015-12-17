@@ -143,7 +143,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
     private void add(int groupPosition, int childPosition) {
         Items item = mSectionsList.get(groupPosition).getItemsList().get(childPosition);
         Items cartItem = new Items(item);
-        if (cartItem.getItemOriginalReference().getOptionsList().size() > 0) {
+        if (cartItem.getOptionsList().size() > 0) {
             showDialogOptions(cartItem);
         } else {
             addToCart(cartItem);
@@ -168,6 +168,10 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         TextView tvCancel = (TextView) dialogView.findViewById(R.id.tvCancel);
         ListView listMenuOptions = (ListView) dialogView.findViewById(R.id.listMenuOptions);
         bOK.setText("CONFIRM");
+        Options option = cartItem.getOptionsList().get(0);
+        if (option.getSubOptionsList().size() > 0 || option.getAddonsList().size() > 0) {
+            bOK.setText("NEXT");
+        }
         tvCancel.setText("CANCEL");
         tvTitle.setText(cartItem.getOptionTitle());
         builder.setView(dialogView);
@@ -186,6 +190,10 @@ public class MenuAdapter extends BaseExpandableListAdapter {
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
                 bOK.setEnabled(true);
+                Options option = cartItem.getOptionsList().get(position);
+                if (option.getSubOptionsList().size() > 0 || option.getAddonsList().size() > 0) {
+                    bOK.setText("NEXT");
+                }
                 menuOptionsAdapter.setSelectedPosition(position);
                 menuOptionsAdapter.notifyDataSetChanged();
             }
@@ -199,10 +207,10 @@ public class MenuAdapter extends BaseExpandableListAdapter {
                 cartItem.getOptionsList().clear();
                 cartItem.getOptionsList().add(optionNew);
                 if (option.getSubOptionsList().size() > 0) {
-                        showDialogSubOptions(cartItem,optionNew,0);
+                    showDialogSubOptions(cartItem, optionNew, 0);
                 } else {
                     if (option.getAddonsList().size() > 0) {
-                        showDialogAddons(cartItem,optionNew,0);
+                        showDialogAddons(cartItem, optionNew, 0);
                     } else {
                         addToCart(cartItem);
                     }
@@ -220,65 +228,69 @@ public class MenuAdapter extends BaseExpandableListAdapter {
     }
 
     private void showDialogSubOptions(final Items cartItem, final Options option, final int currentIndex) {
-            final SubOptions subOption = option.getSubOptionsList().get(currentIndex);
-        final  SubOptions subOptionsNew = new SubOptions(subOption);
+        final SubOptions subOption = option.getSubOptionsList().get(currentIndex);
+        final SubOptions subOptionsNew = new SubOptions(subOption);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-            final View dialogView = mLayoutInflater.inflate(R.layout.dialog_menu, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        final View dialogView = mLayoutInflater.inflate(R.layout.dialog_menu, null);
 
-            TextView tvTitle = (TextView) dialogView.findViewById(R.id.tvTitle);
-            final Button bOK = (Button) dialogView.findViewById(R.id.bOK);
-            TextView tvCancel = (TextView) dialogView.findViewById(R.id.tvCancel);
-            ListView listMenuOptions = (ListView) dialogView.findViewById(R.id.listMenuOptions);
-            bOK.setText("CONFIRM");
-            tvCancel.setText("CANCEL");
-            tvTitle.setText(subOptionsNew.getSubOptionTitle());
-            builder.setView(dialogView);
-            bOK.setEnabled(false);
+        TextView tvTitle = (TextView) dialogView.findViewById(R.id.tvTitle);
+        final Button bOK = (Button) dialogView.findViewById(R.id.bOK);
+        TextView tvCancel = (TextView) dialogView.findViewById(R.id.tvCancel);
+        ListView listMenuOptions = (ListView) dialogView.findViewById(R.id.listMenuOptions);
+        bOK.setText("CONFIRM");
 
-            final AlertDialog dialog = builder.create();
-            dialog.setCancelable(false);
-            dialog.setCanceledOnTouchOutside(true);
-            dialog.show();
+        if ((currentIndex + 1) < option.getSubOptionsList().size() || option.getAddonsList().size() > 0) {
+            bOK.setText("NEXT");
+        }
+        tvCancel.setText("CANCEL");
+        tvTitle.setText(subOptionsNew.getSubOptionTitle());
+        builder.setView(dialogView);
+        bOK.setEnabled(false);
 
-            final MenuSubOptionsAdapter menuSubOptionsAdapter = new MenuSubOptionsAdapter(mContext, subOptionsNew.getSubOptionSetList());
-            listMenuOptions.setAdapter(menuSubOptionsAdapter);
+        final AlertDialog dialog = builder.create();
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
 
-            listMenuOptions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position,
-                                        long id) {
-                    bOK.setEnabled(true);
-                    menuSubOptionsAdapter.setSelectedPosition(position);
-                    menuSubOptionsAdapter.notifyDataSetChanged();
-                }
-            });
+        final MenuSubOptionsAdapter menuSubOptionsAdapter = new MenuSubOptionsAdapter(mContext, subOptionsNew.getSubOptionSetList());
+        listMenuOptions.setAdapter(menuSubOptionsAdapter);
 
-            bOK.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    SubOptionSet subOptionSet = subOptionsNew.getSubOptionSetList().get(menuSubOptionsAdapter.getSelectedPosition());
-                    subOptionsNew.getSubOptionSetList().clear();
-                    subOptionsNew.getSubOptionSetList().add(subOptionSet);
-                    if ((currentIndex+1) < option.getSubOptionsList().size()){
-                        showDialogSubOptions(cartItem,option,currentIndex+1);
-                    }else{
-                        if (option.getAddonsList().size() > 0) {
-                            showDialogAddons(cartItem,option,0);
-                        } else {
-                            addToCart(cartItem);
-                        }
+        listMenuOptions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                bOK.setEnabled(true);
+                menuSubOptionsAdapter.setSelectedPosition(position);
+                menuSubOptionsAdapter.notifyDataSetChanged();
+            }
+        });
+
+        bOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SubOptionSet subOptionSet = subOptionsNew.getSubOptionSetList().get(menuSubOptionsAdapter.getSelectedPosition());
+                subOptionsNew.getSubOptionSetList().clear();
+                subOptionsNew.getSubOptionSetList().add(subOptionSet);
+                if ((currentIndex + 1) < option.getSubOptionsList().size()) {
+                    showDialogSubOptions(cartItem, option, currentIndex + 1);
+                } else {
+                    if (option.getAddonsList().size() > 0) {
+                        showDialogAddons(cartItem, option, 0);
+                    } else {
+                        addToCart(cartItem);
                     }
-                    dialog.dismiss();
                 }
-            });
+                dialog.dismiss();
+            }
+        });
 
-            dialogView.findViewById(R.id.buttonCancel).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.dismiss();
-                }
-            });
+        dialogView.findViewById(R.id.buttonCancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
 
     }
 
@@ -294,6 +306,10 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         TextView tvCancel = (TextView) dialogView.findViewById(R.id.tvCancel);
         ListView listMenuOptions = (ListView) dialogView.findViewById(R.id.listMenuOptions);
         bOK.setText("CONFIRM");
+
+        if ((currentIndex + 1) < option.getAddonsList().size()) {
+            bOK.setText("NEXT");
+        }
         tvCancel.setText("CANCEL");
         tvTitle.setText(addonsNew.getAddonTitle());
         builder.setView(dialogView);
@@ -323,9 +339,9 @@ public class MenuAdapter extends BaseExpandableListAdapter {
                 AddonSet addonSet = addonsNew.getAddonSetList().get(menuAddonsAdapter.getSelectedPosition());
                 addonsNew.getAddonSetList().clear();
                 addonsNew.getAddonSetList().add(addonSet);
-                if ((currentIndex+1) < option.getSubOptionsList().size()){
+                if ((currentIndex + 1) < option.getSubOptionsList().size()) {
                     showDialogAddons(cartItem, option, 0);
-                }else{
+                } else {
                     addToCart(cartItem);
                 }
                 dialog.dismiss();
