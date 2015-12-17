@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_weight="10"
     android:minHeight="@dimen/menu_layout_height"
+    android:background="@color/menu_background_color"
     android:orientation="horizontal"
     android:padding="10dp">
 
