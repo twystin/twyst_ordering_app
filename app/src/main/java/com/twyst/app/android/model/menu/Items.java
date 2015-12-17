@@ -9,16 +9,21 @@ import java.util.ArrayList;
  * Created by Vipul Sharma on 12/7/2015.
  */
 public class Items implements Serializable {
-    private int itemQuantity;
 
+    public Items(Items itemOriginal){
+        this.itemOriginalReference = itemOriginal;
+        this.id = itemOriginal.getId();
+        this.isVegetarian = itemOriginal.isVegetarian();
+        this.itemCost = itemOriginal.getItemCost();
+        this.itemName = itemOriginal.getItemName();
+        this.itemDescription = itemOriginal.getItemDescription();
+        this.optionTitle = itemOriginal.getOptionTitle();
+        this.optionIsAddon = itemOriginal.isOptionIsAddon();
+    }
+
+    // Compulsory field for the selected item in cart.
     @SerializedName("_id")
     private String id;
-
-    @SerializedName("item_available_on")
-    private ArrayList<String> itemAvailableOnList;
-
-    @SerializedName("is_available")
-    private boolean isAvailable;
 
     @SerializedName("is_vegetarian")
     private boolean isVegetarian;
@@ -38,14 +43,33 @@ public class Items implements Serializable {
     @SerializedName("option_is_addon")
     private boolean optionIsAddon;
 
+    // Optional field for the selected item in cart.
+    @SerializedName("options")
+    private ArrayList<Options> optionsList;
+
+    private Items itemOriginalReference;
+
+    private int itemQuantity;
+
+    @SerializedName("item_available_on")
+    private ArrayList<String> itemAvailableOnList;
+
+    @SerializedName("is_available")
+    private boolean isAvailable;
+
     @SerializedName("item_tags")
     private ArrayList<String> itemTagsList;
 
     @SerializedName("item_availability")
     private ItemAvailability itemAvailability;
 
-    @SerializedName("options")
-    private ArrayList<Options> optionsList;
+    public Items getItemOriginalReference() {
+        return itemOriginalReference;
+    }
+
+    public void setItemOriginalReference(Items itemOriginalReference) {
+        this.itemOriginalReference = itemOriginalReference;
+    }
 
     public String getId() {
         return id;
@@ -153,9 +177,9 @@ public class Items implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Items){
+        if (obj instanceof Items) {
             Items item = (Items) obj;
-            if(item != null && this.itemName.equals(item.itemName)){
+            if (item != null && this.id.equals(item.id)) {
                 return true;
             }
         }

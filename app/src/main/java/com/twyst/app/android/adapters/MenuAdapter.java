@@ -2,12 +2,7 @@ package com.twyst.app.android.adapters;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.BackgroundColorSpan;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +15,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
-import com.twyst.app.android.model.menu.DataTransferInterface;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.menu.Options;
 import com.twyst.app.android.model.menu.SubCategories;
@@ -38,11 +32,11 @@ public class MenuAdapter extends BaseExpandableListAdapter {
     private boolean mFooterEnabled = false;
     ArrayList<SubCategories> mSectionsList;
 
-    DataTransferInterface mDataTransferInterface;
+    DataTransferInterfaceMenu mDataTransferInterfaceMenu;
 
     public MenuAdapter(Context context, ArrayList<SubCategories> sectionsList) {
         mContext = context;
-        mDataTransferInterface = (DataTransferInterface) context;
+        mDataTransferInterfaceMenu = (DataTransferInterfaceMenu) context;
         mSectionsList = sectionsList;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -144,17 +138,21 @@ public class MenuAdapter extends BaseExpandableListAdapter {
 
     private void add(int groupPosition, int childPosition) {
         Items item = mSectionsList.get(groupPosition).getItemsList().get(childPosition);
-        if (item.getOptionsList().size() > 0) {
-            showDialogOptions(item);
+        Items cartItem = new Items(item);
+        if (cartItem.getItemOriginalReference().getOptionsList().size() > 0) {
+            showDialogOptions(cartItem);
         } else {
-            addIncreaseQuantity(item);
+            addToCart(cartItem);
         }
     }
 
-    private void addIncreaseQuantity(Items item) {
-        item.setItemQuantity(item.getItemQuantity() + 1);
-        this.notifyDataSetChanged();
-        mDataTransferInterface.addToCart(item);
+    private void remove(int groupPosition, int childPosition) {
+        Items item = mSectionsList.get(groupPosition).getItemsList().get(childPosition);
+        mDataTransferInterfaceMenu.removeMenu(item);
+    }
+
+    private void addToCart(Items cartItemToBeAdded) {
+        mDataTransferInterfaceMenu.addMenu(cartItemToBeAdded);
     }
 
     private void showDialogOptions(final Items item) {
@@ -199,7 +197,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
                     if (options.getAddonsList().size() > 0) {
                         showDialogAddons(item, menuOptionsAdapter.getSelectedPosition());
                     } else {
-                        addIncreaseQuantity(item);
+                        addToCart(item);
                     }
                 }
                 dialog.dismiss();
@@ -253,7 +251,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
                 if (options.getAddonsList().size() > 0) {
                     showDialogAddons(item, menuOptionsAdapter.getSelectedPosition());
                 } else {
-                    addIncreaseQuantity(item);
+                    addToCart(item);
                 }
                 dialog.dismiss();
             }
@@ -269,14 +267,6 @@ public class MenuAdapter extends BaseExpandableListAdapter {
 
     private void showDialogAddons(Items item, int selectedPosition) {
 
-    }
-
-    private void remove(int groupPosition, int childPosition) {
-        Items item = mSectionsList.get(groupPosition).getItemsList().get(childPosition);
-        item.setItemQuantity(item.getItemQuantity() - 1);
-        this.notifyDataSetChanged();
-
-        mDataTransferInterface.removeFromCart(item);
     }
 
     @Override
@@ -346,6 +336,12 @@ public class MenuAdapter extends BaseExpandableListAdapter {
             this.tvQuantity = (TextView) itemView.findViewById(R.id.tvQuantity);
             this.tvCost = (TextView) itemView.findViewById(R.id.tvCost);
         }
+    }
+
+    public interface DataTransferInterfaceMenu {
+        void addMenu(Items cartItemToBeAdded);
+
+        void removeMenu(Items item);
     }
 
 }

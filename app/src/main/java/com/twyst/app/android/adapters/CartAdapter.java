@@ -13,16 +13,10 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
-import com.twyst.app.android.model.NotificationData;
-import com.twyst.app.android.model.Outlet;
-import com.twyst.app.android.model.menu.DataTransferInterface;
 import com.twyst.app.android.model.menu.Items;
-import com.twyst.app.android.model.menu.MenuCategories;
-import com.twyst.app.android.model.menu.SubCategories;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,12 +28,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     private static int mVegIconHeight = 0; //menuItemName height fixed for a specific device
 
     private final Context mContext;
-    DataTransferInterface mDataTransferInterface;
+    DataTransferInterfaceCart mDataTransferInterfaceCart;
     private List<Items> mCartItemsList = new ArrayList<>();
 
     public CartAdapter(Context context) {
         mContext = context;
-        mDataTransferInterface = (DataTransferInterface) context;
+        mDataTransferInterfaceCart = (DataTransferInterfaceCart) context;
     }
 
     public List<Items> getmCartItemsList() {
@@ -48,35 +42,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     public void setmCartItemsList(List<Items> mCartItemsList) {
         this.mCartItemsList = mCartItemsList;
-    }
-
-    public void addToAdapter(Items item) {
-        if (mCartItemsList.contains(item)) {
-            mCartItemsList.set(mCartItemsList.indexOf(item), item);
-        } else {
-            mCartItemsList.add(item);
-        }
-        this.notifyDataSetChanged();
-    }
-
-    public void removeFromAdapter(Items item) {
-        if (mCartItemsList.contains(item)) {
-            int index = mCartItemsList.indexOf(item);
-            if (item.getItemQuantity() == 0) {
-                mCartItemsList.remove(index);
-            } else {
-                mCartItemsList.set(index, item);
-            }
-        } else {
-            mCartItemsList.add(item);
-        }
-        this.notifyDataSetChanged();
-    }
-
-    public void updateList(ArrayList<Items> items) {
-        mCartItemsList.clear();
-        mCartItemsList.addAll(items);
-        this.notifyDataSetChanged();
     }
 
     @Override
@@ -88,7 +53,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     @Override
     public void onBindViewHolder(CartViewHolder holder, int position) {
-
         final View view = holder.itemView;
         final Resources resources = view.getContext().getResources();
 
@@ -124,8 +88,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                             mVegIconHeight = tvMenuItemName.getMeasuredHeight() * 2 / 3;
                             img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
                             tvMenuItemName.setCompoundDrawables(img, null, null, null);
-                            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)tvCustomisationsFinal.getLayoutParams();
-                            params.setMargins((mVegIconHeight+tvMenuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
+                            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) tvCustomisationsFinal.getLayoutParams();
+                            params.setMargins((mVegIconHeight + tvMenuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
                             tvCustomisationsFinal.setLayoutParams(params);
 
                             tvMenuItemName.getViewTreeObserver()
@@ -143,7 +107,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             }
             img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
             holder.menuItemName.setCompoundDrawables(img, null, null, null);
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)holder.tvCustomisations.getLayoutParams();
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) holder.tvCustomisations.getLayoutParams();
             params.setMargins((mVegIconHeight + holder.menuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
             holder.tvCustomisations.setLayoutParams(params);
 
@@ -169,7 +133,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         wordtoSpan.setSpan(new BackgroundColorSpan(mContext.getResources().getColor(R.color.selected_text_customisations)), 8, 11, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.tvCustomisations.setText(wordtoSpan);
 
+    }
 
+    public void addToCart(Items cartItemToBeAdded) {
+        if (mCartItemsList.contains(cartItemToBeAdded)) {
+            int index = mCartItemsList.indexOf(cartItemToBeAdded);
+            Items existingCartItem = mCartItemsList.get(index);
+            existingCartItem.setItemQuantity(existingCartItem.getItemQuantity() + 1);
+        } else {
+            cartItemToBeAdded.setItemQuantity(1);
+            mCartItemsList.add(cartItemToBeAdded);
+        }
     }
 
     public int getTotalCost() {
@@ -181,17 +155,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         return totalCost;
     }
 
-    private void add(Items item) {
-        item.setItemQuantity(item.getItemQuantity() + 1);
-        this.notifyDataSetChanged();
-
-        mDataTransferInterface.addToCart(item);
+    private void add(Items cartItem) {
+        mDataTransferInterfaceCart.addCart(cartItem);
     }
 
-    private void remove(Items item) {
-        item.setItemQuantity(item.getItemQuantity() - 1);
-        this.notifyDataSetChanged();
-        mDataTransferInterface.removeFromCart(item);
+    private void remove(Items cartItem) {
+        mDataTransferInterfaceCart.removeCart(cartItem);
     }
 
     @Override
@@ -200,7 +169,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     }
 
     public static class CartViewHolder extends RecyclerView.ViewHolder {
-
         ImageView mIvMinus;
         ImageView mIvPLus;
         TextView menuItemName;
@@ -217,5 +185,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             this.tvCost = (TextView) itemView.findViewById(R.id.tvCost);
             this.tvCustomisations = (TextView) itemView.findViewById(R.id.tvCustomisations);
         }
+    }
+
+    public interface DataTransferInterfaceCart {
+        void addCart(Items item);
+
+        void removeCart(Items item);
     }
 }

@@ -30,6 +30,8 @@
     <string name="faq">FAQs</string>
     <string name="profile">Profile</string>
 
+    <!-- For menu-->
+    <string name="multiple_customisation_error">Multiple customisations found. Please remove from cart.</string>
     <string name="rupee_sign">₹&#160;</string>
     <string name="x_sign">&#160;&#160;&#160;X&#160;&#160;</string>
 
