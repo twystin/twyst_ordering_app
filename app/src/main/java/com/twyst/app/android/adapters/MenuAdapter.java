@@ -231,8 +231,8 @@ public class MenuAdapter extends BaseExpandableListAdapter {
 
     private void showDialogSubOptions(final Items cartItem, final int currentIndex) {
         final Options option = cartItem.getOptionsList().get(0); // one option selected
-        final SubOptions subOption = option.getSubOptionsList().get(currentIndex);
-        final SubOptions subOptionNew = new SubOptions(subOption);
+//        final SubOptions subOption = option.getSubOptionsList().get(currentIndex);
+        final SubOptions subOptionNew = new SubOptions(option.getSubOptionsList().get(currentIndex));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         final View dialogView = mLayoutInflater.inflate(R.layout.dialog_menu, null);
@@ -275,7 +275,8 @@ public class MenuAdapter extends BaseExpandableListAdapter {
                 ArrayList<SubOptionSet> subOptionSetListNew = new ArrayList<>();
                 SubOptionSet subOptionSet = subOptionNew.getSubOptionSetList().get(menuSubOptionsAdapter.getSelectedPosition());
                 subOptionSetListNew.add(subOptionSet);
-                subOption.setSubOptionSetList(subOptionSetListNew);
+                subOptionNew.setSubOptionSetList(subOptionSetListNew);
+                option.getSubOptionsList().set(currentIndex,subOptionNew);
                 int itemCostNew = Integer.parseInt(cartItem.getItemCost()) + Integer.parseInt(subOptionSet.getSubOptionCost());
                 cartItem.setItemCost(String.valueOf(itemCostNew));
                 if ((currentIndex + 1) < option.getSubOptionsList().size()) {
@@ -302,8 +303,8 @@ public class MenuAdapter extends BaseExpandableListAdapter {
 
     private void showDialogAddons(final Items cartItem, final int currentIndex) {
         final Options option = cartItem.getOptionsList().get(0); // one option selected
-        final Addons addons = option.getAddonsList().get(currentIndex);
-        final Addons addonsNew = new Addons(addons);
+//        final Addons addons = option.getAddonsList().get(currentIndex);
+        final Addons addonsNew = new Addons(option.getAddonsList().get(currentIndex));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         final View dialogView = mLayoutInflater.inflate(R.layout.dialog_menu, null);
@@ -350,7 +351,8 @@ public class MenuAdapter extends BaseExpandableListAdapter {
                     int itemCostNew = Integer.parseInt(cartItem.getItemCost()) + Integer.parseInt(addonSet.getAddonCost());
                     cartItem.setItemCost(String.valueOf(itemCostNew));
                 }
-                addons.setAddonSetList(addonSetListNew);
+                addonsNew.setAddonSetList(addonSetListNew);
+                option.getAddonsList().set(currentIndex,addonsNew);
 
                 if ((currentIndex + 1) < option.getSubOptionsList().size()) {
                     showDialogAddons(cartItem, 0);
