@@ -9,7 +9,6 @@ import java.util.ArrayList;
  * Created by Vipul Sharma on 12/7/2015.
  */
 public class Items implements Serializable {
-
     public Items(Items itemOriginal) {
         this.itemOriginalReference = itemOriginal;
         this.id = itemOriginal.getId();
@@ -244,5 +243,24 @@ public class Items implements Serializable {
             } //outer loop
         }
         return true;
+    }
+
+    public ArrayList<String> getCustomisationList() {
+        ArrayList<String> customisationList = new ArrayList<String>();
+        if (this.getOptionsList().size() == 1) {
+            String optionValue = this.getOptionsList().get(0).getOptionValue();
+            customisationList.add(optionValue);
+            for (int i = 0; i < this.getOptionsList().get(0).getSubOptionsList().size(); i++) {
+                String subOptionValue = this.getOptionsList().get(0).getSubOptionsList().get(i).getSubOptionSetList().get(0).getSubOptionValue();
+                customisationList.add(subOptionValue);
+            }
+            for (int i = 0; i < this.getOptionsList().get(0).getAddonsList().size(); i++) {
+                for (int j = 0; j < this.getOptionsList().get(0).getAddonsList().get(i).getAddonSetList().size(); j++) {
+                    String addonValue = this.getOptionsList().get(0).getAddonsList().get(i).getAddonSetList().get(j).getAddonValue();
+                    customisationList.add(addonValue);
+                }
+            }
+        }
+        return customisationList;
     }
 }

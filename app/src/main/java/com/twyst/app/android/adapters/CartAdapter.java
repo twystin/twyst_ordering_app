@@ -122,7 +122,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 add(item);
             }
         });
-
         holder.mIvMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,16 +129,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             }
         });
 
-
-        String[] categories = {"Gelepenos","9 inches", "Cheese Dip","Chicken Pepperoni", "Gelepenos","9 inches", "Cheese Dip","Chicken Pepperoni","Gelepenos","9 inches", "Cheese Dip","Chicken Pepperoni", "Gelepenos","9 inches", "Cheese Dip","Chicken Pepperoni"};
-//            String[] categories = item.getSubcategories();
+        ArrayList<String> customisationList = item.getCustomisationList();
+//        String[] categories = {"Gelepenos","9 inches", "Cheese Dip","Chicken Pepperoni", "Gelepenos","9 inches", "Cheese Dip","Chicken Pepperoni","Gelepenos","9 inches", "Cheese Dip","Chicken Pepperoni", "Gelepenos","9 inches", "Cheese Dip","Chicken Pepperoni"};
         final LinearLayout hiddenLayout = holder.llCustomisations;
         final TextView menuItemNameFinal = holder.menuItemName;
-        if (categories.length != 0){
-            final TextView[] textViews = new TextView[categories.length];
-            for (int i = 0;i < categories.length;i++){
+        if (customisationList.size() != 0){
+            final TextView[] textViews = new TextView[customisationList.size()];
+            for (int i = 0;i < customisationList.size();i++){
                 textViews[i] =  new TextView(mContext);
-                textViews[i].setText(categories[i]);
+                textViews[i].setText(customisationList.get(i));
                 textViews[i].setTextColor(mContext.getResources().getColor(R.color.customisations_text_color));
                 textViews[i].setTextSize(12.0f);
                 textViews[i].setPadding(15, 4, 15, 4);
