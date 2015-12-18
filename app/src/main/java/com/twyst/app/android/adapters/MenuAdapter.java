@@ -346,7 +346,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
             public void onClick(View view) {
                 ArrayList<AddonSet> addonSetListNew = new ArrayList<>();
                 for (int i = 0; i < menuAddonsAdapter.getSelectedPositions().size(); i++) {
-                    AddonSet addonSet = addonsNew.getAddonSetList().get(i);
+                    AddonSet addonSet = addonsNew.getAddonSetList().get(menuAddonsAdapter.getSelectedPositions().get(i));
                     addonSetListNew.add(addonSet);
                     int itemCostNew = Integer.parseInt(cartItem.getItemCost()) + Integer.parseInt(addonSet.getAddonCost());
                     cartItem.setItemCost(String.valueOf(itemCostNew));
