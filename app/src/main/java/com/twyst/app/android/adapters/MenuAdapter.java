@@ -209,10 +209,10 @@ public class MenuAdapter extends BaseExpandableListAdapter {
                 cartItem.getOptionsList().add(optionNew);
                 cartItem.setItemCost(optionNew.getOptionCost());
                 if (option.getSubOptionsList().size() > 0) {
-                    showDialogSubOptions(cartItem, optionNew, 0);
+                    showDialogSubOptions(cartItem, 0);
                 } else {
                     if (option.getAddonsList().size() > 0) {
-                        showDialogAddons(cartItem, optionNew, 0);
+                        showDialogAddons(cartItem, 0);
                     } else {
                         addToCart(cartItem);
                     }
@@ -229,9 +229,10 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         });
     }
 
-    private void showDialogSubOptions(final Items cartItem, final Options option, final int currentIndex) {
+    private void showDialogSubOptions(final Items cartItem, final int currentIndex) {
+        final Options option = cartItem.getOptionsList().get(0); // one option selected
         final SubOptions subOption = option.getSubOptionsList().get(currentIndex);
-        final SubOptions subOptionsNew = new SubOptions(subOption);
+        final SubOptions subOptionNew = new SubOptions(subOption);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         final View dialogView = mLayoutInflater.inflate(R.layout.dialog_menu, null);
@@ -246,7 +247,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
             bOK.setText("NEXT");
         }
         tvCancel.setText("CANCEL");
-        tvTitle.setText(subOptionsNew.getSubOptionTitle());
+        tvTitle.setText(subOptionNew.getSubOptionTitle());
         builder.setView(dialogView);
         bOK.setEnabled(false);
 
@@ -255,7 +256,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
 
-        final MenuSubOptionsAdapter menuSubOptionsAdapter = new MenuSubOptionsAdapter(mContext, subOptionsNew.getSubOptionSetList());
+        final MenuSubOptionsAdapter menuSubOptionsAdapter = new MenuSubOptionsAdapter(mContext, subOptionNew.getSubOptionSetList());
         listMenuOptions.setAdapter(menuSubOptionsAdapter);
 
         listMenuOptions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -271,16 +272,17 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         bOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SubOptionSet subOptionSet = subOptionsNew.getSubOptionSetList().get(menuSubOptionsAdapter.getSelectedPosition());
-                subOptionsNew.getSubOptionSetList().clear();
-                subOptionsNew.getSubOptionSetList().add(subOptionSet);
+                ArrayList<SubOptionSet> subOptionSetListNew = new ArrayList<>();
+                SubOptionSet subOptionSet = subOptionNew.getSubOptionSetList().get(menuSubOptionsAdapter.getSelectedPosition());
+                subOptionSetListNew.add(subOptionSet);
+                subOption.setSubOptionSetList(subOptionSetListNew);
                 int itemCostNew = Integer.parseInt(cartItem.getItemCost()) + Integer.parseInt(subOptionSet.getSubOptionCost());
                 cartItem.setItemCost(String.valueOf(itemCostNew));
                 if ((currentIndex + 1) < option.getSubOptionsList().size()) {
-                    showDialogSubOptions(cartItem, option, currentIndex + 1);
+                    showDialogSubOptions(cartItem, currentIndex + 1);
                 } else {
                     if (option.getAddonsList().size() > 0) {
-                        showDialogAddons(cartItem, option, 0);
+                        showDialogAddons(cartItem, 0);
                     } else {
                         addToCart(cartItem);
                     }
@@ -298,7 +300,8 @@ public class MenuAdapter extends BaseExpandableListAdapter {
 
     }
 
-    private void showDialogAddons(final Items cartItem, final Options option, final int currentIndex) {
+    private void showDialogAddons(final Items cartItem, final int currentIndex) {
+        final Options option = cartItem.getOptionsList().get(0); // one option selected
         final Addons addons = option.getAddonsList().get(currentIndex);
         final Addons addonsNew = new Addons(addons);
 
@@ -341,17 +344,16 @@ public class MenuAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View view) {
                 ArrayList<AddonSet> addonSetListNew = new ArrayList<>();
-                addonSetListNew.addAll(addonsNew.getAddonSetList());
-                addonsNew.getAddonSetList().clear();
-                for (int i=0; i<menuAddonsAdapter.getSelectedPositions().size();i++){
-                    AddonSet addonSet = addonSetListNew.get(i);
-                    addonsNew.getAddonSetList().add(addonSet);
+                for (int i = 0; i < menuAddonsAdapter.getSelectedPositions().size(); i++) {
+                    AddonSet addonSet = addonsNew.getAddonSetList().get(i);
+                    addonSetListNew.add(addonSet);
                     int itemCostNew = Integer.parseInt(cartItem.getItemCost()) + Integer.parseInt(addonSet.getAddonCost());
                     cartItem.setItemCost(String.valueOf(itemCostNew));
                 }
+                addons.setAddonSetList(addonSetListNew);
 
                 if ((currentIndex + 1) < option.getSubOptionsList().size()) {
-                    showDialogAddons(cartItem, option, 0);
+                    showDialogAddons(cartItem, 0);
                 } else {
                     addToCart(cartItem);
                 }
