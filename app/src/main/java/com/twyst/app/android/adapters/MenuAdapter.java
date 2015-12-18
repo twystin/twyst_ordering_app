@@ -206,6 +206,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
                 Options optionNew = new Options(option);
                 cartItem.getOptionsList().clear();
                 cartItem.getOptionsList().add(optionNew);
+                cartItem.setItemCost(optionNew.getOptionCost());
                 if (option.getSubOptionsList().size() > 0) {
                     showDialogSubOptions(cartItem, optionNew, 0);
                 } else {
@@ -272,6 +273,8 @@ public class MenuAdapter extends BaseExpandableListAdapter {
                 SubOptionSet subOptionSet = subOptionsNew.getSubOptionSetList().get(menuSubOptionsAdapter.getSelectedPosition());
                 subOptionsNew.getSubOptionSetList().clear();
                 subOptionsNew.getSubOptionSetList().add(subOptionSet);
+                int itemCostNew = Integer.parseInt(cartItem.getItemCost()) + Integer.parseInt(subOptionSet.getSubOptionCost());
+                cartItem.setItemCost(String.valueOf(itemCostNew));
                 if ((currentIndex + 1) < option.getSubOptionsList().size()) {
                     showDialogSubOptions(cartItem, option, currentIndex + 1);
                 } else {
@@ -339,6 +342,8 @@ public class MenuAdapter extends BaseExpandableListAdapter {
                 AddonSet addonSet = addonsNew.getAddonSetList().get(menuAddonsAdapter.getSelectedPosition());
                 addonsNew.getAddonSetList().clear();
                 addonsNew.getAddonSetList().add(addonSet);
+                int itemCostNew = Integer.parseInt(cartItem.getItemCost()) + Integer.parseInt(addonSet.getAddonCost());
+                cartItem.setItemCost(String.valueOf(itemCostNew));
                 if ((currentIndex + 1) < option.getSubOptionsList().size()) {
                     showDialogAddons(cartItem, option, 0);
                 } else {
