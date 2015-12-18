@@ -159,12 +159,6 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuAdapte
             }
         });
 
-        findViewById(R.id.bCheckOutMenu).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         findViewById(R.id.bCheckOutCart).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,23 +167,37 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuAdapte
             }
         });
 
-        final TextView tvCheckOutMenu = (TextView) findViewById(R.id.tvCheckOutMenu);
-        tvCheckOutMenu.getViewTreeObserver()
+        final TextView tvNextMenu = (TextView) findViewById(R.id.tvNextMenu);
+        tvNextMenu.getViewTreeObserver()
                 .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
                         Drawable img = getResources().getDrawable(
                                 R.drawable.checkout_arrow);
-                        int height = tvCheckOutMenu.getMeasuredHeight() * 2 / 3;
+                        int height = tvNextMenu.getMeasuredHeight() * 2 / 3;
                         img.setBounds(0, 0, height * 2, height);
-                        tvCheckOutMenu.setCompoundDrawables(null, null, img, null);
-                        tvCheckOutMenu.getViewTreeObserver()
+                        tvNextMenu.setCompoundDrawables(null, null, img, null);
+                        tvNextMenu.getViewTreeObserver()
                                 .removeOnGlobalLayoutListener(this);
                     }
                 });
 
-        final TextView tvCheckOutCart = (TextView) findViewById(R.id.tvCheckOutCart);
+        findViewById(R.id.fNextMenu).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+            }
+        });
 
+        Button bAddNewItem = (Button) findViewById(R.id.bAddNewItem);
+        bAddNewItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            }
+        });
+
+        final TextView tvCheckOutCart = (TextView) findViewById(R.id.tvCheckOutCart);
         tvCheckOutCart.getViewTreeObserver()
                 .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
@@ -204,33 +212,26 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuAdapte
                     }
                 });
 
-        Button bAddNewItem = (Button) findViewById(R.id.bAddNewItem);
-        bAddNewItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-            }
-        });
 
         mSlidingUpPanelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
                 findViewById(R.id.tvTAX).setVisibility(View.VISIBLE);
-                findViewById(R.id.bCheckOutMenu).setAlpha(1.0f - slideOffset);
+                findViewById(R.id.fNextMenu).setAlpha(1.0f - slideOffset);
                 findViewById(R.id.bAddNewItem).setAlpha(slideOffset);
                 findViewById(R.id.tvTAX).setAlpha(slideOffset);
             }
 
             @Override
             public void onPanelCollapsed(View panel) {
-                findViewById(R.id.bCheckOutMenu).setVisibility(View.VISIBLE);
+                findViewById(R.id.fNextMenu).setVisibility(View.VISIBLE);
                 findViewById(R.id.bAddNewItem).setVisibility(View.GONE);
                 findViewById(R.id.tvTAX).setVisibility(View.GONE);
             }
 
             @Override
             public void onPanelExpanded(View panel) {
-                findViewById(R.id.bCheckOutMenu).setVisibility(View.GONE);
+                findViewById(R.id.fNextMenu).setVisibility(View.GONE);
                 findViewById(R.id.bAddNewItem).setVisibility(View.VISIBLE);
                 findViewById(R.id.tvTAX).setVisibility(View.VISIBLE);
             }
@@ -297,7 +298,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuAdapte
         int index = getCartIndex(item);
         if (index >= 0) {
             Items cartItem = mCartAdapter.getmCartItemsList().get(index);
-            cartItem.setItemQuantity(cartItem.getItemQuantity()-1);
+            cartItem.setItemQuantity(cartItem.getItemQuantity() - 1);
             if (cartItem.getItemQuantity() == 0) {
                 mCartAdapter.getmCartItemsList().remove(index);
             }

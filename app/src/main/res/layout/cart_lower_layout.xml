@@ -72,51 +72,50 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" + Tax"
-                android:visibility="gone"
                 android:textColor="@android:color/black"
-                android:textSize="16dp" />
+                android:textSize="16dp"
+                android:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_alignParentRight="true">
+            android:layout_alignParentRight="true"
+            android:layout_margin="5dp">
 
-            <com.balysv.materialripple.MaterialRippleLayout
-                android:id="@+id/bCheckOutMenu"
+            <FrameLayout
+                android:id="@+id/fNextMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:padding="10dp"
                 android:background="@drawable/button_red"
-                app:mrl_rippleOverlay="true">
+                android:padding="10dp">
 
                 <TextView
-                    android:id="@+id/tvCheckOutMenu"
+                    android:id="@+id/tvNextMenu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="5dp"
-                    android:text="CHECKOUT"
-                    android:focusable="false"
                     android:layout_gravity="center_vertical"
+                    android:drawablePadding="5dp"
+                    android:focusable="false"
+                    android:text="NEXT"
                     android:textColor="@android:color/white"
                     android:textSize="14dp" />
-            </com.balysv.materialripple.MaterialRippleLayout>
+            </FrameLayout>
 
             <Button
                 android:id="@+id/bAddNewItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_margin="5dp"
-                android:background="@drawable/button_red"
                 android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/button_red"
                 android:text="Add new item"
                 android:textAllCaps="false"
-                android:visibility="gone"
-                android:layout_marginRight="5dp"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/outlet_details_coupon_txt" />
+                android:textSize="@dimen/outlet_details_coupon_txt"
+                android:visibility="gone" />
 
         </LinearLayout>
 
