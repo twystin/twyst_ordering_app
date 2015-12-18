@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.menu.AddonSet;
-import com.twyst.app.android.model.menu.SubOptionSet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,7 @@ public class MenuAddonsAdapter extends BaseAdapter {
     private final Context mContext;
     private final LayoutInflater mLayoutInflater;
     private List<AddonSet> mAddonsSetList = new ArrayList<>();
-    private int selectedPosition = -1;
+    private ArrayList<Integer> selectedPositions = new ArrayList<Integer>();
 
     public MenuAddonsAdapter(Context context, List<AddonSet> addonSetList) {
         super();
@@ -32,12 +31,20 @@ public class MenuAddonsAdapter extends BaseAdapter {
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public void setSelectedPosition(int selectedPosition) {
-        this.selectedPosition = selectedPosition;
+    public ArrayList<Integer> getSelectedPositions() {
+        return selectedPositions;
     }
 
-    public int getSelectedPosition() {
-        return selectedPosition;
+    public void setSelectedPositions(ArrayList<Integer> selectedPositions) {
+        this.selectedPositions = selectedPositions;
+    }
+
+    public void clickedPosition(int position){
+        if (selectedPositions.contains(position)){
+            selectedPositions.remove(Integer.valueOf(position));
+        }else{
+            selectedPositions.add(position);
+        }
     }
 
     @Override
@@ -54,7 +61,7 @@ public class MenuAddonsAdapter extends BaseAdapter {
         rbOption.setVisibility(View.GONE);
 
         cbOption.setText(mAddonsSetList.get(position).getAddonValue());
-        cbOption.setChecked(position == selectedPosition);
+        cbOption.setChecked(selectedPositions.contains(position));
 
         tvCost.setText(mAddonsSetList.get(position).getAddonCost());
         return convertView;

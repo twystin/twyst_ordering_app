@@ -24,6 +24,7 @@ import com.twyst.app.android.model.menu.SubOptionSet;
 import com.twyst.app.android.model.menu.SubOptions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Vipul Sharma on 11/20/2015.
@@ -331,7 +332,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
                 bOK.setEnabled(true);
-                menuAddonsAdapter.setSelectedPosition(position);
+                menuAddonsAdapter.clickedPosition(position);
                 menuAddonsAdapter.notifyDataSetChanged();
             }
         });
@@ -339,11 +340,16 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         bOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddonSet addonSet = addonsNew.getAddonSetList().get(menuAddonsAdapter.getSelectedPosition());
+                ArrayList<AddonSet> addonSetListNew = new ArrayList<>();
+                addonSetListNew.addAll(addonsNew.getAddonSetList());
                 addonsNew.getAddonSetList().clear();
-                addonsNew.getAddonSetList().add(addonSet);
-                int itemCostNew = Integer.parseInt(cartItem.getItemCost()) + Integer.parseInt(addonSet.getAddonCost());
-                cartItem.setItemCost(String.valueOf(itemCostNew));
+                for (int i=0; i<menuAddonsAdapter.getSelectedPositions().size();i++){
+                    AddonSet addonSet = addonSetListNew.get(i);
+                    addonsNew.getAddonSetList().add(addonSet);
+                    int itemCostNew = Integer.parseInt(cartItem.getItemCost()) + Integer.parseInt(addonSet.getAddonCost());
+                    cartItem.setItemCost(String.valueOf(itemCostNew));
+                }
+
                 if ((currentIndex + 1) < option.getSubOptionsList().size()) {
                     showDialogAddons(cartItem, option, 0);
                 } else {
