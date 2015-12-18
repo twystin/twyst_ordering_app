@@ -2,17 +2,20 @@ package com.twyst.app.android.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.BackgroundColorSpan;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
@@ -72,7 +75,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         if (mVegIconHeight == 0) {
             final TextView tvMenuItemName = holder.menuItemName;
-            final TextView tvCustomisationsFinal = holder.tvCustomisations;
+            final LinearLayout llCustomisationsFinal = holder.llCustomisations;
             tvMenuItemName.getViewTreeObserver()
                     .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                         @Override
@@ -88,9 +91,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                             mVegIconHeight = tvMenuItemName.getMeasuredHeight() * 2 / 3;
                             img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
                             tvMenuItemName.setCompoundDrawables(img, null, null, null);
-                            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) tvCustomisationsFinal.getLayoutParams();
+                            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) llCustomisationsFinal.getLayoutParams();
                             params.setMargins((mVegIconHeight + tvMenuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
-                            tvCustomisationsFinal.setLayoutParams(params);
+                            llCustomisationsFinal.setLayoutParams(params);
 
                             tvMenuItemName.getViewTreeObserver()
                                     .removeOnGlobalLayoutListener(this);
@@ -107,9 +110,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             }
             img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
             holder.menuItemName.setCompoundDrawables(img, null, null, null);
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) holder.tvCustomisations.getLayoutParams();
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) holder.llCustomisations.getLayoutParams();
             params.setMargins((mVegIconHeight + holder.menuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
-            holder.tvCustomisations.setLayoutParams(params);
+            holder.llCustomisations.setLayoutParams(params);
 
         }
 
@@ -127,13 +130,91 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             }
         });
 
-        String customisations = "9inches dip chicken 9inches dip chicken 9inches dip chicken 9inches dip chicken";
-        Spannable wordtoSpan = new SpannableString(customisations);
-        wordtoSpan.setSpan(new BackgroundColorSpan(mContext.getResources().getColor(R.color.selected_text_customisations)), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        wordtoSpan.setSpan(new BackgroundColorSpan(mContext.getResources().getColor(R.color.selected_text_customisations)), 8, 11, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        holder.tvCustomisations.setText(wordtoSpan);
+
+        String[] categories = {"Gelepenos","9 inches", "Cheese Dip","Chicken Pepperoni", "Gelepenos","9 inches", "Cheese Dip","Chicken Pepperoni","Gelepenos","9 inches", "Cheese Dip","Chicken Pepperoni", "Gelepenos","9 inches", "Cheese Dip","Chicken Pepperoni"};
+//            String[] categories = item.getSubcategories();
+        final LinearLayout hiddenLayout = holder.llCustomisations;
+        final TextView menuItemNameFinal = holder.menuItemName;
+        if (categories.length != 0){
+            final TextView[] textViews = new TextView[categories.length];
+            for (int i = 0;i < categories.length;i++){
+                textViews[i] =  new TextView(mContext);
+                textViews[i].setText(categories[i]);
+                textViews[i].setTextColor(mContext.getResources().getColor(R.color.customisations_text_color));
+                textViews[i].setTextSize(12.0f);
+                textViews[i].setPadding(15, 4, 15, 4);
+                textViews[i].setBackgroundResource(R.drawable.border_customisations);
+            }
+            hiddenLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    int maxWidth = hiddenLayout.getWidth();
+                    populateText(hiddenLayout, textViews, mContext, maxWidth - mVegIconHeight - menuItemNameFinal.getCompoundDrawablePadding());
+                }
+            });
+
+        } else {
+            if (hiddenLayout.getChildCount() != 0) {
+                hiddenLayout.removeAllViews();
+            }
+        }
+
+//        String customisations = "9inches dip chicken 9inches dip chicken 9inches dip chicken 9inches dip chicken";
+//        Spannable wordtoSpan = new SpannableString(customisations);
+//        wordtoSpan.setSpan(new BackgroundColorSpan(mContext.getResources().getColor(R.color.selected_text_customisations)), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        wordtoSpan.setSpan(new BackgroundColorSpan(mContext.getResources().getColor(R.color.selected_text_customisations)), 8, 11, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        holder.tvCustomisations.setText(wordtoSpan);
 
     }
+
+    private void populateText(LinearLayout ll, View[] views , Context mContext, int width) {
+        ll.removeAllViews();
+        int maxWidth = width;
+        LinearLayout.LayoutParams params;
+        LinearLayout newLL = new LinearLayout(mContext);
+        newLL.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        newLL.setGravity(Gravity.LEFT);
+        newLL.setOrientation(LinearLayout.HORIZONTAL);
+
+        int widthSoFar = 0;
+
+        for (int i = 0 ; i < views.length ; i++ ){
+            LinearLayout LL = new LinearLayout(mContext);
+            LL.setOrientation(LinearLayout.HORIZONTAL);
+            LL.setGravity(Gravity.CENTER_HORIZONTAL);
+            LL.setLayoutParams(new ListView.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+            views[i].measure(0,0);
+            params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(5, 8, 5, 8);  // YOU CAN USE THIS
+            //LL.addView(TV, params);
+            LL.addView(views[i], params);
+            LL.measure(0, 0);
+            widthSoFar += views[i].getMeasuredWidth();// YOU MAY NEED TO ADD THE MARGINS
+            if (widthSoFar >= maxWidth) {
+                ll.addView(newLL);
+
+                newLL = new LinearLayout(mContext);
+                newLL.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.FILL_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+                newLL.setOrientation(LinearLayout.HORIZONTAL);
+                newLL.setGravity(Gravity.LEFT);
+//                    params = new LinearLayout.LayoutParams(LL
+//                            .getMeasuredWidth(), LL.getMeasuredHeight());
+                params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                newLL.addView(LL, params);
+                widthSoFar = LL.getMeasuredWidth();
+            } else {
+                newLL.addView(LL);
+            }
+        }
+        ll.addView(newLL);
+    }
+
 
     public void addToCart(Items cartItemToBeAdded) {
         if (mCartItemsList.contains(cartItemToBeAdded)) {
@@ -174,7 +255,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         TextView menuItemName;
         TextView tvQuantity;
         TextView tvCost;
-        TextView tvCustomisations;
+        LinearLayout llCustomisations;
 
         public CartViewHolder(View itemView) {
             super(itemView);
@@ -183,7 +264,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             this.menuItemName = (TextView) itemView.findViewById(R.id.menuItem);
             this.tvQuantity = (TextView) itemView.findViewById(R.id.tvQuantity);
             this.tvCost = (TextView) itemView.findViewById(R.id.tvCost);
-            this.tvCustomisations = (TextView) itemView.findViewById(R.id.tvCustomisations);
+            this.llCustomisations = (LinearLayout) itemView.findViewById(R.id.llCustomisations);
         }
     }
 

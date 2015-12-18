@@ -24,12 +24,20 @@
             android:textColor="@android:color/black"
             android:textSize="@dimen/outlet_offer_header_textsize" />
 
-        <TextView
-            android:id="@+id/tvCustomisations"
+        <LinearLayout
+            android:id="@+id/llCustomisations"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="false"
-            android:layout_marginTop="5dp" />
+            android:orientation="vertical"
+            android:layout_marginTop="5dp" >
+        </LinearLayout>
+
+        <!--<TextView-->
+            <!--android:id="@+id/tvCustomisations"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:singleLine="false"-->
+            <!--android:layout_marginTop="5dp" />-->
     </LinearLayout>
 
     <LinearLayout
