@@ -180,7 +180,10 @@ public class Items implements Serializable {
     public boolean equals(Object obj) {
         if (obj instanceof Items) {
             Items item = (Items) obj;
-            if (item != null && this.id.equals(item.id)) {
+            if (item != null &&
+                    this.id.equals(item.id) &&
+                    this.getOptionsList().get(0).getId().equals(item.getOptionsList().get(0).getId())
+                    ) {
                 return true;
             }
         }

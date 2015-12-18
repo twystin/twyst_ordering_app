@@ -317,7 +317,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         tvCancel.setText("CANCEL");
         tvTitle.setText(addonsNew.getAddonTitle());
         builder.setView(dialogView);
-        bOK.setEnabled(false);
+        bOK.setEnabled(true);
 
         final AlertDialog dialog = builder.create();
         dialog.setCancelable(false);
