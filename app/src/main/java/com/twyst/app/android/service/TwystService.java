@@ -29,6 +29,8 @@ import com.twyst.app.android.model.UserLocation;
 import com.twyst.app.android.model.Voucher;
 import com.twyst.app.android.model.WalletData;
 import com.twyst.app.android.model.WriteToUs;
+import com.twyst.app.android.model.menu.MenuData;
+
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.Field;
@@ -46,6 +48,9 @@ public interface TwystService {
 
     @GET("/api/v4/authcode/{mobileno}")
     public void getMobileAuthCode(@Path("mobileno") String mobile, Callback<BaseResponse<OTPCode>> callback);
+
+    @GET("/api/v4/menus/{menu_id}")
+    public void getMenu(@Path("menu_id") String menuID, @Query("token") String token, Callback<BaseResponse<MenuData>> callback);
 
     @FormUrlEncoded
     @POST("/api/v4/authcode")

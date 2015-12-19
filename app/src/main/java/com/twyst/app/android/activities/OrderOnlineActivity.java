@@ -23,12 +23,18 @@ import com.twyst.app.android.adapters.CartAdapter;
 import com.twyst.app.android.adapters.MenuAdapter;
 import com.twyst.app.android.adapters.MenuTabsPagerAdapter;
 import com.twyst.app.android.adapters.ScrollingOffersAdapter;
+import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.menu.MenuData;
+import com.twyst.app.android.service.HttpService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by Vipul Sharma on 11/16/2015.
@@ -56,7 +62,8 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuAdapte
         setupToolBar();
         setupTopLayout();
         setupScrollingOfferAdapters();
-        setupMenu();
+//        setupMenu();
+        fetchMenu();
         setupCartRecyclerView();
 
     }
@@ -124,7 +131,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuAdapte
 
         MenuData menuData = getMenuData(menuDataList);
 
-// Get the ViewPager and set it's PagerAdapter so that it can display items
+        // Get the ViewPager and set it's PagerAdapter so that it can display items
         MenuTabsPagerAdapter adapter = new MenuTabsPagerAdapter(menuData.getMenuCategoriesList(), getSupportFragmentManager(), OrderOnlineActivity.this);
         mMenuViewPager = (ViewPager) findViewById(R.id.menuPager);
         mMenuViewPager.setAdapter(adapter);
@@ -137,6 +144,32 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuAdapte
 //        tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mMenuViewPager));
 //        mMenuViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
+    }
+
+    private void fetchMenu() {
+        HttpService.getInstance().getMenu("56740f12b6188687102c8b9d", "i_9P_kDMgj0LZkSAr9sBhxs0eSBOWH_Y", new Callback<BaseResponse<MenuData>>() {
+            @Override
+            public void success(BaseResponse<MenuData> menuDataBaseResponse, Response response) {
+                MenuData menuData = menuDataBaseResponse.getData();
+                // Get the ViewPager and set it's PagerAdapter so that it can display items
+                MenuTabsPagerAdapter adapter = new MenuTabsPagerAdapter(menuData.getMenuCategoriesList(), getSupportFragmentManager(), OrderOnlineActivity.this);
+                mMenuViewPager = (ViewPager) findViewById(R.id.menuPager);
+                mMenuViewPager.setAdapter(adapter);
+
+                // Give the TabLayout the ViewPager
+                TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+                tabLayout.setupWithViewPager(mMenuViewPager);
+//        tabLayout.setTabsFromPagerAdapter(adapter);
+//        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+//        tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mMenuViewPager));
+//        mMenuViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(OrderOnlineActivity.this,"No data found",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setupCartRecyclerView() {

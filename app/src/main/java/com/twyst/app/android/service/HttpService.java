@@ -40,6 +40,7 @@ import com.twyst.app.android.model.UserLocation;
 import com.twyst.app.android.model.Voucher;
 import com.twyst.app.android.model.WalletData;
 import com.twyst.app.android.model.WriteToUs;
+import com.twyst.app.android.model.menu.MenuData;
 import com.twyst.app.android.util.AppConstants;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -99,6 +100,9 @@ public class HttpService {
         twystService.getMobileAuthCode(mobile, callback);
     }
 
+    public void getMenu(String menuId, String token, Callback<BaseResponse<MenuData>> callback) {
+        twystService.getMenu(menuId, token, callback);
+    }
 
     public void userAuthToken(String code, String phone, Callback<BaseResponse<AuthToken>> callback) {
         twystService.userAuthToken(code, phone, callback);

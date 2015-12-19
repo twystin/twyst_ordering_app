@@ -7,7 +7,8 @@ import com.twyst.app.android.BuildConfig;
  */
 public class AppConstants {
 
-    public static final String HOST = "http://retwyst.twyst.in";
+    public static final String HOST = "http://staging.twyst.in";
+//    public static final String HOST = "http://retwyst.twyst.in";
 //    public static final String HOST = "http://twyst.in";
 
     public static final String HOST_SECURE = "https://www.twyst.in";
