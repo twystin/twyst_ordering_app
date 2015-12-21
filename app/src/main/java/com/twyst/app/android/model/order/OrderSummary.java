@@ -30,27 +30,31 @@ public class OrderSummary implements Serializable {
             orderItem.setCategoryId(cartItem.getCategoryID());
             orderItem.setSubCategoryId(cartItem.getSubCategoryID());
             orderItem.setItemId(cartItem.getId());
-            orderItem.setOptionId(cartItem.getOptionsList().get(0).getId());
             orderItem.setQuantity(cartItem.getItemQuantity());
 
-            Options option = cartItem.getOptionsList().get(0);
-            for (int j = 0; j < option.getSubOptionsList().size(); j++) {
-                SubOptions subOption = option.getSubOptionsList().get(j);
-                SubOptionsOrder subOptionsOrder = new SubOptionsOrder();
-                subOptionsOrder.setSubOptionId(subOption.getId());
-                subOptionsOrder.setSubOptionSetId(subOption.getSubOptionSetList().get(0).getId());
-                orderItem.getSubOptionsList().add(subOptionsOrder);
+            if (cartItem.getOptionsList().size() > 0) {
+                Options option = cartItem.getOptionsList().get(0);
+                orderItem.setOptionId(option.getId());
+                for (int j = 0; j < option.getSubOptionsList().size(); j++) {
+                    SubOptions subOption = option.getSubOptionsList().get(j);
+                    SubOptionsOrder subOptionsOrder = new SubOptionsOrder();
+                    subOptionsOrder.setSubOptionId(subOption.getId());
+                    subOptionsOrder.setSubOptionSetId(subOption.getSubOptionSetList().get(0).getId());
+                    orderItem.getSubOptionsList().add(subOptionsOrder);
+                } // i loop
+
+                for (int k = 0; k < option.getSubOptionsList().size(); k++) {
+                    Addons addon = option.getAddonsList().get(k);
+                    AddonsOrder addonsOrder = new AddonsOrder();
+                    addonsOrder.setAddonId(addon.getId());
+                    for (int l = 0; l < addon.getAddonSetList().size(); l++) {
+                        addonsOrder.getAddonSetsIdList().add(addon.getAddonSetList().get(l).getId());
+                    } // l loop
+                    orderItem.getAddonsList().add(addonsOrder);
+                } // k loop
             }
 
-            for (int k = 0; k < option.getSubOptionsList().size(); k++) {
-                Addons addon = option.getAddonsList().get(k);
-                AddonsOrder addonsOrder = new AddonsOrder();
-                addonsOrder.setAddonId(addon.getId());
-                for (int l = 0; l < addon.getAddonSetList().size(); l++) {
-                    addonsOrder.getAddonSetsIdList().add(addon.getAddonSetList().get(l).getId());
-                }
-                orderItem.getAddonsList().add(addonsOrder);
-            }
+            orderItemList.add(orderItem);
 
         }
     }

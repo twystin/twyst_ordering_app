@@ -27,6 +27,7 @@ import com.twyst.app.android.adapters.ScrollingOffersAdapter;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.menu.MenuData;
+import com.twyst.app.android.model.order.OrderSummary;
 import com.twyst.app.android.service.HttpService;
 
 import java.util.ArrayList;
@@ -283,6 +284,9 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuAdapte
     }
 
     private void checkOut() {
+        OrderSummary orderSummary = new OrderSummary(mCartAdapter.getmCartItemsList(), "530ef84902bc583c21000004", "28.6", "77.2");
+
+
         Intent checkOutIntent = new Intent(OrderOnlineActivity.this, OrderSummaryActivity.class);
         startActivity(checkOutIntent);
     }
