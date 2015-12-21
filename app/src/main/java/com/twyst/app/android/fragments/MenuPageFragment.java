@@ -19,6 +19,7 @@ import java.util.ArrayList;
  */
 public class MenuPageFragment extends Fragment{// implements ObservableScrollViewCallbacks {
     private static final String ARG_SECTION_LIST = "section_list";
+    private static final String ARG_CATEGORY_ID = "category_id";
     static int mScrollYInitial = 0;
 
 //    private OnFragmentScrollChangedListener mFragmentScrollChangedListener;
@@ -26,10 +27,11 @@ public class MenuPageFragment extends Fragment{// implements ObservableScrollVie
     public MenuPageFragment() {
     }
 
-    public static MenuPageFragment newInstance(ArrayList<SubCategories> sectionsList) {
+    public static MenuPageFragment newInstance(ArrayList<SubCategories> sectionsList, String categoryID) {
         MenuPageFragment fragment = new MenuPageFragment();
         Bundle args = new Bundle();
         args.putSerializable(ARG_SECTION_LIST, sectionsList);
+        args.putString(ARG_CATEGORY_ID, categoryID);
         fragment.setArguments(args);
         return fragment;
     }
@@ -42,8 +44,9 @@ public class MenuPageFragment extends Fragment{// implements ObservableScrollVie
         final FloatingGroupExpandableListView list = (FloatingGroupExpandableListView) rootView.findViewById(R.id.menuList);
 
         ArrayList<SubCategories> sectionsList = (ArrayList<SubCategories>) (getArguments().getSerializable(ARG_SECTION_LIST));
+        String categoryID = getArguments().getString(ARG_CATEGORY_ID);
 
-        final MenuAdapter adapter = new MenuAdapter(getActivity(), sectionsList);
+        final MenuAdapter adapter = new MenuAdapter(getActivity(), sectionsList, categoryID);
         final WrapperExpandableListAdapter wrapperAdapter = new WrapperExpandableListAdapter(adapter);
         list.setAdapter(wrapperAdapter);
 

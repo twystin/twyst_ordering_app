@@ -51,6 +51,10 @@ public class Items implements Serializable {
 
     private int itemQuantity;
 
+    private String categoryID;
+
+    private String subCategoryID;
+
     @SerializedName("item_available_on")
     private ArrayList<String> itemAvailableOnList;
 
@@ -62,6 +66,22 @@ public class Items implements Serializable {
 
     @SerializedName("item_availability")
     private ItemAvailability itemAvailability;
+
+    public String getSubCategoryID() {
+        return subCategoryID;
+    }
+
+    public void setSubCategoryID(String subCategoryID) {
+        this.subCategoryID = subCategoryID;
+    }
+
+    public String getCategoryID() {
+        return categoryID;
+    }
+
+    public void setCategoryID(String categoryID) {
+        this.categoryID = categoryID;
+    }
 
     public Items getItemOriginalReference() {
         return itemOriginalReference;

@@ -36,11 +36,12 @@ public class MenuAdapter extends BaseExpandableListAdapter {
     private final LayoutInflater mLayoutInflater;
     private boolean mFooterEnabled = false;
     ArrayList<SubCategories> mSectionsList;
-
+    private final String mCategoryID;
     DataTransferInterfaceMenu mDataTransferInterfaceMenu;
 
-    public MenuAdapter(Context context, ArrayList<SubCategories> sectionsList) {
+    public MenuAdapter(Context context, ArrayList<SubCategories> sectionsList, String categoryID) {
         mContext = context;
+        mCategoryID = categoryID;
         mDataTransferInterfaceMenu = (DataTransferInterfaceMenu) context;
         mSectionsList = sectionsList;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -144,6 +145,8 @@ public class MenuAdapter extends BaseExpandableListAdapter {
     private void add(int groupPosition, int childPosition) {
         Items item = mSectionsList.get(groupPosition).getItemsList().get(childPosition);
         Items cartItem = new Items(item);
+        cartItem.setCategoryID(mCategoryID);
+        cartItem.setSubCategoryID(mSectionsList.get(groupPosition).getId());
         if (cartItem.getOptionsList().size() > 0) {
             showDialogOptions(cartItem);
         } else {
