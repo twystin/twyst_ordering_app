@@ -1,5 +1,6 @@
 package com.twyst.app.android.activities;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -167,7 +168,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuAdapte
 
             @Override
             public void failure(RetrofitError error) {
-                Toast.makeText(OrderOnlineActivity.this,"No data found",Toast.LENGTH_SHORT).show();
+                Toast.makeText(OrderOnlineActivity.this, "No data found", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -196,7 +197,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuAdapte
         findViewById(R.id.bCheckOutCart).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                checkOut();
             }
         });
 
@@ -279,6 +280,11 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuAdapte
 
             }
         });
+    }
+
+    private void checkOut() {
+        Intent checkOutIntent = new Intent(OrderOnlineActivity.this, OrderSummaryActivity.class);
+        startActivity(checkOutIntent);
     }
 
     @Override

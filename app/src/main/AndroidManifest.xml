@@ -160,6 +160,13 @@
         </activity>
 
         <activity
+            android:name=".activities.OrderSummaryActivity"
+            android:label="@string/order_online"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
             android:name=".activities.OfferDetailActivity"
             android:label="@string/offer_detail"
             android:parentActivityName=".activities.OutletDetailsActivity"
