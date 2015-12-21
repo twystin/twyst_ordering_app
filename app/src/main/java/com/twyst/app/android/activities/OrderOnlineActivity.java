@@ -62,8 +62,8 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuAdapte
         setupToolBar();
         setupTopLayout();
         setupScrollingOfferAdapters();
-//        setupMenu();
-        fetchMenu();
+        setupMenu();
+//        fetchMenu();
         setupCartRecyclerView();
 
     }
