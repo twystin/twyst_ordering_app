@@ -3,6 +3,7 @@ package com.twyst.app.android.adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +38,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
     private LayoutInflater mInflater;
     private Context mContext;
     DataTransferInterfaceMenu mDataTransferInterfaceMenu;
-    List<ParentListItem> mSectionsList;
+    private List<ParentListItem> mSectionsList;
     private final String mCategoryID;
     final RecyclerView mMenuExpandableList;
     private boolean mFooterEnabled = false;
@@ -53,6 +54,17 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
     }
 
     @Override
+    public void onParentListItemExpanded(int position) {
+//        Object parent = mItemList.get(position);
+//        collapseAllParents();
+//        position = mItemList.indexOf(parent);
+        LinearLayoutManager llm = (LinearLayoutManager) mMenuExpandableList.getLayoutManager();
+        llm.scrollToPositionWithOffset(position, 0);
+        // Alternatively keep track of the single item that is expanded and explicitly collapse that row (more efficient)
+        super.onParentListItemExpanded(position);
+    }
+
+    @Override
     public MenuParentViewHolder onCreateParentViewHolder(ViewGroup viewGroup) {
         View view = mInflater.inflate(R.layout.layout_menu_group, viewGroup, false);
         return new MenuParentViewHolder(view);
@@ -65,13 +77,13 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
     }
 
     @Override
-    public void onBindParentViewHolder(MenuParentViewHolder menuParentViewHolder, int i, ParentListItem parentListItem) {
+    public void onBindParentViewHolder(MenuParentViewHolder menuParentViewHolder, int parentPosition, ParentListItem parentListItem) {
         SubCategories subCategories = (SubCategories) parentListItem;
         menuParentViewHolder.text.setText(subCategories.getSubCategoryName());
     }
 
     @Override
-    public void onBindChildViewHolder(MenuChildViewHolder childViewHolder, final int groupPosition, Object childListItem) {
+    public void onBindChildViewHolder(MenuChildViewHolder childViewHolder, final int childPosition, Object childListItem) {
         final Items item = (Items) childListItem;
         if (mFooterEnabled) {
             mMenuExpandableList.setPadding(mMenuExpandableList.getPaddingLeft(), mMenuExpandableList.getPaddingTop(), mMenuExpandableList.getPaddingRight(), mContext.getResources().getDimensionPixelSize(R.dimen.slidingup_panel_height));
@@ -81,7 +93,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
         childViewHolder.mIvPLus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add(item, groupPosition);
+                add(item, childPosition);
             }
         });
 

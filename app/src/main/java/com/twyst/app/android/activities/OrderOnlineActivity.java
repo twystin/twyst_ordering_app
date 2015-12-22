@@ -41,8 +41,7 @@ import retrofit.client.Response;
 /**
  * Created by Vipul Sharma on 11/16/2015.
  */
-public class OrderOnlineActivity extends AppCompatActivity implements MenuExpandableAdapter.DataTransferInterfaceMenu, CartAdapter.DataTransferInterfaceCart {
-
+public class OrderOnlineActivity extends BaseActivity implements MenuExpandableAdapter.DataTransferInterfaceMenu, CartAdapter.DataTransferInterfaceCart {
     private ScrollingOffersAdapter mScrollingOffersAdapter;
     private ViewPager mScrollingOffersViewPager;
     private ViewPager mMenuViewPager;
@@ -57,15 +56,25 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     List<MenuExpandableAdapter> mMenuAdaptersList = new ArrayList();
 
     @Override
+    protected String getTagName() {
+        return null;
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_order_online;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_order_online);
+//        setContentView(R.layout.activity_order_online);
         setupToolBar();
         setupTopLayout();
         setupScrollingOfferAdapters();
-        setupMenu();
-//        fetchMenu();
+//        setupMenu();
+        fetchMenu();
         setupCartRecyclerView();
 
     }
@@ -149,7 +158,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     }
 
     private void fetchMenu() {
-        HttpService.getInstance().getMenu("56740f12b6188687102c8b9d", "8t2MdEGlJCWD4NXPJ4mWXVlm7VkdNXfe", new Callback<BaseResponse<MenuData>>() {
+        HttpService.getInstance().getMenu("5679087fb87d2a6f8197ff2c", "pgVB1DFQd4l9fjLoXVwfdZIjtQS6dVAd", new Callback<BaseResponse<MenuData>>() {
             @Override
             public void success(BaseResponse<MenuData> menuDataBaseResponse, Response response) {
                 MenuData menuData = menuDataBaseResponse.getData();
