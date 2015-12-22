@@ -25,10 +25,10 @@ public class OrderItem implements Serializable {
     private String optionId;
 
     @SerializedName("sub_options")
-    private ArrayList<SubOptionsOrder> subOptionsList = new ArrayList<>();
+    private ArrayList<String> subOptionsList = new ArrayList<>();
 
     @SerializedName("add_ons")
-    private ArrayList<AddonsOrder> addonsList = new ArrayList<>();
+    private ArrayList<String> addonsList = new ArrayList<>();
 
     @SerializedName("quantity")
     private int quantity;
@@ -65,19 +65,19 @@ public class OrderItem implements Serializable {
         this.optionId = optionId;
     }
 
-    public ArrayList<SubOptionsOrder> getSubOptionsList() {
+    public ArrayList<String> getSubOptionsList() {
         return subOptionsList;
     }
 
-    public void setSubOptionsList(ArrayList<SubOptionsOrder> subOptionsList) {
+    public void setSubOptionsList(ArrayList<String> subOptionsList) {
         this.subOptionsList = subOptionsList;
     }
 
-    public ArrayList<AddonsOrder> getAddonsList() {
+    public ArrayList<String> getAddonsList() {
         return addonsList;
     }
 
-    public void setAddonsList(ArrayList<AddonsOrder> addonsList) {
+    public void setAddonsList(ArrayList<String> addonsList) {
         this.addonsList = addonsList;
     }
 

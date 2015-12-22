@@ -49,6 +49,7 @@ public class OrderOnlineActivity extends BaseActivity implements MenuExpandableA
     TextView tvCartCount;
     TextView tvCartTotalCost;
 
+    private String mOutletId;
     RecyclerView mCartRecyclerView;
     CartAdapter mCartAdapter;
     List<MenuExpandableAdapter> mMenuAdaptersList = new ArrayList();
@@ -158,6 +159,7 @@ public class OrderOnlineActivity extends BaseActivity implements MenuExpandableA
             @Override
             public void success(BaseResponse<MenuData> menuDataBaseResponse, Response response) {
                 MenuData menuData = menuDataBaseResponse.getData();
+                mOutletId = menuData.getOutlet();
                 // Get the ViewPager and set it's PagerAdapter so that it can display items
                 MenuTabsPagerAdapter adapter = new MenuTabsPagerAdapter(menuData.getMenuCategoriesList(), getSupportFragmentManager(), OrderOnlineActivity.this);
                 mMenuViewPager = (ViewPager) findViewById(R.id.menuPager);
@@ -288,9 +290,9 @@ public class OrderOnlineActivity extends BaseActivity implements MenuExpandableA
         });
     }
 
-    private void checkOut() {
-        OrderSummary orderSummary = new OrderSummary(mCartAdapter.getmCartItemsList(), "530ef84902bc583c21000004", "28.6", "77.2");
 
+    private void checkOut() {
+        OrderSummary orderSummary = new OrderSummary(mCartAdapter.getmCartItemsList(), mOutletId, "28.6", "77.2");
 
         Intent checkOutIntent = new Intent(OrderOnlineActivity.this, OrderSummaryActivity.class);
         startActivity(checkOutIntent);
