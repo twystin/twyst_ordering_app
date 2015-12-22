@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bignerdranch.expandablerecyclerview.ViewHolder.ParentViewHolder;
@@ -19,12 +20,14 @@ public class MenuParentViewHolder extends ParentViewHolder {
 
     public TextView text;
     public ImageView expandedImage;
+    public RelativeLayout rlGroup;
 
     public MenuParentViewHolder(View itemView) {
         super(itemView);
 
         text = (TextView) itemView.findViewById(R.id.menu_group_text);
         expandedImage = (ImageView) itemView.findViewById(R.id.menu_group_arrow);
+        rlGroup = (RelativeLayout) itemView.findViewById(R.id.rlGroup);
     }
 
     @SuppressLint("NewApi")

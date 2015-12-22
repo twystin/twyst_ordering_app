@@ -2,6 +2,7 @@
 
     <!-- To change for all devices -->
     <dimen name="slidingup_panel_height">66dp</dimen>
+    <dimen name="menu_group_height">60dp</dimen>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>

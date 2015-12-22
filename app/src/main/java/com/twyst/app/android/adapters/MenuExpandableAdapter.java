@@ -77,13 +77,24 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
     }
 
     @Override
-    public void onBindParentViewHolder(MenuParentViewHolder menuParentViewHolder, int parentPosition, ParentListItem parentListItem) {
+    public void onBindParentViewHolder(MenuParentViewHolder menuParentViewHolder, final int parentPosition, ParentListItem parentListItem) {
         SubCategories subCategories = (SubCategories) parentListItem;
-        for (int i=0;i<subCategories.getItemsList().size();i++){
+        for (int i = 0; i < subCategories.getItemsList().size(); i++) {
             Items item = subCategories.getItemsList().get(i);
             item.setSubCategoryID(subCategories.getId());
         }
         menuParentViewHolder.text.setText(subCategories.getSubCategoryName());
+        if (subCategories.getSubCategoryName().equals("Default")) {
+            menuParentViewHolder.rlGroup.setVisibility(View.GONE);
+            menuParentViewHolder.rlGroup.post(new Runnable() {
+                @Override
+                public void run() {
+                    expandParent(parentPosition);
+                }
+            });
+        } else {
+            menuParentViewHolder.rlGroup.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
