@@ -7,7 +7,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.design.widget.TabLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -45,7 +44,6 @@ public class OrderOnlineActivity extends BaseActivity implements MenuExpandableA
     private ScrollingOffersAdapter mScrollingOffersAdapter;
     private ViewPager mScrollingOffersViewPager;
     private ViewPager mMenuViewPager;
-    int mLowerLimit, mUpperLimit;
 
     SlidingUpPanelLayout mSlidingUpPanelLayout;
     TextView tvCartCount;
@@ -69,14 +67,12 @@ public class OrderOnlineActivity extends BaseActivity implements MenuExpandableA
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        setContentView(R.layout.activity_order_online);
         setupToolBar();
         setupTopLayout();
         setupScrollingOfferAdapters();
 //        setupMenu();
         fetchMenu();
         setupCartRecyclerView();
-
     }
 
     private void setupTopLayout() {
@@ -392,15 +388,15 @@ public class OrderOnlineActivity extends BaseActivity implements MenuExpandableA
         tvCartCount.setText(String.valueOf(mCartAdapter.getmCartItemsList().size()));
         if (mCartAdapter.getmCartItemsList().size() > 0) {
             mSlidingUpPanelLayout.setPanelHeight(getResources().getDimensionPixelSize(R.dimen.slidingup_panel_height));
+            mMenuViewPager.setPadding(mMenuViewPager.getPaddingLeft(), mMenuViewPager.getPaddingTop(), mMenuViewPager.getPaddingRight(), this.getResources().getDimensionPixelSize(R.dimen.slidingup_panel_height));
             for (int i = 0; i < mMenuAdaptersList.size(); i++) {
-                mMenuAdaptersList.get(i).setFooterEnabled(true);
                 mMenuAdaptersList.get(i).notifyDataSetChanged();
             }
         } else {
             mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
             mSlidingUpPanelLayout.setPanelHeight(0);
+            mMenuViewPager.setPadding(mMenuViewPager.getPaddingLeft(), mMenuViewPager.getPaddingTop(), mMenuViewPager.getPaddingRight(), 0);
             for (int i = 0; i < mMenuAdaptersList.size(); i++) {
-                mMenuAdaptersList.get(i).setFooterEnabled(false);
                 mMenuAdaptersList.get(i).notifyDataSetChanged();
             }
         }

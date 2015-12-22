@@ -12,6 +12,7 @@ import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bignerdranch.expandablerecyclerview.Adapter.ExpandableRecyclerAdapter;
@@ -38,15 +39,12 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
     private LayoutInflater mInflater;
     private Context mContext;
     DataTransferInterfaceMenu mDataTransferInterfaceMenu;
-    private List<ParentListItem> mSectionsList;
     private final String mCategoryID;
     final RecyclerView mMenuExpandableList;
-    private boolean mFooterEnabled = false;
 
     public MenuExpandableAdapter(Context context, List<ParentListItem> itemList, String categoryID, RecyclerView menuExpandableList) {
         super(itemList);
         mCategoryID = categoryID;
-        mSectionsList = itemList;
         mContext = context;
         mMenuExpandableList = menuExpandableList;
         mInflater = LayoutInflater.from(context);
@@ -55,9 +53,6 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
 
     @Override
     public void onParentListItemExpanded(int parentPosition) {
-//        Object parent = mItemList.get(position);
-//        collapseAllParents();
-//        position = mItemList.indexOf(parent);
         LinearLayoutManager llm = (LinearLayoutManager) mMenuExpandableList.getLayoutManager();
         llm.scrollToPositionWithOffset(parentPosition, 0);
         // Alternatively keep track of the single item that is expanded and explicitly collapse that row (more efficient)
@@ -86,25 +81,19 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
         menuParentViewHolder.text.setText(subCategories.getSubCategoryName());
         if (subCategories.getSubCategoryName().equals("Default")) {
             menuParentViewHolder.rlGroup.setVisibility(View.GONE);
+//            menuParentViewHolder.rlGroup.getLayoutParams().height = 0;
             menuParentViewHolder.rlGroup.post(new Runnable() {
                 @Override
                 public void run() {
                     expandParent(parentPosition);
                 }
             });
-        } else {
-            menuParentViewHolder.rlGroup.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
     public void onBindChildViewHolder(MenuChildViewHolder childViewHolder, final int childPosition, Object childListItem) {
         final Items item = (Items) childListItem;
-        if (mFooterEnabled) {
-            mMenuExpandableList.setPadding(mMenuExpandableList.getPaddingLeft(), mMenuExpandableList.getPaddingTop(), mMenuExpandableList.getPaddingRight(), mContext.getResources().getDimensionPixelSize(R.dimen.slidingup_panel_height));
-        } else {
-            mMenuExpandableList.setPadding(mMenuExpandableList.getPaddingLeft(), mMenuExpandableList.getPaddingTop(), mMenuExpandableList.getPaddingRight(), 0);
-        }
         childViewHolder.mIvPLus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -393,10 +382,6 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
             }
         });
 
-    }
-
-    public void setFooterEnabled(boolean footerEnabled) {
-        mFooterEnabled = footerEnabled;
     }
 
     public interface DataTransferInterfaceMenu {
