@@ -37,6 +37,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
     private LayoutInflater mInflater;
     private Context mContext;
     DataTransferInterfaceMenu mDataTransferInterfaceMenu;
+    List<ParentListItem> mSectionsList;
     private final String mCategoryID;
     final RecyclerView mMenuExpandableList;
     private boolean mFooterEnabled = false;
@@ -44,6 +45,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
     public MenuExpandableAdapter(Context context, List<ParentListItem> itemList, String categoryID, RecyclerView menuExpandableList) {
         super(itemList);
         mCategoryID = categoryID;
+        mSectionsList = itemList;
         mContext = context;
         mMenuExpandableList = menuExpandableList;
         mInflater = LayoutInflater.from(context);
@@ -69,17 +71,17 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
     }
 
     @Override
-    public void onBindChildViewHolder(MenuChildViewHolder childViewHolder, int i, Object childListItem) {
+    public void onBindChildViewHolder(MenuChildViewHolder childViewHolder, final int groupPosition, Object childListItem) {
         final Items item = (Items) childListItem;
-        if (mFooterEnabled){
-            mMenuExpandableList.setPadding(mMenuExpandableList.getPaddingLeft(),mMenuExpandableList.getPaddingTop(),mMenuExpandableList.getPaddingRight(),mContext.getResources().getDimensionPixelSize(R.dimen.slidingup_panel_height));
-        }else{
-            mMenuExpandableList.setPadding(mMenuExpandableList.getPaddingLeft(),mMenuExpandableList.getPaddingTop(),mMenuExpandableList.getPaddingRight(),0);
+        if (mFooterEnabled) {
+            mMenuExpandableList.setPadding(mMenuExpandableList.getPaddingLeft(), mMenuExpandableList.getPaddingTop(), mMenuExpandableList.getPaddingRight(), mContext.getResources().getDimensionPixelSize(R.dimen.slidingup_panel_height));
+        } else {
+            mMenuExpandableList.setPadding(mMenuExpandableList.getPaddingLeft(), mMenuExpandableList.getPaddingTop(), mMenuExpandableList.getPaddingRight(), 0);
         }
         childViewHolder.mIvPLus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add(item);
+                add(item, groupPosition);
             }
         });
 
@@ -137,10 +139,11 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
         childViewHolder.tvCost.setText(item.getItemCost());
     }
 
-    private void add(Items item) {
+    private void add(Items item, int groupPosition) {
         Items cartItem = new Items(item);
         cartItem.setCategoryID(mCategoryID);
-//        cartItem.setSubCategoryID(mSectionsList.get(groupPosition).getId());
+        SubCategories subCategory = (SubCategories) mSectionsList.get(groupPosition);
+        cartItem.setSubCategoryID(subCategory.getId());
         if (cartItem.getOptionsList().size() > 0) {
             showDialogOptions(cartItem);
         } else {
