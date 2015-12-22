@@ -54,14 +54,14 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
     }
 
     @Override
-    public void onParentListItemExpanded(int position) {
+    public void onParentListItemExpanded(int parentPosition) {
 //        Object parent = mItemList.get(position);
 //        collapseAllParents();
 //        position = mItemList.indexOf(parent);
         LinearLayoutManager llm = (LinearLayoutManager) mMenuExpandableList.getLayoutManager();
-        llm.scrollToPositionWithOffset(position, 0);
+        llm.scrollToPositionWithOffset(parentPosition, 0);
         // Alternatively keep track of the single item that is expanded and explicitly collapse that row (more efficient)
-        super.onParentListItemExpanded(position);
+        super.onParentListItemExpanded(parentPosition);
     }
 
     @Override
@@ -79,6 +79,10 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
     @Override
     public void onBindParentViewHolder(MenuParentViewHolder menuParentViewHolder, int parentPosition, ParentListItem parentListItem) {
         SubCategories subCategories = (SubCategories) parentListItem;
+        for (int i=0;i<subCategories.getItemsList().size();i++){
+            Items item = subCategories.getItemsList().get(i);
+            item.setSubCategoryID(subCategories.getId());
+        }
         menuParentViewHolder.text.setText(subCategories.getSubCategoryName());
     }
 
@@ -93,7 +97,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
         childViewHolder.mIvPLus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add(item, childPosition);
+                add(item);
             }
         });
 
@@ -151,11 +155,10 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
         childViewHolder.tvCost.setText(item.getItemCost());
     }
 
-    private void add(Items item, int groupPosition) {
+    private void add(Items item) {
         Items cartItem = new Items(item);
         cartItem.setCategoryID(mCategoryID);
-        SubCategories subCategory = (SubCategories) mSectionsList.get(groupPosition);
-        cartItem.setSubCategoryID(subCategory.getId());
+        cartItem.setSubCategoryID(item.getSubCategoryID());
         if (cartItem.getOptionsList().size() > 0) {
             showDialogOptions(cartItem);
         } else {
