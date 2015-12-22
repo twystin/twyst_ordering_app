@@ -1,15 +1,19 @@
 package com.twyst.app.android.fragments;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
 import com.diegocarloslima.fgelv.lib.FloatingGroupExpandableListView;
 import com.diegocarloslima.fgelv.lib.WrapperExpandableListAdapter;
 import com.twyst.app.android.R;
 import com.twyst.app.android.activities.OrderOnlineActivity;
 import com.twyst.app.android.adapters.MenuAdapter;
+import com.twyst.app.android.adapters.MenuExpandableAdapter;
 import com.twyst.app.android.model.menu.SubCategories;
 
 import java.util.ArrayList;
@@ -41,17 +45,22 @@ public class MenuPageFragment extends Fragment{// implements ObservableScrollVie
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_menu_layout, container, false);
 
-        final FloatingGroupExpandableListView list = (FloatingGroupExpandableListView) rootView.findViewById(R.id.menuList);
+//        final FloatingGroupExpandableListView list = (FloatingGroupExpandableListView) rootView.findViewById(R.id.menuList);
 
-        ArrayList<SubCategories> sectionsList = (ArrayList<SubCategories>) (getArguments().getSerializable(ARG_SECTION_LIST));
+        RecyclerView menuExpandableList = (RecyclerView) rootView.findViewById(R.id.menu_recycler_view);
+        menuExpandableList.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        ArrayList<ParentListItem> sectionsList = (ArrayList<ParentListItem>) (getArguments().getSerializable(ARG_SECTION_LIST));
         String categoryID = getArguments().getString(ARG_CATEGORY_ID);
 
-        final MenuAdapter adapter = new MenuAdapter(getActivity(), sectionsList, categoryID);
-        final WrapperExpandableListAdapter wrapperAdapter = new WrapperExpandableListAdapter(adapter);
-        list.setAdapter(wrapperAdapter);
+        final MenuExpandableAdapter menuExpandableAdapter = new MenuExpandableAdapter(getActivity(),sectionsList,categoryID);
+//        final MenuAdapter adapter = new MenuAdapter(getActivity(), sectionsList, categoryID);
+//        final WrapperExpandableListAdapter wrapperAdapter = new WrapperExpandableListAdapter(adapter);
+//        list.setAdapter(wrapperAdapter);
 
+        menuExpandableList.setAdapter(menuExpandableAdapter);
         OrderOnlineActivity activity = (OrderOnlineActivity) container.getContext();
-        activity.addAdaptersList(adapter);
+        activity.addAdaptersList(menuExpandableAdapter);
 
 //        for(int i = 0; i < wrapperAdapter.getGroupCount(); i++) {
 //            list.expandGroup(i);

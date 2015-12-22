@@ -1,14 +1,16 @@
 package com.twyst.app.android.model.menu;
 
+import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Vipul Sharma on 12/7/2015.
  */
-public class SubCategories implements Serializable{
+public class SubCategories implements Serializable, ParentListItem {
     @SerializedName("_id")
     private String id;
 
@@ -40,5 +42,16 @@ public class SubCategories implements Serializable{
 
     public void setSubCategoryName(String subCategoryName) {
         this.subCategoryName = subCategoryName;
+    }
+
+    // implementing ParentListItem interface
+    @Override
+    public List<?> getChildItemList() {
+        return getItemsList();
+    }
+
+    @Override
+    public boolean isInitiallyExpanded() {
+        return false;
     }
 }
