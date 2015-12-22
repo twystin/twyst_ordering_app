@@ -3,6 +3,7 @@ package com.twyst.app.android.adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,12 +38,14 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
     private Context mContext;
     DataTransferInterfaceMenu mDataTransferInterfaceMenu;
     private final String mCategoryID;
+    final RecyclerView mMenuExpandableList;
     private boolean mFooterEnabled = false;
 
-    public MenuExpandableAdapter(Context context, List<ParentListItem> itemList, String categoryID) {
+    public MenuExpandableAdapter(Context context, List<ParentListItem> itemList, String categoryID, RecyclerView menuExpandableList) {
         super(itemList);
         mCategoryID = categoryID;
         mContext = context;
+        mMenuExpandableList = menuExpandableList;
         mInflater = LayoutInflater.from(context);
         mDataTransferInterfaceMenu = (DataTransferInterfaceMenu) context;
     }
@@ -68,7 +71,11 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
     @Override
     public void onBindChildViewHolder(MenuChildViewHolder childViewHolder, int i, Object childListItem) {
         final Items item = (Items) childListItem;
-
+        if (mFooterEnabled){
+            mMenuExpandableList.setPadding(mMenuExpandableList.getPaddingLeft(),mMenuExpandableList.getPaddingTop(),mMenuExpandableList.getPaddingRight(),mContext.getResources().getDimensionPixelSize(R.dimen.slidingup_panel_height));
+        }else{
+            mMenuExpandableList.setPadding(mMenuExpandableList.getPaddingLeft(),mMenuExpandableList.getPaddingTop(),mMenuExpandableList.getPaddingRight(),0);
+        }
         childViewHolder.mIvPLus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

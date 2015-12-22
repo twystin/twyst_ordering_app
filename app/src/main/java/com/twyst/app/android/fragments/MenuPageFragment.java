@@ -43,11 +43,14 @@ public class MenuPageFragment extends Fragment {// implements ObservableScrollVi
 
         ArrayList<ParentListItem> sectionsList = (ArrayList<ParentListItem>) (getArguments().getSerializable(ARG_SECTION_LIST));
         String categoryID = getArguments().getString(ARG_CATEGORY_ID);
-        final MenuExpandableAdapter menuExpandableAdapter = new MenuExpandableAdapter(getActivity(), sectionsList, categoryID);
 
         RecyclerView menuExpandableList = (RecyclerView) rootView.findViewById(R.id.menu_recycler_view);
-        menuExpandableList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        menuExpandableList.setHasFixedSize(true);
+        menuExpandableList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+
+        final MenuExpandableAdapter menuExpandableAdapter = new MenuExpandableAdapter(getActivity(), sectionsList, categoryID,menuExpandableList);
         menuExpandableList.setAdapter(menuExpandableAdapter);
+
 
         OrderOnlineActivity activity = (OrderOnlineActivity) container.getContext();
         activity.addAdaptersList(menuExpandableAdapter);
