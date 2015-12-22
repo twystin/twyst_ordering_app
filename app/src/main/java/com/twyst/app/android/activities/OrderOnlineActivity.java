@@ -21,7 +21,6 @@ import com.google.gson.Gson;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.CartAdapter;
-import com.twyst.app.android.adapters.MenuAdapter;
 import com.twyst.app.android.adapters.MenuExpandableAdapter;
 import com.twyst.app.android.adapters.MenuTabsPagerAdapter;
 import com.twyst.app.android.adapters.ScrollingOffersAdapter;
