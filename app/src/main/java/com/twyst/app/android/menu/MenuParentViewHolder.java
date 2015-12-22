@@ -36,9 +36,9 @@ public class MenuParentViewHolder extends ParentViewHolder {
         }
 
         if (expanded) {
-            expandedImage.setRotation(ROTATED_POSITION);
-        } else {
             expandedImage.setRotation(INITIAL_POSITION);
+        } else {
+            expandedImage.setRotation(ROTATED_POSITION);
         }
     }
 }

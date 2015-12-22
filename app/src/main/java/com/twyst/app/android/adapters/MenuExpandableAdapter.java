@@ -32,8 +32,6 @@ import java.util.List;
  * Created by Vipul Sharma on 12/22/2015.
  */
 public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentViewHolder, MenuChildViewHolder> {
-
-
     private static int mVegIconHeight = 0; //menuItemName height fixed for a specific device
     private LayoutInflater mInflater;
     private Context mContext;
@@ -62,9 +60,9 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
     }
 
     @Override
-    public void onBindParentViewHolder(MenuParentViewHolder crimeParentViewHolder, int i, ParentListItem parentListItem) {
+    public void onBindParentViewHolder(MenuParentViewHolder menuParentViewHolder, int i, ParentListItem parentListItem) {
         SubCategories subCategories = (SubCategories) parentListItem;
-        crimeParentViewHolder.text.setText(subCategories.getSubCategoryName());
+        menuParentViewHolder.text.setText(subCategories.getSubCategoryName());
     }
 
     @Override
@@ -129,9 +127,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
         }
 
         childViewHolder.menuItemName.setText(item.getItemName());
-
         childViewHolder.tvCost.setText(item.getItemCost());
-
     }
 
     private void add(Items item) {
@@ -224,7 +220,6 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
 
     private void showDialogSubOptions(final Items cartItem, final int currentIndex) {
         final Options option = cartItem.getOptionsList().get(0); // one option selected
-//        final SubOptions subOption = option.getSubOptionsList().get(currentIndex);
         final SubOptions subOptionNew = new SubOptions(option.getSubOptionsList().get(currentIndex));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -296,7 +291,6 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
 
     private void showDialogAddons(final Items cartItem, final int currentIndex) {
         final Options option = cartItem.getOptionsList().get(0); // one option selected
-//        final Addons addons = option.getAddonsList().get(currentIndex);
         final Addons addonsNew = new Addons(option.getAddonsList().get(currentIndex));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
