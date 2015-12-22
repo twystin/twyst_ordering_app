@@ -64,8 +64,8 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuAdapte
         setupToolBar();
         setupTopLayout();
         setupScrollingOfferAdapters();
-        setupMenu();
-//        fetchMenu();
+//        setupMenu();
+        fetchMenu();
         setupCartRecyclerView();
 
     }
@@ -149,7 +149,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuAdapte
     }
 
     private void fetchMenu() {
-        HttpService.getInstance().getMenu("56740f12b6188687102c8b9d", "i_9P_kDMgj0LZkSAr9sBhxs0eSBOWH_Y", new Callback<BaseResponse<MenuData>>() {
+        HttpService.getInstance().getMenu("56740f12b6188687102c8b9d", "8t2MdEGlJCWD4NXPJ4mWXVlm7VkdNXfe", new Callback<BaseResponse<MenuData>>() {
             @Override
             public void success(BaseResponse<MenuData> menuDataBaseResponse, Response response) {
                 MenuData menuData = menuDataBaseResponse.getData();
