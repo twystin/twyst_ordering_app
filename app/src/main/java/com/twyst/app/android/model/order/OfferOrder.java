@@ -15,9 +15,6 @@ public class OfferOrder implements Serializable {
 
     private String terms;
 
-    @SerializedName("order_value")
-    private float orderValue;
-
     private String type;
 
     private String line1;
@@ -34,6 +31,21 @@ public class OfferOrder implements Serializable {
 
     @SerializedName("available_now")
     private boolean availableNow;
+
+    @SerializedName("order_actual_value_without_tax")
+    private float orderActualValueWithOutTax;
+
+    @SerializedName("vat")
+    private float vatValue;
+
+    @SerializedName("st")
+    private float serviceTaxValue;
+
+    @SerializedName("order_actual_value_with_tax")
+    private float orderActualValueWithTax;
+
+    @SerializedName("is_applicable")
+    private boolean isApplicable;
 
     @SerializedName("expiry")
     private String expiryDate;
@@ -62,12 +74,44 @@ public class OfferOrder implements Serializable {
         this.terms = terms;
     }
 
-    public float getOrderValue() {
-        return orderValue;
+    public float getOrderActualValueWithOutTax() {
+        return orderActualValueWithOutTax;
     }
 
-    public void setOrderValue(float orderValue) {
-        this.orderValue = orderValue;
+    public void setOrderActualValueWithOutTax(float orderActualValueWithOutTax) {
+        this.orderActualValueWithOutTax = orderActualValueWithOutTax;
+    }
+
+    public float getVatValue() {
+        return vatValue;
+    }
+
+    public void setVatValue(float vatValue) {
+        this.vatValue = vatValue;
+    }
+
+    public float getServiceTaxValue() {
+        return serviceTaxValue;
+    }
+
+    public void setServiceTaxValue(float serviceTaxValue) {
+        this.serviceTaxValue = serviceTaxValue;
+    }
+
+    public float getOrderActualValueWithTax() {
+        return orderActualValueWithTax;
+    }
+
+    public void setOrderActualValueWithTax(float orderActualValueWithTax) {
+        this.orderActualValueWithTax = orderActualValueWithTax;
+    }
+
+    public boolean isApplicable() {
+        return isApplicable;
+    }
+
+    public void setIsApplicable(boolean isApplicable) {
+        this.isApplicable = isApplicable;
     }
 
     public String getType() {

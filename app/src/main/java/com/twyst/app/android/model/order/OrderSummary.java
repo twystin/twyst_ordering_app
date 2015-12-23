@@ -69,8 +69,17 @@ public class OrderSummary implements Serializable {
     @SerializedName("order_number")
     private String orderNumber;
 
-    @SerializedName("order_actual_value")
-    private float orderActualValue;
+    @SerializedName("order_actual_value_without_tax")
+    private float orderActualValueWithOutTax;
+
+    @SerializedName("vat")
+    private float vatValue;
+
+    @SerializedName("st")
+    private float serviceTaxValue;
+
+    @SerializedName("order_actual_value_with_tax")
+    private float orderActualValueWithTax;
 
     public ArrayList<OrderItem> getOrderItemList() {
         return orderItemList;
@@ -112,11 +121,43 @@ public class OrderSummary implements Serializable {
         this.orderNumber = orderNumber;
     }
 
-    public float getOrderActualValue() {
-        return orderActualValue;
+    public ArrayList<OfferOrder> getOfferOrderList() {
+        return offerOrderList;
     }
 
-    public void setOrderActualValue(float orderActualValue) {
-        this.orderActualValue = orderActualValue;
+    public void setOfferOrderList(ArrayList<OfferOrder> offerOrderList) {
+        this.offerOrderList = offerOrderList;
+    }
+
+    public float getOrderActualValueWithOutTax() {
+        return orderActualValueWithOutTax;
+    }
+
+    public void setOrderActualValueWithOutTax(float orderActualValueWithOutTax) {
+        this.orderActualValueWithOutTax = orderActualValueWithOutTax;
+    }
+
+    public float getVatValue() {
+        return vatValue;
+    }
+
+    public void setVatValue(float vatValue) {
+        this.vatValue = vatValue;
+    }
+
+    public float getServiceTaxValue() {
+        return serviceTaxValue;
+    }
+
+    public void setServiceTaxValue(float serviceTaxValue) {
+        this.serviceTaxValue = serviceTaxValue;
+    }
+
+    public float getOrderActualValueWithTax() {
+        return orderActualValueWithTax;
+    }
+
+    public void setOrderActualValueWithTax(float orderActualValueWithTax) {
+        this.orderActualValueWithTax = orderActualValueWithTax;
     }
 }
