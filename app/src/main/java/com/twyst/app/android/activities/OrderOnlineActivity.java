@@ -28,6 +28,7 @@ import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.menu.MenuData;
 import com.twyst.app.android.model.order.OrderSummary;
 import com.twyst.app.android.service.HttpService;
+import com.twyst.app.android.util.TwystProgressHUD;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -181,6 +182,7 @@ public class OrderOnlineActivity extends BaseActivity implements MenuExpandableA
                 } else {
                     Toast.makeText(OrderOnlineActivity.this, menuDataBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+
                 hideProgressHUDInLayout();
                 hideSnackbar();
             }
@@ -307,21 +309,27 @@ public class OrderOnlineActivity extends BaseActivity implements MenuExpandableA
     private void checkOut() {
         OrderSummary orderSummary = new OrderSummary(mCartAdapter.getmCartItemsList(), mOutletId, "28.6", "77.2");
 
+        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
         HttpService.getInstance().postOrderVerify(getUserToken(), orderSummary, new Callback<BaseResponse<OrderSummary>>() {
             @Override
             public void success(BaseResponse<OrderSummary> orderSummaryBaseResponse, Response response) {
                 OrderSummary returnOrderSummary = orderSummaryBaseResponse.getData();
                 float actualValue = returnOrderSummary.getOrderActualValueWithTax();
+
+                Intent checkOutIntent = new Intent(OrderOnlineActivity.this, OrderSummaryActivity.class);
+                startActivity(checkOutIntent);
+                twystProgressHUD.dismiss();
+                hideSnackbar();
             }
 
             @Override
             public void failure(RetrofitError error) {
-
+                twystProgressHUD.dismiss();
+                handleRetrofitError(error);
+                hideSnackbar();
             }
         });
 
-        Intent checkOutIntent = new Intent(OrderOnlineActivity.this, OrderSummaryActivity.class);
-        startActivity(checkOutIntent);
     }
 
     @Override
