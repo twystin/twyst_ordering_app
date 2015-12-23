@@ -43,12 +43,28 @@
     <!--android:background="@android:color/white" />-->
     <!--</android.support.v4.widget.NestedScrollView>-->
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/menuPager"
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/menuPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp">
+            <include
+                android:id="@+id/circularProgressBar"
+                layout="@layout/twyst_progress_hud" />
+        </RelativeLayout>
+    </RelativeLayout>
+
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"

@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -159,29 +160,36 @@ public class OrderOnlineActivity extends BaseActivity implements MenuExpandableA
         HttpService.getInstance().getMenu(menuId, getUserToken(), new Callback<BaseResponse<MenuData>>() {
             @Override
             public void success(BaseResponse<MenuData> menuDataBaseResponse, Response response) {
-                MenuData menuData = menuDataBaseResponse.getData();
-                if (menuData != null) {
-                    mOutletId = menuData.getOutlet();
-                    // Get the ViewPager and set it's PagerAdapter so that it can display items
-                    MenuTabsPagerAdapter adapter = new MenuTabsPagerAdapter(menuData.getMenuCategoriesList(), getSupportFragmentManager(), OrderOnlineActivity.this);
-                    mMenuViewPager = (ViewPager) findViewById(R.id.menuPager);
-                    mMenuViewPager.setAdapter(adapter);
+                if (menuDataBaseResponse.isResponse()) {
+                    MenuData menuData = menuDataBaseResponse.getData();
+                    if (menuData != null) {
+                        mOutletId = menuData.getOutlet();
 
-                    // Give the TabLayout the ViewPager
-                    TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-                    tabLayout.setupWithViewPager(mMenuViewPager);
-//        tabLayout.setTabsFromPagerAdapter(adapter);
-//        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-//        tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mMenuViewPager));
-//        mMenuViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+                        // Get the ViewPager and set it's PagerAdapter so that it can display items
+                        MenuTabsPagerAdapter adapter = new MenuTabsPagerAdapter(menuData.getMenuCategoriesList(), getSupportFragmentManager(), OrderOnlineActivity.this);
+                        mMenuViewPager = (ViewPager) findViewById(R.id.menuPager);
+                        mMenuViewPager.setAdapter(adapter);
+
+                        // Give the TabLayout the ViewPager
+                        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+                        tabLayout.setupWithViewPager(mMenuViewPager);
+
+                    } else {
+                        Toast.makeText(OrderOnlineActivity.this, "No data found", Toast.LENGTH_SHORT).show();
+                    }
+
                 } else {
-                    Toast.makeText(OrderOnlineActivity.this, "No data found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(OrderOnlineActivity.this, menuDataBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+                hideProgressHUDInLayout();
+                hideSnackbar();
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Toast.makeText(OrderOnlineActivity.this, "No data found", Toast.LENGTH_SHORT).show();
+                hideProgressHUDInLayout();
+                hideSnackbar();
+                handleRetrofitError(error);
             }
         });
     }
@@ -303,7 +311,7 @@ public class OrderOnlineActivity extends BaseActivity implements MenuExpandableA
             @Override
             public void success(BaseResponse<OrderSummary> orderSummaryBaseResponse, Response response) {
                 OrderSummary returnOrderSummary = orderSummaryBaseResponse.getData();
-                float actualValue = returnOrderSummary.getOrderActualValue();
+                float actualValue = returnOrderSummary.getOrderActualValueWithTax();
             }
 
             @Override
