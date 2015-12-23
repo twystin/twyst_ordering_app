@@ -155,23 +155,29 @@ public class OrderOnlineActivity extends BaseActivity implements MenuExpandableA
     }
 
     private void fetchMenu() {
-        HttpService.getInstance().getMenu("5679087fb87d2a6f8197ff2c", "pgVB1DFQd4l9fjLoXVwfdZIjtQS6dVAd", new Callback<BaseResponse<MenuData>>() {
+        String menuId = "5679087fb87d2a6f8197ff2c";
+        String token = "pgVB1DFQd4l9fjLoXVwfdZIjtQS6dVAd";
+        HttpService.getInstance().getMenu(menuId, token, new Callback<BaseResponse<MenuData>>() {
             @Override
             public void success(BaseResponse<MenuData> menuDataBaseResponse, Response response) {
                 MenuData menuData = menuDataBaseResponse.getData();
-                mOutletId = menuData.getOutlet();
-                // Get the ViewPager and set it's PagerAdapter so that it can display items
-                MenuTabsPagerAdapter adapter = new MenuTabsPagerAdapter(menuData.getMenuCategoriesList(), getSupportFragmentManager(), OrderOnlineActivity.this);
-                mMenuViewPager = (ViewPager) findViewById(R.id.menuPager);
-                mMenuViewPager.setAdapter(adapter);
+                if (menuData != null) {
+                    mOutletId = menuData.getOutlet();
+                    // Get the ViewPager and set it's PagerAdapter so that it can display items
+                    MenuTabsPagerAdapter adapter = new MenuTabsPagerAdapter(menuData.getMenuCategoriesList(), getSupportFragmentManager(), OrderOnlineActivity.this);
+                    mMenuViewPager = (ViewPager) findViewById(R.id.menuPager);
+                    mMenuViewPager.setAdapter(adapter);
 
-                // Give the TabLayout the ViewPager
-                TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-                tabLayout.setupWithViewPager(mMenuViewPager);
+                    // Give the TabLayout the ViewPager
+                    TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+                    tabLayout.setupWithViewPager(mMenuViewPager);
 //        tabLayout.setTabsFromPagerAdapter(adapter);
 //        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 //        tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mMenuViewPager));
 //        mMenuViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+                } else {
+                    Toast.makeText(OrderOnlineActivity.this, "No data found", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
