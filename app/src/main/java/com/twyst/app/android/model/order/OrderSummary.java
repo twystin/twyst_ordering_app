@@ -57,11 +57,20 @@ public class OrderSummary implements Serializable {
     @SerializedName("items")
     private ArrayList<OrderItem> orderItemList = new ArrayList<>();
 
+    @SerializedName("offers")
+    private ArrayList<OfferOrder> offerOrderList = new ArrayList<>();
+
     @SerializedName("outlet")
     private String outletId;
 
     @SerializedName("coords")
     private Coords coordinates = new Coords();
+
+    @SerializedName("order_number")
+    private String orderNumber;
+
+    @SerializedName("order_actual_value")
+    private float orderActualValue;
 
     public ArrayList<OrderItem> getOrderItemList() {
         return orderItemList;
@@ -95,4 +104,19 @@ public class OrderSummary implements Serializable {
         this.mCartItemsList = mCartItemsList;
     }
 
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
+    public float getOrderActualValue() {
+        return orderActualValue;
+    }
+
+    public void setOrderActualValue(float orderActualValue) {
+        this.orderActualValue = orderActualValue;
+    }
 }

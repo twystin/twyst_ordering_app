@@ -41,6 +41,7 @@ import com.twyst.app.android.model.Voucher;
 import com.twyst.app.android.model.WalletData;
 import com.twyst.app.android.model.WriteToUs;
 import com.twyst.app.android.model.menu.MenuData;
+import com.twyst.app.android.model.order.OrderSummary;
 import com.twyst.app.android.util.AppConstants;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -102,6 +103,10 @@ public class HttpService {
 
     public void getMenu(String menuId, String token, Callback<BaseResponse<MenuData>> callback) {
         twystService.getMenu(menuId, token, callback);
+    }
+
+    public void postOrderVerify(String token, OrderSummary orderSummary, Callback<BaseResponse<OrderSummary>> callback){
+        twystService.postOrderVerify(token, orderSummary, callback);
     }
 
     public void userAuthToken(String code, String phone, Callback<BaseResponse<AuthToken>> callback) {

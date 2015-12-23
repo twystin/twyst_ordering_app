@@ -30,6 +30,7 @@ import com.twyst.app.android.model.Voucher;
 import com.twyst.app.android.model.WalletData;
 import com.twyst.app.android.model.WriteToUs;
 import com.twyst.app.android.model.menu.MenuData;
+import com.twyst.app.android.model.order.OrderSummary;
 
 import retrofit.Callback;
 import retrofit.http.Body;
@@ -51,6 +52,9 @@ public interface TwystService {
 
     @GET("/api/v4/menus/{menu_id}")
     public void getMenu(@Path("menu_id") String menuID, @Query("token") String token, Callback<BaseResponse<MenuData>> callback);
+
+    @POST("/api/v4/order/verify")
+    public void postOrderVerify(@Query("token") String token, @Body() OrderSummary orderSummary, Callback<BaseResponse<OrderSummary>> callback);
 
     @FormUrlEncoded
     @POST("/api/v4/authcode")

@@ -155,9 +155,8 @@ public class OrderOnlineActivity extends BaseActivity implements MenuExpandableA
     }
 
     private void fetchMenu() {
-        String menuId = "5679087fb87d2a6f8197ff2c";
-        String token = "pgVB1DFQd4l9fjLoXVwfdZIjtQS6dVAd";
-        HttpService.getInstance().getMenu(menuId, token, new Callback<BaseResponse<MenuData>>() {
+        String menuId = "56740f12b6188687102c8b9d";
+        HttpService.getInstance().getMenu(menuId, getUserToken(), new Callback<BaseResponse<MenuData>>() {
             @Override
             public void success(BaseResponse<MenuData> menuDataBaseResponse, Response response) {
                 MenuData menuData = menuDataBaseResponse.getData();
@@ -299,6 +298,19 @@ public class OrderOnlineActivity extends BaseActivity implements MenuExpandableA
 
     private void checkOut() {
         OrderSummary orderSummary = new OrderSummary(mCartAdapter.getmCartItemsList(), mOutletId, "28.6", "77.2");
+
+        HttpService.getInstance().postOrderVerify(getUserToken(), orderSummary, new Callback<BaseResponse<OrderSummary>>() {
+            @Override
+            public void success(BaseResponse<OrderSummary> orderSummaryBaseResponse, Response response) {
+                OrderSummary returnOrderSummary = orderSummaryBaseResponse.getData();
+                float actualValue = returnOrderSummary.getOrderActualValue();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
 
         Intent checkOutIntent = new Intent(OrderOnlineActivity.this, OrderSummaryActivity.class);
         startActivity(checkOutIntent);
