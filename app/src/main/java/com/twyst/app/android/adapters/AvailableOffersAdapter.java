@@ -6,11 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
-import android.widget.RatingBar;
-import android.widget.TextView;
-
 import com.twyst.app.android.R;
-import com.twyst.app.android.model.Outlet;
 import com.twyst.app.android.model.order.OfferOrder;
 
 import java.util.ArrayList;

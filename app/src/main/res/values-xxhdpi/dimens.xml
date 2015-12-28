@@ -122,4 +122,9 @@
     <dimen name="notification_item_height">95dp</dimen>
     <dimen name="notification_header_text">14dp</dimen>
     <dimen name="notification_detail_text">11dp</dimen>
+
+    <dimen name="card_text_padding">8dp</dimen>
+    <dimen name="address_huge_text_size">16dp</dimen>
+    <dimen name="card_text_layout_margin">8dp</dimen>
+    <dimen name="card_text_layout_radius">2dp</dimen>
 </resources>
