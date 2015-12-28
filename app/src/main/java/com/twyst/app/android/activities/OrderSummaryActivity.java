@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.SummaryAdapter;
+import com.twyst.app.android.model.order.OrderSummary;
+import com.twyst.app.android.util.AppConstants;
 
 /**
  * Created by Vipul Sharma on 12/21/2015.
@@ -20,6 +22,9 @@ public class OrderSummaryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_summary);
+
+        Bundle extras = getIntent().getExtras();
+        OrderSummary orderSummary = (OrderSummary) extras.getSerializable(AppConstants.INTENT_ORDER_SUMMARY);
 
         setupToolBar();
         setupSummaryRecyclerView();

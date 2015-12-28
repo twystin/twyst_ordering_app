@@ -148,4 +148,6 @@ public class AppConstants {
     public static final String INTENT_SPLASH_OUTLET_LIST = "intent_splash_outlet_list";
     public static final String INTENT_FROM_SPLASH_DOWNLOADING = "intent_from_splash_downloading";
 
+    public static final String INTENT_ORDER_SUMMARY = "intent_order_summary";
+
 }

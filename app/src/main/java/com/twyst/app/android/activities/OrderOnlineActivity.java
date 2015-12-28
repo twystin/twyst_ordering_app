@@ -26,8 +26,10 @@ import com.twyst.app.android.adapters.ScrollingOffersAdapter;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.menu.MenuData;
+import com.twyst.app.android.model.order.OfferOrder;
 import com.twyst.app.android.model.order.OrderSummary;
 import com.twyst.app.android.service.HttpService;
+import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
 
 import java.util.ArrayList;
@@ -314,10 +316,19 @@ public class OrderOnlineActivity extends BaseActivity implements MenuExpandableA
             @Override
             public void success(BaseResponse<OrderSummary> orderSummaryBaseResponse, Response response) {
                 OrderSummary returnOrderSummary = orderSummaryBaseResponse.getData();
-                float actualValue = returnOrderSummary.getOrderActualValueWithTax();
+                Intent checkOutIntent;
 
-                Intent checkOutIntent = new Intent(OrderOnlineActivity.this, OrderSummaryActivity.class);
+                if (returnOrderSummary.getOfferOrderList().size() > 0) {
+                    checkOutIntent = new Intent(OrderOnlineActivity.this, AvailableOffersActivity.class);
+                } else {
+                    checkOutIntent = new Intent(OrderOnlineActivity.this, OrderSummaryActivity.class);
+                }
+
+                Bundle orderSummaryData = new Bundle();
+                orderSummaryData.putSerializable(AppConstants.INTENT_ORDER_SUMMARY, returnOrderSummary);
+                checkOutIntent.putExtras(orderSummaryData);
                 startActivity(checkOutIntent);
+
                 twystProgressHUD.dismiss();
                 hideSnackbar();
             }
