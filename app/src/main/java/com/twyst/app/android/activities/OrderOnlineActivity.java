@@ -318,6 +318,7 @@ public class OrderOnlineActivity extends BaseActivity implements MenuExpandableA
                 if (orderSummaryBaseResponse.isResponse()) {
                     OrderSummary returnOrderSummary = orderSummaryBaseResponse.getData();
                     Intent checkOutIntent;
+                    returnOrderSummary.setmCartItemsList(mCartAdapter.getmCartItemsList());
 
                     if (returnOrderSummary.getOfferOrderList().size() > 0) {
                         checkOutIntent = new Intent(OrderOnlineActivity.this, AvailableOffersActivity.class);
