@@ -62,8 +62,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         final Items item = mCartItemsList.get(position);
         holder.menuItemName.setText(item.getItemName());
         holder.tvCost.setText(item.getItemCost());
-        int calculatedCost = Integer.parseInt(item.getItemCost()) * item.getItemQuantity();
-//        holder.tvCalculatedCost.setText(String.valueOf(calculatedCost));
+
         if (item.getItemQuantity() == 0) {
             holder.mIvMinus.setVisibility(View.INVISIBLE);
             holder.tvQuantity.setVisibility(View.INVISIBLE);
@@ -130,7 +129,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         });
 
         ArrayList<String> customisationList = item.getCustomisationList();
-//        String[] categories = {"Gelepenos","9 inches", "Cheese Dip","Chicken Pepperoni", "Gelepenos","9 inches", "Cheese Dip","Chicken Pepperoni","Gelepenos","9 inches", "Cheese Dip","Chicken Pepperoni", "Gelepenos","9 inches", "Cheese Dip","Chicken Pepperoni"};
+
         final LinearLayout hiddenLayout = holder.llCustomisations;
         final TextView menuItemNameFinal = holder.menuItemName;
         if (customisationList.size() != 0){
@@ -156,12 +155,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 hiddenLayout.removeAllViews();
             }
         }
-
-//        String customisations = "9inches dip chicken 9inches dip chicken 9inches dip chicken 9inches dip chicken";
-//        Spannable wordtoSpan = new SpannableString(customisations);
-//        wordtoSpan.setSpan(new BackgroundColorSpan(mContext.getResources().getColor(R.color.selected_text_customisations)), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        wordtoSpan.setSpan(new BackgroundColorSpan(mContext.getResources().getColor(R.color.selected_text_customisations)), 8, 11, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        holder.tvCustomisations.setText(wordtoSpan);
 
     }
 
