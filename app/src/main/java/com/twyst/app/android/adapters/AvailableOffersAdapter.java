@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.order.OfferOrder;
+import com.twyst.app.android.model.order.OrderSummary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +17,11 @@ import java.util.List;
  * Created by Vipul Sharma on 12/24/2015.
  */
 public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffersAdapter.OfferAvailableHolder> {
-    private List<OfferOrder> mOfferOrderList = new ArrayList<>();
     private final Context mContext;
+    private final OrderSummary mOrderSummary;
 
-    public AvailableOffersAdapter(Context context, List<OfferOrder> offerOrderList) {
-        this.mOfferOrderList = offerOrderList;
+    public AvailableOffersAdapter(Context context, OrderSummary orderSummary) {
+        this.mOrderSummary = orderSummary;
         this.mContext = context;
     }
 
@@ -34,12 +35,12 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
     @Override
     public void onBindViewHolder(OfferAvailableHolder offerAvailableHolder, int position) {
         final View view = offerAvailableHolder.itemView;
-        offerAvailableHolder.rbOfferText.setText(mOfferOrderList.get(position).getHeader());
+        offerAvailableHolder.rbOfferText.setText(mOrderSummary.getOfferOrderList().get(position).getHeader());
     }
 
     @Override
     public int getItemCount() {
-        return mOfferOrderList.size();
+        return mOrderSummary.getOfferOrderList().size();
     }
 
     public static class OfferAvailableHolder extends RecyclerView.ViewHolder {

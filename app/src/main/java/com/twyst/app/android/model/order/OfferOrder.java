@@ -50,6 +50,17 @@ public class OfferOrder implements Serializable {
     @SerializedName("expiry")
     private String expiryDate;
 
+    @SerializedName("free_item_index")
+    private int freeItemIndex = -1;
+
+    public int getFreeItemIndex() {
+        return freeItemIndex;
+    }
+
+    public void setFreeItemIndex(int freeItemIndex) {
+        this.freeItemIndex = freeItemIndex;
+    }
+
     public String getId() {
         return id;
     }

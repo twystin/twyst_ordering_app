@@ -33,7 +33,7 @@ public class AvailableOffersActivity extends BaseActivity {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mOfferRecyclerView.setLayoutManager(mLayoutManager);
 
-        AvailableOffersAdapter availableOffersAdapter = new AvailableOffersAdapter(AvailableOffersActivity.this, mOrderSummary.getOfferOrderList());
+        AvailableOffersAdapter availableOffersAdapter = new AvailableOffersAdapter(AvailableOffersActivity.this, mOrderSummary);
         mOfferRecyclerView.setAdapter(availableOffersAdapter);
     }
 
