@@ -315,19 +315,23 @@ public class OrderOnlineActivity extends BaseActivity implements MenuExpandableA
         HttpService.getInstance().postOrderVerify(getUserToken(), orderSummary, new Callback<BaseResponse<OrderSummary>>() {
             @Override
             public void success(BaseResponse<OrderSummary> orderSummaryBaseResponse, Response response) {
-                OrderSummary returnOrderSummary = orderSummaryBaseResponse.getData();
-                Intent checkOutIntent;
+                if (orderSummaryBaseResponse.isResponse()) {
+                    OrderSummary returnOrderSummary = orderSummaryBaseResponse.getData();
+                    Intent checkOutIntent;
 
-                if (returnOrderSummary.getOfferOrderList().size() > 0) {
-                    checkOutIntent = new Intent(OrderOnlineActivity.this, AvailableOffersActivity.class);
+                    if (returnOrderSummary.getOfferOrderList().size() > 0) {
+                        checkOutIntent = new Intent(OrderOnlineActivity.this, AvailableOffersActivity.class);
+                    } else {
+                        checkOutIntent = new Intent(OrderOnlineActivity.this, OrderSummaryActivity.class);
+                    }
+
+                    Bundle orderSummaryData = new Bundle();
+                    orderSummaryData.putSerializable(AppConstants.INTENT_ORDER_SUMMARY, returnOrderSummary);
+                    checkOutIntent.putExtras(orderSummaryData);
+                    startActivity(checkOutIntent);
                 } else {
-                    checkOutIntent = new Intent(OrderOnlineActivity.this, OrderSummaryActivity.class);
+                    Toast.makeText(OrderOnlineActivity.this, orderSummaryBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-
-                Bundle orderSummaryData = new Bundle();
-                orderSummaryData.putSerializable(AppConstants.INTENT_ORDER_SUMMARY, returnOrderSummary);
-                checkOutIntent.putExtras(orderSummaryData);
-                startActivity(checkOutIntent);
 
                 twystProgressHUD.dismiss();
                 hideSnackbar();
