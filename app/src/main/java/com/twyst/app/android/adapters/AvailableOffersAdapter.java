@@ -21,7 +21,17 @@ import com.twyst.app.android.model.order.OrderSummary;
 public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffersAdapter.OfferAvailableHolder> {
     private final Context mContext;
     private final OrderSummary mOrderSummary;
+
+    public int getSelectedPosition() {
+        return selectedPosition;
+    }
+
+    public void setSelectedPosition(int selectedPosition) {
+        this.selectedPosition = selectedPosition;
+    }
+
     private int selectedPosition = -1;
+    private OnViewHolderListener onViewHolderListener;
     private static int mCheckIconWidth = 0; //checkIcon width fixed for a specific device
 
     public AvailableOffersAdapter(Context context, OrderSummary orderSummary) {
@@ -39,13 +49,28 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
     @Override
     public void onBindViewHolder(OfferAvailableHolder offerAvailableHolder, final int position) {
         final View view = offerAvailableHolder.itemView;
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectedPosition = position;
-                notifyDataSetChanged();
-            }
-        });
+        OfferOrder offerOrder = mOrderSummary.getOfferOrderList().get(position);
+
+        if (offerOrder.isApplicable()) {
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onViewHolderListener != null) {
+                        onViewHolderListener.onItemClicked(position);
+                    }
+                }
+            });
+
+            offerAvailableHolder.tvBucksCount.setText(String.valueOf(offerOrder.getOfferCost()));
+            offerAvailableHolder.tvSave.setText("Save Rs. 90");
+        } else {
+            offerAvailableHolder.tvHeader.setTextColor(mContext.getResources().getColor(R.color.semi_black_faded));
+            offerAvailableHolder.tvLine12.setTextColor(mContext.getResources().getColor(R.color.semi_black_faded));
+            offerAvailableHolder.llBucks.setVisibility(View.INVISIBLE);
+            offerAvailableHolder.ivChecked.setVisibility(View.INVISIBLE);
+        }
+        offerAvailableHolder.tvHeader.setText(offerOrder.getHeader());
+        offerAvailableHolder.tvLine12.setText(offerOrder.getLine1() + ", " + offerOrder.getLine2());
 
         //Setting divider
         if (position + 1 == mOrderSummary.getOfferOrderList().size()) {
@@ -72,22 +97,25 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
             offerAvailableHolder.ivChecked.requestLayout();
         }
 
-        OfferOrder offerOrder = mOrderSummary.getOfferOrderList().get(position);
         if (position == selectedPosition) {
             offerAvailableHolder.ivChecked.setImageResource(R.drawable.checked);
         } else {
             offerAvailableHolder.ivChecked.setImageResource(R.drawable.unchecked);
         }
 
-        offerAvailableHolder.tvHeader.setText(offerOrder.getHeader());
-        offerAvailableHolder.tvLine12.setText(offerOrder.getLine1() + " " + offerOrder.getLine2());
-        offerAvailableHolder.tvBucksCount.setText(String.valueOf(offerOrder.getOfferCost()));
-        offerAvailableHolder.tvSave.setText("Save Rs. 90");
     }
 
     @Override
     public int getItemCount() {
         return mOrderSummary.getOfferOrderList().size();
+    }
+
+    public interface OnViewHolderListener {
+        void onItemClicked(int position);
+    }
+
+    public void setOnViewHolderListener(OnViewHolderListener onViewHolderListener) {
+        this.onViewHolderListener = onViewHolderListener;
     }
 
     public static class OfferAvailableHolder extends RecyclerView.ViewHolder {
@@ -97,6 +125,7 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
         TextView tvBucksCount;
         TextView tvSave;
         View divider;
+        LinearLayout llBucks;
 
         public OfferAvailableHolder(View itemView) {
             super(itemView);
@@ -106,6 +135,7 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
             this.tvBucksCount = (TextView) itemView.findViewById(R.id.tvBucksCount);
             this.tvSave = (TextView) itemView.findViewById(R.id.tvSave);
             this.divider = (View) itemView.findViewById(R.id.divider);
+            this.llBucks = (LinearLayout) itemView.findViewById(R.id.llBucks);
         }
     }
 

@@ -116,4 +116,5 @@
     <color name="black_text_color_card_view">#323232</color>
     <color name="black">#000000</color>
     <color name="semi_black">#696969</color>
+    <color name="semi_black_faded">#9b9b9b</color>
 </resources>

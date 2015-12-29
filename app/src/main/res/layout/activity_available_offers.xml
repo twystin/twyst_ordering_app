@@ -78,7 +78,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/button_red"
+                android:clickable="false"
+                android:background="@drawable/button_disabled"
                 android:padding="5dp"
                 app:mrl_rippleOverlay="true">
 
