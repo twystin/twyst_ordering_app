@@ -1,11 +1,14 @@
 package com.twyst.app.android.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
@@ -19,6 +22,7 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
     private final Context mContext;
     private final OrderSummary mOrderSummary;
     private int selectedPosition = -1;
+    private static int mCheckIconWidth = 0; //checkIcon width fixed for a specific device
 
     public AvailableOffersAdapter(Context context, OrderSummary orderSummary) {
         this.mOrderSummary = orderSummary;
@@ -48,6 +52,24 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
             offerAvailableHolder.divider.setVisibility(View.GONE);
         } else {
             offerAvailableHolder.divider.setVisibility(View.VISIBLE);
+        }
+
+        if (mCheckIconWidth == 0) {
+            final ImageView ivCheckedFinal = offerAvailableHolder.ivChecked;
+            ivCheckedFinal.getViewTreeObserver()
+                    .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            mCheckIconWidth = ivCheckedFinal.getMeasuredWidth();
+                            ivCheckedFinal.getLayoutParams().height = mCheckIconWidth;
+                            ivCheckedFinal.requestLayout();
+                            ivCheckedFinal.getViewTreeObserver()
+                                    .removeOnGlobalLayoutListener(this);
+                        }
+                    });
+        } else {
+            offerAvailableHolder.ivChecked.getLayoutParams().height = mCheckIconWidth;
+            offerAvailableHolder.ivChecked.requestLayout();
         }
 
         OfferOrder offerOrder = mOrderSummary.getOfferOrderList().get(position);
