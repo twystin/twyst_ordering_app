@@ -127,4 +127,7 @@
     <dimen name="address_huge_text_size">16dp</dimen>
     <dimen name="card_text_layout_margin">8dp</dimen>
     <dimen name="card_text_layout_radius">2dp</dimen>
+
+    <dimen name="offer_available_header_text">14dp</dimen>
+    <dimen name="offer_available_desc_text">10dp</dimen>
 </resources>

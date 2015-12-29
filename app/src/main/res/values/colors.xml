@@ -114,4 +114,6 @@
 
     <color name="grey_heading_card_view">#e9e9e9</color>
     <color name="black_text_color_card_view">#323232</color>
+    <color name="black">#000000</color>
+    <color name="semi_black">#696969</color>
 </resources>

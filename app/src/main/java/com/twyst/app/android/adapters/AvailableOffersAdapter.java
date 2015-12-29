@@ -5,13 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.order.OfferOrder;
 import com.twyst.app.android.model.order.OrderSummary;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Vipul Sharma on 12/24/2015.
@@ -19,6 +18,7 @@ import java.util.List;
 public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffersAdapter.OfferAvailableHolder> {
     private final Context mContext;
     private final OrderSummary mOrderSummary;
+    private int selectedPosition = -1;
 
     public AvailableOffersAdapter(Context context, OrderSummary orderSummary) {
         this.mOrderSummary = orderSummary;
@@ -33,9 +33,34 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
     }
 
     @Override
-    public void onBindViewHolder(OfferAvailableHolder offerAvailableHolder, int position) {
+    public void onBindViewHolder(OfferAvailableHolder offerAvailableHolder, final int position) {
         final View view = offerAvailableHolder.itemView;
-        offerAvailableHolder.rbOfferText.setText(mOrderSummary.getOfferOrderList().get(position).getHeader());
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedPosition = position;
+                notifyDataSetChanged();
+            }
+        });
+
+        //Setting divider
+        if (position + 1 == mOrderSummary.getOfferOrderList().size()) {
+            offerAvailableHolder.divider.setVisibility(View.GONE);
+        } else {
+            offerAvailableHolder.divider.setVisibility(View.VISIBLE);
+        }
+
+        OfferOrder offerOrder = mOrderSummary.getOfferOrderList().get(position);
+        if (position == selectedPosition) {
+            offerAvailableHolder.ivChecked.setImageResource(R.drawable.checked);
+        } else {
+            offerAvailableHolder.ivChecked.setImageResource(R.drawable.unchecked);
+        }
+
+        offerAvailableHolder.tvHeader.setText(offerOrder.getHeader());
+        offerAvailableHolder.tvLine12.setText(offerOrder.getLine1() + " " + offerOrder.getLine2());
+        offerAvailableHolder.tvBucksCount.setText(String.valueOf(offerOrder.getOfferCost()));
+        offerAvailableHolder.tvSave.setText("Save Rs. 90");
     }
 
     @Override
@@ -44,11 +69,21 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
     }
 
     public static class OfferAvailableHolder extends RecyclerView.ViewHolder {
-        RadioButton rbOfferText;
+        ImageView ivChecked;
+        TextView tvHeader;
+        TextView tvLine12;
+        TextView tvBucksCount;
+        TextView tvSave;
+        View divider;
 
         public OfferAvailableHolder(View itemView) {
             super(itemView);
-            this.rbOfferText = (RadioButton) itemView.findViewById(R.id.rbOfferText);
+            this.ivChecked = (ImageView) itemView.findViewById(R.id.ivChecked);
+            this.tvHeader = (TextView) itemView.findViewById(R.id.tvHeader);
+            this.tvLine12 = (TextView) itemView.findViewById(R.id.tvLine12);
+            this.tvBucksCount = (TextView) itemView.findViewById(R.id.tvBucksCount);
+            this.tvSave = (TextView) itemView.findViewById(R.id.tvSave);
+            this.divider = (View) itemView.findViewById(R.id.divider);
         }
     }
 

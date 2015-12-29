@@ -3,6 +3,7 @@ package com.twyst.app.android.activities;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.AvailableOffersAdapter;
