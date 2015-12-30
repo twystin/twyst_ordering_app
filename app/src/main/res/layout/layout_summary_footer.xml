@@ -12,6 +12,7 @@
         android:background="@color/gray_divider" />
 
     <LinearLayout
+        android:id="@+id/llItemTotal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -38,6 +39,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/llVat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -63,6 +65,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/llServiceTax"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -93,6 +96,7 @@
         android:background="@color/gray_divider" />
 
     <LinearLayout
+        android:id="@+id/llGrandTotal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -128,11 +132,13 @@
         android:dividerPadding="4dp"
         android:orientation="vertical">
 
-        <TextView
+        <EditText
+            android:id="@+id/etSuggestion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:padding="10dp"
+            android:background="@android:color/transparent"
             android:text="@string/suggestion"
             android:textColor="@color/black_text_color"
             android:textSize="12dp" />

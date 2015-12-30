@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -29,11 +30,13 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final List<Items> mCartItemsList;
     private static int mVegIconHeight = 0; //menuItemName height fixed for a specific device
     private final Context mContext;
+    private final OrderSummary mOrderSummary;
 
     private static final int VIEW_NORMAL = 0;
     private static final int VIEW_FOOTER = 1;
 
     public SummaryAdapter(Context context, OrderSummary orderSummary) {
+        this.mOrderSummary = orderSummary;
         mContext = context;
         mCartItemsList = orderSummary.getmCartItemsList();
     }
@@ -131,10 +134,10 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             final LinearLayout hiddenLayout = summaryViewHolder.llCustomisations;
             final TextView menuItemNameFinal = summaryViewHolder.menuItemName;
-            if (customisationList.size() != 0){
+            if (customisationList.size() != 0) {
                 final TextView[] textViews = new TextView[customisationList.size()];
-                for (int i = 0;i < customisationList.size();i++){
-                    textViews[i] =  new TextView(mContext);
+                for (int i = 0; i < customisationList.size(); i++) {
+                    textViews[i] = new TextView(mContext);
                     textViews[i].setText(customisationList.get(i));
                     textViews[i].setTextColor(mContext.getResources().getColor(R.color.customisations_text_color));
                     textViews[i].setTextSize(12.0f);
@@ -156,10 +159,31 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
 
-
         } else {
+            // Footer
+            final SummaryViewHolderFooter summaryViewHolderFooter = (SummaryViewHolderFooter) holder;
 
-            SummaryViewHolderFooter summaryViewHolderFooter = (SummaryViewHolderFooter) holder;
+            //Item Total
+            summaryViewHolderFooter.tvItemTotal.setText(Utils.costString(mOrderSummary.getOrderActualValueWithOutTax()));
+
+            //Grand Total
+            summaryViewHolderFooter.tvItemTotal.setText(Utils.costString(mOrderSummary.getOrderActualValueWithOutTax()));
+
+            //Vat
+            if (mOrderSummary.getVatValue() != 0) {
+                summaryViewHolderFooter.llVat.setVisibility(View.VISIBLE);
+                summaryViewHolderFooter.tvVat.setText(Utils.costString(mOrderSummary.getVatValue()));
+            } else {
+                summaryViewHolderFooter.llVat.setVisibility(View.GONE);
+            }
+
+            //Service Tax
+            if (mOrderSummary.getServiceTaxValue() != 0) {
+                summaryViewHolderFooter.llServiceTax.setVisibility(View.VISIBLE);
+                summaryViewHolderFooter.tvServiceTax.setText(Utils.costString(mOrderSummary.getServiceTaxValue()));
+            } else {
+                summaryViewHolderFooter.llServiceTax.setVisibility(View.GONE);
+            }
 
         }
     }
@@ -170,9 +194,27 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public static class SummaryViewHolderFooter extends RecyclerView.ViewHolder {
+        LinearLayout llItemTotal;
+        TextView tvItemTotal;
+        LinearLayout llVat;
+        TextView tvVat;
+        LinearLayout llServiceTax;
+        TextView tvServiceTax;
+        LinearLayout llGrandTotal;
+        TextView tvGrandTotal;
+        EditText etSuggestion;
 
         public SummaryViewHolderFooter(View itemView) {
             super(itemView);
+            this.llItemTotal = (LinearLayout) itemView.findViewById(R.id.llItemTotal);
+            this.tvItemTotal = (TextView) itemView.findViewById(R.id.tvItemTotal);
+            this.llVat = (LinearLayout) itemView.findViewById(R.id.llVat);
+            this.tvVat = (TextView) itemView.findViewById(R.id.tvVat);
+            this.llServiceTax = (LinearLayout) itemView.findViewById(R.id.llServiceTax);
+            this.tvServiceTax = (TextView) itemView.findViewById(R.id.tvServiceTax);
+            this.llGrandTotal = (LinearLayout) itemView.findViewById(R.id.llGrandTotal);
+            this.tvGrandTotal = (TextView) itemView.findViewById(R.id.tvGrandTotal);
+            this.etSuggestion = (EditText) itemView.findViewById(R.id.etSuggestion);
         }
     }
 
