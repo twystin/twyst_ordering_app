@@ -2,51 +2,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
-    <LinearLayout
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
+    
+    <TextView
+        android:id="@+id/tvCost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tvRs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/rupee_sign"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/outlet_offer_header_textsize" />
-
-        <TextView
-            android:id="@+id/tvCost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="160"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/outlet_offer_header_textsize" />
-    </LinearLayout>
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text="160"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/outlet_offer_header_textsize" />
 
     <RadioButton
         android:id="@+id/rbOption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/half_black"
         android:clickable="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:textSize="@dimen/outlet_offer_header_textsize"
-        android:text="text"/>
+        android:text="text"
+        android:textColor="@color/half_black"
+        android:textSize="@dimen/outlet_offer_header_textsize" />
 
     <CheckBox
         android:id="@+id/cbOption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/half_black"
         android:clickable="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:visibility="gone"
+        android:text="text"
+        android:textColor="@color/half_black"
         android:textSize="@dimen/outlet_offer_header_textsize"
-        android:text="text" />
+        android:visibility="gone" />
 </RelativeLayout>

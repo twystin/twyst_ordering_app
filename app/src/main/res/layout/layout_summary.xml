@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:orientation="vertical"/>
+            android:orientation="vertical" />
 
     </LinearLayout>
 
@@ -57,31 +57,14 @@
         android:layout_weight="3"
         android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tvCost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvRs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/rupee_sign"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/outlet_offer_header_textsize" />
-
-            <TextView
-                android:id="@+id/tvCost"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="160"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/outlet_offer_header_textsize" />
-
-        </LinearLayout>
-
+            android:text="160"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/outlet_offer_header_textsize" />
     </LinearLayout>
-
 
 </LinearLayout>

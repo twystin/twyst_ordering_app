@@ -52,14 +52,6 @@
             android:layout_toRightOf="@+id/viewDivider">
 
             <TextView
-                android:id="@+id/tvRs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/rupee_sign"
-                android:textColor="@color/primary"
-                android:textSize="23dp" />
-
-            <TextView
                 android:id="@+id/tvCartTotalCost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

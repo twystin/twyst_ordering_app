@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_weight="10"
-    android:minHeight="@dimen/menu_layout_height"
     android:background="@color/menu_background_color"
+    android:minHeight="@dimen/menu_layout_height"
     android:orientation="horizontal"
     android:padding="10dp">
 
@@ -19,8 +19,8 @@
             android:id="@+id/menuItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chicken Maha Burger"
             android:drawablePadding="10dp"
+            android:text="Chicken Maha Burger"
             android:textColor="@android:color/black"
             android:textSize="@dimen/outlet_offer_header_textsize" />
 
@@ -28,16 +28,15 @@
             android:id="@+id/llCustomisations"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="5dp" >
-        </LinearLayout>
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"></LinearLayout>
 
         <!--<TextView-->
-            <!--android:id="@+id/tvCustomisations"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:singleLine="false"-->
-            <!--android:layout_marginTop="5dp" />-->
+        <!--android:id="@+id/tvCustomisations"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:singleLine="false"-->
+        <!--android:layout_marginTop="5dp" />-->
     </LinearLayout>
 
     <LinearLayout
@@ -46,29 +45,14 @@
         android:layout_weight="3"
         android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tvCost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvRs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/rupee_sign"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/outlet_offer_header_textsize" />
-
-            <TextView
-                android:id="@+id/tvCost"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="160"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/outlet_offer_header_textsize" />
-
-        </LinearLayout>
+            android:text="160"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/outlet_offer_header_textsize" />
 
         <LinearLayout
             android:layout_width="wrap_content"
