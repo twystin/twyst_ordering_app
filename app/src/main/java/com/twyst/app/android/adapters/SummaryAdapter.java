@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.order.OrderSummary;
+import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,7 +145,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     @Override
                     public void run() {
                         int maxWidth = hiddenLayout.getWidth();
-                        populateText(hiddenLayout, textViews, mContext, maxWidth - mVegIconHeight - menuItemNameFinal.getCompoundDrawablePadding());
+                        Utils.populateText(hiddenLayout, textViews, mContext, maxWidth - mVegIconHeight - menuItemNameFinal.getCompoundDrawablePadding());
                     }
                 });
 
@@ -161,54 +162,6 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             SummaryViewHolderFooter summaryViewHolderFooter = (SummaryViewHolderFooter) holder;
 
         }
-    }
-
-    private void populateText(LinearLayout ll, View[] views , Context mContext, int width) {
-        ll.removeAllViews();
-        int maxWidth = width;
-        LinearLayout.LayoutParams params;
-        LinearLayout newLL = new LinearLayout(mContext);
-        newLL.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        newLL.setGravity(Gravity.LEFT);
-        newLL.setOrientation(LinearLayout.HORIZONTAL);
-
-        int widthSoFar = 0;
-
-        for (int i = 0 ; i < views.length ; i++ ){
-            LinearLayout LL = new LinearLayout(mContext);
-            LL.setOrientation(LinearLayout.HORIZONTAL);
-            LL.setGravity(Gravity.CENTER_HORIZONTAL);
-            LL.setLayoutParams(new ListView.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-
-            views[i].measure(0,0);
-            params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.setMargins(5, 8, 5, 8);  // YOU CAN USE THIS
-            //LL.addView(TV, params);
-            LL.addView(views[i], params);
-            LL.measure(0, 0);
-            widthSoFar += views[i].getMeasuredWidth();// YOU MAY NEED TO ADD THE MARGINS
-            if (widthSoFar >= maxWidth) {
-                ll.addView(newLL);
-
-                newLL = new LinearLayout(mContext);
-                newLL.setLayoutParams(new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.FILL_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT));
-                newLL.setOrientation(LinearLayout.HORIZONTAL);
-                newLL.setGravity(Gravity.LEFT);
-//                    params = new LinearLayout.LayoutParams(LL
-//                            .getMeasuredWidth(), LL.getMeasuredHeight());
-                params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                newLL.addView(LL, params);
-                widthSoFar = LL.getMeasuredWidth();
-            } else {
-                newLL.addView(LL);
-            }
-        }
-        ll.addView(newLL);
     }
 
     @Override

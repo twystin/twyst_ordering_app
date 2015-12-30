@@ -7,12 +7,12 @@ import com.twyst.app.android.BuildConfig;
  */
 public class AppConstants {
 
-    public static final String HOST = "http://192.168.1.18:3000";
-//    public static final String HOST = "http://staging.twyst.in";
+//    public static final String HOST = "http://192.168.1.18:3000";
+    public static final String HOST = "http://staging.twyst.in";
 //    public static final String HOST = "http://retwyst.twyst.in";
 //    public static final String HOST = "http://twyst.in";
 
-    public static final String HOST_SECURE = "https://www.twyst.zin";
+    public static final String HOST_SECURE = "https://www.twyst.in";
 
     public static final String GCM_PROJECT_ID = "216832068690";
     public static final String GOOGLE_ANALYTICS_ID = "UA-51763503-2";
