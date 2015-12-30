@@ -3,6 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <View
@@ -32,7 +33,7 @@
             android:gravity="right"
             android:text="100"
             android:textColor="@color/black_text_color"
-            android:textSize="@dimen/outlet_offer_header_textsize"/>
+            android:textSize="@dimen/outlet_offer_header_textsize" />
 
     </LinearLayout>
 
@@ -49,7 +50,7 @@
             android:gravity="left"
             android:text="@string/vat"
             android:textColor="@color/black_text_color"
-            android:textSize="@dimen/outlet_offer_header_textsize"/>
+            android:textSize="@dimen/outlet_offer_header_textsize" />
 
         <TextView
             android:id="@+id/tvVat"
@@ -58,7 +59,7 @@
             android:gravity="right"
             android:text="100"
             android:textColor="@color/black_text_color"
-            android:textSize="@dimen/outlet_offer_header_textsize"/>
+            android:textSize="@dimen/outlet_offer_header_textsize" />
     </LinearLayout>
 
     <LinearLayout
@@ -74,7 +75,7 @@
             android:gravity="left"
             android:text="@string/service_tax"
             android:textColor="@color/black_text_color"
-            android:textSize="@dimen/outlet_offer_header_textsize"/>
+            android:textSize="@dimen/outlet_offer_header_textsize" />
 
         <TextView
             android:id="@+id/tvServiceTax"
@@ -104,7 +105,8 @@
             android:gravity="left"
             android:text="@string/grand_total"
             android:textColor="@color/black_text_color"
-            android:textSize="@dimen/outlet_offer_header_textsize" />
+            android:textSize="@dimen/outlet_offer_header_textsize"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvGrandTotal"
@@ -113,7 +115,8 @@
             android:gravity="right"
             android:text="100"
             android:textColor="@color/black_text_color"
-            android:textSize="@dimen/outlet_offer_header_textsize" />
+            android:textSize="@dimen/outlet_offer_header_textsize"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
