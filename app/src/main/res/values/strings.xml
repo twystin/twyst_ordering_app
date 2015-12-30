@@ -139,4 +139,10 @@ each friend who joins.</p>
     <string name="checkin_offer_card_text_exclusive">Upload bill to check-in and unlock exclusive offers! You also get %1$d Twyst Bucks!</string>
     <string name="checkin_offer_card_text">Upload bill and get %1$d Twyst Bucks!</string>
 
+    <string name="item_total">Item Total</string>
+    <string name="vat">VAT</string>
+    <string name="service_tax">Service Tax</string>
+    <string name="grand_total">Grand Total</string>
+    <string name="suggestion">Want a little less sugar, a little more spicy?\nPlease mention here</string>
+
 </resources>

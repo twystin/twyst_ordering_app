@@ -12,7 +12,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/grey_heading_card_view</item>
         <item name="android:padding">@dimen/card_text_padding</item>
-        <item name="android:textColor">@color/black_text_color_card_view</item>
+        <item name="android:textColor">@color/black_text_color</item>
         <item name="android:textSize">@dimen/address_huge_text_size</item>
         <item name="android:textStyle">bold</item>
     </style>

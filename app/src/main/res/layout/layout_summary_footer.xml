@@ -1,10 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="@color/outlet_txt_color_grey"/>
+        android:layout_height="1dp"
+        android:background="@color/gray_divider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="@string/item_total"
+            android:textColor="@color/black_text_color"
+            android:textSize="@dimen/outlet_offer_header_textsize" />
+
+        <TextView
+            android:id="@+id/tvItemTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="100"
+            android:textColor="@color/black_text_color"
+            android:textSize="@dimen/outlet_offer_header_textsize"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="@string/vat"
+            android:textColor="@color/black_text_color"
+            android:textSize="@dimen/outlet_offer_header_textsize"/>
+
+        <TextView
+            android:id="@+id/tvVat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="100"
+            android:textColor="@color/black_text_color"
+            android:textSize="@dimen/outlet_offer_header_textsize"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="@string/service_tax"
+            android:textColor="@color/black_text_color"
+            android:textSize="@dimen/outlet_offer_header_textsize"/>
+
+        <TextView
+            android:id="@+id/tvServiceTax"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="YES"
+            android:textColor="@color/black_text_color"
+            android:textSize="@dimen/outlet_offer_header_textsize" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_divider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="@string/grand_total"
+            android:textColor="@color/black_text_color"
+            android:textSize="@dimen/outlet_offer_header_textsize" />
+
+        <TextView
+            android:id="@+id/tvGrandTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="100"
+            android:textColor="@color/black_text_color"
+            android:textSize="@dimen/outlet_offer_header_textsize" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rounded_edit_text"
+        android:dividerPadding="4dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:padding="10dp"
+            android:text="@string/suggestion"
+            android:textColor="@color/black_text_color"
+            android:textSize="12dp" />
+    </LinearLayout>
 </LinearLayout>
