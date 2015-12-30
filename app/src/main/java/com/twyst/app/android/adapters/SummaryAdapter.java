@@ -80,7 +80,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             final Items item = mCartItemsList.get(position);
             summaryViewHolder.menuItemName.setText(item.getItemName());
-            summaryViewHolder.tvCost.setText(item.getItemCost());
+            summaryViewHolder.tvCost.setText(Utils.costString(item.getItemCost()));
 
             summaryViewHolder.tvItemQuantity.setText("x " + String.valueOf(item.getItemQuantity()));
 

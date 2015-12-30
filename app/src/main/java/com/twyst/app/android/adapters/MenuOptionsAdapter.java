@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.menu.Options;
+import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,7 @@ public class MenuOptionsAdapter extends BaseAdapter {
         rbOption.setText(mOptionsList.get(position).getOptionValue());
         rbOption.setChecked(position == selectedPosition);
 
-        tvCost.setText(mOptionsList.get(position).getOptionCost());
+        tvCost.setText(Utils.costString(mOptionsList.get(position).getOptionCost()));
         return convertView;
     }
 

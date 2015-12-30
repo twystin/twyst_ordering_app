@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.lang.reflect.Field;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 
 /**
@@ -28,7 +29,18 @@ public class Utils {
         return (dist);
     }
 
-    public static void populateText(LinearLayout ll, View[] views , Context mContext, int width) {
+    public static String costString(float costFloat) {
+        //Upto two decimal places
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+        df.format(costFloat);
+
+        int costInteger = (int) costFloat;
+        String costString = (costInteger == costFloat) ? String.valueOf(costInteger) : String.valueOf(costFloat);
+        return "₹ " + costString;
+    }
+
+    public static void populateText(LinearLayout ll, View[] views, Context mContext, int width) {
         ll.removeAllViews();
         int maxWidth = width;
         LinearLayout.LayoutParams params;
@@ -40,14 +52,14 @@ public class Utils {
 
         int widthSoFar = 0;
 
-        for (int i = 0 ; i < views.length ; i++ ){
+        for (int i = 0; i < views.length; i++) {
             LinearLayout LL = new LinearLayout(mContext);
             LL.setOrientation(LinearLayout.HORIZONTAL);
             LL.setGravity(Gravity.CENTER_HORIZONTAL);
             LL.setLayoutParams(new ListView.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-            views[i].measure(0,0);
+            views[i].measure(0, 0);
             params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
             params.setMargins(5, 8, 5, 8);  // YOU CAN USE THIS
@@ -88,7 +100,7 @@ public class Utils {
     public static Calendar nextDayOfWeek(int dow) {
         Calendar date = Calendar.getInstance();
         int diff = dow - date.get(Calendar.DAY_OF_WEEK);
-        System.out.println("GeneralUtils.nextDayOfWeek() diff="+diff);
+        System.out.println("GeneralUtils.nextDayOfWeek() diff=" + diff);
         if (!(diff > -1)) {
             diff += 7;
         }

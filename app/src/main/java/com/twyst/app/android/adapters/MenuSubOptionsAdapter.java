@@ -13,6 +13,7 @@ import com.twyst.app.android.R;
 import com.twyst.app.android.model.menu.Options;
 import com.twyst.app.android.model.menu.SubOptionSet;
 import com.twyst.app.android.model.menu.SubOptions;
+import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,7 @@ public class MenuSubOptionsAdapter extends BaseAdapter {
         rbOption.setText(mSubOptionsSetList.get(position).getSubOptionValue());
         rbOption.setChecked(position == selectedPosition);
 
-        tvCost.setText(mSubOptionsSetList.get(position).getSubOptionCost());
+        tvCost.setText(Utils.costString(mSubOptionsSetList.get(position).getSubOptionCost()));
         return convertView;
     }
 

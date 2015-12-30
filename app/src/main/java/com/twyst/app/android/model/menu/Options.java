@@ -26,7 +26,7 @@ public class Options implements Serializable {
     private boolean isVegetarian;
 
     @SerializedName("option_cost")
-    private String optionCost;
+    private Float optionCost;
 
     @SerializedName("option_value")
     private String optionValue;
@@ -88,11 +88,11 @@ public class Options implements Serializable {
         this.optionValue = optionValue;
     }
 
-    public String getOptionCost() {
+    public Float getOptionCost() {
         return optionCost;
     }
 
-    public void setOptionCost(String optionCost) {
+    public void setOptionCost(Float optionCost) {
         this.optionCost = optionCost;
     }
 }

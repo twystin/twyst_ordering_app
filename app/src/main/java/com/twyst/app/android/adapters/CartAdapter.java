@@ -62,7 +62,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         final Items item = mCartItemsList.get(position);
         holder.menuItemName.setText(item.getItemName());
-        holder.tvCost.setText(item.getItemCost());
+        holder.tvCost.setText(Utils.costString(item.getItemCost()));
 
         if (item.getItemQuantity() == 0) {
             holder.mIvMinus.setVisibility(View.INVISIBLE);
@@ -170,13 +170,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         }
     }
 
-    public int getTotalCost() {
-        int totalCost = 0;
+    public String getTotalCost() {
+        float totalCost = 0;
         for (int i = 0; i < mCartItemsList.size(); i++) {
-            int itemCost = Integer.parseInt(mCartItemsList.get(i).getItemCost()) * mCartItemsList.get(i).getItemQuantity();
+            float itemCost = mCartItemsList.get(i).getItemCost() * mCartItemsList.get(i).getItemQuantity();
             totalCost = totalCost + itemCost;
         }
-        return totalCost;
+        return Utils.costString(totalCost);
     }
 
     private void add(Items cartItem) {

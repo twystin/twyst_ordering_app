@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.menu.AddonSet;
+import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,7 @@ public class MenuAddonsAdapter extends BaseAdapter {
         cbOption.setText(mAddonsSetList.get(position).getAddonValue());
         cbOption.setChecked(selectedPositions.contains(position));
 
-        tvCost.setText(mAddonsSetList.get(position).getAddonCost());
+        tvCost.setText(Utils.costString(mAddonsSetList.get(position).getAddonCost()));
         return convertView;
     }
 

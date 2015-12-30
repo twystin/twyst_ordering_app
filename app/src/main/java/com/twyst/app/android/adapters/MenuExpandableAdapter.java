@@ -27,6 +27,7 @@ import com.twyst.app.android.model.menu.Options;
 import com.twyst.app.android.model.menu.SubCategories;
 import com.twyst.app.android.model.menu.SubOptionSet;
 import com.twyst.app.android.model.menu.SubOptions;
+import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -152,7 +153,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
         }
 
         childViewHolder.menuItemName.setText(item.getItemName());
-        childViewHolder.tvCost.setText(item.getItemCost());
+        childViewHolder.tvCost.setText(Utils.costString(item.getItemCost()));
     }
 
     private void add(Items item) {
@@ -290,8 +291,8 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
                 subOptionSetListNew.add(subOptionSet);
                 subOptionNew.setSubOptionSetList(subOptionSetListNew);
                 option.getSubOptionsList().set(currentIndex, subOptionNew);
-                int itemCostNew = Integer.parseInt(cartItem.getItemCost()) + Integer.parseInt(subOptionSet.getSubOptionCost());
-                cartItem.setItemCost(String.valueOf(itemCostNew));
+                float itemCostNew = cartItem.getItemCost() + subOptionSet.getSubOptionCost();
+                cartItem.setItemCost(itemCostNew);
                 if ((currentIndex + 1) < option.getSubOptionsList().size()) {
                     showDialogSubOptions(cartItem, currentIndex + 1);
                 } else {
@@ -360,8 +361,8 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
                 for (int i = 0; i < menuAddonsAdapter.getSelectedPositions().size(); i++) {
                     AddonSet addonSet = addonsNew.getAddonSetList().get(menuAddonsAdapter.getSelectedPositions().get(i));
                     addonSetListNew.add(addonSet);
-                    int itemCostNew = Integer.parseInt(cartItem.getItemCost()) + Integer.parseInt(addonSet.getAddonCost());
-                    cartItem.setItemCost(String.valueOf(itemCostNew));
+                    float itemCostNew = cartItem.getItemCost() + addonSet.getAddonCost();
+                    cartItem.setItemCost(itemCostNew);
                 }
                 addonsNew.setAddonSetList(addonSetListNew);
                 option.getAddonsList().set(currentIndex, addonsNew);

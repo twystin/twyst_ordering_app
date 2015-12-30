@@ -29,7 +29,7 @@ public class Items implements Serializable {
     private boolean isVegetarian;
 
     @SerializedName("item_cost")
-    private String itemCost;
+    private Float itemCost;
 
     @SerializedName("item_name")
     private String itemName;
@@ -123,11 +123,11 @@ public class Items implements Serializable {
         this.itemAvailability = itemAvailability;
     }
 
-    public String getItemCost() {
+    public Float getItemCost() {
         return itemCost;
     }
 
-    public void setItemCost(String itemCost) {
+    public void setItemCost(Float itemCost) {
         this.itemCost = itemCost;
     }
 
