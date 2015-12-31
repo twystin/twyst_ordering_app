@@ -167,7 +167,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             summaryViewHolderFooter.tvItemTotal.setText(Utils.costString(mOrderSummary.getOrderActualValueWithOutTax()));
 
             //Grand Total
-            summaryViewHolderFooter.tvItemTotal.setText(Utils.costString(mOrderSummary.getOrderActualValueWithOutTax()));
+            summaryViewHolderFooter.tvGrandTotal.setText(Utils.costString(mOrderSummary.getOrderActualValueWithTax()));
 
             //Vat
             if (mOrderSummary.getVatValue() != 0) {
