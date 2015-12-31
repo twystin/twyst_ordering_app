@@ -32,8 +32,8 @@ public class OfferOrder implements Serializable {
     @SerializedName("available_now")
     private boolean availableNow;
 
-    @SerializedName("order_actual_value_without_tax")
-    private double orderActualValueWithOutTax;
+    @SerializedName("order_value_without_tax")
+    private double orderValueWithOutTax;
 
     @SerializedName("vat")
     private double vatValue;
@@ -41,8 +41,8 @@ public class OfferOrder implements Serializable {
     @SerializedName("st")
     private double serviceTaxValue;
 
-    @SerializedName("order_actual_value_with_tax")
-    private double orderActualValueWithTax;
+    @SerializedName("order_value_with_tax")
+    private double orderValueWithTax;
 
     @SerializedName("is_applicable")
     private boolean isApplicable;
@@ -85,12 +85,20 @@ public class OfferOrder implements Serializable {
         this.terms = terms;
     }
 
-    public double getOrderActualValueWithOutTax() {
-        return orderActualValueWithOutTax;
+    public double getOrderValueWithOutTax() {
+        return orderValueWithOutTax;
     }
 
-    public void setOrderActualValueWithOutTax(double orderActualValueWithOutTax) {
-        this.orderActualValueWithOutTax = orderActualValueWithOutTax;
+    public void setOrderValueWithOutTax(double orderValueWithOutTax) {
+        this.orderValueWithOutTax = orderValueWithOutTax;
+    }
+
+    public double getOrderValueWithTax() {
+        return orderValueWithTax;
+    }
+
+    public void setOrderValueWithTax(double orderValueWithTax) {
+        this.orderValueWithTax = orderValueWithTax;
     }
 
     public double getVatValue() {
@@ -107,14 +115,6 @@ public class OfferOrder implements Serializable {
 
     public void setServiceTaxValue(double serviceTaxValue) {
         this.serviceTaxValue = serviceTaxValue;
-    }
-
-    public double getOrderActualValueWithTax() {
-        return orderActualValueWithTax;
-    }
-
-    public void setOrderActualValueWithTax(double orderActualValueWithTax) {
-        this.orderActualValueWithTax = orderActualValueWithTax;
     }
 
     public boolean isApplicable() {

@@ -62,7 +62,7 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
                 }
             });
 
-            offerAvailableHolder.tvSave.setText("Save " + Utils.costString(mOrderSummary.getOrderActualValueWithOutTax() - offerOrder.getOrderActualValueWithOutTax()));
+            offerAvailableHolder.tvSave.setText("Save " + Utils.costString(mOrderSummary.getOrderActualValueWithOutTax() - offerOrder.getOrderValueWithOutTax()));
         } else { // not applicable offer
             offerAvailableHolder.tvHeader.setTextColor(mContext.getResources().getColor(R.color.semi_black_faded));
             offerAvailableHolder.tvLine12.setTextColor(mContext.getResources().getColor(R.color.semi_black_faded));
