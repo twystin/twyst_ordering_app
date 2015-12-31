@@ -70,16 +70,16 @@ public class OrderSummary implements Serializable {
     private String orderNumber;
 
     @SerializedName("order_actual_value_without_tax")
-    private float orderActualValueWithOutTax;
+    private double orderActualValueWithOutTax;
 
     @SerializedName("vat")
-    private float vatValue;
+    private double vatValue;
 
     @SerializedName("st")
-    private float serviceTaxValue;
+    private double serviceTaxValue;
 
     @SerializedName("order_actual_value_with_tax")
-    private float orderActualValueWithTax;
+    private double orderActualValueWithTax;
 
     public ArrayList<OrderItem> getOrderItemList() {
         return orderItemList;
@@ -129,35 +129,35 @@ public class OrderSummary implements Serializable {
         this.offerOrderList = offerOrderList;
     }
 
-    public float getOrderActualValueWithOutTax() {
+    public double getOrderActualValueWithOutTax() {
         return orderActualValueWithOutTax;
     }
 
-    public void setOrderActualValueWithOutTax(float orderActualValueWithOutTax) {
+    public void setOrderActualValueWithOutTax(double orderActualValueWithOutTax) {
         this.orderActualValueWithOutTax = orderActualValueWithOutTax;
     }
 
-    public float getVatValue() {
+    public double getVatValue() {
         return vatValue;
     }
 
-    public void setVatValue(float vatValue) {
+    public void setVatValue(double vatValue) {
         this.vatValue = vatValue;
     }
 
-    public float getServiceTaxValue() {
+    public double getServiceTaxValue() {
         return serviceTaxValue;
     }
 
-    public void setServiceTaxValue(float serviceTaxValue) {
+    public void setServiceTaxValue(double serviceTaxValue) {
         this.serviceTaxValue = serviceTaxValue;
     }
 
-    public float getOrderActualValueWithTax() {
+    public double getOrderActualValueWithTax() {
         return orderActualValueWithTax;
     }
 
-    public void setOrderActualValueWithTax(float orderActualValueWithTax) {
+    public void setOrderActualValueWithTax(double orderActualValueWithTax) {
         this.orderActualValueWithTax = orderActualValueWithTax;
     }
 }

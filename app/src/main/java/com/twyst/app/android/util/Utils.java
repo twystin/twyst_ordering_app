@@ -29,14 +29,13 @@ public class Utils {
         return (dist);
     }
 
-    public static String costString(float costFloat) {
+    public static String costString(double costDouble) {
         //Upto two decimal places
-        DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
-        df.format(costFloat);
+        DecimalFormat df = new DecimalFormat("0.00");
+        String costDoubleString = df.format(costDouble);
 
-        int costInteger = (int) costFloat;
-        String costString = (costInteger == costFloat) ? String.valueOf(costInteger) : String.valueOf(costFloat);
+        int costInteger = Double.valueOf(costDouble).intValue();
+        String costString = (costInteger == costDouble) ? String.valueOf(costInteger) : costDoubleString;
         return "₹ " + costString;
     }
 

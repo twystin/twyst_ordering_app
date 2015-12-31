@@ -2,20 +2,14 @@ package com.twyst.app.android.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.BackgroundColorSpan;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
@@ -171,9 +165,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     }
 
     public String getTotalCost() {
-        float totalCost = 0;
+        double totalCost = 0;
         for (int i = 0; i < mCartItemsList.size(); i++) {
-            float itemCost = mCartItemsList.get(i).getItemCost() * mCartItemsList.get(i).getItemQuantity();
+            double itemCost = mCartItemsList.get(i).getItemCost() * mCartItemsList.get(i).getItemQuantity();
             totalCost = totalCost + itemCost;
         }
         return Utils.costString(totalCost);

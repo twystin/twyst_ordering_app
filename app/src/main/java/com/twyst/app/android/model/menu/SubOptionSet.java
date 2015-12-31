@@ -21,7 +21,7 @@ public class SubOptionSet implements Serializable {
     private String subOptionValue;
 
     @SerializedName("sub_option_cost")
-    private Float subOptionCost;
+    private double subOptionCost;
 
     public boolean isVegetarian() {
         return isVegetarian;
@@ -55,11 +55,11 @@ public class SubOptionSet implements Serializable {
         this.subOptionValue = subOptionValue;
     }
 
-    public Float getSubOptionCost() {
+    public double getSubOptionCost() {
         return subOptionCost;
     }
 
-    public void setSubOptionCost(Float subOptionCost) {
+    public void setSubOptionCost(double subOptionCost) {
         this.subOptionCost = subOptionCost;
     }
 }

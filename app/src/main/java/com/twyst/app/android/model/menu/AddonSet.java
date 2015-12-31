@@ -21,7 +21,7 @@ public class AddonSet implements Serializable {
     private String addonValue;
 
     @SerializedName("addon_cost")
-    private Float addonCost;
+    private double addonCost;
 
     public String getId() {
         return id;
@@ -55,11 +55,11 @@ public class AddonSet implements Serializable {
         this.addonValue = addonValue;
     }
 
-    public Float getAddonCost() {
+    public double getAddonCost() {
         return addonCost;
     }
 
-    public void setAddonCost(Float addonCost) {
+    public void setAddonCost(double addonCost) {
         this.addonCost = addonCost;
     }
 }
