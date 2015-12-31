@@ -31,13 +31,14 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static int mVegIconHeight = 0; //menuItemName height fixed for a specific device
     private final Context mContext;
     private final OrderSummary mOrderSummary;
-
+    private final int mFreeItemIndex;
     private static final int VIEW_NORMAL = 0;
     private static final int VIEW_FOOTER = 1;
 
-    public SummaryAdapter(Context context, OrderSummary orderSummary) {
+    public SummaryAdapter(Context context, OrderSummary orderSummary, int freeItemIndex) {
         this.mOrderSummary = orderSummary;
         mContext = context;
+        mFreeItemIndex = freeItemIndex;
         mCartItemsList = orderSummary.getmCartItemsList();
     }
 

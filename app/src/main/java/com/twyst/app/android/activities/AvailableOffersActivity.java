@@ -1,5 +1,6 @@
 package com.twyst.app.android.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +23,7 @@ import java.util.List;
 public class AvailableOffersActivity extends BaseActivity {
     private RecyclerView mOfferRecyclerView;
     private OrderSummary mOrderSummary;
+    AvailableOffersAdapter mAvailableOffersAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +34,10 @@ public class AvailableOffersActivity extends BaseActivity {
         setupToolBar();
         setupOfferRecyclerView();
 
-        findViewById(R.id.bApply).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.bSkip).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AvailableOffersActivity.this, "clicked", Toast.LENGTH_SHORT).show();
+                goToSummary();
             }
         });
     }
@@ -48,18 +50,43 @@ public class AvailableOffersActivity extends BaseActivity {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mOfferRecyclerView.setLayoutManager(mLayoutManager);
 
-        final AvailableOffersAdapter availableOffersAdapter = new AvailableOffersAdapter(AvailableOffersActivity.this, mOrderSummary);
-        mOfferRecyclerView.setAdapter(availableOffersAdapter);
-        availableOffersAdapter.setOnViewHolderListener(new AvailableOffersAdapter.OnViewHolderListener() {
+        mAvailableOffersAdapter = new AvailableOffersAdapter(AvailableOffersActivity.this, mOrderSummary);
+        mOfferRecyclerView.setAdapter(mAvailableOffersAdapter);
+        mAvailableOffersAdapter.setOnViewHolderListener(new AvailableOffersAdapter.OnViewHolderListener() {
             @Override
             public void onItemClicked(int position) {
-                availableOffersAdapter.setSelectedPosition(position);
-                availableOffersAdapter.notifyDataSetChanged();
+                mAvailableOffersAdapter.setSelectedPosition(position);
+                mAvailableOffersAdapter.notifyDataSetChanged();
                 findViewById(R.id.bApply).setBackground(getResources().getDrawable(R.drawable.button_red_default));
                 findViewById(R.id.bApply).setClickable(true);
+                findViewById(R.id.bApply).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        goToSummary();
+                    }
+                });
             }
         });
     }
+
+    private void goToSummary() {
+        int freeItemIndex = -1;
+
+        //if any offer is selected
+        if (mAvailableOffersAdapter.getSelectedPosition() >= 0) {
+            freeItemIndex = mOrderSummary.getOfferOrderList().get(mAvailableOffersAdapter.getSelectedPosition()).getFreeItemIndex();
+        }
+
+
+        Bundle orderSummaryData = new Bundle();
+        orderSummaryData.putSerializable(AppConstants.INTENT_ORDER_SUMMARY, mOrderSummary);
+        orderSummaryData.putInt(AppConstants.INTENT_FREE_ITEM_INDEX, freeItemIndex);
+
+        Intent checkOutIntent = new Intent(AvailableOffersActivity.this, OrderSummaryActivity.class);
+        checkOutIntent.putExtras(orderSummaryData);
+        startActivity(checkOutIntent);
+    }
+
 
     private void setupToolBar() {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

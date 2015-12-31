@@ -22,6 +22,7 @@ import com.twyst.app.android.util.Utils;
 public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffersAdapter.OfferAvailableHolder> {
     private final Context mContext;
     private final OrderSummary mOrderSummary;
+    private int selectedPosition = -1;
 
     public int getSelectedPosition() {
         return selectedPosition;
@@ -31,7 +32,6 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
         this.selectedPosition = selectedPosition;
     }
 
-    private int selectedPosition = -1;
     private OnViewHolderListener onViewHolderListener;
     private static int mCheckIconWidth = 0; //checkIcon width fixed for a specific device
 

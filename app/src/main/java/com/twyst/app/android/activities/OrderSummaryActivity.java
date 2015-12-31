@@ -21,6 +21,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
     private RecyclerView mSummaryRecyclerView;
     private SummaryAdapter mSummaryAdapter;
     OrderSummary mOrderSummary;
+    private int mFreeItemIndex = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         mOrderSummary = (OrderSummary) extras.getSerializable(AppConstants.INTENT_ORDER_SUMMARY);
+        mFreeItemIndex = extras.getInt(AppConstants.INTENT_FREE_ITEM_INDEX);
 
         setupToolBar();
         setupSummaryRecyclerView();
@@ -66,7 +68,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mSummaryRecyclerView.setLayoutManager(mLayoutManager);
 
-        mSummaryAdapter = new SummaryAdapter(OrderSummaryActivity.this, mOrderSummary);
+        mSummaryAdapter = new SummaryAdapter(OrderSummaryActivity.this, mOrderSummary, mFreeItemIndex);
         mSummaryRecyclerView.setAdapter(mSummaryAdapter);
 
 

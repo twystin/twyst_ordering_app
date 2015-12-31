@@ -149,5 +149,6 @@ public class AppConstants {
     public static final String INTENT_FROM_SPLASH_DOWNLOADING = "intent_from_splash_downloading";
 
     public static final String INTENT_ORDER_SUMMARY = "intent_order_summary";
+    public static final String INTENT_FREE_ITEM_INDEX = "intent_free_item_index";
 
 }
