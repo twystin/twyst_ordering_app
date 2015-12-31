@@ -40,7 +40,7 @@ public class OrderSummary implements Serializable {
                     orderItem.getSubOptionsList().add(subOption.getSubOptionSetList().get(0).getId());
                 } // i loop
 
-                for (int k = 0; k < option.getSubOptionsList().size(); k++) {
+                for (int k = 0; k < option.getAddonsList().size(); k++) {
                     Addons addon = option.getAddonsList().get(k);
                     for (int l = 0; l < addon.getAddonSetList().size(); l++) {
                         orderItem.getAddonsList().add(addon.getAddonSetList().get(l).getId());
