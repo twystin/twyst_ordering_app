@@ -85,6 +85,13 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             summaryViewHolder.menuItemName.setText(item.getItemName());
             summaryViewHolder.tvCost.setText(Utils.costString(item.getItemCost()));
 
+            //Setting divider
+            if (position + 1 == mCartItemsList.size()) {
+                summaryViewHolder.divider.setVisibility(View.GONE);
+            } else {
+                summaryViewHolder.divider.setVisibility(View.VISIBLE);
+            }
+
             summaryViewHolder.tvItemQuantity.setText("x " + String.valueOf(item.getItemQuantity()));
 
             if (mVegIconHeight == 0) {
@@ -223,6 +230,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView tvItemQuantity;
         TextView tvCost;
         LinearLayout llCustomisations;
+        View divider;
 
         public SummaryViewHolder(View itemView) {
             super(itemView);
@@ -230,6 +238,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             this.tvItemQuantity = (TextView) itemView.findViewById(R.id.tvItemQuantity);
             this.tvCost = (TextView) itemView.findViewById(R.id.tvCost);
             this.llCustomisations = (LinearLayout) itemView.findViewById(R.id.llCustomisations);
+            this.divider = (View) itemView.findViewById(R.id.divider);
         }
     }
 
