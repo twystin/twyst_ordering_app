@@ -75,6 +75,7 @@ public class AvailableOffersActivity extends BaseActivity {
         //if any offer is selected
         if (mAvailableOffersAdapter.getSelectedPosition() >= 0) {
             freeItemIndex = mOrderSummary.getOfferOrderList().get(mAvailableOffersAdapter.getSelectedPosition()).getFreeItemIndex();
+            mOrderSummary.setOfferUsedID(mOrderSummary.getOfferOrderList().get(mAvailableOffersAdapter.getSelectedPosition()).getId());
         }
 
 

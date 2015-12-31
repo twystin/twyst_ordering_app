@@ -63,6 +63,9 @@ public class OrderSummary implements Serializable {
     @SerializedName("outlet")
     private String outletId;
 
+    @SerializedName("offer_used")
+    private String offerUsedID;
+
     @SerializedName("coords")
     private Coords coordinates = new Coords();
 
@@ -87,6 +90,14 @@ public class OrderSummary implements Serializable {
 
     public void setOrderItemList(ArrayList<OrderItem> orderItemList) {
         this.orderItemList = orderItemList;
+    }
+
+    public String getOfferUsedID() {
+        return offerUsedID;
+    }
+
+    public void setOfferUsedID(String offerUsedID) {
+        this.offerUsedID = offerUsedID;
     }
 
     public String getOutletId() {
