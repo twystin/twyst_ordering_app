@@ -3,6 +3,7 @@ package com.twyst.app.android.activities;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ public class AvailableOffersActivity extends BaseActivity {
         Bundle extras = getIntent().getExtras();
         mOrderSummary = (OrderSummary) extras.getSerializable(AppConstants.INTENT_ORDER_SUMMARY);
 
+        setupToolBar();
         setupOfferRecyclerView();
 
         findViewById(R.id.bApply).setOnClickListener(new View.OnClickListener() {
@@ -57,6 +59,13 @@ public class AvailableOffersActivity extends BaseActivity {
                 findViewById(R.id.bApply).setClickable(true);
             }
         });
+    }
+
+    private void setupToolBar() {
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle("Offers Available");
     }
 
     @Override

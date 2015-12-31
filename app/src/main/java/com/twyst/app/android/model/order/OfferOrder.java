@@ -22,7 +22,7 @@ public class OfferOrder implements Serializable {
     private String line2;
 
     @SerializedName("offer_cost")
-    private float offerCost;
+    private int offerCost;
 
     @SerializedName("meta")
     private OfferOrderMeta offerOrderMeta;
@@ -33,16 +33,16 @@ public class OfferOrder implements Serializable {
     private boolean availableNow;
 
     @SerializedName("order_actual_value_without_tax")
-    private float orderActualValueWithOutTax;
+    private double orderActualValueWithOutTax;
 
     @SerializedName("vat")
-    private float vatValue;
+    private double vatValue;
 
     @SerializedName("st")
-    private float serviceTaxValue;
+    private double serviceTaxValue;
 
     @SerializedName("order_actual_value_with_tax")
-    private float orderActualValueWithTax;
+    private double orderActualValueWithTax;
 
     @SerializedName("is_applicable")
     private boolean isApplicable;
@@ -85,35 +85,35 @@ public class OfferOrder implements Serializable {
         this.terms = terms;
     }
 
-    public float getOrderActualValueWithOutTax() {
+    public double getOrderActualValueWithOutTax() {
         return orderActualValueWithOutTax;
     }
 
-    public void setOrderActualValueWithOutTax(float orderActualValueWithOutTax) {
+    public void setOrderActualValueWithOutTax(double orderActualValueWithOutTax) {
         this.orderActualValueWithOutTax = orderActualValueWithOutTax;
     }
 
-    public float getVatValue() {
+    public double getVatValue() {
         return vatValue;
     }
 
-    public void setVatValue(float vatValue) {
+    public void setVatValue(double vatValue) {
         this.vatValue = vatValue;
     }
 
-    public float getServiceTaxValue() {
+    public double getServiceTaxValue() {
         return serviceTaxValue;
     }
 
-    public void setServiceTaxValue(float serviceTaxValue) {
+    public void setServiceTaxValue(double serviceTaxValue) {
         this.serviceTaxValue = serviceTaxValue;
     }
 
-    public float getOrderActualValueWithTax() {
+    public double getOrderActualValueWithTax() {
         return orderActualValueWithTax;
     }
 
-    public void setOrderActualValueWithTax(float orderActualValueWithTax) {
+    public void setOrderActualValueWithTax(double orderActualValueWithTax) {
         this.orderActualValueWithTax = orderActualValueWithTax;
     }
 
@@ -149,11 +149,11 @@ public class OfferOrder implements Serializable {
         this.line2 = line2;
     }
 
-    public float getOfferCost() {
+    public int getOfferCost() {
         return offerCost;
     }
 
-    public void setOfferCost(float offerCost) {
+    public void setOfferCost(int offerCost) {
         this.offerCost = offerCost;
     }
 

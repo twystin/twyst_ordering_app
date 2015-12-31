@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.order.OfferOrder;
 import com.twyst.app.android.model.order.OrderSummary;
+import com.twyst.app.android.util.Utils;
 
 /**
  * Created by Vipul Sharma on 12/24/2015.
@@ -51,7 +52,7 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
         final View view = offerAvailableHolder.itemView;
         OfferOrder offerOrder = mOrderSummary.getOfferOrderList().get(position);
 
-        if (offerOrder.isApplicable()) {
+        if (offerOrder.isApplicable()) { //applicable offer
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -61,14 +62,15 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
                 }
             });
 
-            offerAvailableHolder.tvBucksCount.setText(String.valueOf(offerOrder.getOfferCost()));
-            offerAvailableHolder.tvSave.setText("Save Rs. 90");
-        } else {
+            offerAvailableHolder.tvSave.setText("Save " + Utils.costString(mOrderSummary.getOrderActualValueWithOutTax() - offerOrder.getOrderActualValueWithOutTax()));
+        } else { // not applicable offer
             offerAvailableHolder.tvHeader.setTextColor(mContext.getResources().getColor(R.color.semi_black_faded));
             offerAvailableHolder.tvLine12.setTextColor(mContext.getResources().getColor(R.color.semi_black_faded));
-            offerAvailableHolder.llBucks.setVisibility(View.INVISIBLE);
             offerAvailableHolder.ivChecked.setVisibility(View.INVISIBLE);
+            offerAvailableHolder.tvSave.setVisibility(View.INVISIBLE);
         }
+
+        offerAvailableHolder.tvBucksCount.setText(String.valueOf(offerOrder.getOfferCost()));
         offerAvailableHolder.tvHeader.setText(offerOrder.getHeader());
         offerAvailableHolder.tvLine12.setText(offerOrder.getLine1() + ", " + offerOrder.getLine2());
 
