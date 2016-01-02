@@ -56,6 +56,9 @@ public interface TwystService {
     @POST("/api/v4/order/verify")
     public void postOrderVerify(@Query("token") String token, @Body() OrderSummary orderSummary, Callback<BaseResponse<OrderSummary>> callback);
 
+    @POST("/api/v4/order/apply/offer")
+    public void postOfferApply(@Query("token") String token, @Body() OrderSummary orderSummary, Callback<BaseResponse<OrderSummary>> callback);
+
     @FormUrlEncoded
     @POST("/api/v4/authcode")
     public void userAuthToken(@Field("code") String code, @Field("phone") String phone, Callback<BaseResponse<AuthToken>> callback);

@@ -110,7 +110,7 @@ public class HttpService {
     }
 
     public void postOfferApply(String token, OrderSummary orderSummary, Callback<BaseResponse<OrderSummary>> callback){
-        twystService.postOrderVerify(token, orderSummary, callback);
+        twystService.postOfferApply(token, orderSummary, callback);
     }
 
     public void userAuthToken(String code, String phone, Callback<BaseResponse<AuthToken>> callback) {
