@@ -64,7 +64,10 @@ public class OrderSummary implements Serializable {
     private String outletId;
 
     @SerializedName("offer_used")
-    private String offerUsedID;
+    private OfferOrder offerUsed;
+
+    @SerializedName("offer_id")
+    private String selectedOfferID;
 
     @SerializedName("coords")
     private Coords coordinates = new Coords();
@@ -92,12 +95,20 @@ public class OrderSummary implements Serializable {
         this.orderItemList = orderItemList;
     }
 
-    public String getOfferUsedID() {
-        return offerUsedID;
+    public OfferOrder getOfferUsed() {
+        return offerUsed;
     }
 
-    public void setOfferUsedID(String offerUsedID) {
-        this.offerUsedID = offerUsedID;
+    public void setOfferUsed(OfferOrder offerUsed) {
+        this.offerUsed = offerUsed;
+    }
+
+    public String getSelectedOfferID() {
+        return selectedOfferID;
+    }
+
+    public void setSelectedOfferID(String selectedOfferID) {
+        this.selectedOfferID = selectedOfferID;
     }
 
     public String getOutletId() {

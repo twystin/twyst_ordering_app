@@ -310,7 +310,7 @@ public class OrderOnlineActivity extends BaseActivity implements MenuExpandableA
 
     private void checkOut() {
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
-        OrderSummary orderSummary = new OrderSummary(mCartAdapter.getmCartItemsList(), mOutletId, "28.6", "77.2");
+        final OrderSummary orderSummary = new OrderSummary(mCartAdapter.getmCartItemsList(), mOutletId, "28.6", "77.2");
         HttpService.getInstance().postOrderVerify(getUserToken(), orderSummary, new Callback<BaseResponse<OrderSummary>>() {
             @Override
             public void success(BaseResponse<OrderSummary> orderSummaryBaseResponse, Response response) {
@@ -318,6 +318,7 @@ public class OrderOnlineActivity extends BaseActivity implements MenuExpandableA
                     OrderSummary returnOrderSummary = orderSummaryBaseResponse.getData();
                     Intent checkOutIntent;
                     returnOrderSummary.setmCartItemsList(mCartAdapter.getmCartItemsList());
+                    returnOrderSummary.setOutletId(orderSummary.getOutletId());
 
                     if (returnOrderSummary.getOfferOrderList().size() > 0) {
                         checkOutIntent = new Intent(OrderOnlineActivity.this, AvailableOffersActivity.class);
