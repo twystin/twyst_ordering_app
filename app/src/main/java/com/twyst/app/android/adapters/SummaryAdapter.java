@@ -84,7 +84,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             final Items item = mCartItemsList.get(position);
             summaryViewHolder.menuItemName.setText(item.getItemName());
-            summaryViewHolder.tvCost.setText(Utils.costString(item.getItemCost()));
+            summaryViewHolder.tvCost.setText(Utils.costString(item.getItemCost() * item.getItemQuantity()));
 
             //Setting divider
             if (position + 1 == mCartItemsList.size()) {
