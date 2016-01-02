@@ -2,7 +2,7 @@
 <resources>
     <color name="app_bg_color">#f7f7f3</color>
 
-    <color name="colorPrimary">#e9573f</color>
+    <color name="colorPrimary">#f59221</color>
     <color name="colorPrimaryDark">#000</color>
 
     <color name="textColorPrimary">#212121</color>
