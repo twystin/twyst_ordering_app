@@ -37,7 +37,7 @@ public class AvailableOffersActivity extends BaseActivity {
         findViewById(R.id.bSkip).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToSummary();
+                goToSummary(-1);
             }
         });
     }
@@ -62,23 +62,29 @@ public class AvailableOffersActivity extends BaseActivity {
                 findViewById(R.id.bApply).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        goToSummary();
+                        applyOffer();
                     }
                 });
             }
         });
     }
 
-    private void goToSummary() {
-        int freeItemIndex = -1;
 
+    private void applyOffer() {
         //if any offer is selected
         if (mAvailableOffersAdapter.getSelectedPosition() >= 0) {
-            freeItemIndex = mOrderSummary.getOfferOrderList().get(mAvailableOffersAdapter.getSelectedPosition()).getFreeItemIndex();
+            int freeItemIndex = mOrderSummary.getOfferOrderList().get(mAvailableOffersAdapter.getSelectedPosition()).getFreeItemIndex();
             mOrderSummary.setOfferUsedID(mOrderSummary.getOfferOrderList().get(mAvailableOffersAdapter.getSelectedPosition()).getId());
+            goToSummary(freeItemIndex);
+
+            // Apply selected offer
+            
+        } else {
+            Toast.makeText(AvailableOffersActivity.this, "Please select a offer!", Toast.LENGTH_SHORT).show();
         }
+    }
 
-
+    private void goToSummary(int freeItemIndex) {
         Bundle orderSummaryData = new Bundle();
         orderSummaryData.putSerializable(AppConstants.INTENT_ORDER_SUMMARY, mOrderSummary);
         orderSummaryData.putInt(AppConstants.INTENT_FREE_ITEM_INDEX, freeItemIndex);
@@ -87,7 +93,6 @@ public class AvailableOffersActivity extends BaseActivity {
         checkOutIntent.putExtras(orderSummaryData);
         startActivity(checkOutIntent);
     }
-
 
     private void setupToolBar() {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
