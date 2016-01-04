@@ -174,23 +174,57 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             //Item Total
             summaryViewHolderFooter.tvItemTotal.setText(Utils.costString(mOrderSummary.getOrderActualValueWithOutTax()));
 
-            //Grand Total
-            summaryViewHolderFooter.tvGrandTotal.setText(Utils.costString(mOrderSummary.getOrderActualValueWithTax()));
+            if (mOrderSummary.getOfferUsed() != null) {
+                // Offer applied
+                if (mFreeItemIndex >= 0) {
+                    summaryViewHolderFooter.llOfferApplied.setVisibility(View.GONE);
+                } else {
+                    summaryViewHolderFooter.llOfferApplied.setVisibility(View.VISIBLE);
+                    summaryViewHolderFooter.tvOfferTitle.setText("Offer Applied : " + mOrderSummary.getOfferUsed().getHeader());
+                    summaryViewHolderFooter.tvOfferApplied.setText("- " + Utils.costString(mOrderSummary.getOrderActualValueWithOutTax() - mOrderSummary.getOfferUsed().getOrderValueWithOutTax()));
+                }
 
-            //Vat
-            if (mOrderSummary.getVatValue() != 0) {
-                summaryViewHolderFooter.llVat.setVisibility(View.VISIBLE);
-                summaryViewHolderFooter.tvVat.setText(Utils.costString(mOrderSummary.getVatValue()));
-            } else {
-                summaryViewHolderFooter.llVat.setVisibility(View.GONE);
-            }
+                //Grand Total
+                summaryViewHolderFooter.tvGrandTotal.setText(Utils.costString(mOrderSummary.getOfferUsed().getOrderValueWithTax()));
 
-            //Service Tax
-            if (mOrderSummary.getServiceTaxValue() != 0) {
-                summaryViewHolderFooter.llServiceTax.setVisibility(View.VISIBLE);
-                summaryViewHolderFooter.tvServiceTax.setText(Utils.costString(mOrderSummary.getServiceTaxValue()));
+                //Vat
+                if (mOrderSummary.getOfferUsed().getVatValue() != 0) {
+                    summaryViewHolderFooter.llVat.setVisibility(View.VISIBLE);
+                    summaryViewHolderFooter.tvVat.setText(Utils.costString(mOrderSummary.getOfferUsed().getVatValue()));
+                } else {
+                    summaryViewHolderFooter.llVat.setVisibility(View.GONE);
+                }
+
+                //Service Tax
+                if (mOrderSummary.getOfferUsed().getServiceTaxValue() != 0) {
+                    summaryViewHolderFooter.llServiceTax.setVisibility(View.VISIBLE);
+                    summaryViewHolderFooter.tvServiceTax.setText(Utils.costString(mOrderSummary.getOfferUsed().getServiceTaxValue()));
+                } else {
+                    summaryViewHolderFooter.llServiceTax.setVisibility(View.GONE);
+                }
+
             } else {
-                summaryViewHolderFooter.llServiceTax.setVisibility(View.GONE);
+                // Offer applied
+                summaryViewHolderFooter.llOfferApplied.setVisibility(View.GONE);
+
+                //Grand Total
+                summaryViewHolderFooter.tvGrandTotal.setText(Utils.costString(mOrderSummary.getOrderActualValueWithTax()));
+
+                //Vat
+                if (mOrderSummary.getVatValue() != 0) {
+                    summaryViewHolderFooter.llVat.setVisibility(View.VISIBLE);
+                    summaryViewHolderFooter.tvVat.setText(Utils.costString(mOrderSummary.getVatValue()));
+                } else {
+                    summaryViewHolderFooter.llVat.setVisibility(View.GONE);
+                }
+
+                //Service Tax
+                if (mOrderSummary.getServiceTaxValue() != 0) {
+                    summaryViewHolderFooter.llServiceTax.setVisibility(View.VISIBLE);
+                    summaryViewHolderFooter.tvServiceTax.setText(Utils.costString(mOrderSummary.getServiceTaxValue()));
+                } else {
+                    summaryViewHolderFooter.llServiceTax.setVisibility(View.GONE);
+                }
             }
 
         }
@@ -204,6 +238,9 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public static class SummaryViewHolderFooter extends RecyclerView.ViewHolder {
         LinearLayout llItemTotal;
         TextView tvItemTotal;
+        LinearLayout llOfferApplied;
+        TextView tvOfferTitle;
+        TextView tvOfferApplied;
         LinearLayout llVat;
         TextView tvVat;
         LinearLayout llServiceTax;
@@ -216,6 +253,9 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             super(itemView);
             this.llItemTotal = (LinearLayout) itemView.findViewById(R.id.llItemTotal);
             this.tvItemTotal = (TextView) itemView.findViewById(R.id.tvItemTotal);
+            this.llOfferApplied = (LinearLayout) itemView.findViewById(R.id.llOfferApplied);
+            this.tvOfferTitle = (TextView) itemView.findViewById(R.id.tvOfferTitle);
+            this.tvOfferApplied = (TextView) itemView.findViewById(R.id.tvOfferApplied);
             this.llVat = (LinearLayout) itemView.findViewById(R.id.llVat);
             this.tvVat = (TextView) itemView.findViewById(R.id.tvVat);
             this.llServiceTax = (LinearLayout) itemView.findViewById(R.id.llServiceTax);
@@ -231,6 +271,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView tvItemQuantity;
         TextView tvCost;
         LinearLayout llCustomisations;
+        LinearLayout llOfferAppliedSpecific;
         View divider;
 
         public SummaryViewHolder(View itemView) {
@@ -239,6 +280,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             this.tvItemQuantity = (TextView) itemView.findViewById(R.id.tvItemQuantity);
             this.tvCost = (TextView) itemView.findViewById(R.id.tvCost);
             this.llCustomisations = (LinearLayout) itemView.findViewById(R.id.llCustomisations);
+            this.llOfferAppliedSpecific = (LinearLayout) itemView.findViewById(R.id.llOfferAppliedSpecific);
             this.divider = (View) itemView.findViewById(R.id.divider);
         }
     }

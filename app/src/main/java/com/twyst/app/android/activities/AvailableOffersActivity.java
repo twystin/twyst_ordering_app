@@ -90,7 +90,7 @@ public class AvailableOffersActivity extends BaseActivity {
                 public void success(BaseResponse<OrderSummary> orderSummaryBaseResponse, Response response) {
                     if (orderSummaryBaseResponse.isResponse()) {
                         OrderSummary returnOrderSummary = orderSummaryBaseResponse.getData();
-                        Intent checkOutIntent;
+
                         returnOrderSummary.setmCartItemsList(mOrderSummary.getmCartItemsList());
                         returnOrderSummary.setOutletId(mOrderSummary.getOutletId());
 

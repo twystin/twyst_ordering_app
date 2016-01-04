@@ -38,6 +38,35 @@
 
     </LinearLayout>
 
+
+    <LinearLayout
+        android:id="@+id/llOfferApplied"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tvOfferTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="Offer Applied"
+            android:textColor="@color/primary"
+            android:textSize="@dimen/outlet_offer_header_textsize" />
+
+        <TextView
+            android:id="@+id/tvOfferApplied"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="100"
+            android:textColor="@color/primary"
+            android:textSize="@dimen/outlet_offer_header_textsize" />
+
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/llVat"
         android:layout_width="match_parent"
@@ -136,10 +165,10 @@
             android:id="@+id/etSuggestion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left"
-            android:padding="10dp"
             android:background="@android:color/transparent"
+            android:gravity="left"
             android:hint="@string/suggestion"
+            android:padding="10dp"
             android:textColor="@color/black_text_color"
             android:textSize="12dp" />
     </LinearLayout>

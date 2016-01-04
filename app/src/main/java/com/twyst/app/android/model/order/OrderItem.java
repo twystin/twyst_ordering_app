@@ -27,7 +27,7 @@ public class OrderItem implements Serializable {
     @SerializedName("sub_options")
     private ArrayList<String> subOptionsList = new ArrayList<>();
 
-    @SerializedName("add_ons")
+    @SerializedName("addons")
     private ArrayList<String> addonsList = new ArrayList<>();
 
     @SerializedName("quantity")
