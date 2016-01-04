@@ -203,9 +203,6 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             // Footer
             final SummaryViewHolderFooter summaryViewHolderFooter = (SummaryViewHolderFooter) holder;
 
-            //Item Total
-            summaryViewHolderFooter.tvItemTotal.setText(Utils.costString(mOrderSummary.getOrderActualValueWithOutTax()));
-
             if (mOrderSummary.getOfferUsed() != null) {
                 // Offer applied
                 if (mFreeItemIndex >= 0) {
@@ -215,6 +212,9 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     summaryViewHolderFooter.tvOfferTitle.setText("Offer Applied : " + mOrderSummary.getOfferUsed().getHeader());
                     summaryViewHolderFooter.tvOfferApplied.setText("- " + Utils.costString(mOrderSummary.getOrderActualValueWithOutTax() - mOrderSummary.getOfferUsed().getOrderValueWithOutTax()));
                 }
+
+                //Item Total
+                summaryViewHolderFooter.tvItemTotal.setText(Utils.costString(mOrderSummary.getOfferUsed().getOrderValueWithOutTax()));
 
                 //Grand Total
                 summaryViewHolderFooter.tvGrandTotal.setText(Utils.costString(mOrderSummary.getOfferUsed().getOrderValueWithTax()));
@@ -238,6 +238,9 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 // Offer applied
                 summaryViewHolderFooter.llOfferApplied.setVisibility(View.GONE);
+
+                //Item Total
+                summaryViewHolderFooter.tvItemTotal.setText(Utils.costString(mOrderSummary.getOrderActualValueWithOutTax()));
 
                 //Grand Total
                 summaryViewHolderFooter.tvGrandTotal.setText(Utils.costString(mOrderSummary.getOrderActualValueWithTax()));
