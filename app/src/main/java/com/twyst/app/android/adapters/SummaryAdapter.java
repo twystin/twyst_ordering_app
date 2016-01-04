@@ -98,6 +98,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (mVegIconHeight == 0) {
                 final TextView tvMenuItemName = summaryViewHolder.menuItemName;
                 final LinearLayout llCustomisationsFinal = summaryViewHolder.llCustomisations;
+                final LinearLayout llOfferAppliedSpecificFinal = summaryViewHolder.llOfferAppliedSpecific;
                 tvMenuItemName.getViewTreeObserver()
                         .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                             @Override
@@ -116,6 +117,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) llCustomisationsFinal.getLayoutParams();
                                 params.setMargins((mVegIconHeight + tvMenuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
                                 llCustomisationsFinal.setLayoutParams(params);
+                                llOfferAppliedSpecificFinal.setLayoutParams(params);
 
                                 tvMenuItemName.getViewTreeObserver()
                                         .removeOnGlobalLayoutListener(this);
@@ -135,6 +137,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) summaryViewHolder.llCustomisations.getLayoutParams();
                 params.setMargins((mVegIconHeight + summaryViewHolder.menuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
                 summaryViewHolder.llCustomisations.setLayoutParams(params);
+                summaryViewHolder.llOfferAppliedSpecific.setLayoutParams(params);
 
             }
 
@@ -163,6 +166,35 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 if (hiddenLayout.getChildCount() != 0) {
                     hiddenLayout.removeAllViews();
+                }
+            }
+
+            final LinearLayout llOfferAppliedSpecificFinal = summaryViewHolder.llOfferAppliedSpecific;
+            if (mFreeItemIndex == position) {
+                if (mOrderSummary.getOfferUsed() != null) {
+                    summaryViewHolder.tvOfferSpecificCost.setText("- " + Utils.costString(mOrderSummary.getOrderActualValueWithOutTax() - mOrderSummary.getOfferUsed().getOrderValueWithOutTax()));
+
+                    final TextView[] textViews = new TextView[1];
+                    textViews[1] = new TextView(mContext);
+                    textViews[1].setText("Offer Applied : " + mOrderSummary.getOfferUsed().getHeader());
+                    textViews[1].setTextColor(mContext.getResources().getColor(R.color.white));
+                    textViews[1].setTextSize(12.0f);
+                    textViews[1].setPadding(15, 4, 15, 4);
+                    textViews[1].setBackgroundResource(R.drawable.border_customisations_colored);
+
+                    llOfferAppliedSpecificFinal.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            int maxWidth = llOfferAppliedSpecificFinal.getWidth();
+                            Utils.populateText(llOfferAppliedSpecificFinal, textViews, mContext, maxWidth - mVegIconHeight - menuItemNameFinal.getCompoundDrawablePadding());
+                        }
+                    });
+                }
+
+            } else {
+                summaryViewHolder.tvOfferSpecificCost.setVisibility(View.GONE);
+                if (llOfferAppliedSpecificFinal.getChildCount() != 0) {
+                    llOfferAppliedSpecificFinal.removeAllViews();
                 }
             }
 
@@ -270,6 +302,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView menuItemName;
         TextView tvItemQuantity;
         TextView tvCost;
+        TextView tvOfferSpecificCost;
         LinearLayout llCustomisations;
         LinearLayout llOfferAppliedSpecific;
         View divider;
@@ -279,6 +312,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             this.menuItemName = (TextView) itemView.findViewById(R.id.menuItem);
             this.tvItemQuantity = (TextView) itemView.findViewById(R.id.tvItemQuantity);
             this.tvCost = (TextView) itemView.findViewById(R.id.tvCost);
+            this.tvOfferSpecificCost = (TextView) itemView.findViewById(R.id.tvOfferSpecificCost);
             this.llCustomisations = (LinearLayout) itemView.findViewById(R.id.llCustomisations);
             this.llOfferAppliedSpecific = (LinearLayout) itemView.findViewById(R.id.llOfferAppliedSpecific);
             this.divider = (View) itemView.findViewById(R.id.divider);

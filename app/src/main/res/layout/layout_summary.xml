@@ -53,13 +53,6 @@
                 android:layout_marginTop="5dp"
                 android:orientation="vertical" />
 
-            <LinearLayout
-                android:id="@+id/llOfferAppliedSpecific"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="vertical" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -78,6 +71,43 @@
                 android:textSize="@dimen/outlet_offer_header_textsize" />
         </LinearLayout>
 
+    </LinearLayout>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="17"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/llOfferAppliedSpecific"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvOfferSpecificCost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="160"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/outlet_offer_header_textsize" />
+        </LinearLayout>
     </LinearLayout>
 
     <View
