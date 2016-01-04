@@ -175,12 +175,12 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     summaryViewHolder.tvOfferSpecificCost.setText("- " + Utils.costString(mOrderSummary.getOrderActualValueWithOutTax() - mOrderSummary.getOfferUsed().getOrderValueWithOutTax()));
 
                     final TextView[] textViews = new TextView[1];
-                    textViews[1] = new TextView(mContext);
-                    textViews[1].setText("Offer Applied : " + mOrderSummary.getOfferUsed().getHeader());
-                    textViews[1].setTextColor(mContext.getResources().getColor(R.color.white));
-                    textViews[1].setTextSize(12.0f);
-                    textViews[1].setPadding(15, 4, 15, 4);
-                    textViews[1].setBackgroundResource(R.drawable.border_customisations_colored);
+                    textViews[0] = new TextView(mContext);
+                    textViews[0].setText("Offer Applied : " + mOrderSummary.getOfferUsed().getHeader());
+                    textViews[0].setTextColor(mContext.getResources().getColor(R.color.white));
+                    textViews[0].setTextSize(12.0f);
+                    textViews[0].setPadding(15, 4, 15, 4);
+                    textViews[0].setBackgroundResource(R.drawable.border_customisations_colored);
 
                     llOfferAppliedSpecificFinal.post(new Runnable() {
                         @Override

@@ -72,7 +72,18 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
 
         offerAvailableHolder.tvBucksCount.setText(String.valueOf(offerOrder.getOfferCost()));
         offerAvailableHolder.tvHeader.setText(offerOrder.getHeader());
-        offerAvailableHolder.tvLine12.setText(offerOrder.getLine1() + ", " + offerOrder.getLine2());
+        String offerDesc;
+
+        // Setting offer description
+        if (offerOrder.getLine1() == null) {
+            offerDesc = "";
+        } else {
+            offerDesc = offerOrder.getLine1();
+            if (offerOrder.getLine2() != null) {
+                offerDesc = offerDesc + ", " + offerOrder.getLine2();
+            }
+        }
+        offerAvailableHolder.tvLine12.setText(offerDesc);
 
         //Setting divider
         if (position + 1 == mOrderSummary.getOfferOrderList().size()) {
