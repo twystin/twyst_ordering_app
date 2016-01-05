@@ -22,7 +22,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             resValue "drawable", "ic_launcher_icon", "@drawable/ic_launcher"
             resValue "string", "app_name", "Twyst"
             proguardFiles getDefaultProguardFile('proguard-android.txt'),
@@ -67,7 +67,7 @@ configurations {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     compile "com.google.android.gms:play-services-location:${PLAY_SERVICE_VERSION}"
     compile "com.google.android.gms:play-services-analytics:${PLAY_SERVICE_VERSION}"
@@ -98,4 +98,5 @@ dependencies {
     compile 'com.github.ksoichiro:android-observablescrollview:1.5.0'
     compile 'com.google.api-client:google-api-client:1.20.0'
     compile 'com.bignerdranch.android:expandablerecyclerview:2.0.4'
+    compile project(':mobikwik-sdk-1_06')
 }
