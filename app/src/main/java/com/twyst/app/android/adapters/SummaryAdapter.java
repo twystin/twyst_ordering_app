@@ -35,11 +35,21 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int VIEW_NORMAL = 0;
     private static final int VIEW_FOOTER = 1;
 
+    private double grandTotal;
+
     public SummaryAdapter(Context context, OrderSummary orderSummary, int freeItemIndex) {
         this.mOrderSummary = orderSummary;
         mContext = context;
         mFreeItemIndex = freeItemIndex;
         mCartItemsList = orderSummary.getmCartItemsList();
+    }
+
+    public double getGrandTotal() {
+        return grandTotal;
+    }
+
+    public void setGrandTotal(double grandTotal) {
+        this.grandTotal = grandTotal;
     }
 
     @Override
@@ -218,6 +228,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 //Grand Total
                 summaryViewHolderFooter.tvGrandTotal.setText(Utils.costString(mOrderSummary.getOfferUsed().getOrderValueWithTax()));
+                grandTotal = mOrderSummary.getOfferUsed().getOrderValueWithTax();
 
                 //Vat
                 if (mOrderSummary.getOfferUsed().getVatValue() != 0) {
@@ -244,6 +255,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 //Grand Total
                 summaryViewHolderFooter.tvGrandTotal.setText(Utils.costString(mOrderSummary.getOrderActualValueWithTax()));
+                grandTotal = mOrderSummary.getOrderActualValueWithTax();
 
                 //Vat
                 if (mOrderSummary.getVatValue() != 0) {
