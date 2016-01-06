@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
@@ -64,21 +65,19 @@ public class OrderSummaryActivity extends AppCompatActivity {
                 goToPayment();
             }
         });
-
     }
 
     private void goToPayment() {
         TransactionConfiguration config = new TransactionConfiguration();
         config.setDebitWallet(true);
-        config.setPgResponseUrl(" https://test.mobikwik.com/sdkresponse.jsp "); //You need to replace this string with the path of the page hosted on your server
-        config.setChecksumUrl(" https://test.mobikwik.com/sdkchecksum.jsp "); //You need to replace this string with the path of the page hosted on your server
-        config.setMerchantName("Demo merchant");
-        config.setMbkId("MBK9002"); //Your MobiKwik Merchant Identifier
-        config.setMode("0"); //Mode is 0 for test environment, 1 for Live
+        config.setPgResponseUrl(AppConstants.HOST + "/api/v4/zaakpay/response"); //You need to replace this string with the path of the page hosted on your server
+        config.setChecksumUrl(AppConstants.HOST + "/api/v4/calculate/checksum"); //You need to replace this string with the path of the page hosted on your server
+        config.setMerchantName("Twyst");
+        config.setMbkId("MBK2136"); //Your MobiKwik Merchant Identifier
+        config.setMode("1"); //Mode is 0 for test environment, 1 for Live
 
-        User usr = new User("vippi", "9891240762");
-        double cost = mSummaryAdapter.getGrandTotal();
-        Transaction newTransaction = Transaction.Factory.newTransaction(usr, mOrderSummary.getOrderNumber(), String.valueOf("200"));
+        User usr = new User("vipul.sharma2008@gmail.com", "9891240762");
+        Transaction newTransaction = Transaction.Factory.newTransaction(usr, "JKJLLFKKLKDE", String.valueOf("1"));
 
         Intent mobikwikIntent = new Intent(this, MobikwikSDK.class);
         mobikwikIntent.putExtra(MobikwikSDK.EXTRA_TRANSACTION_CONFIG, config);
@@ -93,8 +92,8 @@ public class OrderSummaryActivity extends AppCompatActivity {
             if (data != null) {
                 MKTransactionResponse response = (MKTransactionResponse)
                         data.getSerializableExtra(MobikwikSDK.EXTRA_TRANSACTION_RESPONSE);
-                System.out.println("CheckoutActivity.onActivityResult() " + response.statusMessage);
-                System.out.println("CheckoutActivity.onActivityResult() " + response.statusCode);
+                Log.d("OrderSummaryActivity.onActivityResult() ", response.statusMessage);
+                Log.d("OrderSummaryActivity.onActivityResult() ", response.statusCode);
             }
         }
     }

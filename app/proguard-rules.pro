@@ -17,3 +17,5 @@
 #}
 
 -keep class com.mobikwik.sdk.**{*;}
+-renamesourcefileattribute SourceFile
+-keepattributes SourceFile,LineNumberTable

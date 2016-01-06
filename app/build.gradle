@@ -32,6 +32,7 @@ android {
         }
 
         debug {
+            minifyEnabled false
             applicationIdSuffix ".debug"
             versionNameSuffix ".debug"
             resValue "drawable", "ic_launcher_icon", "@drawable/ic_launcher_debug"
