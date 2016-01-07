@@ -126,10 +126,10 @@ public class OrderOnlineActivity extends BaseActivity implements MenuExpandableA
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 int scrollRange = appBarLayout.getTotalScrollRange();
                 float ratio = (float) verticalOffset / (-1 * scrollRange);
-                if (ratio > .68f) {
-                    collapsingToolbar.setTitle("Striker Pub & Brewery");
+                if (ratio > .99f) {
+                    collapsingToolbar.setContentScrimColor(getResources().getColor(R.color.colorPrimary));
                 } else {
-                    collapsingToolbar.setTitle("");
+                    collapsingToolbar.setContentScrimColor(getResources().getColor(R.color.transparent));
                 }
             }
         });
