@@ -26,9 +26,6 @@
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
-
-
-
         <RelativeLayout
             android:id="@+id/planAheadObstructor"
             android:layout_width="fill_parent"
@@ -51,7 +48,6 @@
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar" />
-
 
         <RelativeLayout
             android:id="@+id/planAhead"

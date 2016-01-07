@@ -50,6 +50,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import fr.castorflex.android.circularprogressbar.CircularProgressBar;
+
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.DrawerListAdapter;
 import com.twyst.app.android.model.DrawerItem;
@@ -82,7 +83,7 @@ public abstract class BaseActivity extends ActionBarActivity
     private CircularProgressBar circularProgressBar;
     protected boolean setupAsChild;
     protected boolean drawerOpened;
-    private DrawerItem invite,faq,bill,wallet,notifications,submitOffer,suggestOutlet,write,rate;
+    private DrawerItem invite, faq, bill, wallet, notifications, submitOffer, suggestOutlet, write, rate;
     protected SharedPreferences.Editor sharedPreferences;
 
     TextView localityDrawer;
@@ -243,7 +244,7 @@ public abstract class BaseActivity extends ActionBarActivity
             });
         }
 
-        if(drawerOpened){
+        if (drawerOpened) {
             invite.setSelected(false);
             rate.setSelected(false);
             faq.setSelected(false);
@@ -254,7 +255,7 @@ public abstract class BaseActivity extends ActionBarActivity
             suggestOutlet.setSelected(false);
             write.setSelected(false);
             rate.setSelected(false);
-        }else {
+        } else {
             invite.setSelected(false);
             rate.setSelected(false);
             faq.setSelected(false);
@@ -571,7 +572,6 @@ public abstract class BaseActivity extends ActionBarActivity
         final MenuItem searchMenuItem = menu.findItem(R.id.action_search);
         final MenuItem homeMenuItem = menu.findItem(R.id.action_home);
 
-
         if (getLayoutResource() == R.layout.activity_edit_profile) {
             homeMenuItem.setVisible(false);
             walletMenuItem.setVisible(false);
@@ -600,8 +600,13 @@ public abstract class BaseActivity extends ActionBarActivity
             notificationsMenuItem.setVisible(false);
             walletMenuItem.setVisible(false);
             searchMenuItem.setVisible(false);
+        } else if (getLayoutResource() == R.layout.activity_order_online) {
+            //Hide all action buttons
+            homeMenuItem.setVisible(false);
+            notificationsMenuItem.setVisible(false);
+            walletMenuItem.setVisible(false);
+            searchMenuItem.setVisible(true);
         }
-
 
         searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -653,11 +658,8 @@ public abstract class BaseActivity extends ActionBarActivity
             searchPlate.setBackgroundResource(R.drawable.textfield_searchview_holo_light);
         }
 
-
         return true;
-
     }
-
 
     /* Called whenever we call invalidateOptionsMenu() */
     @Override
@@ -695,7 +697,6 @@ public abstract class BaseActivity extends ActionBarActivity
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     @Override
@@ -756,8 +757,6 @@ public abstract class BaseActivity extends ActionBarActivity
     public void hideSnackbar() {
         SnackbarManager.dismiss();
     }
-
-
     /**
      * Check the device to make sure it has the Google Play Services APK. If
      * it doesn't, display a dialog that allows users to download the APK from
@@ -802,11 +801,9 @@ public abstract class BaseActivity extends ActionBarActivity
         try {
             startActivity(goToMarket);
         } catch (ActivityNotFoundException e) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id="+getApplication().getPackageName()+"&ah=-smMDxRK7pmXEK32N7mSNcbZ2ZM")));
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getApplication().getPackageName() + "&ah=-smMDxRK7pmXEK32N7mSNcbZ2ZM")));
         }
-
     }
-
 
     @Override
     public void onBackPressed() {
@@ -896,15 +893,13 @@ public abstract class BaseActivity extends ActionBarActivity
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon)
-            {
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 // TODO show you progress image
                 super.onPageStarted(view, url, favicon);
             }
 
             @Override
-            public void onPageFinished(WebView view, String url)
-            {
+            public void onPageFinished(WebView view, String url) {
                 twystProgressHUD.dismiss();
                 // TODO hide your progress image
                 super.onPageFinished(view, url);
@@ -918,7 +913,7 @@ public abstract class BaseActivity extends ActionBarActivity
 
         });
 
-        webView .loadUrl(AppConstants.HOST + "/api/v4/earn/more");
+        webView.loadUrl(AppConstants.HOST + "/api/v4/earn/more");
 
         builder.setView(dialogView);
 
@@ -964,8 +959,8 @@ public abstract class BaseActivity extends ActionBarActivity
         Character bullet = '\u2022';
         String space = " ";
         if (!TextUtils.isEmpty(termsFromOffer)) {
-            if (termsFromOffer.contains(newLine.toString())){
-                termsFromOffer = termsFromOffer.replace(newLine.toString(),newLine.toString()+ space + bullet.toString() + space);
+            if (termsFromOffer.contains(newLine.toString())) {
+                termsFromOffer = termsFromOffer.replace(newLine.toString(), newLine.toString() + space + bullet.toString() + space);
             }
             terms = space + bullet + space + termsFromOffer + newLine + space + getString(R.string.terms_conditions);
         } else {
@@ -984,7 +979,7 @@ public abstract class BaseActivity extends ActionBarActivity
         sharedPreferences.commit();
     }
 
-    public void updatePicName(){
+    public void updatePicName() {
         SharedPreferences prefs = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
         String name = prefs.getString(AppConstants.PREFERENCE_USER_NAME, "");
         String pic = prefs.getString(AppConstants.PREFERENCE_USER_PIC, "");
@@ -1016,7 +1011,7 @@ public abstract class BaseActivity extends ActionBarActivity
         String outletListString = preferences.getString(AppConstants.PREFERENCE_OUTLETS_LIST, "");
 
         ArrayList<OutletList> list = new ArrayList<OutletList>();
-        try{
+        try {
             JSONObject jsonObject = new JSONObject(outletListString);
             Iterator<String> iter = jsonObject.keys();
             while (iter.hasNext()) {
@@ -1036,7 +1031,7 @@ public abstract class BaseActivity extends ActionBarActivity
                     // Something went wrong!
                 }
             }
-        }catch (JSONException e){
+        } catch (JSONException e) {
         }
 
         return list;
@@ -1047,7 +1042,7 @@ public abstract class BaseActivity extends ActionBarActivity
         for (OutletList outletList : outletListArrayList) {
             String name = outletList.getName();
             // repeated additions:
-            if (!outletListNames.contains(name)){
+            if (!outletListNames.contains(name)) {
                 outletListNames.add(name);
             }
         }
@@ -1058,7 +1053,7 @@ public abstract class BaseActivity extends ActionBarActivity
         ArrayList<OutletList> list = new ArrayList<OutletList>();
         for (OutletList outletList : outletListArrayList) {
             String name = outletList.getName();
-            if (name.equals(selectedName)){
+            if (name.equals(selectedName)) {
                 list.add(outletList);
             }
         }
@@ -1074,10 +1069,10 @@ public abstract class BaseActivity extends ActionBarActivity
     }
 
     public String getOutletID(ArrayList<OutletList> outletListArrayList, String selectedAddress) {
-        String outletID="";
+        String outletID = "";
         for (OutletList outletList : outletListArrayList) {
             String address = outletList.getAddress();
-            if (address.equals(selectedAddress)){
+            if (address.equals(selectedAddress)) {
                 outletID = outletList.get_id();
                 return outletID;
             }
@@ -1086,8 +1081,8 @@ public abstract class BaseActivity extends ActionBarActivity
         return outletID;
     }
 
-    public SharedPreferences getPrefs(){
-       return getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
+    public SharedPreferences getPrefs() {
+        return getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
     }
 
 }
