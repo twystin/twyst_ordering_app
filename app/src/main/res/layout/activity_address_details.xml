@@ -23,15 +23,8 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/background"
-                android:paddingBottom="@dimen/address_layout_vertical_medium_margin"
-                android:paddingLeft="@dimen/address_layout_horizontal_huge_margin"
-                android:paddingTop="@dimen/address_layout_vertical_medium_margin"
-                android:text="Saved Address"
-                android:textColor="@color/black_87"
-                android:textSize="@dimen/address_huge_text_size" />
+                style="@style/card_text_heading"
+                android:text="Saved Address" />
 
             <ListView
                 android:id="@+id/saved_address_list_view"
@@ -99,15 +92,8 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/background"
-                android:paddingBottom="@dimen/address_layout_vertical_medium_margin"
-                android:paddingLeft="@dimen/address_layout_horizontal_huge_margin"
-                android:paddingTop="@dimen/address_layout_vertical_medium_margin"
-                android:text="Current Location"
-                android:textColor="@color/black_87"
-                android:textSize="@dimen/address_huge_text_size" />
+                style="@style/card_text_heading"
+                android:text="Current Location" />
 
             <LinearLayout
                 android:id="@+id/linlay_current_location"
@@ -207,15 +193,8 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/background"
-                android:paddingBottom="@dimen/address_layout_vertical_medium_margin"
-                android:paddingLeft="@dimen/address_layout_horizontal_huge_margin"
-                android:paddingTop="@dimen/address_layout_vertical_medium_margin"
-                android:text="Add New Address"
-                android:textColor="@color/black_87"
-                android:textSize="@dimen/address_huge_text_size" />
+                style="@style/card_text_heading"
+                android:text="Add New Address" />
 
             <LinearLayout
                 android:id="@+id/linlay_add_address_icon"

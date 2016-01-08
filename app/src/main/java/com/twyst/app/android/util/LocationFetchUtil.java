@@ -148,7 +148,7 @@ public class LocationFetchUtil implements
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (mLastLocation != null) {
             mLocationRequested = false;
-            locationFetchResultCodeListener.onReceiveLocation(2, mLastLocation);
+            locationFetchResultCodeListener.onReceiveLocation(AppConstants.SHOW_CURRENT_LOCATION, mLastLocation);
         } else {
             if (tryAgain) {
                 // Execute some code after 2 seconds have passed
@@ -160,7 +160,7 @@ public class LocationFetchUtil implements
                 }, GPS_TRY_AGAIN_TIME);
             } else {
                 mLocationRequested = false;
-                locationFetchResultCodeListener.onReceiveLocation(4, mLastLocation);
+                locationFetchResultCodeListener.onReceiveLocation(AppConstants.SHOW_FETCH_LOCATION_AGAIN, mLastLocation);
             }
         }
     }

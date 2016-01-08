@@ -220,6 +220,8 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
             Coords coords = new Coords(String.valueOf(mLocation.getLatitude()), String.valueOf(mLocation.getLongitude()));
             mAddressDetailsLocationData.setCoords(coords);
             locationFetchUtil.requestAddress(location);
+        } else if (resultCode == AppConstants.SHOW_FETCH_LOCATION_AGAIN) {
+            updateUIWidgets(resultCode);
         }
     }
 

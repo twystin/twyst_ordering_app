@@ -25,15 +25,8 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/background"
-                    android:paddingBottom="@dimen/address_layout_vertical_medium_margin"
-                    android:paddingLeft="@dimen/address_layout_horizontal_huge_margin"
-                    android:paddingTop="@dimen/address_layout_vertical_medium_margin"
-                    android:text="Address Details"
-                    android:textColor="@color/black_87"
-                    android:textSize="@dimen/address_huge_text_size" />
+                    style="@style/card_text_heading"
+                    android:text="Address Details" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -112,15 +105,8 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/background"
-                    android:paddingBottom="@dimen/address_layout_vertical_medium_margin"
-                    android:paddingLeft="@dimen/address_layout_horizontal_huge_margin"
-                    android:paddingTop="@dimen/address_layout_vertical_medium_margin"
-                    android:text="Tag Address"
-                    android:textColor="@color/black_87"
-                    android:textSize="@dimen/address_huge_text_size" />
+                    style="@style/card_text_heading"
+                    android:text="Tag Address" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -192,10 +178,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/address_layout_vertical_huge_margin"
-            android:paddingLeft="@dimen/address_layout_horizontal_huge_margin"
-            android:paddingRight="@dimen/address_layout_horizontal_huge_margin"
-            android:paddingTop="@dimen/address_layout_vertical_huge_margin">
+            android:padding="16dp">
 
             <EditText
                 android:id="@+id/editView_other_tag"
@@ -217,10 +200,10 @@
         android:id="@+id/save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="50dp"
         android:background="@color/primary"
         android:text="SAVE"
-        android:layout_alignParentBottom="true"
         android:textColor="#FFFF"
         android:textSize="@dimen/address_huge_text_size" />
 </RelativeLayout>
