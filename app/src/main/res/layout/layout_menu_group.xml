@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_menu_group"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" >
+    android:orientation="vertical">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/rlGroup"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/menu_group_height"
+    <View
+        android:id="@+id/menu_group_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/menu_divider" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
-        android:background="@color/menu_background_color" >
+        android:background="@color/white"
+        android:minHeight="@dimen/menu_group_height"
+        android:padding="@dimen/menu_padding_layout">
 
         <TextView
             android:id="@+id/menu_group_text"
@@ -18,19 +26,16 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
             android:text="Veg Starters"
             android:textColor="@color/half_black"
-            android:textSize="@dimen/outlet_offer_header_textsize" />
+            android:textSize="@dimen/menu_text" />
 
         <ImageView
             android:id="@+id/menu_group_arrow"
-            android:layout_width="@dimen/outlet_offer_header_textsize"
-            android:layout_height="@dimen/outlet_offer_header_textsize"
-            android:src="@drawable/expanded"
+            android:layout_width="@dimen/menu_text"
+            android:layout_height="@dimen/menu_text"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp" />
+            android:src="@drawable/expanded" />
     </RelativeLayout>
-
 </LinearLayout>

@@ -4,20 +4,8 @@
     android:layout_height="match_parent"
     tools:context="com.twyst.app.android.fragments.MenuPageFragment">
 
-    <!--<com.diegocarloslima.fgelv.lib.FloatingGroupExpandableListView-->
-        <!--android:id="@+id/menuList"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:cacheColorHint="@android:color/transparent"-->
-        <!--android:childDivider="@color/menu_expandable_listview_divider"-->
-        <!--android:groupIndicator="@null"-->
-        <!--android:divider="@color/menu_expandable_listview_divider"-->
-        <!--android:footerDividersEnabled="false"-->
-        <!--android:dividerHeight="1dp" />-->
-
     <android.support.v7.widget.RecyclerView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/menu_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 </RelativeLayout>

@@ -6,44 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/menu_background_color">
 
-    <!--<android.support.v4.widget.NestedScrollView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:fillViewport="true"-->
-    <!--android:layout_gravity="fill_vertical"-->
-    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
-    <!--<LinearLayout-->
-    <!--android:id="@+id/llViewPager"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:orientation="vertical"-->
-    <!--android:visibility="visible">-->
-
-    <!--<android.support.v4.view.ViewPager-->
-    <!--android:id="@+id/menuPager"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:background="@android:color/white" />-->
-
-    <!--</LinearLayout>-->
-
-    <!--</android.support.v4.widget.NestedScrollView>-->
-
-    <!--<android.support.v4.widget.NestedScrollView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_gravity="fill_vertical"-->
-    <!--android:fillViewport="true"-->
-    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
-
-    <!--<android.support.v4.view.ViewPager-->
-    <!--android:id="@+id/menuPager"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:background="@android:color/white" />-->
-    <!--</android.support.v4.widget.NestedScrollView>-->
-
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -59,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp">
+
             <include
                 android:id="@+id/circularProgressBar"
                 layout="@layout/twyst_progress_hud" />
@@ -79,11 +42,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
-            app:titleEnabled="false"
             app:contentScrim="@color/transparent"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleEnabled="false">
 
             <include
                 layout="@layout/menu_activity_scrolling_layout"
@@ -102,24 +65,16 @@
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
+        <android.support.design.widget.TabLayout
+            android:id="@+id/sliding_tabs"
+            style="@style/MyCustomTabLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shadow"
-            android:paddingBottom="3dp"
-            android:paddingTop="2dp">
+            app:tabMode="scrollable"
+            app:tabSelectedTextColor="@color/colorPrimary"
+            app:tabTextColor="@color/colorPrimaryDark" />
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/sliding_tabs"
-                style="@style/MyCustomTabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                app:tabMode="scrollable"
-                app:tabSelectedTextColor="@color/colorPrimary"
-                app:tabTextColor="@color/colorPrimaryDark" />
-
-        </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -79,11 +79,14 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
             Items item = subCategories.getItemsList().get(i);
             item.setSubCategoryID(subCategories.getId());
         }
+        // Removing divider when 1st parent as shadow is there in TabLayout
+        if (parentPosition == 0) {
+            menuParentViewHolder.menuGroupDivider.setVisibility(View.GONE);
+        }
         menuParentViewHolder.text.setText(subCategories.getSubCategoryName());
         if (subCategories.getSubCategoryName().equals("Default")) {
-            menuParentViewHolder.rlGroup.setVisibility(View.GONE);
-//            menuParentViewHolder.rlGroup.getLayoutParams().height = 0;
-            menuParentViewHolder.rlGroup.post(new Runnable() {
+            menuParentViewHolder.llMenuGroup.getLayoutParams().height=0;
+            menuParentViewHolder.llMenuGroup.post(new Runnable() {
                 @Override
                 public void run() {
                     expandParent(parentPosition);
