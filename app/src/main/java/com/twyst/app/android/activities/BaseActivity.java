@@ -83,7 +83,7 @@ public abstract class BaseActivity extends ActionBarActivity
     private CircularProgressBar circularProgressBar;
     protected boolean setupAsChild;
     protected boolean drawerOpened;
-    private DrawerItem invite, faq, bill, wallet, notifications, submitOffer, suggestOutlet, write, rate;
+    private DrawerItem invite, faq, bill, wallet, notifications, submitOffer, suggestOutlet, write, rate, addressDetails;
     protected SharedPreferences.Editor sharedPreferences;
 
     TextView localityDrawer;
@@ -156,7 +156,8 @@ public abstract class BaseActivity extends ActionBarActivity
                 notifications.setSelected(false);
                 bill.setSelected(false);
                 wallet.setSelected(false);
-                submitOffer.setSelected(false);
+                addressDetails.setSelected(false);
+//                submitOffer.setSelected(false);
                 suggestOutlet.setSelected(false);
                 write.setSelected(false);
                 rate.setSelected(false);
@@ -173,7 +174,8 @@ public abstract class BaseActivity extends ActionBarActivity
                 notifications.setSelected(false);
                 bill.setSelected(false);
                 wallet.setSelected(false);
-                submitOffer.setSelected(false);
+                addressDetails.setSelected(false);
+//                submitOffer.setSelected(false);
                 suggestOutlet.setSelected(false);
                 write.setSelected(false);
                 rate.setSelected(false);
@@ -251,7 +253,8 @@ public abstract class BaseActivity extends ActionBarActivity
             notifications.setSelected(false);
             bill.setSelected(false);
             wallet.setSelected(false);
-            submitOffer.setSelected(false);
+            addressDetails.setSelected(false);
+//            submitOffer.setSelected(false);
             suggestOutlet.setSelected(false);
             write.setSelected(false);
             rate.setSelected(false);
@@ -262,7 +265,8 @@ public abstract class BaseActivity extends ActionBarActivity
             notifications.setSelected(false);
             bill.setSelected(false);
             wallet.setSelected(false);
-            submitOffer.setSelected(false);
+            addressDetails.setSelected(false);
+//            submitOffer.setSelected(false);
             suggestOutlet.setSelected(false);
             write.setSelected(false);
             rate.setSelected(false);
@@ -292,11 +296,17 @@ public abstract class BaseActivity extends ActionBarActivity
         wallet.setSelectedIcon(R.drawable.drawer_item_icon_wallet_selected);
         drawerItems.add(wallet);
 
-        submitOffer = new DrawerItem();
-        submitOffer.setTitle("SUBMIT AN OFFER");
-        submitOffer.setIcon(R.drawable.drawer_item_icon_submit_offer);
-        submitOffer.setSelectedIcon(R.drawable.drawer_item_icon_submit_offer_selected);
-        drawerItems.add(submitOffer);
+        addressDetails = new DrawerItem();
+        addressDetails.setTitle("ADDRESS DETAILS");
+        addressDetails.setIcon(R.drawable.drawer_item_icon_submit_offer);
+        addressDetails.setSelectedIcon(R.drawable.drawer_item_icon_submit_offer_selected);
+        drawerItems.add(addressDetails);
+
+//        submitOffer = new DrawerItem();
+//        submitOffer.setTitle("SUBMIT AN OFFER");
+//        submitOffer.setIcon(R.drawable.drawer_item_icon_submit_offer);
+//        submitOffer.setSelectedIcon(R.drawable.drawer_item_icon_submit_offer_selected);
+//        drawerItems.add(submitOffer);
 
         suggestOutlet = new DrawerItem();
         suggestOutlet.setTitle("SUGGEST AN OUTLET");
@@ -498,8 +508,11 @@ public abstract class BaseActivity extends ActionBarActivity
                         break;
 
                     case 4:
+                        //address details
+                        intent = new Intent(getBaseContext(), AddressDetailsActivity.class);
+
                         //submit an offer
-                        intent = new Intent(getBaseContext(), SubmitOfferActivity.class);
+//                        intent = new Intent(getBaseContext(), SubmitOfferActivity.class);
                         break;
 
                     case 5:

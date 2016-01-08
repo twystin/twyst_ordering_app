@@ -1,0 +1,255 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".activities.AddressDetailsActivity">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView_listview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/address_layout_medium_margin"
+        android:layout_weight="1"
+        card_view:cardCornerRadius="@dimen/address_layout_radius_small">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background"
+                android:paddingBottom="@dimen/address_layout_vertical_medium_margin"
+                android:paddingLeft="@dimen/address_layout_horizontal_huge_margin"
+                android:paddingTop="@dimen/address_layout_vertical_medium_margin"
+                android:text="Saved Address"
+                android:textColor="@color/black_87"
+                android:textSize="@dimen/address_huge_text_size" />
+
+            <ListView
+                android:id="@+id/saved_address_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+            </ListView>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView_noAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/address_layout_medium_margin"
+        android:visibility="gone"
+        card_view:cardCornerRadius="@dimen/address_layout_radius_small">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background"
+                android:paddingBottom="@dimen/address_layout_vertical_medium_margin"
+                android:paddingLeft="@dimen/address_layout_horizontal_huge_margin"
+                android:paddingTop="@dimen/address_layout_vertical_medium_margin"
+                android:text="Saved Address"
+                android:textColor="@color/black_87"
+                android:textSize="@dimen/address_huge_text_size" />
+
+            <TextView
+                android:id="@+id/tv_no_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/address_layout_vertical_medium_margin"
+                android:paddingLeft="@dimen/address_layout_horizontal_huge_margin"
+                android:paddingTop="@dimen/address_layout_vertical_medium_margin"
+                android:text="No Addresses to show"
+                android:textColor="@color/primary"
+                android:textSize="@dimen/address_medium_text_size" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_current_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/address_layout_medium_margin"
+        card_view:cardCornerRadius="@dimen/address_layout_radius_small">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background"
+                android:paddingBottom="@dimen/address_layout_vertical_medium_margin"
+                android:paddingLeft="@dimen/address_layout_horizontal_huge_margin"
+                android:paddingTop="@dimen/address_layout_vertical_medium_margin"
+                android:text="Current Location"
+                android:textColor="@color/black_87"
+                android:textSize="@dimen/address_huge_text_size" />
+
+            <LinearLayout
+                android:id="@+id/linlay_current_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/address_layout_vertical_medium_margin"
+                android:paddingLeft="@dimen/address_layout_horizontal_huge_margin"
+                android:paddingTop="@dimen/address_layout_vertical_medium_margin"
+                android:visibility="gone">
+
+                <!--<RadioButton-->
+                <!--android:id="@+id/radio_current_loc"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:clickable="false"-->
+                <!--android:focusable="false"-->
+                <!--android:focusableInTouchMode="false"-->
+                <!--android:gravity="center_vertical" />-->
+
+                <ImageView
+                    android:id="@+id/radio_current_loc"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:gravity="center_vertical"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:id="@+id/tv_current_address"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="@dimen/address_layout_horizontal_medium_margin"
+                    android:text="unavailable!"
+                    android:textColor="@color/black_38"
+                    android:textSize="@dimen/address_medium_text_size" />
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/address_layout_vertical_huge_margin"
+                android:layout_marginTop="@dimen/address_layout_vertical_huge_margin" />
+
+            <TextView
+                android:id="@+id/tv_turn_on_gps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/address_layout_vertical_medium_margin"
+                android:paddingLeft="@dimen/address_layout_horizontal_huge_margin"
+                android:paddingTop="@dimen/address_layout_vertical_medium_margin"
+                android:text="Turn on GPS to enable!"
+                android:textColor="@color/black_38"
+                android:textSize="@dimen/address_medium_text_size"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_fetch_location_again"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/address_layout_vertical_medium_margin"
+                android:paddingLeft="@dimen/address_layout_horizontal_huge_margin"
+                android:paddingTop="@dimen/address_layout_vertical_medium_margin"
+                android:text="Fetch Location Failed. Try Again!"
+                android:textColor="@color/black_38"
+                android:textSize="@dimen/address_medium_text_size"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/address_layout_medium_margin"
+        card_view:cardCornerRadius="@dimen/address_layout_radius_small">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background"
+                android:paddingBottom="@dimen/address_layout_vertical_medium_margin"
+                android:paddingLeft="@dimen/address_layout_horizontal_huge_margin"
+                android:paddingTop="@dimen/address_layout_vertical_medium_margin"
+                android:text="Add New Address"
+                android:textColor="@color/black_87"
+                android:textSize="@dimen/address_huge_text_size" />
+
+            <LinearLayout
+                android:id="@+id/linlay_add_address_icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/image_add"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginLeft="@dimen/address_layout_horizontal_huge_margin"
+                    android:layout_marginTop="12dp"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:gravity="center_vertical"
+                    android:src="@drawable/address_add" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="@dimen/address_layout_horizontal_medium_margin"
+                    android:text="Add"
+                    android:textColor="@color/black_54"
+                    android:textSize="@dimen/address_medium_text_size" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

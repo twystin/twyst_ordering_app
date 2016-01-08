@@ -117,4 +117,28 @@
     <dimen name="notification_item_height">95dp</dimen>
     <dimen name="notification_header_text">13dp</dimen>
     <dimen name="notification_detail_text">10dp</dimen>
+
+    <!--Address Details-->
+    <dimen name="address_huge_text_size">16dp</dimen>
+    <dimen name="address_medium_text_size">12dp</dimen>
+    <dimen name="address_small_text_size">8dp</dimen>
+
+    <dimen name="address_layout_horizontal_huge_margin">16dp</dimen>
+    <dimen name="address_layout_horizontal_wide_margin">12dp</dimen>
+    <dimen name="address_layout_horizontal_medium_margin">8dp</dimen>
+    <dimen name="address_layout_horizontal_small_margin">4dp</dimen>
+
+    <dimen name="address_layout_vertical_huge_margin">16dp</dimen>
+    <dimen name="address_layout_vertical_wide_margin">12dp</dimen>
+    <dimen name="address_layout_vertical_medium_margin">8dp</dimen>
+    <dimen name="address_layout_vertical_small_margin">4dp</dimen>
+
+    <dimen name="address_layout_huge_margin">16dp</dimen>
+    <dimen name="address_layout_wide_margin">12dp</dimen>
+    <dimen name="address_layout_medium_margin">8dp</dimen>
+    <dimen name="address_layout_small_margin">4dp</dimen>
+
+    <dimen name="address_layout_radius_wide">6dp</dimen>
+    <dimen name="address_layout_radius_medium">4dp</dimen>
+    <dimen name="address_layout_radius_small">2dp</dimen>
 </resources>

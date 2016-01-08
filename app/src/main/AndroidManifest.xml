@@ -268,6 +268,21 @@
             android:label="@string/action_search"
             android:screenOrientation="portrait" />
 
+        <!--Address Details-->
+        <activity
+            android:name=".activities.AddressDetailsActivity"
+            android:label="@string/action_search"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activities.AddressAddNewActivity"
+            android:label="@string/action_search"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activities.AddressMapActivity"
+            android:label="@string/action_search"
+            android:screenOrientation="portrait" />
         <!--.
           WakefulBroadcastReceiver that will receive intents from GCM
           services and hand them to the custom IntentService.
@@ -322,6 +337,9 @@
 
         <service android:name=".gcm.GcmIntentService" />
         <service android:name=".service.LocationService" />
+        <service
+            android:name=".service.FetchAddressIntentService"
+            android:exported="false"/>
     </application>
 
 </manifest>

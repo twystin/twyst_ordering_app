@@ -118,4 +118,11 @@
     <color name="semi_black">#696969</color>
     <color name="semi_black_faded">#9b9b9b</color>
     <color name="gray_divider">#d7d7d7</color>
+
+    //Address Details
+    <color name="edit_text_bar_color">#E0E0E0</color>
+    <color name="black_87">#DE000000</color>
+    <color name="black_54">#8A000000</color>
+    <color name="black_38">#61000000</color>
+
 </resources>

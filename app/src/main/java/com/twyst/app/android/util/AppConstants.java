@@ -150,4 +150,28 @@ public class AppConstants {
     public static final String INTENT_ORDER_SUMMARY = "intent_order_summary";
     public static final String INTENT_FREE_ITEM_INDEX = "intent_free_item_index";
 
+    //Address Details (by anshul)
+    public static final int REQUEST_CHECK_SETTINGS = 0x1;
+
+    public static final int SHOW_PROGRESS_BAR = 1;
+    public static final int SHOW_CURRENT_LOCATION = 2;
+    public static final int SHOW_TURN_ON_GPS = 3;
+    public static final int SHOW_FETCH_LOCATION_AGAIN = 4;
+
+    public static final String MAP_TO_BE_SHOWN = "MAP_TO_BE_SHOWN";
+    public static final String DATA_TO_BE_SHOWN = "DATA_TO_BE_SHOWN";
+
+    public static final int SUCCESS_RESULT = 0;
+
+    public static final int FAILURE_RESULT = 1;
+
+    public static final String PACKAGE_NAME =
+            "com.google.android.gms.location.sample.locationaddress";
+
+    public static final String RECEIVER = PACKAGE_NAME + ".RECEIVER";
+
+    public static final String RESULT_DATA_KEY = PACKAGE_NAME + ".RESULT_DATA_KEY";
+
+    public static final String LOCATION_DATA_EXTRA = PACKAGE_NAME + ".LOCATION_DATA_EXTRA";
+
 }

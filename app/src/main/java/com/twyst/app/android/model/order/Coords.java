@@ -8,6 +8,12 @@ import java.io.Serializable;
  * Created by Vipul Sharma on 12/21/2015.
  */
 public class Coords implements Serializable {
+    public Coords(){}
+    public Coords(String lat, String lon) {
+        this.lat = lat;
+        this.lon = lon;
+    }
+
     @SerializedName("lat")
     private String lat;
 
