@@ -6,16 +6,11 @@
     android:orientation="vertical"
     android:padding="10dp"
     tools:context=".activities.AddressDetailsActivity">
-
-    <android.support.v7.widget.CardView
+    <android.support.v7.widget.CardView style="@style/card_view_style"
         android:id="@+id/cardView_listview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/address_layout_medium_margin"
-        android:layout_marginBottom="@dimen/address_layout_medium_margin"
-        android:layout_weight="1"
-        android:layout_gravity="center"
-        card_view:cardCornerRadius="@dimen/address_layout_radius_small">
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,16 +32,9 @@
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
+    <android.support.v7.widget.CardView style="@style/card_view_style"
         android:id="@+id/cardView_noAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/address_layout_medium_margin"
-        android:layout_marginBottom="@dimen/address_layout_medium_margin"
-        android:visibility="gone"
-        card_view:cardCornerRadius="@dimen/address_layout_radius_small">
-
+        android:visibility="gone">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,15 +64,9 @@
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
-
     <android.support.v7.widget.CardView
         android:id="@+id/card_current_location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/address_layout_medium_margin"
-        android:layout_marginBottom="@dimen/address_layout_medium_margin"
-        card_view:cardCornerRadius="@dimen/address_layout_radius_small">
+        style="@style/card_view_style">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -104,15 +86,6 @@
                 android:paddingLeft="@dimen/address_layout_horizontal_huge_margin"
                 android:paddingTop="@dimen/address_layout_vertical_medium_margin"
                 android:visibility="gone">
-
-                <!--<RadioButton-->
-                <!--android:id="@+id/radio_current_loc"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:clickable="false"-->
-                <!--android:focusable="false"-->
-                <!--android:focusableInTouchMode="false"-->
-                <!--android:gravity="center_vertical" />-->
 
                 <ImageView
                     android:id="@+id/radio_current_loc"
@@ -178,15 +151,7 @@
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
-
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/address_layout_medium_margin"
-        android:layout_marginBottom="@dimen/address_layout_medium_margin"
-        card_view:cardCornerRadius="@dimen/address_layout_radius_small">
-
+    <android.support.v7.widget.CardView style="@style/card_view_style">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
