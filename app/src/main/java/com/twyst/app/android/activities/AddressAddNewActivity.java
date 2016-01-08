@@ -20,21 +20,19 @@ import com.twyst.app.android.util.SharedPreferenceAddress;
  * Created by anshul on 1/8/2016.
  */
 public class AddressAddNewActivity extends AppCompatActivity {
-
     private static final int PLACE_PICKER_REQUEST = 2;
     private ImageView homeTag;
     private ImageView workTag;
     private ImageView otherTag;
     private AddressDetailsLocationData mNewAddress = new AddressDetailsLocationData();
 
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_add_new);
 
-
-        homeTag = (ImageView)findViewById(R.id.add_address_home_tag);
-        workTag = (ImageView)findViewById(R.id.add_address_work_tag);
-        otherTag = (ImageView)findViewById(R.id.add_address_other_tag);
+        homeTag = (ImageView) findViewById(R.id.add_address_home_tag);
+        workTag = (ImageView) findViewById(R.id.add_address_work_tag);
+        otherTag = (ImageView) findViewById(R.id.add_address_other_tag);
         homeTag.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.home_tag_config));
         homeTag.setSelected(true);
         workTag.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.work_tag_config));
@@ -43,30 +41,21 @@ public class AddressAddNewActivity extends AppCompatActivity {
         homeTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                homeTag.setSelected(!homeTag.isSelected());
-                if (workTag.isSelected()) {
-                    workTag.setSelected(!workTag.isSelected());
-                }
-                if (otherTag.isSelected()) {
-                    otherTag.setSelected(!otherTag.isSelected());
-                    EditText otherTagEdittext = (EditText) findViewById(R.id.editView_other_tag);
-                    otherTagEdittext.setVisibility(EditText.GONE);
-                }
+                homeTag.setSelected(true);
+                workTag.setSelected(false);
+                otherTag.setSelected(false);
+                findViewById(R.id.editView_other_tag).setVisibility(EditText.GONE);
             }
         });
 
         otherTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                otherTag.setSelected(!otherTag.isSelected());
-                if (workTag.isSelected()){
-                    workTag.setSelected(!workTag.isSelected());
-                }
-                if (homeTag.isSelected()){
-                    homeTag.setSelected(!homeTag.isSelected());
-                }
+                homeTag.setSelected(false);
+                workTag.setSelected(false);
+                otherTag.setSelected(true);
 
-                EditText otherTagEdittext = (EditText)findViewById(R.id.editView_other_tag);
+                EditText otherTagEdittext = (EditText) findViewById(R.id.editView_other_tag);
                 otherTagEdittext.setVisibility(EditText.VISIBLE);
                 otherTagEdittext.setCursorVisible(true);
                 otherTagEdittext.requestFocus();
@@ -76,27 +65,22 @@ public class AddressAddNewActivity extends AppCompatActivity {
         workTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                workTag.setSelected(!workTag.isSelected());
-                if (homeTag.isSelected()){
-                    homeTag.setSelected(!homeTag.isSelected());
-                }
-                if (otherTag.isSelected()){
-                    otherTag.setSelected(!otherTag.isSelected());
-                    EditText otherTagEdittext = (EditText)findViewById(R.id.editView_other_tag);
-                    otherTagEdittext.setVisibility(EditText.GONE);
-                }
+                homeTag.setSelected(false);
+                workTag.setSelected(true);
+                otherTag.setSelected(false);
+                findViewById(R.id.editView_other_tag).setVisibility(EditText.GONE);
             }
         });
 
-        Boolean setUpMap = getIntent().getBooleanExtra(AppConstants.MAP_TO_BE_SHOWN,false);
+        Boolean setUpMap = getIntent().getBooleanExtra(AppConstants.MAP_TO_BE_SHOWN, false);
         if (setUpMap) {
             Intent intent = new Intent(AddressAddNewActivity.this, AddressMapActivity.class);
             startActivityForResult(intent, PLACE_PICKER_REQUEST);
         } else {
-            mNewAddress = (AddressDetailsLocationData)getIntent().getSerializableExtra(AppConstants.DATA_TO_BE_SHOWN);
-            EditText address = (EditText)findViewById(R.id.editView_address);
+            mNewAddress = (AddressDetailsLocationData) getIntent().getSerializableExtra(AppConstants.DATA_TO_BE_SHOWN);
+            EditText address = (EditText) findViewById(R.id.editView_address);
             address.setText(mNewAddress.getAddress());
-            ((LinearLayout)findViewById(R.id.linlay_add_address)).setVisibility(View.VISIBLE);
+            ((LinearLayout) findViewById(R.id.linlay_add_address)).setVisibility(View.VISIBLE);
         }
 
         Button save = (Button) findViewById(R.id.save);
@@ -114,13 +98,12 @@ public class AddressAddNewActivity extends AppCompatActivity {
                     mNewAddress.setAddress(address.getText().toString());
                     mNewAddress.setLandmark(landmark.getText().toString());
                     if (homeTag.isSelected()) {
-                        mNewAddress.setTag("home");
+                        mNewAddress.setTag("Home");
                     } else if (workTag.isSelected()) {
-                        mNewAddress.setTag("work");
+                        mNewAddress.setTag("Work");
                     } else {
                         mNewAddress.setTag(((EditText) findViewById(R.id.editView_other_tag)).getText().toString());
                     }
-
 
                     SharedPreferenceAddress preference = new SharedPreferenceAddress();
                     preference.addAddress(AddressAddNewActivity.this, mNewAddress);
@@ -134,7 +117,7 @@ public class AddressAddNewActivity extends AppCompatActivity {
 
     }
 
-    public boolean validateEditText (EditText editText){
+    public boolean validateEditText(EditText editText) {
         if ((editText.getText().toString()).matches("")) {
             editText.setError(editText.getHint().toString() + " is required!");
             return false;
@@ -148,7 +131,7 @@ public class AddressAddNewActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(getTagName(), "onActivityResult: requestCode: " + requestCode + ", resultcode: " + resultCode);
-        ((LinearLayout)findViewById(R.id.linlay_add_address)).setVisibility(View.VISIBLE);
+        ((LinearLayout) findViewById(R.id.linlay_add_address)).setVisibility(View.VISIBLE);
 
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
@@ -165,10 +148,10 @@ public class AddressAddNewActivity extends AppCompatActivity {
         }
     }
 
-    private void setTextLocationFetch(AddressDetailsLocationData locationData){
-        EditText address = (EditText)findViewById(R.id.editView_address);
+    private void setTextLocationFetch(AddressDetailsLocationData locationData) {
+        EditText address = (EditText) findViewById(R.id.editView_address);
         address.setText(locationData.getAddress());
-        Toast.makeText(AddressAddNewActivity.this,locationData.getAddress(),Toast.LENGTH_LONG);
+        Toast.makeText(AddressAddNewActivity.this, locationData.getAddress(), Toast.LENGTH_LONG);
     }
 
 }
