@@ -79,7 +79,6 @@ public class LocationFetchUtil implements
     }
 
     public void requestLocation() {
-
         mLocationRequested = true;
         mLastLocation = null;
         buildGoogleApiClient();
@@ -128,7 +127,6 @@ public class LocationFetchUtil implements
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                         Log.i(getTagName(), "Location settings are not satisfied. Show the user a dialog to upgrade location settings ");
-
                         try {
                             // Show the dialog by calling startResolutionForResult(), and check the result
                             // in onActivityResult().
@@ -144,7 +142,6 @@ public class LocationFetchUtil implements
                 }
             }
         });
-
     }
 
     public void fetchLocation(final boolean tryAgain) {
