@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_verify_number"
+        style="@style/card_view_style">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/card_text_heading"
+                android:text="Verify Number" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:gravity="center"
+                    android:text="+91"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/phone_verification_edittext_size" />
+
+                <EditText
+                    android:id="@+id/phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:hint="@string/hint_mobile"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="#8c8c8c"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/phone_verification_edittext_size" />
+
+                <RelativeLayout
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/primary">
+
+                    <include
+                        layout="@layout/circular_progress_bar"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerInParent="true"
+                        android:visibility="invisible" />
+
+                    <Button
+                        android:layout_width="30dp"
+                        android:layout_height="20dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/checkout_arrow" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_verify_email"
+        style="@style/card_view_style"
+        android:layout_below="@+id/card_verify_number"
+        android:paddingTop="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/card_text_heading"
+                android:text="Verify Email" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:ems="15"
+                    android:gravity="center"
+                    android:hint="@string/hint_email"
+                    android:inputType="textEmailAddress"
+                    android:paddingTop="3dp"
+                    android:selectAllOnFocus="true"
+                    android:text="vipul.sharma2008@gmail.com"
+                    android:textColor="@color/black"
+                    android:textColorHint="#8c8c8c"
+                    android:textCursorDrawable="@null" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_signup"
+        style="@style/card_view_style"
+        android:layout_below="@+id/card_verify_email"
+        android:paddingTop="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/card_text_heading"
+                android:text="SIGN UP using" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:mrl_rippleOverlay="true">
+
+                    <ImageView
+                        android:id="@+id/fbLogin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_facebook_logo"/>
+                </com.balysv.materialripple.MaterialRippleLayout>
+
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    app:mrl_rippleOverlay="true">
+
+                    <ImageView
+                        android:id="@+id/gPlusLogin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_google_plus_logo"/>
+                </com.balysv.materialripple.MaterialRippleLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>
