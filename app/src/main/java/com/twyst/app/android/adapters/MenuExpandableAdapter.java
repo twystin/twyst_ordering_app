@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -85,7 +86,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
         }
         menuParentViewHolder.text.setText(subCategories.getSubCategoryName());
         if (subCategories.getSubCategoryName().equals("Default")) {
-            menuParentViewHolder.llMenuGroup.getLayoutParams().height=0;
+            menuParentViewHolder.llMenuGroup.getLayoutParams().height = 0;
             menuParentViewHolder.llMenuGroup.post(new Runnable() {
                 @Override
                 public void run() {
@@ -123,6 +124,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
 
         if (mVegIconHeight == 0) {
             final TextView tvMenuItemName = childViewHolder.menuItemName;
+            final TextView tvMenuItemDesc = childViewHolder.menuItemDesc;
             tvMenuItemName.getViewTreeObserver()
                     .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                         @Override
@@ -138,6 +140,10 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
                             mVegIconHeight = tvMenuItemName.getMeasuredHeight() * 2 / 3;
                             img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
                             tvMenuItemName.setCompoundDrawables(img, null, null, null);
+                            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) tvMenuItemDesc.getLayoutParams();
+                            params.setMargins((mVegIconHeight + tvMenuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
+                            tvMenuItemDesc.setLayoutParams(params);
+
                             tvMenuItemName.getViewTreeObserver()
                                     .removeOnGlobalLayoutListener(this);
                         }
@@ -153,9 +159,16 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
             }
             img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
             childViewHolder.menuItemName.setCompoundDrawables(img, null, null, null);
+
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) childViewHolder.menuItemDesc.getLayoutParams();
+            params.setMargins((mVegIconHeight + childViewHolder.menuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
+            childViewHolder.menuItemDesc.setLayoutParams(params);
         }
 
         childViewHolder.menuItemName.setText(item.getItemName());
+        if (item.getItemDescription() != null) {
+            childViewHolder.menuItemDesc.setText(item.getItemDescription());
+        }
         childViewHolder.tvCost.setText(Utils.costString(item.getItemCost()));
     }
 
