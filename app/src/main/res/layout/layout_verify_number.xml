@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/card_view_style">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout style="@style/card_text_heading_layout">
+
+            <TextView
+                style="@style/card_text_heading_text"
+                android:text="Verify Number" />
+
+            <include
+                android:id="@+id/verify_number_correct_symbol"
+                layout="@layout/correct_symbol" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/verify_number_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Please enter your Mobile Number"
+                android:textColor="@color/semi_black"
+                android:textSize="@dimen/phone_verification_hint" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/verify_number_phone_pre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:gravity="center"
+                    android:text="+91"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/phone_verification_edit_text_size" />
+
+                <EditText
+                    android:id="@+id/verify_number_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:hint="@string/hint_mobile"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="#8c8c8c"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/phone_verification_edit_text_size" />
+
+                <RelativeLayout
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:padding="5dp">
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:id="@+id/verify_number_go"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerInParent="true"
+                        android:background="@color/primary"
+                        android:padding="5dp"
+                        app:mrl_rippleOverlay="true">
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/checkout_arrow" />
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <include
+                        android:id="@+id/verify_number_progress_bar"
+                        layout="@layout/circular_progress_bar"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerInParent="true"
+                        android:visibility="invisible" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>
