@@ -100,42 +100,17 @@ public class UserVerificationActivity extends Activity {
 
             verifyNumberProgressBar.setVisibility(View.VISIBLE);
             tvVerifyNumberGoText.setBackground(null);
+            tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_fetch));
             HttpService.getInstance().getMobileAuthCode(etPhoneCodeInput.getText().toString(), new Callback<BaseResponse<OTPCode>>() {
                 @Override
                 public void success(final BaseResponse<OTPCode> twystResponse, Response response) {
                     if (twystResponse.isResponse()) {
                         final OTPCode otpCode = twystResponse.getData();
-                        Toast.makeText(UserVerificationActivity.this, "Verifying Number", Toast.LENGTH_SHORT).show();
-                        final Handler handler = new Handler();
+//                        Toast.makeText(UserVerificationActivity.this, "Verifying Number", Toast.LENGTH_SHORT).show();
+                        tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_waiting));
 
-                        Runnable runnable = new Runnable() {
-                            int retry = 0;
-
-                            @Override
-                            public void run() {
-                                if (checkSmsCode()) {
-                                    validateOTP(otpCode);
-
-                                } else {
-                                    if (retry < AppConstants.MAX_WAIT_FOR_SMS_IN_SECONDS) {
-                                        handler.postDelayed(this, 1000);
-                                        Log.d("retry", "" + retry);
-                                        retry++;
-
-                                    } else {
-                                        sharedPreferences.putString(AppConstants.PREFERENCE_USER_PHONE, otpCode.getPhone());
-                                        sharedPreferences.apply();
-                                        Intent intent = new Intent(getBaseContext(), OTPVerificationActivity.class);
-                                        intent.putExtra(AppConstants.INTENT_PARAM_OTP_PHONE, otpCode.getPhone());
-                                        startActivity(intent);
-                                        finish();
-                                    }
-
-                                }
-                            }
-
-                        };
-                        handler.postDelayed(runnable, 1000);
+                        MyRunnable myRunnable = new MyRunnable(otpCode);
+                        handler.postDelayed(myRunnable, 1000);
 
                     } else {
                         verifyNumberGo.setEnabled(true);
@@ -235,6 +210,69 @@ public class UserVerificationActivity extends Activity {
 //                handleRetrofitError(error);
             }
         });
+    }
+
+    final Handler handler = new Handler();
+//
+//    private Runnable runnable = new Runnable() {
+//        int retry = 0;
+//
+//        @Override
+//        public void run() {
+//            if (checkSmsCode()) {
+//                validateOTP(otpCode);
+//
+//            } else {
+//                if (retry < AppConstants.MAX_WAIT_FOR_SMS_IN_SECONDS) {
+//                    handler.postDelayed(this, 1000);
+//                    Log.d("retry", "" + retry);
+//                    retry++;
+//
+//                } else {
+//                    sharedPreferences.putString(AppConstants.PREFERENCE_USER_PHONE, otpCode.getPhone());
+//                    sharedPreferences.apply();
+//                    Intent intent = new Intent(getBaseContext(), OTPVerificationActivity.class);
+//                    intent.putExtra(AppConstants.INTENT_PARAM_OTP_PHONE, otpCode.getPhone());
+//                    startActivity(intent);
+//                    finish();
+//                }
+//
+//            }
+//        }
+//
+//    };
+
+
+    private class MyRunnable implements Runnable {
+        private int retry = 0;
+        private OTPCode otpCode;
+
+        public MyRunnable(OTPCode otp) {
+            this.otpCode = otp;
+        }
+
+        public void run() {
+            if (checkSmsCode()) {
+                validateOTP(otpCode);
+
+            } else {
+                if (retry < AppConstants.MAX_WAIT_FOR_SMS_IN_SECONDS) {
+                    handler.postDelayed(this, 1000);
+                    tvVerifyNumberGoText.setText(String.valueOf(AppConstants.MAX_WAIT_FOR_SMS_IN_SECONDS - retry));
+                    Log.d("retry", "" + retry);
+                    retry++;
+
+                } else {
+                    sharedPreferences.putString(AppConstants.PREFERENCE_USER_PHONE, otpCode.getPhone());
+                    sharedPreferences.apply();
+                    Intent intent = new Intent(getBaseContext(), OTPVerificationActivity.class);
+                    intent.putExtra(AppConstants.INTENT_PARAM_OTP_PHONE, otpCode.getPhone());
+                    startActivity(intent);
+                    finish();
+                }
+
+            }
+        }
     }
 
 }

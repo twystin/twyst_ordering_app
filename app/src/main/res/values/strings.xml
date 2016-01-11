@@ -59,6 +59,7 @@
 
     <!--User Verification-->
     <string name="verify_number_hint_enter_phone">Please enter your Mobile Number</string>
+    <string name="verify_number_hint_fetch">Fetching OTP</string>
     <string name="verify_number_hint_waiting">Waiting for OTP</string>
     <string name="verify_number_hint_enter_code">Please enter 4-digit code you received</string>
     <string name="verify_number_hint_verify">Verifying OTP</string>
