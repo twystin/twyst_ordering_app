@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
@@ -53,6 +54,7 @@ public class LocationFetchUtil implements
     protected boolean mAddressRequested;
     protected boolean mLocationRequested;
     protected String mAddressOutput;
+    private Address address;
 
     static private short no_of_trials = 0;
 
@@ -223,20 +225,21 @@ public class LocationFetchUtil implements
         protected void onReceiveResult(int resultCode, Bundle resultData) {
             // Display the address string or an error message sent from the intent service.
             mAddressOutput = resultData.getString(AppConstants.RESULT_DATA_KEY);
-            if (mAddressOutput.equals("Sorry, the service is not available")) {
 
+            if (mAddressOutput.equals(AppConstants.ADDRESS_FOUND)){
+                mAddressRequested = false;
+                address = resultData.getParcelable(AppConstants.ADDRESS_DATA_KEY);
+                locationFetchResultCodeListener.onReceiveAddress(AppConstants.SHOW_CURRENT_LOCATION, address);
+            } else {
                 if (++no_of_trials < 1) {
                     fetchAddress();
                 } else {
                     no_of_trials = 0;
                     mAddressRequested = false;
-                    locationFetchResultCodeListener.onReceiveAddress(4, mAddressOutput);
+                    locationFetchResultCodeListener.onReceiveAddress(AppConstants.SHOW_FETCH_LOCATION_AGAIN, null);
                 }
-            } else {
-
-                mAddressRequested = false;
-                locationFetchResultCodeListener.onReceiveAddress(2, mAddressOutput);
             }
+
 
             // Show a toast message if an address was found.
             if (resultCode == AppConstants.SUCCESS_RESULT) {
@@ -261,7 +264,7 @@ public class LocationFetchUtil implements
     }
 
     public interface LocationFetchResultCodeListener {
-        void onReceiveAddress(int resultCode, String addressOutput);
+        void onReceiveAddress(int resultCode, Address address);
 
         void onReceiveLocation(int resultCode, Location location);
     }

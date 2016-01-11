@@ -2,6 +2,7 @@ package com.twyst.app.android.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -204,10 +205,20 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
     }
 
     @Override
-    public void onReceiveAddress(int resultCode, String addressOutput) {
+    public void onReceiveAddress(int resultCode, Address address) {
         if (resultCode == AppConstants.SHOW_CURRENT_LOCATION) {
-            mAddressDetailsLocationData.setAddress(addressOutput);
-            mLocationAddressTextView.setText(addressOutput);
+            String mAddressOutput = "";
+            for (int i = 0; i < address.getMaxAddressLineIndex();i++)
+            {
+                mAddressOutput +=  address.getAddressLine(i);
+                mAddressOutput += ", ";
+            }
+
+            mAddressOutput += address.getAddressLine(address.getMaxAddressLineIndex());
+            mAddressDetailsLocationData.setAddress(mAddressOutput);
+            mAddressDetailsLocationData.setNeighborhood(address.getAddressLine(0));
+            mAddressDetailsLocationData.setLandmark(address.getAddressLine(1));
+            mLocationAddressTextView.setText(address.getAddressLine(0)+ ", " + address.getAddressLine(1));
         }
         updateUIWidgets(resultCode);
     }

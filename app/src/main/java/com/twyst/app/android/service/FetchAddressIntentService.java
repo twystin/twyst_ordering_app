@@ -18,7 +18,6 @@ import com.twyst.app.android.R;
 import com.twyst.app.android.util.AppConstants;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -34,6 +33,7 @@ public class FetchAddressIntentService extends IntentService {
      * The receiver where results are forwarded from this service.
      */
     protected ResultReceiver mReceiver;
+    private Address address;
 
     /**
      * This constructor is required, and calls the super IntentService(String)
@@ -73,7 +73,9 @@ public class FetchAddressIntentService extends IntentService {
         if (location == null) {
             errorMessage = getString(R.string.no_location_data_provided);
             Log.wtf(TAG, errorMessage);
-            deliverResultToReceiver(AppConstants.FAILURE_RESULT, errorMessage);
+//            deliverResultToReceiver(AppConstants.FAILURE_RESULT, errorMessage);
+            deliverResultToReceiver(AppConstants.FAILURE_RESULT, errorMessage,null);
+
             return;
         }
 
@@ -118,10 +120,12 @@ public class FetchAddressIntentService extends IntentService {
                 errorMessage = getString(R.string.no_address_found);
                 Log.e(TAG, errorMessage);
             }
-            deliverResultToReceiver(AppConstants.FAILURE_RESULT, errorMessage);
+//            deliverResultToReceiver(AppConstants.FAILURE_RESULT, errorMessage);
+            deliverResultToReceiver(AppConstants.FAILURE_RESULT, errorMessage,null);
+
         } else {
-            Address address = addresses.get(0);
-            ArrayList<String> addressFragments = new ArrayList<String>();
+            address = addresses.get(0);
+//            ArrayList<String> addressFragments = new ArrayList<String>();
 
             // Fetch the address lines using {@code getAddressLine},
             // join them, and send them to the thread. The {@link android.location.address}
@@ -139,16 +143,19 @@ public class FetchAddressIntentService extends IntentService {
 //            deliverResultToReceiver(Constants.SUCCESS_RESULT,
 //                    TextUtils.join(" ", addressFragments));
             Log.i(TAG, getString(R.string.address_found));
-            deliverResultToReceiver(AppConstants.SUCCESS_RESULT,address.getAddressLine(0) + ", " + address.getAddressLine(1));
+//            deliverResultToReceiver(AppConstants.SUCCESS_RESULT,address.getAddressLine(0) + ", " + address.getAddressLine(1));
+            deliverResultToReceiver(AppConstants.SUCCESS_RESULT,AppConstants.ADDRESS_FOUND,address);
+
         }
     }
 
     /**
      * Sends a resultCode and message to the receiver.
      */
-    private void deliverResultToReceiver(int resultCode, String message) {
+    private void deliverResultToReceiver(int resultCode, String message,Address address) {
         Bundle bundle = new Bundle();
         bundle.putString(AppConstants.RESULT_DATA_KEY, message);
+        bundle.putParcelable(AppConstants.ADDRESS_DATA_KEY,address);
         mReceiver.send(resultCode, bundle);
     }
 }

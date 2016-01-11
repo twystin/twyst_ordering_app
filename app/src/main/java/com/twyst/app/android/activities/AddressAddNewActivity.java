@@ -24,6 +24,12 @@ public class AddressAddNewActivity extends AppCompatActivity {
     private ImageView homeTag;
     private ImageView workTag;
     private ImageView otherTag;
+    private ImageView editNeighborhood;
+    private ImageView editLandmark;
+    private EditText address ;
+    private EditText neighborhood;
+    private EditText landmark;
+
     private AddressDetailsLocationData mNewAddress = new AddressDetailsLocationData();
 
     public void onCreate(Bundle savedInstanceState) {
@@ -37,6 +43,32 @@ public class AddressAddNewActivity extends AppCompatActivity {
         homeTag.setSelected(true);
         workTag.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.work_tag_config));
         otherTag.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.other_tag_config));
+
+        address = (EditText) findViewById(R.id.editView_address);
+        neighborhood = (EditText)findViewById(R.id.editView_building);
+        landmark = (EditText)findViewById(R.id.editView_landmark);
+        editNeighborhood = (ImageView) findViewById(R.id.edit_image_neighborhood);
+        editLandmark = (ImageView)findViewById(R.id.edit_image_landmark);
+
+        editNeighborhood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                neighborhood.setEnabled(true);
+//                neighborhood.setSelected(true);
+                neighborhood.setCursorVisible(true);
+                neighborhood.requestFocus();
+            }
+        });
+
+        editLandmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                landmark.setEnabled(true);
+//                landmark.setSelected(true);
+                landmark.setCursorVisible(true);
+                landmark.requestFocus();
+            }
+        });
 
         homeTag.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,14 +104,15 @@ public class AddressAddNewActivity extends AppCompatActivity {
             }
         });
 
+
+
         Boolean setUpMap = getIntent().getBooleanExtra(AppConstants.MAP_TO_BE_SHOWN, false);
         if (setUpMap) {
             Intent intent = new Intent(AddressAddNewActivity.this, AddressMapActivity.class);
             startActivityForResult(intent, PLACE_PICKER_REQUEST);
         } else {
             mNewAddress = (AddressDetailsLocationData) getIntent().getSerializableExtra(AppConstants.DATA_TO_BE_SHOWN);
-            EditText address = (EditText) findViewById(R.id.editView_address);
-            address.setText(mNewAddress.getAddress());
+            setTextLocationFetch(mNewAddress);
             ((LinearLayout) findViewById(R.id.linlay_add_address)).setVisibility(View.VISIBLE);
         }
 
@@ -149,8 +182,10 @@ public class AddressAddNewActivity extends AppCompatActivity {
     }
 
     private void setTextLocationFetch(AddressDetailsLocationData locationData) {
-        EditText address = (EditText) findViewById(R.id.editView_address);
+
         address.setText(locationData.getAddress());
+        neighborhood.setText(locationData.getNeighborhood());
+        landmark.setText(locationData.getLandmark());
         Toast.makeText(AddressAddNewActivity.this, locationData.getAddress(), Toast.LENGTH_LONG);
     }
 

@@ -3,6 +3,7 @@ package com.twyst.app.android.activities;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -41,6 +42,7 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
     protected boolean mAddressRequested;
     protected boolean mLocationRequested;
     protected String mAddressOutput;
+    private Address mAddress;
 
     private TwystProgressHUD twystProgressHUD;
     RelativeLayout mMapLayout;
@@ -195,11 +197,24 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
     }
 
     @Override
-    public void onReceiveAddress(int resultCode, String addressOutput) {
+    public void onReceiveAddress(int resultCode, Address address) {
         if (resultCode == 2) {
             mAddressRequested = false;
             twystProgressHUD.dismiss();
-            locationData.setAddress(addressOutput);
+            mAddress = address;
+            mAddressOutput = "";
+            for (int i =0;i < mAddress.getMaxAddressLineIndex();i++)
+            {
+                mAddressOutput +=  mAddress.getAddressLine(i);
+                mAddressOutput += ", ";
+            }
+
+            mAddressOutput += mAddress.getAddressLine(mAddress.getMaxAddressLineIndex());
+            locationData.setAddress(mAddressOutput);
+
+            locationData.setNeighborhood(mAddress.getAddressLine(0));
+            locationData.setLandmark(mAddress.getAddressLine(1));
+
             Bundle info = new Bundle();
             info.putSerializable("locationData", locationData);
             Intent intent = new Intent();

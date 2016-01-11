@@ -37,32 +37,77 @@
                         android:id="@+id/editView_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_border"
+                        android:singleLine="true"
                         android:cursorVisible="false"
                         android:editable="false"
                         android:ellipsize="end"
                         android:focusable="false"
                         android:hint="@string/hint_address"
                         android:textColor="@color/black_54"
-                        android:textSize="@dimen/address_huge_text_size" />
+                        android:textSize="@dimen/address_huge_text_size"
+                        android:background="@android:drawable/screen_background_light_transparent" />
 
-                    <EditText
-                        android:id="@+id/editView_building"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_border"
-                        android:ellipsize="end"
-                        android:hint="@string/hint_building_name"
-                        android:inputType="textImeMultiLine|textNoSuggestions"
-                        android:textColor="@color/black_54"
-                        android:textColorHint="@color/black_38"
-                        android:textSize="@dimen/address_huge_text_size" />
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/editView_building"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_text_underline"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:hint="@string/hint_building_name"
+                            android:inputType="textImeMultiLine|textNoSuggestions"
+                            android:textColor="@color/black_54"
+                            android:textColorHint="@color/black_38"
+                            android:textSize="@dimen/address_huge_text_size" />
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="right|center_vertical"
+                            android:src="@android:drawable/ic_menu_edit"
+                            android:id="@+id/edit_image_neighborhood"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/editView_landmark"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_text_underline"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:hint="@string/hint_landmark"
+                            android:inputType="textNoSuggestions"
+                            android:textColor="@color/black_54"
+                            android:textColorHint="@color/black_38"
+                            android:textSize="@dimen/address_huge_text_size" />
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="right|center_vertical"
+                            android:src="@android:drawable/ic_menu_edit"
+                            android:id="@+id/edit_image_landmark"/>
+                    </LinearLayout>
+
+
 
                     <EditText
                         android:id="@+id/editView_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_border"
+                        android:background="@drawable/edit_text_underline"
                         android:ellipsize="end"
                         android:hint="@string/hint_name"
                         android:inputType="textNoSuggestions|textPersonName"
@@ -70,17 +115,7 @@
                         android:textColorHint="@color/black_38"
                         android:textSize="@dimen/address_huge_text_size" />
 
-                    <EditText
-                        android:id="@+id/editView_landmark"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_border"
-                        android:ellipsize="end"
-                        android:hint="@string/hint_landmark"
-                        android:inputType="textNoSuggestions"
-                        android:textColor="@color/black_54"
-                        android:textColorHint="@color/black_38"
-                        android:textSize="@dimen/address_huge_text_size" />
+
 
                 </LinearLayout>
 
@@ -163,11 +198,11 @@
                     android:id="@+id/editView_other_tag"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/edit_text_border"
+                    android:background="@drawable/edit_text_underline"
                     android:ellipsize="end"
                     android:hint="@string/hint_other_tag"
                     android:inputType="textNoSuggestions"
-                    android:padding="10dp"
+                    android:layout_margin="@dimen/card_text_layout_margin"
                     android:textColor="@color/black_54"
                     android:textColorHint="@color/black_38"
                     android:textSize="@dimen/address_huge_text_size"
