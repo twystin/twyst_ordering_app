@@ -77,7 +77,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
         config.setMode("1"); //Mode is 0 for test environment, 1 for Live
 
         User usr = new User("vipul.sharma2008@gmail.com", "9891240762");
-        Transaction newTransaction = Transaction.Factory.newTransaction(usr, "JKJLLFKKLKDE", String.valueOf("1"));
+        Transaction newTransaction = Transaction.Factory.newTransaction(usr, mOrderSummary.getOrderNumber(), String.valueOf("1"));
 
         Intent mobikwikIntent = new Intent(this, MobikwikSDK.class);
         mobikwikIntent.putExtra(MobikwikSDK.EXTRA_TRANSACTION_CONFIG, config);
