@@ -14,12 +14,10 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mobikwik.sdk.lib.User;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
@@ -30,6 +28,7 @@ import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.OTPCode;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
+import com.twyst.app.android.util.TwystProgressHUD;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -89,20 +88,18 @@ public class UserVerificationActivity extends Activity {
         verifyNumberGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                verifyNumberGoClicked(v);
+                fetchOTP(v);
             }
         });
 
     }
 
-    private void verifyNumberGoClicked(View view) {
+    private void fetchOTP(View view) {
         //Case: Fetch OTP
         if (TextUtils.isEmpty(etPhoneCodeInput.getText()) || etPhoneCodeInput.getText().toString().trim().length() < 10) {
-            etPhoneCodeInput.setError("Please enter valid mobile number");
-
+            etPhoneCodeInput.setError("Please enter valid Mobile Number");
         } else {
             etPhoneCodeInput.setError(null);
-            verifyNumberGo.setEnabled(false);
             InputMethodManager imm = (InputMethodManager) getSystemService(
                     Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
@@ -208,13 +205,7 @@ public class UserVerificationActivity extends Activity {
 
                     Toast.makeText(UserVerificationActivity.this, "Number Verified!", Toast.LENGTH_SHORT).show();
                     //Number verified
-                    etPhoneCodeInput.setText(getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).getString(AppConstants.PREFERENCE_USER_PHONE,""));
-                    etPhoneCodeInput.setEnabled(false);
-                    etPhonePre.setVisibility(View.VISIBLE);
-                    tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_verified));
-                    tvVerifyNumberGoLayout.setVisibility(View.INVISIBLE);
-                    tvVerifyNumberResendManually.setVisibility(View.INVISIBLE);
-                    tvVerifyNumberLowerHint.setVisibility(View.INVISIBLE);
+                    numberVerifiedUIUpdate();
 
                 } else {
                     sharedPreferences.putString(AppConstants.PREFERENCE_USER_PHONE, otpCode.getPhone());
@@ -229,6 +220,16 @@ public class UserVerificationActivity extends Activity {
 //                handleRetrofitError(error);
             }
         });
+    }
+
+    private void numberVerifiedUIUpdate() {
+        etPhoneCodeInput.setText(getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).getString(AppConstants.PREFERENCE_USER_PHONE, ""));
+        etPhoneCodeInput.setEnabled(false);
+        etPhonePre.setVisibility(View.VISIBLE);
+        tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_verified));
+        tvVerifyNumberGoLayout.setVisibility(View.INVISIBLE);
+        tvVerifyNumberResendManually.setVisibility(View.INVISIBLE);
+        tvVerifyNumberLowerHint.setVisibility(View.INVISIBLE);
     }
 
     final Handler handler = new Handler();
@@ -274,6 +275,85 @@ public class UserVerificationActivity extends Activity {
         tvVerifyNumberGoText.setBackground(getResources().getDrawable(R.drawable.checkout_arrow));
         tvVerifyNumberGoText.setText("");
         verifyNumberProgressBar.setVisibility(View.GONE);
+
+        verifyNumberGo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submitOTP(v, etPhoneCodeInput.getText().toString());
+            }
+        });
+
+        //Resend code
+        tvVerifyNumberResendManually.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resendCode();
+            }
+        });
+        verifyNumberGo.setEnabled(true);
+    }
+
+    private void resendCode() {
+        verifyNumberProgressBar.setVisibility(View.VISIBLE);
+        String phone = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).getString(AppConstants.PREFERENCE_USER_PHONE, "");
+        HttpService.getInstance().getMobileAuthCode(phone, new Callback<BaseResponse<OTPCode>>() {
+            @Override
+            public void success(BaseResponse<OTPCode> baseResponse, Response response) {
+                verifyNumberProgressBar.setVisibility(View.INVISIBLE);
+                if (baseResponse.isResponse()) {
+
+                    Toast.makeText(UserVerificationActivity.this, "Code resent successfully", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Log.d("error message", "" + baseResponse.getMessage());
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                verifyNumberProgressBar.setVisibility(View.INVISIBLE);
+                handleRetrofitError(error);
+            }
+        });
+    }
+
+    private void submitOTP(View view, final String otpEntered) {
+        if (TextUtils.isEmpty(otpEntered) || otpEntered.trim().length() < 4) {
+            etPhoneCodeInput.setError("Invalid code !!");
+        } else {
+            etPhoneCodeInput.setError(null);
+            InputMethodManager imm = (InputMethodManager) getSystemService(
+                    Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+            verifyNumberProgressBar.setVisibility(View.VISIBLE);
+            tvVerifyNumberGoText.setBackground(null);
+            tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_verify));
+            verifyNumberGo.setEnabled(false);
+
+            String phone = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).getString(AppConstants.PREFERENCE_USER_PHONE, "");
+            HttpService.getInstance().userAuthToken(otpEntered, phone, new Callback<BaseResponse<AuthToken>>() {
+                @Override
+                public void success(BaseResponse<AuthToken> baseResponse, Response response) {
+                    verifyNumberProgressBar.setVisibility(View.GONE);
+                    if (baseResponse.isResponse()) {
+                        AuthToken authToken = baseResponse.getData();
+                        saveUserToken(authToken.getToken());
+
+                        numberVerifiedUIUpdate();
+                    } else {
+                        verifyNumberGo.setEnabled(true);
+                        Toast.makeText(UserVerificationActivity.this, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    handleRetrofitError(error);
+                }
+            });
+
+        }
     }
 
     private void saveUserToken(String userToken) {
