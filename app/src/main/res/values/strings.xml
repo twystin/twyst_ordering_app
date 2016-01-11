@@ -162,7 +162,7 @@ each friend who joins.</p>
     <!--Address Details-->
     <string name="hint_address">Address</string>
     <string name="hint_building_name">Building Name/Flat Name</string>
-    <string name="hint_name">Name e.g. John</string>
+    <string name="hint_name">Enter your name</string>
     <string name="hint_landmark">Landmark</string>
     <string name="hint_other_tag">E.g. Friend\'s Home</string>
 
