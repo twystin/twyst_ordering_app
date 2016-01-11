@@ -9,7 +9,7 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
-    <string name="hint_mobile"><small><i>10 digit mobile number</i></small></string>
+    <string name="hint_mobile"><small><i>10 digit Mobile Number</i></small></string>
     <string name="hint_otp_code"><small><i>Enter 4-digit code</i></small></string>
     <string name="hint_email"><small><i>Enter your email id</i></small></string>
     <string name="call">call</string>
@@ -54,8 +54,21 @@
     <string name="send_failed">Sending invitations failed</string>
     <string name="invite_dialog_title">You got an invitation!</string>
     <string name="checkin">Check-in Success!</string>
- <string name="account">Accounts</string>
- <string name="connected_account">Connected Accounts</string>
+    <string name="account">Accounts</string>
+    <string name="connected_account">Connected Accounts</string>
+
+    <!--User Verification-->
+    <string name="verify_number_hint_enter_phone">Please enter your Mobile Number</string>
+    <string name="verify_number_hint_waiting">Waiting for OTP</string>
+    <string name="verify_number_hint_enter_code">Please enter 4-digit code you received</string>
+    <string name="verify_number_hint_verify">Verifying OTP</string>
+
+    <string name="verify_number_resend_text">Didn\'t receive code?</string>
+    <string name="verify_number_resend">Resend</string>
+    <string name="verify_number_manually">Enter OTP manually</string>
+
+    <string name="verify_number_phone_hint">10 digit Mobile Number</string>
+    <string name="verify_number_code_hint">Enter 4-digit code</string>
 
  <string name="terms_conditions">
      &#8226; Offers (2 or more) cannot be clubbed.\n
@@ -65,8 +78,8 @@
      &#8226; The offers are provided at the sole discretion of the merchant, and the merchant reserves the right to alter or withdraw the offer at any time.\n
      &#8226; Offers/ vouchers consisting of alcohol/alcohol-based products will be available only to individuals above legal drinking age. The establishment reserves the right to verify the customer\'s age before providing such reward.</string>
 
- <string name="faq_support_text">For more, write to us at </string>
- <string name="faq_support_mail">support@twyst.in</string>
+    <string name="faq_support_text">For more, write to us at </string>
+    <string name="faq_support_mail">support@twyst.in</string>
 
  <string name="faq_body">
      <![CDATA[
