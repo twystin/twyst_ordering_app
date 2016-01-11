@@ -1,7 +1,9 @@
 package com.twyst.app.android.model.order;
 
 import com.google.gson.annotations.SerializedName;
+import com.twyst.app.android.model.menu.Addons;
 import com.twyst.app.android.model.menu.Items;
+import com.twyst.app.android.model.menu.SubOptions;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -24,14 +26,20 @@ public class OrderItem implements Serializable {
     @SerializedName("option_id")
     private String optionId;
 
-    @SerializedName("sub_options")
-    private ArrayList<String> subOptionsList = new ArrayList<>();
+    @SerializedName("sub_option_set_ids")
+    private ArrayList<String> subOptionsSetIdList = new ArrayList<>();
 
-    @SerializedName("addons")
-    private ArrayList<String> addonsList = new ArrayList<>();
+    @SerializedName("addon_set_ids")
+    private ArrayList<String> addonSetIdList = new ArrayList<>();
 
     @SerializedName("quantity")
     private int quantity;
+
+    @SerializedName("addons")
+    private ArrayList<Addons> addonsList = new ArrayList<>();
+
+    @SerializedName("sub_options")
+    private ArrayList<SubOptions> subOptionsList = new ArrayList<>();
 
     public String getCategoryId() {
         return categoryId;
@@ -65,20 +73,20 @@ public class OrderItem implements Serializable {
         this.optionId = optionId;
     }
 
-    public ArrayList<String> getSubOptionsList() {
-        return subOptionsList;
+    public ArrayList<String> getSubOptionsSetIdList() {
+        return subOptionsSetIdList;
     }
 
-    public void setSubOptionsList(ArrayList<String> subOptionsList) {
-        this.subOptionsList = subOptionsList;
+    public void setSubOptionsSetIdList(ArrayList<String> subOptionsSetIdList) {
+        this.subOptionsSetIdList = subOptionsSetIdList;
     }
 
-    public ArrayList<String> getAddonsList() {
-        return addonsList;
+    public ArrayList<String> getAddonSetIdList() {
+        return addonSetIdList;
     }
 
-    public void setAddonsList(ArrayList<String> addonsList) {
-        this.addonsList = addonsList;
+    public void setAddonSetIdList(ArrayList<String> addonSetIdList) {
+        this.addonSetIdList = addonSetIdList;
     }
 
     public int getQuantity() {
@@ -87,5 +95,21 @@ public class OrderItem implements Serializable {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public ArrayList<Addons> getAddonsList() {
+        return addonsList;
+    }
+
+    public void setAddonsList(ArrayList<Addons> addonsList) {
+        this.addonsList = addonsList;
+    }
+
+    public ArrayList<SubOptions> getSubOptionsList() {
+        return subOptionsList;
+    }
+
+    public void setSubOptionsList(ArrayList<SubOptions> subOptionsList) {
+        this.subOptionsList = subOptionsList;
     }
 }

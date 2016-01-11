@@ -35,15 +35,18 @@ public class OrderSummary implements Serializable {
             if (cartItem.getOptionsList().size() > 0) {
                 Options option = cartItem.getOptionsList().get(0);
                 orderItem.setOptionId(option.getId());
+                orderItem.getSubOptionsList().addAll(option.getSubOptionsList());
+                orderItem.getAddonsList().addAll(option.getAddonsList());
+
                 for (int j = 0; j < option.getSubOptionsList().size(); j++) {
                     SubOptions subOption = option.getSubOptionsList().get(j);
-                    orderItem.getSubOptionsList().add(subOption.getSubOptionSetList().get(0).getId());
+                    orderItem.getSubOptionsSetIdList().add(subOption.getSubOptionSetList().get(0).getId());
                 } // i loop
 
                 for (int k = 0; k < option.getAddonsList().size(); k++) {
                     Addons addon = option.getAddonsList().get(k);
                     for (int l = 0; l < addon.getAddonSetList().size(); l++) {
-                        orderItem.getAddonsList().add(addon.getAddonSetList().get(l).getId());
+                        orderItem.getAddonSetIdList().add(addon.getAddonSetList().get(l).getId());
                     } // l loop
                 } // k loop
             }
