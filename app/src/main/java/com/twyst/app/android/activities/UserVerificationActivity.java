@@ -15,10 +15,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mobikwik.sdk.lib.User;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.enums.SnackbarType;
+import com.nispok.snackbar.listeners.ActionClickListener;
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.AuthToken;
 import com.twyst.app.android.model.BaseResponse;
@@ -48,6 +53,9 @@ public class UserVerificationActivity extends Activity {
     CircularProgressBar verifyNumberProgressBar;
     TextView tvVerifyNumberLowerHint;
     TextView tvVerifyNumberResendManually;
+    RelativeLayout tvVerifyNumberGoLayout;
+
+    MyRunnable myRunnable;
 
     private SharedPreferences.Editor sharedPreferences;
     private String otpCodeReaded;
@@ -74,6 +82,7 @@ public class UserVerificationActivity extends Activity {
         verifyNumberProgressBar = (CircularProgressBar) findViewById(R.id.verify_number_progress_bar);
         tvVerifyNumberLowerHint = (TextView) findViewById(R.id.verify_number_lower_hint);
         tvVerifyNumberResendManually = (TextView) findViewById(R.id.verify_number_resend_enter_manually);
+        tvVerifyNumberGoLayout = (RelativeLayout) findViewById(R.id.verify_number_go_layout);
 
         sharedPreferences = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).edit();
 
@@ -101,29 +110,37 @@ public class UserVerificationActivity extends Activity {
             verifyNumberProgressBar.setVisibility(View.VISIBLE);
             tvVerifyNumberGoText.setBackground(null);
             tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_fetch));
+            verifyNumberGo.setEnabled(false);
             HttpService.getInstance().getMobileAuthCode(etPhoneCodeInput.getText().toString(), new Callback<BaseResponse<OTPCode>>() {
                 @Override
                 public void success(final BaseResponse<OTPCode> twystResponse, Response response) {
                     if (twystResponse.isResponse()) {
                         final OTPCode otpCode = twystResponse.getData();
 //                        Toast.makeText(UserVerificationActivity.this, "Verifying Number", Toast.LENGTH_SHORT).show();
+                        //Waiting for OTP
                         tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_waiting));
+                        tvVerifyNumberLowerHint.setVisibility(View.GONE);
+                        tvVerifyNumberResendManually.setVisibility(View.VISIBLE);
+                        tvVerifyNumberResendManually.setText(getResources().getString(R.string.verify_number_manually));
 
-                        MyRunnable myRunnable = new MyRunnable(otpCode);
+                        tvVerifyNumberResendManually.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                askUserEnterOTP(etPhoneCodeInput.getText().toString());
+                            }
+                        });
+
+                        myRunnable = new MyRunnable(otpCode);
                         handler.postDelayed(myRunnable, 1000);
 
                     } else {
                         verifyNumberGo.setEnabled(true);
-                        findViewById(R.id.circularProgressBar).setVisibility(View.INVISIBLE);
                         Log.d("error message", "" + twystResponse.getMessage());
                         Toast.makeText(UserVerificationActivity.this, twystResponse.getMessage(), Toast.LENGTH_SHORT).show();
                         if (twystResponse.getMessage().equalsIgnoreCase("We have already sent you an authentication code.")) {
                             sharedPreferences.putString(AppConstants.PREFERENCE_USER_PHONE, etPhoneCodeInput.getText().toString());
                             sharedPreferences.apply();
-                            Intent intent = new Intent(getBaseContext(), OTPVerificationActivity.class);
-                            intent.putExtra(AppConstants.INTENT_PARAM_OTP_PHONE, etPhoneCodeInput.getText().toString());
-                            startActivity(intent);
-                            finish();
+                            askUserEnterOTP(etPhoneCodeInput.getText().toString());
                         }
                     }
 
@@ -190,17 +207,19 @@ public class UserVerificationActivity extends Activity {
                     sharedPreferences.commit();
 
                     Toast.makeText(UserVerificationActivity.this, "Number Verified!", Toast.LENGTH_SHORT).show();
-
-                    startActivity(new Intent(getBaseContext(), LoginActivity.class));
-                    finish();
+                    //Number verified
+                    etPhoneCodeInput.setText(getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).getString(AppConstants.PREFERENCE_USER_PHONE,""));
+                    etPhoneCodeInput.setEnabled(false);
+                    etPhonePre.setVisibility(View.VISIBLE);
+                    tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_verified));
+                    tvVerifyNumberGoLayout.setVisibility(View.INVISIBLE);
+                    tvVerifyNumberResendManually.setVisibility(View.INVISIBLE);
+                    tvVerifyNumberLowerHint.setVisibility(View.INVISIBLE);
 
                 } else {
                     sharedPreferences.putString(AppConstants.PREFERENCE_USER_PHONE, otpCode.getPhone());
                     sharedPreferences.apply();
-                    Intent intent = new Intent(getBaseContext(), OTPVerificationActivity.class);
-                    intent.putExtra(AppConstants.INTENT_PARAM_OTP_PHONE, otpCode.getPhone());
-                    startActivity(intent);
-                    finish();
+                    askUserEnterOTP(etPhoneCodeInput.getText().toString());
 
                 }
             }
@@ -213,35 +232,6 @@ public class UserVerificationActivity extends Activity {
     }
 
     final Handler handler = new Handler();
-//
-//    private Runnable runnable = new Runnable() {
-//        int retry = 0;
-//
-//        @Override
-//        public void run() {
-//            if (checkSmsCode()) {
-//                validateOTP(otpCode);
-//
-//            } else {
-//                if (retry < AppConstants.MAX_WAIT_FOR_SMS_IN_SECONDS) {
-//                    handler.postDelayed(this, 1000);
-//                    Log.d("retry", "" + retry);
-//                    retry++;
-//
-//                } else {
-//                    sharedPreferences.putString(AppConstants.PREFERENCE_USER_PHONE, otpCode.getPhone());
-//                    sharedPreferences.apply();
-//                    Intent intent = new Intent(getBaseContext(), OTPVerificationActivity.class);
-//                    intent.putExtra(AppConstants.INTENT_PARAM_OTP_PHONE, otpCode.getPhone());
-//                    startActivity(intent);
-//                    finish();
-//                }
-//
-//            }
-//        }
-//
-//    };
-
 
     private class MyRunnable implements Runnable {
         private int retry = 0;
@@ -261,18 +251,77 @@ public class UserVerificationActivity extends Activity {
                     tvVerifyNumberGoText.setText(String.valueOf(AppConstants.MAX_WAIT_FOR_SMS_IN_SECONDS - retry));
                     Log.d("retry", "" + retry);
                     retry++;
-
                 } else {
                     sharedPreferences.putString(AppConstants.PREFERENCE_USER_PHONE, otpCode.getPhone());
                     sharedPreferences.apply();
-                    Intent intent = new Intent(getBaseContext(), OTPVerificationActivity.class);
-                    intent.putExtra(AppConstants.INTENT_PARAM_OTP_PHONE, otpCode.getPhone());
-                    startActivity(intent);
-                    finish();
+                    // Couldn't fetch OTP, ask user to input
+                    askUserEnterOTP(etPhoneCodeInput.getText().toString());
                 }
 
             }
         }
+    }
+
+    private void askUserEnterOTP(final String phoneNumber) {
+        handler.removeCallbacks(myRunnable);
+        tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_enter_code));
+        etPhonePre.setVisibility(View.INVISIBLE);
+        etPhoneCodeInput.setText("");
+        etPhoneCodeInput.setHint(getResources().getString(R.string.verify_number_code_hint));
+        tvVerifyNumberLowerHint.setVisibility(View.VISIBLE);
+        tvVerifyNumberResendManually.setVisibility(View.VISIBLE);
+        tvVerifyNumberResendManually.setText(getResources().getString(R.string.verify_number_resend));
+        tvVerifyNumberGoText.setBackground(getResources().getDrawable(R.drawable.checkout_arrow));
+        tvVerifyNumberGoText.setText("");
+        verifyNumberProgressBar.setVisibility(View.GONE);
+    }
+
+    private void saveUserToken(String userToken) {
+        SharedPreferences.Editor sharedPreferences = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).edit();
+        sharedPreferences.putString(AppConstants.PREFERENCE_USER_TOKEN, userToken);
+        sharedPreferences.putBoolean(AppConstants.PREFERENCE_PHONE_VERIFIED, true);
+        sharedPreferences.commit();
+    }
+
+    public void handleRetrofitError(RetrofitError error) {
+        if (error.getKind() == RetrofitError.Kind.NETWORK) {
+            buildAndShowSnackbarWithMessage("No internet connection.");
+        } else {
+            buildAndShowSnackbarWithMessage("An unexpected error has occurred. Please try after some time.");
+        }
+        Log.e(getTagName(), "failure", error);
+    }
+
+    public void buildAndShowSnackbarWithMessage(String msg) {
+        final Snackbar snackbar = Snackbar.with(getApplicationContext())
+                .type(SnackbarType.MULTI_LINE)
+//                .color(getResources().getColor(R.color.snackbar_bg))
+                .text(msg)
+                .actionLabel("RETRY") // action button label
+                .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+                .swipeToDismiss(false)
+                .actionListener(new ActionClickListener() {
+                    @Override
+                    public void onActionClicked(Snackbar snackbar) {
+                        Intent intent = getIntent();
+                        overridePendingTransition(0, 0);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(intent);
+                    }
+                });
+        snackbar.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showSnackbar(snackbar); // activity where it is displayed
+            }
+        }, 500);
+
+    }
+
+    protected void showSnackbar(Snackbar snackbar) {
+        SnackbarManager.show(snackbar, this);
     }
 
 }

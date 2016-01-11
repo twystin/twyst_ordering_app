@@ -63,6 +63,7 @@
     <string name="verify_number_hint_waiting">Waiting for OTP</string>
     <string name="verify_number_hint_enter_code">Please enter 4-digit code you received</string>
     <string name="verify_number_hint_verify">Verifying OTP</string>
+    <string name="verify_number_hint_verified">Number verified</string>
 
     <string name="verify_number_resend_text">Didn\'t receive code?</string>
     <string name="verify_number_resend">Resend</string>

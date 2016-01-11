@@ -68,6 +68,7 @@
                     android:textSize="@dimen/phone_verification_edit_text_size" />
 
                 <RelativeLayout
+                    android:id="@+id/verify_number_go_layout"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_margin="5dp"
