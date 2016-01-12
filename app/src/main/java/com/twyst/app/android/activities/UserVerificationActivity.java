@@ -101,10 +101,10 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
     MyRunnable myRunnable;
 
     private SharedPreferences.Editor sharedPreferences;
+    private String mPhoneEntered;
     private String otpCodeReaded;
 
     //Verify Email
-
     private EditText etVerifyEmail;
 
     //Signup
@@ -150,7 +150,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
         setupSubmitButton();
         setupVerifyNumber();
         hideKeyBoard();
-//        setupSignup();
+        setupSignup();
     }
 
     private void setupSubmitButton() {
@@ -180,7 +180,6 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
                     sharedPreferences.putString(AppConstants.PREFERENCE_USER_FULL_NAME, prefs.getString(AppConstants.PREFERENCE_USER_PHONE, ""));
                     sharedPreferences.apply();
                     updateUserEmail();
-
                 }
             }
         });
@@ -309,8 +308,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
             }
         });
 
-        ImageView gPlusLogin = (ImageView) findViewById(R.id.gPlusLogin);
-        gPlusLogin.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.gPlusLogin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 source = "GOOGLE";
@@ -362,6 +360,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
                         if (twystResponse.getMessage().equalsIgnoreCase("We have already sent you an authentication code.")) {
                             sharedPreferences.putString(AppConstants.PREFERENCE_USER_PHONE, etPhoneCodeInput.getText().toString());
                             sharedPreferences.apply();
+                            mPhoneEntered = etPhoneCodeInput.getText().toString();
                             askUserToEnterOTPUIUpdate();
                         } else {
                             numberToEnterUIUpdate();
@@ -394,7 +393,6 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
             // empty box, no SMS
         }
 
-
         SharedPreferences pref = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
         String smsBody = pref.getString(AppConstants.PREFERENCE_SMS_BODY, "");
         if (TextUtils.isEmpty(smsBody)) {
@@ -413,7 +411,6 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
             sharedPreferences.commit();
             return true;
         }
-
     }
 
     private void validateOTP(final OTPCode otpCode) {
@@ -435,6 +432,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
                 } else {
                     sharedPreferences.putString(AppConstants.PREFERENCE_USER_PHONE, otpCode.getPhone());
                     sharedPreferences.apply();
+                    mPhoneEntered = otpCode.getPhone();
                     askUserToEnterOTPUIUpdate();
                 }
             }
@@ -575,6 +573,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
                 } else {
                     sharedPreferences.putString(AppConstants.PREFERENCE_USER_PHONE, otpCode.getPhone());
                     sharedPreferences.apply();
+                    mPhoneEntered = otpCode.getPhone();
                     // Couldn't fetch OTP, ask user to input
                     askUserToEnterOTPUIUpdate();
                 }
@@ -591,8 +590,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
         tvVerifyNumberResendManually.setEnabled(false);
         tvVerifyNumberGoText.setVisibility(View.INVISIBLE);
 
-        String phone = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).getString(AppConstants.PREFERENCE_USER_PHONE, "");
-        HttpService.getInstance().getMobileAuthCode(phone, new Callback<BaseResponse<OTPCode>>() {
+        HttpService.getInstance().getMobileAuthCode(mPhoneEntered, new Callback<BaseResponse<OTPCode>>() {
             @Override
             public void success(BaseResponse<OTPCode> baseResponse, Response response) {
                 askUserToEnterOTPUIUpdate();
@@ -625,8 +623,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
             verifyNumberGo.setEnabled(false);
             tvVerifyNumberResendManually.setEnabled(false);
 
-            String phone = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).getString(AppConstants.PREFERENCE_USER_PHONE, "");
-            HttpService.getInstance().userAuthToken(otpEntered, phone, new Callback<BaseResponse<AuthToken>>() {
+            HttpService.getInstance().userAuthToken(otpEntered, mPhoneEntered, new Callback<BaseResponse<AuthToken>>() {
                 @Override
                 public void success(BaseResponse<AuthToken> baseResponse, Response response) {
                     if (baseResponse.isResponse()) {
@@ -715,7 +712,6 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
         String deviceId = null;
 
         deviceId = prefs.getString(AppConstants.PREFERENCE_REGISTRATION_ID, "");
-
 
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
         final String email;
