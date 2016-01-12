@@ -146,29 +146,17 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_verification);
 
-        setupVerifyNumber();
         setupVerifyEmail();
+        setupSubmitButton();
+        setupVerifyNumber();
+        hideKeyBoard();
 //        setupSignup();
-
     }
 
-    private void setupVerifyEmail() {
-        final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-        etVerifyEmail = (EditText) findViewById(R.id.et_verify_email);
-
-        Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
-        Account[] accounts = AccountManager.get(UserVerificationActivity.this).getAccounts();
-        for (Account account : accounts) {
-            if (emailPattern.matcher(account.name).matches()) {
-                String possibleEmail = account.name;
-                etVerifyEmail.setText(possibleEmail);
-                findViewById(R.id.iv_email_verify_correct).setBackground(getResources().getDrawable(R.drawable.checked));
-                break;
-            }
-        }
-
+    private void setupSubmitButton() {
         btnSubmit = findViewById(R.id.submit);
         btnSubmit.setEnabled(false);
+        final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -196,6 +184,24 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
                 }
             }
         });
+        btnSubmit.setEnabled(false);
+
+    }
+
+    private void setupVerifyEmail() {
+        etVerifyEmail = (EditText) findViewById(R.id.et_verify_email);
+
+        Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
+        Account[] accounts = AccountManager.get(UserVerificationActivity.this).getAccounts();
+        for (Account account : accounts) {
+            if (emailPattern.matcher(account.name).matches()) {
+                String possibleEmail = account.name;
+                etVerifyEmail.setText(possibleEmail);
+                findViewById(R.id.iv_email_verify_correct).setBackground(getResources().getDrawable(R.drawable.checked));
+                break;
+            }
+        }
+
     }
 
     private void setupSignup() {
@@ -329,70 +335,44 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
         tvVerifyNumberGoLayout = (RelativeLayout) findViewById(R.id.verify_number_go_layout);
 
         sharedPreferences = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).edit();
+        SharedPreferences prefs = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        boolean phoneVerified = prefs.getBoolean(AppConstants.PREFERENCE_PHONE_VERIFIED, false);
 
-        verifyNumberGo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fetchOTP(v);
-            }
-        });
-
+        if (phoneVerified) {
+            numberVerifiedUIUpdate();
+        } else {
+            numberToEnterUIUpdate();
+        }
     }
 
-    private void fetchOTP(View view) {
+    private void fetchOTP() {
         //Case: Fetch OTP
         if (TextUtils.isEmpty(etPhoneCodeInput.getText()) || etPhoneCodeInput.getText().toString().trim().length() < 10) {
             etPhoneCodeInput.setError("Please enter valid Mobile Number");
         } else {
-            etPhoneCodeInput.setError(null);
-            InputMethodManager imm = (InputMethodManager) getSystemService(
-                    Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-
-            verifyNumberProgressBar.setVisibility(View.VISIBLE);
-            tvVerifyNumberGoText.setBackground(null);
-            tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_fetch));
-            verifyNumberGo.setEnabled(false);
+            otpBeingFetchedUIUpdate();
             HttpService.getInstance().getMobileAuthCode(etPhoneCodeInput.getText().toString(), new Callback<BaseResponse<OTPCode>>() {
                 @Override
                 public void success(final BaseResponse<OTPCode> twystResponse, Response response) {
                     if (twystResponse.isResponse()) {
                         final OTPCode otpCode = twystResponse.getData();
-//                        Toast.makeText(UserVerificationActivity.this, "Verifying Number", Toast.LENGTH_SHORT).show();
-                        //Waiting for OTP
-                        tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_waiting));
-                        tvVerifyNumberLowerHint.setVisibility(View.GONE);
-                        tvVerifyNumberResendManually.setVisibility(View.VISIBLE);
-                        tvVerifyNumberResendManually.setText(getResources().getString(R.string.verify_number_manually));
-
-                        tvVerifyNumberResendManually.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                askUserEnterOTP(etPhoneCodeInput.getText().toString());
-                            }
-                        });
-
-                        myRunnable = new MyRunnable(otpCode);
-                        handler.postDelayed(myRunnable, 1000);
-
+                        waitForOTPUIUpdate(otpCode);
                     } else {
-                        verifyNumberGo.setEnabled(true);
-                        Log.d("error message", "" + twystResponse.getMessage());
                         Toast.makeText(UserVerificationActivity.this, twystResponse.getMessage(), Toast.LENGTH_SHORT).show();
                         if (twystResponse.getMessage().equalsIgnoreCase("We have already sent you an authentication code.")) {
                             sharedPreferences.putString(AppConstants.PREFERENCE_USER_PHONE, etPhoneCodeInput.getText().toString());
                             sharedPreferences.apply();
-                            askUserEnterOTP(etPhoneCodeInput.getText().toString());
+                            askUserToEnterOTPUIUpdate();
+                        } else {
+                            numberToEnterUIUpdate();
                         }
                     }
-
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
-                    verifyNumberProgressBar.setVisibility(View.INVISIBLE);
-                    tvVerifyNumberGoText.setBackground(getResources().getDrawable(R.drawable.checkout_arrow));
-//                    handleRetrofitError(error);
+                    numberToEnterUIUpdate();
+                    handleRetrofitError(error);
                 }
             });
 
@@ -455,16 +435,78 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
                 } else {
                     sharedPreferences.putString(AppConstants.PREFERENCE_USER_PHONE, otpCode.getPhone());
                     sharedPreferences.apply();
-                    askUserEnterOTP(etPhoneCodeInput.getText().toString());
-
+                    askUserToEnterOTPUIUpdate();
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
-//                handleRetrofitError(error);
+                handleRetrofitError(error);
             }
         });
+    }
+
+    private void waitForOTPUIUpdate(OTPCode otpCode) {
+        //Waiting for OTP
+        tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_waiting));
+        tvVerifyNumberLowerHint.setVisibility(View.GONE);
+        tvVerifyNumberResendManually.setVisibility(View.VISIBLE);
+        tvVerifyNumberResendManually.setText(getResources().getString(R.string.verify_number_manually));
+        tvVerifyNumberGoLayout.setVisibility(View.VISIBLE);
+        verifyNumberGo.setEnabled(false);
+        verifyNumberProgressBar.setVisibility(View.VISIBLE);
+        tvVerifyNumberGoText.setBackground(null);
+        tvVerifyNumberResendManually.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                askUserToEnterOTPUIUpdate();
+            }
+        });
+
+        myRunnable = new MyRunnable(otpCode);
+        handler.postDelayed(myRunnable, 1000);
+    }
+
+    private void numberToEnterUIUpdate() {
+        //Enter your number
+        tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_enter_phone));
+        etPhonePre.setVisibility(View.VISIBLE);
+        etPhoneCodeInput.setHint(getResources().getString(R.string.verify_number_phone_hint));
+        tvVerifyNumberGoLayout.setVisibility(View.VISIBLE);
+        tvVerifyNumberGoText.setBackground(getResources().getDrawable(R.drawable.checkout_arrow));
+        ivCorrectSymbolVerifyNumber.setBackground(getResources().getDrawable(R.drawable.unchecked));
+        verifyNumberProgressBar.setVisibility(View.GONE);
+        tvVerifyNumberLowerHint.setVisibility(View.INVISIBLE);
+        tvVerifyNumberResendManually.setVisibility(View.INVISIBLE);
+
+        verifyNumberGo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fetchOTP();
+            }
+        });
+        verifyNumberGo.setEnabled(true);
+    }
+
+    private void otpBeingFetchedUIUpdate() {
+        etPhoneCodeInput.setError(null);
+        hideKeyBoard();
+        etPhoneCodeInput.setEnabled(false);
+        verifyNumberProgressBar.setVisibility(View.VISIBLE);
+        tvVerifyNumberGoText.setBackground(null);
+        tvVerifyNumberLowerHint.setVisibility(View.INVISIBLE);
+        tvVerifyNumberResendManually.setVisibility(View.INVISIBLE);
+        tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_fetch));
+        verifyNumberGo.setEnabled(false);
+    }
+
+    private void hideKeyBoard() {
+        // Check if no view has focus:
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     private void numberVerifiedUIUpdate() {
@@ -477,6 +519,37 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
         tvVerifyNumberLowerHint.setVisibility(View.INVISIBLE);
         ivCorrectSymbolVerifyNumber.setBackground(getResources().getDrawable(R.drawable.checked));
         btnSubmit.setEnabled(true);
+    }
+
+    private void askUserToEnterOTPUIUpdate() {
+        handler.removeCallbacks(myRunnable);
+        etPhoneCodeInput.setEnabled(true);
+        tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_enter_code));
+        etPhonePre.setVisibility(View.INVISIBLE);
+        etPhoneCodeInput.setText("");
+        etPhoneCodeInput.setHint(getResources().getString(R.string.verify_number_code_hint));
+        tvVerifyNumberLowerHint.setVisibility(View.VISIBLE);
+        tvVerifyNumberResendManually.setVisibility(View.VISIBLE);
+        tvVerifyNumberResendManually.setText(getResources().getString(R.string.verify_number_resend));
+        tvVerifyNumberGoText.setBackground(getResources().getDrawable(R.drawable.checkout_arrow));
+        tvVerifyNumberGoText.setText("");
+        verifyNumberProgressBar.setVisibility(View.GONE);
+
+        verifyNumberGo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submitOTP(etPhoneCodeInput.getText().toString());
+            }
+        });
+
+        //Resend code
+        tvVerifyNumberResendManually.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resendCode();
+            }
+        });
+        verifyNumberGo.setEnabled(true);
     }
 
     final Handler handler = new Handler();
@@ -503,54 +576,28 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
                     sharedPreferences.putString(AppConstants.PREFERENCE_USER_PHONE, otpCode.getPhone());
                     sharedPreferences.apply();
                     // Couldn't fetch OTP, ask user to input
-                    askUserEnterOTP(etPhoneCodeInput.getText().toString());
+                    askUserToEnterOTPUIUpdate();
                 }
 
             }
         }
     }
 
-    private void askUserEnterOTP(final String phoneNumber) {
-        handler.removeCallbacks(myRunnable);
-        tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_enter_code));
-        etPhonePre.setVisibility(View.INVISIBLE);
-        etPhoneCodeInput.setText("");
-        etPhoneCodeInput.setHint(getResources().getString(R.string.verify_number_code_hint));
-        tvVerifyNumberLowerHint.setVisibility(View.VISIBLE);
-        tvVerifyNumberResendManually.setVisibility(View.VISIBLE);
-        tvVerifyNumberResendManually.setText(getResources().getString(R.string.verify_number_resend));
-        tvVerifyNumberGoText.setBackground(getResources().getDrawable(R.drawable.checkout_arrow));
-        tvVerifyNumberGoText.setText("");
-        verifyNumberProgressBar.setVisibility(View.GONE);
-
-        verifyNumberGo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                submitOTP(v, etPhoneCodeInput.getText().toString());
-            }
-        });
-
-        //Resend code
-        tvVerifyNumberResendManually.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resendCode();
-            }
-        });
-        verifyNumberGo.setEnabled(true);
-    }
-
     private void resendCode() {
         verifyNumberProgressBar.setVisibility(View.VISIBLE);
+        etPhoneCodeInput.setEnabled(false);
+        verifyNumberGo.setEnabled(false);
+        tvVerifyNumberGoLayout.setVisibility(View.VISIBLE);
+        tvVerifyNumberResendManually.setEnabled(false);
+        tvVerifyNumberGoText.setVisibility(View.INVISIBLE);
+
         String phone = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).getString(AppConstants.PREFERENCE_USER_PHONE, "");
         HttpService.getInstance().getMobileAuthCode(phone, new Callback<BaseResponse<OTPCode>>() {
             @Override
             public void success(BaseResponse<OTPCode> baseResponse, Response response) {
-                verifyNumberProgressBar.setVisibility(View.INVISIBLE);
+                askUserToEnterOTPUIUpdate();
                 if (baseResponse.isResponse()) {
-
                     Toast.makeText(UserVerificationActivity.this, "Code resent successfully", Toast.LENGTH_SHORT).show();
-
                 } else {
                     Log.d("error message", "" + baseResponse.getMessage());
                 }
@@ -558,38 +605,36 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
 
             @Override
             public void failure(RetrofitError error) {
-                verifyNumberProgressBar.setVisibility(View.INVISIBLE);
+                askUserToEnterOTPUIUpdate();
                 handleRetrofitError(error);
             }
         });
     }
 
-    private void submitOTP(View view, final String otpEntered) {
+    private void submitOTP(final String otpEntered) {
         if (TextUtils.isEmpty(otpEntered) || otpEntered.trim().length() < 4) {
             etPhoneCodeInput.setError("Invalid code !!");
         } else {
             etPhoneCodeInput.setError(null);
-            InputMethodManager imm = (InputMethodManager) getSystemService(
-                    Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            hideKeyBoard();
 
+            etPhoneCodeInput.setEnabled(false);
             verifyNumberProgressBar.setVisibility(View.VISIBLE);
             tvVerifyNumberGoText.setBackground(null);
             tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_verify));
             verifyNumberGo.setEnabled(false);
+            tvVerifyNumberResendManually.setEnabled(false);
 
             String phone = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).getString(AppConstants.PREFERENCE_USER_PHONE, "");
             HttpService.getInstance().userAuthToken(otpEntered, phone, new Callback<BaseResponse<AuthToken>>() {
                 @Override
                 public void success(BaseResponse<AuthToken> baseResponse, Response response) {
-                    verifyNumberProgressBar.setVisibility(View.GONE);
                     if (baseResponse.isResponse()) {
                         AuthToken authToken = baseResponse.getData();
                         saveUserToken(authToken.getToken());
-
                         numberVerifiedUIUpdate();
                     } else {
-                        verifyNumberGo.setEnabled(true);
+                        askUserToEnterOTPUIUpdate();
                         Toast.makeText(UserVerificationActivity.this, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -597,6 +642,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
                 @Override
                 public void failure(RetrofitError error) {
                     handleRetrofitError(error);
+                    askUserToEnterOTPUIUpdate();
                 }
             });
 
