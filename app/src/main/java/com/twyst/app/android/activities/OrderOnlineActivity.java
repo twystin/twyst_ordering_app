@@ -377,6 +377,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        String lol = newText;
         return false;
     }
 
@@ -404,9 +405,9 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         searchView.setOnQueryTextListener(this);
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onFocusChange(View view, boolean b) {
+            public void onFocusChange(View view, boolean isFocused) {
                 searchView.setSuggestionsAdapter(null);
-                if (b) {
+                if (isFocused) {
 
                 } else {
 
