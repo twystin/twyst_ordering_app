@@ -25,4 +25,25 @@
             layout="@layout/layout_signup" />
     </LinearLayout>
 
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:id="@+id/submit"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/button_red"
+        android:padding="5dp"
+        app:mrl_rippleOverlay="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="SUBMIT"
+            android:focusable="false"
+            android:layout_gravity="right|center_vertical"
+            android:textSize="20dp"
+            android:textColor="@color/white"/>
+    </com.balysv.materialripple.MaterialRippleLayout>
+
 </RelativeLayout>
