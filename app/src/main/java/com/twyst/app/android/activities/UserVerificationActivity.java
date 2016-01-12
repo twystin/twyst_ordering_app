@@ -87,7 +87,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
     View btnSubmit;
 
     // Verify Number
-    ImageView ivCorrectSymbol;
+    ImageView ivCorrectSymbolVerifyNumber;
     TextView tvVerifyNumberHint;
     EditText etPhonePre;
     EditText etPhoneCodeInput;
@@ -317,7 +317,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
     }
 
     private void setupVerifyNumber() {
-        ivCorrectSymbol = (ImageView) findViewById(R.id.verify_number_correct_symbol);
+        ivCorrectSymbolVerifyNumber = (ImageView) findViewById(R.id.verify_number_correct_symbol);
         tvVerifyNumberHint = (TextView) findViewById(R.id.verify_number_hint);
         etPhonePre = (EditText) findViewById(R.id.verify_number_phone_pre);
         etPhoneCodeInput = (EditText) findViewById(R.id.verify_number_phone_code);
@@ -475,6 +475,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
         tvVerifyNumberGoLayout.setVisibility(View.INVISIBLE);
         tvVerifyNumberResendManually.setVisibility(View.INVISIBLE);
         tvVerifyNumberLowerHint.setVisibility(View.INVISIBLE);
+        ivCorrectSymbolVerifyNumber.setBackground(getResources().getDrawable(R.drawable.checked));
         btnSubmit.setEnabled(true);
     }
 

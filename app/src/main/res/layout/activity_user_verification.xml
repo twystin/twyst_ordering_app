@@ -7,29 +7,34 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <include
-            android:id="@+id/card_verify_number"
-            layout="@layout/layout_verify_number" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <include
-            android:id="@+id/card_verify_email"
-            layout="@layout/layout_verify_email" />
+            <include
+                android:id="@+id/card_verify_number"
+                layout="@layout/layout_verify_number" />
 
-        <include
-            android:id="@+id/card_signup"
-            layout="@layout/layout_signup" />
-    </LinearLayout>
+            <include
+                android:id="@+id/card_verify_email"
+                layout="@layout/layout_verify_email" />
+
+            <include
+                android:id="@+id/card_signup"
+                layout="@layout/layout_signup" />
+        </LinearLayout>
+    </ScrollView>
 
     <com.balysv.materialripple.MaterialRippleLayout
         android:id="@+id/submit"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         android:background="@drawable/button_red"
         android:padding="5dp"
@@ -38,12 +43,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="right|center_vertical"
+            android:focusable="false"
             android:gravity="center"
             android:text="SUBMIT"
-            android:focusable="false"
-            android:layout_gravity="right|center_vertical"
-            android:textSize="20dp"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textSize="20dp" />
     </com.balysv.materialripple.MaterialRippleLayout>
 
 </RelativeLayout>
