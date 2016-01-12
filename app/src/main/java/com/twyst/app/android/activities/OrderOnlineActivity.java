@@ -7,9 +7,11 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.design.widget.TabLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
@@ -17,6 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.enums.SnackbarType;
+import com.nispok.snackbar.listeners.ActionClickListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.CartAdapter;
@@ -44,7 +50,7 @@ import retrofit.client.Response;
 /**
  * Created by Vipul Sharma on 11/16/2015.
  */
-public class OrderOnlineActivity extends BaseActivity implements MenuExpandableAdapter.DataTransferInterfaceMenu, CartAdapter.DataTransferInterfaceCart {
+public class OrderOnlineActivity extends AppCompatActivity implements MenuExpandableAdapter.DataTransferInterfaceMenu, CartAdapter.DataTransferInterfaceCart {
     private ScrollingOffersAdapter mScrollingOffersAdapter;
     private ViewPager mScrollingOffersViewPager;
     private ViewPager mMenuViewPager;
@@ -53,24 +59,17 @@ public class OrderOnlineActivity extends BaseActivity implements MenuExpandableA
     TextView tvCartCount;
     TextView tvCartTotalCost;
 
+    private CircularProgressBar circularProgressBar;
+
     private String mOutletId;
     RecyclerView mCartRecyclerView;
     CartAdapter mCartAdapter;
     List<MenuExpandableAdapter> mMenuAdaptersList = new ArrayList();
 
     @Override
-    protected String getTagName() {
-        return null;
-    }
-
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_order_online;
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_order_online);
 
         setupToolBar();
         setupTopLayout();
@@ -113,9 +112,20 @@ public class OrderOnlineActivity extends BaseActivity implements MenuExpandableA
     }
 
     private void setupToolBar() {
+        circularProgressBar = (CircularProgressBar) findViewById(R.id.circularProgressBar);
+
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setHomeButtonEnabled(true);
+
+        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         final CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
@@ -460,6 +470,63 @@ public class OrderOnlineActivity extends BaseActivity implements MenuExpandableA
         mScrollingOffersViewPager.setAdapter(mScrollingOffersAdapter);
     }
 
+    public void hideProgressHUDInLayout() {
+        if (circularProgressBar != null) {
+            circularProgressBar.progressiveStop();
+            circularProgressBar.setVisibility(View.GONE);
+        }
+    }
+
+
+    public void handleRetrofitError(RetrofitError error) {
+        if (error.getKind() == RetrofitError.Kind.NETWORK) {
+            buildAndShowSnackbarWithMessage("No internet connection.");
+        } else {
+            buildAndShowSnackbarWithMessage("An unexpected error has occurred.");
+        }
+        Log.e(getTagName(), "failure", error);
+    }
+
+    private String getTagName() {
+        return this.getClass().getName();
+    }
+
+    public void buildAndShowSnackbarWithMessage(String msg) {
+        final Snackbar snackbar = Snackbar.with(getApplicationContext())
+                .type(SnackbarType.MULTI_LINE)
+                        //.color(getResources().getColor(android.R.color.black))
+                .text(msg)
+                .actionLabel("RETRY") // action button label
+                .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+                .swipeToDismiss(false)
+                .actionListener(new ActionClickListener() {
+                    @Override
+                    public void onActionClicked(Snackbar snackbar) {
+                        Intent intent = getIntent();
+                        overridePendingTransition(0, 0);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(intent);
+                    }
+                });
+        snackbar.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showSnackbar(snackbar); // activity where it is displayed
+            }
+        }, 500);
+
+    }
+
+    protected void showSnackbar(Snackbar snackbar) {
+        SnackbarManager.show(snackbar, this);
+    }
+
+    private void hideSnackbar() {
+        SnackbarManager.dismiss();
+    }
+
     private MenuData getMenuData(List<MenuData> menuDataList) {
         for (int i = 0; i < menuDataList.size(); i++) {
             MenuData menuData = (MenuData) menuDataList.get(i);
@@ -468,6 +535,13 @@ public class OrderOnlineActivity extends BaseActivity implements MenuExpandableA
 //            }
         }
         return null;
+    }
+
+    private String getUserToken() {
+        return AppConstants.USER_TOKEN_HARDCODED;
+//        SharedPreferences prefs = this.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
+//        return prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");
+
     }
 
     private String getMenuString() {

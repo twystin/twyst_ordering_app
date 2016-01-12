@@ -171,4 +171,6 @@ public class AppConstants {
     public static final String RESULT_DATA_KEY = PACKAGE_NAME + ".RESULT_DATA_KEY";
     public static final String LOCATION_DATA_EXTRA = PACKAGE_NAME + ".LOCATION_DATA_EXTRA";
 
+    public static final String USER_TOKEN_HARDCODED = "us5lxmyPyqnA4Ow20GmbhG362ZuMS4qB";
+
 }

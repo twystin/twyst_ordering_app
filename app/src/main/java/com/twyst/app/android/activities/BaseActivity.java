@@ -887,7 +887,7 @@ public abstract class BaseActivity extends ActionBarActivity
     }
 
     public String getUserToken() {
-        return "us5lxmyPyqnA4Ow20GmbhG362ZuMS4qB";
+        return AppConstants.USER_TOKEN_HARDCODED;
 //        SharedPreferences prefs = this.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
 //        return prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");
 

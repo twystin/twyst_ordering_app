@@ -1,62 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/drawer_layout"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:background="@color/menu_background_color">
 
-    <RelativeLayout
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/sliding_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/menu_background_color">
+        android:gravity="bottom"
+        sothree:umanoDragView="@+id/dragView"
+        sothree:umanoOverlay="true"
+        sothree:umanoPanelHeight="@dimen/slidingup_panel_height"
+        sothree:umanoParallaxOffset="100dp"
+        sothree:umanoScrollableView="@+id/cartRecyclerView"
+        sothree:umanoShadowHeight="4dp">
 
-        <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/sliding_layout"
+        <include
+            android:id="@+id/menuLayout"
+            layout="@layout/menu_activity_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- SLIDING LAYOUT -->
+        <LinearLayout
+            android:id="@+id/dragView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="bottom"
-            sothree:umanoDragView="@+id/dragView"
-            sothree:umanoOverlay="true"
-            sothree:umanoPanelHeight="@dimen/slidingup_panel_height"
-            sothree:umanoParallaxOffset="100dp"
-            sothree:umanoScrollableView="@+id/cartRecyclerView"
-            sothree:umanoShadowHeight="4dp">
+            android:clickable="true"
+            android:focusable="false"
+            android:orientation="vertical">
 
             <include
-                android:id="@+id/menuLayout"
-                layout="@layout/menu_activity_layout"
+                android:id="@+id/cartLowerLayout"
+                layout="@layout/cart_lower_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="@dimen/slidingup_panel_height" />
 
-            <!-- SLIDING LAYOUT -->
-            <LinearLayout
-                android:id="@+id/dragView"
+            <include
+                android:id="@+id/cartLayout"
+                layout="@layout/cart_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:focusable="false"
-                android:orientation="vertical">
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
-                <include
-                    android:id="@+id/cartLowerLayout"
-                    layout="@layout/cart_lower_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/slidingup_panel_height" />
-
-                <include
-                    android:id="@+id/cartLayout"
-                    layout="@layout/cart_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
-
-        </com.sothree.slidinguppanel.SlidingUpPanelLayout>
-
-    </RelativeLayout>
-
-    <include
-        android:id="@+id/drawer_list"
-        layout="@layout/drawer_list" />
-</android.support.v4.widget.DrawerLayout>
+        </LinearLayout>
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+</RelativeLayout>
