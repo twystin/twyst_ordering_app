@@ -354,6 +354,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
                 public void success(final BaseResponse<OTPCode> twystResponse, Response response) {
                     if (twystResponse.isResponse()) {
                         final OTPCode otpCode = twystResponse.getData();
+                        mPhoneEntered = etPhoneCodeInput.getText().toString();
                         waitForOTPUIUpdate(otpCode);
                     } else {
                         Toast.makeText(UserVerificationActivity.this, twystResponse.getMessage(), Toast.LENGTH_SHORT).show();
@@ -529,6 +530,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
         tvVerifyNumberLowerHint.setVisibility(View.VISIBLE);
         tvVerifyNumberResendManually.setVisibility(View.VISIBLE);
         tvVerifyNumberResendManually.setText(getResources().getString(R.string.verify_number_resend));
+        tvVerifyNumberGoText.setVisibility(View.VISIBLE);
         tvVerifyNumberGoText.setBackground(getResources().getDrawable(R.drawable.checkout_arrow));
         tvVerifyNumberGoText.setText("");
         verifyNumberProgressBar.setVisibility(View.GONE);
@@ -583,6 +585,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
     }
 
     private void resendCode() {
+        tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_fetch));
         verifyNumberProgressBar.setVisibility(View.VISIBLE);
         etPhoneCodeInput.setEnabled(false);
         verifyNumberGo.setEnabled(false);
@@ -611,7 +614,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
 
     private void submitOTP(final String otpEntered) {
         if (TextUtils.isEmpty(otpEntered) || otpEntered.trim().length() < 4) {
-            etPhoneCodeInput.setError("Invalid code !!");
+            etPhoneCodeInput.setError("Invalid code!");
         } else {
             etPhoneCodeInput.setError(null);
             hideKeyBoard();
@@ -629,6 +632,8 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
                     if (baseResponse.isResponse()) {
                         AuthToken authToken = baseResponse.getData();
                         saveUserToken(authToken.getToken());
+                        sharedPreferences.putString(AppConstants.PREFERENCE_USER_PHONE, mPhoneEntered);
+                        sharedPreferences.commit();
                         numberVerifiedUIUpdate();
                     } else {
                         askUserToEnterOTPUIUpdate();
