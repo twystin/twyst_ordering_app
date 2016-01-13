@@ -23,28 +23,28 @@
             android:padding="10dp">
 
             <com.balysv.materialripple.MaterialRippleLayout
-                app:mrl_rippleOverlay="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:mrl_rippleOverlay="true">
 
                 <ImageView
                     android:id="@+id/fbLogin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/icon_facebook_logo" />
+                    android:background="@drawable/facebook_logo" />
             </com.balysv.materialripple.MaterialRippleLayout>
 
             <com.balysv.materialripple.MaterialRippleLayout
-                app:mrl_rippleOverlay="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp">
+                android:layout_marginLeft="50dp"
+                app:mrl_rippleOverlay="true">
 
                 <ImageView
                     android:id="@+id/gPlusLogin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/icon_google_plus_logo" />
+                    android:background="@drawable/google_plus_logo" />
             </com.balysv.materialripple.MaterialRippleLayout>
 
         </LinearLayout>

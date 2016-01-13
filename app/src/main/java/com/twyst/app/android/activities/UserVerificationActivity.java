@@ -231,6 +231,8 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
     }
 
     private void setupSignup() {
+        findViewById(R.id.fbLogin).setEnabled(false);
+        findViewById(R.id.gPlusLogin).setEnabled(false);
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         callbackManager = CallbackManager.Factory.create();
@@ -595,6 +597,8 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
         ivCorrectSymbolVerifyNumber.setBackground(getResources().getDrawable(R.drawable.checked));
         hideSnackbar();
         btnSubmit.setEnabled(isNumberVerified);
+        findViewById(R.id.fbLogin).setEnabled(true);
+        findViewById(R.id.gPlusLogin).setEnabled(true);
     }
 
     private void askUserToEnterOTPUIUpdate() {
