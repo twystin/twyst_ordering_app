@@ -8,14 +8,15 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -151,8 +152,8 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
         setupVerifyEmail();
         setupSubmitButton();
         setupVerifyNumber();
-        hideKeyBoard();
         setupSignup();
+        setupUI(findViewById(R.id.layout_user_verification));
     }
 
     private void setupSubmitButton() {
@@ -196,7 +197,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
         ivEditEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                etVerifyEmail.requestFocus();
+                focusShowKeyBoard(etVerifyEmail);
             }
         });
 
@@ -211,6 +212,18 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
             }
         }
 
+    }
+
+    private void focusShowKeyBoard(final EditText editTextView) {
+        editTextView.requestFocus();
+        editTextView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                keyboard.showSoftInput(editTextView, 0);
+            }
+        }, 50);
     }
 
     private void setupSignup() {
@@ -264,7 +277,6 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
                     public void onBatchCompleted(GraphRequestBatch graphRequests) {
                         // Application code for when the batch finishes
                         updateUserEmail();
-
                     }
                 });
                 batch.executeAsync();
@@ -301,14 +313,12 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
 
         };
 
-
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(Plus.API)
                 .addScope(Plus.SCOPE_PLUS_LOGIN)
                 .build();
-
 
         findViewById(R.id.fbLogin).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -385,13 +395,11 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
                     handleRetrofitError(error);
                 }
             });
-
         }
     }
 
     private boolean checkSmsCode() {
         Cursor cursor = getContentResolver().query(Uri.parse("content://sms/inbox"), null, null, null, null);
-
         if (cursor.moveToFirst()) {
             do {
                 String msgData = "";
@@ -500,11 +508,11 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
         verifyNumberGo.setEnabled(true);
         hideSnackbar();
 
+        focusShowKeyBoard(etPhoneCodeInput);
     }
 
     private void otpBeingFetchedUIUpdate() {
         etPhoneCodeInput.setError(null);
-        hideKeyBoard();
         etPhoneCodeInput.setEnabled(false);
         verifyNumberProgressBar.setVisibility(View.VISIBLE);
         tvVerifyNumberGoText.setBackground(null);
@@ -514,12 +522,34 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
         verifyNumberGo.setEnabled(false);
     }
 
-    private void hideKeyBoard() {
+    private void hideSoftKeyBoard(View view) {
         // Check if no view has focus:
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+//        View view = this.getCurrentFocus();
+//        if (view != null) {
+        view.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+//        }
+    }
+
+    public void setupUI(View view) {
+        //Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyBoard(v);
+//                    v.requestFocus();
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
         }
     }
 
@@ -534,7 +564,6 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
         ivCorrectSymbolVerifyNumber.setBackground(getResources().getDrawable(R.drawable.checked));
         btnSubmit.setEnabled(true);
         hideSnackbar();
-        hideKeyBoard();
     }
 
     private void askUserToEnterOTPUIUpdate() {
@@ -568,6 +597,8 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
             }
         });
         verifyNumberGo.setEnabled(true);
+
+        focusShowKeyBoard(etPhoneCodeInput);
     }
 
     final Handler handler = new Handler();
@@ -635,7 +666,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
             etPhoneCodeInput.setError("Invalid code!");
         } else {
             etPhoneCodeInput.setError(null);
-            hideKeyBoard();
+//            hideKeyBoard();
 
             etPhoneCodeInput.setEnabled(false);
             verifyNumberProgressBar.setVisibility(View.VISIBLE);
