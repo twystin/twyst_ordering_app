@@ -25,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.balysv.materialripple.MaterialRippleLayout;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -90,6 +91,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
     View btnSubmit;
 
     // Verify Number
+    private boolean isNumberVerified = false;
     ImageView ivCorrectSymbolVerifyNumber;
     TextView tvVerifyNumberHint;
     EditText etPhonePre;
@@ -159,11 +161,13 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
 
     private void setupSubmitButton() {
         btnSubmit = findViewById(R.id.submit);
-        btnSubmit.setEnabled(false);
+        btnSubmit.setEnabled(isNumberVerified);
         final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                enableButtonsRunnable(view);
+
                 if (TextUtils.isEmpty(etVerifyEmail.getText().toString()) || !Pattern.matches(EMAIL_REGEX, etVerifyEmail.getText().toString())) {
                     etVerifyEmail.setError("Invalid email");
                 } else {
@@ -187,8 +191,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
                 }
             }
         });
-        btnSubmit.setEnabled(false);
-
+        btnSubmit.setEnabled(isNumberVerified);
     }
 
     private void setupVerifyEmail() {
@@ -326,6 +329,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
             public void onClick(View v) {
                 source = "FACEBOOK";
                 facebookLogin();
+                enableButtonsRunnable(v);
             }
         });
 
@@ -337,8 +341,24 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
                 // attempt to resolve any errors that occur.
                 mShouldResolve = true;
                 mGoogleApiClient.connect();
+                enableButtonsRunnable(v);
             }
         });
+    }
+
+    private void enableButtonsRunnable(View v) {
+        findViewById(R.id.fbLogin).setEnabled(false);
+        findViewById(R.id.gPlusLogin).setEnabled(false);
+        btnSubmit.setEnabled(false);
+
+        v.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                findViewById(R.id.fbLogin).setEnabled(true);
+                findViewById(R.id.gPlusLogin).setEnabled(true);
+                btnSubmit.setEnabled(isNumberVerified);
+            }
+        }, 500);
     }
 
     private void setupVerifyNumber() {
@@ -536,7 +556,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         hideSoftKeyBoard(findViewById(R.id.card_verify_number));
     }
@@ -563,6 +583,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
     }
 
     private void numberVerifiedUIUpdate() {
+        isNumberVerified = true;
         etPhoneCodeInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(14)});
         etPhoneCodeInput.setText("+91-" + getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).getString(AppConstants.PREFERENCE_USER_PHONE, ""));
         etPhoneCodeInput.setEnabled(false);
@@ -572,8 +593,8 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
         tvVerifyNumberResendManually.setVisibility(View.INVISIBLE);
         tvVerifyNumberLowerHint.setVisibility(View.INVISIBLE);
         ivCorrectSymbolVerifyNumber.setBackground(getResources().getDrawable(R.drawable.checked));
-        btnSubmit.setEnabled(true);
         hideSnackbar();
+        btnSubmit.setEnabled(isNumberVerified);
     }
 
     private void askUserToEnterOTPUIUpdate() {
@@ -880,14 +901,10 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
 
     }
 
-
     public void facebookLogin() {
-
         Collection<String> permissions = Arrays.asList("email", "user_friends", "public_profile", "user_birthday");
         LoginManager.getInstance().logInWithReadPermissions(this, permissions);
-
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -81,6 +81,7 @@
                         android:layout_centerInParent="true"
                         android:background="@color/primary"
                         android:padding="5dp"
+                        app:mrl_rippleDelayClick="true"
                         app:mrl_rippleOverlay="true">
 
                         <TextView
