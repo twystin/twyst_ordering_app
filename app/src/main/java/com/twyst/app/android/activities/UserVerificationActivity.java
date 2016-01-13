@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
@@ -522,14 +523,22 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
         verifyNumberGo.setEnabled(false);
     }
 
-    private void hideSoftKeyBoard(View view) {
-        // Check if no view has focus:
-//        View view = this.getCurrentFocus();
-//        if (view != null) {
+    private void hideSoftKeyBoard(final View view) {
         view.requestFocus();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-//        }
+        view.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        }, 50);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        hideSoftKeyBoard(findViewById(R.id.card_verify_number));
     }
 
     public void setupUI(View view) {
@@ -554,11 +563,12 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
     }
 
     private void numberVerifiedUIUpdate() {
-        etPhoneCodeInput.setText(getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).getString(AppConstants.PREFERENCE_USER_PHONE, ""));
+        etPhoneCodeInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(14)});
+        etPhoneCodeInput.setText("+91-" + getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).getString(AppConstants.PREFERENCE_USER_PHONE, ""));
         etPhoneCodeInput.setEnabled(false);
-        etPhonePre.setVisibility(View.VISIBLE);
+        etPhonePre.setVisibility(View.GONE);
         tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_verified));
-        tvVerifyNumberGoLayout.setVisibility(View.INVISIBLE);
+        tvVerifyNumberGoLayout.setVisibility(View.GONE);
         tvVerifyNumberResendManually.setVisibility(View.INVISIBLE);
         tvVerifyNumberLowerHint.setVisibility(View.INVISIBLE);
         ivCorrectSymbolVerifyNumber.setBackground(getResources().getDrawable(R.drawable.checked));
@@ -666,7 +676,6 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
             etPhoneCodeInput.setError("Invalid code!");
         } else {
             etPhoneCodeInput.setError(null);
-//            hideKeyBoard();
 
             etPhoneCodeInput.setEnabled(false);
             verifyNumberProgressBar.setVisibility(View.VISIBLE);
