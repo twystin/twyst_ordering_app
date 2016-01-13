@@ -37,15 +37,15 @@
                         android:id="@+id/editView_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:singleLine="true"
+                        android:background="@android:drawable/screen_background_light_transparent"
                         android:cursorVisible="false"
                         android:editable="false"
                         android:ellipsize="end"
                         android:focusable="false"
                         android:hint="@string/hint_address"
+                        android:singleLine="true"
                         android:textColor="@color/black_54"
-                        android:textSize="@dimen/address_huge_text_size"
-                        android:background="@android:drawable/screen_background_light_transparent" />
+                        android:textSize="@dimen/address_huge_text_size" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -59,19 +59,19 @@
                             android:layout_weight="1"
                             android:background="@drawable/edit_text_underline"
                             android:ellipsize="end"
-                            android:singleLine="true"
                             android:hint="@string/hint_building_name"
                             android:inputType="textImeMultiLine|textNoSuggestions"
+                            android:singleLine="true"
                             android:textColor="@color/black_54"
                             android:textColorHint="@color/black_38"
                             android:textSize="@dimen/address_huge_text_size" />
 
                         <ImageView
+                            android:id="@+id/edit_image_neighborhood"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_gravity="right|center_vertical"
-                            android:src="@android:drawable/ic_menu_edit"
-                            android:id="@+id/edit_image_neighborhood"/>
+                            android:src="@drawable/edit_icon" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -82,25 +82,24 @@
                         <EditText
                             android:id="@+id/editView_landmark"
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:background="@drawable/edit_text_underline"
                             android:ellipsize="end"
-                            android:singleLine="true"
                             android:hint="@string/hint_landmark"
                             android:inputType="textNoSuggestions"
+                            android:singleLine="true"
                             android:textColor="@color/black_54"
                             android:textColorHint="@color/black_38"
                             android:textSize="@dimen/address_huge_text_size" />
 
                         <ImageView
+                            android:id="@+id/edit_image_landmark"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_gravity="right|center_vertical"
-                            android:src="@android:drawable/ic_menu_edit"
-                            android:id="@+id/edit_image_landmark"/>
+                            android:src="@drawable/edit_icon" />
                     </LinearLayout>
-
 
 
                     <EditText
@@ -114,7 +113,6 @@
                         android:textColor="@color/black_54"
                         android:textColorHint="@color/black_38"
                         android:textSize="@dimen/address_huge_text_size" />
-
 
 
                 </LinearLayout>
@@ -198,11 +196,11 @@
                     android:id="@+id/editView_other_tag"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/card_text_layout_margin"
                     android:background="@drawable/edit_text_underline"
                     android:ellipsize="end"
                     android:hint="@string/hint_other_tag"
                     android:inputType="textNoSuggestions"
-                    android:layout_margin="@dimen/card_text_layout_margin"
                     android:textColor="@color/black_54"
                     android:textColorHint="@color/black_38"
                     android:textSize="@dimen/address_huge_text_size"

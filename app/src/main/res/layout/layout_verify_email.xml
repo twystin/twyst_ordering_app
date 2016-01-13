@@ -14,11 +14,12 @@
                 style="@style/card_text_heading_text"
                 android:text="Verify Email" />
 
-            <include layout="@layout/correct_symbol"
-                android:id="@+id/iv_email_verify_correct"/>
+            <include
+                android:id="@+id/iv_email_verify_correct"
+                layout="@layout/correct_symbol" />
         </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal|center_vertical"
@@ -29,7 +30,6 @@
                 android:id="@+id/et_verify_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@null"
                 android:ems="15"
                 android:gravity="center"
                 android:hint="@string/hint_email"
@@ -39,7 +39,15 @@
                 android:textColor="@color/black"
                 android:textColorHint="#8c8c8c"
                 android:textCursorDrawable="@null" />
-        </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_edit_email"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/edit_icon" />
+        </RelativeLayout>
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

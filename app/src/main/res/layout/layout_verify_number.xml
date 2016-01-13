@@ -45,7 +45,7 @@
                     android:id="@+id/verify_number_phone_pre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
+                    android:background="@null"
                     android:enabled="false"
                     android:focusable="false"
                     android:gravity="center"
@@ -76,8 +76,8 @@
 
                     <com.balysv.materialripple.MaterialRippleLayout
                         android:id="@+id/verify_number_go"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:layout_centerInParent="true"
                         android:background="@color/primary"
                         android:padding="5dp"
@@ -95,9 +95,9 @@
 
                     <include
                         android:id="@+id/verify_number_progress_bar"
-                        layout="@layout/circular_progress_bar"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        layout="@layout/circular_progress_bar_single"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_centerInParent="true"
                         android:visibility="invisible" />
                 </RelativeLayout>
@@ -126,9 +126,9 @@
                     android:layout_height="wrap_content"
                     android:text="@string/verify_number_manually"
                     android:textColor="@color/primary"
-                    android:visibility="invisible"
                     android:textSize="@dimen/phone_verification_hint"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="invisible" />
 
             </LinearLayout>
 

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -105,6 +106,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
     private String otpCodeReaded;
 
     //Verify Email
+    private ImageView ivEditEmail;
     private EditText etVerifyEmail;
 
     //Signup
@@ -188,7 +190,15 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
     }
 
     private void setupVerifyEmail() {
+        ivEditEmail = (ImageView) findViewById(R.id.iv_edit_email);
         etVerifyEmail = (EditText) findViewById(R.id.et_verify_email);
+
+        ivEditEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etVerifyEmail.requestFocus();
+            }
+        });
 
         Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
         Account[] accounts = AccountManager.get(UserVerificationActivity.this).getAccounts();
@@ -464,6 +474,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
 
         myRunnable = new MyRunnable(otpCode);
         handler.postDelayed(myRunnable, 1000);
+        hideSnackbar();
     }
 
     private void numberToEnterUIUpdate() {
@@ -477,6 +488,8 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
         verifyNumberProgressBar.setVisibility(View.GONE);
         tvVerifyNumberLowerHint.setVisibility(View.INVISIBLE);
         tvVerifyNumberResendManually.setVisibility(View.INVISIBLE);
+        etPhoneCodeInput.setEnabled(true);
+        etPhoneCodeInput.requestFocus();
 
         verifyNumberGo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -485,6 +498,8 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
             }
         });
         verifyNumberGo.setEnabled(true);
+        hideSnackbar();
+
     }
 
     private void otpBeingFetchedUIUpdate() {
@@ -518,6 +533,8 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
         tvVerifyNumberLowerHint.setVisibility(View.INVISIBLE);
         ivCorrectSymbolVerifyNumber.setBackground(getResources().getDrawable(R.drawable.checked));
         btnSubmit.setEnabled(true);
+        hideSnackbar();
+        hideKeyBoard();
     }
 
     private void askUserToEnterOTPUIUpdate() {
@@ -530,11 +547,12 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
         tvVerifyNumberLowerHint.setVisibility(View.VISIBLE);
         tvVerifyNumberResendManually.setVisibility(View.VISIBLE);
         tvVerifyNumberResendManually.setText(getResources().getString(R.string.verify_number_resend));
+        tvVerifyNumberResendManually.setEnabled(true);
         tvVerifyNumberGoText.setVisibility(View.VISIBLE);
         tvVerifyNumberGoText.setBackground(getResources().getDrawable(R.drawable.checkout_arrow));
         tvVerifyNumberGoText.setText("");
         verifyNumberProgressBar.setVisibility(View.GONE);
-
+        hideSnackbar();
         verifyNumberGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -697,6 +715,10 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
 
     protected void showSnackbar(Snackbar snackbar) {
         SnackbarManager.show(snackbar, this);
+    }
+
+    public void hideSnackbar() {
+        SnackbarManager.dismiss();
     }
 
     private void showDiscoverScreen() {
