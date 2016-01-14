@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
 import com.google.gson.Gson;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
@@ -69,9 +70,12 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
 
     private CircularProgressBar circularProgressBar;
 
+    private MenuItem mSearchMenuItem;
+
     //Toolbar search widget
     private SearchView searchView;
 
+    private MenuTabsPagerAdapter mMenuTabsPagerAdapter;
     private String mOutletId;
     RecyclerView mCartRecyclerView;
     CartAdapter mCartAdapter;
@@ -191,14 +195,15 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                         mOutletId = menuData.getOutlet();
 
                         // Get the ViewPager and set it's PagerAdapter so that it can display items
-                        MenuTabsPagerAdapter adapter = new MenuTabsPagerAdapter(menuData.getMenuCategoriesList(), getSupportFragmentManager(), OrderOnlineActivity.this);
+                        mMenuTabsPagerAdapter = new MenuTabsPagerAdapter(menuData.getMenuCategoriesList(), getSupportFragmentManager(), OrderOnlineActivity.this);
                         mMenuViewPager = (ViewPager) findViewById(R.id.menuPager);
-                        mMenuViewPager.setAdapter(adapter);
+                        mMenuViewPager.setAdapter(mMenuTabsPagerAdapter);
 
                         // Give the TabLayout the ViewPager
                         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
                         tabLayout.setupWithViewPager(mMenuViewPager);
 
+                        setUpSearchView();
                     } else {
                         Toast.makeText(OrderOnlineActivity.this, "No data found", Toast.LENGTH_SHORT).show();
                     }
@@ -218,6 +223,20 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                 handleRetrofitError(error);
             }
         });
+    }
+
+    private void setUpSearchView() {
+        if (mSearchMenuItem != null) {
+            mSearchMenuItem.setVisible(true);
+        }
+
+        RecyclerView searchExpandableList = (RecyclerView) findViewById(R.id.search_recycler_view);
+        searchExpandableList.setHasFixedSize(true);
+        searchExpandableList.setLayoutManager(new LinearLayoutManager(OrderOnlineActivity.this, LinearLayoutManager.VERTICAL, false));
+
+        ArrayList<ParentListItem> sectionsList = new ArrayList<>();
+        final MenuExpandableAdapter searchExpandableAdapter = new MenuExpandableAdapter(OrderOnlineActivity.this, sectionsList, "categoryID", searchExpandableList);
+        searchExpandableList.setAdapter(searchExpandableAdapter);
     }
 
     private void setupCartRecyclerView() {
@@ -378,6 +397,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     @Override
     public boolean onQueryTextChange(String newText) {
         String lol = newText;
+
         return false;
     }
 
@@ -387,20 +407,20 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         getMenuInflater().inflate(R.menu.menu, menu);
         final MenuItem notificationsMenuItem = menu.findItem(R.id.action_notifications);
         final MenuItem walletMenuItem = menu.findItem(R.id.action_wallet);
-        final MenuItem searchMenuItem = menu.findItem(R.id.action_search);
+        mSearchMenuItem = menu.findItem(R.id.action_search);
         final MenuItem homeMenuItem = menu.findItem(R.id.action_home);
 
         //Hide all action buttons
         homeMenuItem.setVisible(false);
         notificationsMenuItem.setVisible(false);
         walletMenuItem.setVisible(false);
-        searchMenuItem.setVisible(true);
+        mSearchMenuItem.setVisible(false);
 
         searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        //searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+//        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
 
         searchView.setOnQueryTextListener(this);
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
@@ -408,9 +428,9 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
             public void onFocusChange(View view, boolean isFocused) {
                 searchView.setSuggestionsAdapter(null);
                 if (isFocused) {
-
+                    findViewById(R.id.layout_search_food).setVisibility(View.VISIBLE);
                 } else {
-
+                    findViewById(R.id.layout_search_food).setVisibility(View.GONE);
                 }
             }
         });
@@ -438,7 +458,11 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                         mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.DRAGGING)) {
             mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         } else {
-            super.onBackPressed();
+            if (!searchView.isIconified()) {
+                searchView.setIconified(true);
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 

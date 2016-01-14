@@ -46,4 +46,10 @@
 
         </LinearLayout>
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+    <include
+        android:id="@+id/layout_search_food"
+        layout="@layout/layout_search_food"
+        android:visibility="gone" />
+
 </RelativeLayout>

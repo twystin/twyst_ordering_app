@@ -51,7 +51,6 @@ public class MenuPageFragment extends Fragment {// implements ObservableScrollVi
         final MenuExpandableAdapter menuExpandableAdapter = new MenuExpandableAdapter(getActivity(), sectionsList, categoryID,menuExpandableList);
         menuExpandableList.setAdapter(menuExpandableAdapter);
 
-
         OrderOnlineActivity activity = (OrderOnlineActivity) container.getContext();
         activity.addAdaptersList(menuExpandableAdapter);
 
