@@ -154,8 +154,8 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
 
         setupVerifyEmail();
         setupSubmitButton();
-        setupVerifyNumber();
         setupSignup();
+        setupVerifyNumber();
         setupUI(findViewById(R.id.layout_user_verification));
     }
 
