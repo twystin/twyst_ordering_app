@@ -28,6 +28,7 @@ import com.twyst.app.android.model.menu.Options;
 import com.twyst.app.android.model.menu.SubCategories;
 import com.twyst.app.android.model.menu.SubOptionSet;
 import com.twyst.app.android.model.menu.SubOptions;
+import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
@@ -79,7 +80,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
             menuParentViewHolder.menuGroupDivider.setVisibility(View.GONE);
         }
         menuParentViewHolder.text.setText(subCategories.getSubCategoryName());
-        if (subCategories.getSubCategoryName().equals("Default")) {
+        if (subCategories.getSubCategoryName().equalsIgnoreCase(AppConstants.DEFAULT_SUB_CATEGORY)) {
             menuParentViewHolder.llMenuGroup.getLayoutParams().height = 0;
             menuParentViewHolder.llMenuGroup.post(new Runnable() {
                 @Override

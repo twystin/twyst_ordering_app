@@ -149,6 +149,8 @@ public class AppConstants {
     public static final String INTENT_ORDER_SUMMARY = "intent_order_summary";
     public static final String INTENT_FREE_ITEM_INDEX = "intent_free_item_index";
 
+    public static final String DEFAULT_SUB_CATEGORY = "Default";
+
     //Address Details (by anshul)
     public static final String INTENT_PARAM_MENU_ID = "menu_id";
 
