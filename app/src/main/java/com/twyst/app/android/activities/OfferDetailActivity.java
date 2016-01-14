@@ -1053,11 +1053,12 @@ public class OfferDetailActivity extends BaseActivity {
             }
         });
 
-        if (!TextUtils.isEmpty(outlet.getDistance())) {
-            distance.setText(outlet.getDistance() + " Km");
-        } else {
-            distance.setVisibility(View.INVISIBLE);
-        }
+        //TODO
+//        if (!TextUtils.isEmpty(outlet.getDistance())) {
+//            distance.setText(outlet.getDistance() + " Km");
+//        } else {
+//            distance.setVisibility(View.INVISIBLE);
+//        }
 
         outletName.setText(outlet.getName());
 

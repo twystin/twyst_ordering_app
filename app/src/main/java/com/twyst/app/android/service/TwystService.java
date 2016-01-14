@@ -1,36 +1,37 @@
 package com.twyst.app.android.service;
 
-import java.util.ArrayList;
 import com.twyst.app.android.model.AuthToken;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.CheckinData;
 import com.twyst.app.android.model.Data;
-import com.twyst.app.android.model.Friend;
-import com.twyst.app.android.model.GrabOffer;
-import com.twyst.app.android.model.NotificationData;
-import com.twyst.app.android.model.Profile;
-import com.twyst.app.android.model.Referral;
-import com.twyst.app.android.model.ReportProblem;
-import com.twyst.app.android.model.UpdateProfile;
-import com.twyst.app.android.model.UseOffer;
 import com.twyst.app.android.model.DiscoverData;
 import com.twyst.app.android.model.Feedback;
+import com.twyst.app.android.model.Friend;
+import com.twyst.app.android.model.GrabOffer;
 import com.twyst.app.android.model.LikeOffer;
 import com.twyst.app.android.model.LocationData;
+import com.twyst.app.android.model.NotificationData;
 import com.twyst.app.android.model.OTPCode;
 import com.twyst.app.android.model.OutletDetailData;
+import com.twyst.app.android.model.Profile;
 import com.twyst.app.android.model.ProfileUpdate;
+import com.twyst.app.android.model.Referral;
+import com.twyst.app.android.model.ReportProblem;
 import com.twyst.app.android.model.ShareOffer;
 import com.twyst.app.android.model.ShareOutlet;
 import com.twyst.app.android.model.SubmitOffer;
 import com.twyst.app.android.model.Suggestion;
+import com.twyst.app.android.model.UpdateProfile;
 import com.twyst.app.android.model.UploadBill;
+import com.twyst.app.android.model.UseOffer;
 import com.twyst.app.android.model.UserLocation;
 import com.twyst.app.android.model.Voucher;
 import com.twyst.app.android.model.WalletData;
 import com.twyst.app.android.model.WriteToUs;
 import com.twyst.app.android.model.menu.MenuData;
 import com.twyst.app.android.model.order.OrderSummary;
+
+import java.util.ArrayList;
 
 import retrofit.Callback;
 import retrofit.http.Body;
@@ -66,7 +67,7 @@ public interface TwystService {
     @PUT("/api/v4/profile")
     public void updateProfile( @Query("token") String token,@Body UpdateProfile updateProfile, Callback<BaseResponse<ProfileUpdate>> callback);
 
-    @GET("/api/v4/recos")
+    @GET("/api/v4/delivery/recos")
     public void getRecommendedOutlets(@Query("token") String token, @Query("start") int start, @Query("end") int end, @Query("lat") String lat, @Query("long") String lng, @Query("date") String date,@Query(value = "time",encodeValue=false) String time , Callback<BaseResponse<DiscoverData>> callback);
 
     @GET("/api/v4/outlets/{outlet_id}")

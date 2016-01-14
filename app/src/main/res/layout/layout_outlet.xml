@@ -1,168 +1,235 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:isScrollContainer="true"
-    android:touchscreenBlocksFocus="false"
-    android:orientation="vertical"
-    android:background="@drawable/layout_bg"
-    android:layout_margin="4dp">
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/notification_light_gray">
+        android:layout_gravity="center"
+        android:elevation="8dp"
+        android:padding="4dp"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardUseCompatPadding="true">
 
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/pizza"
-            android:padding="4dp"
-            android:scaleType="fitCenter"
-            android:layout_weight="1"
-            android:layout_gravity="left"/>
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="4"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:id="@+id/outletName"
-                android:paddingLeft="2dp"
-                android:textStyle="bold"
-                android:text="Striker Pub &amp; Brewery"
-                android:gravity="bottom|left"/>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
+            android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_gravity="start"
-                    android:src="@drawable/location"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:id="@+id/location"/>
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/outletAddress"
-                    android:text="Sector 15, Gurgaon"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@id/location"/>
-            </RelativeLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="Delivery Experience"
-                android:ellipsize="end"
-                android:textSize="12sp"
-                android:gravity="bottom|center"/>
-
-            <RatingBar
-                android:isIndicator="true"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:id="@+id/ratingBar"
-                android:numStars="5"
-                android:stepSize="1.0"
-                android:rating="3.0"
-                android:layout_gravity="center"
-                style="?android:attr/ratingBarStyleSmall"/>
+                android:layout_height="wrap_content">
 
+                <RelativeLayout
+                    android:layout_width="124dp"
+                    android:layout_height="150dp"
+                    android:padding="@dimen/layout_medium_margin">
+
+                    <ImageView
+                        android:id="@+id/outlet_logo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/ic_launcher"
+                        android:scaleType="centerCrop" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/outlet_logo"
+                        android:alpha="0.7"
+                        android:background="@android:color/holo_green_dark"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:padding="2dp"
+                            android:text="4.1"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/layout_wide_text_size"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="7dp"
+                                android:layout_height="7dp"
+                                android:layout_gravity="left|center_vertical"
+                                android:src="@drawable/star" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/layout_medium_margin"
+                android:paddingRight="@dimen/layout_medium_margin"
+                android:paddingTop="@dimen/layout_medium_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/layout_medium_margin">
+
+                    <TextView
+                        android:id="@+id/outletName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="left"
+                        android:singleLine="true"
+                        android:text="Striker Pub &amp; Brewery"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/layout_huge_text_size" />
+
+                    <TextView
+                        android:id="@+id/outletAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:drawablePadding="2dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="Sector 15, Gurgaon"
+                        android:textColor="@color/text_grey"
+                        android:textSize="@dimen/layout_medium_text_size" />
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/background_grey" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:paddingTop="@dimen/layout_wide_margin">
+
+                    <TextView
+                        android:id="@+id/cuisines"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:text="Cuisines: "
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/layout_medium_text_size" />
+
+                    <TextView
+                        android:id="@+id/cuisines_names"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@id/cuisines"
+                        android:layout_toRightOf="@id/cuisines"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="chinese, italian"
+                        android:textColor="@color/text_grey"
+                        android:textSize="@dimen/layout_medium_text_size" />
+
+                    <TextView
+                        android:id="@+id/delivery_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/cuisines"
+                        android:layout_marginTop="@dimen/layout_small_margin"
+                        android:drawablePadding="@dimen/layout_small_margin"
+                        android:text="45 minutes"
+                        android:textColor="@color/text_grey"
+                        android:textSize="@dimen/layout_medium_text_size" />
+
+
+                    <TextView
+                        android:id="@+id/min_order"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/delivery_time"
+                        android:layout_marginTop="@dimen/layout_small_margin"
+                        android:drawablePadding="@dimen/layout_small_margin"
+                        android:text="300 min order"
+                        android:textColor="@color/text_grey"
+                        android:textSize="@dimen/layout_medium_text_size" />
+
+                    <TextView
+                        android:id="@+id/no_of_offers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/min_order"
+                        android:layout_marginTop="@dimen/layout_small_margin"
+                        android:drawablePadding="@dimen/layout_small_margin"
+                        android:text="3 Offers Available"
+                        android:textColor="@color/text_grey"
+                        android:textSize="@dimen/layout_medium_text_size" />
+
+
+                    <TextView
+                        android:id="@+id/tv_twyst_bucks"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:text="Twyst Bucks"
+                        android:textSize="@dimen/layout_wide_text_size" />
+
+                    <RelativeLayout
+                        android:layout_width="40dp"
+                        android:layout_height="60dp"
+                        android:layout_above="@id/tv_twyst_bucks"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/twystbucksicon"
+                        android:padding="6dp">
+
+                        <TextView
+                            android:id="@+id/tv_twyst_bucks_percentage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:gravity="center_horizontal"
+                            android:text="12%"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/layout_wide_text_size"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@id/tv_twyst_bucks_percentage"
+                            android:text="Upto"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/layout_medium_text_size"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
 
         </LinearLayout>
-    </LinearLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:text="Cuisines: "
-            android:paddingLeft="8dp"
-            android:paddingTop="8dp"
-            android:id="@+id/cuisines"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="chinese,italian"
-            android:layout_alignBaseline="@id/cuisines"
-            android:paddingTop="8dp"
-            android:layout_toEndOf="@id/cuisines" />
-        <ImageView
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/clock"
-            android:layout_below="@id/cuisines"
-            android:id="@+id/clock"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Delivers in 45 minutes"
-            android:layout_toRightOf="@id/clock"
-            android:paddingTop="8dp"
-            android:layout_below="@id/cuisines"
-            android:textSize="12dp"
-            android:id="@+id/delivery_time"/>
 
-        <ImageView
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:src="@drawable/bill"
-            android:layout_below="@id/clock"
-            android:id="@+id/bill"/>
+    </android.support.v7.widget.CardView>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="28dp"
-            android:text="300 min order"
-            android:layout_toRightOf="@id/bill"
-            android:layout_below="@id/delivery_time"
-            android:gravity="center|left"
-            android:textSize="12dp"
-            android:id="@+id/min_order"/>
-
-        <ImageView
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:src="@drawable/offer_scroll_22"
-            android:layout_alignParentRight="true"
-            android:id="@+id/offers"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="3 Offers Available"
-            android:layout_below="@id/offers"
-            android:layout_alignParentRight="true"
-            android:layout_alignBottom="@id/min_order"
-            android:paddingRight="8dp"
-            android:textSize="8dp"
-            android:gravity="top"/>
-
-    </RelativeLayout>
-
-
-</LinearLayout>
+</RelativeLayout>

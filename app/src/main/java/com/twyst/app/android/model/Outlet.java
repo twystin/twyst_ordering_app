@@ -3,79 +3,90 @@ package com.twyst.app.android.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by satishk on 8/6/15.
+ * Created by anshul on 1/5/2016.
  */
 public class Outlet extends Data implements Serializable {
-
-    private String name;
-
-    private String city;
-
-    private String address;
+    private String locality_2;
 
     private String locality_1;
 
-    private String locality_2;
-
-    private String distance;
-
-    private String lat;
-
-    @SerializedName("long")
-    private String lng;
-
-    private boolean open;
-
     private String phone;
 
-    private String rating;
+    @SerializedName("menu")
+    private String menuId;
 
-    private List<Offer> offers;
+    @SerializedName("delivery_time")
+    private String deliveryTime;
 
-    public String getLng() {
-        return lng;
-    }
+    @SerializedName("minimum_order")
+    private String minimumOrder;
 
-    public void setLng(String lng) {
-        this.lng = lng;
-    }
+    @SerializedName("offer_count")
+    private int offerCount;
 
-    public String getLat() {
-        return lat;
-    }
+    private ArrayList<Offer> offers = new ArrayList<>();
 
-    public void setLat(String lat) {
-        this.lat = lat;
-    }
+    private List<String> cuisines;
 
-    private boolean following;
+    private String lng;
+
+    private String city;
+
+    private Boolean open;
+
+    private Boolean following;
+
+    private Double distance;
+
+    private String address;
 
     private String background;
 
-    @SerializedName("is_paying")
-    private boolean isPaying;
+    private String name;
 
-    public boolean isPaying() {
-        return isPaying;
+    @SerializedName("open_next")
+    private OpenNext openNext;
+
+    private Cashback cashback;
+
+    private String lat;
+
+    private String logo;
+
+    public Cashback getCashback() {
+        return cashback;
     }
 
-    public void setIsPaying(boolean isPaying) {
-        this.isPaying = isPaying;
+    public void setCashback(Cashback cashback) {
+        this.cashback = cashback;
     }
 
-    public String getName() {
-        return name;
+    public String getDeliveryTime() {
+        return deliveryTime;
     }
 
-    public String getLocality_1() {
-        return locality_1;
+    public void setDeliveryTime(String deliveryTime) {
+        this.deliveryTime = deliveryTime;
     }
 
-    public void setLocality_1(String locality_1) {
-        this.locality_1 = locality_1;
+    public String getMinimumOrder() {
+        return minimumOrder;
+    }
+
+    public void setMinimumOrder(String minimumOrder) {
+        this.minimumOrder = minimumOrder;
+    }
+
+    public List<String> getCuisines() {
+        return cuisines;
+    }
+
+    public void setCuisines(List<String> cuisines) {
+        this.cuisines = cuisines;
     }
 
     public String getLocality_2() {
@@ -86,32 +97,60 @@ public class Outlet extends Data implements Serializable {
         this.locality_2 = locality_2;
     }
 
-    public String getDistance() {
-        return distance;
+    public String getLocality_1() {
+        return locality_1;
     }
 
-    public void setDistance(String distance) {
-        this.distance = distance;
+    public void setLocality_1(String locality_1) {
+        this.locality_1 = locality_1;
     }
 
-    public boolean isFollowing() {
-        return following;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setFollowing(boolean following) {
-        this.following = following;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public String getBackground() {
-        return background;
+    public String getMenuId() {
+        return menuId;
     }
 
-    public void setBackground(String background) {
-        this.background = background;
+    public ArrayList<Offer> getOffers() {
+        return offers;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setOffers(ArrayList<Offer> offers) {
+        this.offers = offers;
+    }
+
+    public void setMenuId(String menuId) {
+        this.menuId = menuId;
+    }
+
+    public OpenNext getOpenNext() {
+        return openNext;
+    }
+
+    public void setOpenNext(OpenNext openNext) {
+        this.openNext = openNext;
+    }
+
+    public int getOfferCount() {
+        return offerCount;
+    }
+
+    public void setOfferCount(int offerCount) {
+        this.offerCount = offerCount;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
     }
 
     public String getCity() {
@@ -122,6 +161,30 @@ public class Outlet extends Data implements Serializable {
         this.city = city;
     }
 
+    public Boolean getOpen() {
+        return open;
+    }
+
+    public void setOpen(Boolean open) {
+        this.open = open;
+    }
+
+    public Boolean getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(Boolean following) {
+        this.following = following;
+    }
+
+    public Double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Double distance) {
+        this.distance = distance;
+    }
+
     public String getAddress() {
         return address;
     }
@@ -130,33 +193,36 @@ public class Outlet extends Data implements Serializable {
         this.address = address;
     }
 
-
-    public String getPhone() {
-        return phone;
+    public String getBackground() {
+        return background;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setBackground(String background) {
+        this.background = background;
     }
 
-    public boolean isOpen() {
-        return open;
+    public String getName() {
+        return name;
     }
 
-    public void setOpen(boolean open) {
-        this.open = open;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setRating(String rating) { this.rating = rating; }
-
-    public String getRating() { return rating;}
-
-    public List<Offer> getOffers() {
-        return offers;
+    public String getLat() {
+        return lat;
     }
 
-    public void setOffers(List<Offer> offers) {
-        this.offers = offers;
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 
 

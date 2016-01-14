@@ -11,12 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import com.twyst.app.android.R;
 import com.twyst.app.android.activities.DiscoverActivity;
@@ -25,6 +21,9 @@ import com.twyst.app.android.activities.SearchActivity;
 import com.twyst.app.android.activities.WalletActivity;
 import com.twyst.app.android.model.NotificationData;
 import com.twyst.app.android.util.AppConstants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by rahuls on 23/7/15.

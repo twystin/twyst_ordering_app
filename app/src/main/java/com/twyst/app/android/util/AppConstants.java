@@ -6,7 +6,7 @@ import com.twyst.app.android.BuildConfig;
  * Created by satish on 31/05/15.
  */
 public class AppConstants {
-//    public static final String HOST = "http://192.168.1.6:3000";
+    //    public static final String HOST = "http://192.168.1.6:3000";
     public static final String HOST = "http://staging.twyst.in";
 //    public static final String HOST = "http://twyst.in";
 
@@ -56,8 +56,8 @@ public class AppConstants {
 
     public static final String INTENT_PARAM_OTP_CODE = "otp_code";
     public static final String INTENT_PARAM_OTP_PHONE = "otp_phone_number";
-    public static final String INTENT_PARAM_OUTLET_LOCATION_LAT ="lat";
-    public static final String INTENT_PARAM_OUTLET_LOCATION_LONG ="lng";
+    public static final String INTENT_PARAM_OUTLET_LOCATION_LAT = "lat";
+    public static final String INTENT_PARAM_OUTLET_LOCATION_LONG = "lng";
     public static final String INTENT_PARAM_OUTLET_NAME = "outlet_name";
     public static final String INTENT_PARAM_OUTLET_ID = "outlet_id";
     public static final String INTENT_PARAM_OFFER_ID = "offer_id";
@@ -80,8 +80,8 @@ public class AppConstants {
     public static final String PREFERENCE_LAST_TWYST_BUCK = "twyst_buck";
     public static final String PREFERENCE_USER_PIC = "user_pic";
     public static final String PREFERENCE_USER_NAME = "user_name";
-    public static final String PREFERENCE_USER_FULL_NAME ="user_full_name" ;
-    public static final String PREFERENCE_USER_PHONE= "user_phone";
+    public static final String PREFERENCE_USER_FULL_NAME = "user_full_name";
+    public static final String PREFERENCE_USER_PHONE = "user_phone";
     public static final String PREFERENCE_USER_REFERRAL = "user_referral";
     public static final String PREFERENCE_NOTIFICATION_COUNT = "notification_count";
     public static final String PREFERENCE_IS_FRIEND_LIST_UPDATED = "is_friend_list_updated";
@@ -123,11 +123,11 @@ public class AppConstants {
     public static final String INTENT_PARAM_FROM_DRAWER = "from_drawer";
     public static final String INTENT_PARAM_FROM_PUSH_NOTIFICATION_CLICKED = "from_push_notification";
     public static final String INTENT_PARAM_SUBMIT_OFFER_OUTLET_NAME = "submit_offer_outlet_name";
-    public static final String INTENT_PARAM_SUBMIT_OFFER_OUTLET_ADDRESS ="submit_offer_outlet_address" ;
-    public static final String INTENT_PARAM_SUBMIT_OFFER_OUTLET_ID ="submit_offer_outlet_id" ;
-    public static final String INTENT_PARAM_UPLOAD_BILL_OUTLET_ADDRESS ="upload_bill_outlet_address" ;
-    public static final String INTENT_PARAM_UPLOAD_BILL_OUTLET_ID ="upload_bill_outlet_id" ;
-    public static final String INTENT_PARAM_UPLOAD_BILL_OUTLET_NAME ="upload_bill_outlet_name" ;
+    public static final String INTENT_PARAM_SUBMIT_OFFER_OUTLET_ADDRESS = "submit_offer_outlet_address";
+    public static final String INTENT_PARAM_SUBMIT_OFFER_OUTLET_ID = "submit_offer_outlet_id";
+    public static final String INTENT_PARAM_UPLOAD_BILL_OUTLET_ADDRESS = "upload_bill_outlet_address";
+    public static final String INTENT_PARAM_UPLOAD_BILL_OUTLET_ID = "upload_bill_outlet_id";
+    public static final String INTENT_PARAM_UPLOAD_BILL_OUTLET_NAME = "upload_bill_outlet_name";
     public static final String PREFERENCE_LOCALITY_SHOWN_DRAWER = "locality";
     public static final String PREFERENCE_PREVIOUS_LOCALITY_SHOWN_DRAWER = "previous_locality";
     public static final String PREFERENCE_CHECK_FIRST_LAUNCH = "first_launch";
@@ -150,6 +150,8 @@ public class AppConstants {
     public static final String INTENT_FREE_ITEM_INDEX = "intent_free_item_index";
 
     //Address Details (by anshul)
+    public static final String INTENT_PARAM_MENU_ID = "menu_id";
+
     public static final int REQUEST_CHECK_SETTINGS = 0x1;
 
     public static final int SHOW_PROGRESS_BAR = 1;

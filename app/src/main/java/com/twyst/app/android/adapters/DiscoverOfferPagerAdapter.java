@@ -17,13 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import com.twyst.app.android.R;
 import com.twyst.app.android.activities.OfferDetailActivity;
 import com.twyst.app.android.activities.OutletDetailsActivity;
@@ -32,6 +25,13 @@ import com.twyst.app.android.activities.UploadBillActivity;
 import com.twyst.app.android.model.Offer;
 import com.twyst.app.android.model.Outlet;
 import com.twyst.app.android.util.AppConstants;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by vivek on 20/08/15.
@@ -450,12 +450,12 @@ public class DiscoverOfferPagerAdapter extends PagerAdapter {
             RelativeLayout emptyLayout = (RelativeLayout) itemView.findViewById(R.id.emptyLayout);
             final SharedPreferences prefs = itemView.getContext().getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
-            int bucksTDisplay;
-            if (outlet.isPaying()){
-                bucksTDisplay = prefs.getInt(AppConstants.PREFERENCE_TWYST_BUCKS_CHECKIN_OUTLET_PAYING,AppConstants.TWYST_BUCKS_CHECKIN_OUTLET_PAYING);
-            }else{
-                bucksTDisplay = prefs.getInt(AppConstants.PREFERENCE_TWYST_BUCKS_CHECKIN_OUTLET_NON_PAYING,AppConstants.TWYST_BUCKS_CHECKIN_OUTLET_NON_PAYING);
-            }
+            int bucksTDisplay = 0;
+//            if (outlet.isPaying()){
+//                bucksTDisplay = prefs.getInt(AppConstants.PREFERENCE_TWYST_BUCKS_CHECKIN_OUTLET_PAYING,AppConstants.TWYST_BUCKS_CHECKIN_OUTLET_PAYING);
+//            }else{
+//                bucksTDisplay = prefs.getInt(AppConstants.PREFERENCE_TWYST_BUCKS_CHECKIN_OUTLET_NON_PAYING,AppConstants.TWYST_BUCKS_CHECKIN_OUTLET_NON_PAYING);
+//            }
             String checkinText="";
             if (isCheckinExclusiveOffersAvailable){
                 checkinText = itemView.getContext().getResources().getString(R.string.checkin_offer_card_text_exclusive);

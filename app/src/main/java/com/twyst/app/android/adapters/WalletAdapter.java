@@ -20,16 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import com.twyst.app.android.R;
-import com.twyst.app.android.activities.DiscoverActivity;
 import com.twyst.app.android.activities.OfferDetailActivity;
 import com.twyst.app.android.activities.OutletDetailsActivity;
 import com.twyst.app.android.activities.WalletActivity;
@@ -42,6 +33,14 @@ import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.RoundedTransformation;
 import com.twyst.app.android.util.TwystProgressHUD;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -139,7 +138,7 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.WalletView
         }
         holder.outletName.setText(outlet.getName());
         holder.outletAddress.setText(address);
-        if(!TextUtils.isEmpty(outlet.getDistance())) {
+        if(!TextUtils.isEmpty(String.valueOf(outlet.getDistance()))) {
             holder.distance.setText(outlet.getDistance() + " Km");
         }else {
             holder.distance.setVisibility(View.GONE);
@@ -167,7 +166,7 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.WalletView
             holder.coupon__btn_txt.setText(resources.getString(R.string.use_offer));
         }
 
-        if(outlet.isFollowing()){
+        if(outlet.getFollowing()){
             holder.followOutletBtn.setImageResource(R.drawable.icon_discover_follow_outlet);
         }else {
             holder.followOutletBtn.setImageResource(R.drawable.icon_discover_follow_outlet_no);
@@ -251,7 +250,7 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.WalletView
             @Override
             public void onClick(final View view) {
                 final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(view.getContext(), false, null);
-                if (outlet.isFollowing()) {
+                if (outlet.getFollowing()) {
                     holder.followOutletBtn.setImageResource(R.drawable.icon_discover_follow_outlet_no);
                     HttpService.getInstance().unFollowEvent(userToken, outlet.get_id(), new Callback<BaseResponse<Data>>() {
                         @Override

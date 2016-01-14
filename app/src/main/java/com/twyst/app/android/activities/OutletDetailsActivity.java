@@ -43,23 +43,21 @@ import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.squareup.picasso.Picasso;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.OutletDetailsAdapter;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.Data;
 import com.twyst.app.android.model.Feedback;
 import com.twyst.app.android.model.FeedbackMeta;
-import com.twyst.app.android.model.Offer;
 import com.twyst.app.android.model.Outlet;
 import com.twyst.app.android.model.OutletDetailData;
 import com.twyst.app.android.model.ShareOutlet;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -375,7 +373,7 @@ public class OutletDetailsActivity extends BaseActivity implements ObservableScr
                             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
                             startActivityForResult(intent, REQUEST_CAMERA);
                         } else if (items[item].equals("Choose Photo")) {
-                            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                             intent.setType("image/*");
                             startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
                         } else if (items[item].equals("Cancel")) {
@@ -401,7 +399,7 @@ public class OutletDetailsActivity extends BaseActivity implements ObservableScr
         findViewById(R.id.attachBill).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.setType("image/*");
                 startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
             }
@@ -486,7 +484,7 @@ public class OutletDetailsActivity extends BaseActivity implements ObservableScr
             @Override
             public void onClick(View view) {
                 final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(OutletDetailsActivity.this, false, null);
-                if (outlet.isFollowing()) {
+                if (outlet.getFollowing()) {
                     followOutletBtn.setImageResource(R.drawable.icon_discover_follow_outlet_no);
                     HttpService.getInstance().unFollowEvent(getUserToken(), outlet.get_id(), new Callback<BaseResponse<Data>>() {
                         @Override
@@ -654,7 +652,7 @@ public class OutletDetailsActivity extends BaseActivity implements ObservableScr
     }
 
     private void setupPage() {
-        if (outlet.isFollowing()) {
+        if (outlet.getFollowing()) {
             followOutletBtn.setImageResource(R.drawable.icon_discover_follow_outlet);
         } else {
             followOutletBtn.setImageResource(R.drawable.icon_discover_follow_outlet_no);
@@ -678,7 +676,7 @@ public class OutletDetailsActivity extends BaseActivity implements ObservableScr
                 .centerCrop()
                 .into(outletBgImage);
 
-        if (TextUtils.isEmpty(outlet.getDistance())) {
+        if (TextUtils.isEmpty(String.valueOf(outlet.getDistance()))) {
             outletDistance.setText("");
             outletDistance.setVisibility(View.INVISIBLE);
         } else {

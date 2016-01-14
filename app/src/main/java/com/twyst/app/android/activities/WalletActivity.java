@@ -28,6 +28,14 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
+import com.twyst.app.android.R;
+import com.twyst.app.android.adapters.WalletAdapter;
+import com.twyst.app.android.model.BaseResponse;
+import com.twyst.app.android.model.Outlet;
+import com.twyst.app.android.model.WalletData;
+import com.twyst.app.android.service.HttpService;
+import com.twyst.app.android.util.AppConstants;
+import com.twyst.app.android.util.Utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,14 +45,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 
-import com.twyst.app.android.R;
-import com.twyst.app.android.adapters.WalletAdapter;
-import com.twyst.app.android.model.BaseResponse;
-import com.twyst.app.android.model.Outlet;
-import com.twyst.app.android.model.WalletData;
-import com.twyst.app.android.service.HttpService;
-import com.twyst.app.android.util.AppConstants;
-import com.twyst.app.android.util.Utils;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -337,8 +337,8 @@ public class WalletActivity extends BaseActivity implements ObservableScrollView
                                                                           Collections.sort(walletAdapter.getItems(), new Comparator<Outlet>() {
                                                                               @Override
                                                                               public int compare(Outlet lhs, Outlet rhs) {
-                                                                                  if (!TextUtils.isEmpty(lhs.getDistance()) && !TextUtils.isEmpty(rhs.getDistance())) {
-                                                                                      return Double.valueOf(lhs.getDistance()).compareTo(Double.valueOf(rhs.getDistance()));
+                                                                                  if (!TextUtils.isEmpty(String.valueOf(lhs.getDistance())) && !TextUtils.isEmpty(String.valueOf(rhs.getDistance()))) {
+                                                                                      return lhs.getDistance().compareTo(rhs.getDistance());
                                                                                   } else {
                                                                                       return 0;
                                                                                   }
@@ -359,7 +359,7 @@ public class WalletActivity extends BaseActivity implements ObservableScrollView
                                                                           for (Outlet outlet : walletAdapter.getItems()) {
                                                                               if (outlet.getOffers().get(0).isAvailableNow()) {
                                                                                   availableNowList.add(outlet);
-                                                                                  if (!TextUtils.isEmpty(outlet.getDistance())) {
+                                                                                  if (!TextUtils.isEmpty(String.valueOf(outlet.getDistance()))) {
                                                                                       Collections.sort(availableNowList, new Comparator<Outlet>() {
                                                                                           @Override
                                                                                           public int compare(Outlet lhs, Outlet rhs) {

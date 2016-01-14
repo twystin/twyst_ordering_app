@@ -14,13 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import com.twyst.app.android.R;
 import com.twyst.app.android.activities.OfferDetailActivity;
 import com.twyst.app.android.activities.OutletDetailsActivity;
@@ -28,6 +21,13 @@ import com.twyst.app.android.activities.SubmitOfferActivity;
 import com.twyst.app.android.model.Meta;
 import com.twyst.app.android.model.Offer;
 import com.twyst.app.android.util.AppConstants;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by anilkg on 22/6/15.

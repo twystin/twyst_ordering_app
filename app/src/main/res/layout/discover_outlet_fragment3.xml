@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+        <cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager
+            android:id="@+id/ads_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager>
+        <com.twyst.app.android.CirclePageIndicator
+            android:id="@+id/indicator"
+            android:layout_margin="8dp"
+            android:paddingLeft="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            />
+    </RelativeLayout>
+
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/outletRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never" />
+
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

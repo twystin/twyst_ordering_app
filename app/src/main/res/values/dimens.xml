@@ -36,4 +36,20 @@
     <dimen name="wallet_bucks_header_text">15dp</dimen>
     <dimen name="wallet_bucks_text">13dp</dimen>
 
+    <!--<added by anshul>-->
+    <dimen name="layout_huge_text_size">16dp</dimen>
+    <dimen name="layout_wide_text_size">12dp</dimen>
+    <dimen name="layout_medium_text_size">10dp</dimen>
+    <dimen name="layout_small_text_size">8dp</dimen>
+
+    <dimen name="layout_huge_margin">16dp</dimen>
+    <dimen name="layout_wide_margin">12dp</dimen>
+    <dimen name="layout_medium_margin">8dp</dimen>
+    <dimen name="layout_small_margin">4dp</dimen>
+
+    <dimen name="default_circle_indicator_radius">6dp</dimen>
+    <dimen name="default_circle_indicator_stroke_width">2dp</dimen>
+
+    <dimen name="slidingup_panel_filter_lower_layout_height">30dp</dimen>
+
 </resources>
