@@ -26,14 +26,11 @@ public class TutorialActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.activity_tutorial);
-
         TutorialPagerAdapter tutorialPagerAdapter = new TutorialPagerAdapter(getSupportFragmentManager());
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.tutorialViewPager);
         viewPager.setAdapter(tutorialPagerAdapter);
-
 
         final View skipBtn = findViewById(R.id.skipBtn);
         viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
@@ -66,15 +63,12 @@ public class TutorialActivity extends FragmentActivity {
             dotsLayout.addView(dots[i]);
         }
         dots[0].setImageResource(R.drawable.dot_active);
-
-
         skipBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 letsTwyst();
             }
         });
-
     }
 
     @Override
@@ -82,6 +76,7 @@ public class TutorialActivity extends FragmentActivity {
         super.onResume();
         AppsFlyerLib.onActivityResume(this);
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -94,15 +89,12 @@ public class TutorialActivity extends FragmentActivity {
         boolean emailVerified = prefs.getBoolean(AppConstants.PREFERENCE_EMAIL_VERIFIED, false);
         int tutorialCount = prefs.getInt(AppConstants.PREFERENCE_TUTORIAL_COUNT, 0);
 
-        if(tutorialCount == 2) {
+        if (tutorialCount == 2) {
             saveSkipCount();
         }
 
-        if (!phoneVerified) {
-            startActivity(new Intent(getBaseContext(), PhoneVerificationActivity.class));
-            finish();
-        } else if (!emailVerified) {
-            startActivity(new Intent(getBaseContext(), LoginActivity.class));
+        if (!phoneVerified || !emailVerified) {
+            startActivity(new Intent(getBaseContext(), UserVerificationActivity.class));
             finish();
         } else {
             Intent intent = new Intent(getBaseContext(), DiscoverActivity.class);
@@ -111,13 +103,11 @@ public class TutorialActivity extends FragmentActivity {
             startActivity(intent);
             finish();
         }
-
-
     }
+
     private void saveSkipCount() {
         SharedPreferences.Editor sharedPreferences = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).edit();
         sharedPreferences.putBoolean(AppConstants.PREFERENCE_TUTORIAL_SKIPPED, true);
         sharedPreferences.commit();
     }
-
 }

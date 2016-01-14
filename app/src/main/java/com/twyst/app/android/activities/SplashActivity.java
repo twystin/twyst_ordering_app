@@ -103,7 +103,6 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
             // Do first run stuff here then set 'firstrun' as false
             // using the following line to edit/commit prefs
             prefs.edit().putBoolean(AppConstants.PREFERENCE_IS_PUSH_ENABLED, true).apply();
-
             prefs.edit().putBoolean(AppConstants.PREFERENCE_IS_FIRST_RUN, false).apply();
         }
 
