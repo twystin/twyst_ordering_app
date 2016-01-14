@@ -21,17 +21,15 @@ import java.util.ArrayList;
  */
 public class MenuPageFragment extends Fragment {// implements ObservableScrollViewCallbacks {
     private static final String ARG_SECTION_LIST = "section_list";
-    private static final String ARG_CATEGORY_ID = "category_id";
     static int mScrollYInitial = 0;
 
     public MenuPageFragment() {
     }
 
-    public static MenuPageFragment newInstance(ArrayList<SubCategories> sectionsList, String categoryID) {
+    public static MenuPageFragment newInstance(ArrayList<SubCategories> sectionsList) {
         MenuPageFragment fragment = new MenuPageFragment();
         Bundle args = new Bundle();
         args.putSerializable(ARG_SECTION_LIST, sectionsList);
-        args.putString(ARG_CATEGORY_ID, categoryID);
         fragment.setArguments(args);
         return fragment;
     }
@@ -42,13 +40,12 @@ public class MenuPageFragment extends Fragment {// implements ObservableScrollVi
         View rootView = inflater.inflate(R.layout.fragment_menu_layout, container, false);
 
         ArrayList<ParentListItem> sectionsList = (ArrayList<ParentListItem>) (getArguments().getSerializable(ARG_SECTION_LIST));
-        String categoryID = getArguments().getString(ARG_CATEGORY_ID);
 
         RecyclerView menuExpandableList = (RecyclerView) rootView.findViewById(R.id.menu_recycler_view);
         menuExpandableList.setHasFixedSize(true);
         menuExpandableList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
-        final MenuExpandableAdapter menuExpandableAdapter = new MenuExpandableAdapter(getActivity(), sectionsList, categoryID,menuExpandableList);
+        final MenuExpandableAdapter menuExpandableAdapter = new MenuExpandableAdapter(getActivity(), sectionsList,menuExpandableList);
         menuExpandableList.setAdapter(menuExpandableAdapter);
 
         OrderOnlineActivity activity = (OrderOnlineActivity) container.getContext();

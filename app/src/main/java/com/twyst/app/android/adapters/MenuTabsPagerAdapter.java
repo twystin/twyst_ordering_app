@@ -36,7 +36,7 @@ public class MenuTabsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         ArrayList<SubCategories> sectionsList = menuCategoriesList.get(position).getSubCategoriesList();
-        return MenuPageFragment.newInstance(sectionsList, menuCategoriesList.get(position).getId());
+        return MenuPageFragment.newInstance(sectionsList);
 //        return MenuPageFragment.newInstance(position + 1);
     }
 

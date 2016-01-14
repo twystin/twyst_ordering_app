@@ -40,7 +40,9 @@ import com.twyst.app.android.adapters.MenuTabsPagerAdapter;
 import com.twyst.app.android.adapters.ScrollingOffersAdapter;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.menu.Items;
+import com.twyst.app.android.model.menu.MenuCategories;
 import com.twyst.app.android.model.menu.MenuData;
+import com.twyst.app.android.model.menu.SubCategories;
 import com.twyst.app.android.model.order.OfferOrder;
 import com.twyst.app.android.model.order.OrderSummary;
 import com.twyst.app.android.service.HttpService;
@@ -195,7 +197,8 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                         mOutletId = menuData.getOutlet();
 
                         // Get the ViewPager and set it's PagerAdapter so that it can display items
-                        mMenuTabsPagerAdapter = new MenuTabsPagerAdapter(menuData.getMenuCategoriesList(), getSupportFragmentManager(), OrderOnlineActivity.this);
+                        mMenuTabsPagerAdapter =
+                                new MenuTabsPagerAdapter(getUpdatedMenuCategoriesList(menuData.getMenuCategoriesList()), getSupportFragmentManager(), OrderOnlineActivity.this);
                         mMenuViewPager = (ViewPager) findViewById(R.id.menuPager);
                         mMenuViewPager.setAdapter(mMenuTabsPagerAdapter);
 
@@ -225,6 +228,28 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         });
     }
 
+    private ArrayList<MenuCategories> getUpdatedMenuCategoriesList(ArrayList<MenuCategories> menuCategoriesList) {
+        for (int i = 0; i < menuCategoriesList.size(); i++) {
+            MenuCategories menuCategory = menuCategoriesList.get(i);
+            for (int j = 0; j < menuCategory.getSubCategoriesList().size(); j++) {
+                SubCategories subCategory = menuCategory.getSubCategoriesList().get(j);
+                for (int k = 0; k < subCategory.getItemsList().size(); k++) {
+                    Items item = subCategory.getItemsList().get(k);
+                    // Setting menuCategory ID & subCategory ID
+                    item.setCategoryID(menuCategory.getId());
+                    item.setSubCategoryID(subCategory.getId());
+
+                    // isRecommended
+
+                } // k loop
+            } // j loop
+
+        } // i loop
+
+        // recommended add menuCategoriesList.add(0,ee);
+        return menuCategoriesList;
+    }
+
     private void setUpSearchView() {
         if (mSearchMenuItem != null) {
             mSearchMenuItem.setVisible(true);
@@ -235,7 +260,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         searchExpandableList.setLayoutManager(new LinearLayoutManager(OrderOnlineActivity.this, LinearLayoutManager.VERTICAL, false));
 
         ArrayList<ParentListItem> sectionsList = new ArrayList<>();
-        final MenuExpandableAdapter searchExpandableAdapter = new MenuExpandableAdapter(OrderOnlineActivity.this, sectionsList, "categoryID", searchExpandableList);
+        final MenuExpandableAdapter searchExpandableAdapter = new MenuExpandableAdapter(OrderOnlineActivity.this, sectionsList, searchExpandableList);
         searchExpandableList.setAdapter(searchExpandableAdapter);
     }
 

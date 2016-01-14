@@ -41,12 +41,10 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
     private LayoutInflater mInflater;
     private Context mContext;
     DataTransferInterfaceMenu mDataTransferInterfaceMenu;
-    private final String mCategoryID;
     final RecyclerView mMenuExpandableList;
 
-    public MenuExpandableAdapter(Context context, List<ParentListItem> itemList, String categoryID, RecyclerView menuExpandableList) {
+    public MenuExpandableAdapter(Context context, List<ParentListItem> itemList, RecyclerView menuExpandableList) {
         super(itemList);
-        mCategoryID = categoryID;
         mContext = context;
         mMenuExpandableList = menuExpandableList;
         mInflater = LayoutInflater.from(context);
@@ -76,10 +74,6 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
     @Override
     public void onBindParentViewHolder(MenuParentViewHolder menuParentViewHolder, final int parentPosition, ParentListItem parentListItem) {
         SubCategories subCategories = (SubCategories) parentListItem;
-        for (int i = 0; i < subCategories.getItemsList().size(); i++) {
-            Items item = subCategories.getItemsList().get(i);
-            item.setSubCategoryID(subCategories.getId());
-        }
         // Removing divider when 1st parent as shadow is there in TabLayout
         if (parentPosition == 0) {
             menuParentViewHolder.menuGroupDivider.setVisibility(View.GONE);
@@ -174,7 +168,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
 
     private void add(Items item) {
         Items cartItem = new Items(item);
-        cartItem.setCategoryID(mCategoryID);
+        cartItem.setCategoryID(item.getCategoryID());
         cartItem.setSubCategoryID(item.getSubCategoryID());
         if (cartItem.getOptionsList().size() > 0) {
             showDialogOptions(cartItem);
