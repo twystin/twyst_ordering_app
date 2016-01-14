@@ -790,7 +790,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
         sharedPreferences.putBoolean(AppConstants.PREFERENCE_EMAIL_VERIFIED, true);
         sharedPreferences.commit();
 
-        Intent intent = new Intent(getBaseContext(), DiscoverActivity.class);
+        Intent intent = new Intent(getBaseContext(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.setAction("setChildNo");
         intent.putExtra("Search", false);

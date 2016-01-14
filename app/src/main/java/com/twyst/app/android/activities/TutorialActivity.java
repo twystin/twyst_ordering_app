@@ -97,7 +97,7 @@ public class TutorialActivity extends FragmentActivity {
             startActivity(new Intent(getBaseContext(), UserVerificationActivity.class));
             finish();
         } else {
-            Intent intent = new Intent(getBaseContext(), DiscoverActivity.class);
+            Intent intent = new Intent(getBaseContext(), MainActivity.class);
             intent.setAction("setChildNo");
             intent.putExtra("Search", false);
             startActivity(intent);

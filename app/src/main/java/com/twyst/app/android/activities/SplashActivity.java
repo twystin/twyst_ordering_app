@@ -136,7 +136,7 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
                 boolean tutorialSkipped = prefs.getBoolean(AppConstants.PREFERENCE_TUTORIAL_SKIPPED, false);
 
                 if (phoneVerified && emailVerified && (tutorialCount >= 3 || tutorialSkipped)) {
-                    Intent intent = new Intent(SplashActivity.this, DiscoverActivity.class);
+                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                     intent.setAction("setChildNo");
                     intent.putExtra("Search", false);
                     intent.putExtra(AppConstants.INTENT_FROM_SPLASH_DOWNLOADING, fromSplashScreenDownloading);
