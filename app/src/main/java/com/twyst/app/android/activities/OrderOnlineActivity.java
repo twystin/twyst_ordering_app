@@ -511,6 +511,9 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
             mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         } else {
             if (!searchView.isIconified()) {
+                searchView.setQuery("",false);
+                searchView.clearFocus();
+//                mSearchMenuItem.collapseActionView();
                 searchView.setIconified(true);
                 findViewById(R.id.layout_search_food).setVisibility(View.GONE);
             } else {
