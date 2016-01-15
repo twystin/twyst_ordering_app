@@ -550,7 +550,6 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
         view.postDelayed(new Runnable() {
             @Override
             public void run() {
-                // TODO Auto-generated method stub
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }

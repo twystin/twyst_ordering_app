@@ -20,8 +20,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -250,7 +252,24 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         return menuCategoriesList;
     }
 
+    private void hideSoftKeyBoard(final View view) {
+        view.requestFocus();
+        view.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        }, 50);
+    }
+
     private void setUpSearchView() {
+        findViewById(R.id.search_recycler_view).setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                hideSoftKeyBoard(v);
+                return false;
+            }
+        });
         if (mSearchMenuItem != null) {
             mSearchMenuItem.setVisible(true);
         }
@@ -455,11 +474,20 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                 if (isFocused) {
                     findViewById(R.id.layout_search_food).setVisibility(View.VISIBLE);
                 } else {
-                    findViewById(R.id.layout_search_food).setVisibility(View.GONE);
+//                    findViewById(R.id.layout_search_food).setVisibility(View.GONE);
                 }
             }
         });
-        searchView.setQueryHint("Search for menu items");
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                findViewById(R.id.layout_search_food).setVisibility(View.GONE);
+                return false;
+            }
+        });
+
+        searchView.setQueryHint(getResources().getString(R.string.search_menu_hint));
 
         SearchView.SearchAutoComplete autoCompleteTextView = (SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
         if (autoCompleteTextView != null) {
@@ -474,7 +502,6 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         return true;
     }
 
-
     @Override
     public void onBackPressed() {
         if (mSlidingUpPanelLayout != null &&
@@ -485,6 +512,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         } else {
             if (!searchView.isIconified()) {
                 searchView.setIconified(true);
+                findViewById(R.id.layout_search_food).setVisibility(View.GONE);
             } else {
                 super.onBackPressed();
             }

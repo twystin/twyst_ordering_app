@@ -31,6 +31,7 @@
     <string name="profile">Profile</string>
 
     <!-- For menu-->
+    <string name="search_menu_hint">Search for menu items</string>
     <string name="recommended_category">Recommended</string>
 
     <string name="multiple_customisation_error">Multiple customisations found. Please remove from cart.</string>
