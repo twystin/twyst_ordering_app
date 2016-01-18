@@ -19,9 +19,8 @@ import java.util.ArrayList;
 /**
  * Created by Vipul Sharma on 11/19/2015.
  */
-public class MenuPageFragment extends Fragment {// implements ObservableScrollViewCallbacks {
+public class MenuPageFragment extends Fragment {
     private static final String ARG_SUB_CATEGORIES_LIST = "sub_categories_list";
-    static int mScrollYInitial = 0;
 
     public MenuPageFragment() {
     }

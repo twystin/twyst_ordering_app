@@ -67,6 +67,9 @@ public class Items implements Serializable {
     @SerializedName("is_available")
     private boolean isAvailable;
 
+    @SerializedName("is_recommended")
+    private boolean isRecommended;
+
     @SerializedName("item_tags")
     private ArrayList<String> itemTagsList;
 
@@ -151,6 +154,14 @@ public class Items implements Serializable {
 
     public void setItemCost(double itemCost) {
         this.itemCost = itemCost;
+    }
+
+    public boolean isRecommended() {
+        return isRecommended;
+    }
+
+    public void setIsRecommended(boolean isRecommended) {
+        this.isRecommended = isRecommended;
     }
 
     public String getItemName() {

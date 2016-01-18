@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class MenuCategories implements Serializable {
     @SerializedName("sub_categories")
-    private ArrayList<SubCategories> subCategoriesList;
+    private ArrayList<SubCategories> subCategoriesList = new ArrayList<>();
 
     @SerializedName("_id")
     private String id;

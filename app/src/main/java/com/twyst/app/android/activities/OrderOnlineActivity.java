@@ -231,6 +231,14 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     }
 
     private ArrayList<MenuCategories> getUpdatedMenuCategoriesList(ArrayList<MenuCategories> menuCategoriesList) {
+
+        int temp = 0;
+
+        MenuCategories recommendedMenuCategory = new MenuCategories();
+        recommendedMenuCategory.setCategoryName(getResources().getString(R.string.recommended_category));
+        SubCategories recommendedSubCategory = new SubCategories();
+        recommendedSubCategory.setSubCategoryName(AppConstants.DEFAULT_SUB_CATEGORY);
+
         for (int i = 0; i < menuCategoriesList.size(); i++) {
             MenuCategories menuCategory = menuCategoriesList.get(i);
             for (int j = 0; j < menuCategory.getSubCategoriesList().size(); j++) {
@@ -246,14 +254,25 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                     item.setCategoryName(menuCategory.getCategoryName());
                     item.setSubCategoryName(subCategory.getSubCategoryName());
 
+                    temp++;
+                    if (temp % 3 == 0) {
+                        item.setIsRecommended(true);
+                    }
                     // isRecommended
+                    if (item.isRecommended()) {
+                        recommendedSubCategory.getItemsList().add(item);
+                    }
 
                 } // k loop
             } // j loop
 
         } // i loop
 
-        // recommended add menuCategoriesList.add(0,ee);
+        if (recommendedSubCategory.getItemsList().size() > 0) {
+            recommendedMenuCategory.getSubCategoriesList().add(recommendedSubCategory);
+            menuCategoriesList.add(0, recommendedMenuCategory);
+        }
+
         return menuCategoriesList;
     }
 
