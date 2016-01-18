@@ -35,8 +35,8 @@ public class MenuTabsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        ArrayList<SubCategories> sectionsList = menuCategoriesList.get(position).getSubCategoriesList();
-        return MenuPageFragment.newInstance(sectionsList);
+        ArrayList<SubCategories> subCategoriesList = menuCategoriesList.get(position).getSubCategoriesList();
+        return MenuPageFragment.newInstance(subCategoriesList);
     }
 
     @Override
@@ -47,6 +47,5 @@ public class MenuTabsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return menuCategoriesList.get(position).getCategoryName();
-//        return "TAB " + (position + 1);
     }
 }

@@ -45,7 +45,6 @@ import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.menu.MenuCategories;
 import com.twyst.app.android.model.menu.MenuData;
 import com.twyst.app.android.model.menu.SubCategories;
-import com.twyst.app.android.model.order.OfferOrder;
 import com.twyst.app.android.model.order.OrderSummary;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
@@ -238,6 +237,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                 SubCategories subCategory = menuCategory.getSubCategoriesList().get(j);
                 for (int k = 0; k < subCategory.getItemsList().size(); k++) {
                     Items item = subCategory.getItemsList().get(k);
+
                     // Setting menuCategory ID & subCategory ID
                     item.setCategoryID(menuCategory.getId());
                     item.setSubCategoryID(subCategory.getId());
