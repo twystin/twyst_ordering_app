@@ -431,7 +431,6 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                 hideSnackbar();
             }
         });
-
     }
 
     @Override
@@ -456,7 +455,6 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                 return false;
             }
         });
-
 
         SubCategories subCategories = new SubCategories();
         subCategories.setSubCategoryName(AppConstants.DEFAULT_SUB_CATEGORY);
@@ -553,17 +551,20 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
             mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         } else {
             if (!searchView.isIconified()) {
-                searchView.setQuery("", false);
-                searchView.clearFocus();
-//                mSearchMenuItem.collapseActionView();
-                searchView.setIconified(true);
-                findViewById(R.id.layout_search_food).setVisibility(View.GONE);
+                hideSeachView();
             } else {
                 super.onBackPressed();
             }
         }
     }
 
+    private void hideSeachView() {
+        searchView.setQuery("", false);
+        searchView.clearFocus();
+//                mSearchMenuItem.collapseActionView();
+        searchView.setIconified(true);
+        findViewById(R.id.layout_search_food).setVisibility(View.GONE);
+    }
 
     public void addAdaptersList(MenuExpandableAdapter menuExpandableAdapter) {
         mMenuAdaptersList.add(menuExpandableAdapter);
@@ -639,6 +640,10 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     }
 
     private void updateCartMenu() {
+        if (!searchView.isIconified()) {
+            hideSeachView();
+        }
+
         mCartAdapter.notifyDataSetChanged();
         tvCartTotalCost.setText(String.valueOf(mCartAdapter.getTotalCost()));
         tvCartCount.setText(String.valueOf(mCartAdapter.getmCartItemsList().size()));
