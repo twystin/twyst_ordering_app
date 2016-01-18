@@ -75,6 +75,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     private CircularProgressBar circularProgressBar;
 
     private MenuItem mSearchMenuItem;
+    MenuExpandableAdapter mSearchExpandableAdapter;
 
     //Toolbar search widget
     private SearchView searchView;
@@ -264,23 +265,24 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     }
 
     private void setUpSearchView() {
-        findViewById(R.id.search_recycler_view).setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                hideSoftKeyBoard(v);
-                return false;
-            }
-        });
         if (mSearchMenuItem != null) {
             mSearchMenuItem.setVisible(true);
         }
 
-        RecyclerView searchExpandableList = (RecyclerView) findViewById(R.id.search_recycler_view);
-        searchExpandableList.setHasFixedSize(true);
-        searchExpandableList.setLayoutManager(new LinearLayoutManager(OrderOnlineActivity.this, LinearLayoutManager.VERTICAL, false));
-
-        ArrayList<ParentListItem> sectionsList = new ArrayList<>();
-        final MenuExpandableAdapter searchExpandableAdapter = new MenuExpandableAdapter(OrderOnlineActivity.this, sectionsList, searchExpandableList);
-        searchExpandableList.setAdapter(searchExpandableAdapter);
+//        RecyclerView searchExpandableList = (RecyclerView) findViewById(R.id.search_recycler_view);
+//        searchExpandableList.setHasFixedSize(true);
+//        searchExpandableList.setLayoutManager(new LinearLayoutManager(OrderOnlineActivity.this, LinearLayoutManager.VERTICAL, false));
+//
+//        searchExpandableList.setOnTouchListener(new View.OnTouchListener() {
+//            public boolean onTouch(View v, MotionEvent event) {
+//                hideSoftKeyBoard(v);
+//                return false;
+//            }
+//        });
+//
+//        ArrayList<ParentListItem> filteredSearchList = new ArrayList<>();
+//        mSearchExpandableAdapter = new MenuExpandableAdapter(OrderOnlineActivity.this, filteredSearchList, searchExpandableList);
+//        searchExpandableList.setAdapter(mSearchExpandableAdapter);
     }
 
     private void setupCartRecyclerView() {
@@ -432,7 +434,6 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
 
     }
 
-
     @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
@@ -440,9 +441,50 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        String lol = newText;
-
+        updateSearchList(newText);
         return false;
+    }
+
+    private void updateSearchList(String newText) {
+        RecyclerView searchExpandableList = (RecyclerView) findViewById(R.id.search_recycler_view);
+        searchExpandableList.setHasFixedSize(true);
+        searchExpandableList.setLayoutManager(new LinearLayoutManager(OrderOnlineActivity.this, LinearLayoutManager.VERTICAL, false));
+
+        searchExpandableList.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                hideSoftKeyBoard(v);
+                return false;
+            }
+        });
+
+
+        SubCategories subCategories = new SubCategories();
+        subCategories.setSubCategoryName(AppConstants.DEFAULT_SUB_CATEGORY);
+
+        for (int i = 0; i < mMenuTabsPagerAdapter.getMenuCategoriesList().size(); i++) {
+            MenuCategories menuCategory = mMenuTabsPagerAdapter.getMenuCategoriesList().get(i);
+            for (int j = 0; j < menuCategory.getSubCategoriesList().size(); j++) {
+                SubCategories subCategory = menuCategory.getSubCategoriesList().get(j);
+                for (int k = 0; k < subCategory.getItemsList().size(); k++) {
+                    Items item = subCategory.getItemsList().get(k);
+
+                    subCategories.getItemsList().add(item);
+
+                } // k loop
+            } // j loop
+
+        } // i loop
+
+        ArrayList<ParentListItem> filteredSearchList = new ArrayList<>();
+        filteredSearchList.add(subCategories);
+        mSearchExpandableAdapter = new MenuExpandableAdapter(OrderOnlineActivity.this, filteredSearchList, searchExpandableList);
+        searchExpandableList.setAdapter(mSearchExpandableAdapter);
+
+//        mSearchExpandableAdapter.notifyDataSetChanged();
+
+
+//                mSearchExpandableAdapter.getParentItemList().add(subCategoryList);
+//                SubCategories subCategories = (SubCategories) mSearchExpandableAdapter.getParentItemList().get(0);
     }
 
     @Override
@@ -511,7 +553,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
             mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         } else {
             if (!searchView.isIconified()) {
-                searchView.setQuery("",false);
+                searchView.setQuery("", false);
                 searchView.clearFocus();
 //                mSearchMenuItem.collapseActionView();
                 searchView.setIconified(true);

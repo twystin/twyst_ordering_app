@@ -15,7 +15,7 @@ public class SubCategories implements Serializable, ParentListItem {
     private String id;
 
     @SerializedName("items")
-    private ArrayList<Items> itemsList;
+    private ArrayList<Items> itemsList = new ArrayList<>();
 
     @SerializedName("sub_category_name")
     private String subCategoryName;
