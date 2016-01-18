@@ -242,6 +242,10 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                     item.setCategoryID(menuCategory.getId());
                     item.setSubCategoryID(subCategory.getId());
 
+                    //Setting menuCategoryName & subCategoryName
+                    item.setCategoryName(menuCategory.getCategoryName());
+                    item.setSubCategoryName(subCategory.getSubCategoryName());
+
                     // isRecommended
 
                 } // k loop

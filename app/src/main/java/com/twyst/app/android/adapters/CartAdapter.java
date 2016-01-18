@@ -8,11 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
+import com.twyst.app.android.menu.MenuChildViewHolder;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.util.Utils;
 
@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Created by Vipul Sharma on 12/3/2015.
  */
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
+public class CartAdapter extends RecyclerView.Adapter<MenuChildViewHolder> {
     private static int mVegIconHeight = 0; //menuItemName height fixed for a specific device
 
     private final Context mContext;
@@ -43,14 +43,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     }
 
     @Override
-    public CartViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MenuChildViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_menu, parent, false);
-        CartViewHolder viewHolder = new CartViewHolder(v);
+        MenuChildViewHolder viewHolder = new MenuChildViewHolder(v);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(CartViewHolder holder, int position) {
+    public void onBindViewHolder(MenuChildViewHolder holder, int position) {
         final View view = holder.itemView;
         final Resources resources = view.getContext().getResources();
 
@@ -127,16 +127,18 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         final LinearLayout hiddenLayout = holder.llCustomisations;
         final TextView menuItemNameFinal = holder.menuItemName;
-        if (customisationList.size() != 0){
+        if (customisationList.size() != 0) {
             final TextView[] textViews = new TextView[customisationList.size()];
-            for (int i = 0;i < customisationList.size();i++){
-                textViews[i] =  new TextView(mContext);
+            for (int i = 0; i < customisationList.size(); i++) {
+                textViews[i] = new TextView(mContext);
                 textViews[i].setText(customisationList.get(i));
                 textViews[i].setTextColor(mContext.getResources().getColor(R.color.customisations_text_color));
                 textViews[i].setTextSize(12.0f);
                 textViews[i].setPadding(15, 4, 15, 4);
                 textViews[i].setBackgroundResource(R.drawable.border_customisations);
             }
+
+            hiddenLayout.setVisibility(View.VISIBLE);
             hiddenLayout.post(new Runnable() {
                 @Override
                 public void run() {
@@ -149,7 +151,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             if (hiddenLayout.getChildCount() != 0) {
                 hiddenLayout.removeAllViews();
             }
+            hiddenLayout.setVisibility(View.GONE);
         }
+
+        holder.menuItemBreadCrumb.setVisibility(View.GONE);
+        holder.menuItemDesc.setVisibility(View.GONE);
 
     }
 
@@ -184,25 +190,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     @Override
     public int getItemCount() {
         return mCartItemsList.size();
-    }
-
-    public static class CartViewHolder extends RecyclerView.ViewHolder {
-        ImageView mIvMinus;
-        ImageView mIvPLus;
-        TextView menuItemName;
-        TextView tvQuantity;
-        TextView tvCost;
-        LinearLayout llCustomisations;
-
-        public CartViewHolder(View itemView) {
-            super(itemView);
-            this.mIvMinus = (ImageView) itemView.findViewById(R.id.ivMinus);
-            this.mIvPLus = (ImageView) itemView.findViewById(R.id.ivPlus);
-            this.menuItemName = (TextView) itemView.findViewById(R.id.menuItem);
-            this.tvQuantity = (TextView) itemView.findViewById(R.id.tvQuantity);
-            this.tvCost = (TextView) itemView.findViewById(R.id.tvCost);
-            this.llCustomisations = (LinearLayout) itemView.findViewById(R.id.llCustomisations);
-        }
     }
 
     public interface DataTransferInterfaceCart {

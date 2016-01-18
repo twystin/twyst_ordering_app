@@ -120,6 +120,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
         if (mVegIconHeight == 0) {
             final TextView tvMenuItemName = childViewHolder.menuItemName;
             final TextView tvMenuItemDesc = childViewHolder.menuItemDesc;
+            final TextView tvMenuBreadCrumb = childViewHolder.menuItemBreadCrumb;
             tvMenuItemName.getViewTreeObserver()
                     .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                         @Override
@@ -135,6 +136,11 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
                             mVegIconHeight = tvMenuItemName.getMeasuredHeight() * 2 / 3;
                             img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
                             tvMenuItemName.setCompoundDrawables(img, null, null, null);
+
+                            LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) tvMenuBreadCrumb.getLayoutParams();
+                            params1.setMargins((mVegIconHeight + tvMenuItemName.getCompoundDrawablePadding()), params1.topMargin, 0, 0);
+                            tvMenuBreadCrumb.setLayoutParams(params1);
+
                             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) tvMenuItemDesc.getLayoutParams();
                             params.setMargins((mVegIconHeight + tvMenuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
                             tvMenuItemDesc.setLayoutParams(params);
@@ -155,22 +161,43 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
             img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
             childViewHolder.menuItemName.setCompoundDrawables(img, null, null, null);
 
+            LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) childViewHolder.menuItemBreadCrumb.getLayoutParams();
+            params1.setMargins((mVegIconHeight + childViewHolder.menuItemName.getCompoundDrawablePadding()), params1.topMargin, 0, 0);
+            childViewHolder.menuItemBreadCrumb.setLayoutParams(params1);
+
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) childViewHolder.menuItemDesc.getLayoutParams();
             params.setMargins((mVegIconHeight + childViewHolder.menuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
             childViewHolder.menuItemDesc.setLayoutParams(params);
         }
 
         childViewHolder.menuItemName.setText(item.getItemName());
+
         if (item.getItemDescription() != null) {
+            childViewHolder.menuItemDesc.setVisibility(View.VISIBLE);
             childViewHolder.menuItemDesc.setText(item.getItemDescription());
+        } else {
+            childViewHolder.menuItemDesc.setVisibility(View.GONE);
         }
+
+        String breadCrumb = "";
+        if (item.getCategoryName() != null) {
+            breadCrumb = item.getCategoryName();
+            if (item.getSubCategoryName() != null) {
+                breadCrumb = breadCrumb + " > " + item.getSubCategoryName();
+            }
+            childViewHolder.menuItemBreadCrumb.setText(breadCrumb);
+        } else {
+            childViewHolder.menuItemBreadCrumb.setVisibility(View.GONE);
+        }
+
+        childViewHolder.llCustomisations.setVisibility(View.GONE);
+
         childViewHolder.tvCost.setText(Utils.costString(item.getItemCost()));
     }
 
     private void add(Items item) {
         Items cartItem = new Items(item);
-        cartItem.setCategoryID(item.getCategoryID());
-        cartItem.setSubCategoryID(item.getSubCategoryID());
+
         if (cartItem.getOptionsList().size() > 0) {
             showDialogOptions(cartItem);
         } else {

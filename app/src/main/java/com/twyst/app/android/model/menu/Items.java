@@ -12,6 +12,8 @@ public class Items implements Serializable {
     public Items(Items itemOriginal) {
         this.itemOriginalReference = itemOriginal;
         this.id = itemOriginal.getId();
+        this.categoryID = itemOriginal.getCategoryID();
+        this.subCategoryID = itemOriginal.getSubCategoryID();
         this.isVegetarian = itemOriginal.isVegetarian();
         this.itemCost = itemOriginal.getItemCost();
         this.itemName = itemOriginal.getItemName();
@@ -55,6 +57,10 @@ public class Items implements Serializable {
 
     private String subCategoryID;
 
+    private String categoryName;
+
+    private String subCategoryName;
+
     @SerializedName("item_available_on")
     private ArrayList<String> itemAvailableOnList;
 
@@ -89,6 +95,22 @@ public class Items implements Serializable {
 
     public void setItemOriginalReference(Items itemOriginalReference) {
         this.itemOriginalReference = itemOriginalReference;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getSubCategoryName() {
+        return subCategoryName;
+    }
+
+    public void setSubCategoryName(String subCategoryName) {
+        this.subCategoryName = subCategoryName;
     }
 
     public String getId() {
