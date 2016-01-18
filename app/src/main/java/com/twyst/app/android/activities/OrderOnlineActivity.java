@@ -466,7 +466,10 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                 for (int k = 0; k < subCategory.getItemsList().size(); k++) {
                     Items item = subCategory.getItemsList().get(k);
 
-                    subCategories.getItemsList().add(item);
+                    if ((item.getItemName() != null && item.getItemName().toLowerCase().contains(newText.toLowerCase()))
+                            || (item.getItemDescription() != null && item.getItemDescription().toLowerCase().contains(newText.toLowerCase()))) {
+                        subCategories.getItemsList().add(item);
+                    }
 
                 } // k loop
             } // j loop
