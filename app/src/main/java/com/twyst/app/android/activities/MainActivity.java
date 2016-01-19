@@ -11,6 +11,7 @@ import android.util.Log;
 import com.appsflyer.AppsFlyerLib;
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.DiscoverPagerAdapter;
+import com.twyst.app.android.fragments.DiscoverOutletFragment;
 import com.twyst.app.android.util.AppConstants;
 
 /**
@@ -19,6 +20,7 @@ import com.twyst.app.android.util.AppConstants;
 public class MainActivity extends BaseActivity {
 
     protected boolean search;
+    private DiscoverOutletFragment outletsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,10 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+
+        outletsFragment = (DiscoverOutletFragment)adapter.getItem(0);
+
+
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -58,11 +64,11 @@ public class MainActivity extends BaseActivity {
             switch (resultCode) {
                 case Activity.RESULT_OK:
                     Log.i(getTagName(), "User agreed to make required location settings changes.");
-                    fetchCurrentLocation();
+                    outletsFragment.fetchLocation();
                     break;
                 case Activity.RESULT_CANCELED:
                     Log.i(getTagName(), "User chose not to make required location settings changes.");
-                    updateUIWidgets(AppConstants.SHOW_TURN_ON_GPS);
+                    outletsFragment.showTurnOnGps();
                     break;
             }
         }

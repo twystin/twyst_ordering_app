@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.twyst.app.android.CirclePageIndicator;
 import com.twyst.app.android.R;
+import com.twyst.app.android.activities.AddressMapActivity;
 import com.twyst.app.android.activities.FiltersActivity;
 import com.twyst.app.android.activities.MainActivity;
 import com.twyst.app.android.adapters.DiscoverOutletAdapter;
@@ -168,7 +169,15 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
     public void showTurnOnGps(){
         mAddressDetailsLocationData = sharedPreferenceAddress.getLastUsedLocation(getActivity());
         if (mAddressDetailsLocationData == null){
-            
+            Intent intent = new Intent(getActivity(),AddressMapActivity.class);
+            intent.putExtra("Choose activity directed to map",true);
+            startActivity(intent);
+        } else {
+            turnOnGps.setVisibility(View.VISIBLE);
+            currentAddressName.setText(mAddressDetailsLocationData.getAddress());
+            setupDiscoverAdapter();
+            refreshDateTime();
+            fetchOutlets(1);
         }
     }
 

@@ -78,7 +78,7 @@ public class SharedPreferenceAddress {
         settings = context.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME,
                 Context.MODE_PRIVATE);
 
-        if (settings.contains(AppConstants.CURRENT_USED_LOCATION)) {
+        if (settings != null && settings.contains(AppConstants.CURRENT_USED_LOCATION)) {
             String jsonFavorites = settings.getString(AppConstants.CURRENT_USED_LOCATION, null);
             Gson gson = new Gson();
             AddressDetailsLocationData currentUsedLocation = gson.fromJson(jsonFavorites,
@@ -96,7 +96,7 @@ public class SharedPreferenceAddress {
         settings = context.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME,
                 Context.MODE_PRIVATE);
 
-        if (settings.contains(AppConstants.LAST_USED_LOCATION)) {
+        if (settings != null && settings.contains(AppConstants.LAST_USED_LOCATION)) {
             String jsonFavorites = settings.getString(AppConstants.LAST_USED_LOCATION, null);
             Gson gson = new Gson();
             AddressDetailsLocationData lastUsedLocation = gson.fromJson(jsonFavorites,
@@ -132,7 +132,7 @@ public class SharedPreferenceAddress {
         settings = context.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME,
                 Context.MODE_PRIVATE);
 
-        if (settings.contains(FAVORITES)) {
+        if (settings != null && settings.contains(FAVORITES)) {
             String jsonFavorites = settings.getString(FAVORITES, null);
             Gson gson = new Gson();
             AddressDetailsLocationData[] favoriteItems = gson.fromJson(jsonFavorites,
