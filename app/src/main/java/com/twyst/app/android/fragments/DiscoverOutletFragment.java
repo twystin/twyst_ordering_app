@@ -1,6 +1,8 @@
 package com.twyst.app.android.fragments;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,9 +28,11 @@ import com.twyst.app.android.model.AddressDetailsLocationData;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.DiscoverData;
 import com.twyst.app.android.model.Outlet;
+import com.twyst.app.android.model.order.Coords;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.FilterOptions;
+import com.twyst.app.android.util.LocationFetchUtil;
 import com.twyst.app.android.util.SharedPreferenceAddress;
 
 import java.util.ArrayList;
@@ -44,7 +49,7 @@ import retrofit.client.Response;
 /**
  * Created by anshul on 1/12/2016.
  */
-public class DiscoverOutletFragment extends Fragment  {
+public class DiscoverOutletFragment extends Fragment implements LocationFetchUtil.LocationFetchResultCodeListener {
 
     private DiscoverOutletAdapter discoverAdapter;
 
@@ -66,9 +71,14 @@ public class DiscoverOutletFragment extends Fragment  {
     private ArrayList<Outlet> fetchedOutlets;
     private HashMap<String,ArrayList<String>> optionsMap = FilterOptions.getMyMap();
 
+    private Location mLocation;
     private AddressDetailsLocationData mAddressDetailsLocationData;
+    private LocationFetchUtil locationFetchUtil;
     private TextView currentAddressName;
     SharedPreferenceAddress sharedPreferenceAddress = new SharedPreferenceAddress();
+
+    private LinearLayout turnOnGps;
+    private LinearLayout fetchLocationAgain;
 
 
 
@@ -116,21 +126,50 @@ public class DiscoverOutletFragment extends Fragment  {
 
         mActivity = (MainActivity)getActivity();
 
-
+        String optionSelected = getActivity().getIntent().getStringExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED);
         currentAddressName = (TextView)view.findViewById(R.id.tv_current_address_location);
-        mAddressDetailsLocationData = sharedPreferenceAddress.getCurrentUsedLocation(getActivity());
-        currentAddressName.setText(mAddressDetailsLocationData.getAddress());
-        setupDiscoverAdapter();
-        refreshDateTime();
-        fetchOutlets(1);
+        switch (optionSelected){
+            case AppConstants.CHOOSE_LOCATION_OPTION_CURRENT:
+                Fragment discoverOutletFragment =(DiscoverOutletFragment)(getActivity().getSupportFragmentManager().getFragments().get(0));
+                locationFetchUtil = new LocationFetchUtil(getActivity(),discoverOutletFragment);
+                locationFetchUtil.requestLocation();
+                break;
+            case AppConstants.CHOOSE_LOCATION_OPTION_SAVED:
+                mAddressDetailsLocationData = sharedPreferenceAddress.getCurrentUsedLocation(getActivity());
+                currentAddressName.setText(mAddressDetailsLocationData.getAddress());
+                setupDiscoverAdapter();
+                refreshDateTime();
+                fetchOutlets(1);
+                break;
+            case AppConstants.CHOOSE_LOCATION_OPTION_ADD:
+                mAddressDetailsLocationData = sharedPreferenceAddress.getCurrentUsedLocation(getActivity());
+                currentAddressName.setText(mAddressDetailsLocationData.getAddress());
+                setupDiscoverAdapter();
+                refreshDateTime();
+                fetchOutlets(1);
+
+                break;
+            default:
+                break;
+        }
 
 
-
-
-
+        turnOnGps = (LinearLayout)view.findViewById(R.id.linlay_discover_fragment_turn_on_gps);
+        fetchLocationAgain = (LinearLayout)view.findViewById(R.id.linlay_discover_fragment_fetch_location_again);
 
         return view;
 
+    }
+
+    public void fetchLocation(){
+        locationFetchUtil.requestLocation();
+    }
+
+    public void showTurnOnGps(){
+        mAddressDetailsLocationData = sharedPreferenceAddress.getLastUsedLocation(getActivity());
+        if (mAddressDetailsLocationData == null){
+            
+        }
     }
 
     public  void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -172,7 +211,44 @@ public class DiscoverOutletFragment extends Fragment  {
         }
     }
 
+    @Override
+    public void onReceiveAddress(int resultCode, Address address) {
+        if (resultCode == AppConstants.SHOW_CURRENT_LOCATION) {
+            String mAddressOutput = "";
+            for (int i = 0; i < address.getMaxAddressLineIndex();i++)
+            {
+                mAddressOutput +=  address.getAddressLine(i);
+                mAddressOutput += ", ";
+            }
 
+            mAddressOutput += address.getAddressLine(address.getMaxAddressLineIndex());
+            mAddressDetailsLocationData.setAddress(mAddressOutput);
+            mAddressDetailsLocationData.setNeighborhood(address.getAddressLine(0));
+            mAddressDetailsLocationData.setLandmark(address.getAddressLine(1));
+            sharedPreferenceAddress.saveCurrentUsedLocation(getActivity(), mAddressDetailsLocationData);
+            sharedPreferenceAddress.saveLastUsedLocation(getActivity(), mAddressDetailsLocationData);
+            currentAddressName.setText(address.getAddressLine(0) + ", " + address.getAddressLine(1));
+            setupDiscoverAdapter();
+            refreshDateTime();
+            fetchOutlets(1);
+        } else {
+            Toast.makeText(getActivity(),"onReceiveAddressError : " + resultCode,Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    @Override
+    public void onReceiveLocation(int resultCode, Location location) {
+        if (resultCode == AppConstants.SHOW_CURRENT_LOCATION) {
+            mLocation = location;
+            mAddressDetailsLocationData = new AddressDetailsLocationData();
+            Coords coords = new Coords(String.valueOf(mLocation.getLatitude()), String.valueOf(mLocation.getLongitude()));
+            mAddressDetailsLocationData.setCoords(coords);
+            locationFetchUtil.requestAddress(location);
+        } else if (resultCode == AppConstants.SHOW_FETCH_LOCATION_AGAIN) {
+            Toast.makeText(getActivity(),"onReceiveLocationError : " + resultCode,Toast.LENGTH_LONG).show();
+        }
+    }
 
 
 

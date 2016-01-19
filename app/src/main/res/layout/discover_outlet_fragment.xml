@@ -62,9 +62,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:ellipsize="end"
                 android:paddingRight="@dimen/layout_wide_margin"
                 android:singleLine="true"
-                android:ellipsize="end"
                 android:textSize="@dimen/layout_wide_margin" />
 
             <ImageView
@@ -73,6 +73,61 @@
                 android:src="@drawable/location_edit" />
 
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linlay_discover_fragment_turn_on_gps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/layout_medium_margin"
+            android:paddingLeft="@dimen/layout_wide_margin"
+            android:paddingRight="@dimen/layout_wide_margin"
+            android:paddingTop="@dimen/layout_medium_margin"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:text="Turn On GPS, meanwhile using Last Used Location! "
+                android:textAllCaps="true"
+                android:textSize="@dimen/layout_wide_margin" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linlay_discover_fragment_fetch_location_again"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/layout_medium_margin"
+            android:paddingLeft="@dimen/layout_wide_margin"
+            android:paddingRight="@dimen/layout_wide_margin"
+            android:paddingTop="@dimen/layout_medium_margin"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:text="Unable to Fetch location, Try Again! "
+                android:textAllCaps="true"
+                android:textSize="@dimen/layout_wide_margin" />
+
+        </LinearLayout>
+
     </android.support.design.widget.AppBarLayout>
 
 

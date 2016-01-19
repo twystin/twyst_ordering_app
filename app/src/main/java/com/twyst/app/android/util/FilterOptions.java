@@ -24,5 +24,9 @@ public class FilterOptions {
         return myMap;
     }
 
+    public static void setMyMap(HashMap<String, ArrayList<String>> myMap) {
+        FilterOptions.myMap = myMap;
+    }
+
 
 }
