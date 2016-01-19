@@ -10,6 +10,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -64,6 +65,13 @@ public class LocationFetchUtil implements
         mAddressRequested = false;
         mLocationRequested = false;
         locationFetchResultCodeListener = (LocationFetchResultCodeListener) mContext;
+    }
+
+    public LocationFetchUtil(Context context,Fragment fragment){
+        mContext = context;
+        mAddressRequested = false;
+        mLocationRequested = false;
+        locationFetchResultCodeListener = (LocationFetchResultCodeListener)fragment;
     }
 
     public void requestAddress(Location lastLocation) {

@@ -217,10 +217,21 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
 
             Bundle info = new Bundle();
             info.putSerializable("locationData", locationData);
-            Intent intent = new Intent();
-            intent.putExtras(info);
-            setResult(RESULT_OK, intent);
-            finish();
+
+
+            if (getIntent().getBooleanExtra("Choose activity directed to map",false)){
+                Intent intent =  new Intent(AddressMapActivity.this,MainActivity.class);
+                SharedPreferenceAddress sharedPreferenceAddress =  new SharedPreferenceAddress();
+                sharedPreferenceAddress.saveCurrentUsedLocation(AddressMapActivity.this,locationData);
+                sharedPreferenceAddress.saveLastUsedLocation(AddressMapActivity.this, locationData);
+                intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_ADD);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent();
+                intent.putExtras(info);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
         } else if (resultCode == 4) {
             twystProgressHUD.dismiss();
             showSettingsAlert();

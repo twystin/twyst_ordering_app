@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.twyst.app.android.layout.CheckableLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="@dimen/layout_huge_margin"
+        android:layout_height="@dimen/layout_huge_margin"
+        android:id="@+id/iv_sort_checkbox"
+        android:layout_margin="@dimen/layout_wide_margin"
+        android:duplicateParentState="true"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/tv_sort_option_name"
+        android:textSize="@dimen/layout_wide_text_size"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/layout_medium_margin"
+        android:paddingRight="@dimen/layout_small_margin"/>
+    <ImageView
+        android:layout_width="@dimen/layout_wide_margin"
+        android:layout_height="@dimen/layout_wide_margin"
+        android:id="@+id/iv_sort_arrow"
+        android:layout_gravity="center_vertical"/>
+
+</com.twyst.app.android.layout.CheckableLinearLayout>

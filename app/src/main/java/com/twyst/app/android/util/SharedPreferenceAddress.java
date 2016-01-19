@@ -14,11 +14,8 @@ import java.util.List;
  * Created by Vipul Sharma on 1/8/2016.
  */
 public class SharedPreferenceAddress {
-    public static final String PREFS_NAME = "SAVED_ADDRESS";
     public static final String FAVORITES = "Product_Favorite";
 
-    public static final String PREFS_NAME2 = "LAST_CURRENT_LOCATION";
-    public static final String CURRENT = "CURRENT_LOCATION";
 
     public SharedPreferenceAddress() {
         super();
@@ -29,7 +26,7 @@ public class SharedPreferenceAddress {
         SharedPreferences settings;
         SharedPreferences.Editor editor;
 
-        settings = context.getSharedPreferences(PREFS_NAME,
+        settings = context.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME,
                 Context.MODE_PRIVATE);
         editor = settings.edit();
 
@@ -40,6 +37,77 @@ public class SharedPreferenceAddress {
 
         editor.commit();
     }
+
+
+
+    public void saveCurrentUsedLocation(Context context,AddressDetailsLocationData currentUsedLocation) {
+        SharedPreferences settings;
+        SharedPreferences.Editor editor;
+
+        settings = context.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME,
+                Context.MODE_PRIVATE);
+        editor = settings.edit();
+
+        Gson gson = new Gson();
+        String jsonCurrentUsedLocation = gson.toJson(currentUsedLocation);
+
+        editor.putString(AppConstants.CURRENT_USED_LOCATION, jsonCurrentUsedLocation);
+
+        editor.commit();
+    }
+
+    public void saveLastUsedLocation(Context context,AddressDetailsLocationData lastUsedLocation) {
+        SharedPreferences settings;
+        SharedPreferences.Editor editor;
+
+        settings = context.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME,
+                Context.MODE_PRIVATE);
+        editor = settings.edit();
+
+        Gson gson = new Gson();
+        String jsonLastUsedLocation = gson.toJson(lastUsedLocation);
+
+        editor.putString(AppConstants.LAST_USED_LOCATION, jsonLastUsedLocation);
+
+        editor.commit();
+    }
+
+    public AddressDetailsLocationData getCurrentUsedLocation(Context context) {
+        SharedPreferences settings;
+
+        settings = context.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME,
+                Context.MODE_PRIVATE);
+
+        if (settings.contains(AppConstants.CURRENT_USED_LOCATION)) {
+            String jsonFavorites = settings.getString(AppConstants.CURRENT_USED_LOCATION, null);
+            Gson gson = new Gson();
+            AddressDetailsLocationData currentUsedLocation = gson.fromJson(jsonFavorites,
+                    AddressDetailsLocationData.class);
+
+            return currentUsedLocation;
+        } else
+            return null;
+
+    }
+
+    public AddressDetailsLocationData getLastUsedLocation(Context context) {
+        SharedPreferences settings;
+
+        settings = context.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME,
+                Context.MODE_PRIVATE);
+
+        if (settings.contains(AppConstants.LAST_USED_LOCATION)) {
+            String jsonFavorites = settings.getString(AppConstants.LAST_USED_LOCATION, null);
+            Gson gson = new Gson();
+            AddressDetailsLocationData lastUsedLocation = gson.fromJson(jsonFavorites,
+                    AddressDetailsLocationData.class);
+
+            return lastUsedLocation;
+        } else
+            return null;
+
+    }
+
 
     public void addAddress(Context context, AddressDetailsLocationData product) {
         List<AddressDetailsLocationData> favorites = getAddresses(context);
@@ -61,7 +129,7 @@ public class SharedPreferenceAddress {
         SharedPreferences settings;
         List<AddressDetailsLocationData> favorites;
 
-        settings = context.getSharedPreferences(PREFS_NAME,
+        settings = context.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME,
                 Context.MODE_PRIVATE);
 
         if (settings.contains(FAVORITES)) {

@@ -1,9 +1,10 @@
 package com.twyst.app.android.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
@@ -11,21 +12,29 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.twyst.app.android.CirclePageIndicator;
 import com.twyst.app.android.R;
+import com.twyst.app.android.activities.FiltersActivity;
 import com.twyst.app.android.activities.MainActivity;
 import com.twyst.app.android.adapters.DiscoverOutletAdapter;
 import com.twyst.app.android.adapters.ImagePagerAdapter;
+import com.twyst.app.android.model.AddressDetailsLocationData;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.DiscoverData;
 import com.twyst.app.android.model.Outlet;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
+import com.twyst.app.android.util.FilterOptions;
+import com.twyst.app.android.util.SharedPreferenceAddress;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit.Callback;
@@ -35,11 +44,10 @@ import retrofit.client.Response;
 /**
  * Created by anshul on 1/12/2016.
  */
-public class DiscoverOutletFragment extends Fragment {
+public class DiscoverOutletFragment extends Fragment  {
 
     private DiscoverOutletAdapter discoverAdapter;
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
 
     private String mDate;
@@ -53,12 +61,22 @@ public class DiscoverOutletFragment extends Fragment {
     private List<Integer> imageIdList;
     private CirclePageIndicator mIndicator;
     private MainActivity mActivity;
+    private FloatingActionButton fabFilter;
+    private HashMap<String,long[]> filterTagsMap = new HashMap<>();
+    private ArrayList<Outlet> fetchedOutlets;
+    private HashMap<String,ArrayList<String>> optionsMap = FilterOptions.getMyMap();
+
+    private AddressDetailsLocationData mAddressDetailsLocationData;
+    private TextView currentAddressName;
+    SharedPreferenceAddress sharedPreferenceAddress = new SharedPreferenceAddress();
 
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.discover_outlet_fragment, container, false);
+
+
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.outletRecyclerView);
         mRecyclerView.setHasFixedSize(true);
@@ -84,9 +102,24 @@ public class DiscoverOutletFragment extends Fragment {
         viewPager.setCurrentItem(0);
         viewPager.setScrollDurationFactor(5);
 
+        fabFilter = (FloatingActionButton)view.findViewById(R.id.fab_filter);
+        fabFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), FiltersActivity.class);
+                Bundle extras = new Bundle();
+                extras.putSerializable(AppConstants.FILTER_MAP, filterTagsMap);
+                intent.putExtras(extras);
+                startActivityForResult(intent, AppConstants.GET_FILTER_ACTIVITY);
+            }
+        });
+
         mActivity = (MainActivity)getActivity();
 
-        setupSwipeRefresh(view);
+
+        currentAddressName = (TextView)view.findViewById(R.id.tv_current_address_location);
+        mAddressDetailsLocationData = sharedPreferenceAddress.getCurrentUsedLocation(getActivity());
+        currentAddressName.setText(mAddressDetailsLocationData.getAddress());
         setupDiscoverAdapter();
         refreshDateTime();
         fetchOutlets(1);
@@ -95,9 +128,53 @@ public class DiscoverOutletFragment extends Fragment {
 
 
 
+
         return view;
 
     }
+
+    public  void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(getTagName(), "onActivityResult: requestCode: " + requestCode + ", resultcode: " + resultCode);
+
+        if (requestCode == AppConstants.GET_FILTER_ACTIVITY) {
+            if (resultCode == AppConstants.GOT_FILTERS_SUCCESS) {
+                Bundle extras = data.getExtras();
+                filterTagsMap.clear();
+                filterTagsMap = (HashMap<String,long[]>) extras.getSerializable(AppConstants.FILTER_TAGS);
+                ArrayList<String> tags = new ArrayList<>();
+
+                for (String tagName: filterTagsMap.keySet()){
+                    if (filterTagsMap.get(tagName) != null && filterTagsMap.get(tagName).length > 0){
+                        for (long position: filterTagsMap.get(tagName)){
+                            tags.add(optionsMap.get(tagName).get((int)position));
+                        }
+                    }
+                }
+
+
+                Toast.makeText(getActivity(), tags.toString(), Toast.LENGTH_LONG).show();
+                if (tags.size() > 0){
+
+                    ArrayList<Outlet> list = fetchOutletsWithFilters();
+                    discoverAdapter.getItems().clear();
+                    discoverAdapter.getItems().addAll(list);
+                    discoverAdapter.notifyDataSetChanged();
+                } else {
+                    discoverAdapter.getItems().clear();
+                    discoverAdapter.getItems().addAll(fetchedOutlets);
+                    discoverAdapter.notifyDataSetChanged();
+                }
+
+
+            } else {
+                Toast.makeText(getActivity(), "UNABLE TO FETCH TAGS", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+
+
+
 
     public class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
 
@@ -123,12 +200,13 @@ public class DiscoverOutletFragment extends Fragment {
     private void fetchOutlets(final int start) {
 //        String latitude = getPrefs().getString(AppConstants.PREFERENCE_CURRENT_USED_LAT, null);
 //        String longitude = getPrefs().getString(AppConstants.PREFERENCE_CURRENT_USED_LNG, null);
-        String latitude = "28.4733044";
-        String longitude = "77.0994511";
+//        String latitude = "28.4733044";
+        String latitude = mAddressDetailsLocationData != null?mAddressDetailsLocationData.getCoords().getLat() : "28.4733044";
+        String longitude = mAddressDetailsLocationData != null?mAddressDetailsLocationData.getCoords().getLon() : "77.0994511";
+
 
         Log.d(getTagName(), "Going to fetch outlets with, start: " + start + ", lat " + latitude + ", long: " + longitude + ", date: " + mDate + ", time: " + mTime);
         fetchingOutlets = true;
-        mSwipeRefreshLayout.setEnabled(true);
 
         int end = start + AppConstants.DISCOVER_LIST_PAGESIZE - 1;
 
@@ -137,11 +215,11 @@ public class DiscoverOutletFragment extends Fragment {
             public void success(BaseResponse<DiscoverData> arrayListBaseResponse, Response response) {
                 fetchingOutlets = false;
 
-                ArrayList<Outlet> outlets = arrayListBaseResponse.getData().getOutlets();
+                fetchedOutlets = arrayListBaseResponse.getData().getOutlets();
                 String twystBucks = arrayListBaseResponse.getData().getTwystBucks();
 
-                if (outlets != null) {
-                    if (outlets.isEmpty()) {
+                if (fetchedOutlets != null) {
+                    if (fetchedOutlets.isEmpty()) {
                         outletsNotFound = true;
                         discoverAdapter.setOutletsNotFound(true);
                     } else {
@@ -150,7 +228,7 @@ public class DiscoverOutletFragment extends Fragment {
                             discoverAdapter.getItems().clear();
                         }
 
-                        if (outlets.size() < AppConstants.DISCOVER_LIST_PAGESIZE) {
+                        if (fetchedOutlets.size() < AppConstants.DISCOVER_LIST_PAGESIZE) {
                             outletsNotFound = true;
                             discoverAdapter.setOutletsNotFound(true);
                         } else {
@@ -158,7 +236,7 @@ public class DiscoverOutletFragment extends Fragment {
                             discoverAdapter.setOutletsNotFound(false);
                         }
 
-                        discoverAdapter.getItems().addAll(outlets);
+                        discoverAdapter.getItems().addAll(fetchedOutlets);
                         discoverAdapter.notifyDataSetChanged();
                     }
                 }
@@ -180,6 +258,60 @@ public class DiscoverOutletFragment extends Fragment {
 
     }
 
+
+    private ArrayList<Outlet> fetchOutletsWithFilters (){
+        ArrayList<Outlet> filteredOutlets = new ArrayList<>();
+
+        if ((filterTagsMap.get(AppConstants.cuisinetag) != null && filterTagsMap.get(AppConstants.cuisinetag).length > 0) || (filterTagsMap.get(AppConstants.offersTag) != null && filterTagsMap.get(AppConstants.offersTag).length > 0)){
+            for (Outlet outlet: fetchedOutlets){
+                boolean qualified = true;
+
+                if (filterTagsMap.get(AppConstants.offersTag) != null && filterTagsMap.get(AppConstants.offersTag).length > 0){
+                    if (outlet.getOfferCount() <= 0){
+                        qualified = false;
+                        continue;
+                    }
+                }
+
+                if (qualified && filterTagsMap.get(AppConstants.cuisinetag) != null && filterTagsMap.get(AppConstants.cuisinetag).length > 0){
+                    for (long optionPosition: filterTagsMap.get(AppConstants.cuisinetag) ){
+                        String option = optionsMap.get(AppConstants.cuisinetag).get((int)optionPosition);
+                        if ( !(outlet.getCuisines().contains(option))){
+                            qualified = false;
+                            break;
+                        }
+                    }
+                }
+                if (qualified) {
+                    filteredOutlets.add(outlet);
+                }
+
+            }
+        } else {
+            filteredOutlets = fetchedOutlets;
+        }
+
+        if (filterTagsMap.get(AppConstants.sortTag) != null && filterTagsMap.get(AppConstants.sortTag).length > 0){
+            long position = filterTagsMap.get(AppConstants.sortTag)[0];
+            switch (optionsMap.get(AppConstants.sortTag).get((int)position)){
+                case "Delivery Time - Low to High":
+                    Collections.sort(filteredOutlets,Outlet.ComparatorDeliveryTimeLowToHigh);
+                    break;
+                case "Minimum Bill - Low to High":
+                    Collections.sort(filteredOutlets,Outlet.ComparatorMinimumBillLowToHigh);
+                    break;
+                case "Minimum Bill - High to Low":
+                    Collections.sort(filteredOutlets,Outlet.ComparatorMinimumBillHighToLow);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return filteredOutlets;
+
+    }
+
     public String getUserToken() {
 //        return "us5lxmyPyqnA4Ow20GmbhG362ZuMS4qB";
         return "vH8quBjd1C-2lgZBcFcjrUjQMMbnInLQ";
@@ -187,28 +319,6 @@ public class DiscoverOutletFragment extends Fragment {
 //        return prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");
 
     }
-
-    private void setupSwipeRefresh(View view) {
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.button_orange);
-        mSwipeRefreshLayout.setEnabled(false);
-
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (search) {
-//                    fetchSearchedOutlets();
-                }
-            }
-        });
-    }
-
-    private void refreshDiscoverAdapter() {
-        if (discoverAdapter != null && discoverAdapter.getItems().size() > 0) {
-//            refreshOutletsBackground();
-        }
-    }
-
 
 
     private void refreshDateTime() {
@@ -250,7 +360,7 @@ public class DiscoverOutletFragment extends Fragment {
     }
 
     private void onItemsLoadComplete() {
-        mSwipeRefreshLayout.setRefreshing(false);
+
     }
 
 

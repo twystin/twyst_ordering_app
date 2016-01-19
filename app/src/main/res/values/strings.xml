@@ -179,4 +179,24 @@ each friend who joins.</p>
     <string name="gps_network_not_enabled">GPS Network not enabled!</string>
     <string name="open_location_settings">Enable GPS</string>
     <string name="Cancel">Cancel</string>
+
+    <!--added by Anshul for filters-->
+    <string name="payment_option_description">Online payment is available for all outlets on Twyst. You also get more cashback when you pay online.</string>
+    <string name="offers_available_description">You can use Twyst Bucks to get savings on your online orders. Simply select the offer when you order via twyst</string>
+    <string name="choose_location_description_line1">Where would you like to</string>
+    <string name="choose_location_description_line2">deliver your food?</string>
+
+    <string-array name="tag_titles">
+        <item>SORT BY</item>
+        <item>CUISINES</item>
+        <item>OFFERS AVAILABLE</item>
+        <item>PAYMENT OPTION</item>
+    </string-array>
+
+    <array name="tag_icons">
+        <item>@drawable/sort_icon_config</item>
+        <item>@drawable/cuisine_icon_config</item>
+        <item>@drawable/offers_icon_config</item>
+        <item>@drawable/payment_icon_config</item>
+    </array>
 </resources>

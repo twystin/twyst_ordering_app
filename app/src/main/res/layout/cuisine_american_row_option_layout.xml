@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.twyst.app.android.layout.CheckableLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/layout_wide_margin"
+        android:paddingTop="@dimen/layout_medium_margin"
+        android:text="Select Cuisines"
+        android:textSize="@dimen/layout_medium_text_size"
+        android:textStyle="italic" />
+
+    <com.twyst.app.android.layout.CheckableLinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:duplicateParentState="true">
+
+        <ImageView
+            android:id="@+id/iv_option_checkbox"
+            android:layout_width="@dimen/layout_huge_margin"
+            android:layout_height="@dimen/layout_huge_margin"
+            android:layout_margin="@dimen/layout_wide_margin"
+            android:duplicateParentState="true" />
+
+        <TextView
+            android:id="@+id/tv_option_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/layout_small_margin"
+            android:textSize="@dimen/layout_wide_text_size" />
+    </com.twyst.app.android.layout.CheckableLinearLayout>
+
+</com.twyst.app.android.layout.CheckableLinearLayout>

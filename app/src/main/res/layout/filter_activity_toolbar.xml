@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_filters_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:elevation="2dp"
+        android:fitsSystemWindows="true"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <TextView
+        android:layout_marginRight="@dimen/layout_huge_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/layout_medium_margin"
+        android:background="@drawable/button_background_config2"
+        android:elevation="2dp"
+        android:text="APPLY"
+        android:padding="@dimen/layout_medium_margin"
+        android:layout_marginTop="@dimen/layout_medium_margin"
+        android:textColor="@color/primary"
+        android:textSize="@dimen/layout_huge_text_size"
+        android:layout_alignParentRight="true"
+        android:id="@+id/btn_apply_filters"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_background_config"
+        android:elevation="2dp"
+        android:padding="@dimen/layout_medium_margin"
+        android:layout_marginTop="@dimen/layout_medium_margin"
+        android:text="RESET"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/layout_huge_text_size"
+        android:layout_toLeftOf="@id/btn_apply_filters"
+        android:id="@+id/btn_reset_filters"/>
+
+
+</RelativeLayout>
+

@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -224,6 +225,52 @@ public class Outlet extends Data implements Serializable {
     public void setLogo(String logo) {
         this.logo = logo;
     }
+
+    public static Comparator<Outlet> ComparatorDeliveryTimeLowToHigh = new  Comparator<Outlet>(){
+
+        @Override
+        public int compare(Outlet lhs, Outlet rhs) {
+            if (lhs.getDeliveryTime() == null){
+                lhs.setDeliveryTime("0");
+            }
+            if (rhs.getDeliveryTime() == null){
+                rhs.setDeliveryTime("0");
+            }
+            return Integer.parseInt(lhs.getDeliveryTime()) - Integer.parseInt(rhs.getDeliveryTime());
+        }
+    };
+
+
+
+    public static Comparator<Outlet> ComparatorMinimumBillLowToHigh = new Comparator<Outlet>(){
+
+        @Override
+        public int compare(Outlet lhs, Outlet rhs) {
+
+            if (lhs.getMinimumOrder() == null){
+                lhs.setMinimumOrder("0");
+            }
+            if (rhs.getMinimumOrder() == null){
+                rhs.setMinimumOrder("0");
+            }
+            return Integer.parseInt(lhs.getMinimumOrder()) - Integer.parseInt(rhs.getMinimumOrder());
+        }
+    };
+
+    public static Comparator<Outlet> ComparatorMinimumBillHighToLow = new Comparator<Outlet>(){
+
+        @Override
+        public int compare(Outlet lhs, Outlet rhs) {
+            if (lhs.getMinimumOrder() == null){
+                lhs.setMinimumOrder("0");
+            }
+            if (rhs.getMinimumOrder() == null){
+                rhs.setMinimumOrder("0");
+            }
+            return Integer.parseInt(rhs.getMinimumOrder()) - Integer.parseInt(lhs.getMinimumOrder());
+        }
+    };
+
 
 
 }

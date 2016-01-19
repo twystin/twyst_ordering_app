@@ -246,11 +246,21 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 outletViewHolder.cuisinesNames.setText(cuisines.substring(1,cuisines.length()-1));
             }
 
-            String deliveryString = "Delivers in " + outlet.getDeliveryTime() + " minutes";
-            outletViewHolder.deliveryTime.setText(deliveryString);
+            if (outlet.getDeliveryTime() != null) {
+                String deliveryString = "Delivers in " + outlet.getDeliveryTime() + " minutes";
+                outletViewHolder.deliveryTime.setText(deliveryString);
+            } else {
+                String deliveryString = "Delivers in 0 minutes";
+                outletViewHolder.deliveryTime.setText(deliveryString);
+            }
 
-            String minOrderString = outlet.getMinimumOrder() + " min order";
-            outletViewHolder.minimumOrder.setText(minOrderString);
+            if (outlet.getMinimumOrder() != null) {
+                String minOrderString = outlet.getMinimumOrder() + " min order";
+                outletViewHolder.minimumOrder.setText(minOrderString);
+            } else {
+                String minOrderString = "0 min order";
+                outletViewHolder.minimumOrder.setText(minOrderString);
+            }
 
             String maxCashBack = outlet.getCashback().getMax();
             if (Double.parseDouble(maxCashBack) < 10 && !maxCashBack.contains(".")) {
