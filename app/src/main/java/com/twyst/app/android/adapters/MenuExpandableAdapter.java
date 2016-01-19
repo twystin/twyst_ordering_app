@@ -43,13 +43,15 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
     private Context mContext;
     DataTransferInterfaceMenu mDataTransferInterfaceMenu;
     final RecyclerView mMenuExpandableList;
+    final boolean mIsRecommended;
 
-    public MenuExpandableAdapter(Context context, List<ParentListItem> itemList, RecyclerView menuExpandableList) {
+    public MenuExpandableAdapter(Context context, List<ParentListItem> itemList, RecyclerView menuExpandableList, boolean isRecommended) {
         super(itemList);
         mContext = context;
         mMenuExpandableList = menuExpandableList;
         mInflater = LayoutInflater.from(context);
         mDataTransferInterfaceMenu = (DataTransferInterfaceMenu) context;
+        mIsRecommended = isRecommended;
     }
 
     @Override
@@ -180,9 +182,9 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
         }
 
         String breadCrumb = "";
-        if (item.getCategoryName() != null) {
+        if (mIsRecommended && item.getCategoryName() != null) {
             breadCrumb = item.getCategoryName();
-            if (item.getSubCategoryName() != null) {
+            if (item.getSubCategoryName() != null && !item.getSubCategoryName().equalsIgnoreCase(AppConstants.DEFAULT_SUB_CATEGORY)) {
                 breadCrumb = breadCrumb + " > " + item.getSubCategoryName();
             }
             childViewHolder.menuItemBreadCrumb.setText(breadCrumb);

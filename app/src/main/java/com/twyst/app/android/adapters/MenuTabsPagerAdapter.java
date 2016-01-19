@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.twyst.app.android.R;
 import com.twyst.app.android.fragments.MenuPageFragment;
 import com.twyst.app.android.model.menu.MenuCategories;
 import com.twyst.app.android.model.menu.SubCategories;
@@ -36,7 +37,8 @@ public class MenuTabsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         ArrayList<SubCategories> subCategoriesList = menuCategoriesList.get(position).getSubCategoriesList();
-        return MenuPageFragment.newInstance(subCategoriesList);
+        boolean isRecommended = menuCategoriesList.get(position).getCategoryName().equalsIgnoreCase(mContext.getResources().getString(R.string.recommended_category));
+        return MenuPageFragment.newInstance(subCategoriesList, isRecommended);
     }
 
     @Override

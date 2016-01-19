@@ -484,24 +484,30 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
 
         for (int i = 0; i < mMenuTabsPagerAdapter.getMenuCategoriesList().size(); i++) {
             MenuCategories menuCategory = mMenuTabsPagerAdapter.getMenuCategoriesList().get(i);
+            // skip loop, if recommended
+            if (menuCategory.getCategoryName().equalsIgnoreCase(getResources().getString(R.string.recommended_category)))
+                continue;
+
             for (int j = 0; j < menuCategory.getSubCategoriesList().size(); j++) {
                 SubCategories subCategory = menuCategory.getSubCategoriesList().get(j);
                 for (int k = 0; k < subCategory.getItemsList().size(); k++) {
                     Items item = subCategory.getItemsList().get(k);
 
                     if ((item.getItemName() != null && item.getItemName().toLowerCase().contains(newText.toLowerCase()))
-                            || (item.getItemDescription() != null && item.getItemDescription().toLowerCase().contains(newText.toLowerCase()))) {
+                            || (item.getItemDescription() != null && item.getItemDescription().toLowerCase().contains(newText.toLowerCase()))
+                            || (item.getCategoryName() != null && item.getCategoryName().toLowerCase().contains(newText.toLowerCase()))
+                            || (item.getSubCategoryName() != null) &&
+                            !item.getSubCategoryName().equalsIgnoreCase(AppConstants.DEFAULT_SUB_CATEGORY) && item.getSubCategoryName().toLowerCase().contains(newText.toLowerCase())) {
                         subCategories.getItemsList().add(item);
                     }
 
                 } // k loop
             } // j loop
-
         } // i loop
 
         ArrayList<ParentListItem> filteredSearchList = new ArrayList<>();
         filteredSearchList.add(subCategories);
-        mSearchExpandableAdapter = new MenuExpandableAdapter(OrderOnlineActivity.this, filteredSearchList, searchExpandableList);
+        mSearchExpandableAdapter = new MenuExpandableAdapter(OrderOnlineActivity.this, filteredSearchList, searchExpandableList, true);
         searchExpandableList.setAdapter(mSearchExpandableAdapter);
 
 //        mSearchExpandableAdapter.notifyDataSetChanged();
