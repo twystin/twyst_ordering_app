@@ -189,12 +189,17 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 public void onClick(View view) {
                     //Order online
                     if (outlet.getMenuId() != null && outlet.getMenuId() != "") {
-                        Intent intent = new Intent(view.getContext(), OrderOnlineActivity.class);
-                        intent.putExtra(AppConstants.INTENT_PARAM_MENU_ID, outlet.getMenuId());
-                        view.getContext().startActivity(intent);
+//                        Intent intent = new Intent(view.getContext(), OrderOnlineActivity.class);
+//                        intent.putExtra(AppConstants.INTENT_PARAM_MENU_ID, outlet.getMenuId());
+//                        view.getContext().startActivity(intent);
                     } else {
-                        Toast.makeText(mContext,"No menuId available",Toast.LENGTH_SHORT).show();
+                        outlet.setMenuId("5679087fb87d2a6f8197ff2c");
+                        Toast.makeText(mContext,"No menuId available. Using hardcoded menuID",Toast.LENGTH_SHORT).show();
                     }
+
+                    Intent intent = new Intent(view.getContext(), OrderOnlineActivity.class);
+                    intent.putExtra(AppConstants.INTENT_PARAM_MENU_ID, outlet.getMenuId());
+                    view.getContext().startActivity(intent);
                 }
             });
 

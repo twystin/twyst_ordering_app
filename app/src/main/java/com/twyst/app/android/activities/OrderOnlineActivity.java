@@ -188,8 +188,8 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     }
 
     private void fetchMenu() {
-//        String menuId = "56740f12b6188687102c8b9d";
-        String menuId = "5679087fb87d2a6f8197ff2c";
+        String menuId = getIntent().getExtras().getString(AppConstants.INTENT_PARAM_MENU_ID);
+//            menuId = "5679087fb87d2a6f8197ff2c";
         HttpService.getInstance().getMenu(menuId, getUserToken(), new Callback<BaseResponse<MenuData>>() {
             @Override
             public void success(BaseResponse<MenuData> menuDataBaseResponse, Response response) {
@@ -231,9 +231,6 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     }
 
     private ArrayList<MenuCategories> getUpdatedMenuCategoriesList(ArrayList<MenuCategories> menuCategoriesList) {
-
-        int temp = 0;
-
         MenuCategories recommendedMenuCategory = new MenuCategories();
         recommendedMenuCategory.setCategoryName(getResources().getString(R.string.recommended_category));
         SubCategories recommendedSubCategory = new SubCategories();
@@ -254,10 +251,6 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                     item.setCategoryName(menuCategory.getCategoryName());
                     item.setSubCategoryName(subCategory.getSubCategoryName());
 
-                    temp++;
-                    if (temp % 3 == 0) {
-                        item.setIsRecommended(true);
-                    }
                     // isRecommended
                     if (item.isRecommended()) {
                         recommendedSubCategory.getItemsList().add(item);
