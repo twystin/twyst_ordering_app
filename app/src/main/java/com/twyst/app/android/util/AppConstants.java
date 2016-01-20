@@ -193,6 +193,7 @@ public class AppConstants {
 
     public static final String CURRENT_USED_LOCATION = "current_used_location";
     public static final String LAST_USED_LOCATION = "last_used_location";
+    public static final String FROM_CHOOSE_ACTIVITY_TO_MAP = "Choose activity directed to map";
 
 
 }

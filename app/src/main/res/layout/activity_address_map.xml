@@ -17,6 +17,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="2" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CLick to turn On GPS, currently showing last known!"
+            android:textStyle="italic"
+            android:background="@color/white"
+            android:textSize="@dimen/layout_medium_text_size"
+            android:padding="@dimen/layout_small_margin"
+            android:textColor="@color/text_grey"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/layout_huge_margin"
+            android:id="@+id/tv_map_error_message"
+            android:visibility="gone"/>
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/sendBtn"

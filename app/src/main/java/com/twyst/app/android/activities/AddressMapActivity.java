@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,8 +28,6 @@ import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.LocationFetchUtil;
 import com.twyst.app.android.util.SharedPreferenceAddress;
 import com.twyst.app.android.util.TwystProgressHUD;
-
-import java.util.List;
 
 /**
  * Created by anshul on 1/8/2016.
@@ -49,8 +48,10 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
     ImageButton mFetchAddressButton;
 
     private AddressDetailsLocationData locationData = null;
-    private LatLng currentPosition = null;
+    private LatLng currentPosition = new LatLng(28.49, 77.09);
+    private LatLng currentLocation;
     private LocationFetchUtil locationFetchUtil;
+    private TextView errorMessage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,19 +60,17 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
 
         mMapLayout = (RelativeLayout) findViewById(R.id.map_layout);
         mFetchAddressButton = (ImageButton) findViewById(R.id.fetch_address_button);
+        errorMessage = (TextView) findViewById(R.id.tv_map_error_message);
 
         locationData = new AddressDetailsLocationData();
-        currentPosition = new LatLng(28.49, 77.09);
 
         // Set defaults, then update using values stored in the Bundle.
         mAddressRequested = false;
         mLocationRequested = false;
-//        showProgressBar();
         mAddressOutput = "";
-//        updateValuesFromBundle(savedInstanceState);
+        locationFetchUtil = new LocationFetchUtil(this);
 
         setUpMapIfNeeded();
-        locationFetchUtil = new LocationFetchUtil(this);
         fetchLocation();
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -91,7 +90,7 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
         mFetchAddressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setUpMap();
+                showCurrentLocation();
             }
         });
 
@@ -100,21 +99,30 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
             public void onClick(View v) {
 
                 mAddressRequested = true;
-//                showProgressBar();
                 twystProgressHUD = TwystProgressHUD.show(AddressMapActivity.this, false, null);
-                locationFetchUtil.requestAddress(mLastLocation);
+                locationFetchUtil.requestAddress(mLastLocation, false);
+            }
+        });
+
+        errorMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mLocationRequested = true;
+                errorMessage.setVisibility(View.GONE);
+                twystProgressHUD = TwystProgressHUD.show(AddressMapActivity.this, false, null);
+                locationFetchUtil.requestLocation(true);
             }
         });
 
     }
 
     public void fetchLocation() {
+        twystProgressHUD = TwystProgressHUD.show(AddressMapActivity.this, false, null);
         mLocationRequested = true;
-        locationFetchUtil.requestLocation();
+        locationFetchUtil.requestLocation(false);
     }
 
     private void setUpMapIfNeeded() {
-        // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
             MapFragment mapFragment = (MapFragment) getFragmentManager()
@@ -127,7 +135,17 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
     private void setUpMap() {
         if (mMap != null) {
             if (currentPosition != null) {
-                setMarkerOnMap(currentPosition, "Current location", true);
+                twystProgressHUD.dismiss();
+                setMarkerOnMap(currentPosition, "Selected location", true);
+            }
+        }
+    }
+
+    private void showCurrentLocation() {
+        if (mMap != null) {
+            if (currentLocation != null) {
+                twystProgressHUD.dismiss();
+                setMarkerOnMap(currentLocation, "Current location", true);
             }
         }
     }
@@ -138,7 +156,9 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(getTagName(), "onActivityResult: requestCode: " + requestCode + ", resultcode: " + resultCode);
-
+        if (twystProgressHUD != null) {
+            twystProgressHUD.dismiss();
+        }
         if (requestCode == AppConstants.REQUEST_CHECK_SETTINGS) {
             switch (resultCode) {
                 case Activity.RESULT_OK:
@@ -146,15 +166,14 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
                     if (mLocationRequested) {
                         fetchLocation();
                     } else if (mAddressRequested) {
-                        locationFetchUtil.requestAddress(mLastLocation);
+                        locationFetchUtil.requestAddress(mLastLocation, false);
                     }
                     break;
                 case Activity.RESULT_CANCELED:
                     Log.i(getTagName(), "User chose not to make required location settings changes.");
-//                    updateUIWidgets(AppConstants.SHOW_TURN_ON_GPS);
                     mAddressRequested = false;
                     mLocationRequested = false;
-                    finish();
+                    errorMessage.setVisibility(View.VISIBLE);
                     break;
             }
         }
@@ -198,14 +217,13 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
 
     @Override
     public void onReceiveAddress(int resultCode, Address address) {
-        if (resultCode == 2) {
+        if (resultCode == AppConstants.SHOW_CURRENT_LOCATION) {
             mAddressRequested = false;
             twystProgressHUD.dismiss();
             mAddress = address;
             mAddressOutput = "";
-            for (int i =0;i < mAddress.getMaxAddressLineIndex();i++)
-            {
-                mAddressOutput +=  mAddress.getAddressLine(i);
+            for (int i = 0; i < mAddress.getMaxAddressLineIndex(); i++) {
+                mAddressOutput += mAddress.getAddressLine(i);
                 mAddressOutput += ", ";
             }
 
@@ -219,10 +237,10 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
             info.putSerializable("locationData", locationData);
 
 
-            if (getIntent().getBooleanExtra("Choose activity directed to map",false)){
-                Intent intent =  new Intent(AddressMapActivity.this,MainActivity.class);
-                SharedPreferenceAddress sharedPreferenceAddress =  new SharedPreferenceAddress();
-                sharedPreferenceAddress.saveCurrentUsedLocation(AddressMapActivity.this,locationData);
+            if (getIntent().getBooleanExtra(AppConstants.FROM_CHOOSE_ACTIVITY_TO_MAP, false)) {
+                Intent intent = new Intent(AddressMapActivity.this, MainActivity.class);
+                SharedPreferenceAddress sharedPreferenceAddress = new SharedPreferenceAddress();
+                sharedPreferenceAddress.saveCurrentUsedLocation(AddressMapActivity.this, locationData);
                 sharedPreferenceAddress.saveLastUsedLocation(AddressMapActivity.this, locationData);
                 intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_ADD);
                 startActivity(intent);
@@ -232,37 +250,51 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
                 setResult(RESULT_OK, intent);
                 finish();
             }
-        } else if (resultCode == 4) {
+        } else {
+            // ideally only error should be AppConstants.SHOW_FETCH_LOCATION_AGAIN
             twystProgressHUD.dismiss();
             showSettingsAlert();
+
         }
     }
 
     @Override
     public void onReceiveLocation(int resultCode, Location location) {
-        if (resultCode == 2) {
+        if (resultCode == AppConstants.SHOW_CURRENT_LOCATION) {
+
             mLocationRequested = false;
             mLastLocation = location;
             locationData = new AddressDetailsLocationData();
             Coords coords = new Coords(String.valueOf(mLastLocation.getLatitude()), String.valueOf(mLastLocation.getLongitude()));
             locationData.setCoords(coords);
-
-            Log.d("Anshul", "mlastLocation : " + mLastLocation.getLatitude() + mLastLocation.getLongitude());
+            Log.d("Debug", "mlastLocation : " + mLastLocation.getLatitude() + mLastLocation.getLongitude());
+            currentLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+            mFetchAddressButton.setClickable(true);
             currentPosition = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-            Log.d("Anshul", "" + currentPosition.toString() + currentPosition.latitude + currentPosition.longitude);
-            setUpMap();
-
+            Log.d("Debug", "" + currentPosition.toString() + currentPosition.latitude + currentPosition.longitude);
+            errorMessage.setVisibility(View.GONE);
         } else {
+            mFetchAddressButton.setClickable(false);
             SharedPreferenceAddress sharedPreference = new SharedPreferenceAddress();
-            List<AddressDetailsLocationData> lastSavedLocations = sharedPreference.getAddresses(AddressMapActivity.this);
-            if (lastSavedLocations != null && lastSavedLocations.size() > 0) {
-                locationData = lastSavedLocations.get(lastSavedLocations.size() - 1);
-                currentPosition = new LatLng(Double.parseDouble(locationData.getCoords().getLat()), Double.parseDouble(locationData.getCoords().getLon()));
-                setUpMap();
-            }
+            locationData = sharedPreference.getLastUsedLocation(AddressMapActivity.this);
+            mLastLocation = new Location("default");
 
-//            Toast.makeText(this,"(Couldn't get the location. Make sure location is enabled on the device)", Toast.LENGTH_LONG);
+            if (locationData != null) {
+                currentPosition = new LatLng(Double.parseDouble(locationData.getCoords().getLat()), Double.parseDouble(locationData.getCoords().getLon()));
+                errorMessage.setVisibility(View.VISIBLE);
+                errorMessage.setText("CLick to turn On GPS, currently showing last known!");
+                mLastLocation.setLatitude(Double.parseDouble(locationData.getCoords().getLat()));
+                mLastLocation.setLongitude(Double.parseDouble(locationData.getCoords().getLon()));
+            } else {
+                locationData = new AddressDetailsLocationData();
+                errorMessage.setVisibility(View.VISIBLE);
+                errorMessage.setText("Click to turn On GPS, as none Saved Address, Currently showing Default!");
+                mLastLocation.setLatitude(currentPosition.latitude);
+                mLastLocation.setLongitude(currentPosition.longitude);
+                locationData.setCoords(new Coords(String.valueOf(currentPosition.latitude), String.valueOf(currentPosition.longitude)));
+            }
         }
+        setUpMap();
     }
 
     public void showSettingsAlert() {
@@ -278,9 +310,8 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
         alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 mAddressRequested = true;
-//                showProgressBar();
                 twystProgressHUD = TwystProgressHUD.show(AddressMapActivity.this, false, null);
-                locationFetchUtil.requestAddress(mLastLocation);
+                locationFetchUtil.requestAddress(mLastLocation, false);
 
             }
         });
@@ -290,7 +321,6 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
                 mAddressRequested = false;
-//                showProgressBar();
                 twystProgressHUD.dismiss();
                 finish();
 

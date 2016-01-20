@@ -188,6 +188,9 @@ each friend who joins.</p>
     <string name="choose_location_description_line1">Where would you like to</string>
     <string name="choose_location_description_line2">deliver your food?</string>
 
+    <string name="turn_on_gps_desc">Turn On GPS, currently using Last known!</string>
+    <string name="fetch_location_again_desc">Fetch Location Again, currently using last known!</string>
+    
     <string-array name="tag_titles">
         <item>SORT BY</item>
         <item>CUISINES</item>

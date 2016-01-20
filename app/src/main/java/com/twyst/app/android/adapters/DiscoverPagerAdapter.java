@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.twyst.app.android.fragments.DiscoverOutletFragment;
+import com.twyst.app.android.fragments.RedeemFragment;
 
 /**
  * Created by anshul on 1/12/2016.
@@ -23,7 +24,7 @@ public class DiscoverPagerAdapter extends FragmentPagerAdapter {
                 DiscoverOutletFragment tab1 = new DiscoverOutletFragment();
                 return tab1;
             case 1:
-                DiscoverOutletFragment tab2 = new DiscoverOutletFragment();
+                RedeemFragment tab2 = new RedeemFragment();
                 return tab2;
             default:
                 return null;

@@ -52,9 +52,6 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        outletsFragment = (DiscoverOutletFragment)adapter.getItem(0);
-
-
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -62,6 +59,8 @@ public class MainActivity extends BaseActivity {
         Log.d(getTagName(), "onActivityResult: requestCode: " + requestCode + ", resultcode: " + resultCode);
 
         if (requestCode == AppConstants.REQUEST_CHECK_SETTINGS) {
+            outletsFragment = (DiscoverOutletFragment)getSupportFragmentManager().getFragments().get(0);
+
             switch (resultCode) {
                 case Activity.RESULT_OK:
                     Log.i(getTagName(), "User agreed to make required location settings changes.");
@@ -69,7 +68,7 @@ public class MainActivity extends BaseActivity {
                     break;
                 case Activity.RESULT_CANCELED:
                     Log.i(getTagName(), "User chose not to make required location settings changes.");
-                    outletsFragment.showTurnOnGps();
+                    outletsFragment.resolveError(AppConstants.SHOW_TURN_ON_GPS);
                     break;
             }
         }

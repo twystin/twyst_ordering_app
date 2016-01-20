@@ -58,6 +58,7 @@ public class LocationFetchUtil implements
     private Address address;
 
     static private short no_of_trials = 0;
+    private boolean gpsSettingsCheckRequired = true;
 
 
     public LocationFetchUtil(Context context) {
@@ -74,7 +75,8 @@ public class LocationFetchUtil implements
         locationFetchResultCodeListener = (LocationFetchResultCodeListener)fragment;
     }
 
-    public void requestAddress(Location lastLocation) {
+    public void requestAddress(Location lastLocation,Boolean gpsCheck) {
+        gpsSettingsCheckRequired = gpsCheck;
         mAddressRequested = true;
         mAddressOutput = "";
         mResultReceiver = new AddressResultReceiver(new Handler());
@@ -88,7 +90,8 @@ public class LocationFetchUtil implements
         fetchAddress();
     }
 
-    public void requestLocation() {
+    public void requestLocation(Boolean gpsCheck) {
+        gpsSettingsCheckRequired = gpsCheck;
         mLocationRequested = true;
         mLastLocation = null;
         buildGoogleApiClient();
@@ -117,41 +120,51 @@ public class LocationFetchUtil implements
     public void onConnected(Bundle connectionHint) {
         // Gets the best and most recent location currently available, which may be null
         // in rare cases when a location is not available.
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                .addLocationRequest(mLocationRequest)
-                .setAlwaysShow(true);
-        LocationSettingsRequest locationSettingsRequest = builder.build();
-        PendingResult<LocationSettingsResult> result = LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient, locationSettingsRequest);
-        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
-            @Override
-            public void onResult(LocationSettingsResult locationSettingsResult) {
-                final Status status = locationSettingsResult.getStatus();
-                switch (status.getStatusCode()) {
-                    case LocationSettingsStatusCodes.SUCCESS:
-                        Log.i(getTagName(), "All location settings are satisfied.");
-                        if (mLocationRequested) {
-                            fetchLocation(true);
-                        } else if (mAddressRequested) {
-                            fetchAddress();
-                        }
-                        break;
-                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                        Log.i(getTagName(), "Location settings are not satisfied. Show the user a dialog to upgrade location settings ");
-                        try {
-                            // Show the dialog by calling startResolutionForResult(), and check the result
-                            // in onActivityResult().
-                            status.startResolutionForResult((Activity) mContext, AppConstants.REQUEST_CHECK_SETTINGS);
-                        } catch (IntentSender.SendIntentException e) {
-                            Log.i(getTagName(), "PendingIntent unable to execute request.");
-                        }
-                        break;
-                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                        Log.i(getTagName(), "Location settings are inadequate, and cannot be fixed here. Dialog not created.");
-                        locationFetchResultCodeListener.onReceiveLocation(3, mLastLocation);
-                        break;
+        if (gpsSettingsCheckRequired) {
+            LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                    .addLocationRequest(mLocationRequest)
+                    .setAlwaysShow(true);
+            LocationSettingsRequest locationSettingsRequest = builder.build();
+            PendingResult<LocationSettingsResult> result = LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient, locationSettingsRequest);
+            result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+                @Override
+                public void onResult(LocationSettingsResult locationSettingsResult) {
+                    final Status status = locationSettingsResult.getStatus();
+                    switch (status.getStatusCode()) {
+                        case LocationSettingsStatusCodes.SUCCESS:
+                            Log.i(getTagName(), "All location settings are satisfied.");
+                            if (mLocationRequested) {
+                                fetchLocation(true);
+                            } else if (mAddressRequested) {
+                                fetchAddress();
+                            }
+                            break;
+                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                            Log.i(getTagName(), "Location settings are not satisfied. Show the user a dialog to upgrade location settings ");
+                            try {
+                                // Show the dialog by calling startResolutionForResult(), and check the result
+                                // in onActivityResult().
+                                status.startResolutionForResult((Activity) mContext, AppConstants.REQUEST_CHECK_SETTINGS);
+                            } catch (IntentSender.SendIntentException e) {
+                                Log.i(getTagName(), "PendingIntent unable to execute request.");
+                            }
+                            break;
+                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                            Log.i(getTagName(), "Location settings are inadequate, and cannot be fixed here. Dialog not created.");
+                            locationFetchResultCodeListener.onReceiveLocation(3, mLastLocation);
+                            break;
+                    }
                 }
+            });
+        } else {
+            Log.i(getTagName(), "GPS settings check skipped");
+            if (mLocationRequested) {
+                fetchLocation(true);
+            } else if (mAddressRequested) {
+                fetchAddress();
             }
-        });
+
+        }
     }
 
     public void fetchLocation(final boolean tryAgain) {

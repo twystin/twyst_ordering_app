@@ -8,11 +8,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -20,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
+import com.twyst.app.android.adapters.SimpleArrayAdapter;
 import com.twyst.app.android.model.AddressDetailsLocationData;
 import com.twyst.app.android.model.order.Coords;
 import com.twyst.app.android.util.AppConstants;
@@ -59,15 +57,14 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
         setContentView(R.layout.activity_address_details);
 
         // saved address related code
-        adapter = new SimpleArrayAdapter();
+        adapter = new SimpleArrayAdapter(AddressDetailsActivity.this,addressList);
         ListView listView = (ListView) findViewById(R.id.saved_address_list_view);
+        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                adapter.setSelectedPosition(position);
                 adapter.notifyDataSetChanged();
-                ((ImageView) findViewById(R.id.radio_current_loc)).setSelected(false);
             }
         });
         if (addressList == null || addressList.size() == 0) {
@@ -104,7 +101,6 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
             public void onClick(View v) {
                 if (!((mLocationAddressTextView.getText().toString()).equals("unavailable!"))) {
                     ((ImageView) findViewById(R.id.radio_current_loc)).setSelected(true);
-                    adapter.setSelectedPosition(-1);
                     adapter.notifyDataSetChanged();
                     Intent intent = new Intent(AddressDetailsActivity.this, AddressAddNewActivity.class);
                     intent.putExtra(AppConstants.MAP_TO_BE_SHOWN, false);
@@ -133,7 +129,7 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
     public void fetchCurrentLocation() {
         updateUIWidgets(AppConstants.SHOW_PROGRESS_BAR);
         mLocation = null;
-        locationFetchUtil.requestLocation();
+        locationFetchUtil.requestLocation(true);
     }
 
     @Override
@@ -143,10 +139,8 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
         SharedPreferenceAddress preference = new SharedPreferenceAddress();
         addressList = preference.getAddresses(AddressDetailsActivity.this);
         if (addressList != null && addressList.size() > 0) {
-            ((ImageView) findViewById(R.id.radio_current_loc)).setSelected(false);
             adapter.clear();
             adapter.addAll(addressList);
-            adapter.setSelectedPosition(0);
             adapter.notifyDataSetChanged();
             ((CardView) findViewById(R.id.cardView_listview)).setVisibility(View.VISIBLE);
             ((CardView) findViewById(R.id.cardView_noAddress)).setVisibility(View.GONE);
@@ -230,90 +224,9 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
             mAddressDetailsLocationData = new AddressDetailsLocationData();
             Coords coords = new Coords(String.valueOf(mLocation.getLatitude()), String.valueOf(mLocation.getLongitude()));
             mAddressDetailsLocationData.setCoords(coords);
-            locationFetchUtil.requestAddress(location);
+            locationFetchUtil.requestAddress(location,true);
         } else if (resultCode == AppConstants.SHOW_FETCH_LOCATION_AGAIN) {
             updateUIWidgets(resultCode);
         }
     }
-
-    class SimpleArrayAdapter extends ArrayAdapter<AddressDetailsLocationData> {
-
-        int selectedPosition = 0;
-
-        public int getSelectedPosition() {
-            return selectedPosition;
-        }
-
-        public void setSelectedPosition(int selectedPosition) {
-            this.selectedPosition = selectedPosition;
-        }
-
-        SimpleArrayAdapter() {
-            super(AddressDetailsActivity.this, R.layout.saved_address_row, addressList);
-        }
-
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View row = convertView;
-            AddressHolder holder;
-            if (row == null) {
-                LayoutInflater inflater = getLayoutInflater();
-                row = inflater.inflate(R.layout.saved_address_row, parent, false);
-                holder = new AddressHolder(row);
-                row.setTag(holder);
-            } else {
-                holder = (AddressHolder) row.getTag();
-            }
-
-            holder.getRadioButton().setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.radio_check_config));
-
-            holder.populateFrom(addressList.get(position));
-            holder.getRadioButton().setSelected(selectedPosition == position);
-            holder.getRadioButton().setTag(position);
-            return row;
-        }
-    }
-
-    static class AddressHolder {
-        private ImageView radioButton;
-        private TextView name;
-        private TextView address;
-        private ImageView tagImage;
-        private TextView tagName;
-
-        AddressHolder(View row) {
-            radioButton = (ImageView) row.findViewById(R.id.radio_saved_address);
-            name = (TextView) row.findViewById(R.id.tv_name);
-            address = (TextView) row.findViewById(R.id.tv_address);
-            tagImage = (ImageView) row.findViewById(R.id.image_tag);
-            tagName = (TextView) row.findViewById(R.id.tv_tag_name);
-        }
-
-        public void populateFrom(AddressDetailsLocationData addr) {
-
-            name.setText(addr.getName());
-            address.setText(addr.getAddress());
-
-            switch (addr.getTag()) {
-                case "home":
-                    tagImage.setImageResource(R.drawable.address_home_enabled);
-                    break;
-                case "work":
-                    tagImage.setImageResource(R.drawable.address_work_enabled);
-                    break;
-                default:
-                    tagImage.setImageResource(R.drawable.address_location_enabled);
-            }
-
-            tagName.setText(addr.getTag());
-        }
-
-        public ImageView getRadioButton() {
-            return radioButton;
-        }
-
-        public ImageView getDelete() {
-            return tagImage;
-        }
-    }
-
 }
