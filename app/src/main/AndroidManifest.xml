@@ -202,12 +202,7 @@
         <activity
             android:name=".activities.OrderHistoryActivity"
             android:label="@string/title_activity_my_orders"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme" />
 
         <activity
             android:name=".activities.MapViewActivity"

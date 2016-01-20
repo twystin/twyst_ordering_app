@@ -57,6 +57,7 @@ import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
 import com.nispok.snackbar.listeners.ActionClickListener;
 import com.twyst.app.android.R;
+import com.twyst.app.android.adapters.SimpleArrayAdapter;
 import com.twyst.app.android.model.AddressDetailsLocationData;
 import com.twyst.app.android.model.AuthToken;
 import com.twyst.app.android.model.BaseResponse;
@@ -98,13 +99,13 @@ public class PreMainActivity extends AppCompatActivity implements GoogleApiClien
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_main);
 
-        showUserVerificationLayout();
-//        showChooseLocationLayout();
+//        showUserVerificationLayout();
+        showChooseLocationLayout();
     }
 
     // Choose Location Variables
-    List<AddressDetailsLocationData> addressList = new ArrayList<AddressDetailsLocationData>();
-    SimpleArrayAdapter adapter = null;
+    private List<AddressDetailsLocationData> addressList = new ArrayList<AddressDetailsLocationData>();
+    private com.twyst.app.android.adapters.SimpleArrayAdapter adapter = null;
     private ListView listViewSavedLocations;
     private boolean isSaveLocationClicked = false;
 
@@ -129,14 +130,14 @@ public class PreMainActivity extends AppCompatActivity implements GoogleApiClien
         SharedPreferenceAddress preference = new SharedPreferenceAddress();
         addressList = preference.getAddresses(PreMainActivity.this);
         if (addressList != null && addressList.size() > 0) {
-
             linlaySavedLocation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (!isSaveLocationClicked) {
                         isSaveLocationClicked = true;
-                        adapter = new SimpleArrayAdapter();
+                        adapter = new com.twyst.app.android.adapters.SimpleArrayAdapter(PreMainActivity.this, addressList);
                         listViewSavedLocations = (ListView) findViewById(R.id.lv_saved_locations);
+                        listViewSavedLocations.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
                         listViewSavedLocations.setAdapter(adapter);
                         listViewSavedLocations.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
@@ -155,8 +156,6 @@ public class PreMainActivity extends AppCompatActivity implements GoogleApiClien
                         isSaveLocationClicked = false;
                         listViewSavedLocations.setVisibility(View.GONE);
                     }
-
-
                 }
             });
         } else {
@@ -164,88 +163,15 @@ public class PreMainActivity extends AppCompatActivity implements GoogleApiClien
             linlaySavedLocation.setClickable(false);
         }
 
-
         linlayAdNewLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PreMainActivity.this, AddressMapActivity.class);
-                intent.putExtra("Choose activity directed to map", true);
+                intent.putExtra(AppConstants.FROM_CHOOSE_ACTIVITY_TO_MAP, true);
                 startActivity(intent);
             }
         });
     }
-
-    class SimpleArrayAdapter extends ArrayAdapter<AddressDetailsLocationData> {
-
-        SimpleArrayAdapter() {
-            super(PreMainActivity.this, R.layout.list_choose_location_saved_row, addressList);
-        }
-
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View row = convertView;
-            AddressHolder holder;
-            if (row == null) {
-                LayoutInflater inflater = getLayoutInflater();
-                row = inflater.inflate(R.layout.saved_address_row, parent, false);
-                holder = new AddressHolder(row);
-                row.setTag(holder);
-            } else {
-                holder = (AddressHolder) row.getTag();
-            }
-
-            holder.getRadioButton().setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.radio_check_config));
-
-            holder.populateFrom(addressList.get(position));
-            return row;
-        }
-
-    }
-
-    static class AddressHolder {
-        private ImageView radioButton;
-        private TextView name;
-        private TextView address;
-        private ImageView tagImage;
-        private TextView tagName;
-
-        AddressHolder(View row) {
-            radioButton = (ImageView) row.findViewById(R.id.radio_saved_address);
-            name = (TextView) row.findViewById(R.id.tv_name);
-            address = (TextView) row.findViewById(R.id.tv_address);
-            tagImage = (ImageView) row.findViewById(R.id.image_tag);
-            tagName = (TextView) row.findViewById(R.id.tv_tag_name);
-        }
-
-        public void populateFrom(AddressDetailsLocationData addr) {
-
-            name.setText(addr.getName());
-            address.setText(addr.getAddress());
-
-            switch (addr.getTag()) {
-                case "home":
-                    tagImage.setImageResource(R.drawable.address_home_enabled);
-                    break;
-                case "work":
-                    tagImage.setImageResource(R.drawable.address_work_enabled);
-                    break;
-                default:
-                    tagImage.setImageResource(R.drawable.address_location_enabled);
-            }
-
-            tagName.setText(addr.getTag());
-        }
-
-        public ImageView getRadioButton() {
-            return radioButton;
-        }
-
-        public ImageView getDelete() {
-            return tagImage;
-        }
-    }
-
-
-
 
     // User Verification Variables
     //Submit button
@@ -672,7 +598,7 @@ public class PreMainActivity extends AppCompatActivity implements GoogleApiClien
         etPhoneCodeInput.setHint(getResources().getString(R.string.verify_number_phone_hint));
         tvVerifyNumberGoLayout.setVisibility(View.VISIBLE);
         tvVerifyNumberGoText.setBackground(getResources().getDrawable(R.drawable.checkout_arrow));
-       verifyNumberProgressBar.setVisibility(View.GONE);
+        verifyNumberProgressBar.setVisibility(View.GONE);
         tvVerifyNumberLowerHint.setVisibility(View.INVISIBLE);
         tvVerifyNumberResendManually.setVisibility(View.INVISIBLE);
         etPhoneCodeInput.setEnabled(true);

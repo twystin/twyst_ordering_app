@@ -17,8 +17,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/pre_main_layout_margin"
         android:layout_marginRight="@dimen/pre_main_layout_margin"
-        android:layout_marginTop="@dimen/pre_main_layout_margin"
-        android:visibility="gone" />
+        android:layout_marginTop="@dimen/pre_main_layout_margin" />
 
     <include
         android:id="@+id/layout_user_verification"
@@ -27,6 +26,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/pre_main_layout_margin"
         android:layout_marginRight="@dimen/pre_main_layout_margin"
-        android:layout_marginTop="@dimen/pre_main_layout_margin" />
+        android:layout_marginTop="@dimen/pre_main_layout_margin"
+        android:visibility="gone" />
 
 </RelativeLayout>
