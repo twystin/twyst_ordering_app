@@ -94,7 +94,7 @@ public class TutorialActivity extends FragmentActivity {
         }
 
         if (!phoneVerified || !emailVerified) {
-            startActivity(new Intent(getBaseContext(), UserVerificationActivity.class));
+            startActivity(new Intent(getBaseContext(), PreMainActivity.class));
             finish();
         } else {
             Intent intent = new Intent(getBaseContext(), MainActivity.class);
