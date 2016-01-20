@@ -8,8 +8,13 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.lang.reflect.Field;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+
 
 /**
  * Created by vivek on 22/07/15.
@@ -174,4 +179,23 @@ public class Utils {
         return builder;
     }
 
+    //Added by Raman for formatting date & time.
+    public static String formatDateTime(String orderDate){
+        String orderDateOld = orderDate;
+        String orderDateNew = null;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        DateFormat dateInstance = DateFormat.getDateInstance(DateFormat.MEDIUM);
+        DateFormat timeInstance = DateFormat.getTimeInstance(DateFormat.SHORT);
+
+        try {
+            Date d = sdf.parse(orderDateOld);
+            String date = dateInstance.format(d);
+            String time = timeInstance.format(d);
+            orderDateNew = date + " at " + time;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return orderDateNew;
+    }
 }

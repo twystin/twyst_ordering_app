@@ -31,6 +31,9 @@ public class Options implements Serializable {
     @SerializedName("option_value")
     private String optionValue;
 
+    @SerializedName("option_is_addon")
+    private boolean optionIsAddon;
+
     @SerializedName("addons")
     private ArrayList<Addons> addonsList = new ArrayList<>();
 
@@ -39,6 +42,14 @@ public class Options implements Serializable {
 
     @SerializedName("is_available")
     private boolean isAvailable;
+
+    public boolean isOptionIsAddon() {
+        return optionIsAddon;
+    }
+
+    public void setOptionIsAddon(boolean optionIsAddon) {
+        this.optionIsAddon = optionIsAddon;
+    }
 
     public String getId() {
         return id;

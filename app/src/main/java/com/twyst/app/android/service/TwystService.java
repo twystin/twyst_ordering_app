@@ -12,6 +12,7 @@ import com.twyst.app.android.model.LikeOffer;
 import com.twyst.app.android.model.LocationData;
 import com.twyst.app.android.model.NotificationData;
 import com.twyst.app.android.model.OTPCode;
+import com.twyst.app.android.model.OrderHistory;
 import com.twyst.app.android.model.OutletDetailData;
 import com.twyst.app.android.model.Profile;
 import com.twyst.app.android.model.ProfileUpdate;
@@ -75,6 +76,9 @@ public interface TwystService {
 
     @GET("/api/v4/locations/outlets")
     public void getOutletsList(Callback<BaseResponse> callback);
+
+    @GET("/api/v4/orders")
+    public void getOrderHistory(@Query("token") String token, Callback<BaseResponse<ArrayList<OrderHistory>>> callback);
 
     @PUT("/api/v4/friends")
     public void updateSocialFriends(@Query("token") String token ,@Body Friend friend, Callback<BaseResponse<ProfileUpdate>> callback);

@@ -8,10 +8,6 @@ import android.util.LruCache;
 import com.google.android.gms.analytics.Tracker;
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
-
-import java.util.ArrayList;
-import java.util.Map;
-
 import com.twyst.app.android.model.AuthToken;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.CheckinData;
@@ -20,12 +16,13 @@ import com.twyst.app.android.model.DiscoverData;
 import com.twyst.app.android.model.Feedback;
 import com.twyst.app.android.model.Friend;
 import com.twyst.app.android.model.GrabOffer;
-import com.twyst.app.android.model.NotificationData;
-import com.twyst.app.android.model.Profile;
 import com.twyst.app.android.model.LikeOffer;
 import com.twyst.app.android.model.LocationData;
+import com.twyst.app.android.model.NotificationData;
 import com.twyst.app.android.model.OTPCode;
+import com.twyst.app.android.model.OrderHistory;
 import com.twyst.app.android.model.OutletDetailData;
+import com.twyst.app.android.model.Profile;
 import com.twyst.app.android.model.ProfileUpdate;
 import com.twyst.app.android.model.Referral;
 import com.twyst.app.android.model.ReportProblem;
@@ -43,9 +40,11 @@ import com.twyst.app.android.model.WriteToUs;
 import com.twyst.app.android.model.menu.MenuData;
 import com.twyst.app.android.model.order.OrderSummary;
 import com.twyst.app.android.util.AppConstants;
+
+import java.util.ArrayList;
+
 import retrofit.Callback;
 import retrofit.RestAdapter;
-import retrofit.android.AndroidLog;
 import retrofit.client.OkClient;
 import retrofit.client.Response;
 /**
@@ -119,6 +118,10 @@ public class HttpService {
 
     public void updateProfile(String token, UpdateProfile updateProfile, Callback<BaseResponse<ProfileUpdate>> callback) {
         twystService.updateProfile(token, updateProfile, callback);
+    }
+
+    public void getOrderHistory(String token, Callback<BaseResponse<ArrayList<OrderHistory>>> callback) {
+        twystService.getOrderHistory(token, callback);
     }
 
     public void getRecommendedOutlets(String userToken, int start,int end, String lat, String lng, String date, String time, Callback<BaseResponse<DiscoverData>> callback) {

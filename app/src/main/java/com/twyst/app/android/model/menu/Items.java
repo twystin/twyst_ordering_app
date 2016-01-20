@@ -76,6 +76,16 @@ public class Items implements Serializable {
     @SerializedName("item_availability")
     private ItemAvailability itemAvailability;
 
+    // For Order History
+    @SerializedName("option")
+    private Options selectedOption;
+
+    @SerializedName("addons")
+    private ArrayList<Addons> addonsList = new ArrayList<>();
+
+    @SerializedName("sub_options")
+    private ArrayList<SubOptions> SubOptionsList = new ArrayList<>();
+
     public String getSubCategoryID() {
         return subCategoryID;
     }
@@ -226,6 +236,30 @@ public class Items implements Serializable {
 
     public void setOptionIsAddon(boolean optionIsAddon) {
         this.optionIsAddon = optionIsAddon;
+    }
+
+    public Options getSelectedOption() {
+        return selectedOption;
+    }
+
+    public void setSelectedOption(Options selectedOption) {
+        this.selectedOption = selectedOption;
+    }
+
+    public ArrayList<Addons> getAddonsList() {
+        return addonsList;
+    }
+
+    public void setAddonsList(ArrayList<Addons> addonsList) {
+        this.addonsList = addonsList;
+    }
+
+    public ArrayList<SubOptions> getSubOptionsList() {
+        return SubOptionsList;
+    }
+
+    public void setSubOptionsList(ArrayList<SubOptions> subOptionsList) {
+        SubOptionsList = subOptionsList;
     }
 
     @Override

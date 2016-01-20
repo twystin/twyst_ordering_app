@@ -5,6 +5,7 @@
     <string name="action_notifications">Notifications</string>
     <string name="action_wallet">Wallet</string>
     <string name="action_home">Home</string>
+    <string name="title_activity_my_orders">My Orders</string>
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>

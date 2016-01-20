@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:elevation="8dp"
+        android:padding="4dp"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="120dp"
+                android:layout_height="150dp"
+                android:padding="@dimen/layout_medium_margin">
+
+                <ImageView
+                    android:id="@+id/outlet_logo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/ic_launcher"
+                    android:scaleType="centerCrop" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/outlet_logo"
+                    android:alpha="0.7"
+                    android:background="@android:color/holo_green_dark"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:padding="2dp"
+                        android:text="4.1"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/layout_wide_text_size"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="7dp"
+                            android:layout_height="7dp"
+                            android:layout_gravity="left|center_vertical"
+                            android:src="@drawable/star" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/layout_medium_margin"
+                android:paddingRight="@dimen/layout_medium_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/layout_small_margin">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/outletName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:text="Striker Pub &amp; Brewery"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/layout_huge_text_size" />
+
+                        <TextView
+                            android:id="@+id/outletAddress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:text="Sector 15, Gurgaon"
+                            android:textColor="@color/text_grey"
+                            android:textSize="@dimen/layout_medium_text_size" />
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/icon_favourite"
+                        android:layout_width="30dp"
+                        android:layout_height="35dp"
+                        android:background="@drawable/orderhistory_item_favourite_button" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/background_grey" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/layout_small_margin">
+
+                    <LinearLayout
+                        android:id="@+id/itemTextViewGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/itemBody"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:maxLines="3"
+                            android:text="Garden Special Pizza x 2"
+                            android:textColor="@color/text_grey"
+                            android:textSize="@dimen/layout_medium_text_size" />
+
+                        <TextView
+                            android:id="@+id/orderCost_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="999"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/layout_huge_text_size" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/date_tv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:text="January 10,2016 at 4:40 PM"
+                            android:textColor="@color/text_grey"
+                            android:textSize="@dimen/layout_medium_text_size" />
+
+                        <com.balysv.materialripple.MaterialRippleLayout
+                            android:id="@+id/reorder_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/rounded_corner"
+                            app:mrl_rippleOverlay="true">
+
+                            <TextView
+                                android:id="@+id/reorder_TextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="?attr/colorPrimary"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:paddingBottom="@dimen/layout_small_margin"
+                                android:paddingLeft="@dimen/layout_medium_margin"
+                                android:paddingRight="@dimen/layout_medium_margin"
+                                android:paddingTop="@dimen/layout_small_margin"
+                                android:text="Re-Order"
+                                android:textAllCaps="true"
+                                android:textColor="@android:color/white"
+                                android:textSize="@dimen/layout_wide_text_size" />
+                        </com.balysv.materialripple.MaterialRippleLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>
