@@ -52,4 +52,6 @@
 
     <dimen name="slidingup_panel_filter_lower_layout_height">30dp</dimen>
 
+    <dimen name="pre_main_layout_margin">30dp</dimen>
+
 </resources>

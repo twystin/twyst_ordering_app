@@ -70,7 +70,7 @@
                 android:paddingBottom="1dp"
                 android:textCursorDrawable="@null"
                 android:paddingTop="3dp"
-                android:hint="@string/hint_email"
+                android:hint="@string/hint_verify_email"
                 android:inputType="textEmailAddress"
                 android:paddingLeft="10dp"
                 android:textColor="@android:color/white"

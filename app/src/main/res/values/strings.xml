@@ -11,7 +11,8 @@
 
     <string name="hint_mobile"><small><i>10 digit Mobile Number</i></small></string>
     <string name="hint_otp_code"><small><i>Enter 4-digit code</i></small></string>
-    <string name="hint_email"><small><i>Enter your email id</i></small></string>
+    <string name="hint_verify_email"><small><i>Enter your email id</i></small></string>
+    <string name="hint_verify_name"><small><i>Enter your name</i></small></string>
     <string name="call">call</string>
     <string name="follow">follow</string>
     <string name="map">map</string>

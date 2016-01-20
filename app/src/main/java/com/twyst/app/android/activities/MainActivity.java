@@ -58,6 +58,7 @@ public class MainActivity extends BaseActivity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
         Log.d(getTagName(), "onActivityResult: requestCode: " + requestCode + ", resultcode: " + resultCode);
 
         if (requestCode == AppConstants.REQUEST_CHECK_SETTINGS) {

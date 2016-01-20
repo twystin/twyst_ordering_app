@@ -140,4 +140,8 @@
 
     <color name="choose_location_option_list_background">#525252</color>
 
+    <!-- User Verification Layout -->
+    <color name="background_alpha">#73191919</color>
+    <color name="verify_half_white">#8c8c8c</color>
+
 </resources>

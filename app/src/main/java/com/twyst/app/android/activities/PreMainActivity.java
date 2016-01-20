@@ -24,8 +24,7 @@ import java.util.List;
 /**
  * Created by anshul on 1/18/2016.
  */
-public class ChooseLocationActivity extends AppCompatActivity {
-
+public class PreMainActivity extends AppCompatActivity {
     List<AddressDetailsLocationData> addressList = new ArrayList<AddressDetailsLocationData>();
     SimpleArrayAdapter adapter = null;
     private ListView listViewSavedLocations;
@@ -34,53 +33,53 @@ public class ChooseLocationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_choose_location);
+        setContentView(R.layout.activity_pre_main);
 
-        LinearLayout linLayCurrentLocation = (LinearLayout)findViewById(R.id.linlay_choose_location_current);
-        LinearLayout linlaySavedLocation = (LinearLayout)findViewById(R.id.linlay_choose_location_saved);
-        LinearLayout linlayAdNewLocation = (LinearLayout)findViewById(R.id.linlay_choose_location_add_new);
+        LinearLayout linLayCurrentLocation = (LinearLayout) findViewById(R.id.linlay_choose_location_current);
+        LinearLayout linlaySavedLocation = (LinearLayout) findViewById(R.id.linlay_choose_location_saved);
+        LinearLayout linlayAdNewLocation = (LinearLayout) findViewById(R.id.linlay_choose_location_add_new);
 
         linLayCurrentLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ChooseLocationActivity.this,MainActivity.class);
-                intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED,AppConstants.CHOOSE_LOCATION_OPTION_CURRENT);
+                Intent intent = new Intent(PreMainActivity.this, MainActivity.class);
+                intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_CURRENT);
                 startActivity(intent);
             }
         });
 
-        listViewSavedLocations = (ListView)findViewById(R.id.lv_saved_locations);
+        listViewSavedLocations = (ListView) findViewById(R.id.lv_saved_locations);
         listViewSavedLocations.setAdapter(adapter);
 
         SharedPreferenceAddress preference = new SharedPreferenceAddress();
-        addressList = preference.getAddresses(ChooseLocationActivity.this);
-        if (addressList!= null && addressList.size() > 0) {
+        addressList = preference.getAddresses(PreMainActivity.this);
+        if (addressList != null && addressList.size() > 0) {
 
             linlaySavedLocation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                        if (!isSaveLocationClicked) {
-                            isSaveLocationClicked = true;
-                            adapter = new SimpleArrayAdapter();
-                            listViewSavedLocations = (ListView) findViewById(R.id.lv_saved_locations);
-                            listViewSavedLocations.setAdapter(adapter);
-                            listViewSavedLocations.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    AddressDetailsLocationData chosenLocation = addressList.get(position);
-                                    SharedPreferenceAddress sharedPreferenceAddress = new SharedPreferenceAddress();
-                                    sharedPreferenceAddress.saveCurrentUsedLocation(ChooseLocationActivity.this, chosenLocation);
-                                    sharedPreferenceAddress.saveLastUsedLocation(ChooseLocationActivity.this, chosenLocation);
-                                    Intent intent = new Intent(ChooseLocationActivity.this, MainActivity.class);
-                                    intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_SAVED);
-                                    startActivity(intent);
-                                }
-                            });
-                            listViewSavedLocations.setVisibility(View.VISIBLE);
-                        } else {
-                            isSaveLocationClicked = false;
-                            listViewSavedLocations.setVisibility(View.GONE);
-                        }
+                    if (!isSaveLocationClicked) {
+                        isSaveLocationClicked = true;
+                        adapter = new SimpleArrayAdapter();
+                        listViewSavedLocations = (ListView) findViewById(R.id.lv_saved_locations);
+                        listViewSavedLocations.setAdapter(adapter);
+                        listViewSavedLocations.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                AddressDetailsLocationData chosenLocation = addressList.get(position);
+                                SharedPreferenceAddress sharedPreferenceAddress = new SharedPreferenceAddress();
+                                sharedPreferenceAddress.saveCurrentUsedLocation(PreMainActivity.this, chosenLocation);
+                                sharedPreferenceAddress.saveLastUsedLocation(PreMainActivity.this, chosenLocation);
+                                Intent intent = new Intent(PreMainActivity.this, MainActivity.class);
+                                intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_SAVED);
+                                startActivity(intent);
+                            }
+                        });
+                        listViewSavedLocations.setVisibility(View.VISIBLE);
+                    } else {
+                        isSaveLocationClicked = false;
+                        listViewSavedLocations.setVisibility(View.GONE);
+                    }
 
 
                 }
@@ -94,20 +93,17 @@ public class ChooseLocationActivity extends AppCompatActivity {
         linlayAdNewLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ChooseLocationActivity.this,AddressMapActivity.class);
-                intent.putExtra("Choose activity directed to map",true);
+                Intent intent = new Intent(PreMainActivity.this, AddressMapActivity.class);
+                intent.putExtra("Choose activity directed to map", true);
                 startActivity(intent);
             }
         });
-
-
-
     }
 
     class SimpleArrayAdapter extends ArrayAdapter<AddressDetailsLocationData> {
 
         SimpleArrayAdapter() {
-            super(ChooseLocationActivity.this, R.layout.list_choose_location_saved_row, addressList);
+            super(PreMainActivity.this, R.layout.list_choose_location_saved_row, addressList);
         }
 
         public View getView(int position, View convertView, ViewGroup parent) {

@@ -364,7 +364,7 @@ public class UserVerificationActivity extends Activity implements GoogleApiClien
     }
 
     private void setupVerifyNumber() {
-        ivCorrectSymbolVerifyNumber = (ImageView) findViewById(R.id.verify_number_correct_symbol);
+//        ivCorrectSymbolVerifyNumber = (ImageView) findViewById(R.id.verify_number_correct_symbol);
         tvVerifyNumberHint = (TextView) findViewById(R.id.verify_number_hint);
         etPhonePre = (EditText) findViewById(R.id.verify_number_phone_pre);
         etPhoneCodeInput = (EditText) findViewById(R.id.verify_number_phone_code);
