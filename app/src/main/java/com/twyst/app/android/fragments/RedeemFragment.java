@@ -1,7 +1,5 @@
 package com.twyst.app.android.fragments;
 
-
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -10,19 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.common.primitives.Ints;
 import com.twyst.app.android.CirclePageIndicator;
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.ImagePagerAdapter;
-import com.twyst.app.android.adapters.RedeemGridAdapter;
 import com.twyst.app.android.adapters.RedeemRVAdapter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
@@ -47,10 +40,10 @@ public class RedeemFragment extends Fragment {
             };
     private int[] imageIds =
             {
-                    R.drawable.view_more_card_front,
-                    R.drawable.outlet_detail_tnc,
-                    R.drawable.outlet,
-                    R.drawable.outlet
+                    R.drawable.redeem_food_offers,
+                    R.drawable.redeem_recharge,
+                    R.drawable.redeem_shopping,
+                    R.drawable.redeem_coming_soon
             };
     private int[] add_imageIds =
             {
