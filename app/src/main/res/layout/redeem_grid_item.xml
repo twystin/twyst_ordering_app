@@ -25,6 +25,7 @@
                 android:id="@+id/iv_redeem_grid"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
+                android:padding="10dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/outlet" />
 
