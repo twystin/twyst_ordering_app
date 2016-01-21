@@ -69,7 +69,7 @@ public interface TwystService {
     public void updateProfile( @Query("token") String token,@Body UpdateProfile updateProfile, Callback<BaseResponse<ProfileUpdate>> callback);
 
     @GET("/api/v4/delivery/recos")
-    public void getRecommendedOutlets(@Query("token") String token, @Query("start") int start, @Query("end") int end, @Query("lat") String lat, @Query("long") String lng, @Query("date") String date,@Query(value = "time",encodeValue=false) String time , Callback<BaseResponse<DiscoverData>> callback);
+    public void getRecommendedOutlets(@Query("token") String token, @Query("lat") String lat, @Query("long") String lng, @Query("date") String date,@Query(value = "time",encodeValue=false) String time , Callback<BaseResponse<DiscoverData>> callback);
 
     @GET("/api/v4/outlets/{outlet_id}")
     public void getOutletDetails(@Path("outlet_id") String outletId, @Query("token")String token, @Query("lat") String lat, @Query("long") String lng,Callback<BaseResponse<OutletDetailData>> callback);

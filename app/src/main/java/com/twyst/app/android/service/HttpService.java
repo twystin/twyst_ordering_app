@@ -124,13 +124,13 @@ public class HttpService {
         twystService.getOrderHistory(token, callback);
     }
 
-    public void getRecommendedOutlets(String userToken, int start,int end, String lat, String lng, String date, String time, Callback<BaseResponse<DiscoverData>> callback) {
+    public void getRecommendedOutlets(String userToken, String lat, String lng, String date, String time, Callback<BaseResponse<DiscoverData>> callback) {
 
         if (TextUtils.isEmpty(date) && TextUtils.isEmpty(time)){
             date = null;
             time = null;
         }
-        twystService.getRecommendedOutlets(userToken, start, end, lat, lng, date, time, callback);
+        twystService.getRecommendedOutlets(userToken, lat, lng, date, time, callback);
     }
 
     public void getOutletDetails(String outletId,String userToken,String lat, String lng ,Callback<BaseResponse<OutletDetailData>> callback) {

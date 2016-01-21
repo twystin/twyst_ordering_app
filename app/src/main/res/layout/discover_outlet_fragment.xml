@@ -44,15 +44,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:orientation="horizontal"
             android:paddingBottom="@dimen/layout_medium_margin"
             android:paddingLeft="@dimen/layout_wide_margin"
             android:paddingRight="@dimen/layout_wide_margin"
-            android:paddingTop="@dimen/layout_medium_margin">
+            android:paddingTop="@dimen/layout_medium_margin"
+            android:id="@+id/linlay_display_address">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:text="DELIVERS TO : "
                 android:textAllCaps="true"
                 android:textSize="@dimen/layout_wide_margin" />
@@ -62,7 +69,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="false"
                 android:ellipsize="end"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:paddingRight="@dimen/layout_wide_margin"
                 android:singleLine="true"
                 android:textSize="@dimen/layout_wide_margin" />

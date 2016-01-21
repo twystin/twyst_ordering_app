@@ -2,7 +2,7 @@
 <com.twyst.app.android.layout.CheckableLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="@color/background_grey">
+    android:background="@color/outlet_coupon_bg_color_white">
 
     <ImageView
         android:layout_width="16dp"

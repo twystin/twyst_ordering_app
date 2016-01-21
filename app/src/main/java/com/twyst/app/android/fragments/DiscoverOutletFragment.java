@@ -82,6 +82,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
     private LinearLayout showErrorLayout;
     private TextView errorDescription;
     private TwystProgressHUD twystProgressHUD;
+    private LinearLayout showAddressLayout;
 
 
     @Override
@@ -155,6 +156,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
 
         showErrorLayout = (LinearLayout) view.findViewById(R.id.linlay_discover_fragment_error_layout);
         errorDescription = (TextView) view.findViewById(R.id.tv_error_description);
+        showAddressLayout = (LinearLayout)view.findViewById(R.id.linlay_display_address);
 
         showErrorLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,6 +166,13 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
                 locationFetchUtil.requestLocation(true);
             }
 
+        });
+
+        showAddressLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
         });
 
         return view;
@@ -179,6 +188,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
 
         if (requestCode == AppConstants.GET_FILTER_ACTIVITY) {
             if (resultCode == AppConstants.GOT_FILTERS_SUCCESS) {
+                twystProgressHUD = TwystProgressHUD.show(getActivity(), false, null);
                 Bundle extras = data.getExtras();
                 filterTagsMap.clear();
                 filterTagsMap = (HashMap<String, long[]>) extras.getSerializable(AppConstants.FILTER_TAGS);
@@ -205,6 +215,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
                     discoverAdapter.getItems().addAll(fetchedOutlets);
                     discoverAdapter.notifyDataSetChanged();
                 }
+                twystProgressHUD.dismiss();
 
 
             } else {
@@ -268,12 +279,12 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
             Intent intent = new Intent(getActivity(), AddressMapActivity.class);
             intent.putExtra("Choose activity directed to map", true);
             startActivity(intent);
-            if (twystProgressHUD != null){
+            if (twystProgressHUD != null) {
                 twystProgressHUD.dismiss();
             }
         } else {
             showErrorLayout.setVisibility(View.VISIBLE);
-            if (resultCode == AppConstants.SHOW_FETCH_LOCATION_AGAIN){
+            if (resultCode == AppConstants.SHOW_FETCH_LOCATION_AGAIN) {
                 errorDescription.setText(R.string.fetch_location_again_desc);
             } else if (resultCode == AppConstants.SHOW_TURN_ON_GPS) {
                 errorDescription.setText(R.string.turn_on_gps_desc);
@@ -303,6 +314,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
 
 
     private void setupDiscoverAdapter() {
+
         discoverAdapter = new DiscoverOutletAdapter();
         discoverAdapter.setmContext(getActivity());
         mRecyclerView.setAdapter(discoverAdapter);
@@ -320,7 +332,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
 
         int end = start + AppConstants.DISCOVER_LIST_PAGESIZE - 1;
 
-        HttpService.getInstance().getRecommendedOutlets(getUserToken(), start, end, latitude, longitude, mDate, mTime, new Callback<BaseResponse<DiscoverData>>() {
+        HttpService.getInstance().getRecommendedOutlets(getUserToken(), latitude, longitude, mDate, mTime, new Callback<BaseResponse<DiscoverData>>() {
             @Override
             public void success(BaseResponse<DiscoverData> arrayListBaseResponse, Response response) {
                 fetchingOutlets = false;
@@ -338,14 +350,8 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
                             discoverAdapter.getItems().clear();
                         }
 
-                        if (fetchedOutlets.size() < AppConstants.DISCOVER_LIST_PAGESIZE) {
-                            outletsNotFound = true;
-                            discoverAdapter.setOutletsNotFound(true);
-                        } else {
-                            outletsNotFound = false;
-                            discoverAdapter.setOutletsNotFound(false);
-                        }
-
+                        outletsNotFound = false;
+                        discoverAdapter.setOutletsNotFound(false);
                         discoverAdapter.getItems().addAll(fetchedOutlets);
                         discoverAdapter.notifyDataSetChanged();
                     }

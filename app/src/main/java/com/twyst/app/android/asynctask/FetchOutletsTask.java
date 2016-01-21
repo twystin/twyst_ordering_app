@@ -57,7 +57,7 @@ public class FetchOutletsTask {
         int end = start + AppConstants.DISCOVER_LIST_PAGESIZE - 1;
 
 
-        HttpService.getInstance().getRecommendedOutlets(userToken, start, end, latitude, longitude, mDate, mTime, new Callback<BaseResponse<DiscoverData>>() {
+        HttpService.getInstance().getRecommendedOutlets(userToken, latitude, longitude, mDate, mTime, new Callback<BaseResponse<DiscoverData>>() {
             @Override
             public void success(BaseResponse<DiscoverData> arrayListBaseResponse, Response response) {
                 ArrayList<Outlet> outlets = arrayListBaseResponse.getData().getOutlets();

@@ -244,6 +244,7 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
                 sharedPreferenceAddress.saveLastUsedLocation(AddressMapActivity.this, locationData);
                 intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_ADD);
                 startActivity(intent);
+                finish();
             } else {
                 Intent intent = new Intent();
                 intent.putExtras(info);
