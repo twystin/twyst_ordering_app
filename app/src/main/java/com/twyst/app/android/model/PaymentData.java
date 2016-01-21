@@ -1,4 +1,4 @@
-package com.twyst.app.android.activities;
+package com.twyst.app.android.model;
 
 /**
  * Created by tushar on 15/01/16.

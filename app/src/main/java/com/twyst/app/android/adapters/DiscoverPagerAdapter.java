@@ -10,22 +10,20 @@ import com.twyst.app.android.fragments.RedeemFragment;
  * Created by anshul on 1/12/2016.
  */
 public class DiscoverPagerAdapter extends FragmentPagerAdapter {
-    int NumOfTabs ;
-    public DiscoverPagerAdapter(android.support.v4.app.FragmentManager fm, int NumOfTabs){
+    int NumOfTabs;
+
+    public DiscoverPagerAdapter(android.support.v4.app.FragmentManager fm, int NumOfTabs) {
         super(fm);
         this.NumOfTabs = NumOfTabs;
-
     }
 
     @Override
     public Fragment getItem(int position) {
-        switch (position){
+        switch (position) {
             case 0:
-                DiscoverOutletFragment tab1 = new DiscoverOutletFragment();
-                return tab1;
+                return new DiscoverOutletFragment();
             case 1:
-                RedeemFragment tab2 = new RedeemFragment();
-                return tab2;
+                return new RedeemFragment();
             default:
                 return null;
         }

@@ -17,6 +17,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
+import com.twyst.app.android.model.PaymentData;
 
 import org.w3c.dom.Text;
 

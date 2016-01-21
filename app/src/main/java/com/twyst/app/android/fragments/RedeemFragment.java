@@ -50,7 +50,7 @@ public class RedeemFragment extends Fragment {
                     R.drawable.view_more_card_front,
                     R.drawable.outlet_detail_tnc,
                     R.drawable.outlet,
-                    R.drawable.dialoguebox
+                    R.drawable.outlet
             };
     private int[] add_imageIds =
             {
@@ -61,7 +61,6 @@ public class RedeemFragment extends Fragment {
             };
 
     public void createList() {
-
         for (int i = 0; i < imageIds.length; i++) {
             RedeemRVAdapter.CardItemRedeem ci = new RedeemRVAdapter.CardItemRedeem();
             ci.setImageId(imageIds[i]);
