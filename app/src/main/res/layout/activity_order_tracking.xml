@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg_color"
+    android:orientation="vertical"
+    tools:context="com.twyst.app.android.activities.OrderTrackingActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="TRACK YOUR ORDER"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:text="ORDER ID : TW-BBB-18"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/iv_track_order_group"
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:layout_gravity="center"
+            android:src="@drawable/collapsed" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/offer_detail_divider_image" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="2dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="30dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2.5dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/order_tracking_circle1"
+                    layout="@layout/order_tracking_circle_grey" />
+
+                <include
+                    android:id="@+id/order_tracking_rect1"
+                    layout="@layout/order_tracking_rect_grey" />
+
+                <include
+                    android:id="@+id/order_tracking_circle2"
+                    layout="@layout/order_tracking_circle_grey" />
+
+                <include
+                    android:id="@+id/order_tracking_rect2"
+                    layout="@layout/order_tracking_rect_grey" />
+
+                <include
+                    android:id="@+id/order_tracking_circle3"
+                    layout="@layout/order_tracking_circle_grey" />
+
+                <include
+                    android:id="@+id/order_tracking_rect3"
+                    layout="@layout/order_tracking_rect_grey" />
+
+                <include
+                    android:id="@+id/order_tracking_circle4"
+                    layout="@layout/order_tracking_circle_grey" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/dialogbox1"
+                    android:layout_width="100dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/dialoguebox"
+                    android:text="SENT"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"/>
+
+                <include
+                    android:id="@+id/dialogbox2"
+                    layout="@layout/dialogueboxgrey" />
+
+                <include
+                    android:id="@+id/dialogbox3"
+                    layout="@layout/dialogueboxgrey" />
+
+                <include
+                    android:id="@+id/dialogbox4"
+                    layout="@layout/dialogueboxgrey" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvRefresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@color/colorPrimary"
+            android:padding="6dp"
+            android:text="REFRESH"
+            android:textColor="@android:color/black" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:elevation="2dp">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/track_status_sent_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="2dp"
+        android:gravity="right|center_vertical"
+        android:padding="15dp">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:background="@drawable/rect_colored_primary"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="Cancel Order"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/track_status_accepted_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:elevation="2dp"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Have question about your order?" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Call the outlet directly" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/rect_colored_primary"
+            android:gravity="center"
+            android:text="Call Outlet" />
+
+    </RelativeLayout>
+</LinearLayout>
+
+
