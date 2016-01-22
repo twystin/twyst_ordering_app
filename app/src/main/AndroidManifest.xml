@@ -182,6 +182,12 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".activities.OfferDisplayActivity"
+            android:label="@string/order_online"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".activities.AvailableOffersActivity"
             android:label="@string/order_online"
             android:launchMode="singleTop"
