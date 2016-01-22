@@ -41,6 +41,7 @@
         </android.support.design.widget.CollapsingToolbarLayout>
 
         <LinearLayout
+            android:id="@+id/linlay_display_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -51,8 +52,7 @@
             android:paddingBottom="@dimen/layout_medium_margin"
             android:paddingLeft="@dimen/layout_wide_margin"
             android:paddingRight="@dimen/layout_wide_margin"
-            android:paddingTop="@dimen/layout_medium_margin"
-            android:id="@+id/linlay_display_address">
+            android:paddingTop="@dimen/layout_medium_margin">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -123,7 +123,6 @@
         android:overScrollMode="never"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_filter"
         android:layout_width="wrap_content"
@@ -132,10 +131,11 @@
         android:background="@color/primary"
         android:gravity="bottom|right"
         android:padding="4dp"
+        android:src="@drawable/outlets_filter"
         android:text="something"
         android:textColor="@android:color/white"
-        app:fab_colorNormal="@color/primary"
-        app:fab_icon="@drawable/outlets_filter_unselected"
+        app:elevation="4dp"
+        app:fab_icon="@drawable/outlets_filter"
         app:fab_size="normal"
         app:fab_title="Filters"
         app:layout_anchor="@id/outletRecyclerView"

@@ -12,7 +12,7 @@
     <color name="drawer_item_icon_color">#ffffff</color>
     <color name="drawer_item_section_color">#8C000000</color>
 
-    <color name="app_accent_color">#e9573f</color>
+    <color name="app_accent_color">#f59221</color>
     <color name="app_accent_color_transparent">#c8f47c20</color>
 
     <color name="pager_active">#007AFF</color>
