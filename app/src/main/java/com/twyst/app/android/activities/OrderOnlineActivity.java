@@ -1,6 +1,5 @@
 package com.twyst.app.android.activities;
 
-import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -8,10 +7,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
-import android.support.design.widget.TabLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +39,7 @@ import com.twyst.app.android.adapters.MenuExpandableAdapter;
 import com.twyst.app.android.adapters.MenuTabsPagerAdapter;
 import com.twyst.app.android.adapters.ScrollingOffersAdapter;
 import com.twyst.app.android.model.BaseResponse;
+import com.twyst.app.android.model.Offer;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.menu.MenuCategories;
 import com.twyst.app.android.model.menu.MenuData;
@@ -188,8 +187,8 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     }
 
     private void fetchMenu() {
-        String menuId = getIntent().getExtras().getString(AppConstants.INTENT_PARAM_MENU_ID);
-//            menuId = "5679087fb87d2a6f8197ff2c";
+//        String menuId = getIntent().getExtras().getString(AppConstants.INTENT_PARAM_MENU_ID);
+        String menuId = "5679087fb87d2a6f8197ff2c";
         HttpService.getInstance().getMenu(menuId, getUserToken(), new Callback<BaseResponse<MenuData>>() {
             @Override
             public void success(BaseResponse<MenuData> menuDataBaseResponse, Response response) {
@@ -689,9 +688,38 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     }
 
     private void setupScrollingOfferAdapters() {
-        mScrollingOffersAdapter = new ScrollingOffersAdapter(null);
-        mScrollingOffersViewPager = (ViewPager) findViewById(R.id.scrollingOffersPager);
-        mScrollingOffersViewPager.setAdapter(mScrollingOffersAdapter);
+        mOutletId = "5316d59326b019ee59000026";
+        String token = "us5lxmyPyqnA4Ow20GmbhG362ZuMS4qB";
+//        if (getIntent().getExtras() != null) {
+//            mOutletId = getIntent().getExtras().getString(AppConstants.INTENT_PARAM_OUTLET_ID);
+//        }
+        //final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
+
+        HttpService.getInstance().getOffers(mOutletId, token, new Callback<BaseResponse<ArrayList<Offer>>>() {
+            @Override
+            public void success(BaseResponse<ArrayList<Offer>> offersBaseResponse, Response response) {
+                if (offersBaseResponse.isResponse()) {
+                    ArrayList<Offer> offersList = offersBaseResponse.getData();
+                    mScrollingOffersAdapter = new ScrollingOffersAdapter(offersList);
+                    mScrollingOffersViewPager = (ViewPager) findViewById(R.id.scrollingOffersPager);
+                    mScrollingOffersViewPager.setPadding(32, 0, 32, 0);
+                    mScrollingOffersViewPager.setPageMargin(16);
+                    mScrollingOffersViewPager.setAdapter(mScrollingOffersAdapter);
+                } else {
+                    Toast.makeText(OrderOnlineActivity.this, offersBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                hideProgressHUDInLayout();
+                hideSnackbar();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                hideProgressHUDInLayout();
+                hideSnackbar();
+                handleRetrofitError(error);
+            }
+        });
     }
 
     public void hideProgressHUDInLayout() {

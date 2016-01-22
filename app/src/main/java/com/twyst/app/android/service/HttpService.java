@@ -20,6 +20,7 @@ import com.twyst.app.android.model.LikeOffer;
 import com.twyst.app.android.model.LocationData;
 import com.twyst.app.android.model.NotificationData;
 import com.twyst.app.android.model.OTPCode;
+import com.twyst.app.android.model.Offer;
 import com.twyst.app.android.model.OrderHistory;
 import com.twyst.app.android.model.OutletDetailData;
 import com.twyst.app.android.model.Profile;
@@ -47,6 +48,7 @@ import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import retrofit.client.Response;
+
 /**
  * Created by satish on 30/11/14.
  */
@@ -104,11 +106,11 @@ public class HttpService {
         twystService.getMenu(menuId, token, callback);
     }
 
-    public void postOrderVerify(String token, OrderSummary orderSummary, Callback<BaseResponse<OrderSummary>> callback){
+    public void postOrderVerify(String token, OrderSummary orderSummary, Callback<BaseResponse<OrderSummary>> callback) {
         twystService.postOrderVerify(token, orderSummary, callback);
     }
 
-    public void postOfferApply(String token, OrderSummary orderSummary, Callback<BaseResponse<OrderSummary>> callback){
+    public void postOfferApply(String token, OrderSummary orderSummary, Callback<BaseResponse<OrderSummary>> callback) {
         twystService.postOfferApply(token, orderSummary, callback);
     }
 
@@ -126,14 +128,14 @@ public class HttpService {
 
     public void getRecommendedOutlets(String userToken, String lat, String lng, String date, String time, Callback<BaseResponse<DiscoverData>> callback) {
 
-        if (TextUtils.isEmpty(date) && TextUtils.isEmpty(time)){
+        if (TextUtils.isEmpty(date) && TextUtils.isEmpty(time)) {
             date = null;
             time = null;
         }
         twystService.getRecommendedOutlets(userToken, lat, lng, date, time, callback);
     }
 
-    public void getOutletDetails(String outletId,String userToken,String lat, String lng ,Callback<BaseResponse<OutletDetailData>> callback) {
+    public void getOutletDetails(String outletId, String userToken, String lat, String lng, Callback<BaseResponse<OutletDetailData>> callback) {
         twystService.getOutletDetails(outletId, userToken, lat, lng, callback);
     }
 
@@ -141,56 +143,56 @@ public class HttpService {
         twystService.getOutletsList(callback);
     }
 
-    public void updateSocialFriends(String token, Friend friend, Callback<BaseResponse<ProfileUpdate>> callback){
+    public void updateSocialFriends(String token, Friend friend, Callback<BaseResponse<ProfileUpdate>> callback) {
         twystService.updateSocialFriends(token, friend, callback);
     }
 
-    public void followEvent(String token, String outletId, Callback<BaseResponse<Data>> callback){
+    public void followEvent(String token, String outletId, Callback<BaseResponse<Data>> callback) {
         twystService.followEvent(token, outletId, callback);
     }
 
-    public void unFollowEvent(String token, String outletId, Callback<BaseResponse<Data>> callback){
+    public void unFollowEvent(String token, String outletId, Callback<BaseResponse<Data>> callback) {
         twystService.unFollowEvent(token, outletId, callback);
     }
 
-    public void outletFeedback(String token, Feedback feedback, Callback<BaseResponse> callback){
+    public void outletFeedback(String token, Feedback feedback, Callback<BaseResponse> callback) {
         twystService.outletFeedback(token, feedback, callback);
     }
 
 
-    public void getLocations(Callback<BaseResponse<ArrayList<LocationData>>> callback){
+    public void getLocations(Callback<BaseResponse<ArrayList<LocationData>>> callback) {
         twystService.getLocations(callback);
     }
 
-    public void postSuggestion(String token, Suggestion suggestion, Callback<BaseResponse> callback){
+    public void postSuggestion(String token, Suggestion suggestion, Callback<BaseResponse> callback) {
         twystService.postSuggestion(token, suggestion, callback);
     }
 
-    public void postSubmitOffer(String token, SubmitOffer submitOffer, Callback<BaseResponse> callback){
+    public void postSubmitOffer(String token, SubmitOffer submitOffer, Callback<BaseResponse> callback) {
         twystService.postSubmitOffer(token, submitOffer, callback);
     }
 
-    public void postCheckin(String token, CheckinData checkinData, Callback<BaseResponse> callback){
+    public void postCheckin(String token, CheckinData checkinData, Callback<BaseResponse> callback) {
         twystService.postCheckin(token, checkinData, callback);
     }
 
-    public void shareOutlet(String token, ShareOutlet shareOutlet, Callback<BaseResponse> callback){
+    public void shareOutlet(String token, ShareOutlet shareOutlet, Callback<BaseResponse> callback) {
         twystService.shareOutlet(token, shareOutlet, callback);
     }
 
-    public void shareOffer(String token, ShareOffer shareOffer, Callback<BaseResponse> callback){
+    public void shareOffer(String token, ShareOffer shareOffer, Callback<BaseResponse> callback) {
         twystService.shareOffer(token, shareOffer, callback);
     }
 
-    public void postLikeOffer(String token, LikeOffer likeOffer, Callback<BaseResponse<Data>> callback){
+    public void postLikeOffer(String token, LikeOffer likeOffer, Callback<BaseResponse<Data>> callback) {
         twystService.postLikeOffer(token, likeOffer, callback);
     }
 
-    public void postUnLikeOffer(String token, LikeOffer likeOffer, Callback<BaseResponse> callback){
+    public void postUnLikeOffer(String token, LikeOffer likeOffer, Callback<BaseResponse> callback) {
         twystService.postUnLikeOffer(token, likeOffer, callback);
     }
 
-    public void extendVoucher(String token, Voucher voucher, Callback<BaseResponse> callback){
+    public void extendVoucher(String token, Voucher voucher, Callback<BaseResponse> callback) {
         twystService.extendVoucher(token, voucher, callback);
     }
 
@@ -198,52 +200,56 @@ public class HttpService {
         twystService.grabOffer(token, grabOffer, callback);
     }
 
-    public void uploadBill(String token, UploadBill uploadBill, Callback<BaseResponse> callback){
+    public void uploadBill(String token, UploadBill uploadBill, Callback<BaseResponse> callback) {
         twystService.uploadBill(token, uploadBill, callback);
     }
 
     public void getCoupons(String userToken, String lat, String lng, Callback<BaseResponse<WalletData>> callback) {
-        twystService.getCoupons(userToken,lat,lng, callback);
+        twystService.getCoupons(userToken, lat, lng, callback);
     }
 
-    public void writeToUs(String token, WriteToUs writeToUs, Callback<BaseResponse> callback){
+    public void writeToUs(String token, WriteToUs writeToUs, Callback<BaseResponse> callback) {
         twystService.writeToUs(token, writeToUs, callback);
     }
 
-    public void postDealLog(String token, UseOffer useOffer, Callback<BaseResponse> callback){
+    public void postDealLog(String token, UseOffer useOffer, Callback<BaseResponse> callback) {
         twystService.postDealLog(token, useOffer, callback);
     }
 
-    public void postGenerateCoupon(String token, UseOffer useOffer, Callback<BaseResponse> callback){
+    public void postGenerateCoupon(String token, UseOffer useOffer, Callback<BaseResponse> callback) {
         twystService.postGenerateCoupon(token, useOffer, callback);
     }
 
-    public void postRedeemCoupon(String token, UseOffer useOffer, Callback<BaseResponse> callback){
+    public void postRedeemCoupon(String token, UseOffer useOffer, Callback<BaseResponse> callback) {
         twystService.postRedeemCoupon(token, useOffer, callback);
     }
 
-    public void postReferral(String token, Referral referral, Callback<BaseResponse> callback){
+    public void postReferral(String token, Referral referral, Callback<BaseResponse> callback) {
         twystService.postReferral(token, referral, callback);
     }
 
-    public void reportProblem(String token,ReportProblem reportProblem,Callback<BaseResponse>callback){
+    public void reportProblem(String token, ReportProblem reportProblem, Callback<BaseResponse> callback) {
         twystService.reportProblem(token, reportProblem, callback);
     }
 
-    public void getProfile(String token, Callback<BaseResponse<Profile>> callback){
+    public void getProfile(String token, Callback<BaseResponse<Profile>> callback) {
         twystService.getProfile(token, callback);
     }
 
-    public void searchOffer(String token, String searchText, String lat,String lng, String date, String time , Callback<BaseResponse<DiscoverData>> callback){
-        twystService.searchOffer(token, searchText,lat,lng,date,time, callback);
+    public void searchOffer(String token, String searchText, String lat, String lng, String date, String time, Callback<BaseResponse<DiscoverData>> callback) {
+        twystService.searchOffer(token, searchText, lat, lng, date, time, callback);
     }
 
-    public void postLocation(String token, UserLocation userLocation, Callback<BaseResponse> callback){
+    public void postLocation(String token, UserLocation userLocation, Callback<BaseResponse> callback) {
         twystService.postLocation(token, userLocation, callback);
     }
 
-    public void getNotification(String token, Callback<BaseResponse<ArrayList<NotificationData>>> callback){
+    public void getNotification(String token, Callback<BaseResponse<ArrayList<NotificationData>>> callback) {
         twystService.getNotification(token, callback);
     }
 
+    //Added by Raman to get outlet offers
+    public void getOffers(String outletID, String token, Callback<BaseResponse<ArrayList<Offer>>> callback) {
+        twystService.getOffers(outletID, token, callback);
+    }
 }

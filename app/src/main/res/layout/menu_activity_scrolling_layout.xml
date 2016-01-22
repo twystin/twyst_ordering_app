@@ -75,12 +75,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/topLayout"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="10dp">
 
         <android.support.v4.view.ViewPager
             android:id="@+id/scrollingOffersPager"
             android:layout_width="match_parent"
             android:layout_height="@dimen/scrolling_offer_height"
+            android:clipToPadding="false"
+            android:gravity="center"
             android:overScrollMode="never" />
 
     </RelativeLayout>
