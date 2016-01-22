@@ -8,6 +8,7 @@ import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -15,13 +16,11 @@ import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,6 +29,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.appsflyer.AppsFlyerConversionListener;
+import com.appsflyer.AppsFlyerLib;
+import com.appsflyer.DebugLogQueue;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -44,23 +46,30 @@ import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.plus.People;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.google.android.gms.plus.model.people.PersonBuffer;
+import com.google.android.gms.tagmanager.Container;
+import com.google.android.gms.tagmanager.ContainerHolder;
+import com.google.android.gms.tagmanager.TagManager;
 import com.google.gson.Gson;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
 import com.nispok.snackbar.listeners.ActionClickListener;
 import com.twyst.app.android.R;
-import com.twyst.app.android.adapters.SimpleArrayAdapter;
 import com.twyst.app.android.model.AddressDetailsLocationData;
 import com.twyst.app.android.model.AuthToken;
 import com.twyst.app.android.model.BaseResponse;
+import com.twyst.app.android.model.ContainerHolderSingleton;
 import com.twyst.app.android.model.Friend;
 import com.twyst.app.android.model.OTPCode;
 import com.twyst.app.android.model.ProfileUpdate;
@@ -78,10 +87,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -99,8 +111,7 @@ public class PreMainActivity extends AppCompatActivity implements GoogleApiClien
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_main);
 
-//        showUserVerificationLayout();
-        showChooseLocationLayout();
+        splashCode();
     }
 
     // Choose Location Variables
@@ -111,6 +122,9 @@ public class PreMainActivity extends AppCompatActivity implements GoogleApiClien
 
     //Choose Location Layout
     private void showChooseLocationLayout() {
+        findViewById(R.id.layout_choose_location).setVisibility(View.VISIBLE);
+        findViewById(R.id.layout_user_verification).setVisibility(View.GONE);
+
         LinearLayout linLayCurrentLocation = (LinearLayout) findViewById(R.id.linlay_choose_location_current);
         LinearLayout linlaySavedLocation = (LinearLayout) findViewById(R.id.linlay_choose_location_saved);
         LinearLayout linlayAdNewLocation = (LinearLayout) findViewById(R.id.linlay_choose_location_add_new);
@@ -235,6 +249,9 @@ public class PreMainActivity extends AppCompatActivity implements GoogleApiClien
 
     // Show User Verification Layout
     private void showUserVerificationLayout() {
+        findViewById(R.id.layout_choose_location).setVisibility(View.GONE);
+        findViewById(R.id.layout_user_verification).setVisibility(View.VISIBLE);
+
         setupVerifyEmail();
         setupSubmitButton();
         setupSignup();
@@ -866,16 +883,11 @@ public class PreMainActivity extends AppCompatActivity implements GoogleApiClien
         SnackbarManager.dismiss();
     }
 
-    private void showDiscoverScreen() {
+    private void userVerifiedShowChooseLocation() {
         sharedPreferences.putBoolean(AppConstants.PREFERENCE_EMAIL_VERIFIED, true);
         sharedPreferences.commit();
 
-        Intent intent = new Intent(getBaseContext(), MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.setAction("setChildNo");
-        intent.putExtra("Search", false);
-        startActivity(intent);
-        finish();
+        showChooseLocationLayout();
     }
 
     private void updateUserEmail() {
@@ -980,7 +992,7 @@ public class PreMainActivity extends AppCompatActivity implements GoogleApiClien
         sharedPreferences = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).edit();
         sharedPreferences.putString(AppConstants.PREFERENCE_FRIEND_LIST, json);
         if (sharedPreferences.commit()) {
-            showDiscoverScreen();
+            userVerifiedShowChooseLocation();
         }
 
     }
@@ -1018,7 +1030,7 @@ public class PreMainActivity extends AppCompatActivity implements GoogleApiClien
         // Show the signed-in UI
         socialEmail = Plus.AccountApi.getAccountName(mGoogleApiClient);
 
-        System.out.println("LoginActivity.onConnected google email : " + etVerifyEmail);
+        System.out.println("PreMainActivity.onConnected google email : " + etVerifyEmail);
 
         try {
             if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
@@ -1126,6 +1138,299 @@ public class PreMainActivity extends AppCompatActivity implements GoogleApiClien
 
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
+        }
+    }
+
+
+    // App Starts, Splash Screen Code
+
+    private GoogleCloudMessaging googleCloudMessaging;
+    private static final String CONTAINER_ID = "GTM-PNRJQ9";
+    private static final long TIMEOUT_FOR_CONTAINER_OPEN_MILLISECONDS = 2000;
+
+    private void splashCode() {
+        setupAppsFlyer();
+
+        SharedPreferences prefs = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, MODE_PRIVATE);
+        if (prefs.getBoolean(AppConstants.PREFERENCE_IS_FIRST_RUN, true)) {
+            // Do first run stuff here then set 'firstrun' as false
+            // using the following line to edit/commit prefs
+            prefs.edit().putBoolean(AppConstants.PREFERENCE_IS_PUSH_ENABLED, true).apply();
+            prefs.edit().putBoolean(AppConstants.PREFERENCE_IS_FIRST_RUN, false).apply();
+        }
+
+        new FetchContact().execute();
+
+        if (checkPlayServices()) {
+            buildGoogleApiClient();
+            googleCloudMessaging = GoogleCloudMessaging.getInstance(this);
+            registerInBackground();
+            downloadContainer();
+            handler.postDelayed(timedTask, TIMEOUT_FOR_CONTAINER_OPEN_MILLISECONDS + 1000);
+        } else {
+            Log.i(getClass().getSimpleName(), "No valid Google Play Services APK found.");
+        }
+
+
+        SharedPreferences.Editor sharedPreferences = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).edit();
+        sharedPreferences.remove(AppConstants.PREFERENCE_LAST_DRAWERITEM_CLICKED).commit();
+        sharedPreferences.remove(AppConstants.PREFERENCE_PARAM_SEARCH_QUERY).commit();
+
+        boolean phoneVerified = prefs.getBoolean(AppConstants.PREFERENCE_PHONE_VERIFIED, false);
+        boolean emailVerified = prefs.getBoolean(AppConstants.PREFERENCE_EMAIL_VERIFIED, false);
+
+        if (phoneVerified && emailVerified) {
+            showChooseLocationLayout();
+        } else {
+            showUserVerificationLayout();
+        }
+    }
+
+    private ContainerHolder mContainerHolder = null;
+
+    private void setContainerHolder(ContainerHolder containerHolder) {
+        this.mContainerHolder = containerHolder;
+    }
+
+    private Runnable timedTask = new Runnable() {
+
+        @Override
+        public void run() {
+            setContainerHolder(ContainerHolderSingleton.getContainerHolder());
+            if (mContainerHolder != null) {
+                mContainerHolder.refresh();
+            }
+            updateConstantsfromContainer();
+        }
+    };
+
+
+    /**
+     * Creating google api client object
+     */
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API).build();
+    }
+
+    private void downloadContainer() {
+        TagManager tagManager = TagManager.getInstance(this);
+
+        // Modify the log level of the logger to print out not only
+        // warning and error messages, but also verbose, debug, info messages.
+//        tagManager.setVerboseLoggingEnabled(true);
+
+        PendingResult<ContainerHolder> pending =
+                tagManager.loadContainerPreferNonDefault(CONTAINER_ID,
+                        R.raw.gtm);
+
+        // The onResult method will be called as soon as one of the following happens:
+        //     1. a saved container is loaded
+        //     2. if there is no saved container, a network container is loaded
+        //     3. the 2-second timeout occurs
+        pending.setResultCallback(new ResultCallback<ContainerHolder>() {
+            @Override
+            public void onResult(ContainerHolder containerHolder) {
+                ContainerHolderSingleton.setContainerHolder(containerHolder);
+                Container container = containerHolder.getContainer();
+                if (!containerHolder.getStatus().isSuccess()) {
+                    Log.e("PreMainActivity", "failure loading container");
+//                    displayErrorToUser(R.string.load_error);
+                    return;
+                }
+                ContainerHolderSingleton.setContainerHolder(containerHolder);
+                ContainerLoadedCallback.registerCallbacksForContainer(container);
+                containerHolder.setContainerAvailableListener(new ContainerLoadedCallback());
+//                startMainActivity();
+            }
+        }, TIMEOUT_FOR_CONTAINER_OPEN_MILLISECONDS, TimeUnit.MILLISECONDS);
+    }
+
+
+    private void registerInBackground() {
+        if (AppConstants.IS_DEVELOPMENT) {
+            return;
+        }
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    if (googleCloudMessaging == null) {
+                        googleCloudMessaging = GoogleCloudMessaging.getInstance(getApplicationContext());
+                    }
+                    final String registrationId = googleCloudMessaging.register(AppConstants.GCM_PROJECT_ID);
+                    Log.i(getClass().getSimpleName(), "Device registered, registration ID=" + registrationId);
+                    final SharedPreferences prefs = HttpService.getInstance().getSharedPreferences();
+
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString(AppConstants.PREFERENCE_REGISTRATION_ID, registrationId);
+                    editor.commit();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute(null, null, null);
+    }
+
+    protected boolean checkPlayServices() {
+        if (AppConstants.IS_DEVELOPMENT) {
+            return true;
+        }
+
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            return false;
+        }
+        return true;
+    }
+
+
+    private void setupAppsFlyer() {
+        // Set the Currency
+        AppsFlyerLib.setCurrencyCode("USD");
+
+        AppsFlyerLib.setAppsFlyerKey("yezoub3j6KZJt3VPyKoJ2Z");
+        AppsFlyerLib.sendTracking(this);
+
+        final String LOG_TAG = "AppsFlyer";
+        AppsFlyerLib.registerConversionListener(this, new AppsFlyerConversionListener() {
+            public void onInstallConversionDataLoaded(Map<String, String> conversionData) {
+                DebugLogQueue.getInstance().push("\nGot conversion data from server");
+                for (String attrName : conversionData.keySet()) {
+                    Log.d(LOG_TAG, "attribute: " + attrName + " = " + conversionData.get(attrName));
+                }
+            }
+
+            public void onInstallConversionFailure(String errorMessage) {
+                Log.d(LOG_TAG, "error getting conversion data: " + errorMessage);
+            }
+
+            public void onAppOpenAttribution(Map<String, String> attributionData) {
+                printMap(attributionData);
+            }
+
+            public void onAttributionFailure(String errorMessage) {
+                Log.d(LOG_TAG, "error onAttributionFailure : " + errorMessage);
+
+            }
+
+            private void printMap(Map<String, String> map) {
+                for (String key : map.keySet()) {
+                    Log.d(LOG_TAG, key + "=" + map.get(key));
+                }
+
+            }
+        });
+    }
+
+    public class FetchContact extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            PhoneBookContacts.getInstance().loadContacts(getApplicationContext());
+            return null;
+        }
+
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
+    }
+
+    private static class ContainerLoadedCallback implements ContainerHolder.ContainerAvailableListener {
+        @Override
+        public void onContainerAvailable(ContainerHolder containerHolder, String containerVersion) {
+            // We load each container when it becomes available.
+            Container container = containerHolder.getContainer();
+            registerCallbacksForContainer(container);
+        }
+
+        public static void registerCallbacksForContainer(Container container) {
+            // Register two custom function call macros to the container.
+            container.registerFunctionCallMacroCallback("increment", new CustomMacroCallback());
+            container.registerFunctionCallMacroCallback("mod", new CustomMacroCallback());
+            // Register a custom function call tag to the container.
+            container.registerFunctionCallTagCallback("custom_tag", new CustomTagCallback());
+        }
+    }
+
+    private static class CustomMacroCallback implements Container.FunctionCallMacroCallback {
+        private int numCalls;
+
+        @Override
+        public Object getValue(String name, Map<String, Object> parameters) {
+            if ("increment".equals(name)) {
+                return ++numCalls;
+            } else if ("mod".equals(name)) {
+                return (Long) parameters.get("key1") % Integer.valueOf((String) parameters.get("key2"));
+            } else {
+                throw new IllegalArgumentException("Custom macro name: " + name + " is not supported.");
+            }
+        }
+    }
+
+    private static class CustomTagCallback implements Container.FunctionCallTagCallback {
+        @Override
+        public void execute(String tagName, Map<String, Object> parameters) {
+            // The code for firing this custom tag.
+            Log.i("SplashActivity", "Custom function call tag :" + tagName + " is fired.");
+        }
+    }
+
+    private void updateConstantsfromContainer() {
+        if (mContainerHolder != null) {
+            Double USER_ONE_LOCATION_CHECK_TIME = (mContainerHolder.getContainer().getDouble(AppConstants.PREFERENCE_USER_ONE_LOCATION_CHECK_TIME));
+            Double DISTANCE_LIMIT = (mContainerHolder.getContainer().getDouble(AppConstants.PREFERENCE_DISTANCE_LIMIT));
+            Double LOCATION_REQUEST_REFRESH_INTERVAL = (mContainerHolder.getContainer().getDouble(AppConstants.PREFERENCE_LOCATION_REQUEST_REFRESH_INTERVAL));
+            Double LOCATION_REQUEST_SMALLEST_DISPLACEMENT = (mContainerHolder.getContainer().getDouble(AppConstants.PREFERENCE_LOCATION_REQUEST_SMALLEST_DISPLACEMENT));
+            Double LOCATION_REQUEST_PRIORITY = (mContainerHolder.getContainer().getDouble(AppConstants.PREFERENCE_LOCATION_REQUEST_PRIORITY));
+            Double LOCATION_OFFLINE_LIST_MAX_SIZE = (mContainerHolder.getContainer().getDouble(AppConstants.PREFERENCE_LOCATION_OFFLINE_LIST_MAX_SIZE));
+
+            //Earn-burn values update
+            Double TWYST_BUCKS_INVITE_FRIENDS = (mContainerHolder.getContainer().getDouble("invite_friends"));
+            Double TWYST_BUCKS_FOLLOW = (mContainerHolder.getContainer().getDouble("follow"));
+            Double TWYST_BUCKS_LIKE_OFFER = (mContainerHolder.getContainer().getDouble("like_offer"));
+            Double TWYST_BUCKS_CHECKIN_OUTLET_NON_PAYING = (mContainerHolder.getContainer().getDouble("checkin"));
+            Double TWYST_BUCKS_CHECKIN_OUTLET_PAYING = (mContainerHolder.getContainer().getDouble("checkin_is_paying"));
+            Double TWYST_BUCKS_SUBMIT_OFFER = (mContainerHolder.getContainer().getDouble("submit_offer"));
+            Double TWYST_BUCKS_SHARE_OFFER = (mContainerHolder.getContainer().getDouble("share_offer"));
+            Double TWYST_BUCKS_SHARE_OUTLET = (mContainerHolder.getContainer().getDouble("share_outlet"));
+            Double TWYST_BUCKS_SUGGESTION = (mContainerHolder.getContainer().getDouble("suggestion"));
+            Double TWYST_BUCKS_SHARE_CHECKIN = (mContainerHolder.getContainer().getDouble("share_checkin"));
+            Double TWYST_BUCKS_SHARE_REDEMPTION = (mContainerHolder.getContainer().getDouble("share_redemption"));
+            Double TWYST_BUCKS_GRAB = (mContainerHolder.getContainer().getDouble("grab"));
+            Double TWYST_BUCKS_EXTEND = (mContainerHolder.getContainer().getDouble("extend"));
+            Double TWYST_BUCKS_REDEEM = (mContainerHolder.getContainer().getDouble("redeem"));
+            Double TWYST_BUCKS_BUY_CHECKIN = (mContainerHolder.getContainer().getDouble("buy_checkin"));
+
+            final SharedPreferences.Editor prefsEdit = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).edit();
+            prefsEdit.putInt((AppConstants.PREFERENCE_USER_ONE_LOCATION_CHECK_TIME), USER_ONE_LOCATION_CHECK_TIME.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_DISTANCE_LIMIT), DISTANCE_LIMIT.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_LOCATION_REQUEST_REFRESH_INTERVAL), LOCATION_REQUEST_REFRESH_INTERVAL.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_LOCATION_REQUEST_SMALLEST_DISPLACEMENT), LOCATION_REQUEST_SMALLEST_DISPLACEMENT.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_LOCATION_REQUEST_PRIORITY), LOCATION_REQUEST_PRIORITY.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_LOCATION_OFFLINE_LIST_MAX_SIZE), LOCATION_OFFLINE_LIST_MAX_SIZE.intValue());
+
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_INVITE_FRIENDS), TWYST_BUCKS_INVITE_FRIENDS.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_FOLLOW), TWYST_BUCKS_FOLLOW.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_LIKE_OFFER), TWYST_BUCKS_LIKE_OFFER.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_CHECKIN_OUTLET_NON_PAYING), TWYST_BUCKS_CHECKIN_OUTLET_NON_PAYING.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_CHECKIN_OUTLET_PAYING), TWYST_BUCKS_CHECKIN_OUTLET_PAYING.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_SUBMIT_OFFER), TWYST_BUCKS_SUBMIT_OFFER.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_SHARE_OFFER), TWYST_BUCKS_SHARE_OFFER.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_SHARE_OUTLET), TWYST_BUCKS_SHARE_OUTLET.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_SUGGESTION), TWYST_BUCKS_SUGGESTION.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_SHARE_CHECKIN), TWYST_BUCKS_SHARE_CHECKIN.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_SHARE_REDEMPTION), TWYST_BUCKS_SHARE_REDEMPTION.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_GRAB), TWYST_BUCKS_GRAB.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_EXTEND), TWYST_BUCKS_EXTEND.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_REDEEM), TWYST_BUCKS_REDEEM.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_BUY_CHECKIN), TWYST_BUCKS_BUY_CHECKIN.intValue());
+
+            prefsEdit.apply();
         }
     }
 
