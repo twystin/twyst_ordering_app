@@ -1,6 +1,8 @@
 package com.twyst.app.android.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -9,7 +11,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
+import com.twyst.app.android.activities.AvailableOffersActivity;
+import com.twyst.app.android.activities.OfferDisplayActivity;
+import com.twyst.app.android.activities.OrderSummaryActivity;
 import com.twyst.app.android.model.Offer;
+import com.twyst.app.android.util.AppConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +24,11 @@ import java.util.List;
  * Created by Raman on 11/18/2015.
  */
 public class ScrollingOffersAdapter extends PagerAdapter {
-    private List<Offer> mOffersList = new ArrayList<>();
+    private ArrayList<Offer> mOffersList = new ArrayList<>();
+    private final Context mContext;
 
-    public ScrollingOffersAdapter(List<Offer> offerList) {
+    public ScrollingOffersAdapter(Context context, ArrayList<Offer> offerList) {
+        mContext = context;
         this.mOffersList = offerList;
     }
 
@@ -35,7 +43,7 @@ public class ScrollingOffersAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(ViewGroup container, final int position) {
         Offer offer = mOffersList.get(position);
 
         LayoutInflater inflater = (LayoutInflater) container.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -62,7 +70,23 @@ public class ScrollingOffersAdapter extends PagerAdapter {
             twystBucksTextView.setText(String.valueOf(twystBucks));
         }
 
+
         ((ViewPager) container).addView(itemView);
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent offerDisplayIntent = new Intent(mContext, OfferDisplayActivity.class);
+
+                Bundle offerDisplayBundle = new Bundle();
+                offerDisplayBundle.putSerializable(AppConstants.INTENT_OFFER_LIST, mOffersList);
+                offerDisplayBundle.putInt(AppConstants.INTENT_CLICKED_OFFER_POSITION, position);
+
+                offerDisplayIntent.putExtras(offerDisplayBundle);
+                mContext.startActivity(offerDisplayIntent);
+            }
+        });
+
         return itemView;
     }
 

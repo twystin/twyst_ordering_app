@@ -700,7 +700,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
             public void success(BaseResponse<ArrayList<Offer>> offersBaseResponse, Response response) {
                 if (offersBaseResponse.isResponse()) {
                     ArrayList<Offer> offersList = offersBaseResponse.getData();
-                    mScrollingOffersAdapter = new ScrollingOffersAdapter(offersList);
+                    mScrollingOffersAdapter = new ScrollingOffersAdapter(OrderOnlineActivity.this, offersList);
                     mScrollingOffersViewPager = (ViewPager) findViewById(R.id.scrollingOffersPager);
                     mScrollingOffersViewPager.setPadding(32, 0, 32, 0);
                     mScrollingOffersViewPager.setPageMargin(16);

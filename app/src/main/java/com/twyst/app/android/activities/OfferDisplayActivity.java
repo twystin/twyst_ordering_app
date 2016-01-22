@@ -7,25 +7,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.twyst.app.android.R;
-import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.Offer;
-import com.twyst.app.android.service.HttpService;
+import com.twyst.app.android.util.AppConstants;
 
 import java.util.ArrayList;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-
 public class OfferDisplayActivity extends AppCompatActivity implements View.OnClickListener {
-
-    final private String mOutletId = "5316d59326b019ee59000026";
-    final private String token = "us5lxmyPyqnA4Ow20GmbhG362ZuMS4qB";
-    final private String offerListKey = "OffersList";
-
     // View related vars
     private TextView mLine1;
     private TextView mLine2;
@@ -36,7 +25,7 @@ public class OfferDisplayActivity extends AppCompatActivity implements View.OnCl
     private ImageView mOfferImage;
     private LinearLayout mLlOfferDisplay;
 
-    private ArrayList<Offer> offersList = new ArrayList<>();
+    private ArrayList<Offer> mOffersList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +33,7 @@ public class OfferDisplayActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_offer_display);
 
         initVars();
-        fetchOffers();
+        displaySelectedOffer();
 
         mOkButton.setOnClickListener(this);
         mRlOfferDisplayScreen.setOnClickListener(this);
@@ -52,29 +41,12 @@ public class OfferDisplayActivity extends AppCompatActivity implements View.OnCl
         mLlOfferDisplay.setOnClickListener(this);
     }
 
-    private void fetchOffers() {
+    private void displaySelectedOffer() {
+        Bundle bundle = getIntent().getExtras();
+        int clickedOfferPosition = bundle.getInt(AppConstants.INTENT_CLICKED_OFFER_POSITION);
+        mOffersList = (ArrayList<Offer>) bundle.getSerializable(AppConstants.INTENT_OFFER_LIST);
 
-        HttpService.getInstance().getOffers(mOutletId, token, new Callback<BaseResponse<ArrayList<Offer>>>() {
-            @Override
-            public void success(BaseResponse<ArrayList<Offer>> offersBaseResponse, Response response) {
-                if (offersBaseResponse.isResponse()) {
-                    offersList = offersBaseResponse.getData();
-                    if (offersList != null) {
-                        setupView(0);
-                    } else {
-                        Toast.makeText(OfferDisplayActivity.this, "No data found", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(OfferDisplayActivity.this, offersBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-            }
-
-
-        });
+        setupView(clickedOfferPosition);
 
 /*        mScrollingOffersAdapter = new ScrollingOffersAdapter(null);
         mScrollingOffersViewPager = (ViewPager) findViewById(R.id.scrollingOffersPager);
@@ -93,7 +65,7 @@ public class OfferDisplayActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void setupView(int pos) {
-        Offer offer = offersList.get(pos);
+        Offer offer = mOffersList.get(pos);
         String typeOffer = offer.getType();
         String line1 = offer.getLine1();
         String line2 = offer.getLine2();

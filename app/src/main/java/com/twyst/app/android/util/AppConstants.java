@@ -195,5 +195,8 @@ public class AppConstants {
     public static final String LAST_USED_LOCATION = "last_used_location";
     public static final String FROM_CHOOSE_ACTIVITY_TO_MAP = "Choose activity directed to map";
 
+    //Offer DisplayActivity
+    public static final String INTENT_OFFER_LIST = "intent_offer_list";
+    public static final String INTENT_CLICKED_OFFER_POSITION = "intent_clicked_offer_position";
 
 }
