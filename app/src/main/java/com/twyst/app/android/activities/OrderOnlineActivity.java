@@ -187,8 +187,8 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     }
 
     private void fetchMenu() {
-//        String menuId = getIntent().getExtras().getString(AppConstants.INTENT_PARAM_MENU_ID);
-        String menuId = "5679087fb87d2a6f8197ff2c";
+        String menuId = getIntent().getExtras().getString(AppConstants.INTENT_PARAM_MENU_ID);
+//        String menuId = "5679087fb87d2a6f8197ff2c";
         HttpService.getInstance().getMenu(menuId, getUserToken(), new Callback<BaseResponse<MenuData>>() {
             @Override
             public void success(BaseResponse<MenuData> menuDataBaseResponse, Response response) {
