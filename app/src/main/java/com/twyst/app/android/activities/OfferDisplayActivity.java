@@ -1,6 +1,6 @@
 package com.twyst.app.android.activities;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,19 +11,23 @@ import android.widget.TextView;
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.Offer;
 import com.twyst.app.android.util.AppConstants;
+import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
 
-public class OfferDisplayActivity extends AppCompatActivity implements View.OnClickListener {
+public class OfferDisplayActivity extends Activity implements View.OnClickListener {
+
+    private final static String OFFER_TYPE = "offer";
     // View related vars
+    private TextView mHeader;
     private TextView mLine1;
     private TextView mLine2;
-    private TextView mMinBill;
     private TextView mTwystBucks;
     private TextView mOkButton;
     private RelativeLayout mRlOfferDisplayScreen;
-    private ImageView mOfferImage;
+    private ImageView mOfferIcon;
     private LinearLayout mLlOfferDisplay;
+    private LinearLayout ll_tvplusview;
 
     private ArrayList<Offer> mOffersList = new ArrayList<>();
 
@@ -37,7 +41,7 @@ public class OfferDisplayActivity extends AppCompatActivity implements View.OnCl
 
         mOkButton.setOnClickListener(this);
         mRlOfferDisplayScreen.setOnClickListener(this);
-        mOfferImage.setOnClickListener(this);
+        mOfferIcon.setOnClickListener(this);
         mLlOfferDisplay.setOnClickListener(this);
     }
 
@@ -54,31 +58,47 @@ public class OfferDisplayActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void initVars() {
+        mHeader = (TextView) findViewById(R.id.offer_item_header);
         mLine1 = (TextView) findViewById(R.id.offer_item_line1);
         mLine2 = (TextView) findViewById(R.id.offer_item_line2);
-        mMinBill = (TextView) findViewById(R.id.offer_condition_part2);
         mTwystBucks = (TextView) findViewById(R.id.my_twyst_bucks);
         mOkButton = (TextView) findViewById(R.id.press_ok_button);
         mRlOfferDisplayScreen = (RelativeLayout) findViewById(R.id.offer_display_screen);
         mLlOfferDisplay = (LinearLayout) findViewById(R.id.ll_offer);
-        mOfferImage = (ImageView) findViewById(R.id.offer_display_image);
+        mOfferIcon = (ImageView) findViewById(R.id.offer_display_icon);
+        ll_tvplusview = (LinearLayout) findViewById(R.id.ll_tvplusview);
     }
 
     private void setupView(int pos) {
         Offer offer = mOffersList.get(pos);
         String typeOffer = offer.getType();
+        String header = offer.getHeader();
         String line1 = offer.getLine1();
         String line2 = offer.getLine2();
         int twystBucks = offer.getOfferCost();
 
+        // Set header & lines
+        mHeader.setText(header);
         mLine1.setText(line1);
-        mLine2.setText(line2);
+        if (line2 != null) {
+            mLine2.setText(line2);
+        }
+        else
+            ll_tvplusview.setVisibility(View.INVISIBLE);
 
-        if ((typeOffer.equals("offer")) && (twystBucks != 0)) {
+        // Twyst bucks
+        if ((typeOffer.equals(OFFER_TYPE)) && (twystBucks != 0)) {
             mTwystBucks.setText(" " + String.valueOf(twystBucks) + " ");
         } else {
             (findViewById(R.id.twystBucksInfo)).setVisibility(View.INVISIBLE);
         }
+
+        // Offer Icon
+        int offerIcon = Utils.getOfferDisplayIcon(offer.getMeta().getRewardType());
+        if (offerIcon != 0)
+            mOfferIcon.setImageResource(offerIcon);
+        else
+            mOfferIcon.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -87,13 +107,9 @@ public class OfferDisplayActivity extends AppCompatActivity implements View.OnCl
             case (R.id.press_ok_button):
                 finish();
                 break;
+
             case (R.id.offer_display_screen):
                 finish();
-                break;
-            case (R.id.offer_display_image):
-                break;
-
-            case (R.id.ll_offer):
                 break;
         }
     }

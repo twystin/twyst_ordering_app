@@ -6,7 +6,7 @@ import com.twyst.app.android.BuildConfig;
  * Created by satish on 31/05/15.
  */
 public class AppConstants {
-//        public static final String HOST = "http://192.168.1.21:3000";
+    //        public static final String HOST = "http://192.168.1.21:3000";
     public static final String HOST = "http://staging.twyst.in";
 //    public static final String HOST = "http://twyst.in";
 
@@ -181,7 +181,7 @@ public class AppConstants {
     public static final String cuisinetag = "CUISINES";
     public static final String paymentTag = "PAYMENT OPTION";
     public static final String offersTag = "OFFERS AVAILABLE";
-    public static final  int GET_FILTER_ACTIVITY = 5;
+    public static final int GET_FILTER_ACTIVITY = 5;
     public static final int GOT_FILTERS_SUCCESS = -5;
     public static final String FILTER_TAGS = "FILTER_TAGS_SENT";
     public static final String FILTER_MAP = "filter_map";
@@ -189,7 +189,7 @@ public class AppConstants {
     public static final String CHOOSE_LOCATION_OPTION_SELECTED = "Choose location selected option";
     public static final String CHOOSE_LOCATION_OPTION_CURRENT = "Current Location";
     public static final String CHOOSE_LOCATION_OPTION_SAVED = "Saved Location";
-    public static final String CHOOSE_LOCATION_OPTION_ADD= "Add New Location";
+    public static final String CHOOSE_LOCATION_OPTION_ADD = "Add New Location";
 
     public static final String CURRENT_USED_LOCATION = "current_used_location";
     public static final String LAST_USED_LOCATION = "last_used_location";
@@ -198,5 +198,8 @@ public class AppConstants {
     //Offer DisplayActivity
     public static final String INTENT_OFFER_LIST = "intent_offer_list";
     public static final String INTENT_CLICKED_OFFER_POSITION = "intent_clicked_offer_position";
-
+    public static final String OFFER_BUYXGETY = "buyxgety";
+    public static final String OFFER_FREE = "free";
+    public static final String OFFER_FLATOFF = "flatoff";
+    public static final String OFFER_DISCOUNT = "discount";
 }

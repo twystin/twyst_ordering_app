@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.twyst.app.android.R;
+
 import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -180,7 +182,7 @@ public class Utils {
     }
 
     //Added by Raman for formatting date & time.
-    public static String formatDateTime(String orderDate){
+    public static String formatDateTime(String orderDate) {
         String orderDateOld = orderDate;
         String orderDateNew = null;
 
@@ -197,5 +199,28 @@ public class Utils {
             e.printStackTrace();
         }
         return orderDateNew;
+    }
+
+    public static int getOfferDisplayIcon(String rewardType) {
+        int imageId = 0;
+
+        switch (rewardType) {
+            case AppConstants.OFFER_BUYXGETY:
+                imageId = R.drawable.offer_oneplusone;
+                break;
+
+            case AppConstants.OFFER_DISCOUNT:
+                imageId = R.drawable.offer_percentage;
+                break;
+
+            case AppConstants.OFFER_FLATOFF:
+                imageId = R.drawable.offer_flat_off;
+                break;
+
+            case AppConstants.OFFER_FREE:
+                imageId = R.drawable.offer_free;
+                break;
+        }
+        return imageId;
     }
 }

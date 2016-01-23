@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
@@ -16,6 +17,7 @@ import com.twyst.app.android.activities.OfferDisplayActivity;
 import com.twyst.app.android.activities.OrderSummaryActivity;
 import com.twyst.app.android.model.Offer;
 import com.twyst.app.android.util.AppConstants;
+import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +72,13 @@ public class ScrollingOffersAdapter extends PagerAdapter {
             twystBucksTextView.setText(String.valueOf(twystBucks));
         }
 
+        ImageView mOfferIcon = (ImageView) itemView.findViewById(R.id.imageViewOffer);
+        // Offer Icon
+        int offerIcon = Utils.getOfferDisplayIcon(offer.getMeta().getRewardType());
+        if (offerIcon != 0)
+            mOfferIcon.setImageResource(offerIcon);
+        else
+            mOfferIcon.setVisibility(View.INVISIBLE);
 
         ((ViewPager) container).addView(itemView);
 

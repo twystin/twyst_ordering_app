@@ -17,58 +17,67 @@
             android:id="@+id/imageViewOffer"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
             android:padding="4dp"
-            android:background="@drawable/offer_free"
-            android:layout_gravity="center_vertical" />
+            android:src="@drawable/offer_free" />
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical"
             android:gravity="center_vertical"
+            android:orientation="vertical"
             android:paddingLeft="4dp"
             android:paddingRight="4dp">
+
             <TextView
                 android:id="@+id/tv_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:text="Pizza"
                 android:textColor="@android:color/black"
-                android:textSize="16dp"/>
+                android:textSize="16dp" />
+
             <TextView
                 android:id="@+id/tv_line12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:text="Min bill Rs. 300"
                 android:textColor="@color/text_grey"
-                android:textSize="10dp"/>
+                android:textSize="10dp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/bucks_layout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <ImageView
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:background="@drawable/twystbucksicon"
-                    android:padding="2dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginRight="2dp"
-                    android:layout_gravity="center_vertical"/>
+                    android:background="@drawable/twystbucksicon"
+                    android:padding="2dp" />
+
                 <TextView
                     android:id="@+id/twyst_bucks_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="999"
                     android:textColor="@android:color/black"
-                    android:textSize="16dp"/>
+                    android:textSize="16dp" />
             </LinearLayout>
 
             <TextView
@@ -76,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:text="Twyst Bucks"
                 android:textColor="@color/text_grey"
-                android:textSize="10dp"/>
+                android:textSize="10dp" />
 
 
         </LinearLayout>
