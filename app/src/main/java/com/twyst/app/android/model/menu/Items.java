@@ -51,7 +51,10 @@ public class Items implements Serializable {
 
     private Items itemOriginalReference;
 
+    @SerializedName("item_quantity")
     private int itemQuantity;
+
+
 
     private String categoryID;
 

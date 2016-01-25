@@ -40,6 +40,7 @@ import com.twyst.app.android.adapters.MenuTabsPagerAdapter;
 import com.twyst.app.android.adapters.ScrollingOffersAdapter;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.Offer;
+import com.twyst.app.android.model.ReorderMenuAndCart;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.menu.MenuCategories;
 import com.twyst.app.android.model.menu.MenuData;
@@ -83,6 +84,9 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     RecyclerView mCartRecyclerView;
     CartAdapter mCartAdapter;
     List<MenuExpandableAdapter> mMenuAdaptersList = new ArrayList();
+    boolean ifReordered = false;
+//    private ArrayList<Items> cartItemsTobeAddedFromReorder = null;
+    private ReorderMenuAndCart reorderMenuAndCart = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,9 +96,22 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         setupToolBar();
         setupTopLayout();
         setupScrollingOfferAdapters();
+
 //        setupMenu();
-        fetchMenu();
+
+
         setupCartRecyclerView();
+        ifReordered = checkifReordered();
+        fetchMenu();
+
+    }
+
+
+    public boolean checkifReordered() {
+//        cartItemsTobeAddedFromReorder = (ArrayList<Items>)getIntent().getSerializableExtra(AppConstants.INTENT_PLACE_REORDER_CARTITEMS);
+        reorderMenuAndCart = (ReorderMenuAndCart)getIntent().getSerializableExtra(AppConstants.INTENT_PLACE_REORDER);
+//        return (cartItemsTobeAddedFromReorder != null && cartItemsTobeAddedFromReorder.size() > 0);
+        return (reorderMenuAndCart != null);
     }
 
     private void setupTopLayout() {
@@ -176,6 +193,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         mMenuViewPager = (ViewPager) findViewById(R.id.menuPager);
         mMenuViewPager.setAdapter(adapter);
 
+
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(mMenuViewPager);
@@ -187,47 +205,79 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     }
 
     private void fetchMenu() {
-        String menuId = getIntent().getExtras().getString(AppConstants.INTENT_PARAM_MENU_ID);
-//        String menuId = "5679087fb87d2a6f8197ff2c";
-        HttpService.getInstance().getMenu(menuId, getUserToken(), new Callback<BaseResponse<MenuData>>() {
-            @Override
-            public void success(BaseResponse<MenuData> menuDataBaseResponse, Response response) {
-                if (menuDataBaseResponse.isResponse()) {
-                    MenuData menuData = menuDataBaseResponse.getData();
-                    if (menuData != null) {
-                        mOutletId = menuData.getOutlet();
+        String menuId;
+        if (ifReordered) {
+            menuId = getIntent().getStringExtra(AppConstants.INTENT_PLACE_REORDER_MENUID);
+        } else {
+            menuId = getIntent().getExtras().getString(AppConstants.INTENT_PARAM_MENU_ID);
+        }
+//            menuId = "5679087fb87d2a6f8197ff2c";
 
-                        // Get the ViewPager and set it's PagerAdapter so that it can display items
-                        mMenuTabsPagerAdapter =
-                                new MenuTabsPagerAdapter(getUpdatedMenuCategoriesList(menuData.getMenuCategoriesList()), getSupportFragmentManager(), OrderOnlineActivity.this);
-                        mMenuViewPager = (ViewPager) findViewById(R.id.menuPager);
-                        mMenuViewPager.setAdapter(mMenuTabsPagerAdapter);
+        if (ifReordered){
+//            MenuData menuData = (MenuData)getIntent().getSerializableExtra(AppConstants.INTENT_PLACE_REORDER_MENUDATA);
+//            setupMenuFetched(menuData);
+            setupMenuFetched(reorderMenuAndCart.getMenuData());
+            for (Items item: reorderMenuAndCart.getCartItemsList()){
+                int a =1;
+                int b = reorderMenuAndCart.getMenuData().getMenuCategoriesList().get(0).getSubCategoriesList().get(0).getItemsList().get(2).hashCode();
+                int c = item.hashCode();
+                c = item.getItemOriginalReference().hashCode();
+                int d = 2;
 
-                        // Give the TabLayout the ViewPager
-                        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-                        tabLayout.setupWithViewPager(mMenuViewPager);
 
-                        setUpSearchView();
+
+
+                addMenu(item);
+            }
+            mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+
+        } else {
+
+            HttpService.getInstance().getMenu(menuId, getUserToken(), new Callback<BaseResponse<MenuData>>() {
+                @Override
+                public void success(BaseResponse<MenuData> menuDataBaseResponse, Response response) {
+                    if (menuDataBaseResponse.isResponse()) {
+                        MenuData menuData = menuDataBaseResponse.getData();
+                        if (menuData != null) {
+                            setupMenuFetched(menuData);
+                        } else {
+                            Toast.makeText(OrderOnlineActivity.this, "No data found", Toast.LENGTH_SHORT).show();
+                        }
+
                     } else {
-                        Toast.makeText(OrderOnlineActivity.this, "No data found", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(OrderOnlineActivity.this, menuDataBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
-                } else {
-                    Toast.makeText(OrderOnlineActivity.this, menuDataBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    hideProgressHUDInLayout();
+                    hideSnackbar();
                 }
 
-                hideProgressHUDInLayout();
-                hideSnackbar();
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                hideProgressHUDInLayout();
-                hideSnackbar();
-                handleRetrofitError(error);
-            }
-        });
+                @Override
+                public void failure(RetrofitError error) {
+                    hideProgressHUDInLayout();
+                    hideSnackbar();
+                    handleRetrofitError(error);
+                }
+            });
+        }
     }
+
+
+    private void setupMenuFetched(MenuData menuData){
+        mOutletId = menuData.getOutlet();
+
+        // Get the ViewPager and set it's PagerAdapter so that it can display items
+        mMenuTabsPagerAdapter =
+                new MenuTabsPagerAdapter(getUpdatedMenuCategoriesList(menuData.getMenuCategoriesList()), getSupportFragmentManager(), OrderOnlineActivity.this);
+        mMenuViewPager = (ViewPager) findViewById(R.id.menuPager);
+        mMenuViewPager.setAdapter(mMenuTabsPagerAdapter);
+        // Give the TabLayout the ViewPager
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout.setupWithViewPager(mMenuViewPager);
+
+        setUpSearchView();
+    }
+
 
     private ArrayList<MenuCategories> getUpdatedMenuCategoriesList(ArrayList<MenuCategories> menuCategoriesList) {
         MenuCategories recommendedMenuCategory = new MenuCategories();
@@ -664,7 +714,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     }
 
     private void updateCartMenu() {
-        if (!searchView.isIconified()) {
+        if (searchView!=null &&  !searchView.isIconified()) {
             hideSeachView();
         }
 

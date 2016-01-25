@@ -20,7 +20,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -34,23 +33,14 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.gson.Gson;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
 import com.nispok.snackbar.listeners.ActionClickListener;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import fr.castorflex.android.circularprogressbar.CircularProgressBar;
-
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.DrawerListAdapter;
 import com.twyst.app.android.model.DrawerItem;
@@ -62,6 +52,11 @@ import com.twyst.app.android.util.TwystProgressHUD;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import retrofit.RetrofitError;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -83,7 +78,7 @@ public abstract class BaseActivity extends ActionBarActivity
     private CircularProgressBar circularProgressBar;
     protected boolean setupAsChild;
     protected boolean drawerOpened;
-    private DrawerItem invite, faq, bill, wallet, notifications, submitOffer, suggestOutlet, write, rate, addressDetails;
+    private DrawerItem invite, faq, bill, wallet, notifications, submitOffer, suggestOutlet, write, rate, addressDetails, reorder;
     protected SharedPreferences.Editor sharedPreferences;
 
     TextView localityDrawer;
@@ -155,7 +150,8 @@ public abstract class BaseActivity extends ActionBarActivity
                 faq.setSelected(false);
                 notifications.setSelected(false);
                 bill.setSelected(false);
-                wallet.setSelected(false);
+//                wallet.setSelected(false);
+                reorder.setSelected(false);
                 addressDetails.setSelected(false);
 //                submitOffer.setSelected(false);
                 suggestOutlet.setSelected(false);
@@ -173,7 +169,8 @@ public abstract class BaseActivity extends ActionBarActivity
                 faq.setSelected(false);
                 notifications.setSelected(false);
                 bill.setSelected(false);
-                wallet.setSelected(false);
+//                wallet.setSelected(false);
+                reorder.setSelected(false);
                 addressDetails.setSelected(false);
 //                submitOffer.setSelected(false);
                 suggestOutlet.setSelected(false);
@@ -252,7 +249,8 @@ public abstract class BaseActivity extends ActionBarActivity
             faq.setSelected(false);
             notifications.setSelected(false);
             bill.setSelected(false);
-            wallet.setSelected(false);
+//            wallet.setSelected(false);
+            reorder.setSelected(false);
             addressDetails.setSelected(false);
 //            submitOffer.setSelected(false);
             suggestOutlet.setSelected(false);
@@ -264,7 +262,8 @@ public abstract class BaseActivity extends ActionBarActivity
             faq.setSelected(false);
             notifications.setSelected(false);
             bill.setSelected(false);
-            wallet.setSelected(false);
+//            wallet.setSelected(false);
+            reorder.setSelected(false);
             addressDetails.setSelected(false);
 //            submitOffer.setSelected(false);
             suggestOutlet.setSelected(false);
@@ -290,17 +289,25 @@ public abstract class BaseActivity extends ActionBarActivity
         bill.setSelectedIcon(R.drawable.drawer_item_icon_upload_bill_selected);
         drawerItems.add(bill);
 
-        wallet = new DrawerItem();
-        wallet.setTitle("MY WALLET");
-        wallet.setIcon(R.drawable.drawer_item_icon_wallet);
-        wallet.setSelectedIcon(R.drawable.drawer_item_icon_wallet_selected);
-        drawerItems.add(wallet);
+//        wallet = new DrawerItem();
+//        wallet.setTitle("MY WALLET");
+//        wallet.setIcon(R.drawable.drawer_item_icon_wallet);
+//        wallet.setSelectedIcon(R.drawable.drawer_item_icon_wallet_selected);
+//        drawerItems.add(wallet);
+
+        reorder = new DrawerItem();
+        reorder.setTitle("ORDER HISTORY");
+        reorder.setIcon(R.drawable.drawer_item_icon_wallet);
+        reorder.setSelectedIcon(R.drawable.drawer_item_icon_wallet_selected);
+        drawerItems.add(reorder);
 
         addressDetails = new DrawerItem();
         addressDetails.setTitle("ADDRESS DETAILS");
         addressDetails.setIcon(R.drawable.drawer_item_icon_submit_offer);
         addressDetails.setSelectedIcon(R.drawable.drawer_item_icon_submit_offer_selected);
         drawerItems.add(addressDetails);
+
+
 
 //        submitOffer = new DrawerItem();
 //        submitOffer.setTitle("SUBMIT AN OFFER");
@@ -503,8 +510,9 @@ public abstract class BaseActivity extends ActionBarActivity
 
                     case 3:
                         //my wallet
-                        intent = new Intent(getBaseContext(), WalletActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//                        intent = new Intent(getBaseContext(), WalletActivity.class);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        intent = new Intent(getBaseContext(),OrderHistoryActivity.class);
                         break;
 
                     case 4:

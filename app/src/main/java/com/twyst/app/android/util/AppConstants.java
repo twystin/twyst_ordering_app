@@ -202,4 +202,8 @@ public class AppConstants {
     public static final String OFFER_FREE = "free";
     public static final String OFFER_FLATOFF = "flatoff";
     public static final String OFFER_DISCOUNT = "discount";
+
+    // OrderHistory to OrderOnline
+    public static final String INTENT_PLACE_REORDER = "intent_reorder_data";
+    public static final String INTENT_PLACE_REORDER_MENUID = "place_reorder_menuid";
 }

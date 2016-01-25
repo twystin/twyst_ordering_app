@@ -35,6 +35,28 @@ public class OrderHistory implements Serializable {
     @SerializedName("order_status")
     private boolean orderStatus;
 
+    @SerializedName("menu_id")
+    private String menuId;
+
+    @SerializedName("outlet_id")
+    private String outletId;
+
+    public String getOutletId() {
+        return outletId;
+    }
+
+    public void setOutletId(String outletId) {
+        this.outletId = outletId;
+    }
+
+    public String getMenuId() {
+        return menuId;
+    }
+
+    public void setMenuId(String menuId) {
+        this.menuId = menuId;
+    }
+
     public String getOutletName() {
         return outletName;
     }
