@@ -30,6 +30,7 @@ import com.twyst.app.android.model.menu.SubOptionSet;
 import com.twyst.app.android.model.menu.SubOptions;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
+import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     private final ArrayList<OrderHistory> mOrderHistoryList;
     private final Context mContext;
     private ReorderMenuAndCart reorderMenuAndCart = null;
+    private TwystProgressHUD twystProgressHUD;
 
     public OrderHistoryAdapter(Context context, ArrayList<OrderHistory> orderHistoryList) {
         mContext = context;
@@ -72,6 +74,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             @Override
             public void onClick(View v) {
 
+                twystProgressHUD = TwystProgressHUD.show(mContext, false, null);
                 reorderProcessing(mOrderHistoryList.get(position));
 
             }
@@ -160,10 +163,12 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                         placeReorderProcessing(menuData,reOrder);
 
                     } else {
+                        twystProgressHUD.dismiss();
                         Toast.makeText(mContext, "No data found", Toast.LENGTH_SHORT).show();
                     }
 
                 } else {
+                    twystProgressHUD.dismiss();
                     Toast.makeText(mContext, menuDataBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
@@ -348,6 +353,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             Intent intent = new Intent(mContext, OrderOnlineActivity.class);
             intent.putExtra(AppConstants.INTENT_PLACE_REORDER,reorderMenuAndCart);
             intent.putExtra(AppConstants.INTENT_PLACE_REORDER_MENUID, reOrder.getMenuId());
+            twystProgressHUD.dismiss();
             mContext.startActivity(intent);
         }
 
@@ -371,6 +377,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         final AlertDialog dialog = builder.create();
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(false);
+        twystProgressHUD.dismiss();
         dialog.show();
 
         ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(mContext,R.layout.reorder_error_row_layout,list);

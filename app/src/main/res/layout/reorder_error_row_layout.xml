@@ -1,17 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
 
-    <ImageView
-        android:layout_width="@dimen/layout_wide_margin"
-        android:layout_height="@dimen/layout_wide_margin"
-        android:src="@drawable/option_radio_unchecked"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="@dimen/layout_medium_margin"
-        />
+
     <TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@android:id/text1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,4 +11,4 @@
         android:paddingRight="@dimen/layout_medium_margin"
         android:paddingTop="@dimen/layout_small_margin"
         android:textSize="@dimen/layout_huge_text_size" />
-</LinearLayout>
+
