@@ -2,8 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/menu_background_color"
-    android:paddingBottom="10dp">
+    android:background="@color/menu_background_color">
 
     <RelativeLayout
         android:id="@+id/topLayout"
@@ -65,7 +64,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/outlet_followed_icon" />
-
         </LinearLayout>
 
     </RelativeLayout>
@@ -75,8 +73,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/topLayout"
-        android:layout_marginTop="10dp">
-
+        android:paddingTop="@dimen/menu_padding_layout"
+        android:paddingBottom="@dimen/menu_padding_layout">
+        <include
+            android:id="@+id/scrollingOfffersProgressBar"
+            layout="@layout/twyst_progress_hud" />
         <android.support.v4.view.ViewPager
             android:id="@+id/scrollingOffersPager"
             android:layout_width="match_parent"
@@ -84,7 +85,6 @@
             android:clipToPadding="false"
             android:gravity="center"
             android:overScrollMode="never" />
-
     </RelativeLayout>
 
 </RelativeLayout>

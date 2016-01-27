@@ -185,8 +185,8 @@
             android:name=".activities.OfferDisplayActivity"
             android:label="@string/order_online"
             android:launchMode="singleTop"
-            android:theme="@style/Theme.TranslucentCustom"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity
             android:name=".activities.AvailableOffersActivity"

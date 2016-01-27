@@ -72,6 +72,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     TextView tvCartTotalCost;
 
     private CircularProgressBar circularProgressBar;
+    private CircularProgressBar scrollingOfffersProgressBar;
 
     private MenuItem mSearchMenuItem;
     MenuExpandableAdapter mSearchExpandableAdapter;
@@ -85,7 +86,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     CartAdapter mCartAdapter;
     List<MenuExpandableAdapter> mMenuAdaptersList = new ArrayList();
     boolean ifReordered = false;
-//    private ArrayList<Items> cartItemsTobeAddedFromReorder = null;
+    //    private ArrayList<Items> cartItemsTobeAddedFromReorder = null;
     private ReorderMenuAndCart reorderMenuAndCart = null;
 
     @Override
@@ -109,7 +110,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
 
     public boolean checkifReordered() {
 //        cartItemsTobeAddedFromReorder = (ArrayList<Items>)getIntent().getSerializableExtra(AppConstants.INTENT_PLACE_REORDER_CARTITEMS);
-        reorderMenuAndCart = (ReorderMenuAndCart)getIntent().getSerializableExtra(AppConstants.INTENT_PLACE_REORDER);
+        reorderMenuAndCart = (ReorderMenuAndCart) getIntent().getSerializableExtra(AppConstants.INTENT_PLACE_REORDER);
 //        return (cartItemsTobeAddedFromReorder != null && cartItemsTobeAddedFromReorder.size() > 0);
         return (reorderMenuAndCart != null);
     }
@@ -213,20 +214,11 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         }
 //            menuId = "5679087fb87d2a6f8197ff2c";
 
-        if (ifReordered){
+        if (ifReordered) {
 //            MenuData menuData = (MenuData)getIntent().getSerializableExtra(AppConstants.INTENT_PLACE_REORDER_MENUDATA);
 //            setupMenuFetched(menuData);
             setupMenuFetched(reorderMenuAndCart.getMenuData());
-            for (Items item: reorderMenuAndCart.getCartItemsList()){
-                int a =1;
-                int b = reorderMenuAndCart.getMenuData().getMenuCategoriesList().get(0).getSubCategoriesList().get(0).getItemsList().get(2).hashCode();
-                int c = item.hashCode();
-                c = item.getItemOriginalReference().hashCode();
-                int d = 2;
-
-
-
-
+            for (Items item : reorderMenuAndCart.getCartItemsList()) {
                 addMenu(item);
             }
             mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
@@ -263,7 +255,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     }
 
 
-    private void setupMenuFetched(MenuData menuData){
+    private void setupMenuFetched(MenuData menuData) {
         mOutletId = menuData.getOutlet();
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
@@ -714,7 +706,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     }
 
     private void updateCartMenu() {
-        if (searchView!=null &&  !searchView.isIconified()) {
+        if (searchView != null && !searchView.isIconified()) {
             hideSeachView();
         }
 
@@ -738,6 +730,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     }
 
     private void setupScrollingOfferAdapters() {
+        scrollingOfffersProgressBar = (CircularProgressBar) findViewById(R.id.scrollingOfffersProgressBar);
         mOutletId = "5316d59326b019ee59000026";
         String token = "us5lxmyPyqnA4Ow20GmbhG362ZuMS4qB";
 //        if (getIntent().getExtras() != null) {
@@ -755,21 +748,29 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                     mScrollingOffersViewPager.setPadding(32, 0, 32, 0);
                     mScrollingOffersViewPager.setPageMargin(16);
                     mScrollingOffersViewPager.setAdapter(mScrollingOffersAdapter);
+
                 } else {
                     Toast.makeText(OrderOnlineActivity.this, offersBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
-                hideProgressHUDInLayout();
+                hideProgressHUDInOffers();
                 hideSnackbar();
             }
 
             @Override
             public void failure(RetrofitError error) {
-                hideProgressHUDInLayout();
+                hideProgressHUDInOffers();
                 hideSnackbar();
                 handleRetrofitError(error);
             }
         });
+    }
+
+    public void hideProgressHUDInOffers() {
+        if (scrollingOfffersProgressBar != null) {
+            scrollingOfffersProgressBar.progressiveStop();
+            scrollingOfffersProgressBar.setVisibility(View.GONE);
+        }
     }
 
     public void hideProgressHUDInLayout() {

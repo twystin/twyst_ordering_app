@@ -1,24 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/offerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:padding="8dp">
+    android:background="@color/white">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/background"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/background"/>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:background="@color/background"/>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:background="@color/background"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="@dimen/scrolling_offers_large_padding">
 
         <ImageView
             android:id="@+id/imageViewOffer"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/scrolling_offers_image_height"
+            android:layout_height="@dimen/scrolling_offers_image_height"
             android:layout_gravity="center_vertical"
-            android:padding="4dp"
+            android:paddingBottom="@dimen/scrolling_offers_medium_padding"
+            android:paddingRight="@dimen/scrolling_offers_medium_padding"
+            android:paddingTop="@dimen/scrolling_offers_medium_padding"
             android:src="@drawable/offer_free" />
 
         <LinearLayout
@@ -27,8 +52,7 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="vertical"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp">
+            android:padding="@dimen/scrolling_offers_medium_padding">
 
             <TextView
                 android:id="@+id/tv_header"
@@ -38,7 +62,7 @@
                 android:singleLine="true"
                 android:text="Pizza"
                 android:textColor="@android:color/black"
-                android:textSize="16dp" />
+                android:textSize="@dimen/scrolling_offers_text_size_medium" />
 
             <TextView
                 android:id="@+id/tv_line12"
@@ -48,7 +72,7 @@
                 android:singleLine="true"
                 android:text="Min bill Rs. 300"
                 android:textColor="@color/text_grey"
-                android:textSize="10dp" />
+                android:textSize="@dimen/scrolling_offers_text_size_small" />
         </LinearLayout>
 
         <LinearLayout
@@ -64,12 +88,11 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="10dp"
+                    android:layout_height="12dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="2dp"
-                    android:background="@drawable/twystbucksicon"
-                    android:padding="2dp" />
+                    android:background="@drawable/twystbucksicon" />
 
                 <TextView
                     android:id="@+id/twyst_bucks_textView"
@@ -77,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:text="999"
                     android:textColor="@android:color/black"
-                    android:textSize="16dp" />
+                    android:textSize="@dimen/scrolling_offers_text_size_medium" />
             </LinearLayout>
 
             <TextView
@@ -85,8 +108,7 @@
                 android:layout_height="wrap_content"
                 android:text="Twyst Bucks"
                 android:textColor="@color/text_grey"
-                android:textSize="10dp" />
-
+                android:textSize="@dimen/scrolling_offers_text_size_small" />
 
         </LinearLayout>
 

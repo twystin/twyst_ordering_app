@@ -12,15 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
-import com.twyst.app.android.activities.AvailableOffersActivity;
 import com.twyst.app.android.activities.OfferDisplayActivity;
-import com.twyst.app.android.activities.OrderSummaryActivity;
 import com.twyst.app.android.model.Offer;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Raman on 11/18/2015.
@@ -106,7 +103,7 @@ public class ScrollingOffersAdapter extends PagerAdapter {
 
     @Override
     public float getPageWidth(int position) {
-        return 0.95f;
+        return 0.995f;
     }
 
 }
