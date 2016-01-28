@@ -20,6 +20,8 @@ import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -112,7 +114,14 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_main);
 
+        startAnimamtion();
         splashCode();
+    }
+
+    private void startAnimamtion() {
+        ImageView app_background = (ImageView) findViewById(R.id.app_background_iv);
+        Animation zoom_in = AnimationUtils.loadAnimation(this, R.anim.zoom_in_premain);
+        app_background.startAnimation(zoom_in);
     }
 
     // Choose Location Variables
