@@ -185,8 +185,11 @@ each friend who joins.</p>
     <!--added by Anshul for filters-->
     <string name="payment_option_description">Online payment is available for all outlets on Twyst. You also get more cashback when you pay online.</string>
     <string name="offers_available_description">You can use Twyst Bucks to get savings on your online orders. Simply select the offer when you order via twyst</string>
-    <string name="choose_location_description_line1">Where would you like to</string>
-    <string name="choose_location_description_line2">deliver your food?</string>
+    <string name="choose_location_description_line1">Where would you like</string>
+    <string name="choose_location_description_line2">your food to be delivered?</string>
+
+    <string name="registered_line1">Get registered</string>
+    <string name="registered_line2">with us</string>
 
     <string name="turn_on_gps_desc">Turn On GPS, currently using Last known!</string>
     <string name="fetch_location_again_desc">Fetch Location Again, currently using last known!</string>

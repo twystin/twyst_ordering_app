@@ -17,7 +17,8 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/pre_main_layout_margin"
         android:layout_marginRight="@dimen/pre_main_layout_margin"
-        android:layout_marginTop="@dimen/pre_main_layout_margin" />
+        android:layout_marginTop="@dimen/pre_main_layout_margin"
+        android:visibility="gone" />
 
     <include
         android:id="@+id/layout_user_verification"
@@ -26,7 +27,21 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/pre_main_layout_margin"
         android:layout_marginRight="@dimen/pre_main_layout_margin"
-        android:layout_marginTop="@dimen/pre_main_layout_margin"
-        android:visibility="gone" />
+        android:layout_marginTop="@dimen/pre_main_layout_margin"/>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/gradient_logo">
+
+        <ImageView
+            android:id="@+id/tutorial_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:src="@drawable/twyst_logo" />
+    </RelativeLayout>
 </RelativeLayout>

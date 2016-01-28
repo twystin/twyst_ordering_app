@@ -2,6 +2,7 @@ package com.twyst.app.android.activities;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -105,7 +106,7 @@ import retrofit.client.Response;
 /**
  * Created by anshul on 1/18/2016.
  */
-public class PreMainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class PreMainActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -609,6 +610,8 @@ public class PreMainActivity extends AppCompatActivity implements GoogleApiClien
     }
 
     private void numberToEnterUIUpdate() {
+        findViewById(R.id.card_verify_number).setVisibility(View.VISIBLE);
+        findViewById(R.id.card_signup).setVisibility(View.GONE);
         //Enter your number
         tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_enter_phone));
         etPhonePre.setVisibility(View.VISIBLE);
@@ -683,6 +686,8 @@ public class PreMainActivity extends AppCompatActivity implements GoogleApiClien
     }
 
     private void numberVerifiedUIUpdate() {
+        findViewById(R.id.card_verify_number).setVisibility(View.GONE);
+        findViewById(R.id.card_signup).setVisibility(View.VISIBLE);
         isNumberVerified = true;
         etPhoneCodeInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(14)});
         etPhoneCodeInput.setText("+91-" + getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).getString(AppConstants.PREFERENCE_USER_PHONE, ""));

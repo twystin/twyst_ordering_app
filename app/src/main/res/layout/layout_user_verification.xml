@@ -9,12 +9,31 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/tutorial_logo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/layout_wide_margin"
+            android:src="@drawable/registered_icon" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="10dp"
-            android:src="@drawable/twyst_logo" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/layout_small_margin"
+            android:text="@string/registered_line1"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/layout_huge_text_size" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:text="@string/registered_line2"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/layout_huge_text_size" />
 
         <include
             android:id="@+id/card_verify_number"
@@ -22,6 +41,7 @@
 
         <include
             android:id="@+id/card_signup"
+            android:visibility="gone"
             layout="@layout/layout_signup" />
     </LinearLayout>
 </ScrollView>

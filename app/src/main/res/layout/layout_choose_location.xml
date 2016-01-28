@@ -41,10 +41,7 @@
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/layout_medium_margin"
-        android:paddingLeft="@dimen/layout_medium_margin"
-        android:paddingRight="@dimen/layout_medium_margin"
-        android:paddingTop="@dimen/layout_medium_margin">
+        android:padding="10dp">
 
         <TextView
             android:layout_width="0dp"
@@ -55,11 +52,11 @@
             android:focusableInTouchMode="false"
             android:text="Current Location"
             android:textColor="@color/white"
-            android:textSize="@dimen/layout_medium_text_size" />
+            android:textSize="@dimen/layout_extra_wide_text_size" />
 
         <ImageView
-            android:layout_width="@dimen/layout_wide_text_size"
-            android:layout_height="@dimen/layout_wide_text_size"
+            android:layout_width="@dimen/layout_huge_text_size"
+            android:layout_height="@dimen/layout_huge_text_size"
             android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
@@ -70,16 +67,13 @@
         android:id="@+id/linlay_choose_location_saved"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="2dp"
         android:background="@color/choose_location_option_list_background"
         android:clickable="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/layout_medium_margin"
-        android:paddingLeft="@dimen/layout_medium_margin"
-        android:paddingRight="@dimen/layout_medium_margin"
-        android:paddingTop="@dimen/layout_medium_margin">
+        android:padding="10dp">
 
         <TextView
             android:layout_width="0dp"
@@ -90,7 +84,7 @@
             android:focusableInTouchMode="false"
             android:text="Saved Location"
             android:textColor="@color/white"
-            android:textSize="@dimen/layout_medium_text_size" />
+            android:textSize="@dimen/layout_extra_wide_text_size" />
 
         <ImageView
             android:layout_width="@dimen/layout_wide_text_size"
@@ -112,16 +106,13 @@
         android:id="@+id/linlay_choose_location_add_new"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="2dp"
         android:background="@color/choose_location_option_list_background"
         android:clickable="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/layout_medium_margin"
-        android:paddingLeft="@dimen/layout_medium_margin"
-        android:paddingRight="@dimen/layout_medium_margin"
-        android:paddingTop="@dimen/layout_medium_margin">
+        android:padding="10dp">
 
         <TextView
             android:layout_width="0dp"
@@ -132,7 +123,7 @@
             android:focusableInTouchMode="false"
             android:text="Add New Location"
             android:textColor="@color/white"
-            android:textSize="@dimen/layout_medium_text_size" />
+            android:textSize="@dimen/layout_extra_wide_text_size"/>
 
         <ImageView
             android:layout_width="@dimen/layout_wide_text_size"
