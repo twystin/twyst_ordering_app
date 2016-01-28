@@ -114,11 +114,11 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_main);
 
-        startAnimamtion();
+        startAnimation();
         splashCode();
     }
 
-    private void startAnimamtion() {
+    private void startAnimation() {
         ImageView app_background = (ImageView) findViewById(R.id.app_background_iv);
         Animation zoom_in = AnimationUtils.loadAnimation(this, R.anim.zoom_in_premain);
         app_background.startAnimation(zoom_in);
