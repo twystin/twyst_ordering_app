@@ -596,66 +596,6 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         });
     }
 
-    private void waitForOTPUIUpdate(OTPCode otpCode) {
-        //Waiting for OTP
-        tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_waiting));
-        tvVerifyNumberLowerHint.setVisibility(View.GONE);
-        tvVerifyNumberResendManually.setVisibility(View.VISIBLE);
-        tvVerifyNumberResendManually.setText(getResources().getString(R.string.verify_number_manually));
-        tvVerifyNumberGoLayout.setVisibility(View.VISIBLE);
-        verifyNumberGo.setEnabled(false);
-        verifyNumberProgressBar.setVisibility(View.VISIBLE);
-        tvVerifyNumberGoText.setBackground(null);
-        tvVerifyNumberResendManually.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                askUserToEnterOTPUIUpdate();
-            }
-        });
-
-        myRunnable = new MyRunnable(otpCode);
-        handler.postDelayed(myRunnable, 1000);
-        hideSnackbar();
-    }
-
-    private void numberToEnterUIUpdate() {
-        findViewById(R.id.card_verify_number).setVisibility(View.VISIBLE);
-        findViewById(R.id.card_signup).setVisibility(View.GONE);
-        //Enter your number
-        tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_enter_phone));
-        etPhonePre.setVisibility(View.VISIBLE);
-        etPhoneCodeInput.setHint(getResources().getString(R.string.verify_number_phone_hint));
-        tvVerifyNumberGoLayout.setVisibility(View.VISIBLE);
-        tvVerifyNumberGoText.setBackground(getResources().getDrawable(R.drawable.checkout_arrow));
-        verifyNumberProgressBar.setVisibility(View.GONE);
-        tvVerifyNumberLowerHint.setVisibility(View.INVISIBLE);
-        tvVerifyNumberResendManually.setVisibility(View.INVISIBLE);
-        etPhoneCodeInput.setEnabled(true);
-        etPhoneCodeInput.requestFocus();
-
-        verifyNumberGo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fetchOTP();
-            }
-        });
-        verifyNumberGo.setEnabled(true);
-        hideSnackbar();
-
-        focusShowKeyBoard(etPhoneCodeInput);
-    }
-
-    private void otpBeingFetchedUIUpdate() {
-        etPhoneCodeInput.setError(null);
-        etPhoneCodeInput.setEnabled(false);
-        verifyNumberProgressBar.setVisibility(View.VISIBLE);
-        tvVerifyNumberGoText.setBackground(null);
-        tvVerifyNumberLowerHint.setVisibility(View.INVISIBLE);
-        tvVerifyNumberResendManually.setVisibility(View.INVISIBLE);
-        tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_fetch));
-        verifyNumberGo.setEnabled(false);
-    }
-
     private void hideSoftKeyBoard(final View view) {
         view.requestFocus();
         view.postDelayed(new Runnable() {
@@ -694,22 +634,65 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         }
     }
 
-    private void numberVerifiedUIUpdate() {
-        findViewById(R.id.card_verify_number).setVisibility(View.GONE);
-        findViewById(R.id.card_signup).setVisibility(View.VISIBLE);
-        isNumberVerified = true;
-        etPhoneCodeInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(14)});
-        etPhoneCodeInput.setText("+91-" + getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).getString(AppConstants.PREFERENCE_USER_PHONE, ""));
-        etPhoneCodeInput.setEnabled(false);
-        etPhonePre.setVisibility(View.GONE);
-        tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_verified));
-        tvVerifyNumberGoLayout.setVisibility(View.GONE);
-        tvVerifyNumberResendManually.setVisibility(View.INVISIBLE);
+    private void numberToEnterUIUpdate() {
+        findViewById(R.id.card_verify_number).setVisibility(View.VISIBLE);
+        findViewById(R.id.card_signup).setVisibility(View.GONE);
+        //Enter your number
+        tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_enter_phone));
+        etPhonePre.setVisibility(View.VISIBLE);
+        etPhoneCodeInput.setHint(getResources().getString(R.string.verify_number_phone_hint));
+        verifyNumberProgressBar.setVisibility(View.GONE);
         tvVerifyNumberLowerHint.setVisibility(View.INVISIBLE);
+        tvVerifyNumberResendManually.setVisibility(View.INVISIBLE);
+        etPhoneCodeInput.setEnabled(true);
+        etPhoneCodeInput.requestFocus();
+        verifyNumberGo.setBackground(getResources().getDrawable(R.drawable.verify_number_arrow));
+
+        verifyNumberGo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fetchOTP();
+            }
+        });
+        verifyNumberGo.setEnabled(true);
         hideSnackbar();
-        btnSubmit.setEnabled(isNumberVerified);
-        findViewById(R.id.fbLogin).setEnabled(true);
-        findViewById(R.id.gPlusLogin).setEnabled(true);
+
+        focusShowKeyBoard(etPhoneCodeInput);
+    }
+
+    private void otpBeingFetchedUIUpdate() {
+        etPhoneCodeInput.setError(null);
+        etPhoneCodeInput.setEnabled(false);
+        verifyNumberProgressBar.setVisibility(View.VISIBLE);
+        tvVerifyNumberGoText.setBackground(null);
+        tvVerifyNumberLowerHint.setVisibility(View.INVISIBLE);
+        tvVerifyNumberResendManually.setVisibility(View.INVISIBLE);
+        tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_fetch));
+        verifyNumberGo.setBackground(getResources().getDrawable(R.drawable.verify_number_circle));
+        verifyNumberGo.setEnabled(false);
+    }
+
+    private void waitForOTPUIUpdate(OTPCode otpCode) {
+        //Waiting for OTP
+        tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_waiting));
+        tvVerifyNumberLowerHint.setVisibility(View.GONE);
+        tvVerifyNumberResendManually.setVisibility(View.VISIBLE);
+        tvVerifyNumberResendManually.setText(getResources().getString(R.string.verify_number_manually));
+        tvVerifyNumberGoLayout.setVisibility(View.VISIBLE);
+        verifyNumberGo.setEnabled(false);
+        verifyNumberProgressBar.setVisibility(View.INVISIBLE);
+        tvVerifyNumberGoText.setBackground(null);
+        verifyNumberGo.setBackground(getResources().getDrawable(R.drawable.verify_number_circle));
+        tvVerifyNumberResendManually.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                askUserToEnterOTPUIUpdate();
+            }
+        });
+
+        myRunnable = new MyRunnable(otpCode);
+        handler.postDelayed(myRunnable, 1000);
+        hideSnackbar();
     }
 
     private void askUserToEnterOTPUIUpdate() {
@@ -721,10 +704,9 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         etPhoneCodeInput.setHint(getResources().getString(R.string.verify_number_code_hint));
         tvVerifyNumberLowerHint.setVisibility(View.VISIBLE);
         tvVerifyNumberResendManually.setVisibility(View.VISIBLE);
+        verifyNumberGo.setBackground(getResources().getDrawable(R.drawable.verify_number_arrow));
         tvVerifyNumberResendManually.setText(getResources().getString(R.string.verify_number_resend));
         tvVerifyNumberResendManually.setEnabled(true);
-        tvVerifyNumberGoText.setVisibility(View.VISIBLE);
-        tvVerifyNumberGoText.setBackground(getResources().getDrawable(R.drawable.checkout_arrow));
         tvVerifyNumberGoText.setText("");
         verifyNumberProgressBar.setVisibility(View.GONE);
         hideSnackbar();
@@ -745,6 +727,24 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         verifyNumberGo.setEnabled(true);
 
         focusShowKeyBoard(etPhoneCodeInput);
+    }
+
+    private void numberVerifiedUIUpdate() {
+        findViewById(R.id.card_verify_number).setVisibility(View.GONE);
+        findViewById(R.id.card_signup).setVisibility(View.VISIBLE);
+        isNumberVerified = true;
+        etPhoneCodeInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(14)});
+        etPhoneCodeInput.setText("+91-" + getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).getString(AppConstants.PREFERENCE_USER_PHONE, ""));
+        etPhoneCodeInput.setEnabled(false);
+        etPhonePre.setVisibility(View.GONE);
+        tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_verified));
+        tvVerifyNumberGoLayout.setVisibility(View.GONE);
+        tvVerifyNumberResendManually.setVisibility(View.INVISIBLE);
+        tvVerifyNumberLowerHint.setVisibility(View.INVISIBLE);
+        hideSnackbar();
+        btnSubmit.setEnabled(isNumberVerified);
+        findViewById(R.id.fbLogin).setEnabled(true);
+        findViewById(R.id.gPlusLogin).setEnabled(true);
     }
 
     final Handler handler = new Handler();
