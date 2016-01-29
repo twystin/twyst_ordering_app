@@ -7,6 +7,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,6 +18,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.enums.SnackbarType;
+import com.nispok.snackbar.listeners.ActionClickListener;
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.SimpleArrayAdapter;
 import com.twyst.app.android.model.AddressDetailsLocationData;
@@ -25,10 +30,12 @@ import com.twyst.app.android.model.LocationDetails.LocationsVerified;
 import com.twyst.app.android.model.LocationDetails.LocationsVerify;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.order.Coords;
+import com.twyst.app.android.model.order.OrderSummary;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.LocationFetchUtil;
 import com.twyst.app.android.util.SharedPreferenceAddress;
+import com.twyst.app.android.util.TwystProgressHUD;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,23 +76,132 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_details);
 
+
+        setupToolBar();
         setup();
-        verifyLocalLocations();
+        fetchSavedAddresses();
     }
 
+    private void setupToolBar() {
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setHomeButtonEnabled(true);
+        toolbar.setTitle("Choose Address");
+
+        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+    }
 
     private void setupAdapter(ArrayList<LocationsVerified> locationsVerifiedList) {
         // saved address related code
         adapter = new SimpleArrayAdapter(AddressDetailsActivity.this, mAddressList, locationsVerifiedList);
-        ListView listView = (ListView) findViewById(R.id.saved_address_list_view);
+        final ListView listView = (ListView) findViewById(R.id.saved_address_list_view);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listView.setAdapter(adapter);
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                adapter.notifyDataSetChanged();
-//            }
-//        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AddressDetailsLocationData addressDetailsLocationData = (AddressDetailsLocationData) listView.getItemAtPosition(position);
+                checkOut(addressDetailsLocationData.getCoords());
+            }
+        });
+
+    }
+
+    private void checkOut(Coords coords) {
+        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
+        final OrderSummary orderSummary = new OrderSummary(mCartItemsList, mOutletId, coords);
+        HttpService.getInstance().postOrderVerify(getUserToken(), orderSummary, new Callback<BaseResponse<OrderSummary>>() {
+            @Override
+            public void success(BaseResponse<OrderSummary> orderSummaryBaseResponse, Response response) {
+                if (orderSummaryBaseResponse.isResponse()) {
+                    OrderSummary returnOrderSummary = orderSummaryBaseResponse.getData();
+                    Intent checkOutIntent;
+                    returnOrderSummary.setmCartItemsList(mCartItemsList);
+                    returnOrderSummary.setOutletId(orderSummary.getOutletId());
+
+                    if (returnOrderSummary.getOfferOrderList().size() > 0) {
+                        checkOutIntent = new Intent(AddressDetailsActivity.this, AvailableOffersActivity.class);
+                    } else {
+                        checkOutIntent = new Intent(AddressDetailsActivity.this, OrderSummaryActivity.class);
+                    }
+
+                    Bundle orderSummaryData = new Bundle();
+                    orderSummaryData.putSerializable(AppConstants.INTENT_ORDER_SUMMARY, returnOrderSummary);
+                    checkOutIntent.putExtras(orderSummaryData);
+                    startActivity(checkOutIntent);
+                } else {
+                    Toast.makeText(AddressDetailsActivity.this, orderSummaryBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                twystProgressHUD.dismiss();
+                hideSnackbar();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                twystProgressHUD.dismiss();
+                handleRetrofitError(error);
+                hideSnackbar();
+            }
+        });
+    }
+
+    public void handleRetrofitError(RetrofitError error) {
+        if (error.getKind() == RetrofitError.Kind.NETWORK) {
+            buildAndShowSnackbarWithMessage("No internet connection.");
+        } else {
+            buildAndShowSnackbarWithMessage("An unexpected error has occurred.");
+        }
+        Log.e(getTagName(), "failure", error);
+    }
+
+    public void buildAndShowSnackbarWithMessage(String msg) {
+        final Snackbar snackbar = Snackbar.with(getApplicationContext())
+                .type(SnackbarType.MULTI_LINE)
+                        //.color(getResources().getColor(android.R.color.black))
+                .text(msg)
+                .actionLabel("RETRY") // action button label
+                .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+                .swipeToDismiss(false)
+                .actionListener(new ActionClickListener() {
+                    @Override
+                    public void onActionClicked(Snackbar snackbar) {
+                        Intent intent = getIntent();
+                        overridePendingTransition(0, 0);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(intent);
+                    }
+                });
+        snackbar.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showSnackbar(snackbar); // activity where it is displayed
+            }
+        }, 500);
+
+    }
+
+    protected void showSnackbar(Snackbar snackbar) {
+        SnackbarManager.show(snackbar, this);
+    }
+
+    private void hideSnackbar() {
+        SnackbarManager.dismiss();
+    }
+
+    private String getUserToken() {
+        return AppConstants.USER_TOKEN_HARDCODED;
+//        SharedPreferences prefs = this.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
+//        return prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");
 
     }
 
@@ -143,13 +259,27 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
 
     }
 
-    private void verifyLocalLocations() {
+    private void fetchSavedAddresses() {
         Bundle bundle = getIntent().getExtras();
         mOutletId = bundle.getString(AppConstants.INTENT_PARAM_OUTLET_ID);
         mCartItemsList = (ArrayList<Items>) bundle.getSerializable(AppConstants.INTENT_PARAM_CART_LIST);
 
-        LocationsVerify locationsVerify = new LocationsVerify(mOutletId, getLocalCoordsList());
+        SharedPreferenceAddress preference = new SharedPreferenceAddress();
+        mAddressList = preference.getAddresses(AddressDetailsActivity.this);
+        if (mAddressList != null && mAddressList.size() > 0) {
+            ((CardView) findViewById(R.id.cardView_listview)).setVisibility(View.VISIBLE);
+            ((CardView) findViewById(R.id.cardView_noAddress)).setVisibility(View.GONE);
+            verifyLocationsAPI();
 
+        }else{
+            ((CardView) findViewById(R.id.cardView_listview)).setVisibility(View.GONE);
+            ((CardView) findViewById(R.id.cardView_noAddress)).setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void verifyLocationsAPI() {
+        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
+        LocationsVerify locationsVerify = new LocationsVerify(mOutletId, getLocalCoordsList());
         HttpService.getInstance().postLocationsVerify(locationsVerify, new Callback<BaseResponse<ArrayList<LocationsVerified>>>() {
             @Override
             public void success(BaseResponse<ArrayList<LocationsVerified>> baseResponse, Response response) {
@@ -160,28 +290,23 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
                     Toast.makeText(AddressDetailsActivity.this, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
+                twystProgressHUD.dismiss();
+                hideSnackbar();
+
             }
 
             @Override
             public void failure(RetrofitError error) {
-
+                twystProgressHUD.dismiss();
+                handleRetrofitError(error);
+                hideSnackbar();
             }
         });
     }
 
     private ArrayList<Coords> getLocalCoordsList() {
-        SharedPreferenceAddress preference = new SharedPreferenceAddress();
-        mAddressList = preference.getAddresses(AddressDetailsActivity.this);
-//        if (mAddressList != null && mAddressList.size() > 0) {
-//            adapter.clear();
-//            adapter.addAll(mAddressList);
-//            adapter.notifyDataSetChanged();
-//            ((CardView) findViewById(R.id.cardView_listview)).setVisibility(View.VISIBLE);
-//            ((CardView) findViewById(R.id.cardView_noAddress)).setVisibility(View.GONE);
-//        }
-
         ArrayList<Coords> localCoordsList = new ArrayList<>();
-        if (mAddressList!=null) {
+        if (mAddressList != null) {
             for (AddressDetailsLocationData addressDetailsLocationData : mAddressList) {
                 localCoordsList.add(addressDetailsLocationData.getCoords());
             }

@@ -14,11 +14,10 @@ import java.util.List;
  * Created by Vipul Sharma on 12/21/2015.
  */
 public class OrderSummary implements Serializable {
-    public OrderSummary(List<Items> cartItemsList, String outletId, String lat, String lon) {
+    public OrderSummary(List<Items> cartItemsList, String outletId,Coords coords) {
         this.mCartItemsList = cartItemsList;
         this.outletId = outletId;
-        this.coordinates.setLat(lat);
-        this.coordinates.setLon(lon);
+        this.coordinates = coords;
         createOrder();
     }
 

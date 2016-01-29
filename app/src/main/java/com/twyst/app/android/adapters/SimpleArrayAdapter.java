@@ -60,7 +60,6 @@ public class SimpleArrayAdapter extends ArrayAdapter<AddressDetailsLocationData>
         return row;
     }
 
-
     static class AddressHolder {
         private ImageView radioButton;
         private TextView name;
