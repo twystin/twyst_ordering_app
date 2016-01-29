@@ -1,6 +1,7 @@
 package com.twyst.app.android.model;
 
 import com.google.gson.annotations.SerializedName;
+import com.twyst.app.android.model.LocationDetails.LocationsVerified;
 import com.twyst.app.android.model.order.Coords;
 
 import java.io.Serializable;
@@ -28,6 +29,16 @@ public class AddressDetailsLocationData implements Serializable {
     private String tag;
 
     private String name;
+
+    private LocationsVerified locationsVerified;
+
+    public LocationsVerified getLocationsVerified() {
+        return locationsVerified;
+    }
+
+    public void setLocationsVerified(LocationsVerified locationsVerified) {
+        this.locationsVerified = locationsVerified;
+    }
 
     public String getAddress() {
         return address;

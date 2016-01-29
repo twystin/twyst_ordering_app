@@ -10,6 +10,8 @@ import com.twyst.app.android.model.Friend;
 import com.twyst.app.android.model.GrabOffer;
 import com.twyst.app.android.model.LikeOffer;
 import com.twyst.app.android.model.LocationData;
+import com.twyst.app.android.model.LocationDetails.LocationsVerified;
+import com.twyst.app.android.model.LocationDetails.LocationsVerify;
 import com.twyst.app.android.model.NotificationData;
 import com.twyst.app.android.model.OTPCode;
 import com.twyst.app.android.model.Offer;
@@ -100,6 +102,9 @@ public interface TwystService {
 
     @GET("/api/v4/locations")
     public void getLocations(Callback<BaseResponse<ArrayList<LocationData>>> callback);
+
+    @POST("/api/v4/locations/verify")
+    public void postLocationsVerify(@Body() LocationsVerify locationsVerify, Callback<BaseResponse<ArrayList<LocationsVerified>>> callback);
 
     @POST("/api/v4/outlet/suggestion")
     public void postSuggestion(@Query("token") String token, @Body() Suggestion suggestion, Callback<BaseResponse> callback);

@@ -15,11 +15,17 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.SimpleArrayAdapter;
 import com.twyst.app.android.model.AddressDetailsLocationData;
+import com.twyst.app.android.model.BaseResponse;
+import com.twyst.app.android.model.LocationDetails.LocationsVerified;
+import com.twyst.app.android.model.LocationDetails.LocationsVerify;
+import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.order.Coords;
+import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.LocationFetchUtil;
 import com.twyst.app.android.util.SharedPreferenceAddress;
@@ -27,16 +33,19 @@ import com.twyst.app.android.util.SharedPreferenceAddress;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 /**
  * Created by anshul on 1/8/2016.
  */
 public class AddressDetailsActivity extends AppCompatActivity implements LocationFetchUtil.LocationFetchResultCodeListener {
-
-    List<AddressDetailsLocationData> addressList = new ArrayList<AddressDetailsLocationData>();
+    List<AddressDetailsLocationData> mAddressList = new ArrayList<AddressDetailsLocationData>();
     SimpleArrayAdapter adapter = null;
     private LinearLayout add;
 
-    protected static final String TAG = "MainActivity";
+    protected static final String TAG = "AddressDetailsActivity";
     protected static final String ADDRESS_REQUESTED_KEY = "address-request-pending";
     protected static final String LOCATION_ADDRESS_KEY = "location-address";
 
@@ -51,28 +60,36 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
 
     LocationFetchUtil locationFetchUtil;
 
+    // From Cart
+    private String mOutletId;
+    private ArrayList<Items> mCartItemsList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_details);
 
+        setup();
+        verifyLocalLocations();
+    }
+
+
+    private void setupAdapter(ArrayList<LocationsVerified> locationsVerifiedList) {
         // saved address related code
-        adapter = new SimpleArrayAdapter(AddressDetailsActivity.this,addressList);
+        adapter = new SimpleArrayAdapter(AddressDetailsActivity.this, mAddressList, locationsVerifiedList);
         ListView listView = (ListView) findViewById(R.id.saved_address_list_view);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                adapter.notifyDataSetChanged();
-            }
-        });
-        if (addressList == null || addressList.size() == 0) {
-            ((CardView) findViewById(R.id.cardView_listview)).setVisibility(View.GONE);
-            ((CardView) findViewById(R.id.cardView_noAddress)).setVisibility(View.VISIBLE);
-        }
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                adapter.notifyDataSetChanged();
+//            }
+//        });
 
+    }
 
+    private void setup() {
         // Add new Address related code
         add = (LinearLayout) findViewById(R.id.linlay_add_address_icon);
         add.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +118,6 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
             public void onClick(View v) {
                 if (!((mLocationAddressTextView.getText().toString()).equals("unavailable!"))) {
                     ((ImageView) findViewById(R.id.radio_current_loc)).setSelected(true);
-                    adapter.notifyDataSetChanged();
                     Intent intent = new Intent(AddressDetailsActivity.this, AddressAddNewActivity.class);
                     intent.putExtra(AppConstants.MAP_TO_BE_SHOWN, false);
                     intent.putExtra(AppConstants.DATA_TO_BE_SHOWN, mAddressDetailsLocationData);
@@ -124,27 +140,60 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
                 fetchCurrentLocation();
             }
         });
+
+    }
+
+    private void verifyLocalLocations() {
+        Bundle bundle = getIntent().getExtras();
+        mOutletId = bundle.getString(AppConstants.INTENT_PARAM_OUTLET_ID);
+        mCartItemsList = (ArrayList<Items>) bundle.getSerializable(AppConstants.INTENT_PARAM_CART_LIST);
+
+        LocationsVerify locationsVerify = new LocationsVerify(mOutletId, getLocalCoordsList());
+
+        HttpService.getInstance().postLocationsVerify(locationsVerify, new Callback<BaseResponse<ArrayList<LocationsVerified>>>() {
+            @Override
+            public void success(BaseResponse<ArrayList<LocationsVerified>> baseResponse, Response response) {
+                if (baseResponse.isResponse()) {
+                    ArrayList<LocationsVerified> locationsVerifiedList = baseResponse.getData();
+                    setupAdapter(locationsVerifiedList);
+                } else {
+                    Toast.makeText(AddressDetailsActivity.this, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+    }
+
+    private ArrayList<Coords> getLocalCoordsList() {
+        SharedPreferenceAddress preference = new SharedPreferenceAddress();
+        mAddressList = preference.getAddresses(AddressDetailsActivity.this);
+//        if (mAddressList != null && mAddressList.size() > 0) {
+//            adapter.clear();
+//            adapter.addAll(mAddressList);
+//            adapter.notifyDataSetChanged();
+//            ((CardView) findViewById(R.id.cardView_listview)).setVisibility(View.VISIBLE);
+//            ((CardView) findViewById(R.id.cardView_noAddress)).setVisibility(View.GONE);
+//        }
+
+        ArrayList<Coords> localCoordsList = new ArrayList<>();
+        if (mAddressList!=null) {
+            for (AddressDetailsLocationData addressDetailsLocationData : mAddressList) {
+                localCoordsList.add(addressDetailsLocationData.getCoords());
+            }
+        }
+
+        return localCoordsList;
     }
 
     public void fetchCurrentLocation() {
         updateUIWidgets(AppConstants.SHOW_PROGRESS_BAR);
         mLocation = null;
         locationFetchUtil.requestLocation(true);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        SharedPreferenceAddress preference = new SharedPreferenceAddress();
-        addressList = preference.getAddresses(AddressDetailsActivity.this);
-        if (addressList != null && addressList.size() > 0) {
-            adapter.clear();
-            adapter.addAll(addressList);
-            adapter.notifyDataSetChanged();
-            ((CardView) findViewById(R.id.cardView_listview)).setVisibility(View.VISIBLE);
-            ((CardView) findViewById(R.id.cardView_noAddress)).setVisibility(View.GONE);
-        }
     }
 
     protected String getTagName() {
@@ -202,9 +251,8 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
     public void onReceiveAddress(int resultCode, Address address) {
         if (resultCode == AppConstants.SHOW_CURRENT_LOCATION) {
             String mAddressOutput = "";
-            for (int i = 0; i < address.getMaxAddressLineIndex();i++)
-            {
-                mAddressOutput +=  address.getAddressLine(i);
+            for (int i = 0; i < address.getMaxAddressLineIndex(); i++) {
+                mAddressOutput += address.getAddressLine(i);
                 mAddressOutput += ", ";
             }
 
@@ -212,7 +260,7 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
             mAddressDetailsLocationData.setAddress(mAddressOutput);
             mAddressDetailsLocationData.setNeighborhood(address.getAddressLine(0));
             mAddressDetailsLocationData.setLandmark(address.getAddressLine(1));
-            mLocationAddressTextView.setText(address.getAddressLine(0)+ ", " + address.getAddressLine(1));
+            mLocationAddressTextView.setText(address.getAddressLine(0) + ", " + address.getAddressLine(1));
         }
         updateUIWidgets(resultCode);
     }
@@ -224,7 +272,7 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
             mAddressDetailsLocationData = new AddressDetailsLocationData();
             Coords coords = new Coords(String.valueOf(mLocation.getLatitude()), String.valueOf(mLocation.getLongitude()));
             mAddressDetailsLocationData.setCoords(coords);
-            locationFetchUtil.requestAddress(location,true);
+            locationFetchUtil.requestAddress(location, true);
         } else if (resultCode == AppConstants.SHOW_FETCH_LOCATION_AGAIN) {
             updateUIWidgets(resultCode);
         }

@@ -2,6 +2,7 @@ package com.twyst.app.android.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -10,7 +11,9 @@ import android.widget.TextView;
 
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.AddressDetailsLocationData;
+import com.twyst.app.android.model.LocationDetails.LocationsVerified;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,11 +22,13 @@ import java.util.List;
 public class SimpleArrayAdapter extends ArrayAdapter<AddressDetailsLocationData> {
     private Context mContext;
     private List<AddressDetailsLocationData> addressList;
+    private List<LocationsVerified> locationsVerifiedList;
 
-    public SimpleArrayAdapter(Context context, List<AddressDetailsLocationData> addressList) {
+    public SimpleArrayAdapter(Context context, List<AddressDetailsLocationData> addressList, List<LocationsVerified> locationsVerifiedList) {
         super(context, R.layout.list_choose_location_saved_row, addressList);
         mContext = context;
         this.addressList = addressList;
+        this.locationsVerifiedList = locationsVerifiedList;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -41,6 +46,17 @@ public class SimpleArrayAdapter extends ArrayAdapter<AddressDetailsLocationData>
         holder.getRadioButton().setImageDrawable(mContext.getResources().getDrawable(R.drawable.radio_check_config));
 
         holder.populateFrom(addressList.get(position));
+
+        if (locationsVerifiedList != null && !locationsVerifiedList.get(position).isDeliverable()) {
+            row.setAlpha(.5f);
+            row.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return true;
+                }
+            });
+        }
+
         return row;
     }
 
@@ -61,7 +77,6 @@ public class SimpleArrayAdapter extends ArrayAdapter<AddressDetailsLocationData>
         }
 
         public void populateFrom(AddressDetailsLocationData addr) {
-
             name.setText(addr.getName());
             address.setText(addr.getAddress());
 

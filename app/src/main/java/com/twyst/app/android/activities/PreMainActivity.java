@@ -160,7 +160,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                 public void onClick(View v) {
                     if (!isSaveLocationClicked) {
                         isSaveLocationClicked = true;
-                        adapter = new com.twyst.app.android.adapters.SimpleArrayAdapter(PreMainActivity.this, addressList);
+                        adapter = new com.twyst.app.android.adapters.SimpleArrayAdapter(PreMainActivity.this, addressList,null);
                         listViewSavedLocations = (ListView) findViewById(R.id.lv_saved_locations);
                         listViewSavedLocations.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
                         listViewSavedLocations.setAdapter(adapter);

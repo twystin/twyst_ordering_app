@@ -206,4 +206,8 @@ public class AppConstants {
     // OrderHistory to OrderOnline
     public static final String INTENT_PLACE_REORDER = "intent_reorder_data";
     public static final String INTENT_PLACE_REORDER_MENUID = "place_reorder_menuid";
+
+    //AddressDetailActivity from Cart
+    public static final String INTENT_PARAM_CART_LIST= "intent_cart_list";
+
 }

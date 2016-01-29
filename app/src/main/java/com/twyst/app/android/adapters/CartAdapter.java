@@ -27,18 +27,18 @@ public class CartAdapter extends RecyclerView.Adapter<MenuChildViewHolder> {
 
     private final Context mContext;
     DataTransferInterfaceCart mDataTransferInterfaceCart;
-    private List<Items> mCartItemsList = new ArrayList<>();
+    private ArrayList<Items> mCartItemsList = new ArrayList<>();
 
     public CartAdapter(Context context) {
         mContext = context;
         mDataTransferInterfaceCart = (DataTransferInterfaceCart) context;
     }
 
-    public List<Items> getmCartItemsList() {
+    public ArrayList<Items> getmCartItemsList() {
         return mCartItemsList;
     }
 
-    public void setmCartItemsList(List<Items> mCartItemsList) {
+    public void setmCartItemsList(ArrayList<Items> mCartItemsList) {
         this.mCartItemsList = mCartItemsList;
     }
 

@@ -452,43 +452,54 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     }
 
     private void checkOut() {
-        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
-        final OrderSummary orderSummary = new OrderSummary(mCartAdapter.getmCartItemsList(), mOutletId, "28.6", "77.2");
-        HttpService.getInstance().postOrderVerify(getUserToken(), orderSummary, new Callback<BaseResponse<OrderSummary>>() {
-            @Override
-            public void success(BaseResponse<OrderSummary> orderSummaryBaseResponse, Response response) {
-                if (orderSummaryBaseResponse.isResponse()) {
-                    OrderSummary returnOrderSummary = orderSummaryBaseResponse.getData();
-                    Intent checkOutIntent;
-                    returnOrderSummary.setmCartItemsList(mCartAdapter.getmCartItemsList());
-                    returnOrderSummary.setOutletId(orderSummary.getOutletId());
+        Intent addressDetailsIntent = new Intent(OrderOnlineActivity.this, AddressDetailsActivity.class);
 
-                    if (returnOrderSummary.getOfferOrderList().size() > 0) {
-                        checkOutIntent = new Intent(OrderOnlineActivity.this, AvailableOffersActivity.class);
-                    } else {
-                        checkOutIntent = new Intent(OrderOnlineActivity.this, OrderSummaryActivity.class);
-                    }
+        Bundle addressDetailsBundle = new Bundle();
+        addressDetailsBundle.putString(AppConstants.INTENT_PARAM_OUTLET_ID, mOutletId);
+        addressDetailsBundle.putSerializable(AppConstants.INTENT_PARAM_CART_LIST, mCartAdapter.getmCartItemsList());
 
-                    Bundle orderSummaryData = new Bundle();
-                    orderSummaryData.putSerializable(AppConstants.INTENT_ORDER_SUMMARY, returnOrderSummary);
-                    checkOutIntent.putExtras(orderSummaryData);
-                    startActivity(checkOutIntent);
-                } else {
-                    Toast.makeText(OrderOnlineActivity.this, orderSummaryBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-
-                twystProgressHUD.dismiss();
-                hideSnackbar();
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                twystProgressHUD.dismiss();
-                handleRetrofitError(error);
-                hideSnackbar();
-            }
-        });
+        addressDetailsIntent.putExtras(addressDetailsBundle);
+        startActivity(addressDetailsIntent);
     }
+
+//    private void checkOut() {
+//        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
+//        final OrderSummary orderSummary = new OrderSummary(mCartAdapter.getmCartItemsList(), mOutletId, "28.6", "77.2");
+//        HttpService.getInstance().postOrderVerify(getUserToken(), orderSummary, new Callback<BaseResponse<OrderSummary>>() {
+//            @Override
+//            public void success(BaseResponse<OrderSummary> orderSummaryBaseResponse, Response response) {
+//                if (orderSummaryBaseResponse.isResponse()) {
+//                    OrderSummary returnOrderSummary = orderSummaryBaseResponse.getData();
+//                    Intent checkOutIntent;
+//                    returnOrderSummary.setmCartItemsList(mCartAdapter.getmCartItemsList());
+//                    returnOrderSummary.setOutletId(orderSummary.getOutletId());
+//
+//                    if (returnOrderSummary.getOfferOrderList().size() > 0) {
+//                        checkOutIntent = new Intent(OrderOnlineActivity.this, AvailableOffersActivity.class);
+//                    } else {
+//                        checkOutIntent = new Intent(OrderOnlineActivity.this, OrderSummaryActivity.class);
+//                    }
+//
+//                    Bundle orderSummaryData = new Bundle();
+//                    orderSummaryData.putSerializable(AppConstants.INTENT_ORDER_SUMMARY, returnOrderSummary);
+//                    checkOutIntent.putExtras(orderSummaryData);
+//                    startActivity(checkOutIntent);
+//                } else {
+//                    Toast.makeText(OrderOnlineActivity.this, orderSummaryBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+//                }
+//
+//                twystProgressHUD.dismiss();
+//                hideSnackbar();
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//                twystProgressHUD.dismiss();
+//                handleRetrofitError(error);
+//                hideSnackbar();
+//            }
+//        });
+//    }
 
     @Override
     public boolean onQueryTextSubmit(String query) {

@@ -18,6 +18,8 @@ import com.twyst.app.android.model.Friend;
 import com.twyst.app.android.model.GrabOffer;
 import com.twyst.app.android.model.LikeOffer;
 import com.twyst.app.android.model.LocationData;
+import com.twyst.app.android.model.LocationDetails.LocationsVerified;
+import com.twyst.app.android.model.LocationDetails.LocationsVerify;
 import com.twyst.app.android.model.NotificationData;
 import com.twyst.app.android.model.OTPCode;
 import com.twyst.app.android.model.Offer;
@@ -159,9 +161,12 @@ public class HttpService {
         twystService.outletFeedback(token, feedback, callback);
     }
 
-
     public void getLocations(Callback<BaseResponse<ArrayList<LocationData>>> callback) {
         twystService.getLocations(callback);
+    }
+
+    public void postLocationsVerify(LocationsVerify locationsVerify, Callback<BaseResponse<ArrayList<LocationsVerified>>> callback) {
+        twystService.postLocationsVerify(locationsVerify, callback);
     }
 
     public void postSuggestion(String token, Suggestion suggestion, Callback<BaseResponse> callback) {
