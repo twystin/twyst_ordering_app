@@ -668,7 +668,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         tvVerifyNumberLowerHint.setVisibility(View.INVISIBLE);
         tvVerifyNumberResendManually.setVisibility(View.INVISIBLE);
         tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_fetch));
-        verifyNumberGo.setBackground(getResources().getDrawable(R.drawable.verify_number_circle));
+        verifyNumberGo.setBackground(null);
         verifyNumberGo.setEnabled(false);
     }
 
@@ -742,6 +742,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         tvVerifyNumberResendManually.setVisibility(View.INVISIBLE);
         tvVerifyNumberLowerHint.setVisibility(View.INVISIBLE);
         hideSnackbar();
+        Toast.makeText(PreMainActivity.this, "Number verified!", Toast.LENGTH_LONG).show();
         btnSubmit.setEnabled(isNumberVerified);
         findViewById(R.id.fbLogin).setEnabled(true);
         findViewById(R.id.gPlusLogin).setEnabled(true);
@@ -783,6 +784,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_fetch));
         verifyNumberProgressBar.setVisibility(View.VISIBLE);
         etPhoneCodeInput.setEnabled(false);
+        verifyNumberGo.setBackground(null);
         verifyNumberGo.setEnabled(false);
         tvVerifyNumberGoLayout.setVisibility(View.VISIBLE);
         tvVerifyNumberResendManually.setEnabled(false);
@@ -817,6 +819,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             verifyNumberProgressBar.setVisibility(View.VISIBLE);
             tvVerifyNumberGoText.setBackground(null);
             tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_verify));
+            verifyNumberGo.setBackground(null);
             verifyNumberGo.setEnabled(false);
             tvVerifyNumberResendManually.setEnabled(false);
 
