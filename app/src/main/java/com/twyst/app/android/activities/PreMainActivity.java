@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -220,6 +221,9 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     private String otpCodeReaded;
 
     //Verify Email
+    private ImageView ivEditName;
+    private EditText etVerifyName;
+
     private ImageView ivEditEmail;
     private EditText etVerifyEmail;
 
@@ -234,6 +238,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     private String city;
     private String source = "phonebook";
     private String socialEmail;
+    private String socialName;
     private String id, fbid, linkUri;
     private Friend friend;
     private List<Friend.Friends> friendsList;
@@ -281,9 +286,13 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
 
                 if (TextUtils.isEmpty(etVerifyEmail.getText().toString()) || !Pattern.matches(EMAIL_REGEX, etVerifyEmail.getText().toString())) {
                     etVerifyEmail.setError("Invalid email");
+                } else if (TextUtils.isEmpty(etVerifyName.getText().toString())) {
+                    etVerifyName.setError("Please enter your Name");
                 } else {
+                    etVerifyName.setError(null);
                     etVerifyEmail.setError(null);
                     socialEmail = etVerifyEmail.getText().toString();
+                    socialName = etVerifyName.getText().toString();
                     source = "phonebook";
                     userImage = "";
                     firstName = "";
@@ -306,8 +315,18 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     }
 
     private void setupVerifyEmail() {
+        ivEditName = (ImageView) findViewById(R.id.iv_edit_name);
+        etVerifyName = (EditText) findViewById(R.id.et_verify_name);
+
         ivEditEmail = (ImageView) findViewById(R.id.iv_edit_email);
         etVerifyEmail = (EditText) findViewById(R.id.et_verify_email);
+
+        ivEditName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                focusShowKeyBoard(etVerifyName);
+            }
+        });
 
         ivEditEmail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -742,7 +761,6 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         tvVerifyNumberResendManually.setVisibility(View.INVISIBLE);
         tvVerifyNumberLowerHint.setVisibility(View.INVISIBLE);
         hideSnackbar();
-        Toast.makeText(PreMainActivity.this, "Number verified!", Toast.LENGTH_LONG).show();
         btnSubmit.setEnabled(isNumberVerified);
         findViewById(R.id.fbLogin).setEnabled(true);
         findViewById(R.id.gPlusLogin).setEnabled(true);
