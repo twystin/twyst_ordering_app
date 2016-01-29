@@ -202,6 +202,12 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".activities.FeedbackActivity"
+            android:label="@string/order_online"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".activities.OfferDetailActivity"
             android:label="@string/offer_detail"
             android:parentActivityName=".activities.OutletDetailsActivity"
