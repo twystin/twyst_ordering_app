@@ -23,11 +23,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.AddressDetailsLocationData;
+import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.order.Coords;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.LocationFetchUtil;
 import com.twyst.app.android.util.SharedPreferenceAddress;
 import com.twyst.app.android.util.TwystProgressHUD;
+import com.twyst.app.android.util.UtilMethods;
+
+import java.util.ArrayList;
 
 /**
  * Created by anshul on 1/8/2016.
@@ -243,10 +247,16 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
                 startActivity(intent);
                 finish();
             } else {
-                Intent intent = new Intent();
-                intent.putExtras(info);
-                setResult(RESULT_OK, intent);
-                finish();
+                // in Payment flow
+                Bundle bundle = getIntent().getExtras();
+                String outletId = bundle.getString(AppConstants.INTENT_PARAM_OUTLET_ID);
+                ArrayList<Items> cartItemsList = (ArrayList<Items>) bundle.getSerializable(AppConstants.INTENT_PARAM_CART_LIST);
+
+                UtilMethods.checkOut(true, locationData, cartItemsList, outletId, AddressMapActivity.this);
+//                Intent intent = new Intent();
+//                intent.putExtras(info);
+//                setResult(RESULT_OK, intent);
+//                finish();
             }
         } else {
             // ideally only error should be AppConstants.SHOW_FETCH_LOCATION_AGAIN

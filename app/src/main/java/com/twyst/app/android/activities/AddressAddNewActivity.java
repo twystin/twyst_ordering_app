@@ -111,15 +111,16 @@ public class AddressAddNewActivity extends AppCompatActivity {
         });
 
 
-        Boolean setUpMap = getIntent().getBooleanExtra(AppConstants.MAP_TO_BE_SHOWN, false);
-        if (setUpMap) {
-            Intent intent = new Intent(AddressAddNewActivity.this, AddressMapActivity.class);
-            startActivityForResult(intent, PLACE_PICKER_REQUEST);
-        } else {
-            mNewAddress = (AddressDetailsLocationData) getIntent().getSerializableExtra(AppConstants.DATA_TO_BE_SHOWN);
+//        Boolean setUpMap = getIntent().getBooleanExtra(AppConstants.MAP_TO_BE_SHOWN, false);
+//        if (setUpMap) {
+//            Intent intent = new Intent(AddressAddNewActivity.this, AddressMapActivity.class);
+//            startActivityForResult(intent, PLACE_PICKER_REQUEST);
+//        } else {
+//            mNewAddress = (AddressDetailsLocationData) getIntent().getSerializableExtra(AppConstants.DATA_TO_BE_SHOWN);
+            mNewAddress = mOrderSummary.getAddressDetailsLocationData();
             setTextLocationFetch(mNewAddress);
             ((LinearLayout) findViewById(R.id.linlay_add_address)).setVisibility(View.VISIBLE);
-        }
+//        }
 
         Button bProceed = (Button) findViewById(R.id.proceed_address_new);
         bProceed.setOnClickListener(new View.OnClickListener() {

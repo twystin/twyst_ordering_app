@@ -161,7 +161,7 @@ public class AppConstants {
     public static final int SHOW_TURN_ON_GPS = 3;
     public static final int SHOW_FETCH_LOCATION_AGAIN = 4;
 
-    public static final String MAP_TO_BE_SHOWN = "MAP_TO_BE_SHOWN";
+//    public static final String MAP_TO_BE_SHOWN = "MAP_TO_BE_SHOWN";
     public static final String DATA_TO_BE_SHOWN = "DATA_TO_BE_SHOWN";
     public static final String ADDRESS_FOUND = "ADDRESS_FOUND";
 

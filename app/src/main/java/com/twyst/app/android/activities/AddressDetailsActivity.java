@@ -107,7 +107,7 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AddressDetailsLocationData addressDetailsLocationData = (AddressDetailsLocationData) listView.getItemAtPosition(position);
-                UtilMethods.checkOut(false,addressDetailsLocationData, mCartItemsList, mOutletId, AddressDetailsActivity.this);
+                UtilMethods.checkOut(false, addressDetailsLocationData, mCartItemsList, mOutletId, AddressDetailsActivity.this);
             }
         });
 
@@ -201,10 +201,7 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddressDetailsActivity.this, AddressAddNewActivity.class);
-                intent.putExtra(AppConstants.MAP_TO_BE_SHOWN, true);
-                startActivity(intent);
-
+                addNewAddress();
             }
         });
 
@@ -225,7 +222,7 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
                 if (!((mLocationAddressTextView.getText().toString()).equals("unavailable!"))) {
                     ((ImageView) findViewById(R.id.radio_current_loc)).setSelected(true);
 //                    checkCurrentDeliverableAndProceed();
-                    UtilMethods.checkOut(true,mAddressDetailsLocationData, mCartItemsList, mOutletId, AddressDetailsActivity.this);
+                    UtilMethods.checkOut(true, mAddressDetailsLocationData, mCartItemsList, mOutletId, AddressDetailsActivity.this);
                 }
 
             }
@@ -245,6 +242,18 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
             }
         });
 
+    }
+
+    private void addNewAddress() {
+        Intent addressDetailsIntent = new Intent(AddressDetailsActivity.this, AddressMapActivity.class);
+
+        Bundle addressDetailsBundle = new Bundle();
+        addressDetailsBundle.putString(AppConstants.INTENT_PARAM_OUTLET_ID, mOutletId);
+        addressDetailsBundle.putSerializable(AppConstants.INTENT_PARAM_CART_LIST, mCartItemsList);
+
+        addressDetailsIntent.putExtras(addressDetailsBundle);
+        startActivity(addressDetailsIntent);
+        finish();
     }
 
     private void fetchSavedAddresses() {
