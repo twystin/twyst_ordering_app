@@ -12,127 +12,146 @@
         android:layout_marginBottom="@dimen/layout_wide_margin"
         android:src="@drawable/choose_location_icon" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="@dimen/layout_small_margin"
-        android:text="@string/choose_location_description_line1"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
-        android:textSize="@dimen/layout_extra_wide_text_size" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="20dp"
-        android:text="@string/choose_location_description_line2"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
-        android:textSize="@dimen/layout_extra_wide_text_size" />
-
     <LinearLayout
-        android:id="@+id/linlay_choose_location_current"
-        android:layout_width="match_parent"
+        android:id="@+id/ll_delivery_location"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/choose_location_option_list_background"
-        android:clickable="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:orientation="horizontal"
-        android:padding="10dp">
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:clickable="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:text="Current Location"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/layout_small_margin"
+            android:text="@string/choose_location_description_line1"
+            android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="@dimen/layout_extra_wide_text_size" />
 
-        <ImageView
-            android:layout_width="@dimen/layout_huge_text_size"
-            android:layout_height="@dimen/layout_huge_text_size"
-            android:clickable="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:src="@drawable/choose_location_current_icon" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linlay_choose_location_saved"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:background="@color/choose_location_option_list_background"
-        android:clickable="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:clickable="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:text="Saved Location"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:text="@string/choose_location_description_line2"
+            android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="@dimen/layout_extra_wide_text_size" />
 
-        <ImageView
-            android:layout_width="@dimen/layout_wide_text_size"
-            android:layout_height="@dimen/layout_wide_text_size"
-            android:clickable="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:src="@drawable/choose_location_saved_icon" />
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/lv_saved_locations"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:visibility="gone"></ListView>
 
     <LinearLayout
-        android:id="@+id/linlay_choose_location_add_new"
+        android:id="@+id/ll_locations"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:background="@color/choose_location_option_list_background"
-        android:clickable="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:orientation="horizontal"
-        android:padding="10dp">
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/linlay_choose_location_current"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:background="@color/choose_location_option_list_background"
             android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:text="Add New Location"
-            android:textColor="@color/white"
-            android:textSize="@dimen/layout_extra_wide_text_size"/>
+            android:orientation="horizontal"
+            android:padding="10dp">
 
-        <ImageView
-            android:layout_width="@dimen/layout_wide_text_size"
-            android:layout_height="@dimen/layout_wide_text_size"
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:text="Current Location"
+                android:textColor="@color/white"
+                android:textSize="@dimen/layout_extra_wide_text_size" />
+
+            <ImageView
+                android:layout_width="@dimen/layout_huge_text_size"
+                android:layout_height="@dimen/layout_huge_text_size"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:src="@drawable/choose_location_current_icon" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linlay_choose_location_saved"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@color/choose_location_option_list_background"
             android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:src="@drawable/choose_location_add_icon" />
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:text="Saved Location"
+                android:textColor="@color/white"
+                android:textSize="@dimen/layout_extra_wide_text_size" />
+
+            <ImageView
+                android:layout_width="@dimen/layout_wide_text_size"
+                android:layout_height="@dimen/layout_wide_text_size"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:src="@drawable/choose_location_saved_icon" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/lv_saved_locations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:visibility="gone"></ListView>
+
+        <LinearLayout
+            android:id="@+id/linlay_choose_location_add_new"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@color/choose_location_option_list_background"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:text="Add New Location"
+                android:textColor="@color/white"
+                android:textSize="@dimen/layout_extra_wide_text_size"/>
+
+            <ImageView
+                android:layout_width="@dimen/layout_wide_text_size"
+                android:layout_height="@dimen/layout_wide_text_size"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:src="@drawable/choose_location_add_icon" />
+        </LinearLayout>
+
     </LinearLayout>
+
 
 
 </LinearLayout>

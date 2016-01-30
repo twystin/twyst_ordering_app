@@ -12,8 +12,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.ContactsContract;
-import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
@@ -110,19 +108,24 @@ import retrofit.client.Response;
  * Created by anshul on 1/18/2016.
  */
 public class PreMainActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_main);
-
-        startAnimation();
+        startInitialAnimation();
         splashCode();
     }
 
-    private void startAnimation() {
-        ImageView app_background = (ImageView) findViewById(R.id.app_background_iv);
-        Animation zoom_in = AnimationUtils.loadAnimation(this, R.anim.zoom_in_premain);
-        app_background.startAnimation(zoom_in);
+    private void startInitialAnimation() {
+        final ImageView app_background = (ImageView) findViewById(R.id.app_background_iv);
+        final View getRegisteredTV = (View)findViewById(R.id.ll_get_registered);
+        final Animation zoomInBackground = AnimationUtils.loadAnimation(this, R.anim.zoom_in);
+        final Animation fadeInGetRegistered = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        app_background.startAnimation(zoomInBackground);
+        getRegisteredTV.startAnimation(fadeInGetRegistered);
     }
 
     // Choose Location Variables
@@ -133,16 +136,16 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
 
     //Choose Location Layout
     private void showChooseLocationLayout() {
+        startChooseLocationAnimation();
         findViewById(R.id.layout_choose_location).setVisibility(View.VISIBLE);
         findViewById(R.id.layout_user_verification).setVisibility(View.GONE);
-
         LinearLayout linLayCurrentLocation = (LinearLayout) findViewById(R.id.linlay_choose_location_current);
         LinearLayout linlaySavedLocation = (LinearLayout) findViewById(R.id.linlay_choose_location_saved);
         LinearLayout linlayAdNewLocation = (LinearLayout) findViewById(R.id.linlay_choose_location_add_new);
-
         linLayCurrentLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                startEndAnimation();
                 Intent intent = new Intent(PreMainActivity.this, MainActivity.class);
                 intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_CURRENT);
                 startActivity(intent);
@@ -197,6 +200,27 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             }
         });
     }
+
+    private void startEndAnimation() {
+        final View deliveryLocationTV = (View)findViewById(R.id.ll_delivery_location);
+        final View locations = (View)findViewById(R.id.ll_locations);
+        final Animation fadeOutDeliveryLocation = AnimationUtils.loadAnimation(PreMainActivity.this, R.anim.fade_out);
+        final Animation exitLocations = AnimationUtils.loadAnimation(PreMainActivity.this, R.anim.exit_to_right);
+        deliveryLocationTV.setAnimation(fadeOutDeliveryLocation);
+        locations.setAnimation(exitLocations);
+    }
+
+    private void startChooseLocationAnimation() {
+        final View deliveryLocationTV = (View)findViewById(R.id.ll_delivery_location);
+        final Animation fadeInDeliveryLocation = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        deliveryLocationTV.setAnimation(fadeInDeliveryLocation);
+
+        final View locations = (View)findViewById(R.id.ll_locations);
+        final Animation enterLocations = AnimationUtils.loadAnimation(this, R.anim.enter_from_left);
+        final Animation exitLocations = AnimationUtils.loadAnimation(this, R.anim.exit_to_right);
+        locations.setAnimation(enterLocations);
+    }
+
 
     // User Verification Variables
     //Submit button
@@ -264,14 +288,20 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
 
     // Show User Verification Layout
     private void showUserVerificationLayout() {
+        startUserVerficationAnimation();
         findViewById(R.id.layout_choose_location).setVisibility(View.GONE);
         findViewById(R.id.layout_user_verification).setVisibility(View.VISIBLE);
-
         setupVerifyEmail();
         setupSubmitButton();
         setupSignup();
         setupVerifyNumber();
         setupUI(findViewById(R.id.layout_user_verification));
+    }
+
+    private void startUserVerficationAnimation() {
+        final View userVerification = (View)findViewById(R.id.card_verify_number);
+        final Animation enterUserVerification = AnimationUtils.loadAnimation(this, R.anim.enter_from_left);
+        userVerification.startAnimation(enterUserVerification);
     }
 
 
@@ -749,6 +779,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     }
 
     private void numberVerifiedUIUpdate() {
+        startSignUpAnimation();
         findViewById(R.id.card_verify_number).setVisibility(View.GONE);
         findViewById(R.id.card_signup).setVisibility(View.VISIBLE);
         isNumberVerified = true;
@@ -764,6 +795,12 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         btnSubmit.setEnabled(isNumberVerified);
         findViewById(R.id.fbLogin).setEnabled(true);
         findViewById(R.id.gPlusLogin).setEnabled(true);
+    }
+
+    private void startSignUpAnimation() {
+        final View signUp = (View)findViewById(R.id.card_signup);
+        final Animation enterSignUp = AnimationUtils.loadAnimation(this, R.anim.enter_from_left);
+        signUp.setAnimation(enterSignUp);
     }
 
     final Handler handler = new Handler();

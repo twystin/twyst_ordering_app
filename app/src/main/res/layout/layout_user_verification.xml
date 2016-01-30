@@ -15,25 +15,36 @@
             android:layout_marginBottom="@dimen/layout_wide_margin"
             android:src="@drawable/registered_icon" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/layout_small_margin"
-            android:text="@string/registered_line1"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="@dimen/layout_extra_wide_text_size" />
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/ll_get_registered"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="20dp"
-            android:text="@string/registered_line2"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="@dimen/layout_extra_wide_text_size" />
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/layout_small_margin"
+                android:text="@string/registered_line1"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/layout_extra_wide_text_size" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20dp"
+                android:text="@string/registered_line2"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/layout_extra_wide_text_size" />
+
+        </LinearLayout>
+
 
         <include
             android:id="@+id/card_verify_number"
