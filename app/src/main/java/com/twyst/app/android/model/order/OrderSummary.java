@@ -1,6 +1,7 @@
 package com.twyst.app.android.model.order;
 
 import com.google.gson.annotations.SerializedName;
+import com.twyst.app.android.model.AddressDetailsLocationData;
 import com.twyst.app.android.model.menu.Addons;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.menu.Options;
@@ -74,6 +75,9 @@ public class OrderSummary implements Serializable {
     @SerializedName("coords")
     private Coords coordinates = new Coords();
 
+    @SerializedName("address")
+    private AddressDetailsLocationData addressDetailsLocationData;
+
     @SerializedName("order_number")
     private String orderNumber;
 
@@ -111,6 +115,14 @@ public class OrderSummary implements Serializable {
 
     public void setSelectedOfferID(String selectedOfferID) {
         this.selectedOfferID = selectedOfferID;
+    }
+
+    public AddressDetailsLocationData getAddressDetailsLocationData() {
+        return addressDetailsLocationData;
+    }
+
+    public void setAddressDetailsLocationData(AddressDetailsLocationData addressDetailsLocationData) {
+        this.addressDetailsLocationData = addressDetailsLocationData;
     }
 
     public String getOutletId() {

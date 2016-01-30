@@ -76,7 +76,6 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_details);
 
-
         setupToolBar();
         setup();
         fetchSavedAddresses();
@@ -107,15 +106,15 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AddressDetailsLocationData addressDetailsLocationData = (AddressDetailsLocationData) listView.getItemAtPosition(position);
-                checkOut(addressDetailsLocationData.getCoords());
+                checkOut(addressDetailsLocationData);
             }
         });
 
     }
 
-    private void checkOut(Coords coords) {
+    private void checkOut(final AddressDetailsLocationData addressDetailsLocationData) {
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
-        final OrderSummary orderSummary = new OrderSummary(mCartItemsList, mOutletId, coords);
+        final OrderSummary orderSummary = new OrderSummary(mCartItemsList, mOutletId, addressDetailsLocationData.getCoords());
         HttpService.getInstance().postOrderVerify(getUserToken(), orderSummary, new Callback<BaseResponse<OrderSummary>>() {
             @Override
             public void success(BaseResponse<OrderSummary> orderSummaryBaseResponse, Response response) {
@@ -124,6 +123,7 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
                     Intent checkOutIntent;
                     returnOrderSummary.setmCartItemsList(mCartItemsList);
                     returnOrderSummary.setOutletId(orderSummary.getOutletId());
+                    returnOrderSummary.setAddressDetailsLocationData(addressDetailsLocationData);
 
                     if (returnOrderSummary.getOfferOrderList().size() > 0) {
                         checkOutIntent = new Intent(AddressDetailsActivity.this, AvailableOffersActivity.class);
@@ -233,10 +233,7 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
             public void onClick(View v) {
                 if (!((mLocationAddressTextView.getText().toString()).equals("unavailable!"))) {
                     ((ImageView) findViewById(R.id.radio_current_loc)).setSelected(true);
-                    Intent intent = new Intent(AddressDetailsActivity.this, AddressAddNewActivity.class);
-                    intent.putExtra(AppConstants.MAP_TO_BE_SHOWN, false);
-                    intent.putExtra(AppConstants.DATA_TO_BE_SHOWN, mAddressDetailsLocationData);
-                    startActivity(intent);
+                    checkCurrentDeliverableAndProceed();
                 }
 
             }
@@ -258,6 +255,48 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
 
     }
 
+    private void checkCurrentDeliverableAndProceed() {
+        ArrayList<Coords> currentCoordsList = new ArrayList<>();
+        currentCoordsList.add(mAddressDetailsLocationData.getCoords());
+
+        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
+        LocationsVerify locationsVerify = new LocationsVerify(mOutletId, currentCoordsList);
+        HttpService.getInstance().postLocationsVerify(locationsVerify, new Callback<BaseResponse<ArrayList<LocationsVerified>>>() {
+            @Override
+            public void success(BaseResponse<ArrayList<LocationsVerified>> baseResponse, Response response) {
+                if (baseResponse.isResponse()) {
+                    ArrayList<LocationsVerified> locationsVerifiedList = baseResponse.getData();
+                    if (locationsVerifiedList.get(0) != null && locationsVerifiedList.get(0).isDeliverable()) {
+                        Intent intent = new Intent(AddressDetailsActivity.this, AddressAddNewActivity.class);
+                        Bundle addressDetailsBundle = getIntent().getExtras();
+                        addressDetailsBundle.putBoolean(AppConstants.MAP_TO_BE_SHOWN, false);
+                        addressDetailsBundle.putSerializable(AppConstants.DATA_TO_BE_SHOWN, mAddressDetailsLocationData);
+                        intent.putExtras(addressDetailsBundle);
+                        startActivity(intent);
+                        finish();
+
+                    } else {
+                        Toast.makeText(AddressDetailsActivity.this, "Outlet doesn't deliver at this location!", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(AddressDetailsActivity.this, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                twystProgressHUD.dismiss();
+                hideSnackbar();
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                twystProgressHUD.dismiss();
+                handleRetrofitError(error);
+                hideSnackbar();
+            }
+        });
+
+    }
+
     private void fetchSavedAddresses() {
         Bundle bundle = getIntent().getExtras();
         mOutletId = bundle.getString(AppConstants.INTENT_PARAM_OUTLET_ID);
@@ -270,7 +309,7 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
             ((CardView) findViewById(R.id.cardView_noAddress)).setVisibility(View.GONE);
             verifyLocationsAPI();
 
-        }else{
+        } else {
             ((CardView) findViewById(R.id.cardView_listview)).setVisibility(View.GONE);
             ((CardView) findViewById(R.id.cardView_noAddress)).setVisibility(View.VISIBLE);
         }
