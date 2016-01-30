@@ -18,7 +18,16 @@ public class OrderTrackingState {
     private String time;
     private String ampm;
     private String message;
-    private String orderState;
+    private int orderState;
+    private boolean isCurrent;
+
+    public boolean isCurrent() {
+        return isCurrent;
+    }
+
+    public void setIsCurrent(boolean isCurrent) {
+        this.isCurrent = isCurrent;
+    }
 
     public String getTime() {
         return time;
@@ -44,11 +53,11 @@ public class OrderTrackingState {
         this.message = message;
     }
 
-    public String getOrderState() {
+    public int getOrderState() {
         return orderState;
     }
 
-    public void setOrderState(String orderState) {
+    public void setOrderState(int orderState) {
         this.orderState = orderState;
     }
 }

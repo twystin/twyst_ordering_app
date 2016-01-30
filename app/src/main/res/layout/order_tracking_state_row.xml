@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/layout_huge_margin"
+    android:orientation="horizontal"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/track_order_clock"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12:30"
+                android:id="@+id/tv_track_order_state_time"
+                android:textSize="@dimen/layout_huge_text_size" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:id="@+id/tv_track_order_state_time_amOrPm"
+                android:text="PM"
+                android:textSize="@dimen/layout_huge_text_size" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/layout_wide_margin"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_marginTop="@dimen/layout_huge_margin"
+            android:id="@+id/tv_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/order_assumed_delivery_message"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/layout_wide_text_size" />
+
+        <TextView
+            android:id="@+id/tv_click_for_failure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_wide_margin"
+            android:background="@color/primary"
+            android:gravity="center"
+            android:padding="@dimen/layout_medium_margin"
+            android:text="@string/order_assumed_delivery_message_failure"
+            android:textColor="@color/white"
+            android:textSize="@dimen/layout_medium_text_size"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_click_for_success"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_wide_margin"
+            android:background="@color/primary"
+            android:gravity="center"
+            android:padding="@dimen/layout_medium_margin"
+            android:text="@string/order_assumed_delivery_message_success"
+            android:textColor="@color/white"
+            android:textSize="@dimen/layout_medium_text_size"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+</LinearLayout>

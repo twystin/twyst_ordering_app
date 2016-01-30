@@ -1,47 +1,75 @@
 package com.twyst.app.android.activities;
 
-import android.graphics.drawable.GradientDrawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.twyst.app.android.R;
+import com.twyst.app.android.model.OrderTrackingState;
+
+import java.util.ArrayList;
 
 public class OrderTrackingActivity extends AppCompatActivity {
 
-    final private int ORDER_SENT = 0;
-    final private int ORDER_ACCEPTED = 1;
-    final private int ORDER_DISPATCHED = 2;
-    final private int ORDER_DELIVERED = 3;
-
-    private int status = 0;
+    static int count = 1;
+    private ListView trackOrderStatesListview;
+    private ArrayList<OrderTrackingState> trackOrderStatesList = new ArrayList<>();
+    private TrackOrderStatesAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_tracking);
         setupToolBar();
-        ImageView circle1 = (ImageView) findViewById(R.id.order_tracking_circle1);
-        ((GradientDrawable)circle1.getDrawable()).setColor(getResources().getColor(R.color.background_green));
+        trackOrderStatesListview = (ListView) findViewById(R.id.listview_track_order_states);
+        mAdapter = new TrackOrderStatesAdapter();
+        trackOrderStatesListview.setAdapter(mAdapter);
 
-        // To be removed later:
-        TextView refresh = (TextView) findViewById(R.id.tvRefresh);
-        refresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                status += 1;
-                updateOrderTrack(status);
-            }
-        });
+//        for (int i = 0;i<5;i++) {
+//              final int value = i;
+        handler.postDelayed(runnable, 5000);
+//        }
 
     }
+
+    final Handler handler = new Handler();
+//
+
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if (count < 6) {
+                OrderTrackingState newState = new OrderTrackingState();
+                newState.setOrderState(count);
+                newState.setTime("12:30");
+                newState.setAmpm("AM");
+                newState.setIsCurrent(true);
+                trackOrderStatesList.add(0, newState);
+
+                for (int j = 1;j<count;j++){
+                    trackOrderStatesList.get(j).setIsCurrent(false);
+                }
+                count++;
+                mAdapter.notifyDataSetChanged();
+                handler.postDelayed(runnable, 5000);
+            } else {
+                handler.removeCallbacks(runnable);
+            }
+//                    try{
+//                        Thread.sleep(5000);
+//                    } catch (InterruptedException ex){
+//                        ex.printStackTrace();
+//                    }
+        }
+    };
+
 
     private void setupToolBar() {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -55,42 +83,95 @@ public class OrderTrackingActivity extends AppCompatActivity {
         });
     }
 
-    private void updateOrderTrack (int Status){
+    class TrackOrderStatesAdapter extends ArrayAdapter<OrderTrackingState> {
 
-        LinearLayout ll1 = (LinearLayout) findViewById(R.id.track_status_sent_card);
-        RelativeLayout rl1 = (RelativeLayout) findViewById(R.id.track_status_accepted_card);
-        switch (Status){
-            case ORDER_ACCEPTED :
-                ImageView circle2 = (ImageView) findViewById(R.id.order_tracking_circle2);
-                ((GradientDrawable)circle2.getDrawable()).setColor(getResources().getColor(R.color.background_green));
-                ImageView rect1 = (ImageView) findViewById(R.id.order_tracking_rect1);
-                ((GradientDrawable)rect1.getDrawable()).setColor(getResources().getColor(R.color.background_green));
-                ImageView dialogbox2 = (ImageView) findViewById(R.id.dialogbox2);
-                dialogbox2.setImageDrawable(getResources().getDrawable(R.drawable.dialoguebox));
-                ll1.setVisibility(View.GONE);
-                rl1.setVisibility(View.VISIBLE);
-                break;
-            case ORDER_DISPATCHED :
-                ImageView circle3 = (ImageView) findViewById(R.id.order_tracking_circle3);
-                ((GradientDrawable) circle3.getDrawable()).setColor(getResources().getColor(R.color.background_green));
-                ImageView rect2 = (ImageView) findViewById(R.id.order_tracking_rect2);
-                ((GradientDrawable)rect2.getDrawable()).setColor(getResources().getColor(R.color.background_green));
-                ImageView dialogbox3 = (ImageView) findViewById(R.id.dialogbox3);
-                dialogbox3.setImageDrawable(getResources().getDrawable(R.drawable.dialoguebox));
-                rl1.setVisibility(View.GONE);
-                break;
 
-            case ORDER_DELIVERED :
-                ImageView circle4 = (ImageView) findViewById(R.id.order_tracking_circle4);
-                ((GradientDrawable)circle4.getDrawable()).setColor(getResources().getColor(R.color.background_green));
-                ImageView rect3 = (ImageView) findViewById(R.id.order_tracking_rect3);
-                ((GradientDrawable)rect3.getDrawable()).setColor(getResources().getColor(R.color.background_green));
-                ImageView dialogbox4 = (ImageView) findViewById(R.id.dialogbox4);
-                dialogbox4.setImageDrawable(getResources().getDrawable(R.drawable.dialoguebox));
-                break;
-            // To be Removed Later
-            default:
-                Toast.makeText(this, "Enough", Toast.LENGTH_SHORT).show();
+        TrackOrderStatesAdapter() {
+            super(OrderTrackingActivity.this, R.layout.order_tracking_state_row, trackOrderStatesList);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = getLayoutInflater();
+            View row = inflater.inflate(R.layout.order_tracking_state_row, parent, false);
+            TrackOrderStateViewholder viewholder = new TrackOrderStateViewholder(row);
+
+            OrderTrackingState orderstate = trackOrderStatesList.get(position);
+            switch (orderstate.getOrderState()) {
+                case OrderTrackingState.ORDER_PLACED:
+                    viewholder.message.setText(getResources().getString(R.string.order_placed_message));
+                    viewholder.trackOrderStateTime.setText(orderstate.getTime());
+                    viewholder.trackOrderStateAmOrPm.setText(orderstate.getAmpm());
+                    if (orderstate.isCurrent()) {
+                        viewholder.tvClickForFailure.setVisibility(View.VISIBLE);
+                        viewholder.tvClickForFailure.setText(getResources().getString(R.string.order_placed_cancel_message));
+                    }
+                    break;
+                case OrderTrackingState.ORDER_ACCEPTED:
+                    viewholder.message.setText(getResources().getString(R.string.order_accepted_message));
+                    viewholder.trackOrderStateTime.setText(orderstate.getTime());
+                    viewholder.trackOrderStateAmOrPm.setText(orderstate.getAmpm());
+                    if (orderstate.isCurrent()) {
+                        viewholder.tvClickForSuccess.setVisibility(View.VISIBLE);
+                        viewholder.tvClickForSuccess.setBackgroundColor(getResources().getColor(R.color.background_green));
+                        viewholder.tvClickForSuccess.setText(getResources().getString(R.string.order_accepted_contact_outlet_message));
+                    }
+                    break;
+                case OrderTrackingState.ORDER_DISPATCHED:
+                    viewholder.message.setText(getResources().getString(R.string.order_dispatched_message));
+                    viewholder.trackOrderStateTime.setText(orderstate.getTime());
+                    viewholder.trackOrderStateAmOrPm.setText(orderstate.getAmpm());
+                    if (orderstate.isCurrent()) {
+                        viewholder.tvClickForSuccess.setVisibility(View.VISIBLE);
+                        viewholder.tvClickForSuccess.setText(getResources().getString(R.string.order_dispatched_message_success));
+                    }
+                    break;
+                case OrderTrackingState.ORDER_ASSUMED_DELIVERY:
+                    viewholder.message.setText(getResources().getString(R.string.order_assumed_delivery_message));
+                    viewholder.trackOrderStateTime.setText(orderstate.getTime());
+                    viewholder.trackOrderStateAmOrPm.setText(orderstate.getAmpm());
+                    if (orderstate.isCurrent()) {
+                        viewholder.tvClickForFailure.setVisibility(View.VISIBLE);
+                        viewholder.tvClickForFailure.setText(getResources().getString(R.string.order_assumed_delivery_message_failure));
+                        viewholder.tvClickForSuccess.setVisibility(View.VISIBLE);
+                        viewholder.tvClickForSuccess.setText(getResources().getString(R.string.order_assumed_delivery_message_success));
+                    }
+                    break;
+                case OrderTrackingState.ORDER_NOT_DELIVERED:
+                    viewholder.message.setText(getResources().getString(R.string.order_not_delivered_message));
+                    viewholder.trackOrderStateTime.setText(orderstate.getTime());
+                    viewholder.trackOrderStateAmOrPm.setText(orderstate.getAmpm());
+                    if (orderstate.isCurrent()) {
+                        viewholder.tvClickForSuccess.setVisibility(View.VISIBLE);
+                        viewholder.tvClickForSuccess.setText(getResources().getString(R.string.order_not_delivered_message_success));
+                    }
+                    break;
+                default:
+                    break;
+
+            }
+
+            return row;
+        }
+
+
+    }
+
+    static class TrackOrderStateViewholder {
+        private TextView message;
+        private TextView trackOrderStateTime;
+        private TextView trackOrderStateAmOrPm;
+        private TextView tvClickForFailure;
+        private TextView tvClickForSuccess;
+
+        TrackOrderStateViewholder(View view) {
+            message = (TextView) view.findViewById(R.id.tv_message);
+            trackOrderStateTime = (TextView) view.findViewById(R.id.tv_track_order_state_time);
+            trackOrderStateAmOrPm = (TextView) view.findViewById(R.id.tv_track_order_state_time_amOrPm);
+            tvClickForFailure = (TextView) view.findViewById(R.id.tv_click_for_failure);
+            tvClickForSuccess = (TextView) view.findViewById(R.id.tv_click_for_success);
         }
     }
+
+
 }
