@@ -211,13 +211,13 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/save"
+        android:id="@+id/proceed_address_new"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="50dp"
         android:background="@color/primary"
-        android:text="SAVE"
+        android:text="PROCEED"
         android:textColor="#FFFF"
         android:textSize="@dimen/address_huge_text_size" />
 </RelativeLayout>

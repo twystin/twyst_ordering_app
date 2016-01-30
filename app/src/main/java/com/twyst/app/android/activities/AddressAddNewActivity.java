@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.AddressDetailsLocationData;
+import com.twyst.app.android.model.order.OrderSummary;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.SharedPreferenceAddress;
 
@@ -26,15 +27,20 @@ public class AddressAddNewActivity extends AppCompatActivity {
     private ImageView otherTag;
     private ImageView editNeighborhood;
     private ImageView editLandmark;
-    private EditText address ;
+    private EditText address;
     private EditText neighborhood;
     private EditText landmark;
+
+    private OrderSummary mOrderSummary;
 
     private AddressDetailsLocationData mNewAddress = new AddressDetailsLocationData();
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_add_new);
+
+        Bundle extras = getIntent().getExtras();
+        mOrderSummary = (OrderSummary) extras.getSerializable(AppConstants.INTENT_ORDER_SUMMARY);
 
         homeTag = (ImageView) findViewById(R.id.add_address_home_tag);
         workTag = (ImageView) findViewById(R.id.add_address_work_tag);
@@ -45,10 +51,10 @@ public class AddressAddNewActivity extends AppCompatActivity {
         otherTag.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.other_tag_config));
 
         address = (EditText) findViewById(R.id.editView_address);
-        neighborhood = (EditText)findViewById(R.id.editView_building);
-        landmark = (EditText)findViewById(R.id.editView_landmark);
+        neighborhood = (EditText) findViewById(R.id.editView_building);
+        landmark = (EditText) findViewById(R.id.editView_landmark);
         editNeighborhood = (ImageView) findViewById(R.id.edit_image_neighborhood);
-        editLandmark = (ImageView)findViewById(R.id.edit_image_landmark);
+        editLandmark = (ImageView) findViewById(R.id.edit_image_landmark);
 
         editNeighborhood.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +111,6 @@ public class AddressAddNewActivity extends AppCompatActivity {
         });
 
 
-
         Boolean setUpMap = getIntent().getBooleanExtra(AppConstants.MAP_TO_BE_SHOWN, false);
         if (setUpMap) {
             Intent intent = new Intent(AddressAddNewActivity.this, AddressMapActivity.class);
@@ -116,8 +121,8 @@ public class AddressAddNewActivity extends AppCompatActivity {
             ((LinearLayout) findViewById(R.id.linlay_add_address)).setVisibility(View.VISIBLE);
         }
 
-        Button save = (Button) findViewById(R.id.save);
-        save.setOnClickListener(new View.OnClickListener() {
+        Button bProceed = (Button) findViewById(R.id.proceed_address_new);
+        bProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EditText neighborhood = (EditText) findViewById(R.id.editView_building);
@@ -140,7 +145,7 @@ public class AddressAddNewActivity extends AppCompatActivity {
 
                     SharedPreferenceAddress preference = new SharedPreferenceAddress();
                     preference.addAddress(AddressAddNewActivity.this, mNewAddress);
-                    finish();
+                    updateOrderSummaryAndCheckout(mNewAddress);
                 } else {
                     validateEditText(neighborhood);
                     validateEditText(address);
@@ -148,6 +153,27 @@ public class AddressAddNewActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void updateOrderSummaryAndCheckout(AddressDetailsLocationData mNewAddress) {
+        mOrderSummary.setAddressDetailsLocationData(mNewAddress);
+        checkOut();
+    }
+
+    private void checkOut() {
+        Intent checkOutIntent;
+
+        if (mOrderSummary.getOfferOrderList().size() > 0) {
+            checkOutIntent = new Intent(AddressAddNewActivity.this, AvailableOffersActivity.class);
+        } else {
+            checkOutIntent = new Intent(AddressAddNewActivity.this, OrderSummaryActivity.class);
+        }
+
+        Bundle orderSummaryData = new Bundle();
+        orderSummaryData.putSerializable(AppConstants.INTENT_ORDER_SUMMARY, mOrderSummary);
+        checkOutIntent.putExtras(orderSummaryData);
+        startActivity(checkOutIntent);
+        finish();
     }
 
     public boolean validateEditText(EditText editText) {
@@ -182,7 +208,6 @@ public class AddressAddNewActivity extends AppCompatActivity {
     }
 
     private void setTextLocationFetch(AddressDetailsLocationData locationData) {
-
         address.setText(locationData.getAddress());
         neighborhood.setText(locationData.getNeighborhood());
         landmark.setText(locationData.getLandmark());

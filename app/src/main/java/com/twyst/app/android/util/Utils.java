@@ -19,7 +19,7 @@ import java.util.Date;
 
 
 /**
- * Created by vivek on 22/07/15.
+ * Created by Vipul Sharma on 22/07/15.
  */
 public class Utils {
     public static double distance(double lat1, double lon1, double lat2, double lon2, char unit) {

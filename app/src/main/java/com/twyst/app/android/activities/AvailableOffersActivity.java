@@ -17,6 +17,7 @@ import com.twyst.app.android.model.order.OrderSummary;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
+import com.twyst.app.android.util.UtilMethods;
 
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class AvailableOffersActivity extends BaseActivity {
         findViewById(R.id.bSkip).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToSummary(-1, mOrderSummary);
+                UtilMethods.goToSummary(AvailableOffersActivity.this, -1, mOrderSummary);
             }
         });
     }
@@ -94,7 +95,7 @@ public class AvailableOffersActivity extends BaseActivity {
                         returnOrderSummary.setmCartItemsList(mOrderSummary.getmCartItemsList());
                         returnOrderSummary.setOutletId(mOrderSummary.getOutletId());
 
-                        goToSummary(freeItemIndex, returnOrderSummary);
+                        UtilMethods.goToSummary(AvailableOffersActivity.this,freeItemIndex, returnOrderSummary);
                     } else {
                         Toast.makeText(AvailableOffersActivity.this, orderSummaryBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -116,15 +117,15 @@ public class AvailableOffersActivity extends BaseActivity {
         }
     }
 
-    private void goToSummary(int freeItemIndex, OrderSummary orderSummary) {
-        Bundle orderSummaryData = new Bundle();
-        orderSummaryData.putSerializable(AppConstants.INTENT_ORDER_SUMMARY, orderSummary);
-        orderSummaryData.putInt(AppConstants.INTENT_FREE_ITEM_INDEX, freeItemIndex);
-
-        Intent checkOutIntent = new Intent(AvailableOffersActivity.this, OrderSummaryActivity.class);
-        checkOutIntent.putExtras(orderSummaryData);
-        startActivity(checkOutIntent);
-    }
+//    private void goToSummary(int freeItemIndex, OrderSummary orderSummary) {
+//        Bundle orderSummaryData = new Bundle();
+//        orderSummaryData.putSerializable(AppConstants.INTENT_ORDER_SUMMARY, orderSummary);
+//        orderSummaryData.putInt(AppConstants.INTENT_FREE_ITEM_INDEX, freeItemIndex);
+//
+//        Intent checkOutIntent = new Intent(AvailableOffersActivity.this, OrderSummaryActivity.class);
+//        checkOutIntent.putExtras(orderSummaryData);
+//        startActivity(checkOutIntent);
+//    }
 
     private void setupToolBar() {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

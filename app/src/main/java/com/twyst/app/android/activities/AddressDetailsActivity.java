@@ -36,6 +36,7 @@ import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.LocationFetchUtil;
 import com.twyst.app.android.util.SharedPreferenceAddress;
 import com.twyst.app.android.util.TwystProgressHUD;
+import com.twyst.app.android.util.UtilMethods;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,103 +107,93 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AddressDetailsLocationData addressDetailsLocationData = (AddressDetailsLocationData) listView.getItemAtPosition(position);
-                checkOut(addressDetailsLocationData);
+                UtilMethods.checkOut(false,addressDetailsLocationData, mCartItemsList, mOutletId, AddressDetailsActivity.this);
             }
         });
 
     }
 
-    private void checkOut(final AddressDetailsLocationData addressDetailsLocationData) {
-        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
-        final OrderSummary orderSummary = new OrderSummary(mCartItemsList, mOutletId, addressDetailsLocationData.getCoords());
-        HttpService.getInstance().postOrderVerify(getUserToken(), orderSummary, new Callback<BaseResponse<OrderSummary>>() {
-            @Override
-            public void success(BaseResponse<OrderSummary> orderSummaryBaseResponse, Response response) {
-                if (orderSummaryBaseResponse.isResponse()) {
-                    OrderSummary returnOrderSummary = orderSummaryBaseResponse.getData();
-                    Intent checkOutIntent;
-                    returnOrderSummary.setmCartItemsList(mCartItemsList);
-                    returnOrderSummary.setOutletId(orderSummary.getOutletId());
-                    returnOrderSummary.setAddressDetailsLocationData(addressDetailsLocationData);
+//    private void checkOut(final AddressDetailsLocationData addressDetailsLocationData) {
+//        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
+//        final OrderSummary orderSummary = new OrderSummary(mCartItemsList, mOutletId, addressDetailsLocationData.getCoords());
+//        HttpService.getInstance().postOrderVerify(getUserToken(), orderSummary, new Callback<BaseResponse<OrderSummary>>() {
+//            @Override
+//            public void success(BaseResponse<OrderSummary> orderSummaryBaseResponse, Response response) {
+//                if (orderSummaryBaseResponse.isResponse()) {
+//                    OrderSummary returnOrderSummary = orderSummaryBaseResponse.getData();
+//                    Intent checkOutIntent;
+//                    returnOrderSummary.setmCartItemsList(mCartItemsList);
+//                    returnOrderSummary.setOutletId(orderSummary.getOutletId());
+//                    returnOrderSummary.setAddressDetailsLocationData(addressDetailsLocationData);
+//
+//                    if (returnOrderSummary.getOfferOrderList().size() > 0) {
+//                        checkOutIntent = new Intent(AddressDetailsActivity.this, AvailableOffersActivity.class);
+//                    } else {
+//                        checkOutIntent = new Intent(AddressDetailsActivity.this, OrderSummaryActivity.class);
+//                    }
+//
+//                    Bundle orderSummaryData = new Bundle();
+//                    orderSummaryData.putSerializable(AppConstants.INTENT_ORDER_SUMMARY, returnOrderSummary);
+//                    checkOutIntent.putExtras(orderSummaryData);
+//                    startActivity(checkOutIntent);
+//                } else {
+//                    Toast.makeText(AddressDetailsActivity.this, orderSummaryBaseResponse.getMessage(), Toast.LENGTH_LONG).show();
+//                }
+//
+//                twystProgressHUD.dismiss();
+//                hideSnackbar();
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//                twystProgressHUD.dismiss();
+//                handleRetrofitError(error);
+//                hideSnackbar();
+//            }
+//        });
+//    }
 
-                    if (returnOrderSummary.getOfferOrderList().size() > 0) {
-                        checkOutIntent = new Intent(AddressDetailsActivity.this, AvailableOffersActivity.class);
-                    } else {
-                        checkOutIntent = new Intent(AddressDetailsActivity.this, OrderSummaryActivity.class);
-                    }
-
-                    Bundle orderSummaryData = new Bundle();
-                    orderSummaryData.putSerializable(AppConstants.INTENT_ORDER_SUMMARY, returnOrderSummary);
-                    checkOutIntent.putExtras(orderSummaryData);
-                    startActivity(checkOutIntent);
-                } else {
-                    Toast.makeText(AddressDetailsActivity.this, orderSummaryBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-
-                twystProgressHUD.dismiss();
-                hideSnackbar();
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                twystProgressHUD.dismiss();
-                handleRetrofitError(error);
-                hideSnackbar();
-            }
-        });
-    }
-
-    public void handleRetrofitError(RetrofitError error) {
-        if (error.getKind() == RetrofitError.Kind.NETWORK) {
-            buildAndShowSnackbarWithMessage("No internet connection.");
-        } else {
-            buildAndShowSnackbarWithMessage("An unexpected error has occurred.");
-        }
-        Log.e(getTagName(), "failure", error);
-    }
-
-    public void buildAndShowSnackbarWithMessage(String msg) {
-        final Snackbar snackbar = Snackbar.with(getApplicationContext())
-                .type(SnackbarType.MULTI_LINE)
-                        //.color(getResources().getColor(android.R.color.black))
-                .text(msg)
-                .actionLabel("RETRY") // action button label
-                .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
-                .swipeToDismiss(false)
-                .actionListener(new ActionClickListener() {
-                    @Override
-                    public void onActionClicked(Snackbar snackbar) {
-                        Intent intent = getIntent();
-                        overridePendingTransition(0, 0);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        finish();
-                        overridePendingTransition(0, 0);
-                        startActivity(intent);
-                    }
-                });
-        snackbar.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                showSnackbar(snackbar); // activity where it is displayed
-            }
-        }, 500);
-
-    }
-
-    protected void showSnackbar(Snackbar snackbar) {
-        SnackbarManager.show(snackbar, this);
-    }
-
-    private void hideSnackbar() {
-        SnackbarManager.dismiss();
-    }
-
-    private String getUserToken() {
-        return AppConstants.USER_TOKEN_HARDCODED;
-//        SharedPreferences prefs = this.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
-//        return prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");
-
-    }
+//    private void checkCurrentDeliverableAndProceed() {
+//        ArrayList<Coords> currentCoordsList = new ArrayList<>();
+//        currentCoordsList.add(mAddressDetailsLocationData.getCoords());
+//
+//        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
+//        LocationsVerify locationsVerify = new LocationsVerify(mOutletId, currentCoordsList);
+//        HttpService.getInstance().postLocationsVerify(locationsVerify, new Callback<BaseResponse<ArrayList<LocationsVerified>>>() {
+//            @Override
+//            public void success(BaseResponse<ArrayList<LocationsVerified>> baseResponse, Response response) {
+//                if (baseResponse.isResponse()) {
+//                    ArrayList<LocationsVerified> locationsVerifiedList = baseResponse.getData();
+//                    if (locationsVerifiedList.get(0) != null && locationsVerifiedList.get(0).isDeliverable()) {
+//                        Intent intent = new Intent(AddressDetailsActivity.this, AddressAddNewActivity.class);
+//                        Bundle addressDetailsBundle = getIntent().getExtras();
+//                        addressDetailsBundle.putBoolean(AppConstants.MAP_TO_BE_SHOWN, false);
+//                        addressDetailsBundle.putSerializable(AppConstants.DATA_TO_BE_SHOWN, mAddressDetailsLocationData);
+//                        intent.putExtras(addressDetailsBundle);
+//                        startActivity(intent);
+//                        finish();
+//
+//                    } else {
+//                        Toast.makeText(AddressDetailsActivity.this, "Outlet doesn't deliver at this location!", Toast.LENGTH_LONG).show();
+//                    }
+//                } else {
+//                    Toast.makeText(AddressDetailsActivity.this, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+//                }
+//
+//                twystProgressHUD.dismiss();
+//                hideSnackbar();
+//
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//                twystProgressHUD.dismiss();
+//                handleRetrofitError(error);
+//                hideSnackbar();
+//            }
+//        });
+//
+//    }
 
     private void setup() {
         // Add new Address related code
@@ -233,7 +224,8 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
             public void onClick(View v) {
                 if (!((mLocationAddressTextView.getText().toString()).equals("unavailable!"))) {
                     ((ImageView) findViewById(R.id.radio_current_loc)).setSelected(true);
-                    checkCurrentDeliverableAndProceed();
+//                    checkCurrentDeliverableAndProceed();
+                    UtilMethods.checkOut(true,mAddressDetailsLocationData, mCartItemsList, mOutletId, AddressDetailsActivity.this);
                 }
 
             }
@@ -250,48 +242,6 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
             @Override
             public void onClick(View v) {
                 fetchCurrentLocation();
-            }
-        });
-
-    }
-
-    private void checkCurrentDeliverableAndProceed() {
-        ArrayList<Coords> currentCoordsList = new ArrayList<>();
-        currentCoordsList.add(mAddressDetailsLocationData.getCoords());
-
-        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
-        LocationsVerify locationsVerify = new LocationsVerify(mOutletId, currentCoordsList);
-        HttpService.getInstance().postLocationsVerify(locationsVerify, new Callback<BaseResponse<ArrayList<LocationsVerified>>>() {
-            @Override
-            public void success(BaseResponse<ArrayList<LocationsVerified>> baseResponse, Response response) {
-                if (baseResponse.isResponse()) {
-                    ArrayList<LocationsVerified> locationsVerifiedList = baseResponse.getData();
-                    if (locationsVerifiedList.get(0) != null && locationsVerifiedList.get(0).isDeliverable()) {
-                        Intent intent = new Intent(AddressDetailsActivity.this, AddressAddNewActivity.class);
-                        Bundle addressDetailsBundle = getIntent().getExtras();
-                        addressDetailsBundle.putBoolean(AppConstants.MAP_TO_BE_SHOWN, false);
-                        addressDetailsBundle.putSerializable(AppConstants.DATA_TO_BE_SHOWN, mAddressDetailsLocationData);
-                        intent.putExtras(addressDetailsBundle);
-                        startActivity(intent);
-                        finish();
-
-                    } else {
-                        Toast.makeText(AddressDetailsActivity.this, "Outlet doesn't deliver at this location!", Toast.LENGTH_LONG).show();
-                    }
-                } else {
-                    Toast.makeText(AddressDetailsActivity.this, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-
-                twystProgressHUD.dismiss();
-                hideSnackbar();
-
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                twystProgressHUD.dismiss();
-                handleRetrofitError(error);
-                hideSnackbar();
             }
         });
 
@@ -329,15 +279,14 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
                 }
 
                 twystProgressHUD.dismiss();
-                hideSnackbar();
-
+                UtilMethods.hideSnackbar();
             }
 
             @Override
             public void failure(RetrofitError error) {
                 twystProgressHUD.dismiss();
-                handleRetrofitError(error);
-                hideSnackbar();
+                UtilMethods.handleRetrofitError(AddressDetailsActivity.this, error);
+                UtilMethods.hideSnackbar();
             }
         });
     }

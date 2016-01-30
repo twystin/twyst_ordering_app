@@ -74,7 +74,6 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
         fetchLocation();
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-
             @Override
             public void onMapClick(LatLng latLng) {
                 setMarkerOnMap(latLng, "", false);
@@ -97,7 +96,6 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
         findViewById(R.id.sendBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 mAddressRequested = true;
                 twystProgressHUD = TwystProgressHUD.show(AddressMapActivity.this, false, null);
                 locationFetchUtil.requestAddress(mLastLocation, false);
@@ -235,7 +233,6 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
 
             Bundle info = new Bundle();
             info.putSerializable("locationData", locationData);
-
 
             if (getIntent().getBooleanExtra(AppConstants.FROM_CHOOSE_ACTIVITY_TO_MAP, false)) {
                 Intent intent = new Intent(AddressMapActivity.this, MainActivity.class);
