@@ -143,4 +143,7 @@
     <color name="background_alpha">#73191919</color>
     <color name="verify_half_white">#8c8c8c</color>
 
+    <!-- Background Alpha OrderOnlineLogo -->
+    <color name="order_online_bg_alpha">#30191919</color>
+
 </resources>

@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
 import com.nispok.snackbar.listeners.ActionClickListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+import com.squareup.picasso.Picasso;
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.CartAdapter;
 import com.twyst.app.android.adapters.MenuExpandableAdapter;
@@ -40,15 +42,16 @@ import com.twyst.app.android.adapters.MenuTabsPagerAdapter;
 import com.twyst.app.android.adapters.ScrollingOffersAdapter;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.Offer;
+import com.twyst.app.android.model.Outlet;
 import com.twyst.app.android.model.ReorderMenuAndCart;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.menu.MenuCategories;
 import com.twyst.app.android.model.menu.MenuData;
 import com.twyst.app.android.model.menu.SubCategories;
-import com.twyst.app.android.model.order.OrderSummary;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
-import com.twyst.app.android.util.TwystProgressHUD;
+import com.twyst.app.android.util.UtilMethods;
+import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,6 +74,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     TextView tvCartCount;
     TextView tvCartTotalCost;
 
+
     private CircularProgressBar circularProgressBar;
     private CircularProgressBar scrollingOfffersProgressBar;
 
@@ -89,17 +93,21 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     //    private ArrayList<Items> cartItemsTobeAddedFromReorder = null;
     private ReorderMenuAndCart reorderMenuAndCart = null;
 
+    private Outlet mOutlet;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_online);
+
+        mOutlet = (Outlet) getIntent().getSerializableExtra(AppConstants.INTENT_PARAM_OUTLET_OBJECT);
 
         setupToolBar();
         setupTopLayout();
         setupScrollingOfferAdapters();
 
 //        setupMenu();
-
 
         setupCartRecyclerView();
         ifReordered = checkifReordered();
@@ -130,6 +138,9 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                                 .removeOnGlobalLayoutListener(this);
                     }
                 });
+        if (mOutlet.getDeliveryTime() != null) {
+            outletDeliveryTime.setText(" Delivers in " + mOutlet.getDeliveryTime() + " minutes");
+        }
 
         final TextView outletMinimumOrder = (TextView) findViewById(R.id.outletMinimumOrder);
         outletMinimumOrder.getViewTreeObserver()
@@ -145,6 +156,17 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                                 .removeOnGlobalLayoutListener(this);
                     }
                 });
+        if (mOutlet.getMinimumOrder() != null) {
+            outletMinimumOrder.setText("Minimum order: " + Utils.costString(Double.parseDouble(mOutlet.getMinimumOrder())));
+        }
+
+        ImageView view = (ImageView) findViewById(R.id.outletImage);
+        Picasso picasso = Picasso.with(view.getContext());
+
+        if (mOutlet.getBackground() != null && mOutlet.getLogo() != null)
+            picasso.load(mOutlet.getBackground())
+                    .noFade()
+                    .into(view);
     }
 
     private void setupToolBar() {
@@ -152,8 +174,6 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setHomeButtonEnabled(true);
 
         toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -162,6 +182,8 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                 onBackPressed();
             }
         });
+
+        this.setTitle(mOutlet.getName());
 
         final CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
@@ -210,13 +232,10 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         if (ifReordered) {
             menuId = getIntent().getStringExtra(AppConstants.INTENT_PLACE_REORDER_MENUID);
         } else {
-            menuId = getIntent().getExtras().getString(AppConstants.INTENT_PARAM_MENU_ID);
+            menuId = mOutlet.getMenuId();
         }
-//            menuId = "5679087fb87d2a6f8197ff2c";
 
         if (ifReordered) {
-//            MenuData menuData = (MenuData)getIntent().getSerializableExtra(AppConstants.INTENT_PLACE_REORDER_MENUDATA);
-//            setupMenuFetched(menuData);
             setupMenuFetched(reorderMenuAndCart.getMenuData());
             for (Items item : reorderMenuAndCart.getCartItemsList()) {
                 addMenu(item);
@@ -703,26 +722,20 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
 
     private void setupScrollingOfferAdapters() {
         scrollingOfffersProgressBar = (CircularProgressBar) findViewById(R.id.scrollingOfffersProgressBar);
-        mOutletId = "5316d59326b019ee59000026";
-        String token = "us5lxmyPyqnA4Ow20GmbhG362ZuMS4qB";
-//        if (getIntent().getExtras() != null) {
-//            mOutletId = getIntent().getExtras().getString(AppConstants.INTENT_PARAM_OUTLET_ID);
-//        }
-        //final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
-
-        HttpService.getInstance().getOffers(mOutletId, token, new Callback<BaseResponse<ArrayList<Offer>>>() {
+        HttpService.getInstance().getOffers(mOutlet.get_id(), UtilMethods.getUserToken(), new Callback<BaseResponse<ArrayList<Offer>>>() {
             @Override
             public void success(BaseResponse<ArrayList<Offer>> offersBaseResponse, Response response) {
                 if (offersBaseResponse.isResponse()) {
+                    View view = (View) findViewById(R.id.middleLayout);
+                    view.setVisibility(View.VISIBLE);
                     ArrayList<Offer> offersList = offersBaseResponse.getData();
                     mScrollingOffersAdapter = new ScrollingOffersAdapter(OrderOnlineActivity.this, offersList);
                     mScrollingOffersViewPager = (ViewPager) findViewById(R.id.scrollingOffersPager);
                     mScrollingOffersViewPager.setPadding(32, 0, 32, 0);
                     mScrollingOffersViewPager.setPageMargin(16);
                     mScrollingOffersViewPager.setAdapter(mScrollingOffersAdapter);
-
                 } else {
-                    Toast.makeText(OrderOnlineActivity.this, offersBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.d("OrderOnlineActivity", "No offers available");
                 }
 
                 hideProgressHUDInOffers();

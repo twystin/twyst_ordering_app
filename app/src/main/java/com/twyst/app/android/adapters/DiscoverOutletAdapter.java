@@ -20,6 +20,7 @@ import com.twyst.app.android.activities.OrderOnlineActivity;
 import com.twyst.app.android.model.Outlet;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.RoundedTransformation;
+import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,8 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public List<Outlet> getItems() {
         return items;
     }
-    public void setmContext(Context context){
+
+    public void setmContext(Context context) {
         mContext = context;
     }
 
@@ -97,16 +99,16 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
     }
 
-    public void addImagesToLayoutDynamically(final OutletViewHolder vh){
+    public void addImagesToLayoutDynamically(final OutletViewHolder vh) {
         vh.outletAddress.getViewTreeObserver()
                 .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
                         Drawable img = mContext.getResources().getDrawable(
                                 R.drawable.location);
-                        int height = vh.outletAddress.getMeasuredHeight() * 1/2;
+                        int height = vh.outletAddress.getMeasuredHeight() * 1 / 2;
                         int offset = height / 4;
-                        int smallOffset = height /8;
+                        int smallOffset = height / 8;
                         img.setBounds(0, 0, offset + height + smallOffset, offset + height - smallOffset);
                         vh.outletAddress.setCompoundDrawables(img, null, null, null);
                         vh.outletAddress.getViewTreeObserver()
@@ -121,7 +123,7 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     public void onGlobalLayout() {
                         Drawable img = mContext.getResources().getDrawable(
                                 R.drawable.clock);
-                        int height = vh.deliveryTime.getMeasuredHeight() * 2/3;
+                        int height = vh.deliveryTime.getMeasuredHeight() * 2 / 3;
                         int offset = height / 6;
                         img.setBounds(0, 0, offset + height, offset + height);
                         vh.deliveryTime.setCompoundDrawables(img, null, null, null);
@@ -136,7 +138,7 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     public void onGlobalLayout() {
                         Drawable img = mContext.getResources().getDrawable(
                                 R.drawable.bill);
-                        int height = vh.minOrder.getMeasuredHeight() * 2/3;
+                        int height = vh.minOrder.getMeasuredHeight() * 2 / 3;
                         int offset = height / 6;
                         img.setBounds(0, 0, offset + height, offset + height);
                         vh.minOrder.setCompoundDrawables(img, null, null, null);
@@ -151,7 +153,7 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     public void onGlobalLayout() {
                         Drawable img = mContext.getResources().getDrawable(
                                 R.drawable.offerblack);
-                        int height = vh.noOfOffers.getMeasuredHeight() * 2/3;
+                        int height = vh.noOfOffers.getMeasuredHeight() * 2 / 3;
                         int offset = height / 6;
                         img.setBounds(0, 0, offset + height, offset + height);
                         vh.noOfOffers.setCompoundDrawables(img, null, null, null);
@@ -160,6 +162,7 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     }
                 });
     }
+
     @Override
     public int getItemViewType(int position) {
         if (position == items.size()) {
@@ -182,6 +185,7 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             }
 
             final Outlet outlet = items.get(position);
+
             View view = outletViewHolder.itemView;
 
             view.setOnClickListener(new View.OnClickListener() {
@@ -189,17 +193,13 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 public void onClick(View view) {
                     //Order online
                     if (outlet.getMenuId() != null && outlet.getMenuId() != "") {
-//                        Intent intent = new Intent(view.getContext(), OrderOnlineActivity.class);
-//                        intent.putExtra(AppConstants.INTENT_PARAM_MENU_ID, outlet.getMenuId());
-//                        view.getContext().startActivity(intent);
+                        Intent intent = new Intent(view.getContext(), OrderOnlineActivity.class);
+                        intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_OBJECT, outlet);
+                        view.getContext().startActivity(intent);
                     } else {
-                        outlet.setMenuId("5679087fb87d2a6f8197ff2c");
-                        Toast.makeText(mContext,"No menuId available. Using hardcoded menuID",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "No menuId available!", Toast.LENGTH_SHORT).show();
                     }
 
-                    Intent intent = new Intent(view.getContext(), OrderOnlineActivity.class);
-                    intent.putExtra(AppConstants.INTENT_PARAM_MENU_ID, outlet.getMenuId());
-                    view.getContext().startActivity(intent);
                 }
             });
 
@@ -232,7 +232,7 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             if (outlet.getCuisines() != null && outlet.getCuisines().size() > 0) {
                 String cuisines = outlet.getCuisines().toString();
-                outletViewHolder.cuisinesNames.setText(cuisines.substring(1,cuisines.length()-1));
+                outletViewHolder.cuisinesNames.setText(cuisines.substring(1, cuisines.length() - 1));
             }
 
             if (outlet.getDeliveryTime() != null) {
@@ -244,7 +244,7 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             }
 
             if (outlet.getMinimumOrder() != null) {
-                String minOrderString = outlet.getMinimumOrder() + " min order";
+                String minOrderString = Utils.costString(Double.parseDouble(outlet.getMinimumOrder())) + " min order";
                 outletViewHolder.minimumOrder.setText(minOrderString);
             } else {
                 String minOrderString = "0 min order";
@@ -252,7 +252,7 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             }
             String maxCashBack = "0";
             if (outlet.getCashback() != null) {
-            maxCashBack = outlet.getCashback().getMax();
+                maxCashBack = outlet.getCashback().getMax();
             }
 
             if (Double.parseDouble(maxCashBack) < 10 && !maxCashBack.contains(".")) {
@@ -266,10 +266,10 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             picasso.setLoggingEnabled(AppConstants.DEGUG_PICASSO);
 
             if (outlet.getBackground() != null && outlet.getLogo() != null)
-            picasso.load(outlet.getBackground())
-                    .noFade()
-                    .transform(new RoundedTransformation(10, 0))
-                    .into(outletViewHolder.outletImage);
+                picasso.load(outlet.getBackground())
+                        .noFade()
+                        .transform(new RoundedTransformation(10, 0))
+                        .into(outletViewHolder.outletImage);
 
 
             SharedPreferences prefs = view.getContext().getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
@@ -327,13 +327,13 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             outletName = (TextView) itemView.findViewById(R.id.outletName);
             outletAddress = (TextView) itemView.findViewById(R.id.outletAddress);
-            deliveryTime = (TextView)itemView.findViewById(R.id.delivery_time);
-            minOrder = (TextView)itemView.findViewById(R.id.min_order);
-            cuisinesNames = (TextView)itemView.findViewById(R.id.cuisines_names);
-            deliveryTime = (TextView)itemView.findViewById(R.id.delivery_time);
-            minimumOrder = (TextView)itemView.findViewById(R.id.min_order);
-            twystBucksPercentage = (TextView)itemView.findViewById(R.id.tv_twyst_bucks_percentage);
-            noOfOffers = (TextView)itemView.findViewById(R.id.no_of_offers);
+            deliveryTime = (TextView) itemView.findViewById(R.id.delivery_time);
+            minOrder = (TextView) itemView.findViewById(R.id.min_order);
+            cuisinesNames = (TextView) itemView.findViewById(R.id.cuisines_names);
+            deliveryTime = (TextView) itemView.findViewById(R.id.delivery_time);
+            minimumOrder = (TextView) itemView.findViewById(R.id.min_order);
+            twystBucksPercentage = (TextView) itemView.findViewById(R.id.tv_twyst_bucks_percentage);
+            noOfOffers = (TextView) itemView.findViewById(R.id.no_of_offers);
 
             outletImage = (ImageView) itemView.findViewById(R.id.outlet_logo);
 
