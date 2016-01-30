@@ -118,7 +118,7 @@ public class UtilMethods {
         SnackbarManager.dismiss();
     }
 
-    private static String getUserToken() {
+    public static String getUserToken() {
         return AppConstants.USER_TOKEN_HARDCODED;
 //        SharedPreferences prefs = this.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
 //        return prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");

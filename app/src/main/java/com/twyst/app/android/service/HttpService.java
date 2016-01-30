@@ -41,6 +41,8 @@ import com.twyst.app.android.model.Voucher;
 import com.twyst.app.android.model.WalletData;
 import com.twyst.app.android.model.WriteToUs;
 import com.twyst.app.android.model.menu.MenuData;
+import com.twyst.app.android.model.order.OrderCheckOut;
+import com.twyst.app.android.model.order.OrderConfirmedCOD;
 import com.twyst.app.android.model.order.OrderSummary;
 import com.twyst.app.android.util.AppConstants;
 
@@ -116,6 +118,14 @@ public class HttpService {
         twystService.postOfferApply(token, orderSummary, callback);
     }
 
+    public void postOrderCheckOut(String token, OrderCheckOut orderCheckOut, Callback<BaseResponse> callback) {
+        twystService.postOrderCheckOut(token, orderCheckOut, callback);
+    }
+
+    public void postOrderConfirm(String token, OrderConfirmedCOD orderConfirmedCOD, Callback<BaseResponse> callback) {
+        twystService.postOrderConfirm(token, orderConfirmedCOD, callback);
+    }
+
     public void userAuthToken(String code, String phone, Callback<BaseResponse<AuthToken>> callback) {
         twystService.userAuthToken(code, phone, callback);
     }
@@ -165,8 +175,8 @@ public class HttpService {
         twystService.getLocations(callback);
     }
 
-    public void postLocationsVerify(LocationsVerify locationsVerify, Callback<BaseResponse<ArrayList<LocationsVerified>>> callback) {
-        twystService.postLocationsVerify(locationsVerify, callback);
+    public void postLocationsVerify(String token, LocationsVerify locationsVerify, Callback<BaseResponse<ArrayList<LocationsVerified>>> callback) {
+        twystService.postLocationsVerify(token, locationsVerify, callback);
     }
 
     public void postSuggestion(String token, Suggestion suggestion, Callback<BaseResponse> callback) {

@@ -277,7 +277,7 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
     private void verifyLocationsAPI() {
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
         LocationsVerify locationsVerify = new LocationsVerify(mOutletId, getLocalCoordsList());
-        HttpService.getInstance().postLocationsVerify(locationsVerify, new Callback<BaseResponse<ArrayList<LocationsVerified>>>() {
+        HttpService.getInstance().postLocationsVerify(UtilMethods.getUserToken(), locationsVerify, new Callback<BaseResponse<ArrayList<LocationsVerified>>>() {
             @Override
             public void success(BaseResponse<ArrayList<LocationsVerified>> baseResponse, Response response) {
                 if (baseResponse.isResponse()) {

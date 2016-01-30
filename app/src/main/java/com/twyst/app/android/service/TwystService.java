@@ -33,6 +33,8 @@ import com.twyst.app.android.model.Voucher;
 import com.twyst.app.android.model.WalletData;
 import com.twyst.app.android.model.WriteToUs;
 import com.twyst.app.android.model.menu.MenuData;
+import com.twyst.app.android.model.order.OrderCheckOut;
+import com.twyst.app.android.model.order.OrderConfirmedCOD;
 import com.twyst.app.android.model.order.OrderSummary;
 
 import java.util.ArrayList;
@@ -51,7 +53,6 @@ import retrofit.http.Query;
  * Created by satishk on 5/6/15.
  */
 public interface TwystService {
-
     @GET("/api/v4/authcode/{mobileno}")
     public void getMobileAuthCode(@Path("mobileno") String mobile, Callback<BaseResponse<OTPCode>> callback);
 
@@ -63,6 +64,12 @@ public interface TwystService {
 
     @POST("/api/v4/order/apply/offer")
     public void postOfferApply(@Query("token") String token, @Body() OrderSummary orderSummary, Callback<BaseResponse<OrderSummary>> callback);
+
+    @POST("/api/v4/order/checkout")
+    public void postOrderCheckOut(@Query("token") String token, @Body() OrderCheckOut orderCheckOut, Callback<BaseResponse> callback);
+
+    @POST("/api/v4/order/confirm")
+    public void postOrderConfirm(@Query("token") String token, @Body() OrderConfirmedCOD orderConfirmedCOD, Callback<BaseResponse> callback);
 
     @FormUrlEncoded
     @POST("/api/v4/authcode")
@@ -104,7 +111,7 @@ public interface TwystService {
     public void getLocations(Callback<BaseResponse<ArrayList<LocationData>>> callback);
 
     @POST("/api/v4/locations/verify")
-    public void postLocationsVerify(@Body() LocationsVerify locationsVerify, Callback<BaseResponse<ArrayList<LocationsVerified>>> callback);
+    public void postLocationsVerify(@Query("token") String token, @Body() LocationsVerify locationsVerify, Callback<BaseResponse<ArrayList<LocationsVerified>>> callback);
 
     @POST("/api/v4/outlet/suggestion")
     public void postSuggestion(@Query("token") String token, @Body() Suggestion suggestion, Callback<BaseResponse> callback);
