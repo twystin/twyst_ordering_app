@@ -48,10 +48,6 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return grandTotal;
     }
 
-    public void setGrandTotal(double grandTotal) {
-        this.grandTotal = grandTotal;
-    }
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_NORMAL) {

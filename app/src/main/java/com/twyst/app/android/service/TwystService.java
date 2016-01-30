@@ -34,6 +34,7 @@ import com.twyst.app.android.model.WalletData;
 import com.twyst.app.android.model.WriteToUs;
 import com.twyst.app.android.model.menu.MenuData;
 import com.twyst.app.android.model.order.OrderCheckOut;
+import com.twyst.app.android.model.order.OrderCheckOutResponse;
 import com.twyst.app.android.model.order.OrderConfirmedCOD;
 import com.twyst.app.android.model.order.OrderSummary;
 
@@ -66,10 +67,10 @@ public interface TwystService {
     public void postOfferApply(@Query("token") String token, @Body() OrderSummary orderSummary, Callback<BaseResponse<OrderSummary>> callback);
 
     @POST("/api/v4/order/checkout")
-    public void postOrderCheckOut(@Query("token") String token, @Body() OrderCheckOut orderCheckOut, Callback<BaseResponse> callback);
+    public void postOrderCheckOut(@Query("token") String token, @Body() OrderCheckOut orderCheckOut, Callback<BaseResponse<OrderCheckOutResponse>> callback);
 
     @POST("/api/v4/order/confirm")
-    public void postOrderConfirm(@Query("token") String token, @Body() OrderConfirmedCOD orderConfirmedCOD, Callback<BaseResponse> callback);
+    public void postOrderConfirmCOD(@Query("token") String token, @Body() OrderConfirmedCOD orderConfirmedCOD, Callback<BaseResponse> callback);
 
     @FormUrlEncoded
     @POST("/api/v4/authcode")

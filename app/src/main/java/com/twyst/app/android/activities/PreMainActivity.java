@@ -335,7 +335,8 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                     sharedPreferences = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).edit();
                     sharedPreferences.putString(AppConstants.PREFERENCE_USER_PIC, "");
                     sharedPreferences.putString(AppConstants.PREFERENCE_USER_NAME, prefs.getString(AppConstants.PREFERENCE_USER_PHONE, ""));
-                    sharedPreferences.putString(AppConstants.PREFERENCE_USER_FULL_NAME, prefs.getString(AppConstants.PREFERENCE_USER_PHONE, ""));
+                    sharedPreferences.putString(AppConstants.PREFERENCE_USER_FULL_NAME, (etVerifyName.getText().toString()));
+                    sharedPreferences.putString(AppConstants.PREFERENCE_USER_EMAIL, (etVerifyEmail.getText().toString()));
                     sharedPreferences.apply();
                     updateUserEmail();
                 }

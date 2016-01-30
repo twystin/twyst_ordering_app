@@ -23,6 +23,7 @@ import com.twyst.app.android.adapters.SummaryAdapter;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.LocationDetails.LocationsVerified;
 import com.twyst.app.android.model.order.OrderCheckOut;
+import com.twyst.app.android.model.order.OrderCheckOutResponse;
 import com.twyst.app.android.model.order.OrderSummary;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
@@ -51,7 +52,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         mOrderSummary = (OrderSummary) extras.getSerializable(AppConstants.INTENT_ORDER_SUMMARY);
-        mFreeItemIndex = extras.getInt(AppConstants.INTENT_FREE_ITEM_INDEX);
+        mFreeItemIndex = extras.getInt(AppConstants.INTENT_FREE_ITEM_INDEX, -1);
 
         setupToolBar();
         setupSummaryRecyclerView();
@@ -82,11 +83,14 @@ public class OrderSummaryActivity extends AppCompatActivity {
     private void showPaymentOptions() {
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
         OrderCheckOut orderCheckOut = new OrderCheckOut(mOrderSummary.getOrderNumber(), mOrderSummary.getOutletId(), mOrderSummary.getAddressDetailsLocationData());
-        HttpService.getInstance().postOrderCheckOut(UtilMethods.getUserToken(), orderCheckOut, new Callback<BaseResponse>() {
+        HttpService.getInstance().postOrderCheckOut(UtilMethods.getUserToken(), orderCheckOut, new Callback<BaseResponse<OrderCheckOutResponse>>() {
             @Override
-            public void success(BaseResponse baseResponse, Response response) {
+            public void success(BaseResponse<OrderCheckOutResponse> baseResponse, Response response) {
                 if (baseResponse.isResponse()) {
-
+                    OrderCheckOutResponse orderCheckOutResponse = baseResponse.getData();
+                    Intent paymentOptionsIntent = new Intent(OrderSummaryActivity.this, PaymentOptionsActivity.class);
+                    paymentOptionsIntent.putExtra(AppConstants.INTENT_ORDER_CHECKOUT_RESPONSE, orderCheckOutResponse);
+                    startActivity(paymentOptionsIntent);
                 } else {
                     Toast.makeText(OrderSummaryActivity.this, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -103,10 +107,6 @@ public class OrderSummaryActivity extends AppCompatActivity {
                 UtilMethods.hideSnackbar();
             }
         });
-
-//        Intent paymentOptionsIntent = new Intent(OrderSummaryActivity.this, PaymentOptionsActivity.class);
-//        paymentOptionsIntent.putExtra(AppConstants.INTENT_ORDER_NUMBER, mOrderSummary.getOrderNumber());
-//        startActivity(paymentOptionsIntent);
     }
 
     private void setupToolBar() {

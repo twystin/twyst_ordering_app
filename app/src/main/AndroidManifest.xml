@@ -219,6 +219,11 @@
             android:theme="@style/AppTheme" />
 
         <activity
+            android:name=".activities.PaymentOptionsActivity"
+            android:label="Choose Payment Option"
+            android:theme="@style/AppTheme" />
+
+        <activity
             android:name=".activities.MapViewActivity"
             android:label=""
             android:parentActivityName=".activities.OutletDetailsActivity"
@@ -324,9 +329,9 @@
             android:screenOrientation="portrait" />
 
         <activity
-                    android:name=".activities.OrderTrackingActivity"
-                    android:label="@string/track_order"
-                    android:screenOrientation="portrait"/>
+            android:name=".activities.OrderTrackingActivity"
+            android:label="@string/track_order"
+            android:screenOrientation="portrait" />
         <!--.
           WakefulBroadcastReceiver that will receive intents from GCM
           services and hand them to the custom IntentService.

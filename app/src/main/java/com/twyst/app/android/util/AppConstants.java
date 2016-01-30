@@ -82,6 +82,7 @@ public class AppConstants {
     public static final String PREFERENCE_USER_NAME = "user_name";
     public static final String PREFERENCE_USER_FULL_NAME = "user_full_name";
     public static final String PREFERENCE_USER_PHONE = "user_phone";
+    public static final String PREFERENCE_USER_EMAIL = "user_email";
     public static final String PREFERENCE_USER_REFERRAL = "user_referral";
     public static final String PREFERENCE_NOTIFICATION_COUNT = "notification_count";
     public static final String PREFERENCE_IS_FRIEND_LIST_UPDATED = "is_friend_list_updated";
@@ -211,6 +212,6 @@ public class AppConstants {
     public static final String INTENT_PARAM_CART_LIST= "intent_cart_list";
 
     //Payment Data
-    public static final String INTENT_ORDER_NUMBER= "intent_order_number";
+    public static final String INTENT_ORDER_CHECKOUT_RESPONSE= "intent_order_checkout_response";
 
 }
