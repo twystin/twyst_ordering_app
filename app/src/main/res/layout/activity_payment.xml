@@ -29,13 +29,14 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvProceed"
+        <Button
+            android:id="@+id/bProceed"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/outlet_txt_color_grey"
+            android:background="@drawable/button_yellow"
             android:clickable="true"
+            android:enabled="false"
             android:gravity="center"
             android:text="PROCEED"
             android:textColor="@android:color/white" />

@@ -30,7 +30,6 @@ public class OrderSummaryActivity extends AppCompatActivity {
     private SummaryAdapter mSummaryAdapter;
     OrderSummary mOrderSummary;
     private int mFreeItemIndex = -1;
-    private static final int PAYMENT_REQ_CODE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,40 +61,15 @@ public class OrderSummaryActivity extends AppCompatActivity {
         findViewById(R.id.bNext).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToPayment();
+                showPaymentOptions();
             }
         });
     }
 
-    private void goToPayment() {
-        TransactionConfiguration config = new TransactionConfiguration();
-        config.setDebitWallet(true);
-        config.setPgResponseUrl(AppConstants.HOST + "/api/v4/zaakpay/response"); //You need to replace this string with the path of the page hosted on your server
-        config.setChecksumUrl(AppConstants.HOST + "/api/v4/calculate/checksum"); //You need to replace this string with the path of the page hosted on your server
-        config.setMerchantName("Twyst");
-        config.setMbkId("MBK2136"); //Your MobiKwik Merchant Identifier
-        config.setMode("1"); //Mode is 0 for test environment, 1 for Live
-
-        User usr = new User("vipul.sharma2008@gmail.com", "9891240762");
-        Transaction newTransaction = Transaction.Factory.newTransaction(usr, mOrderSummary.getOrderNumber(), String.valueOf("1"));
-
-        Intent mobikwikIntent = new Intent(this, MobikwikSDK.class);
-        mobikwikIntent.putExtra(MobikwikSDK.EXTRA_TRANSACTION_CONFIG, config);
-        mobikwikIntent.putExtra(MobikwikSDK.EXTRA_TRANSACTION, newTransaction);
-        startActivityForResult(mobikwikIntent, PAYMENT_REQ_CODE);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PAYMENT_REQ_CODE) {
-            if (data != null) {
-                MKTransactionResponse response = (MKTransactionResponse)
-                        data.getSerializableExtra(MobikwikSDK.EXTRA_TRANSACTION_RESPONSE);
-                Log.d("OrderSummaryActivity.onActivityResult() ", response.statusMessage);
-                Log.d("OrderSummaryActivity.onActivityResult() ", response.statusCode);
-            }
-        }
+    private void showPaymentOptions() {
+        Intent paymentOptionsIntent = new Intent(OrderSummaryActivity.this, PaymentOptionsActivity.class);
+        paymentOptionsIntent.putExtra(AppConstants.INTENT_ORDER_NUMBER, mOrderSummary.getOrderNumber());
+        startActivity(paymentOptionsIntent);
     }
 
     private void setupToolBar() {

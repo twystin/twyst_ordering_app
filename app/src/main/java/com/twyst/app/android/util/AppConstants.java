@@ -210,4 +210,7 @@ public class AppConstants {
     //AddressDetailActivity from Cart
     public static final String INTENT_PARAM_CART_LIST= "intent_cart_list";
 
+    //Payment Data
+    public static final String INTENT_ORDER_NUMBER= "intent_order_number";
+
 }
