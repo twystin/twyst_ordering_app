@@ -101,20 +101,6 @@ public class GcmIntentService extends IntentService {
                     .bigPicture(cb.url(url).getResult());
         }
 
-//        NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle()
-//                .bigText(message)
-//                .setBigContentTitle(notificationTitle);
-//
-//        NotificationCompat.BigPictureStyle bigPictureStyle = null;
-//        try {
-//            bigPictureStyle = new NotificationCompat.BigPictureStyle()
-//                    .setBigContentTitle(notificationTitle)
-//                    .setSummaryText(message)
-//                    .bigPicture(Picasso.with(getApplicationContext()).load(url).get());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
 
         if (style != null) {
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
@@ -126,7 +112,6 @@ public class GcmIntentService extends IntentService {
                     .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
 
                     .setColor(getResources().getColor(R.color.app_accent_color))
-                            //.setColor(Color.parseColor("#FF4081"))
 
                     .setStyle(style)
                     .setContentTitle(notificationTitle)

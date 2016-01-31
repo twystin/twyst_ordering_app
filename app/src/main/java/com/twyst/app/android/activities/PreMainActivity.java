@@ -1321,9 +1321,9 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
 
 
     private void registerInBackground() {
-        if (AppConstants.IS_DEVELOPMENT) {
-            return;
-        }
+//        if (AppConstants.IS_DEVELOPMENT) {
+//            return;
+//        }
 
         new AsyncTask<Void, Void, Void>() {
             @Override
