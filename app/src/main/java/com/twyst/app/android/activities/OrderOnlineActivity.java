@@ -244,7 +244,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
 
         } else {
 
-            HttpService.getInstance().getMenu(menuId, getUserToken(), new Callback<BaseResponse<MenuData>>() {
+            HttpService.getInstance().getMenu(menuId, UtilMethods.getUserToken(OrderOnlineActivity.this), new Callback<BaseResponse<MenuData>>() {
                 @Override
                 public void success(BaseResponse<MenuData> menuDataBaseResponse, Response response) {
                     if (menuDataBaseResponse.isResponse()) {
@@ -722,7 +722,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
 
     private void setupScrollingOfferAdapters() {
         scrollingOfffersProgressBar = (CircularProgressBar) findViewById(R.id.scrollingOfffersProgressBar);
-        HttpService.getInstance().getOffers(mOutlet.get_id(), UtilMethods.getUserToken(), new Callback<BaseResponse<ArrayList<Offer>>>() {
+        HttpService.getInstance().getOffers(mOutlet.get_id(), UtilMethods.getUserToken(OrderOnlineActivity.this), new Callback<BaseResponse<ArrayList<Offer>>>() {
             @Override
             public void success(BaseResponse<ArrayList<Offer>> offersBaseResponse, Response response) {
                 if (offersBaseResponse.isResponse()) {
@@ -823,13 +823,6 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
 //            }
         }
         return null;
-    }
-
-    private String getUserToken() {
-        return AppConstants.USER_TOKEN_HARDCODED;
-//        SharedPreferences prefs = this.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
-//        return prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");
-
     }
 
     private String getMenuString() {

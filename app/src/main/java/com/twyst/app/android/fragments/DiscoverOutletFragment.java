@@ -1,6 +1,8 @@
 package com.twyst.app.android.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
@@ -156,7 +158,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
 
         showErrorLayout = (LinearLayout) view.findViewById(R.id.linlay_discover_fragment_error_layout);
         errorDescription = (TextView) view.findViewById(R.id.tv_error_description);
-        showAddressLayout = (LinearLayout)view.findViewById(R.id.linlay_display_address);
+        showAddressLayout = (LinearLayout) view.findViewById(R.id.linlay_display_address);
 
         showErrorLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -420,15 +422,11 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
         }
 
         return filteredOutlets;
-
     }
 
     public String getUserToken() {
-//        return "us5lxmyPyqnA4Ow20GmbhG362ZuMS4qB";
-        return "vH8quBjd1C-2lgZBcFcjrUjQMMbnInLQ";
-//        SharedPreferences prefs = this.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
-//        return prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");
-
+        SharedPreferences prefs = getActivity().getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        return prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");
     }
 
     private void refreshDateTime() {

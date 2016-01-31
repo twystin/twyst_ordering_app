@@ -105,10 +105,11 @@ public class PaymentOptionsActivity extends AppCompatActivity {
     private void cod() {
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
         OrderConfirmedCOD orderConfirmedCOD = new OrderConfirmedCOD(mOrderCheckoutResponse.getOrderID(), mOrderCheckoutResponse.getOutletID());
-        HttpService.getInstance().postOrderConfirmCOD(UtilMethods.getUserToken(), orderConfirmedCOD, new Callback<BaseResponse>() {
+        HttpService.getInstance().postOrderConfirmCOD(UtilMethods.getUserToken(PaymentOptionsActivity.this), orderConfirmedCOD, new Callback<BaseResponse>() {
             @Override
             public void success(BaseResponse baseResponse, Response response) {
                 if (baseResponse.isResponse()) {
+                    Toast.makeText(PaymentOptionsActivity.this, "Order placed successfully!", Toast.LENGTH_SHORT).show();
 //                    Intent paymentOptionsIntent = new Intent(PaymentOptionsActivity.this, PaymentOptionsActivity.class);
 //                    paymentOptionsIntent.putExtra(AppConstants.INTENT_ORDER_CHECKOUT_RESPONSE, orderCheckOutResponse);
 //                    startActivity(paymentOptionsIntent);

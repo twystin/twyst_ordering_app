@@ -1,7 +1,9 @@
 package com.twyst.app.android.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -28,10 +30,10 @@ import retrofit.client.Response;
  * Created by Vipul Sharma on 1/30/2016.
  */
 public class UtilMethods {
-    public static void checkOut(final boolean isLocationInputRequired,final AddressDetailsLocationData addressDetailsLocationData, final ArrayList<Items> mCartItemsList, String mOutletId, final Activity activity) {
+    public static void checkOut(final boolean isLocationInputRequired, final AddressDetailsLocationData addressDetailsLocationData, final ArrayList<Items> mCartItemsList, String mOutletId, final Activity activity) {
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(activity, false, null);
         final OrderSummary orderSummary = new OrderSummary(mCartItemsList, mOutletId, addressDetailsLocationData.getCoords());
-        HttpService.getInstance().postOrderVerify(getUserToken(), orderSummary, new Callback<BaseResponse<OrderSummary>>() {
+        HttpService.getInstance().postOrderVerify(getUserToken(activity), orderSummary, new Callback<BaseResponse<OrderSummary>>() {
             @Override
             public void success(BaseResponse<OrderSummary> orderSummaryBaseResponse, Response response) {
                 if (orderSummaryBaseResponse.isResponse()) {
@@ -41,9 +43,9 @@ public class UtilMethods {
                     returnOrderSummary.setOutletId(orderSummary.getOutletId());
                     returnOrderSummary.setAddressDetailsLocationData(addressDetailsLocationData);
 
-                    if (isLocationInputRequired){
+                    if (isLocationInputRequired) {
                         checkOutIntent = new Intent(activity, AddressAddNewActivity.class);
-                    }else{
+                    } else {
                         if (returnOrderSummary.getOfferOrderList().size() > 0) {
                             checkOutIntent = new Intent(activity, AvailableOffersActivity.class);
                         } else {
@@ -118,11 +120,9 @@ public class UtilMethods {
         SnackbarManager.dismiss();
     }
 
-    public static String getUserToken() {
-        return AppConstants.USER_TOKEN_HARDCODED;
-//        SharedPreferences prefs = this.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
-//        return prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");
-
+    public static String getUserToken(Activity activity) {
+        SharedPreferences prefs = activity.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        return prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");
     }
 
     public static void goToSummary(Activity activity, int freeItemIndex, OrderSummary orderSummary) {

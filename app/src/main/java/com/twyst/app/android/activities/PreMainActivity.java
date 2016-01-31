@@ -110,7 +110,6 @@ import retrofit.client.Response;
 public class PreMainActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,7 +120,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
 
     private void startInitialAnimation() {
         final ImageView app_background = (ImageView) findViewById(R.id.app_background_iv);
-        final View getRegisteredTV = (View)findViewById(R.id.ll_get_registered);
+        final View getRegisteredTV = (View) findViewById(R.id.ll_get_registered);
         final Animation zoomInBackground = AnimationUtils.loadAnimation(this, R.anim.zoom_in);
         final Animation fadeInGetRegistered = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         app_background.startAnimation(zoomInBackground);
@@ -163,7 +162,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                 public void onClick(View v) {
                     if (!isSaveLocationClicked) {
                         isSaveLocationClicked = true;
-                        adapter = new com.twyst.app.android.adapters.SimpleArrayAdapter(PreMainActivity.this, addressList,null);
+                        adapter = new com.twyst.app.android.adapters.SimpleArrayAdapter(PreMainActivity.this, addressList, null);
                         listViewSavedLocations = (ListView) findViewById(R.id.lv_saved_locations);
                         listViewSavedLocations.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
                         listViewSavedLocations.setAdapter(adapter);
@@ -202,8 +201,8 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     }
 
     private void startEndAnimation() {
-        final View deliveryLocationTV = (View)findViewById(R.id.ll_delivery_location);
-        final View locations = (View)findViewById(R.id.ll_locations);
+        final View deliveryLocationTV = (View) findViewById(R.id.ll_delivery_location);
+        final View locations = (View) findViewById(R.id.ll_locations);
         final Animation fadeOutDeliveryLocation = AnimationUtils.loadAnimation(PreMainActivity.this, R.anim.fade_out);
         final Animation exitLocations = AnimationUtils.loadAnimation(PreMainActivity.this, R.anim.exit_to_right);
         deliveryLocationTV.setAnimation(fadeOutDeliveryLocation);
@@ -211,11 +210,11 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     }
 
     private void startChooseLocationAnimation() {
-        final View deliveryLocationTV = (View)findViewById(R.id.ll_delivery_location);
+        final View deliveryLocationTV = (View) findViewById(R.id.ll_delivery_location);
         final Animation fadeInDeliveryLocation = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         deliveryLocationTV.setAnimation(fadeInDeliveryLocation);
 
-        final View locations = (View)findViewById(R.id.ll_locations);
+        final View locations = (View) findViewById(R.id.ll_locations);
         final Animation enterLocations = AnimationUtils.loadAnimation(this, R.anim.enter_from_left);
         final Animation exitLocations = AnimationUtils.loadAnimation(this, R.anim.exit_to_right);
         locations.setAnimation(enterLocations);
@@ -299,7 +298,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     }
 
     private void startUserVerficationAnimation() {
-        final View userVerification = (View)findViewById(R.id.card_verify_number);
+        final View userVerification = (View) findViewById(R.id.card_verify_number);
         final Animation enterUserVerification = AnimationUtils.loadAnimation(this, R.anim.enter_from_left);
         userVerification.startAnimation(enterUserVerification);
     }
@@ -375,7 +374,6 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                 break;
             }
         }
-
     }
 
     private void focusShowKeyBoard(final EditText editTextView) {
@@ -799,7 +797,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     }
 
     private void startSignUpAnimation() {
-        final View signUp = (View)findViewById(R.id.card_signup);
+        final View signUp = (View) findViewById(R.id.card_signup);
         final Animation enterSignUp = AnimationUtils.loadAnimation(this, R.anim.enter_from_left);
         signUp.setAnimation(enterSignUp);
     }

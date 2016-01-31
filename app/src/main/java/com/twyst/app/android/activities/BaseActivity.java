@@ -308,7 +308,6 @@ public abstract class BaseActivity extends ActionBarActivity
         drawerItems.add(addressDetails);
 
 
-
 //        submitOffer = new DrawerItem();
 //        submitOffer.setTitle("SUBMIT AN OFFER");
 //        submitOffer.setIcon(R.drawable.drawer_item_icon_submit_offer);
@@ -512,7 +511,7 @@ public abstract class BaseActivity extends ActionBarActivity
                         //my wallet
 //                        intent = new Intent(getBaseContext(), WalletActivity.class);
 //                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                        intent = new Intent(getBaseContext(),OrderHistoryActivity.class);
+                        intent = new Intent(getBaseContext(), OrderHistoryActivity.class);
                         break;
 
                     case 4:
@@ -778,6 +777,7 @@ public abstract class BaseActivity extends ActionBarActivity
     public void hideSnackbar() {
         SnackbarManager.dismiss();
     }
+
     /**
      * Check the device to make sure it has the Google Play Services APK. If
      * it doesn't, display a dialog that allows users to download the APK from
@@ -895,10 +895,8 @@ public abstract class BaseActivity extends ActionBarActivity
     }
 
     public String getUserToken() {
-        return AppConstants.USER_TOKEN_HARDCODED;
-//        SharedPreferences prefs = this.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
-//        return prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");
-
+        SharedPreferences prefs = this.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        return prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");
     }
 
     public void showEarnMoreInstructions() {

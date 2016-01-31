@@ -83,7 +83,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
     private void showPaymentOptions() {
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
         OrderCheckOut orderCheckOut = new OrderCheckOut(mOrderSummary.getOrderNumber(), mOrderSummary.getOutletId(), mOrderSummary.getAddressDetailsLocationData());
-        HttpService.getInstance().postOrderCheckOut(UtilMethods.getUserToken(), orderCheckOut, new Callback<BaseResponse<OrderCheckOutResponse>>() {
+        HttpService.getInstance().postOrderCheckOut(UtilMethods.getUserToken(OrderSummaryActivity.this), orderCheckOut, new Callback<BaseResponse<OrderCheckOutResponse>>() {
             @Override
             public void success(BaseResponse<OrderCheckOutResponse> baseResponse, Response response) {
                 if (baseResponse.isResponse()) {

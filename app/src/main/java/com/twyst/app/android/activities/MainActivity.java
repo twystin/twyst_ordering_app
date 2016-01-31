@@ -1,7 +1,9 @@
 package com.twyst.app.android.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -26,12 +28,12 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        TabLayout tabLayout = (TabLayout)findViewById(R.id.tab_layout);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Order"));
         tabLayout.addTab(tabLayout.newTab().setText("Redeem"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final ViewPager viewPager = (ViewPager)findViewById(R.id.pager);
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final DiscoverPagerAdapter adapter = new DiscoverPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -55,11 +57,11 @@ public class MainActivity extends BaseActivity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode,resultCode,data);
+        super.onActivityResult(requestCode, resultCode, data);
         Log.d(getTagName(), "onActivityResult: requestCode: " + requestCode + ", resultcode: " + resultCode);
 
         if (requestCode == AppConstants.REQUEST_CHECK_SETTINGS) {
-            outletsFragment = (DiscoverOutletFragment)getSupportFragmentManager().getFragments().get(0);
+            outletsFragment = (DiscoverOutletFragment) getSupportFragmentManager().getFragments().get(0);
 
             switch (resultCode) {
                 case Activity.RESULT_OK:
@@ -110,12 +112,8 @@ public class MainActivity extends BaseActivity {
     }
 
     public String getUserToken() {
-//        return "us5lxmyPyqnA4Ow20GmbhG362ZuMS4qB";
-        return "vH8quBjd1C-2lgZBcFcjrUjQMMbnInLQ";
-
-//        SharedPreferences prefs = this.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
-//        return prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");
-
+        SharedPreferences prefs = this.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        return prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");
     }
 
 }
