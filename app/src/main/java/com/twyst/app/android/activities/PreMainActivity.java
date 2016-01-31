@@ -1325,6 +1325,11 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
 //            return;
 //        }
 
+        final SharedPreferences prefs = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        if (!TextUtils.isEmpty(prefs.getString(AppConstants.PREFERENCE_REGISTRATION_ID, ""))) {
+            return;
+        }
+
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {

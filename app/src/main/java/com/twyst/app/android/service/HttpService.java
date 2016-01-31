@@ -75,7 +75,6 @@ public class HttpService {
         this.context = context;
         this.tracker = tracker;
 
-
         OkHttpClient okHttpClient = new OkHttpClient();
         OkClient okClient = new OkClient(okHttpClient);
 
