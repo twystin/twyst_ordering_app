@@ -147,7 +147,8 @@ public class FeedbackActivity extends AppCompatActivity {
     private void getExtrasFromBundle() {
         Bundle bundle = getIntent().getExtras();
         OrderSummary orderSummary = (OrderSummary) bundle.getSerializable(AppConstants.INTENT_ORDER_SUMMARY);
-        orderId = orderSummary.getOrderNumber();
+//        orderId = orderSummary.getOrderID();
+        orderId = "KJDKKTMEK";
         for (Items i : orderSummary.getmCartItemsList()) {
             orderedItems.add(i.getItemName());
         }

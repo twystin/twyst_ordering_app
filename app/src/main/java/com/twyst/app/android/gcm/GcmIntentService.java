@@ -19,6 +19,8 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import com.twyst.app.android.R;
 import com.twyst.app.android.activities.NotificationActivity;
+import com.twyst.app.android.activities.OrderTrackingActivity;
+import com.twyst.app.android.model.OrderTrackingState;
 import com.twyst.app.android.util.AppConstants;
 
 /**
@@ -72,11 +74,51 @@ public class GcmIntentService extends IntentService {
                 Log.i(getClass().getSimpleName(), "Completed work @ " + SystemClock.elapsedRealtime());
                 // Post notification of received message.
                 Log.i(getClass().getSimpleName(), "Received: " + extras.toString());
-                sendNotification(extras.getString("title"), extras.getString("message"), extras.getString("url"));
+                if (!TextUtils.isEmpty(extras.getString(OrderTrackingState.ORDER_ID))) {
+                    sendOrderTrackingNotification(extras);
+                } else {
+                    sendNotification(extras.getString("title"), extras.getString("message"), extras.getString("url"));
+                }
             }
         }
         // Release the wake lock provided by the WakefulBroadcastReceiver.
         GcmBroadcastReceiver.completeWakefulIntent(intent);
+    }
+
+    private void sendOrderTrackingNotification(Bundle extras) {
+        String time = extras.getString(OrderTrackingState.TIME);
+        String orderID = extras.getString(OrderTrackingState.ORDER_ID);
+        String state = extras.getString(OrderTrackingState.STATE);
+        String title = extras.getString(OrderTrackingState.TITLE);
+        String message = extras.getString(OrderTrackingState.MESSAGE);
+
+        NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent notificationIntent = new Intent(this, OrderTrackingActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        PendingIntent contentIntent = PendingIntent.getActivity(this,0, notificationIntent, 0);
+        String notificationTitle = TextUtils.isEmpty(title) ? getString(R.string.app_name) : title;
+
+        NotificationCompat.Style style = new NotificationCompat.BigTextStyle()
+                .bigText(message)
+                .setBigContentTitle(notificationTitle);
+
+        if (style != null) {
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+                    .setContentIntent(contentIntent)
+                    .setAutoCancel(true)
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setSmallIcon(R.drawable.ic_stat_notify)
+                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
+                    .setColor(getResources().getColor(R.color.app_accent_color))
+                    .setStyle(style)
+                    .setContentTitle(notificationTitle)
+                    .setContentText(message);
+
+            mNotificationManager.notify(getNotificationCount(), mBuilder.build());
+        }
     }
 
     private void sendNotification(String title, String message, String url) {

@@ -9,13 +9,24 @@ import java.io.Serializable;
  */
 public class OrderCheckOutResponse implements Serializable {
     @SerializedName("order_number")
-    private String orderID;
+    private String orderNumber;
 
     @SerializedName("outlet")
     private String outletID;
 
     @SerializedName("actual_amount_paid")
     private String actualAmountPaid;
+
+    @SerializedName("_id")
+    private String orderID;
+
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
+    }
 
     public String getOrderID() {
         return orderID;

@@ -17,7 +17,6 @@ import com.twyst.app.android.model.OrderTrackingState;
 import java.util.ArrayList;
 
 public class OrderTrackingActivity extends AppCompatActivity {
-
     static int count = 1;
     private ListView trackOrderStatesListview;
     private ArrayList<OrderTrackingState> trackOrderStatesList = new ArrayList<>();
@@ -32,44 +31,32 @@ public class OrderTrackingActivity extends AppCompatActivity {
         mAdapter = new TrackOrderStatesAdapter();
         trackOrderStatesListview.setAdapter(mAdapter);
 
-//        for (int i = 0;i<5;i++) {
-//              final int value = i;
-        handler.postDelayed(runnable, 5000);
-//        }
-
+//        handler.postDelayed(runnable, 5000);
     }
 
-    final Handler handler = new Handler();
+//    final Handler handler = new Handler();
+//    private Runnable runnable = new Runnable() {
+//        @Override
+//        public void run() {
+//            if (count < 6) {
+//                OrderTrackingState newState = new OrderTrackingState();
+//                newState.setOrderState(count);
+//                newState.setTime("12:30");
+//                newState.setAmpm("AM");
+//                newState.setIsCurrent(true);
+//                trackOrderStatesList.add(0, newState);
 //
-
-    private Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            if (count < 6) {
-                OrderTrackingState newState = new OrderTrackingState();
-                newState.setOrderState(count);
-                newState.setTime("12:30");
-                newState.setAmpm("AM");
-                newState.setIsCurrent(true);
-                trackOrderStatesList.add(0, newState);
-
-                for (int j = 1;j<count;j++){
-                    trackOrderStatesList.get(j).setIsCurrent(false);
-                }
-                count++;
-                mAdapter.notifyDataSetChanged();
-                handler.postDelayed(runnable, 5000);
-            } else {
-                handler.removeCallbacks(runnable);
-            }
-//                    try{
-//                        Thread.sleep(5000);
-//                    } catch (InterruptedException ex){
-//                        ex.printStackTrace();
-//                    }
-        }
-    };
-
+//                for (int j = 1;j<count;j++){
+//                    trackOrderStatesList.get(j).setIsCurrent(false);
+//                }
+//                count++;
+//                mAdapter.notifyDataSetChanged();
+//                handler.postDelayed(runnable, 5000);
+//            } else {
+//                handler.removeCallbacks(runnable);
+//            }
+//        }
+//    };
 
     private void setupToolBar() {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -84,8 +71,6 @@ public class OrderTrackingActivity extends AppCompatActivity {
     }
 
     class TrackOrderStatesAdapter extends ArrayAdapter<OrderTrackingState> {
-
-
         TrackOrderStatesAdapter() {
             super(OrderTrackingActivity.this, R.layout.order_tracking_state_row, trackOrderStatesList);
         }
@@ -98,7 +83,8 @@ public class OrderTrackingActivity extends AppCompatActivity {
 
             OrderTrackingState orderstate = trackOrderStatesList.get(position);
             switch (orderstate.getOrderState()) {
-                case OrderTrackingState.ORDER_PLACED:
+
+                case OrderTrackingState.STATE_PLACED:
                     viewholder.message.setText(getResources().getString(R.string.order_placed_message));
                     viewholder.trackOrderStateTime.setText(orderstate.getTime());
                     viewholder.trackOrderStateAmOrPm.setText(orderstate.getAmpm());
@@ -107,7 +93,8 @@ public class OrderTrackingActivity extends AppCompatActivity {
                         viewholder.tvClickForFailure.setText(getResources().getString(R.string.order_placed_cancel_message));
                     }
                     break;
-                case OrderTrackingState.ORDER_ACCEPTED:
+
+                case OrderTrackingState.STATE_ACCEPTED:
                     viewholder.message.setText(getResources().getString(R.string.order_accepted_message));
                     viewholder.trackOrderStateTime.setText(orderstate.getTime());
                     viewholder.trackOrderStateAmOrPm.setText(orderstate.getAmpm());
@@ -117,7 +104,8 @@ public class OrderTrackingActivity extends AppCompatActivity {
                         viewholder.tvClickForSuccess.setText(getResources().getString(R.string.order_accepted_contact_outlet_message));
                     }
                     break;
-                case OrderTrackingState.ORDER_DISPATCHED:
+
+                case OrderTrackingState.STATE_DISPATCHED:
                     viewholder.message.setText(getResources().getString(R.string.order_dispatched_message));
                     viewholder.trackOrderStateTime.setText(orderstate.getTime());
                     viewholder.trackOrderStateAmOrPm.setText(orderstate.getAmpm());
@@ -126,7 +114,8 @@ public class OrderTrackingActivity extends AppCompatActivity {
                         viewholder.tvClickForSuccess.setText(getResources().getString(R.string.order_dispatched_message_success));
                     }
                     break;
-                case OrderTrackingState.ORDER_ASSUMED_DELIVERY:
+
+                case OrderTrackingState.STATE_ASSUMED_DELIVERED:
                     viewholder.message.setText(getResources().getString(R.string.order_assumed_delivery_message));
                     viewholder.trackOrderStateTime.setText(orderstate.getTime());
                     viewholder.trackOrderStateAmOrPm.setText(orderstate.getAmpm());
@@ -137,7 +126,8 @@ public class OrderTrackingActivity extends AppCompatActivity {
                         viewholder.tvClickForSuccess.setText(getResources().getString(R.string.order_assumed_delivery_message_success));
                     }
                     break;
-                case OrderTrackingState.ORDER_NOT_DELIVERED:
+
+                case OrderTrackingState.STATE_NOT_DELIVERED:
                     viewholder.message.setText(getResources().getString(R.string.order_not_delivered_message));
                     viewholder.trackOrderStateTime.setText(orderstate.getTime());
                     viewholder.trackOrderStateAmOrPm.setText(orderstate.getAmpm());
@@ -146,14 +136,13 @@ public class OrderTrackingActivity extends AppCompatActivity {
                         viewholder.tvClickForSuccess.setText(getResources().getString(R.string.order_not_delivered_message_success));
                     }
                     break;
+
                 default:
                     break;
-
             }
 
             return row;
         }
-
 
     }
 

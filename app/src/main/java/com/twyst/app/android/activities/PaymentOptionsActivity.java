@@ -104,7 +104,7 @@ public class PaymentOptionsActivity extends AppCompatActivity {
 
     private void cod() {
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
-        OrderConfirmedCOD orderConfirmedCOD = new OrderConfirmedCOD(mOrderCheckoutResponse.getOrderID(), mOrderCheckoutResponse.getOutletID());
+        OrderConfirmedCOD orderConfirmedCOD = new OrderConfirmedCOD(mOrderCheckoutResponse.getOrderNumber(), mOrderCheckoutResponse.getOutletID());
         HttpService.getInstance().postOrderConfirmCOD(UtilMethods.getUserToken(PaymentOptionsActivity.this), orderConfirmedCOD, new Callback<BaseResponse>() {
             @Override
             public void success(BaseResponse baseResponse, Response response) {
@@ -144,7 +144,7 @@ public class PaymentOptionsActivity extends AppCompatActivity {
         String emailID = sharedPreferences.getString(AppConstants.PREFERENCE_USER_EMAIL, "");
 
         User usr = new User(emailID, number);
-        Transaction newTransaction = Transaction.Factory.newTransaction(usr, mOrderCheckoutResponse.getOrderID(), String.valueOf("1"));
+        Transaction newTransaction = Transaction.Factory.newTransaction(usr, mOrderCheckoutResponse.getOrderNumber(), String.valueOf("1"));
 
         Intent mobikwikIntent = new Intent(this, MobikwikSDK.class);
         mobikwikIntent.putExtra(MobikwikSDK.EXTRA_TRANSACTION_CONFIG, config);

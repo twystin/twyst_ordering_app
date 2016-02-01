@@ -6,13 +6,13 @@ import com.google.gson.annotations.SerializedName;
  * Created by Vipul Sharma on 1/30/2016.
  */
 public class OrderConfirmedCOD {
-    public OrderConfirmedCOD(String orderID, String outletID) {
-        this.orderID = orderID;
+    public OrderConfirmedCOD(String orderNumber, String outletID) {
+        this.orderNumber = orderNumber;
         this.outletID = outletID;
     }
 
     @SerializedName("order_number")
-    private String orderID;
+    private String orderNumber;
 
     @SerializedName("outlet")
     private String outletID;

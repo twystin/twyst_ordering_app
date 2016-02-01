@@ -4,12 +4,24 @@ package com.twyst.app.android.model;
  * Created by Vipul Sharma on 1/27/2016.
  */
 public class OrderTrackingState {
+    // Order fields
+    public static final String TIME = "time";
+    public static final String ORDER_ID = "order_id";
+    public static final String STATE = "state";
+    public static final String TITLE = "title";
+    public static final String MESSAGE = "message";
+
     //Order States
-    public static final int ORDER_PLACED = 1;
-    public static final int ORDER_ACCEPTED = 2;
-    public static final int ORDER_DISPATCHED = 3;
-    public static final int ORDER_ASSUMED_DELIVERY = 4;
-    public static final int ORDER_NOT_DELIVERED = 5;
+    public static final String STATE_PLACED = "PLACED";
+    public static final String STATE_CANCELLED = "CANCELLED";
+    public static final String STATE_REJECTED = "REJECTED";
+    public static final String STATE_ACCEPTED = "ACCEPTED";
+    public static final String STATE_DISPATCHED = "DISPATCHED";
+    public static final String STATE_ASSUMED_DELIVERED = "ASSUMED_DELIVERED";
+    public static final String STATE_NOT_DELIVERED = "NOT_DELIVERED";
+    public static final String STATE_ABANDONED = "ABANDONED";
+    public static final String STATE_DELIVERED = "DELIVERED";
+    public static final String STATE_DEFAULT = "DEFAULT";
 
     // AMPM time
     public static final String ORDER_TIME_AM = "AM";
@@ -18,7 +30,7 @@ public class OrderTrackingState {
     private String time;
     private String ampm;
     private String message;
-    private int orderState;
+    private String orderState;
     private boolean isCurrent;
 
     public boolean isCurrent() {
@@ -53,11 +65,11 @@ public class OrderTrackingState {
         this.message = message;
     }
 
-    public int getOrderState() {
+    public String getOrderState() {
         return orderState;
     }
 
-    public void setOrderState(int orderState) {
+    public void setOrderState(String orderState) {
         this.orderState = orderState;
     }
 }
