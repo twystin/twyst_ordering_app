@@ -103,6 +103,11 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
 
         mOutlet = (Outlet) getIntent().getSerializableExtra(AppConstants.INTENT_PARAM_OUTLET_OBJECT);
 
+        // To be deleted
+        if (mOutlet == null) {
+            mOutlet = new Outlet();
+        }
+
         setupToolBar();
         setupTopLayout();
         setupScrollingOfferAdapters();
@@ -112,7 +117,6 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         setupCartRecyclerView();
         ifReordered = checkifReordered();
         fetchMenu();
-
     }
 
 
@@ -183,7 +187,9 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
             }
         });
 
-        this.setTitle(mOutlet.getName());
+        if (mOutlet.getName() != null) {
+            this.setTitle(mOutlet.getName());
+        }
 
         final CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
@@ -721,6 +727,10 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     }
 
     private void setupScrollingOfferAdapters() {
+        if (mOutlet.get_id() == null) {
+            return;
+        }
+
         scrollingOfffersProgressBar = (CircularProgressBar) findViewById(R.id.scrollingOfffersProgressBar);
         HttpService.getInstance().getOffers(mOutlet.get_id(), UtilMethods.getUserToken(OrderOnlineActivity.this), new Callback<BaseResponse<ArrayList<Offer>>>() {
             @Override

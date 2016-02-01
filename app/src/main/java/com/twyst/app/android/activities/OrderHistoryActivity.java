@@ -28,9 +28,8 @@ public class OrderHistoryActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        setupOrderHistoryLocally();
-//        fetchOrderHistory();
-
+//        setupOrderHistoryLocally();
+        fetchOrderHistory();
     }
 
     private void setupOrderHistoryLocally() {

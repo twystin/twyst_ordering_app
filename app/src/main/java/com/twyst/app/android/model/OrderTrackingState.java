@@ -45,15 +45,6 @@ public class OrderTrackingState {
     private String ampm;
     private String message;
     private String orderState;
-    private boolean isCurrent;
-
-    public boolean isCurrent() {
-        return isCurrent;
-    }
-
-    public void setIsCurrent(boolean isCurrent) {
-        this.isCurrent = isCurrent;
-    }
 
     public String getTime() {
         return time;
@@ -99,8 +90,7 @@ public class OrderTrackingState {
         } else {
             //Ordering states already saved, get the list with previous Ordering States
             Gson gson1 = new Gson();
-            Type type = new TypeToken<List<OrderTrackingState>>() {
-            }.getType();
+            Type type = new TypeToken<List<OrderTrackingState>>() {}.getType();
             trackOrderStatesList = gson1.fromJson(orderTrackingStateListString, type);
         }
 
@@ -119,7 +109,6 @@ public class OrderTrackingState {
         orderTrackingState.setOrderState(STATE_PLACED);
         orderTrackingState.setTime("07:30");
         orderTrackingState.setAmpm(ORDER_TIME_PM);
-        orderTrackingState.setIsCurrent(true);
         return orderTrackingState;
     }
 }
