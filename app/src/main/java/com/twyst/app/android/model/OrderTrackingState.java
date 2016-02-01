@@ -1,5 +1,19 @@
 package com.twyst.app.android.model;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.text.TextUtils;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.twyst.app.android.R;
+import com.twyst.app.android.util.AppConstants;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Vipul Sharma on 1/27/2016.
  */
@@ -71,5 +85,41 @@ public class OrderTrackingState {
 
     public void setOrderState(String orderState) {
         this.orderState = orderState;
+    }
+
+    public static ArrayList<OrderTrackingState> getInitialList(String orderID, Activity activity) {
+        final SharedPreferences sharedPreferences = activity.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
+
+        ArrayList<OrderTrackingState> trackOrderStatesList = new ArrayList<>();
+        String orderTrackingStateListString = sharedPreferences.getString(orderID, "");
+
+        if (TextUtils.isEmpty(orderTrackingStateListString)) {
+            //List is empty, get the list with default Order State (ORDER_PLACED)
+            trackOrderStatesList.add(getDefaultOrderTrackingState(activity));
+        } else {
+            //Ordering states already saved, get the list with previous Ordering States
+            Gson gson1 = new Gson();
+            Type type = new TypeToken<List<OrderTrackingState>>() {
+            }.getType();
+            trackOrderStatesList = gson1.fromJson(orderTrackingStateListString, type);
+        }
+
+        Gson gson = new Gson();
+        String json = gson.toJson(trackOrderStatesList);
+        sharedPreferences.edit().putString(orderID, json);
+        if (sharedPreferences.edit().commit()) {
+            return trackOrderStatesList;
+        }
+        return trackOrderStatesList;
+    }
+
+    private static OrderTrackingState getDefaultOrderTrackingState(Activity activity) {
+        OrderTrackingState orderTrackingState = new OrderTrackingState();
+        orderTrackingState.setMessage(activity.getResources().getString(R.string.order_placed_message));
+        orderTrackingState.setOrderState(STATE_PLACED);
+        orderTrackingState.setTime("07:30");
+        orderTrackingState.setAmpm(ORDER_TIME_PM);
+        orderTrackingState.setIsCurrent(true);
+        return orderTrackingState;
     }
 }

@@ -110,9 +110,12 @@ public class PaymentOptionsActivity extends AppCompatActivity {
             public void success(BaseResponse baseResponse, Response response) {
                 if (baseResponse.isResponse()) {
                     Toast.makeText(PaymentOptionsActivity.this, "Order placed successfully!", Toast.LENGTH_SHORT).show();
-//                    Intent paymentOptionsIntent = new Intent(PaymentOptionsActivity.this, PaymentOptionsActivity.class);
-//                    paymentOptionsIntent.putExtra(AppConstants.INTENT_ORDER_CHECKOUT_RESPONSE, orderCheckOutResponse);
-//                    startActivity(paymentOptionsIntent);
+                    Intent orderTrackingIntent = new Intent(PaymentOptionsActivity.this, OrderTrackingActivity.class);
+                    orderTrackingIntent.putExtra(AppConstants.INTENT_ORDER_ID, mOrderCheckoutResponse.getOrderID());
+                    orderTrackingIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(orderTrackingIntent);
+                    finish();
                 } else {
                     Toast.makeText(PaymentOptionsActivity.this, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }

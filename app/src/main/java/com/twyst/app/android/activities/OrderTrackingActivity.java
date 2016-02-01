@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,19 +14,24 @@ import android.widget.TextView;
 
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.OrderTrackingState;
+import com.twyst.app.android.util.AppConstants;
 
 import java.util.ArrayList;
 
 public class OrderTrackingActivity extends AppCompatActivity {
     static int count = 1;
     private ListView trackOrderStatesListview;
-    private ArrayList<OrderTrackingState> trackOrderStatesList = new ArrayList<>();
+    private ArrayList<OrderTrackingState> mTrackOrderStatesList;
     private TrackOrderStatesAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_tracking);
+
+        String orderID = getIntent().getExtras().getString(AppConstants.INTENT_ORDER_ID,"");
+        mTrackOrderStatesList = OrderTrackingState.getInitialList(orderID, OrderTrackingActivity.this);
+
         setupToolBar();
         trackOrderStatesListview = (ListView) findViewById(R.id.listview_track_order_states);
         mAdapter = new TrackOrderStatesAdapter();
@@ -72,7 +78,7 @@ public class OrderTrackingActivity extends AppCompatActivity {
 
     class TrackOrderStatesAdapter extends ArrayAdapter<OrderTrackingState> {
         TrackOrderStatesAdapter() {
-            super(OrderTrackingActivity.this, R.layout.order_tracking_state_row, trackOrderStatesList);
+            super(OrderTrackingActivity.this, R.layout.order_tracking_state_row, mTrackOrderStatesList);
         }
 
         @Override
@@ -81,11 +87,11 @@ public class OrderTrackingActivity extends AppCompatActivity {
             View row = inflater.inflate(R.layout.order_tracking_state_row, parent, false);
             TrackOrderStateViewholder viewholder = new TrackOrderStateViewholder(row);
 
-            OrderTrackingState orderstate = trackOrderStatesList.get(position);
+            OrderTrackingState orderstate = mTrackOrderStatesList.get(position);
             switch (orderstate.getOrderState()) {
 
                 case OrderTrackingState.STATE_PLACED:
-                    viewholder.message.setText(getResources().getString(R.string.order_placed_message));
+                    viewholder.message.setText(orderstate.getMessage());
                     viewholder.trackOrderStateTime.setText(orderstate.getTime());
                     viewholder.trackOrderStateAmOrPm.setText(orderstate.getAmpm());
                     if (orderstate.isCurrent()) {
@@ -143,7 +149,6 @@ public class OrderTrackingActivity extends AppCompatActivity {
 
             return row;
         }
-
     }
 
     static class TrackOrderStateViewholder {

@@ -211,5 +211,6 @@ public class AppConstants {
 
     //Payment Data
     public static final String INTENT_ORDER_CHECKOUT_RESPONSE= "intent_order_checkout_response";
+    public static final String INTENT_ORDER_ID= "order_id";
 
 }
