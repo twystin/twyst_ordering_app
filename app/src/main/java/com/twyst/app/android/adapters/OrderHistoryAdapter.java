@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.twyst.app.android.R;
 import com.twyst.app.android.activities.OrderHistoryActivity;
 import com.twyst.app.android.activities.OrderOnlineActivity;
+import com.twyst.app.android.activities.OrderTrackingActivity;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.OrderHistory;
 import com.twyst.app.android.model.ReorderMenuAndCart;
@@ -47,7 +48,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     private final ArrayList<OrderHistory> mOrderHistoryList;
     private final Context mContext;
     private ReorderMenuAndCart reorderMenuAndCart = null;
-    private TwystProgressHUD twystProgressHUD;
+    private TwystProgressHUD mTwystProgressHUD;
 
     public OrderHistoryAdapter(Context context, ArrayList<OrderHistory> orderHistoryList) {
         mContext = context;
@@ -61,22 +62,32 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         return viewHolder;
     }
 
-
     @Override
     public void onBindViewHolder(OrderHistoryAdapter.ViewHolder holder, final int position) {
-        holder.outletNameTextView.setText(mOrderHistoryList.get(position).getOutletName());
+        final OrderHistory orderHistory = mOrderHistoryList.get(position);
+
+        holder.outletNameTextView.setText(orderHistory.getOutletName());
         holder.outletAddressTextView.setText("No data from server");
-        holder.orderCostTextView.setText(Utils.costString(mOrderHistoryList.get(position).getOrderCost()));
-        String orderDate = mOrderHistoryList.get(position).getOrderDate();
+        holder.orderCostTextView.setText(Utils.costString(orderHistory.getOrderCost()));
+        String orderDate = orderHistory.getOrderDate();
         holder.dateTextView.setText(Utils.formatDateTime(orderDate));
-        holder.itemBodyTextView.setText(getCompleteItemName(position));
+        holder.itemBodyTextView.setText(getCompleteItemName(orderHistory));
+
+        if (isTrackable(orderHistory.getOrderStatus())) {
+            holder.reOrderTextView.setText("Track");
+        } else {
+            holder.reOrderTextView.setText("Re-Order");
+        }
         holder.reOrderTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                twystProgressHUD = TwystProgressHUD.show(mContext, false, null);
-                reorderProcessing(mOrderHistoryList.get(position));
-
+                mTwystProgressHUD = TwystProgressHUD.show(mContext, false, null);
+                if (isTrackable(orderHistory.getOrderStatus())) {
+                    trackOrder(orderHistory);
+                    mTwystProgressHUD.dismiss();
+                } else {
+                    reorderProcessing(orderHistory);
+                }
             }
         });
         //change the drawable icon if the item is a favourite
@@ -84,16 +95,31 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 //        }
     }
 
+    private void trackOrder(OrderHistory orderHistory) {
+        Intent orderTrackingIntent = new Intent(mContext, OrderTrackingActivity.class);
+        orderTrackingIntent.putExtra(AppConstants.INTENT_ORDER_ID, orderHistory.getOrderID());
+        orderTrackingIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        mContext.startActivity(orderTrackingIntent);
+    }
 
+    private boolean isTrackable(String orderStatus) {
+        switch (orderStatus) {
+            case "checkout":
+                return false;
+            case "payment_failed":
+                return false;
+        }
+        return true;
+    }
 
-
-    private String getCompleteItemName(int position) {
-        int itemsCount = mOrderHistoryList.get(position).getItems().size();
+    private String getCompleteItemName(OrderHistory orderHistory) {
+        int itemsCount = orderHistory.getItems().size();
         String completeItemName = "";
         String completeItemName3 = "";
 
         for (int i = 0; i < itemsCount; i++) {
-            Items item = mOrderHistoryList.get(position).getItems().get(i);
+            Items item = orderHistory.getItems().get(i);
 
             if (i == 0) {
                 completeItemName = completeItemName + item.getItemName() + " x " + item.getItemQuantity();
@@ -115,17 +141,12 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
     }
 
-
-
-
-
     @Override
     public int getItemCount() {
         return mOrderHistoryList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-
         public TextView outletNameTextView;
         public TextView outletAddressTextView;
         public TextView itemBodyTextView;
@@ -151,7 +172,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         String menuId;
         menuId = reOrder.getMenuId();
 
-        HttpService.getInstance().getMenu(menuId, ((OrderHistoryActivity)mContext).getUserToken(), new Callback<BaseResponse<MenuData>>() {
+        HttpService.getInstance().getMenu(menuId, ((OrderHistoryActivity) mContext).getUserToken(), new Callback<BaseResponse<MenuData>>() {
             @Override
             public void success(BaseResponse<MenuData> menuDataBaseResponse, Response response) {
                 if (menuDataBaseResponse.isResponse()) {
@@ -160,33 +181,32 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                     MenuData menuData = reorderMenuAndCart.getMenuData();
                     if (menuData != null) {
 
-                        placeReorderProcessing(menuData,reOrder);
+                        placeReorderProcessing(menuData, reOrder);
 
                     } else {
-                        twystProgressHUD.dismiss();
+                        mTwystProgressHUD.dismiss();
                         Toast.makeText(mContext, "No data found", Toast.LENGTH_SHORT).show();
                     }
 
                 } else {
-                    twystProgressHUD.dismiss();
+                    mTwystProgressHUD.dismiss();
                     Toast.makeText(mContext, menuDataBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
-                ((OrderHistoryActivity)mContext).hideProgressHUDInLayout();
-                ((OrderHistoryActivity)mContext).hideSnackbar();
+                ((OrderHistoryActivity) mContext).hideProgressHUDInLayout();
+                ((OrderHistoryActivity) mContext).hideSnackbar();
             }
 
             @Override
             public void failure(RetrofitError error) {
-                ((OrderHistoryActivity)mContext).hideProgressHUDInLayout();
-                ((OrderHistoryActivity)mContext).hideSnackbar();
-                ((OrderHistoryActivity)mContext).handleRetrofitError(error);
+                ((OrderHistoryActivity) mContext).hideProgressHUDInLayout();
+                ((OrderHistoryActivity) mContext).hideSnackbar();
+                ((OrderHistoryActivity) mContext).handleRetrofitError(error);
             }
         });
     }
 
-    public void placeReorderProcessing(MenuData menuData,OrderHistory reOrder) {
-
+    public void placeReorderProcessing(MenuData menuData, OrderHistory reOrder) {
         ArrayList<String> issuesFound = new ArrayList<>();
         ArrayList<Items> itemsToBeAddedToCart = new ArrayList<>();
 
@@ -307,7 +327,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                                         }
                                     }
 
-                                    if (!found && foundIssueString == null){
+                                    if (!found && foundIssueString == null) {
                                         foundIssueString = selected.getOptionValue() + " not found in the menu";
                                     }
 
@@ -315,7 +335,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                                         /// needs to be added to cart
                                         cartItem.getOptionsList().clear();
                                         cartItem.setOptionsList(new ArrayList<Options>(Arrays.asList(selected)));
-                                        for (int i = 0;i < reOrderItem.getItemQuantity();i++){
+                                        for (int i = 0; i < reOrderItem.getItemQuantity(); i++) {
                                             itemsToBeAddedToCart.add(cartItem);
                                         }
                                         Toast.makeText(mContext, "Item found: " + cartItem.getItemName(), Toast.LENGTH_LONG).show();
@@ -329,7 +349,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                                 } else if (costIssueFound) {
                                     issuesFound.add(cartItem.getItemName() + " " + costIssueString);
                                 } else {
-                                    for (int i = 0;i < reOrderItem.getItemQuantity();i++){
+                                    for (int i = 0; i < reOrderItem.getItemQuantity(); i++) {
                                         itemsToBeAddedToCart.add(cartItem);
                                     }
                                 }
@@ -347,19 +367,19 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         reorderMenuAndCart.setCartItemsList(itemsToBeAddedToCart);
 
         if (issuesFound.size() > 0) {
-            showReorderErrorsDialog(issuesFound,reOrder.getMenuId());
+            showReorderErrorsDialog(issuesFound, reOrder.getMenuId());
         } else {
             // intent needs to be fired to OrderOnlineActivity
             Intent intent = new Intent(mContext, OrderOnlineActivity.class);
-            intent.putExtra(AppConstants.INTENT_PLACE_REORDER,reorderMenuAndCart);
+            intent.putExtra(AppConstants.INTENT_PLACE_REORDER, reorderMenuAndCart);
             intent.putExtra(AppConstants.INTENT_PLACE_REORDER_MENUID, reOrder.getMenuId());
-            twystProgressHUD.dismiss();
+            mTwystProgressHUD.dismiss();
             mContext.startActivity(intent);
         }
 
     }
 
-    public void showReorderErrorsDialog(ArrayList<String> list,final String menuId){
+    public void showReorderErrorsDialog(ArrayList<String> list, final String menuId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         LayoutInflater inflater = LayoutInflater.from(mContext);
         final View dialogView = inflater.inflate(R.layout.dialog_menu, null);
@@ -377,10 +397,10 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         final AlertDialog dialog = builder.create();
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(false);
-        twystProgressHUD.dismiss();
+        mTwystProgressHUD.dismiss();
         dialog.show();
 
-        ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(mContext,R.layout.reorder_error_row_layout,list);
+        ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(mContext, R.layout.reorder_error_row_layout, list);
 //        TextView tvErrorMessage = (TextView)dia
         listMenuOptions.setAdapter(mAdapter);
 
@@ -390,8 +410,8 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                 // intent needs to be fired
                 Intent intent = new Intent(mContext, OrderOnlineActivity.class);
                 intent.putExtra(AppConstants.INTENT_PLACE_REORDER_MENUID, menuId);
-                intent.putExtra(AppConstants.INTENT_PLACE_REORDER,reorderMenuAndCart);
-                int a =1;
+                intent.putExtra(AppConstants.INTENT_PLACE_REORDER, reorderMenuAndCart);
+                int a = 1;
                 int b = reorderMenuAndCart.getMenuData().getMenuCategoriesList().get(0).getSubCategoriesList().get(0).getItemsList().get(2).hashCode();
                 int c = reorderMenuAndCart.getCartItemsList().get(0).hashCode();
                 c = reorderMenuAndCart.getCartItemsList().get(0).getItemOriginalReference().hashCode();

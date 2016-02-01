@@ -331,13 +331,7 @@
         <activity
             android:name=".activities.OrderTrackingActivity"
             android:label="@string/track_order"
-            android:screenOrientation="portrait">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:screenOrientation="portrait" />
         <!--.
           WakefulBroadcastReceiver that will receive intents from GCM
           services and hand them to the custom IntentService.

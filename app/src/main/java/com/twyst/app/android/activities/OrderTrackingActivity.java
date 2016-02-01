@@ -1,5 +1,6 @@
 package com.twyst.app.android.activities;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -13,16 +14,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
+import com.twyst.app.android.TwystApplication;
 import com.twyst.app.android.model.OrderTrackingState;
 import com.twyst.app.android.util.AppConstants;
 
 import java.util.ArrayList;
 
 public class OrderTrackingActivity extends AppCompatActivity {
-    static int count = 1;
     private ListView trackOrderStatesListview;
     private ArrayList<OrderTrackingState> mTrackOrderStatesList;
     private TrackOrderStatesAdapter mAdapter;
+
+    protected TwystApplication twystApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +39,28 @@ public class OrderTrackingActivity extends AppCompatActivity {
         trackOrderStatesListview = (ListView) findViewById(R.id.listview_track_order_states);
         mAdapter = new TrackOrderStatesAdapter();
         trackOrderStatesListview.setAdapter(mAdapter);
+        twystApplication = (TwystApplication) this.getApplicationContext();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        twystApplication.setCurrentActivity(this);
         refreshList();
+    }
+
+    protected void onPause() {
+        clearReferences();
+        super.onPause();
+    }
+    protected void onDestroy() {
+        clearReferences();
+        super.onDestroy();
+    }
+    private void clearReferences(){
+        Activity currActivity = twystApplication.getCurrentActivity();
+        if (currActivity != null && currActivity.equals(this))
+            twystApplication.setCurrentActivity(null);
     }
 
     //Also called by when received notification

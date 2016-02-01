@@ -33,13 +33,24 @@ public class OrderHistory implements Serializable {
     private String orderDate;
 
     @SerializedName("order_status")
-    private boolean orderStatus;
+    private String orderStatus;
 
     @SerializedName("menu_id")
     private String menuId;
 
     @SerializedName("outlet_id")
     private String outletId;
+
+    @SerializedName("_id")
+    private String orderID;
+
+    public String getOrderID() {
+        return orderID;
+    }
+
+    public void setOrderID(String orderID) {
+        this.orderID = orderID;
+    }
 
     public String getOutletId() {
         return outletId;
@@ -113,11 +124,11 @@ public class OrderHistory implements Serializable {
         this.orderDate = orderDate;
     }
 
-    public boolean isOrderStatus() {
+    public String getOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(boolean orderStatus) {
+    public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
     }
 }

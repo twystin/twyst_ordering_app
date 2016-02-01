@@ -1,5 +1,6 @@
 package com.twyst.app.android;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
@@ -35,11 +36,21 @@ public class TwystApplication extends Application {
 
         HttpService.getInstance().setup(getApplicationContext(), getGATracker());
 
-        if (!isMyServiceRunning(LocationService.class)){
+        if (!isMyServiceRunning(LocationService.class)) {
             Intent locationService = new Intent();
             locationService.setClass(getApplicationContext(), LocationService.class);
             startService(locationService);
         }
+    }
+
+    private Activity mCurrentActivity = null;
+
+    public Activity getCurrentActivity() {
+        return mCurrentActivity;
+    }
+
+    public void setCurrentActivity(Activity mCurrentActivity) {
+        this.mCurrentActivity = mCurrentActivity;
     }
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {

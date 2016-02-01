@@ -1,9 +1,12 @@
 package com.twyst.app.android.gcm;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +21,7 @@ import com.androidquery.callback.BitmapAjaxCallback;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import com.twyst.app.android.R;
+import com.twyst.app.android.TwystApplication;
 import com.twyst.app.android.activities.NotificationActivity;
 import com.twyst.app.android.activities.OrderTrackingActivity;
 import com.twyst.app.android.model.OrderTrackingState;
@@ -98,7 +102,23 @@ public class GcmIntentService extends IntentService {
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-        PendingIntent contentIntent = PendingIntent.getActivity(this,0, notificationIntent, 0);
+        notificationIntent.putExtra(AppConstants.INTENT_ORDER_ID, orderID);
+
+//        ActivityManager am = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
+//        ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+//        String ll = "";
+//        String orderTrackingClass = this.getPackageName() + ".activities.OrderTrackingActivity";
+//        if (cn.getClassName().equals(orderTrackingClass)) {
+//            // OrderTrackingActivity in foreground, refresh the list
+//        }
+
+        Activity currentActivity = ((TwystApplication) this.getApplicationContext()).getCurrentActivity();
+        if (currentActivity != null) {
+            OrderTrackingActivity orderTrackingActivity = (OrderTrackingActivity) currentActivity;
+            orderTrackingActivity.refreshList();
+        }
+
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
         String notificationTitle = TextUtils.isEmpty(title) ? getString(R.string.app_name) : title;
 
         NotificationCompat.Style style = new NotificationCompat.BigTextStyle()
