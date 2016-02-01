@@ -403,7 +403,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                         Drawable img = getResources().getDrawable(
                                 R.drawable.checkout_arrow);
                         int height = tvNextMenu.getMeasuredHeight() * 2 / 3;
-                        img.setBounds(0, 0, height * 2, height);
+                        img.setBounds(0, 0, height, height);
                         tvNextMenu.setCompoundDrawables(null, null, img, null);
                         tvNextMenu.getViewTreeObserver()
                                 .removeOnGlobalLayoutListener(this);
