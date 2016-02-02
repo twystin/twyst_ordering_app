@@ -1,14 +1,17 @@
 package com.twyst.app.android.activities;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.twyst.app.android.R;
@@ -20,7 +23,7 @@ import com.twyst.app.android.util.SharedPreferenceAddress;
 /**
  * Created by anshul on 1/8/2016.
  */
-public class AddressAddNewActivity extends AppCompatActivity {
+public class AddressAddNewActivity extends BaseActionActivity {
     private static final int PLACE_PICKER_REQUEST = 2;
     private ImageView homeTag;
     private ImageView workTag;
@@ -39,6 +42,7 @@ public class AddressAddNewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_add_new);
 
+        setupToolBar();
         Bundle extras = getIntent().getExtras();
         mOrderSummary = (OrderSummary) extras.getSerializable(AppConstants.INTENT_ORDER_SUMMARY);
 
@@ -117,13 +121,29 @@ public class AddressAddNewActivity extends AppCompatActivity {
 //            startActivityForResult(intent, PLACE_PICKER_REQUEST);
 //        } else {
 //            mNewAddress = (AddressDetailsLocationData) getIntent().getSerializableExtra(AppConstants.DATA_TO_BE_SHOWN);
-            mNewAddress = mOrderSummary.getAddressDetailsLocationData();
-            setTextLocationFetch(mNewAddress);
-            ((LinearLayout) findViewById(R.id.linlay_add_address)).setVisibility(View.VISIBLE);
+        mNewAddress = mOrderSummary.getAddressDetailsLocationData();
+        setTextLocationFetch(mNewAddress);
+        ((LinearLayout) findViewById(R.id.linlay_add_address)).setVisibility(View.VISIBLE);
 //        }
 
-        Button bProceed = (Button) findViewById(R.id.proceed_address_new);
-        bProceed.setOnClickListener(new View.OnClickListener() {
+
+        final TextView tvProceed = (TextView) findViewById(R.id.tvProceed);
+        tvProceed.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        Drawable img = getResources().getDrawable(
+                                R.drawable.checkout_arrow);
+                        int height = tvProceed.getMeasuredHeight() * 2 / 3;
+                        img.setBounds(0, 0, height, height);
+                        tvProceed.setCompoundDrawables(null, null, img, null);
+                        tvProceed.getViewTreeObserver()
+                                .removeOnGlobalLayoutListener(this);
+                    }
+                });
+
+
+        findViewById(R.id.proceed_address_new).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EditText neighborhood = (EditText) findViewById(R.id.editView_building);

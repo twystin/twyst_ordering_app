@@ -43,7 +43,7 @@ import retrofit.client.Response;
 /**
  * Created by anshul on 1/8/2016.
  */
-public class AddressDetailsActivity extends AppCompatActivity implements LocationFetchUtil.LocationFetchResultCodeListener {
+public class AddressDetailsActivity extends BaseActionActivity implements LocationFetchUtil.LocationFetchResultCodeListener {
     List<AddressDetailsLocationData> mAddressList = new ArrayList<AddressDetailsLocationData>();
     SimpleArrayAdapter adapter = null;
     private LinearLayout add;
@@ -75,21 +75,6 @@ public class AddressDetailsActivity extends AppCompatActivity implements Locatio
         setupToolBar();
         setup();
         fetchSavedAddresses();
-    }
-
-    private void setupToolBar() {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setHomeButtonEnabled(true);
-
-        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
     }
 
     private void setupAdapter(ArrayList<LocationsVerified> locationsVerifiedList) {

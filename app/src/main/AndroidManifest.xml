@@ -315,12 +315,12 @@
         <!--Address Details-->
         <activity
             android:name=".activities.AddressDetailsActivity"
-            android:label="@string/action_address_details_activity"
+            android:label="@string/choose_address"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activities.AddressAddNewActivity"
-            android:label="@string/action_search"
+            android:label="@string/address_add_new"
             android:screenOrientation="portrait" />
 
         <activity

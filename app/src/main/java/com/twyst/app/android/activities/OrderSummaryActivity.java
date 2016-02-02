@@ -39,7 +39,7 @@ import retrofit.client.Response;
 /**
  * Created by Vipul Sharma on 12/21/2015.
  */
-public class OrderSummaryActivity extends AppCompatActivity {
+public class OrderSummaryActivity extends BaseActionActivity {
     private RecyclerView mSummaryRecyclerView;
     private SummaryAdapter mSummaryAdapter;
     OrderSummary mOrderSummary;
@@ -105,18 +105,6 @@ public class OrderSummaryActivity extends AppCompatActivity {
                 twystProgressHUD.dismiss();
                 UtilMethods.handleRetrofitError(OrderSummaryActivity.this, error);
                 UtilMethods.hideSnackbar();
-            }
-        });
-    }
-
-    private void setupToolBar() {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
             }
         });
     }

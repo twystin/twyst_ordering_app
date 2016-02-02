@@ -74,7 +74,6 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     TextView tvCartCount;
     TextView tvCartTotalCost;
 
-
     private CircularProgressBar circularProgressBar;
     private CircularProgressBar scrollingOfffersProgressBar;
 
@@ -94,7 +93,6 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     private ReorderMenuAndCart reorderMenuAndCart = null;
 
     private Outlet mOutlet;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

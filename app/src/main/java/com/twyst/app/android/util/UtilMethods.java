@@ -133,5 +133,6 @@ public class UtilMethods {
         Intent checkOutIntent = new Intent(activity, OrderSummaryActivity.class);
         checkOutIntent.putExtras(orderSummaryData);
         activity.startActivity(checkOutIntent);
+        activity.finish();
     }
 }

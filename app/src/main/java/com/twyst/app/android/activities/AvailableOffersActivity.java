@@ -24,7 +24,7 @@ import retrofit.client.Response;
 /**
  * Created by Vipul Sharma on 12/23/2015.
  */
-public class AvailableOffersActivity extends AppCompatActivity {
+public class AvailableOffersActivity extends BaseActionActivity {
     private RecyclerView mOfferRecyclerView;
     private OrderSummary mOrderSummary;
     AvailableOffersAdapter mAvailableOffersAdapter;
@@ -40,6 +40,13 @@ public class AvailableOffersActivity extends AppCompatActivity {
         setupToolBar();
         setupOfferRecyclerView();
         findViewById(R.id.bApply).setEnabled(false);
+        findViewById(R.id.bSkip).setEnabled(true);
+        findViewById(R.id.bSkip).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UtilMethods.goToSummary(AvailableOffersActivity.this, -1, mOrderSummary);
+            }
+        });
     }
 
     private void setupOfferRecyclerView() {
@@ -123,17 +130,5 @@ public class AvailableOffersActivity extends AppCompatActivity {
         } else {
             Toast.makeText(AvailableOffersActivity.this, "Please select a offer!", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void setupToolBar() {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
     }
 }

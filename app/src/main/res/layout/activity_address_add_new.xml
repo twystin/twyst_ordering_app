@@ -2,12 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/tools">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
     <LinearLayout
         android:id="@+id/linlay_add_address"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
         android:orientation="vertical"
         android:padding="10dp"
         android:visibility="visible">
@@ -210,14 +216,24 @@
         </android.support.v7.widget.CardView>
     </LinearLayout>
 
-    <Button
+    <com.balysv.materialripple.MaterialRippleLayout
         android:id="@+id/proceed_address_new"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="55dp"
+        android:padding="10dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="50dp"
-        android:background="@color/primary"
-        android:text="PROCEED"
-        android:textColor="#FFFF"
-        android:textSize="@dimen/address_huge_text_size" />
+        android:background="@drawable/button_red"
+        app:mrl_rippleOverlay="true">
+
+        <TextView
+            android:id="@+id/tvProceed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PROCEED"
+            android:focusable="false"
+            android:drawablePadding="10dp"
+            android:layout_gravity="right|center_vertical"
+            android:textColor="@android:color/white"
+            android:textSize="20dp" />
+    </com.balysv.materialripple.MaterialRippleLayout>
 </RelativeLayout>
