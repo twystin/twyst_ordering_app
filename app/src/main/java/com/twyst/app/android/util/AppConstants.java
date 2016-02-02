@@ -6,7 +6,7 @@ import com.twyst.app.android.BuildConfig;
  * Created by satish on 31/05/15.
  */
 public class AppConstants {
-    //        public static final String HOST = "http://192.168.1.21:3000";
+//            public static final String HOST = "http://192.168.0.113:3000";
     public static final String HOST = "http://staging.twyst.in";
 //    public static final String HOST = "http://twyst.in";
 
