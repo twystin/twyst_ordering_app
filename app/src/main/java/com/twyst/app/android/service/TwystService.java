@@ -175,7 +175,7 @@ public interface TwystService {
     public void getNotification(@Query("token") String token, Callback<BaseResponse<ArrayList<NotificationData>>> callback);
 
     //Added by Raman to get outlet offers
-    @GET("/api/v4/offers/{outlet_id}")
+    @GET("/api/v4/offers/outlet/{outlet_id}")
     public void getOffers(@Path("outlet_id") String outletID, @Query("token") String token, Callback<BaseResponse<ArrayList<Offer>>> callback);
 
 
