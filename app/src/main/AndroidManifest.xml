@@ -191,13 +191,13 @@
 
         <activity
             android:name=".activities.AvailableOffersActivity"
-            android:label="@string/order_online"
+            android:label="@string/available_offers"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activities.OrderSummaryActivity"
-            android:label="@string/order_online"
+            android:label="@string/order_details"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 

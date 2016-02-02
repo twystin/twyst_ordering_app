@@ -5,13 +5,13 @@ package com.twyst.app.android.model;
  */
 public class PaymentData {
     private String mPaymentMode;
-    private String mCashBackPercent;
+    private int mCashBackPercent;
 
-    public String getCashBackPercent() {
+    public int getCashBackPercent() {
         return mCashBackPercent;
     }
 
-    public void setCashBackPercent(String mCashBackPercent) {
+    public void setCashBackPercent(int mCashBackPercent) {
         this.mCashBackPercent = mCashBackPercent;
     }
 

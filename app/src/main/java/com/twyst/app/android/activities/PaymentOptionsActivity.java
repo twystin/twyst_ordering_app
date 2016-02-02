@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,9 +66,9 @@ public class PaymentOptionsActivity extends AppCompatActivity {
         PaymentData pd1 = new PaymentData();
         PaymentData pd2 = new PaymentData();
         pd1.setPaymentMode("Online Payment");
-        pd1.setCashBackPercent("15%");
+        pd1.setCashBackPercent(15);
         pd2.setPaymentMode("Cash On Delivery");
-        pd2.setCashBackPercent("5%");
+        pd2.setCashBackPercent(5);
         mPaymentDataList.add(pd1);
         mPaymentDataList.add(pd2);
 
@@ -210,11 +211,13 @@ public class PaymentOptionsActivity extends AppCompatActivity {
                 pdholder = (PaymentDataHolder) row.getTag();
             }
 
-            pdholder.checkedbox.setImageResource(R.drawable.radio_check_config);
             pdholder.checkedbox.setSelected(selectedPosition == position);
 
             pdholder.paymentmode.setText(mPaymentDataList.get(position).getPaymentMode());
-            pdholder.cashbackamount.setText(mPaymentDataList.get(position).getCashBackPercent());
+            pdholder.cashbackamount.setText(String.format("%d%%", mPaymentDataList.get(position).getCashBackPercent()));
+            if (mPaymentDataList.get(position).getCashBackPercent() == 0) {
+                pdholder.cashbackIcon.setVisibility(View.INVISIBLE);
+            }
 
             return row;
         }
@@ -224,11 +227,13 @@ public class PaymentOptionsActivity extends AppCompatActivity {
         private TextView paymentmode;
         private TextView cashbackamount;
         private ImageView checkedbox;
+        private RelativeLayout cashbackIcon;
 
         PaymentDataHolder(View view) {
             paymentmode = (TextView) view.findViewById(R.id.tv_payment_option_name);
             cashbackamount = (TextView) view.findViewById(R.id.tv_cashback_percent);
             checkedbox = (ImageView) view.findViewById(R.id.iv_rb_payment_select);
+            cashbackIcon = (RelativeLayout) view.findViewById(R.id.rl_cashback_icon);
         }
     }
 }

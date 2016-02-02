@@ -21,8 +21,8 @@
                 android:id="@+id/iv_rb_payment_select"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/unchecked"
-                android:layout_marginLeft="8dp"/>
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/radio_check_config" />
 
             <TextView
                 android:id="@+id/tv_payment_option_name"
@@ -35,23 +35,24 @@
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/rl_cashback_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true">
 
             <LinearLayout
-                android:id="@+id/ll_cashback_icon"
+                android:id="@+id/ll_twystbucks_icon"
                 android:layout_width="40dp"
                 android:layout_height="60dp"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/twystbucksicon"
+                android:gravity="center"
                 android:padding="6dp">
 
                 <TextView
                     android:id="@+id/tv_cashback_percent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_marginTop="10dp"
                     android:text="15%"
                     android:textColor="@android:color/white"
@@ -62,7 +63,7 @@
                 android:id="@+id/tv_cashback"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ll_cashback_icon"
+                android:layout_below="@id/ll_twystbucks_icon"
                 android:layout_centerHorizontal="true"
                 android:text="CashBack"
                 android:textSize="@dimen/layout_wide_text_size" />

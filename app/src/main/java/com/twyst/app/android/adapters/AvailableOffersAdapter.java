@@ -1,7 +1,6 @@
 package com.twyst.app.android.adapters;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +15,8 @@ import com.twyst.app.android.model.order.OfferOrder;
 import com.twyst.app.android.model.order.OrderSummary;
 import com.twyst.app.android.util.Utils;
 
+import java.util.ArrayList;
+
 /**
  * Created by Vipul Sharma on 12/24/2015.
  */
@@ -23,6 +24,9 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
     private final Context mContext;
     private final OrderSummary mOrderSummary;
     private int selectedPosition = -1;
+    private boolean ivCheckedIsSelected;
+    private boolean samePosition;
+    private ArrayList<Boolean> offerSelected = new ArrayList<>();
 
     public int getSelectedPosition() {
         return selectedPosition;
@@ -38,6 +42,9 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
     public AvailableOffersAdapter(Context context, OrderSummary orderSummary) {
         this.mOrderSummary = orderSummary;
         this.mContext = context;
+        for (int i = 0; i < mOrderSummary.getOfferOrderList().size(); i++) {
+            offerSelected.add(false);
+        }
     }
 
     @Override
@@ -52,23 +59,23 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
         final View view = offerAvailableHolder.itemView;
         OfferOrder offerOrder = mOrderSummary.getOfferOrderList().get(position);
 
-        if (offerOrder.isApplicable()) { //applicable offer
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onViewHolderListener != null) {
-                        onViewHolderListener.onItemClicked(position);
-                    }
+//        if (offerOrder.isApplicable()) { //applicable offer
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onViewHolderListener != null) {
+                    onViewHolderListener.onItemClicked(position);
                 }
-            });
+            }
+        });
+        offerAvailableHolder.tvSave.setText(Utils.costString(mOrderSummary.getOrderActualValueWithOutTax() - offerOrder.getOrderValueWithOutTax()));
 
-            offerAvailableHolder.tvSave.setText("Save " + Utils.costString(mOrderSummary.getOrderActualValueWithOutTax() - offerOrder.getOrderValueWithOutTax()));
-        } else { // not applicable offer
-            offerAvailableHolder.tvHeader.setTextColor(mContext.getResources().getColor(R.color.semi_black_faded));
-            offerAvailableHolder.tvLine12.setTextColor(mContext.getResources().getColor(R.color.semi_black_faded));
-            offerAvailableHolder.ivChecked.setVisibility(View.INVISIBLE);
-            offerAvailableHolder.tvSave.setVisibility(View.INVISIBLE);
-        }
+//        } else { // not applicable offer
+//            offerAvailableHolder.tvHeader.setTextColor(mContext.getResources().getColor(R.color.semi_black_faded));
+//            offerAvailableHolder.tvLine12.setTextColor(mContext.getResources().getColor(R.color.semi_black_faded));
+//            offerAvailableHolder.ivChecked.setVisibility(View.INVISIBLE);
+//            offerAvailableHolder.tvSave.setVisibility(View.INVISIBLE);
+//        }
 
         offerAvailableHolder.tvBucksCount.setText(String.valueOf(offerOrder.getOfferCost()));
         offerAvailableHolder.tvHeader.setText(offerOrder.getHeader());
@@ -110,17 +117,31 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
             offerAvailableHolder.ivChecked.requestLayout();
         }
 
+        samePosition = (selectedPosition == position);
+        ivCheckedIsSelected = offerAvailableHolder.ivChecked.isSelected();
+
+
+        if (selectedPosition != -1)
+            offerSelected.set(selectedPosition, (samePosition & !ivCheckedIsSelected));
+
+        offerAvailableHolder.ivChecked.setSelected((samePosition & !ivCheckedIsSelected));
+/*
+
         if (position == selectedPosition) {
             offerAvailableHolder.ivChecked.setImageResource(R.drawable.checked);
         } else {
             offerAvailableHolder.ivChecked.setImageResource(R.drawable.unchecked);
         }
-
+*/
     }
 
     @Override
     public int getItemCount() {
         return mOrderSummary.getOfferOrderList().size();
+    }
+
+    public ArrayList<Boolean> getOfferSelected() {
+        return offerSelected;
     }
 
     public interface OnViewHolderListener {

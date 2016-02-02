@@ -28,10 +28,12 @@
     <string name="upload_bill">Upload Bill</string>
     <string name="write_to_us">Write to us</string>
     <string name="order_online">Order Online</string>
+    <string name="order_details">Order Details</string>
     <string name="submit_offer">Submit Offer</string>
     <string name="suggest_outlet">Suggest an outlet</string>
     <string name="faq">FAQs</string>
     <string name="profile">Profile</string>
+    <string name="available_offers">Offers Available</string>
 
     <!-- For menu-->
     <string name="search_menu_hint">Search for menu items</string>
@@ -195,7 +197,7 @@ each friend who joins.</p>
 
     <string name="turn_on_gps_desc">Turn On GPS, currently using Last known!</string>
     <string name="fetch_location_again_desc">Fetch Location Again, currently using last known!</string>
-    
+
     <string-array name="tag_titles">
         <item>SORT BY</item>
         <item>CUISINES</item>
@@ -213,7 +215,7 @@ each friend who joins.</p>
     ORDER_DISPATCHED
     ORDER_ASSUMED_DELIVERY
     ORDER_NOT_DELIVERED
-    
+
     <string name="order_assumed_delivery_message">Your Order should have been delivered by </string>
     <string name="order_assumed_delivery_message_failure">No! I haven\'t received it yet.</string>
     <string name="order_assumed_delivery_message_success">Yes! Let me have my cashback.</string>
