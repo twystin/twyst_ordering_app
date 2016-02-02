@@ -18,10 +18,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nispok.snackbar.Snackbar;
-import com.nispok.snackbar.SnackbarManager;
-import com.nispok.snackbar.enums.SnackbarType;
-import com.nispok.snackbar.listeners.ActionClickListener;
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.SimpleArrayAdapter;
 import com.twyst.app.android.model.AddressDetailsLocationData;
@@ -30,7 +26,6 @@ import com.twyst.app.android.model.LocationDetails.LocationsVerified;
 import com.twyst.app.android.model.LocationDetails.LocationsVerify;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.order.Coords;
-import com.twyst.app.android.model.order.OrderSummary;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.LocationFetchUtil;

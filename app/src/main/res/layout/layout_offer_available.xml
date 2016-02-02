@@ -99,6 +99,7 @@
             android:paddingRight="5dp">
 
             <TextView
+                android:id="@+id/save_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"

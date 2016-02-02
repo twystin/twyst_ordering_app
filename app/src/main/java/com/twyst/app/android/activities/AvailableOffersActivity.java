@@ -1,6 +1,5 @@
 package com.twyst.app.android.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,16 +10,12 @@ import android.widget.Toast;
 
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.AvailableOffersAdapter;
-import com.twyst.app.android.adapters.DiscoverOutletAdapter;
 import com.twyst.app.android.model.BaseResponse;
-import com.twyst.app.android.model.Outlet;
 import com.twyst.app.android.model.order.OrderSummary;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
-
-import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -44,8 +39,7 @@ public class AvailableOffersActivity extends AppCompatActivity {
 
         setupToolBar();
         setupOfferRecyclerView();
-
-
+        findViewById(R.id.bApply).setEnabled(false);
     }
 
     private void setupOfferRecyclerView() {
@@ -61,29 +55,10 @@ public class AvailableOffersActivity extends AppCompatActivity {
         mAvailableOffersAdapter.setOnViewHolderListener(new AvailableOffersAdapter.OnViewHolderListener() {
             @Override
             public void onItemClicked(int position) {
-                mAvailableOffersAdapter.setSelectedPosition(position);
-//                Toast.makeText(AvailableOffersActivity.this, "Selected Position is:" + position, Toast.LENGTH_SHORT).show();
-                mAvailableOffersAdapter.notifyDataSetChanged();
-                boolean isOfferSelected = false;
-                for (Boolean b : mAvailableOffersAdapter.getOfferSelected()) {
-                    if (b) {
-                        isOfferSelected = true;
-                        break;
-                    }
-                }
-                if (isOfferSelected) {
-                    findViewById(R.id.bApply).setBackground(getResources().getDrawable(R.drawable.button_red_default));
-                    findViewById(R.id.bApply).setClickable(true);
-                    findViewById(R.id.bApply).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            applyOffer();
-                        }
-                    });
-                    findViewById(R.id.bSkip).setBackground(getResources().getDrawable(R.drawable.button_disabled));
-                    findViewById(R.id.bSkip).setEnabled(false);
-                } else {
-                    findViewById(R.id.bSkip).setBackground(getResources().getDrawable(R.drawable.button_red_default));
+                if (mAvailableOffersAdapter.getSelectedPosition() == position) {
+                    //Already selected, deselect current
+                    mAvailableOffersAdapter.setSelectedPosition(-1);
+
                     findViewById(R.id.bSkip).setEnabled(true);
                     findViewById(R.id.bSkip).setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -91,11 +66,21 @@ public class AvailableOffersActivity extends AppCompatActivity {
                             UtilMethods.goToSummary(AvailableOffersActivity.this, -1, mOrderSummary);
                         }
                     });
-                    // Disable the APPLY button
-                    findViewById(R.id.bApply).setBackground(getResources().getDrawable(R.drawable.button_disabled));
-                    findViewById(R.id.bApply).setClickable(false);
-                }
+                    findViewById(R.id.bApply).setEnabled(false);
+                } else {
+                    //Select current
+                    mAvailableOffersAdapter.setSelectedPosition(position);
 
+                    findViewById(R.id.bApply).setEnabled(true);
+                    findViewById(R.id.bApply).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            applyOffer();
+                        }
+                    });
+                    findViewById(R.id.bSkip).setEnabled(false);
+                }
+                mAvailableOffersAdapter.notifyDataSetChanged();
             }
         });
     }
