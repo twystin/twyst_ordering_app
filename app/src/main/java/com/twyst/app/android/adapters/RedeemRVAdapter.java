@@ -45,6 +45,10 @@ public class RedeemRVAdapter extends RecyclerView.Adapter<RedeemRVAdapter.Redeem
     public void onBindViewHolder(RedeemViewHolder viewHolder, int i) {
         final CardItemRedeem ci = cardItemList.get(i);
         viewHolder.itemText.setText(ci.getTextBelowImage());
+        if(ci.getTextBelowImage().equalsIgnoreCase("coming soon")){
+                        viewHolder.othersTV.setVisibility(View.VISIBLE);
+                        viewHolder.itemImage.setPadding(32,32,32,32);
+                    }
         viewHolder.itemImage.setImageResource(ci.getImageId());
     }
 
@@ -54,11 +58,13 @@ public class RedeemRVAdapter extends RecyclerView.Adapter<RedeemRVAdapter.Redeem
     public static class RedeemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView itemText;
         private ImageView itemImage;
+        private TextView othersTV;
         private View v;
 
         public RedeemViewHolder(View v) {
             super(v);
             v.setOnClickListener(this);
+            othersTV = (TextView) v.findViewById(R.id.tv_others);
             itemImage = (ImageView) v.findViewById(R.id.iv_redeem_grid);
             itemText = (TextView) v.findViewById(R.id.tv_redeem_grid);
         }

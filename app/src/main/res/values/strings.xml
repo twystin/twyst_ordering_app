@@ -34,6 +34,8 @@
     <string name="faq">FAQs</string>
     <string name="profile">Profile</string>
     <string name="available_offers">Offers Available</string>
+    <string name="title_activity_shopping_vouchers">Shopping Vouchers</string>
+    <string name="title_activity_voucher_details">Voucher Details</string>
 
     <!-- For menu-->
     <string name="search_menu_hint">Search for menu items</string>

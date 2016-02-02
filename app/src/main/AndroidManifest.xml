@@ -332,6 +332,22 @@
             android:name=".activities.OrderTrackingActivity"
             android:label="@string/track_order"
             android:screenOrientation="portrait" />
+
+        <!--Redeem Screens-->
+        <activity
+            android:name=".activities.ShoppingVouchersActivity"
+            android:label="@string/title_activity_shopping_vouchers"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.VoucherDetailsActivity"
+            android:label="@string/title_activity_voucher_details"
+            android:theme="@style/AppTheme"></activity>
+
         <!--.
           WakefulBroadcastReceiver that will receive intents from GCM
           services and hand them to the custom IntentService.

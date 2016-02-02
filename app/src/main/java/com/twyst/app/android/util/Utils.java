@@ -209,6 +209,10 @@ public class Utils {
                 imageId = R.drawable.offer_oneplusone;
                 break;
 
+            case AppConstants.OFFER_BUYONEGETONE:
+                imageId = R.drawable.offer_oneplusone;
+                break;
+
             case AppConstants.OFFER_DISCOUNT:
                 imageId = R.drawable.offer_percentage;
                 break;

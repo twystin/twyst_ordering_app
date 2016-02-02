@@ -64,7 +64,7 @@ public class ScrollingOffersAdapter extends PagerAdapter {
         TextView twystBucksTextView = (TextView) itemView.findViewById(R.id.twyst_bucks_textView);
         int twystBucks = mOffersList.get(position).getOfferCost();
         if (twystBucks == 0) {
-            itemView.findViewById(R.id.bucks_layout).setVisibility(View.INVISIBLE);
+            itemView.findViewById(R.id.bucks_layout).setVisibility(View.GONE);
         } else {
             twystBucksTextView.setText(String.valueOf(twystBucks));
         }

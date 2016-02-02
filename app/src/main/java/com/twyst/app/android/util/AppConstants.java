@@ -198,6 +198,7 @@ public class AppConstants {
     public static final String INTENT_OFFER_LIST = "intent_offer_list";
     public static final String INTENT_CLICKED_OFFER_POSITION = "intent_clicked_offer_position";
     public static final String OFFER_BUYXGETY = "buyxgety";
+    public static final String OFFER_BUYONEGETONE = "buyonegetone";
     public static final String OFFER_FREE = "free";
     public static final String OFFER_FLATOFF = "flatoff";
     public static final String OFFER_DISCOUNT = "discount";
