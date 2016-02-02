@@ -77,7 +77,6 @@ public class AvailableOffersActivity extends BaseActivity {
         });
     }
 
-
     private void applyOffer() {
         //if any offer is selected
         if (mAvailableOffersAdapter.getSelectedPosition() >= 0) {
@@ -94,8 +93,9 @@ public class AvailableOffersActivity extends BaseActivity {
 
                         returnOrderSummary.setmCartItemsList(mOrderSummary.getmCartItemsList());
                         returnOrderSummary.setOutletId(mOrderSummary.getOutletId());
+                        returnOrderSummary.setAddressDetailsLocationData(mOrderSummary.getAddressDetailsLocationData());
 
-                        UtilMethods.goToSummary(AvailableOffersActivity.this,freeItemIndex, returnOrderSummary);
+                        UtilMethods.goToSummary(AvailableOffersActivity.this, freeItemIndex, returnOrderSummary);
                     } else {
                         Toast.makeText(AvailableOffersActivity.this, orderSummaryBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -116,16 +116,6 @@ public class AvailableOffersActivity extends BaseActivity {
             Toast.makeText(AvailableOffersActivity.this, "Please select a offer!", Toast.LENGTH_SHORT).show();
         }
     }
-
-//    private void goToSummary(int freeItemIndex, OrderSummary orderSummary) {
-//        Bundle orderSummaryData = new Bundle();
-//        orderSummaryData.putSerializable(AppConstants.INTENT_ORDER_SUMMARY, orderSummary);
-//        orderSummaryData.putInt(AppConstants.INTENT_FREE_ITEM_INDEX, freeItemIndex);
-//
-//        Intent checkOutIntent = new Intent(AvailableOffersActivity.this, OrderSummaryActivity.class);
-//        checkOutIntent.putExtras(orderSummaryData);
-//        startActivity(checkOutIntent);
-//    }
 
     private void setupToolBar() {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
