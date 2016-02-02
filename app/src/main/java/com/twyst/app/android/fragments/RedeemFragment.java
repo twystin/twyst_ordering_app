@@ -24,6 +24,10 @@ import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
  * A simple {@link Fragment} subclass.
  */
 public class RedeemFragment extends Fragment {
+    public static final String REDEEM_FOOD_OFFERS = "FOOD OFFERS";
+    public static final String REDEEM_RECHARGE = "RECHARGE";
+    public static final String REDEEM_SHOPPING = "SHOPPING";
+    public static final String REDEEM_COMING_SOON = "COMING SOON";
 
     private RecyclerView mGridtile;
     private cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager viewPager;
@@ -33,10 +37,10 @@ public class RedeemFragment extends Fragment {
 
     private String[] TextForGrid =
             {
-                    "FOOD OFFERS",
-                    "RECHARGE",
-                    "SHOPPING",
-                    "COMING SOON"
+                    REDEEM_FOOD_OFFERS,
+                    REDEEM_RECHARGE,
+                    REDEEM_SHOPPING,
+                    REDEEM_COMING_SOON
             };
     private int[] imageIds =
             {
@@ -74,7 +78,7 @@ public class RedeemFragment extends Fragment {
     private void setAddsViewPager(View view) {
         viewPager = (AutoScrollViewPager) view.findViewById(R.id.ads_pager);
 
-        viewPager.setAdapter(new ImagePagerAdapter(getContext(), Ints.asList(add_imageIds)));
+        viewPager.setAdapter(new ImagePagerAdapter(getActivity(), Ints.asList(add_imageIds)));
 
         mIndicator = (CirclePageIndicator) view.findViewById(R.id.indicator);
         mIndicator.setViewPager(viewPager);
@@ -96,7 +100,7 @@ public class RedeemFragment extends Fragment {
         GridLayoutManager glmRedeem = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
         mGridtile.setLayoutManager(glmRedeem);
         createList();
-        RedeemRVAdapter adapter = new RedeemRVAdapter(cardItemList);
+        RedeemRVAdapter adapter = new RedeemRVAdapter(getActivity(), cardItemList);
         mGridtile.setAdapter(adapter);
 
 

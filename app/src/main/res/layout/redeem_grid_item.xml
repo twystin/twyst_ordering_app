@@ -38,19 +38,6 @@
                     android:scaleType="fitCenter"
                     android:src="@drawable/outlet" />
 
-                <TextView
-                    android:id="@+id/tv_others"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/iv_redeem_grid"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="8dp"
-                    android:text="others"
-                    android:textAllCaps="true"
-                    android:textColor="@color/black"
-                    android:textSize="8dp"
-                    android:visibility="gone" />
-
             </RelativeLayout>
 
 

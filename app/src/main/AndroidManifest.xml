@@ -337,16 +337,12 @@
         <activity
             android:name=".activities.ShoppingVouchersActivity"
             android:label="@string/title_activity_shopping_vouchers"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme" />
+
         <activity
             android:name=".activities.VoucherDetailsActivity"
             android:label="@string/title_activity_voucher_details"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
 
         <!--.
           WakefulBroadcastReceiver that will receive intents from GCM
