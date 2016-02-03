@@ -117,7 +117,7 @@ public class OrderTrackingState {
 
     private static void addNewStateToList(Context context, String orderIDServer, ArrayList<OrderTrackingState> initialList, OrderTrackingState orderTrackingState) {
         //To be added after time based sorting
-        initialList.add(orderTrackingState);
+        initialList.add(0,orderTrackingState);
         updateListLocally(context, orderIDServer, initialList);
     }
 

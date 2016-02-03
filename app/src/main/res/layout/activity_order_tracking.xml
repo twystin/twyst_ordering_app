@@ -55,10 +55,7 @@
             android:id="@+id/listview_track_order_states"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="16dp"
+            android:layout_margin="10dp"
             android:divider="@android:color/transparent"
             android:dividerHeight="@dimen/layout_wide_margin"
             android:scrollbars="none" />

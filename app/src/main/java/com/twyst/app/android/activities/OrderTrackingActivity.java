@@ -98,7 +98,7 @@ public class OrderTrackingActivity extends BaseActionActivity {
             viewholder.trackOrderStateTime.setText(orderstate.getTime());
             viewholder.trackOrderStateAmOrPm.setText(orderstate.getAmpm());
 
-            boolean isCurrent = (position + 1 == mTrackOrderStatesList.size());
+            boolean isCurrent = (position == 0);
 
             switch (orderstate.getOrderState()) {
                 case OrderTrackingState.STATE_PLACED:
@@ -144,6 +144,11 @@ public class OrderTrackingActivity extends BaseActionActivity {
             }
 
             return row;
+        }
+
+        @Override
+        public int getCount() {
+            return mTrackOrderStatesList.size();
         }
     }
 
