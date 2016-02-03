@@ -96,29 +96,23 @@ public class GcmIntentService extends IntentService {
         String title = extras.getString(OrderTrackingState.TITLE);
         String message = extras.getString(OrderTrackingState.MESSAGE);
 
-        NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        OrderTrackingState.addToList(orderID, state, message, time, this);
 
-        Intent notificationIntent = new Intent(this, OrderTrackingActivity.class);
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-        notificationIntent.putExtra(AppConstants.INTENT_ORDER_ID, orderID);
-
-//        ActivityManager am = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
-//        ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
-//        String ll = "";
-//        String orderTrackingClass = this.getPackageName() + ".activities.OrderTrackingActivity";
-//        if (cn.getClassName().equals(orderTrackingClass)) {
-//            // OrderTrackingActivity in foreground, refresh the list
-//        }
-
+        // If OrderTrackingActivity in foreground, refresh the list
         Activity currentActivity = ((TwystApplication) this.getApplicationContext()).getCurrentActivity();
         if (currentActivity != null) {
             OrderTrackingActivity orderTrackingActivity = (OrderTrackingActivity) currentActivity;
             orderTrackingActivity.refreshList();
         }
 
+        NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent notificationIntent = new Intent(this, OrderTrackingActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        notificationIntent.putExtra(AppConstants.INTENT_ORDER_ID, orderID);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+
         String notificationTitle = TextUtils.isEmpty(title) ? getString(R.string.app_name) : title;
 
         NotificationCompat.Style style = new NotificationCompat.BigTextStyle()

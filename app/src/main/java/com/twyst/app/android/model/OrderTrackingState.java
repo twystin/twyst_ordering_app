@@ -1,6 +1,5 @@
 package com.twyst.app.android.model;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
@@ -18,6 +17,21 @@ import java.util.List;
  * Created by Vipul Sharma on 1/27/2016.
  */
 public class OrderTrackingState {
+    public OrderTrackingState(String time, String ampm, String message, String orderState) {
+        this.time = time;
+        this.ampm = ampm;
+        this.message = message;
+        this.orderState = orderState;
+    }
+
+    private String time;
+    private String ampm;
+    private String message;
+    private String orderState;
+
+
+    public static final String KEY = "key";
+
     // Order fields
     public static final String TIME = "time";
     public static final String ORDER_ID = "order_id";
@@ -40,11 +54,6 @@ public class OrderTrackingState {
     // AMPM time
     public static final String ORDER_TIME_AM = "AM";
     public static final String ORDER_TIME_PM = "PM";
-
-    private String time;
-    private String ampm;
-    private String message;
-    private String orderState;
 
     public String getTime() {
         return time;
@@ -78,37 +87,48 @@ public class OrderTrackingState {
         this.orderState = orderState;
     }
 
-    public static ArrayList<OrderTrackingState> getInitialList(String orderID, Activity activity) {
-        final SharedPreferences sharedPreferences = activity.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
+    public static ArrayList<OrderTrackingState> getInitialList(String orderID, Context context) {
+        final SharedPreferences sharedPreferences = context.getApplicationContext().getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
         ArrayList<OrderTrackingState> trackOrderStatesList = new ArrayList<>();
         String orderTrackingStateListString = sharedPreferences.getString(orderID, "");
 
         if (TextUtils.isEmpty(orderTrackingStateListString)) {
             //List is empty, get the list with default Order State (ORDER_PLACED)
-            trackOrderStatesList.add(getDefaultOrderTrackingState(activity));
+            trackOrderStatesList.add(getDefaultOrderTrackingState(context));
+            if (updateListLocally(context, orderID, trackOrderStatesList)) {
+                return trackOrderStatesList;
+            }
         } else {
             //Ordering states already saved, get the list with previous Ordering States
             Gson gson1 = new Gson();
-            Type type = new TypeToken<List<OrderTrackingState>>() {}.getType();
+            Type type = new TypeToken<List<OrderTrackingState>>() {
+            }.getType();
             trackOrderStatesList = gson1.fromJson(orderTrackingStateListString, type);
         }
 
-        Gson gson = new Gson();
-        String json = gson.toJson(trackOrderStatesList);
-        sharedPreferences.edit().putString(orderID, json);
-        if (sharedPreferences.edit().commit()) {
-            return trackOrderStatesList;
-        }
         return trackOrderStatesList;
     }
 
-    private static OrderTrackingState getDefaultOrderTrackingState(Activity activity) {
-        OrderTrackingState orderTrackingState = new OrderTrackingState();
-        orderTrackingState.setMessage(activity.getResources().getString(R.string.order_placed_message));
-        orderTrackingState.setOrderState(STATE_PLACED);
-        orderTrackingState.setTime("07:30");
-        orderTrackingState.setAmpm(ORDER_TIME_PM);
-        return orderTrackingState;
+    private static OrderTrackingState getDefaultOrderTrackingState(Context context) {
+        return new OrderTrackingState("07:30", ORDER_TIME_PM, context.getResources().getString(R.string.order_placed_message), STATE_PLACED);
+    }
+
+    public static void addToList(String orderIDServer, String stateServer, String messageServer, String timeServer, Context context) {
+        addNewStateToList(context, orderIDServer, getInitialList(orderIDServer, context), new OrderTrackingState(timeServer, ORDER_TIME_PM, messageServer, stateServer));
+    }
+
+    private static void addNewStateToList(Context context, String orderIDServer, ArrayList<OrderTrackingState> initialList, OrderTrackingState orderTrackingState) {
+        //To be added after time based sorting
+        initialList.add(orderTrackingState);
+        updateListLocally(context, orderIDServer, initialList);
+    }
+
+    private static boolean updateListLocally(Context context, String orderIDServer, ArrayList<OrderTrackingState> list) {
+        final SharedPreferences.Editor sharedPreferences = context.getApplicationContext().getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+        sharedPreferences.putString(orderIDServer, json);
+        return sharedPreferences.commit();
     }
 }

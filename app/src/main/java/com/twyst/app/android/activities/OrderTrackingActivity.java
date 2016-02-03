@@ -24,7 +24,7 @@ public class OrderTrackingActivity extends AppCompatActivity {
     private ListView trackOrderStatesListview;
     private ArrayList<OrderTrackingState> mTrackOrderStatesList;
     private TrackOrderStatesAdapter mAdapter;
-
+    String mOrderID;
     protected TwystApplication twystApplication;
 
     @Override
@@ -32,8 +32,8 @@ public class OrderTrackingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_tracking);
 
-        String orderID = getIntent().getExtras().getString(AppConstants.INTENT_ORDER_ID, "");
-        mTrackOrderStatesList = OrderTrackingState.getInitialList(orderID, OrderTrackingActivity.this);
+        mOrderID = getIntent().getExtras().getString(AppConstants.INTENT_ORDER_ID, "");
+        mTrackOrderStatesList = OrderTrackingState.getInitialList(mOrderID, OrderTrackingActivity.this);
 
         setupToolBar();
         trackOrderStatesListview = (ListView) findViewById(R.id.listview_track_order_states);
@@ -53,11 +53,13 @@ public class OrderTrackingActivity extends AppCompatActivity {
         clearReferences();
         super.onPause();
     }
+
     protected void onDestroy() {
         clearReferences();
         super.onDestroy();
     }
-    private void clearReferences(){
+
+    private void clearReferences() {
         Activity currActivity = twystApplication.getCurrentActivity();
         if (currActivity != null && currActivity.equals(this))
             twystApplication.setCurrentActivity(null);
@@ -65,9 +67,17 @@ public class OrderTrackingActivity extends AppCompatActivity {
 
     //Also called by when received notification
     public void refreshList() {
-        if (mAdapter != null) {
-            mAdapter.notifyDataSetChanged();
-        }
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mTrackOrderStatesList = OrderTrackingState.getInitialList(mOrderID, OrderTrackingActivity.this);
+                if (mAdapter != null) {
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
     }
 
     private void setupToolBar() {
