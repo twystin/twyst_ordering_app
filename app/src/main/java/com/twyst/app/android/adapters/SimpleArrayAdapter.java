@@ -56,7 +56,6 @@ public class SimpleArrayAdapter extends ArrayAdapter<AddressDetailsLocationData>
                 }
             });
         }
-
         return row;
     }
 
@@ -75,15 +74,15 @@ public class SimpleArrayAdapter extends ArrayAdapter<AddressDetailsLocationData>
             tagName = (TextView) row.findViewById(R.id.tv_tag_name);
         }
 
-        public void populateFrom(AddressDetailsLocationData addr) {
+        private void populateFrom(AddressDetailsLocationData addr) {
             name.setText(addr.getName());
             address.setText(addr.getAddress());
 
             switch (addr.getTag()) {
-                case "home":
+                case AddressDetailsLocationData.TAG_HOME:
                     tagImage.setImageResource(R.drawable.address_home_enabled);
                     break;
-                case "work":
+                case AddressDetailsLocationData.TAG_WORK:
                     tagImage.setImageResource(R.drawable.address_work_enabled);
                     break;
                 default:

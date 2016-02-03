@@ -35,7 +35,6 @@ public class AddressAddNewActivity extends BaseActionActivity {
     private EditText landmark;
 
     private OrderSummary mOrderSummary;
-
     private AddressDetailsLocationData mNewAddress = new AddressDetailsLocationData();
 
     public void onCreate(Bundle savedInstanceState) {
@@ -60,11 +59,14 @@ public class AddressAddNewActivity extends BaseActionActivity {
         editNeighborhood = (ImageView) findViewById(R.id.edit_image_neighborhood);
         editLandmark = (ImageView) findViewById(R.id.edit_image_landmark);
 
+        //Setting text
+        ((TextView) findViewById(R.id.tv_tag_home)).setText(AddressDetailsLocationData.TAG_HOME);
+        ((TextView) findViewById(R.id.tv_tag_work)).setText(AddressDetailsLocationData.TAG_WORK);
+        ((TextView) findViewById(R.id.tv_tag_other)).setText(AddressDetailsLocationData.TAG_OTHER);
+
         editNeighborhood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                neighborhood.setEnabled(true);
-//                neighborhood.setSelected(true);
                 neighborhood.setCursorVisible(true);
                 neighborhood.requestFocus();
             }
@@ -73,8 +75,6 @@ public class AddressAddNewActivity extends BaseActionActivity {
         editLandmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                landmark.setEnabled(true);
-//                landmark.setSelected(true);
                 landmark.setCursorVisible(true);
                 landmark.requestFocus();
             }
@@ -114,7 +114,6 @@ public class AddressAddNewActivity extends BaseActionActivity {
             }
         });
 
-
 //        Boolean setUpMap = getIntent().getBooleanExtra(AppConstants.MAP_TO_BE_SHOWN, false);
 //        if (setUpMap) {
 //            Intent intent = new Intent(AddressAddNewActivity.this, AddressMapActivity.class);
@@ -125,7 +124,6 @@ public class AddressAddNewActivity extends BaseActionActivity {
         setTextLocationFetch(mNewAddress);
         ((LinearLayout) findViewById(R.id.linlay_add_address)).setVisibility(View.VISIBLE);
 //        }
-
 
         final TextView tvProceed = (TextView) findViewById(R.id.tvProceed);
         tvProceed.getViewTreeObserver()
@@ -157,9 +155,9 @@ public class AddressAddNewActivity extends BaseActionActivity {
                     mNewAddress.setAddress(address.getText().toString());
                     mNewAddress.setLandmark(landmark.getText().toString());
                     if (homeTag.isSelected()) {
-                        mNewAddress.setTag("Home");
+                        mNewAddress.setTag(AddressDetailsLocationData.TAG_HOME);
                     } else if (workTag.isSelected()) {
-                        mNewAddress.setTag("Work");
+                        mNewAddress.setTag(AddressDetailsLocationData.TAG_WORK);
                     } else {
                         mNewAddress.setTag(((EditText) findViewById(R.id.editView_other_tag)).getText().toString());
                     }
@@ -173,7 +171,6 @@ public class AddressAddNewActivity extends BaseActionActivity {
                 }
             }
         });
-
     }
 
     private void updateOrderSummaryAndCheckout(AddressDetailsLocationData mNewAddress) {
@@ -183,7 +180,6 @@ public class AddressAddNewActivity extends BaseActionActivity {
 
     private void checkOut() {
         Intent checkOutIntent;
-
         if (mOrderSummary.getOfferOrderList().size() > 0) {
             checkOutIntent = new Intent(AddressAddNewActivity.this, AvailableOffersActivity.class);
         } else {
@@ -217,7 +213,6 @@ public class AddressAddNewActivity extends BaseActionActivity {
             if (resultCode == RESULT_OK) {
                 Bundle extras = data.getExtras();
                 AddressDetailsLocationData locationData = (AddressDetailsLocationData) extras.getSerializable("locationData");
-                Toast.makeText(AddressAddNewActivity.this, locationData.getAddress(), Toast.LENGTH_LONG);
                 if (locationData != null) {
                     mNewAddress = locationData;
                     setTextLocationFetch(locationData);
@@ -232,7 +227,6 @@ public class AddressAddNewActivity extends BaseActionActivity {
         address.setText(locationData.getAddress());
         neighborhood.setText(locationData.getNeighborhood());
         landmark.setText(locationData.getLandmark());
-        Toast.makeText(AddressAddNewActivity.this, locationData.getAddress(), Toast.LENGTH_LONG);
     }
 
 }

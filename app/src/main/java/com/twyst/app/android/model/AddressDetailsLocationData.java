@@ -10,6 +10,10 @@ import java.io.Serializable;
  * Created by Vipul Sharma on 1/8/2016.
  */
 public class AddressDetailsLocationData implements Serializable {
+    public final static String TAG_HOME = "Home";
+    public final static String TAG_WORK = "Work";
+    public final static String TAG_OTHER = "Other";
+
     @SerializedName("line1")
     private String address;
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <include
         android:id="@+id/toolbar"
@@ -151,12 +151,12 @@
                         android:src="@drawable/address_home_disabled" />
 
                     <TextView
+                        android:id="@+id/tv_tag_home"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_below="@id/add_address_home_tag"
                         android:paddingTop="@dimen/address_layout_vertical_small_margin"
-                        android:text="Home"
                         android:textColor="@color/black_38"
                         android:textSize="@dimen/address_medium_text_size" />
 
@@ -169,12 +169,12 @@
                         android:src="@drawable/address_home_disabled" />
 
                     <TextView
+                        android:id="@+id/tv_tag_work"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/add_address_work_tag"
                         android:layout_centerHorizontal="true"
                         android:paddingTop="@dimen/address_layout_vertical_small_margin"
-                        android:text="Work"
                         android:textColor="@color/black_38"
                         android:textSize="@dimen/address_medium_text_size" />
 
@@ -187,15 +187,14 @@
                         android:src="@drawable/address_location_disabled" />
 
                     <TextView
+                        android:id="@+id/tv_tag_other"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_below="@id/add_address_other_tag"
                         android:paddingTop="@dimen/address_layout_vertical_small_margin"
-                        android:text="Other"
                         android:textColor="@color/black_38"
                         android:textSize="@dimen/address_medium_text_size" />
-
                 </RelativeLayout>
 
                 <EditText
@@ -220,19 +219,19 @@
         android:id="@+id/proceed_address_new"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:padding="10dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/button_red"
+        android:padding="10dp"
         app:mrl_rippleOverlay="true">
 
         <TextView
             android:id="@+id/tvProceed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PROCEED"
-            android:focusable="false"
-            android:drawablePadding="10dp"
             android:layout_gravity="right|center_vertical"
+            android:drawablePadding="10dp"
+            android:focusable="false"
+            android:text="PROCEED"
             android:textColor="@android:color/white"
             android:textSize="20dp" />
     </com.balysv.materialripple.MaterialRippleLayout>

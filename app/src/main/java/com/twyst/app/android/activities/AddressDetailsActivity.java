@@ -90,90 +90,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
                 UtilMethods.checkOut(false, addressDetailsLocationData, mCartItemsList, mOutletId, AddressDetailsActivity.this);
             }
         });
-
     }
-
-//    private void checkOut(final AddressDetailsLocationData addressDetailsLocationData) {
-//        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
-//        final OrderSummary orderSummary = new OrderSummary(mCartItemsList, mOutletId, addressDetailsLocationData.getCoords());
-//        HttpService.getInstance().postOrderVerify(getUserToken(), orderSummary, new Callback<BaseResponse<OrderSummary>>() {
-//            @Override
-//            public void success(BaseResponse<OrderSummary> orderSummaryBaseResponse, Response response) {
-//                if (orderSummaryBaseResponse.isResponse()) {
-//                    OrderSummary returnOrderSummary = orderSummaryBaseResponse.getData();
-//                    Intent checkOutIntent;
-//                    returnOrderSummary.setmCartItemsList(mCartItemsList);
-//                    returnOrderSummary.setOutletId(orderSummary.getOutletId());
-//                    returnOrderSummary.setAddressDetailsLocationData(addressDetailsLocationData);
-//
-//                    if (returnOrderSummary.getOfferOrderList().size() > 0) {
-//                        checkOutIntent = new Intent(AddressDetailsActivity.this, AvailableOffersActivity.class);
-//                    } else {
-//                        checkOutIntent = new Intent(AddressDetailsActivity.this, OrderSummaryActivity.class);
-//                    }
-//
-//                    Bundle orderSummaryData = new Bundle();
-//                    orderSummaryData.putSerializable(AppConstants.INTENT_ORDER_SUMMARY, returnOrderSummary);
-//                    checkOutIntent.putExtras(orderSummaryData);
-//                    startActivity(checkOutIntent);
-//                } else {
-//                    Toast.makeText(AddressDetailsActivity.this, orderSummaryBaseResponse.getMessage(), Toast.LENGTH_LONG).show();
-//                }
-//
-//                twystProgressHUD.dismiss();
-//                hideSnackbar();
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                twystProgressHUD.dismiss();
-//                handleRetrofitError(error);
-//                hideSnackbar();
-//            }
-//        });
-//    }
-
-//    private void checkCurrentDeliverableAndProceed() {
-//        ArrayList<Coords> currentCoordsList = new ArrayList<>();
-//        currentCoordsList.add(mAddressDetailsLocationData.getCoords());
-//
-//        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
-//        LocationsVerify locationsVerify = new LocationsVerify(mOutletId, currentCoordsList);
-//        HttpService.getInstance().postLocationsVerify(locationsVerify, new Callback<BaseResponse<ArrayList<LocationsVerified>>>() {
-//            @Override
-//            public void success(BaseResponse<ArrayList<LocationsVerified>> baseResponse, Response response) {
-//                if (baseResponse.isResponse()) {
-//                    ArrayList<LocationsVerified> locationsVerifiedList = baseResponse.getData();
-//                    if (locationsVerifiedList.get(0) != null && locationsVerifiedList.get(0).isDeliverable()) {
-//                        Intent intent = new Intent(AddressDetailsActivity.this, AddressAddNewActivity.class);
-//                        Bundle addressDetailsBundle = getIntent().getExtras();
-//                        addressDetailsBundle.putBoolean(AppConstants.MAP_TO_BE_SHOWN, false);
-//                        addressDetailsBundle.putSerializable(AppConstants.DATA_TO_BE_SHOWN, mAddressDetailsLocationData);
-//                        intent.putExtras(addressDetailsBundle);
-//                        startActivity(intent);
-//                        finish();
-//
-//                    } else {
-//                        Toast.makeText(AddressDetailsActivity.this, "Outlet doesn't deliver at this location!", Toast.LENGTH_LONG).show();
-//                    }
-//                } else {
-//                    Toast.makeText(AddressDetailsActivity.this, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();
-//                }
-//
-//                twystProgressHUD.dismiss();
-//                hideSnackbar();
-//
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                twystProgressHUD.dismiss();
-//                handleRetrofitError(error);
-//                hideSnackbar();
-//            }
-//        });
-//
-//    }
 
     private void setup() {
         // Add new Address related code
@@ -214,7 +131,6 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
                 fetchCurrentLocation();
             }
         });
-
         mLocationFetchAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
