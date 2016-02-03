@@ -108,8 +108,6 @@ import retrofit.client.Response;
  * Created by anshul on 1/18/2016.
  */
 public class PreMainActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

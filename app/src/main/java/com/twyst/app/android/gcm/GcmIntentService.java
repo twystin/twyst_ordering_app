@@ -110,6 +110,7 @@ public class GcmIntentService extends IntentService {
         Intent notificationIntent = new Intent(this, OrderTrackingActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        notificationIntent.putExtra(AppConstants.INTENT_PARAM_FROM_PUSH_NOTIFICATION_CLICKED, true);
         notificationIntent.putExtra(AppConstants.INTENT_ORDER_ID, orderID);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 

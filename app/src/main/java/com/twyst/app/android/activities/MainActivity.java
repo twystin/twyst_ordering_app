@@ -1,9 +1,7 @@
 package com.twyst.app.android.activities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -20,7 +18,6 @@ import com.twyst.app.android.util.AppConstants;
  * Created by Anshul on 1/14/2016.
  */
 public class MainActivity extends BaseActivity {
-
     protected boolean search;
     private DiscoverOutletFragment outletsFragment;
 
@@ -53,7 +50,6 @@ public class MainActivity extends BaseActivity {
 
             }
         });
-
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -110,10 +106,4 @@ public class MainActivity extends BaseActivity {
     private String createJsonObject() {
         return "[{\"_id\":\"5602e407d7ffbaef7ac31701\",\"name\":\"The Club Chemistry\",\"city\":\"Gurgaon\",\"address\":\"Ground Floor , Grand Mall,MG Road Gurgaon\",\"locality_1\":\"Grand Mall\",\"locality_2\":\"MG Road\",\"lat\":28.480004,\"long\":77.090141,\"distance\":1.2,\"open\":true,\"phone\":\"9999039301\",\"rating\":\"3.0\",\"offers\":[{\"_id\":\"560f6c55c2b4deab91b06eb7\",\"header\":\"Unlimited\",\"line1\":\"IMFL + 2 Starters\",\"line2\":\"at Rs. 1499\",\"description\":\"\",\"terms\":\"Couples Only \\nValid for 2.5 Hours\",\"type\":\"offer\",\"meta\":{\"conditions\":\"1499\",\"item\":\"IMFL + 2 Starters\",\"reward_type\":\"unlimited\"},\"expiry\":\"2015-12-30T18:30:00.000Z\",\"offer_likes\":0,\"is_like\":false,\"available_now\":true,\"offer_cost\":100},{\"_id\":\"560f6c56c2b4deab91b06eb8\",\"header\":\"Unlimited\",\"line1\":\"IMFL\",\"line2\":\"at Rs. 899\",\"description\":\"\",\"terms\":\"Valid Per Person\\nTaxes Extra\",\"type\":\"offer\",\"meta\":{\"conditions\":\"899\",\"item\":\"IMFL\",\"reward_type\":\"unlimited\"},\"expiry\":\"2015-12-30T18:30:00.000Z\",\"offer_likes\":0,\"is_like\":false,\"available_now\":true,\"offer_cost\":100},{\"_id\":\"560f6c56c2b4deab91b06eb9\",\"header\":\"Unlimited\",\"line1\":\"IMFL\",\"line2\":\"at Rs. 3999\",\"description\":\"\",\"terms\":\"Valid for a Table of Maximum 5 People\\nValid for 2.5 Hours\\nTaxes Extra\",\"type\":\"offer\",\"meta\":{\"conditions\":\"3999\",\"item\":\"IMFL\",\"reward_type\":\"unlimited\"},\"expiry\":\"2015-12-30T18:30:00.000Z\",\"offer_likes\":0,\"is_like\":false,\"available_now\":true,\"offer_cost\":100},{\"_id\":\"560f6c56c2b4deab91b06eba\",\"header\":\"Combo\",\"line1\":\"8 IMFL/Domestic + 2 Starters\",\"line2\":\"for Rs. 899\",\"description\":\"\",\"terms\":\"Taxes Extra\",\"type\":\"offer\",\"meta\":{\"_for\":899,\"items\":\"8 IMFL/Domestic + 2 Starters\",\"reward_type\":\"combo\"},\"expiry\":\"2015-12-30T18:30:00.000Z\",\"offer_likes\":0,\"is_like\":false,\"available_now\":true,\"offer_cost\":100},{\"_id\":\"560f6c57c2b4deab91b06ebb\",\"header\":\"Combo\",\"line1\":\"2 Starters + 2 Main Course + 6 IMFL\",\"line2\":\"for Rs. 1099\",\"description\":\"\",\"terms\":\"Taxes Extra\",\"type\":\"offer\",\"meta\":{\"_for\":1099,\"items\":\"2 Starters + 2 Main Course + 6 IMFL\",\"reward_type\":\"combo\"},\"expiry\":\"2015-12-30T18:30:00.000Z\",\"offer_likes\":0,\"is_like\":false,\"available_now\":true,\"offer_cost\":100},{\"_id\":\"560f6c57c2b4deab91b06ebc\",\"header\":\"Unlimited\",\"line1\":\"IMFL +  Starters ( Any 3 Veg/Chicken)\",\"line2\":\"at Rs. 1599\",\"description\":\"\",\"terms\":\"Taxes Extra\\nCouples Only\\nValid for 2.5 Hours\",\"type\":\"offer\",\"meta\":{\"conditions\":\"1599\",\"item\":\"IMFL +  Starters ( Any 3 Veg/Chicken)\",\"reward_type\":\"unlimited\"},\"expiry\":\"2015-12-30T18:30:00.000Z\",\"offer_likes\":0,\"is_like\":false,\"available_now\":true,\"offer_cost\":100}],\"following\":false,\"logo\":\"https://s3-us-west-2.amazonaws.com/retwyst-merchants/retwyst-outlets/5602e407d7ffbaef7ac31701/logo\",\"background\":\"https://s3-us-west-2.amazonaws.com/retwyst-merchants/retwyst-outlets/5602e407d7ffbaef7ac31701/background\",\"open_next\":{\"time\":\"1:00 PM\",\"day\":\"Tomorrow\"}},{\"_id\":\"5602f1add7ffbaef7ac31746\",\"name\":\"S Bar Club and Lounge\",\"city\":\"Gurgaon\",\"address\":\"Lower Ground Floor, 1,2,3,4 . Grand Mall ,MG Road ,Gurgaon\",\"locality_1\":\"Grand Mall\",\"locality_2\":\"MG Road\",\"lat\":28.480004,\"long\":77.090141,\"distance\":1.2,\"open\":true,\"phone\":\"01244108006\",\"rating\":\"4.0\",\"offers\":[{\"_id\":\"560f6c57c2b4deab91b06ebd\",\"header\":\"Combo\",\"line1\":\"4 Domestic Beer/IMFL(30ML) + 2 Starters (Veg+Chicken)\",\"line2\":\"for Rs. 799\",\"description\":\"\",\"terms\":\"Valid For 2\\nTaxes Extra\",\"type\":\"offer\",\"meta\":{\"reward_type\":\"combo\",\"items\":\"4 Domestic Beer/IMFL(30ML) + 2 Starters (Veg+Chicken)\",\"_for\":799},\"expiry\":\"2015-12-30T18:30:00.000Z\",\"offer_likes\":1,\"is_like\":false,\"available_now\":true,\"offer_cost\":100},{\"_id\":\"560f6c57c2b4deab91b06ebe\",\"header\":\"Combo\",\"line1\":\"8 Domestic Beer/IMFL (30ML) + 2 Starters (Veg/Chicken)\",\"line2\":\"for Rs. 1099\",\"description\":\"\",\"terms\":\"Taxes Extra\",\"type\":\"offer\",\"meta\":{\"reward_type\":\"combo\",\"items\":\"8 Domestic Beer/IMFL (30ML) + 2 Starters (Veg/Chicken)\",\"_for\":1099},\"expiry\":\"2015-12-30T18:30:00.000Z\",\"offer_likes\":0,\"is_like\":false,\"available_now\":true,\"offer_cost\":100},{\"_id\":\"560f6c58c2b4deab91b06ebf\",\"header\":\"Unlimited\",\"line1\":\"IMFL + 2 Starters (Veg/Chicken)\",\"line2\":\"at Rs. 1499\",\"description\":\"\",\"terms\":\"Taxes Extra\\nCouples Only\\n3 Hours of Service\",\"type\":\"offer\",\"meta\":{\"reward_type\":\"unlimited\",\"item\":\"IMFL + 2 Starters (Veg/Chicken)\",\"conditions\":\"1499\"},\"expiry\":\"2015-12-30T18:30:00.000Z\",\"offer_likes\":0,\"is_like\":false,\"available_now\":true,\"offer_cost\":100},{\"_id\":\"560f6c58c2b4deab91b06ec0\",\"header\":\"Combo\",\"line1\":\"2 Domestic Beer/IMFL(30 ML) + 1 Starter\",\"line2\":\"for Rs. 349\",\"description\":\"\",\"terms\":\"For 1 Person\\nTaxes Extra\",\"type\":\"offer\",\"meta\":{\"reward_type\":\"combo\",\"items\":\"2 Domestic Beer/IMFL(30 ML) + 1 Starter\",\"_for\":349},\"expiry\":\"2015-12-30T18:30:00.000Z\",\"offer_likes\":0,\"is_like\":false,\"available_now\":true,\"offer_cost\":100},{\"_id\":\"560f6c58c2b4deab91b06ec1\",\"header\":\"Unlimited\",\"line1\":\"2 Domestic Beer/ IMFL(30 ML) + 3 Starters(Veg/NVeg)\",\"line2\":\"at Rs. 899/999\",\"description\":\"\",\"terms\":\"Taxes Extra\\nApplicable Per Person\",\"type\":\"offer\",\"meta\":{\"reward_type\":\"unlimited\",\"item\":\"2 Domestic Beer/ IMFL(30 ML) + 3 Starters(Veg/NVeg)\",\"conditions\":\"899/999\"},\"expiry\":\"2015-12-30T18:30:00.000Z\",\"offer_likes\":0,\"is_like\":false,\"available_now\":true,\"offer_cost\":100}],\"following\":false,\"logo\":\"https://s3-us-west-2.amazonaws.com/retwyst-merchants/retwyst-outlets/5602f1add7ffbaef7ac31746/logo\",\"background\":\"https://s3-us-west-2.amazonaws.com/retwyst-merchants/retwyst-outlets/5602f1add7ffbaef7ac31746/background\",\"open_next\":{\"time\":\"12:00 PM\",\"day\":\"Tomorrow\"}}]";
     }
-
-    public String getUserToken() {
-        SharedPreferences prefs = this.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        return prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");
-    }
-
 }

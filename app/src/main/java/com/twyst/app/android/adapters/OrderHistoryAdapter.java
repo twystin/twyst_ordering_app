@@ -98,6 +98,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     private void trackOrder(OrderHistory orderHistory) {
         Intent orderTrackingIntent = new Intent(mContext, OrderTrackingActivity.class);
         orderTrackingIntent.putExtra(AppConstants.INTENT_ORDER_ID, orderHistory.getOrderID());
+        orderTrackingIntent.putExtra(AppConstants.INTENT_PARAM_FROM_ORDER_HISTORY, true);
         orderTrackingIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         mContext.startActivity(orderTrackingIntent);

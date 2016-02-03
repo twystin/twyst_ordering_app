@@ -1,6 +1,7 @@
 package com.twyst.app.android.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +21,7 @@ import com.twyst.app.android.util.AppConstants;
 
 import java.util.ArrayList;
 
-public class OrderTrackingActivity extends AppCompatActivity {
+public class OrderTrackingActivity extends BaseActionActivity {
     private ListView trackOrderStatesListview;
     private ArrayList<OrderTrackingState> mTrackOrderStatesList;
     private TrackOrderStatesAdapter mAdapter;
@@ -78,18 +79,6 @@ public class OrderTrackingActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private void setupToolBar() {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
     }
 
     class TrackOrderStatesAdapter extends ArrayAdapter<OrderTrackingState> {
@@ -156,6 +145,18 @@ public class OrderTrackingActivity extends AppCompatActivity {
 
             return row;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!getIntent().getBooleanExtra(AppConstants.INTENT_PARAM_FROM_ORDER_HISTORY, false)) {
+            Intent intent = new Intent(OrderTrackingActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_CURRENT);
+            startActivity(intent);
+        }
+        super.onBackPressed();
     }
 
     static class TrackOrderStateViewholder {

@@ -54,9 +54,7 @@ import retrofit.client.Response;
  * Created by anshul on 1/12/2016.
  */
 public class DiscoverOutletFragment extends Fragment implements LocationFetchUtil.LocationFetchResultCodeListener {
-
     private DiscoverOutletAdapter discoverAdapter;
-
     private RecyclerView mRecyclerView;
 
     private String mDate;
@@ -91,7 +89,6 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.discover_outlet_fragment, container, false);
 
-
         mRecyclerView = (RecyclerView) view.findViewById(R.id.outletRecyclerView);
         mRecyclerView.setHasFixedSize(true);
 
@@ -109,7 +106,6 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
         mIndicator = (CirclePageIndicator) view.findViewById(R.id.indicator);
         mIndicator.setViewPager(viewPager);
         mIndicator.setOnPageChangeListener(new MyOnPageChangeListener());
-
 
         viewPager.setInterval(2000);
         viewPager.startAutoScroll();
@@ -204,7 +200,6 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
                     }
                 }
 
-
                 Toast.makeText(getActivity(), tags.toString(), Toast.LENGTH_LONG).show();
                 if (tags.size() > 0) {
 
@@ -256,7 +251,6 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
             currentAddressName.setText("Unnamed Address");
             fetchOutlets(1);
         }
-
     }
 
     @Override
@@ -274,7 +268,6 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
     }
 
     public void resolveError(int resultCode) {
-
         mAddressDetailsLocationData = sharedPreferenceAddress.getLastUsedLocation(getActivity());
 
         if (mAddressDetailsLocationData == null) {
@@ -300,7 +293,6 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
 
 
     public class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
-
         @Override
         public void onPageSelected(int position) {
         }
@@ -316,7 +308,6 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
 
 
     private void setupDiscoverAdapter() {
-
         discoverAdapter = new DiscoverOutletAdapter();
         discoverAdapter.setmContext(getActivity());
         mRecyclerView.setAdapter(discoverAdapter);
@@ -369,9 +360,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
                 mActivity.handleRetrofitError(error);
             }
         });
-
     }
-
 
     private ArrayList<Outlet> fetchOutletsWithFilters() {
         ArrayList<Outlet> filteredOutlets = new ArrayList<>();
