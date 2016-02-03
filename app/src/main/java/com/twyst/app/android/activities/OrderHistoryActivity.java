@@ -39,7 +39,6 @@ public class OrderHistoryActivity extends BaseActivity {
         OrderHistory[] orderHistoriesArray = gson.fromJson(historyString, OrderHistory[].class);
         ArrayList<OrderHistory> orderHistoryList = new ArrayList<>(Arrays.asList(orderHistoriesArray));
 
-
         RecyclerView myOrdersRecyclerView = (RecyclerView) findViewById(R.id.my_orders_recyclerView);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(OrderHistoryActivity.this, LinearLayoutManager.VERTICAL, false);

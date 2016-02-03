@@ -10,7 +10,9 @@ import com.twyst.app.android.R;
 import com.twyst.app.android.util.AppConstants;
 
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,7 +21,7 @@ import java.util.List;
 public class OrderTrackingState {
     public OrderTrackingState(String time, String ampm, String message, String orderState) {
         this.time = time;
-        this.ampm = ampm;
+        this.ampm = ampm.toUpperCase();
         this.message = message;
         this.orderState = orderState;
     }
@@ -28,9 +30,6 @@ public class OrderTrackingState {
     private String ampm;
     private String message;
     private String orderState;
-
-
-    public static final String KEY = "key";
 
     // Order fields
     public static final String TIME = "time";
@@ -50,10 +49,6 @@ public class OrderTrackingState {
     public static final String STATE_ABANDONED = "ABANDONED";
     public static final String STATE_DELIVERED = "DELIVERED";
     public static final String STATE_DEFAULT = "DEFAULT";
-
-    // AMPM time
-    public static final String ORDER_TIME_AM = "AM";
-    public static final String ORDER_TIME_PM = "PM";
 
     public String getTime() {
         return time;
@@ -111,11 +106,13 @@ public class OrderTrackingState {
     }
 
     private static OrderTrackingState getDefaultOrderTrackingState(Context context) {
-        return new OrderTrackingState("07:30", ORDER_TIME_PM, context.getResources().getString(R.string.order_placed_message), STATE_PLACED);
+        String[] timeArray = getTimeArray(new Date());
+        return new OrderTrackingState(timeArray[0], timeArray[1], context.getResources().getString(R.string.order_placed_message), STATE_PLACED);
     }
 
     public static void addToList(String orderIDServer, String stateServer, String messageServer, String timeServer, Context context) {
-        addNewStateToList(context, orderIDServer, getInitialList(orderIDServer, context), new OrderTrackingState(timeServer, ORDER_TIME_PM, messageServer, stateServer));
+        String[] timeArray = getTimeArray(new Date(Long.parseLong(timeServer)));
+        addNewStateToList(context, orderIDServer, getInitialList(orderIDServer, context), new OrderTrackingState(timeArray[0], timeArray[1], messageServer, stateServer));
     }
 
     private static void addNewStateToList(Context context, String orderIDServer, ArrayList<OrderTrackingState> initialList, OrderTrackingState orderTrackingState) {
@@ -130,5 +127,11 @@ public class OrderTrackingState {
         String json = gson.toJson(list);
         sharedPreferences.putString(orderIDServer, json);
         return sharedPreferences.commit();
+    }
+
+    private static String[] getTimeArray(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+        String formattedDate = dateFormat.format(date).toString();
+        return formattedDate.split("\\s+");
     }
 }

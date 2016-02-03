@@ -105,10 +105,14 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     }
 
     private boolean isTrackable(String orderStatus) {
-        switch (orderStatus) {
-            case "checkout":
+        switch (orderStatus.toUpperCase()) {
+            case "CHECKOUT":
                 return false;
-            case "payment_failed":
+            case "PAYMENT_FAILED":
+                return false;
+            case "REJECTED":
+                return false;
+            case "DELIVERED":
                 return false;
         }
         return true;
