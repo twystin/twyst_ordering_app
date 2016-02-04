@@ -7,25 +7,22 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.twyst.app.android.R;
-import com.twyst.app.android.adapters.VoucherDetailsAdapter;
+import com.twyst.app.android.adapters.FoodVouchersAdapter;
 
 import java.util.ArrayList;
 
-public class VoucherDetailsActivity extends BaseActionActivity {
+public class FoodVouchersActivity extends BaseActionActivity {
     ArrayList<MyData> myDataList = new ArrayList<MyData>();
-    MyData data1 = new MyData("250", "75");
-    MyData data2 = new MyData("200", "175");
-    MyData data3 = new MyData("300", "200");
-    MyData data4 = new MyData("550", "125");
-    MyData data5 = new MyData("250", "135");
-    MyData data6 = new MyData("250", "135");
-    MyData data7 = new MyData("250", "135");
-    MyData data8 = new MyData("250", "135");
+    MyData data1 = new MyData("La Pino'z Pizza", "75");
+    MyData data2 = new MyData("Biryani Blues", "175");
+    MyData data3 = new MyData("Beyond Breads", "200");
+    MyData data4 = new MyData("Chaayos", "125");
+    MyData data5 = new MyData("New York Slice", "135");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_voucher_details);
+        setContentView(R.layout.activity_food_vouchers);
 
         setupToolBar();
 
@@ -34,21 +31,16 @@ public class VoucherDetailsActivity extends BaseActionActivity {
         myDataList.add(data3);
         myDataList.add(data4);
         myDataList.add(data5);
-        myDataList.add(data6);
-        myDataList.add(data7);
-        myDataList.add(data8);
-        showVouchers(myDataList);
+        showFoodVouchers(myDataList);
     }
 
-    private void showVouchers(ArrayList<MyData> list) {
-        RecyclerView vouchersRV = (RecyclerView) findViewById(R.id.rv_voucher_details);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(VoucherDetailsActivity.this, LinearLayoutManager.VERTICAL, false);
-        vouchersRV.setLayoutManager(mLayoutManager);
-
-        VoucherDetailsAdapter mVoucherDetailsAdapter = new VoucherDetailsAdapter(VoucherDetailsActivity.this, list);
-        vouchersRV.setAdapter(mVoucherDetailsAdapter);
+    private void showFoodVouchers(ArrayList<MyData> myDataList) {
+        RecyclerView foodVouchersRV = (RecyclerView) findViewById(R.id.rv_food_vouchers);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(FoodVouchersActivity.this, LinearLayoutManager.VERTICAL, false);
+        foodVouchersRV.setLayoutManager(mLayoutManager);
+        FoodVouchersAdapter mFoodVouchersAdapter = new FoodVouchersAdapter(FoodVouchersActivity.this, myDataList);
+        foodVouchersRV.setAdapter(mFoodVouchersAdapter);
     }
-
 
     public class MyData {
         private String amount1;

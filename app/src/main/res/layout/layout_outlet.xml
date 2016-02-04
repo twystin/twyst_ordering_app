@@ -14,7 +14,6 @@
         android:layout_gravity="center"
         android:elevation="8dp"
         android:padding="4dp"
-        card_view:cardCornerRadius="4dp"
         card_view:cardUseCompatPadding="true">
 
         <LinearLayout

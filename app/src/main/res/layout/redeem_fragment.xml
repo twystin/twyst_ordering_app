@@ -82,10 +82,10 @@
             android:background="@color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingBottom="@dimen/layout_medium_margin"
-            android:paddingLeft="@dimen/layout_wide_margin"
-            android:paddingRight="@dimen/layout_wide_margin"
-            android:paddingTop="@dimen/layout_medium_margin">
+            android:paddingBottom="@dimen/layout_huge_margin"
+            android:paddingLeft="@dimen/layout_huge_margin"
+            android:paddingRight="@dimen/layout_huge_margin"
+            android:paddingTop="@dimen/layout_huge_margin">
 
             <ImageView
                 android:layout_width="@dimen/layout_huge_margin"
@@ -120,6 +120,7 @@
             <ImageView
                 android:layout_width="@dimen/layout_huge_margin"
                 android:layout_height="@dimen/layout_huge_margin"
+                android:layout_gravity="center_vertical"
                 android:src="@drawable/collapsed" />
 
         </LinearLayout>

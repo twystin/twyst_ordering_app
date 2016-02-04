@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.twyst.app.android.R;
+import com.twyst.app.android.activities.FoodVouchersActivity;
 import com.twyst.app.android.activities.ShoppingVouchersActivity;
 import com.twyst.app.android.fragments.RedeemFragment;
 
@@ -65,6 +66,8 @@ public class RedeemRVAdapter extends RecyclerView.Adapter<RedeemRVAdapter.Redeem
 
             switch (text) {
                 case RedeemFragment.REDEEM_FOOD_OFFERS:
+                    Intent foodOffersIntent = new Intent(view.getContext(), FoodVouchersActivity.class);
+                    view.getContext().startActivity(foodOffersIntent);
                     break;
                 case RedeemFragment.REDEEM_RECHARGE:
                     break;

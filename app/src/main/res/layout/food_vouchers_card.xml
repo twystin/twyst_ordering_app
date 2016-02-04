@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="2dp">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/food_vouchers_CV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@android:color/white"
+        android:elevation="8dp"
+        android:padding="4dp"
+        card_view:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
+
+                <TextView
+                    android:id="@+id/tv_header_food_vouchers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="La Pino'z Pizza"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/background_grey"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10% off on your bill"
+                    android:textColor="@android:color/black"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Maximum discount of Rs.100"
+                    android:textColor="@color/text_grey"
+                    android:textSize="10dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cost:"
+                        android:textColor="@android:color/black"
+                        android:textSize="12dp" />
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="12dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:background="@drawable/twystbucksicon" />
+
+                    <TextView
+                        android:id="@+id/tv_twystbucks_food_voucher"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="2dp"
+                        android:text="75"
+                        android:textColor="@android:color/black"
+                        android:textSize="12dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Twyst Bucks"
+                        android:textColor="@android:color/black"
+                        android:textSize="12dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="2dp"
+                        android:background="@drawable/clock_orange" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Valid till 28 Feb"
+                        android:textColor="@color/text_grey"
+                        android:textSize="10dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:id="@+id/button_terms"
+                        android:layout_width="0dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        app:mrl_rippleOverlay="true">
+
+                        <TextView
+                            android:id="@+id/tv_terms"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/border_rounded_black"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:paddingBottom="@dimen/layout_medium_margin"
+                            android:paddingLeft="@dimen/layout_medium_margin"
+                            android:paddingRight="@dimen/layout_medium_margin"
+                            android:paddingTop="@dimen/layout_medium_margin"
+                            android:text="View T&amp;C"
+                            android:textAllCaps="true"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/layout_wide_text_size" />
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:id="@+id/button_buy"
+                        android:layout_width="0dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:mrl_rippleOverlay="true">
+
+                        <TextView
+                            android:id="@+id/tv_buy"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/border_round_blue"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:paddingBottom="@dimen/layout_medium_margin"
+                            android:paddingLeft="@dimen/layout_medium_margin"
+                            android:paddingRight="@dimen/layout_medium_margin"
+                            android:paddingTop="@dimen/layout_medium_margin"
+                            android:text="User Offers"
+                            android:textAllCaps="true"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/layout_wide_text_size" />
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

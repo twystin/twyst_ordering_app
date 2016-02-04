@@ -83,6 +83,11 @@
     <string name="verify_number_phone_hint">10 digit Mobile Number</string>
     <string name="verify_number_code_hint">Enter 4-digit code</string>
 
+    <string name="title_activity_food_vouchers">Food Vouchers</string>
+    <string name="title_activity_twyst_bucks_history">My Twyst Bucks</string>
+    <string name="my_twyst_bucks_balance">My Twyst Bucks Balance</string>
+    <string name="earn_more">Earn More</string>
+
  <string name="terms_conditions">
      &#8226; Offers (2 or more) cannot be clubbed.\n
      &#8226; Offers are not valid on specially priced combinations e.g. any other buffet/brunch deal/corporate dining rate/happy hours etc.\n

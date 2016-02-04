@@ -346,6 +346,11 @@
             android:label="@string/title_activity_voucher_details"
             android:theme="@style/AppTheme" />
 
+        <activity
+            android:name=".activities.FoodVouchersActivity"
+            android:label="@string/title_activity_food_vouchers"
+            android:theme="@style/AppTheme" />
+
         <!--.
           WakefulBroadcastReceiver that will receive intents from GCM
           services and hand them to the custom IntentService.

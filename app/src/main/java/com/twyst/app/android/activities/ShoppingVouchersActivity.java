@@ -11,16 +11,16 @@ import com.twyst.app.android.adapters.ShoppingVouchersAdapter;
 
 import java.util.ArrayList;
 
-public class ShoppingVouchersActivity extends AppCompatActivity {
-
+public class ShoppingVouchersActivity extends BaseActionActivity {
     ArrayList<Integer> voucherList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_vouchers);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+        setupToolBar();
+
         voucherList.add(R.drawable.ebay_logo);
         voucherList.add(R.drawable.ebay_logo);
         voucherList.add(R.drawable.ebay_logo);
@@ -35,11 +35,11 @@ public class ShoppingVouchersActivity extends AppCompatActivity {
     }
 
     private void showShoppingVouchers() {
-        RecyclerView shoppingVouchersRV = (RecyclerView)findViewById(R.id.rv_shopping_vouchers);
+        RecyclerView shoppingVouchersRV = (RecyclerView) findViewById(R.id.rv_shopping_vouchers);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(ShoppingVouchersActivity.this, LinearLayoutManager.VERTICAL, false);
         shoppingVouchersRV.setLayoutManager(mLayoutManager);
 
-        ShoppingVouchersAdapter mShoppingVouchersAdapter = new ShoppingVouchersAdapter(ShoppingVouchersActivity.this,voucherList);
+        ShoppingVouchersAdapter mShoppingVouchersAdapter = new ShoppingVouchersAdapter(ShoppingVouchersActivity.this, voucherList);
         shoppingVouchersRV.setAdapter(mShoppingVouchersAdapter);
     }
 
