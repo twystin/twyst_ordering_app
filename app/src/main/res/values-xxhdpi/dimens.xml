@@ -145,4 +145,9 @@
     <dimen name="phone_verification_heading">16dp</dimen>
     <dimen name="phone_verification_edit_text_size">14dp</dimen>
     <dimen name="phone_verification_hint">12dp</dimen>
+
+    <!--BucksHistory-->
+    <dimen name="bucks_text_huge">16dp</dimen>
+    <dimen name="bucks_text_medium">12dp</dimen>
+    <dimen name="bucks_text_small">10dp</dimen>
 </resources>

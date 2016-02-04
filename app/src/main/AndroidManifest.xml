@@ -339,16 +339,25 @@
         <activity
             android:name=".activities.ShoppingVouchersActivity"
             android:label="@string/title_activity_shopping_vouchers"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <activity
             android:name=".activities.VoucherDetailsActivity"
             android:label="@string/title_activity_voucher_details"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <activity
             android:name=".activities.FoodVouchersActivity"
             android:label="@string/title_activity_food_vouchers"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".activities.TwystBucksHistoryActivity"
+            android:label="@string/title_activity_twyst_bucks_history"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <!--.

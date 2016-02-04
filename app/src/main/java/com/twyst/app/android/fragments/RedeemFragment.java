@@ -1,5 +1,6 @@
 package com.twyst.app.android.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -12,6 +13,8 @@ import android.view.ViewGroup;
 import com.google.common.primitives.Ints;
 import com.twyst.app.android.CirclePageIndicator;
 import com.twyst.app.android.R;
+import com.twyst.app.android.activities.FoodVouchersActivity;
+import com.twyst.app.android.activities.TwystBucksHistoryActivity;
 import com.twyst.app.android.adapters.ImagePagerAdapter;
 import com.twyst.app.android.adapters.RedeemRVAdapter;
 
@@ -69,7 +72,16 @@ public class RedeemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.redeem_fragment, null);
+        final View view = inflater.inflate(R.layout.redeem_fragment, null);
+
+        view.findViewById(R.id.ll_twyst_bucks_launcher).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent twystBucksIntent = new Intent(view.getContext(), TwystBucksHistoryActivity.class);
+                view.getContext().startActivity(twystBucksIntent);
+            }
+        });
+
         setAddsViewPager(view);
         setGridAdapter(view);
         return view;
