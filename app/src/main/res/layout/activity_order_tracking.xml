@@ -48,16 +48,16 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@color/background_grey">
 
         <ListView
             android:id="@+id/listview_track_order_states"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="8dp"
             android:divider="@android:color/transparent"
-            android:dividerHeight="@dimen/layout_wide_margin"
+            android:dividerHeight="8dp"
             android:scrollbars="none" />
     </LinearLayout>
 

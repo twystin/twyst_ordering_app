@@ -60,6 +60,13 @@ public class OrderTrackingActivity extends BaseActionActivity {
         super.onDestroy();
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        mOrderID = intent.getExtras().getString(AppConstants.INTENT_ORDER_ID, "");
+        refreshList();
+    }
+
     private void clearReferences() {
         Activity currActivity = twystApplication.getCurrentActivity();
         if (currActivity != null && currActivity.equals(this))
@@ -71,13 +78,14 @@ public class OrderTrackingActivity extends BaseActionActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mOrderID = orderIDServer;
-                refreshList();
+                if (orderIDServer == mOrderID) {
+                    refreshList();
+                }
             }
         });
     }
 
-    private void refreshList(){
+    private void refreshList() {
         mTrackOrderStatesList = OrderTrackingState.getInitialList(mOrderID, OrderTrackingActivity.this);
         if (mAdapter != null) {
             mAdapter.notifyDataSetChanged();
