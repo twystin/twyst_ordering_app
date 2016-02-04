@@ -405,10 +405,7 @@ public abstract class BaseActivity extends ActionBarActivity
     @Override
     public boolean onSuggestionClick(int i) {
         Log.d(getTagName(), "onSuggestionClick item: " + i);
-
         return true;
-
-
     }
 
     @Override

@@ -68,7 +68,9 @@ import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.RoundedTransformation;
 import com.twyst.app.android.util.TwystProgressHUD;
+import com.twyst.app.android.util.UtilMethods;
 import com.twyst.app.android.util.Utils;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -76,8 +78,7 @@ import retrofit.client.Response;
 /**
  * Created by rahuls on 2/9/15.
  */
-public class EditProfileActivity extends BaseActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-
+public class EditProfileActivity extends BaseActionActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private boolean fromDrawer;
     private String source = "";
     private CallbackManager callbackManager;
@@ -99,6 +100,7 @@ public class EditProfileActivity extends BaseActivity implements GoogleApiClient
     private Friend.Friends friends;
     /* Is there a ConnectionResult resolution in progress? */
     private boolean mIsResolving = false;
+    protected SharedPreferences.Editor sharedPreferences;
 
     private ProfileTracker profileTracker;
     Profile profile;
@@ -122,22 +124,19 @@ public class EditProfileActivity extends BaseActivity implements GoogleApiClient
     TextView googleTxt;
     TextView pushNotifiyTxt;
 
-
-    @Override
     protected String getTagName() {
-        return null;
-    }
-
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_edit_profile;
+        return "EditProfileActivity";
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FacebookSdk.sdkInitialize(getApplicationContext());
-        setupAsChild = true;
+//        setupAsChild = true;
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_edit_profile);
+
+        setupToolBar();
+
         callbackManager = CallbackManager.Factory.create();
         fromDrawer = getIntent().getBooleanExtra(AppConstants.INTENT_PARAM_FROM_DRAWER, false);
         final SharedPreferences prefs = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
@@ -262,7 +261,7 @@ public class EditProfileActivity extends BaseActivity implements GoogleApiClient
                 .addScope(Plus.SCOPE_PLUS_LOGIN)
                 .build();
 
-        HttpService.getInstance().getProfile(getUserToken(), new Callback<BaseResponse<Profile>>() {
+        HttpService.getInstance().getProfile(UtilMethods.getUserToken(EditProfileActivity.this), new Callback<BaseResponse<Profile>>() {
             @Override
             public void success(final BaseResponse<Profile> profileBaseResponse, Response response) {
 
@@ -279,7 +278,7 @@ public class EditProfileActivity extends BaseActivity implements GoogleApiClient
 //                    editProfileCity.setFocusableInTouchMode(false);
 
                     editProfileAnniversary.setText(prefs.getString(AppConstants.PREFERENCE_ANNIVERSARY, "Anniversary"));
-                    editProfileDob.setText(prefs.getString(AppConstants.PREFERENCE_DOB,"Date of Birth"));
+                    editProfileDob.setText(prefs.getString(AppConstants.PREFERENCE_DOB, "Date of Birth"));
 
                     if (!TextUtils.isEmpty(profile.getPhone())) {
                         editProfileMoNo.setText(profile.getPhone());
@@ -394,7 +393,7 @@ public class EditProfileActivity extends BaseActivity implements GoogleApiClient
                         public void onClick(View v) {
                             if (TextUtils.isEmpty(editProfileMail.getText().toString()) || !Pattern.matches(EMAIL_REGEX, editProfileMail.getText().toString())) {
                                 editProfileMail.setError("Invalid email");
-                            }else{
+                            } else {
                                 editProfileMail.setError(null);
                                 updateProfile();
                             }
@@ -409,7 +408,7 @@ public class EditProfileActivity extends BaseActivity implements GoogleApiClient
             @Override
             public void failure(RetrofitError error) {
                 hideProgressHUDInLayout();
-                handleRetrofitError(error);
+                UtilMethods.handleRetrofitError(EditProfileActivity.this, error);
             }
         });
 
@@ -423,6 +422,7 @@ public class EditProfileActivity extends BaseActivity implements GoogleApiClient
         super.onResume();
         AppsFlyerLib.onActivityResume(this);
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -580,7 +580,7 @@ public class EditProfileActivity extends BaseActivity implements GoogleApiClient
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
             Log.d(getClass().getSimpleName(), "year=" + year + ", month=" + month + ", day=" + day);
-            saveSharedPrefDOB(year,month,day);
+            saveSharedPrefDOB(year, month, day);
             TextView editProfileDob = (EditText) getActivity().findViewById(R.id.editProfileDob);
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.YEAR, year);
@@ -645,22 +645,6 @@ public class EditProfileActivity extends BaseActivity implements GoogleApiClient
     }
 
     @Override
-    public void onBackPressed() {
-        if (drawerOpened) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            if (fromDrawer) {
-                //clear history and go to discover
-                Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            } else {
-                super.onBackPressed();
-            }
-        }
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
@@ -703,26 +687,24 @@ public class EditProfileActivity extends BaseActivity implements GoogleApiClient
         updateProfile.setProduct(android.os.Build.PRODUCT);
         updateProfile.setLifeEvents(getLifeEvents());
 
-        HttpService.getInstance().updateProfile(getUserToken(),updateProfile, new Callback<BaseResponse<ProfileUpdate>>() {
+        HttpService.getInstance().updateProfile(UtilMethods.getUserToken(EditProfileActivity.this), updateProfile, new Callback<BaseResponse<ProfileUpdate>>() {
             @Override
             public void success(final BaseResponse<ProfileUpdate> profileUpdateBaseResponse, Response response) {
                 twystProgressHUD.dismiss();
                 if (profileUpdateBaseResponse.isResponse()) {
-                    updateSocialFriendList(getUserToken());
+                    updateSocialFriendList(UtilMethods.getUserToken(EditProfileActivity.this));
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
-//                hideProgressHUDInLayout();
                 twystProgressHUD.dismiss();
-                handleRetrofitError(error);
+                UtilMethods.handleRetrofitError(EditProfileActivity.this, error);
             }
         });
     }
 
     private LifeEvents[] getLifeEvents() {
-
         LifeEvents[] lifeEvents = new LifeEvents[LifeEvents.TYPES_COUNT];
 
         final Calendar c = Calendar.getInstance();
@@ -732,10 +714,10 @@ public class EditProfileActivity extends BaseActivity implements GoogleApiClient
         int bMonth = prefs.getInt(AppConstants.PREFERENCE_DOB_MONTH, c.get(Calendar.MONTH));
         int bDay = prefs.getInt(AppConstants.PREFERENCE_DOB_DAY, c.get(Calendar.DAY_OF_MONTH));
 
-        lifeEvents[0]= new LifeEvents();
+        lifeEvents[0] = new LifeEvents();
         EventDate birthdayDate = new EventDate();
         birthdayDate.setY(bYear);
-        birthdayDate.setM(bMonth+1);
+        birthdayDate.setM(bMonth + 1);
         birthdayDate.setD(bDay);
         lifeEvents[0].setEventDate(birthdayDate);
         lifeEvents[0].setEventType(LifeEvents.BIRTHDAY);
@@ -744,10 +726,10 @@ public class EditProfileActivity extends BaseActivity implements GoogleApiClient
         int aMonth = prefs.getInt(AppConstants.PREFERENCE_ANNIVERSARY_MONTH, c.get(Calendar.MONTH));
         int aDay = prefs.getInt(AppConstants.PREFERENCE_ANNIVERSARY_DAY, c.get(Calendar.DAY_OF_MONTH));
 
-        lifeEvents[1]= new LifeEvents();
+        lifeEvents[1] = new LifeEvents();
         EventDate anniversaryDate = new EventDate();
         anniversaryDate.setY(aYear);
-        anniversaryDate.setM(aMonth+1);
+        anniversaryDate.setM(aMonth + 1);
         anniversaryDate.setD(aDay);
         lifeEvents[1].setEventDate(anniversaryDate);
         lifeEvents[1].setEventType(LifeEvents.ANNIVERSARY);
@@ -799,7 +781,7 @@ public class EditProfileActivity extends BaseActivity implements GoogleApiClient
                 twystProgressHUD.dismiss();
                 if (profileUpdateBaseResponse.isResponse()) {
                     saveDOBAnniversaryLocally();
-                    Toast.makeText(EditProfileActivity.this, "Profile updated successfully!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditProfileActivity.this, "Profile updated successfully!", Toast.LENGTH_SHORT).show();
                     Log.d(getTagName(), "" + profileUpdateBaseResponse.getMessage());
                 } else {
                     Log.d(getTagName(), "" + profileUpdateBaseResponse.getMessage());
@@ -809,7 +791,7 @@ public class EditProfileActivity extends BaseActivity implements GoogleApiClient
             @Override
             public void failure(RetrofitError error) {
                 twystProgressHUD.dismiss();
-                handleRetrofitError(error);
+                UtilMethods.handleRetrofitError(EditProfileActivity.this, error);
             }
         });
 
@@ -866,7 +848,7 @@ public class EditProfileActivity extends BaseActivity implements GoogleApiClient
         }
     }
 
-    private void updatePicNameLocal(){
+    private void updatePicNameLocal() {
         final SharedPreferences prefs = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
         final String name = prefs.getString(AppConstants.PREFERENCE_USER_FULL_NAME, "");
         final String pic = prefs.getString(AppConstants.PREFERENCE_USER_PIC, "");
