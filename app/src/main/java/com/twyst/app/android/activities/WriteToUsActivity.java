@@ -16,6 +16,7 @@ import com.twyst.app.android.model.WriteToUs;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -23,8 +24,9 @@ import retrofit.client.Response;
 /**
  * Created by rahuls on 7/8/15.
  */
-public class WriteToUsActivity extends BaseActivity{
+public class WriteToUsActivity extends BaseActivity {
     private boolean fromDrawer;
+
     @Override
     protected String getTagName() {
         return null;
@@ -42,18 +44,18 @@ public class WriteToUsActivity extends BaseActivity{
         fromDrawer = getIntent().getBooleanExtra(AppConstants.INTENT_PARAM_FROM_DRAWER, false);
 
         hideProgressHUDInLayout();
-        final EditText commentEt = (EditText)findViewById(R.id.commentEt);
+        final EditText commentEt = (EditText) findViewById(R.id.commentEt);
 
         findViewById(R.id.writeToUsBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(WriteToUsActivity.this, false, null);
-                if(TextUtils.isEmpty(commentEt.getText())){
-                    Toast.makeText(WriteToUsActivity.this,"Please fill all the required fields.",Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(commentEt.getText())) {
+                    Toast.makeText(WriteToUsActivity.this, "Please fill all the required fields.", Toast.LENGTH_SHORT).show();
                     twystProgressHUD.dismiss();
                     commentEt.setError("Comments required");
                     twystProgressHUD.dismiss();
-                }else {
+                } else {
                     WriteToUs writeToUs = new WriteToUs();
                     WriteMeta writeMeta = new WriteMeta();
                     writeMeta.setComments(commentEt.getText().toString());
@@ -61,7 +63,7 @@ public class WriteToUsActivity extends BaseActivity{
                     HttpService.getInstance().writeToUs(getUserToken(), writeToUs, new Callback<BaseResponse>() {
                         @Override
                         public void success(BaseResponse baseResponse, Response response) {
-                            Toast.makeText(WriteToUsActivity.this,"Your comment has been sent to Twyst.",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(WriteToUsActivity.this, "Your comment has been sent to Twyst.", Toast.LENGTH_SHORT).show();
                             twystProgressHUD.dismiss();
                             finish();
                         }
@@ -90,6 +92,7 @@ public class WriteToUsActivity extends BaseActivity{
         super.onResume();
         AppsFlyerLib.onActivityResume(this);
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -103,7 +106,7 @@ public class WriteToUsActivity extends BaseActivity{
         } else {
             if (fromDrawer) {
                 //clear history and go to discover
-                Intent intent = new Intent(getBaseContext(), DiscoverActivity.class);
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             } else {

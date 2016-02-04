@@ -13,6 +13,7 @@ import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.OrderHistory;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.TwystProgressHUD;
+import com.twyst.app.android.util.UtilMethods;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,14 +22,13 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class OrderHistoryActivity extends BaseActivity {
+public class OrderHistoryActivity extends BaseActionActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_order_history);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+        setupToolBar();
 //        setupOrderHistoryLocally();
         fetchOrderHistory();
     }
@@ -47,18 +47,15 @@ public class OrderHistoryActivity extends BaseActivity {
 
         OrderHistoryAdapter mAdapter = new OrderHistoryAdapter(OrderHistoryActivity.this, orderHistoryList);
         myOrdersRecyclerView.setAdapter(mAdapter);
-
     }
 
     private void fetchOrderHistory() {
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
-        HttpService.getInstance().getOrderHistory(getUserToken(), new Callback<BaseResponse<ArrayList<OrderHistory>>>() {
+        HttpService.getInstance().getOrderHistory(UtilMethods.getUserToken(OrderHistoryActivity.this), new Callback<BaseResponse<ArrayList<OrderHistory>>>() {
             @Override
             public void success(BaseResponse<ArrayList<OrderHistory>> orderHistoryBaseResponse, Response response) {
                 if (orderHistoryBaseResponse.isResponse()) {
-
                     ArrayList<OrderHistory> orderHistoryList = orderHistoryBaseResponse.getData();
-
                     RecyclerView myOrdersRecyclerView = (RecyclerView) findViewById(R.id.my_orders_recyclerView);
 
                     LinearLayoutManager mLayoutManager = new LinearLayoutManager(OrderHistoryActivity.this, LinearLayoutManager.VERTICAL, false);
@@ -71,36 +68,17 @@ public class OrderHistoryActivity extends BaseActivity {
                 } else {
                     Toast.makeText(OrderHistoryActivity.this, orderHistoryBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-
                 twystProgressHUD.dismiss();
-                hideProgressHUDInLayout();
-                hideSnackbar();
+                UtilMethods.hideSnackbar();
             }
 
             @Override
             public void failure(RetrofitError error) {
                 twystProgressHUD.dismiss();
-                hideProgressHUDInLayout();
-                hideSnackbar();
-                handleRetrofitError(error);
+                UtilMethods.hideSnackbar();
+                UtilMethods.handleRetrofitError(OrderHistoryActivity.this, error);
             }
         });
-    }
-
-    @Override
-    protected String getTagName() {
-        return OrderHistoryActivity.class.getSimpleName();
-    }
-
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_order_history;
-    }
-
-    private ArrayList<OrderHistory> getData() {
-        ArrayList<OrderHistory> orderHistory = new ArrayList<>();
-
-        return orderHistory;
     }
 
     public String getOrderHistoryString() {

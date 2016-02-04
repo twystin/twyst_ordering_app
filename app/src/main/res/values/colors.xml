@@ -11,6 +11,10 @@
     <color name="drawer_item_color">#d9000000</color>
     <color name="drawer_item_icon_color">#ffffff</color>
     <color name="drawer_item_section_color">#8C000000</color>
+    <color name="drawer_header_text_color">#A9600A</color>
+    <color name="drawer_list_item_bg_color">#e9e9e9</color>
+    <color name="drawer_list_item_bg_selected">#d4d4d4</color>
+    <color name="drawer_notification_circle_blue">#0076a9</color>
 
     <color name="app_accent_color">#f59221</color>
     <color name="app_accent_color_transparent">#c8f47c20</color>

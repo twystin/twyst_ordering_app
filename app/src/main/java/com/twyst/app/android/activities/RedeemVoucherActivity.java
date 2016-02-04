@@ -248,7 +248,7 @@ public class RedeemVoucherActivity extends BaseActivity{
         findViewById(R.id.btnLater).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(RedeemVoucherActivity.this,DiscoverActivity.class);
+                Intent intent = new Intent(RedeemVoucherActivity.this,MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
@@ -377,7 +377,7 @@ public class RedeemVoucherActivity extends BaseActivity{
         if (drawerOpened) {
             drawerLayout.closeDrawer(GravityCompat.START);
         }else {
-            Intent intent = new Intent(RedeemVoucherActivity.this,DiscoverActivity.class);
+            Intent intent = new Intent(RedeemVoucherActivity.this,MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();

@@ -32,6 +32,7 @@ import com.twyst.app.android.model.menu.SubOptions;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
+import com.twyst.app.android.util.UtilMethods;
 import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
@@ -177,7 +178,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         String menuId;
         menuId = reOrder.getMenuId();
 
-        HttpService.getInstance().getMenu(menuId, ((OrderHistoryActivity) mContext).getUserToken(), new Callback<BaseResponse<MenuData>>() {
+        HttpService.getInstance().getMenu(menuId, (UtilMethods.getUserToken((OrderHistoryActivity) mContext)), new Callback<BaseResponse<MenuData>>() {
             @Override
             public void success(BaseResponse<MenuData> menuDataBaseResponse, Response response) {
                 if (menuDataBaseResponse.isResponse()) {
@@ -198,15 +199,13 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                     Toast.makeText(mContext, menuDataBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
-                ((OrderHistoryActivity) mContext).hideProgressHUDInLayout();
-                ((OrderHistoryActivity) mContext).hideSnackbar();
+                UtilMethods.hideSnackbar();
             }
 
             @Override
             public void failure(RetrofitError error) {
-                ((OrderHistoryActivity) mContext).hideProgressHUDInLayout();
-                ((OrderHistoryActivity) mContext).hideSnackbar();
-                ((OrderHistoryActivity) mContext).handleRetrofitError(error);
+                UtilMethods.hideSnackbar();
+                UtilMethods.handleRetrofitError((OrderHistoryActivity) mContext, error);
             }
         });
     }

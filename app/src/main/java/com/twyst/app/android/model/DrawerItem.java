@@ -5,11 +5,18 @@ package com.twyst.app.android.model;
  */
 public class DrawerItem {
 
+    public DrawerItem(String title, int icon) {
+        this.title = title;
+        this.icon = icon;
+    }
+
     private int icon;
-    private int selectedIcon;
+//    private int selectedIcon;
 
     private boolean selected;
     private String title;
+    private boolean notifcation_needed = false;
+    private int notification_text;
 
     public int getIcon() {
         return icon;
@@ -27,13 +34,13 @@ public class DrawerItem {
         this.title = title;
     }
 
-    public int getSelectedIcon() {
+/*    public int getSelectedIcon() {
         return selectedIcon;
     }
 
     public void setSelectedIcon(int selectedIcon) {
         this.selectedIcon = selectedIcon;
-    }
+    }*/
 
     public boolean isSelected() {
         return selected;
@@ -41,5 +48,21 @@ public class DrawerItem {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public boolean isNotifcation_needed() {
+        return notifcation_needed;
+    }
+
+    public void setNotifcation_needed(boolean notifcation_needed) {
+        this.notifcation_needed = notifcation_needed;
+    }
+
+    public int getNotification_text() {
+        return notification_text;
+    }
+
+    public void setNotification_text(int notification_text) {
+        this.notification_text = notification_text;
     }
 }

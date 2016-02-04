@@ -121,7 +121,7 @@ public class FaqActivity extends BaseActivity {
         } else {
             if (fromDrawer) {
                 //clear history and go to discover
-                Intent intent = new Intent(getBaseContext(), DiscoverActivity.class);
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                 startActivity(intent);

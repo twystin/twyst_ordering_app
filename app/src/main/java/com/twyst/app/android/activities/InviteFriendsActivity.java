@@ -29,7 +29,6 @@ import retrofit.client.Response;
  * Created by vivek on 05/08/15.
  */
 public class InviteFriendsActivity extends BaseActivity {
-
     private List<Profile.FriendLists> friendLists;
     private boolean fromDrawer;
 
@@ -123,7 +122,7 @@ public class InviteFriendsActivity extends BaseActivity {
         } else {
             if (fromDrawer) {
                 //clear history and go to discover
-                Intent intent = new Intent(getBaseContext(), DiscoverActivity.class);
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             } else {

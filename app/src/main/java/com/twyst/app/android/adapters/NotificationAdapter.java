@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.twyst.app.android.R;
 import com.twyst.app.android.activities.DiscoverActivity;
+import com.twyst.app.android.activities.MainActivity;
 import com.twyst.app.android.activities.OfferDetailActivity;
 import com.twyst.app.android.activities.SearchActivity;
 import com.twyst.app.android.activities.WalletActivity;
@@ -178,8 +179,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                         intent.putExtra(AppConstants.INTENT_PARAM_OFFER_ID, notificationData.getOffer());
                         view.getContext().startActivity(intent);
                     } else {
-                        Intent intent = new Intent(view.getContext(), DiscoverActivity.class);
-                        intent.setAction("setChildNo");
+                        Intent intent = new Intent(view.getContext(), MainActivity.class);
+//                        intent.setAction("setChildNo");
                         view.getContext().startActivity(intent);
                     }
                 }

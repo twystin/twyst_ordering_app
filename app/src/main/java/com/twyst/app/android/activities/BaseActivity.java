@@ -6,6 +6,8 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -31,6 +33,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -78,13 +81,24 @@ public abstract class BaseActivity extends ActionBarActivity
     private CircularProgressBar circularProgressBar;
     protected boolean setupAsChild;
     protected boolean drawerOpened;
-    private DrawerItem invite, faq, bill, wallet, notifications, submitOffer, suggestOutlet, write, rate, addressDetails, reorder;
+    private DrawerItem invite, faq, bill, wallet, notifications, submitOffer, suggestOutlet, feedback, rate, addressDetails, reorder, home;
     protected SharedPreferences.Editor sharedPreferences;
 
     TextView localityDrawer;
     TextView userName;
     ImageView backImage;
     ImageView userImage;
+
+    private final int DRAWER_ITEM_POS_HEADER = 0;
+    // One should not set any of the below Drawer item values to 0 or less.
+    private final String DRAWER_ITEM_MY_ORDERS = "MY ORDERS";
+    private final String DRAWER_ITEM_INVITE_FRIENDS = "INVITE FRIENDS";
+    private final String DRAWER_ITEM_SUGGEST = "SUGGEST AN OUTLET";
+    private final String DRAWER_ITEM_HOME = "HOME";
+    private final String DRAWER_ITEM_NOTIFICATIONS = "NOTIFICATIONS";
+    private final String DRAWER_ITEM_FEEDBACK = "FEEDBACK";
+    private final String DRAWER_ITEM_FAQ = "FAQs";
+    private final String DRAWER_ITEM_RATE = "RATE TWYST";
 
     protected abstract String getTagName();
 
@@ -149,13 +163,13 @@ public abstract class BaseActivity extends ActionBarActivity
                 rate.setSelected(false);
                 faq.setSelected(false);
                 notifications.setSelected(false);
-                bill.setSelected(false);
+                //bill.setSelected(false);
 //                wallet.setSelected(false);
                 reorder.setSelected(false);
-                addressDetails.setSelected(false);
+                //     addressDetails.setSelected(false);
 //                submitOffer.setSelected(false);
                 suggestOutlet.setSelected(false);
-                write.setSelected(false);
+                feedback.setSelected(false);
                 rate.setSelected(false);
                 drawerOpened = false;
             }
@@ -168,13 +182,13 @@ public abstract class BaseActivity extends ActionBarActivity
                 rate.setSelected(false);
                 faq.setSelected(false);
                 notifications.setSelected(false);
-                bill.setSelected(false);
+                //bill.setSelected(false);
 //                wallet.setSelected(false);
                 reorder.setSelected(false);
-                addressDetails.setSelected(false);
+                //             addressDetails.setSelected(false);
 //                submitOffer.setSelected(false);
                 suggestOutlet.setSelected(false);
-                write.setSelected(false);
+                feedback.setSelected(false);
                 rate.setSelected(false);
                 drawerOpened = true;
             }
@@ -185,16 +199,22 @@ public abstract class BaseActivity extends ActionBarActivity
 
         drawerList = (ListView) findViewById(R.id.drawer_listview);
         View list_header = getLayoutInflater().inflate(R.layout.drawerlist_header, null);
+        View list_footer = getLayoutInflater().inflate(R.layout.drawerlist_footer, null);
 
         userName = (TextView) list_header.findViewById(R.id.userName);
         backImage = (ImageView) list_header.findViewById(R.id.backImage);
         userImage = (ImageView) list_header.findViewById(R.id.userImage);
-        TextView editProfile = (TextView) list_header.findViewById(R.id.editProfile);
+        LinearLayout editProfile = (LinearLayout) list_header.findViewById(R.id.editProfile);
         localityDrawer = (TextView) list_header.findViewById(R.id.localityDrawer);
 
         SharedPreferences prefs = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
         String locality = prefs.getString(AppConstants.PREFERENCE_CURRENT_USED_LOCATION_NAME, "");
-        localityDrawer.setText(locality);
+        if (locality.equals("")) {
+            editProfile.setVisibility(View.GONE);
+        } else {
+            localityDrawer.setText(locality);
+        }
+
 
         updatePicName();
 
@@ -217,8 +237,19 @@ public abstract class BaseActivity extends ActionBarActivity
             }
         });
 
+        TextView versionApp = (TextView) list_footer.findViewById(R.id.tv_version_app);
+        PackageInfo pInfo = null;
+        try {
+            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        String version = pInfo.versionName;
+        int verNum = pInfo.versionCode;
+        versionApp.setText(version);
 
-        drawerList.addHeaderView(list_header);
+        drawerList.addHeaderView(list_header, null, true);
+        drawerList.addFooterView(list_footer, null, false);
 
         createDrawerProfileBanner();
         //drawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, navigationTitles));
@@ -248,26 +279,18 @@ public abstract class BaseActivity extends ActionBarActivity
             rate.setSelected(false);
             faq.setSelected(false);
             notifications.setSelected(false);
-            bill.setSelected(false);
-//            wallet.setSelected(false);
             reorder.setSelected(false);
-            addressDetails.setSelected(false);
-//            submitOffer.setSelected(false);
             suggestOutlet.setSelected(false);
-            write.setSelected(false);
+            feedback.setSelected(false);
             rate.setSelected(false);
         } else {
             invite.setSelected(false);
             rate.setSelected(false);
             faq.setSelected(false);
             notifications.setSelected(false);
-            bill.setSelected(false);
-//            wallet.setSelected(false);
             reorder.setSelected(false);
-            addressDetails.setSelected(false);
-//            submitOffer.setSelected(false);
             suggestOutlet.setSelected(false);
-            write.setSelected(false);
+            feedback.setSelected(false);
             rate.setSelected(false);
         }
 
@@ -277,71 +300,26 @@ public abstract class BaseActivity extends ActionBarActivity
     private ArrayList<DrawerItem> getDrawerItems(int pos) {
         ArrayList<DrawerItem> drawerItems = new ArrayList<>();
 
-        invite = new DrawerItem();
-        invite.setTitle("INVITE FRIENDS");
-        invite.setIcon(R.drawable.drawer_item_icon_invite_friends);
-        invite.setSelectedIcon(R.drawable.drawer_item_icon_invite_friends_selected);
-        drawerItems.add(invite);
+        reorder = new DrawerItem(DRAWER_ITEM_MY_ORDERS, R.drawable.drawer_list_item_myorders);
+        reorder.setNotifcation_needed(true);
+        reorder.setNotification_text(2);
 
-        bill = new DrawerItem();
-        bill.setTitle("UPLOAD BILL");
-        bill.setIcon(R.drawable.drawer_item_icon_upload_bill);
-        bill.setSelectedIcon(R.drawable.drawer_item_icon_upload_bill_selected);
-        drawerItems.add(bill);
+        invite = new DrawerItem(DRAWER_ITEM_INVITE_FRIENDS, R.drawable.drawer_list_item_invitefriends);
+        suggestOutlet = new DrawerItem(DRAWER_ITEM_SUGGEST, R.drawable.drawer_list_item_suggestanoutlet);
+        home = new DrawerItem(DRAWER_ITEM_HOME, R.drawable.drawer_list_item_home3);
+        notifications = new DrawerItem(DRAWER_ITEM_NOTIFICATIONS, R.drawable.drawer_list_item_notification);
+        feedback = new DrawerItem(DRAWER_ITEM_FEEDBACK, R.drawable.drawer_list_item_feedback);
+        faq = new DrawerItem(DRAWER_ITEM_FAQ, R.drawable.drawer_list_item_faqs);
+        rate = new DrawerItem(DRAWER_ITEM_RATE, R.drawable.drawer_list_item_ratetwyst);
 
-//        wallet = new DrawerItem();
-//        wallet.setTitle("MY WALLET");
-//        wallet.setIcon(R.drawable.drawer_item_icon_wallet);
-//        wallet.setSelectedIcon(R.drawable.drawer_item_icon_wallet_selected);
-//        drawerItems.add(wallet);
-
-        reorder = new DrawerItem();
-        reorder.setTitle("ORDER HISTORY");
-        reorder.setIcon(R.drawable.drawer_item_icon_wallet);
-        reorder.setSelectedIcon(R.drawable.drawer_item_icon_wallet_selected);
+        //SEQUENCE DEFINED HERE
+        drawerItems.add(home);
         drawerItems.add(reorder);
-
-        addressDetails = new DrawerItem();
-        addressDetails.setTitle("ADDRESS DETAILS");
-        addressDetails.setIcon(R.drawable.drawer_item_icon_submit_offer);
-        addressDetails.setSelectedIcon(R.drawable.drawer_item_icon_submit_offer_selected);
-        drawerItems.add(addressDetails);
-
-
-//        submitOffer = new DrawerItem();
-//        submitOffer.setTitle("SUBMIT AN OFFER");
-//        submitOffer.setIcon(R.drawable.drawer_item_icon_submit_offer);
-//        submitOffer.setSelectedIcon(R.drawable.drawer_item_icon_submit_offer_selected);
-//        drawerItems.add(submitOffer);
-
-        suggestOutlet = new DrawerItem();
-        suggestOutlet.setTitle("SUGGEST AN OUTLET");
-        suggestOutlet.setIcon(R.drawable.drawer_item_icon_suggest_outlet);
-        suggestOutlet.setSelectedIcon(R.drawable.drawer_item_icon_suggest_outlet_selected);
-        drawerItems.add(suggestOutlet);
-
-        write = new DrawerItem();
-        write.setTitle("WRITE TO US");
-        write.setIcon(R.drawable.drawer_item_icon_write_to_us);
-        write.setSelectedIcon(R.drawable.drawer_item_icon_write_to_us_selected);
-        drawerItems.add(write);
-
-        notifications = new DrawerItem();
-        notifications.setTitle("NOTIFICATIONS");
-        notifications.setIcon(R.drawable.drawer_item_icon_notifications);
-        notifications.setSelectedIcon(R.drawable.drawer_item_icon_notifications_selected);
+        drawerItems.add(invite);
         drawerItems.add(notifications);
-
-        faq = new DrawerItem();
-        faq.setTitle("FAQs");
-        faq.setIcon(R.drawable.drawer_item_icon_faqs);
-        faq.setSelectedIcon(R.drawable.drawer_item_icon_faqs_selected);
+        drawerItems.add(suggestOutlet);
+        drawerItems.add(feedback);
         drawerItems.add(faq);
-
-        rate = new DrawerItem();
-        rate.setTitle("RATE TWYST");
-        rate.setIcon(R.drawable.drawer_item_icon_rate);
-        rate.setSelectedIcon(R.drawable.drawer_item_icon_rate_selected);
         drawerItems.add(rate);
 
         for (DrawerItem drawerItem : drawerItems) {
@@ -374,11 +352,10 @@ public abstract class BaseActivity extends ActionBarActivity
     }
 
     private void showHome() {
-
-        Intent intent = new Intent(this, DiscoverActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("Search", false);
-        intent.setAction("setChildNo");
+//        intent.putExtra("Search", false);
+//        intent.setAction("setChildNo");
         startActivity(intent);
     }
 
@@ -445,7 +422,6 @@ public abstract class BaseActivity extends ActionBarActivity
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Log.d(BaseActivity.class.getSimpleName(), "Drawer item clicked at position " + position);
 
-
             /*for (DrawerItem drawerItem : drawerItems) {
                 drawerItem.setSelected(false);
             }
@@ -470,7 +446,6 @@ public abstract class BaseActivity extends ActionBarActivity
             SharedPreferences.Editor sharedPreferences = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).edit();
             sharedPreferences.putInt(AppConstants.PREFERENCE_LAST_DRAWERITEM_CLICKED, position - 1);
             sharedPreferences.commit();
-
         }
     }
 
@@ -486,72 +461,61 @@ public abstract class BaseActivity extends ActionBarActivity
             public void run() {
                 Intent intent = null;
 
-                switch (position) {
-                    case 0:
-                        intent = new Intent(getBaseContext(), EditProfileActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                        intent.putExtra(AppConstants.INTENT_PARAM_FROM_DRAWER, true);
-                        startActivity(intent);
-                        break;
-                    //header image click
-//                        return;
+                if (position == DRAWER_ITEM_POS_HEADER) {
+                    intent = new Intent(getBaseContext(), EditProfileActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    intent.putExtra(AppConstants.INTENT_PARAM_FROM_DRAWER, true);
 
-                    case 1:
-                        //invite friends
-                        intent = new Intent(getBaseContext(), InviteFriendsActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                        break;
+                } else {
+                    switch (drawerItems.get(position - 1).getTitle()) {
+                        case DRAWER_ITEM_MY_ORDERS:
+                            intent = new Intent(getBaseContext(), OrderHistoryActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            break;
 
-                    case 2:
-                        //upload bill
-                        intent = new Intent(getBaseContext(), UploadBillActivity.class);
-                        break;
+                        case DRAWER_ITEM_INVITE_FRIENDS:
+                            //invite friends
+                            intent = new Intent(getBaseContext(), InviteFriendsActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            break;
 
-                    case 3:
-                        //my wallet
-//                        intent = new Intent(getBaseContext(), WalletActivity.class);
-//                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                        intent = new Intent(getBaseContext(), OrderHistoryActivity.class);
-                        break;
+                        case DRAWER_ITEM_SUGGEST:
+                            //suggest an outlet
+                            intent = new Intent(getBaseContext(), SuggestOutletActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            break;
 
-                    case 4:
-                        //address details
-                        intent = new Intent(getBaseContext(), AddressDetailsActivity.class);
+                        case DRAWER_ITEM_HOME:
+                            intent = new Intent(getBaseContext(), MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            break;
 
-                        //submit an offer
-//                        intent = new Intent(getBaseContext(), SubmitOfferActivity.class);
-                        break;
+                        case DRAWER_ITEM_NOTIFICATIONS:
+                            //notification
+                            intent = new Intent(getBaseContext(), NotificationActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            break;
 
-                    case 5:
-                        //suggest an outlet
-                        intent = new Intent(getBaseContext(), SuggestOutletActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                        break;
+                        case DRAWER_ITEM_FEEDBACK:
+                            //write to us
+                            intent = new Intent(getBaseContext(), WriteToUsActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            break;
 
-                    case 6:
-                        //write to us
-                        intent = new Intent(getBaseContext(), WriteToUsActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                        break;
+                        case DRAWER_ITEM_FAQ:
+                            //faq
+                            intent = new Intent(getBaseContext(), FaqActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            break;
 
-                    case 7:
-                        //notification
-                        intent = new Intent(getBaseContext(), NotificationActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                        break;
+                        case DRAWER_ITEM_RATE:
+                            //Rate
+                            rateApp();
+                            return;
 
-                    case 8:
-                        //faq
-                        intent = new Intent(getBaseContext(), FaqActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                        break;
-
-                    case 9:
-                        //Rate
-                        rateApp();
-                        return;
-
+                    }
                 }
+
                 if (intent != null) {
                     intent.putExtra(AppConstants.INTENT_PARAM_FROM_DRAWER, true);
                 }

@@ -53,6 +53,7 @@ public class DrawerListAdapter extends BaseAdapter {
             holder = new DrawerItemHolder();
             holder.titleTextView = (TextView) convertView.findViewById(R.id.drawer_item_title);
             holder.iconView = (ImageView) convertView.findViewById(R.id.drawer_item_icon);
+            holder.tvNotification = (TextView) convertView.findViewById(R.id.drawer_item_notification);
 
             convertView.setTag(holder);
         } else {
@@ -61,19 +62,14 @@ public class DrawerListAdapter extends BaseAdapter {
 
         DrawerItem drawerItem = drawerItems.get(position);
         holder.titleTextView.setText(drawerItem.getTitle());
+        holder.iconView.setImageResource(drawerItem.getIcon());
 
-        if (drawerItem.isSelected()) {
-            convertView.setBackgroundColor(Color.WHITE);
-            holder.titleTextView.setTextColor(Color.parseColor("#fc6e51"));
-            holder.iconView.setImageResource(drawerItem.getSelectedIcon());
+        if (drawerItem.isNotifcation_needed()) {
+            holder.tvNotification.setVisibility(View.VISIBLE);
+            holder.tvNotification.setText(Integer.toString(drawerItem.getNotification_text()));
         } else {
-            convertView.setBackgroundColor(Color.TRANSPARENT);
-            holder.titleTextView.setTextColor(Color.WHITE);
-            holder.iconView.setImageResource(drawerItem.getIcon());
+            holder.tvNotification.setVisibility(View.INVISIBLE);
         }
-
-
-
 
         return convertView;
     }
@@ -81,6 +77,7 @@ public class DrawerListAdapter extends BaseAdapter {
     static class DrawerItemHolder {
         ImageView iconView;
         TextView titleTextView;
+        TextView tvNotification;
     }
 
 }

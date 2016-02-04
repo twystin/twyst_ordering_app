@@ -95,7 +95,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected String getTagName() {
-        return DiscoverActivity.class.getSimpleName();
+        return MainActivity.class.getSimpleName();
     }
 
     @Override

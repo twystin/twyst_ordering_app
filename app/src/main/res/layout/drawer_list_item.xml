@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="48dp"
+    android:background="@drawable/drawer_list_item_bg_select"
     android:gravity="center_vertical"
     android:paddingBottom="12dp"
     android:paddingTop="12dp">
@@ -8,33 +9,48 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:layout_marginLeft="@dimen/navigation_drawer_item_margin"
         android:layout_marginRight="@dimen/navigation_drawer_item_margin"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp">
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp">
 
         <ImageView
             android:id="@+id/drawer_item_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="15dp"
-            android:gravity="center_vertical" />
+            android:src="@drawable/drawer_list_item_faqs" />
 
         <TextView
             android:id="@+id/drawer_item_title"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
-            android:text="Title"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="FAQs"
             android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:textSize="14dp"
-            android:visibility="visible" />
+            android:textColor="@android:color/black"
+            android:textSize="14dp" />
 
+        <TextView
+            android:id="@+id/drawer_item_notification"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/drawer_notification_circle_blue"
+            android:gravity="center"
+            android:padding="1dp"
+            android:text="0"
+            android:textColor="@android:color/white"
+            android:textSize="12dp"
+            android:visibility="gone" />
     </LinearLayout>
 
 </LinearLayout>

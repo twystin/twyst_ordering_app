@@ -53,6 +53,10 @@ public class PaymentOptionsActivity extends AppCompatActivity {
     private static final int PAYMENT_REQ_CODE = 0;
 
     private OrderCheckOutResponse mOrderCheckoutResponse;
+    private static final String PAYMENT_MODE_COD = "Cash On Delivery";
+    private static final String PAYMENT_MODE_ONLINE = "Online Payment";
+    private static final float CASHBACK_PERCENT_COD = (float) 5.0;
+    private static final float CASHBACK_PERCENT_ONLINE = (float) 15.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +69,12 @@ public class PaymentOptionsActivity extends AppCompatActivity {
 
         PaymentData pd1 = new PaymentData();
         PaymentData pd2 = new PaymentData();
-        pd1.setPaymentMode("Online Payment");
-        pd1.setCashBackPercent(15);
-        pd2.setPaymentMode("Cash On Delivery");
-        pd2.setCashBackPercent(5);
+
+        pd1.setPaymentMode(PAYMENT_MODE_ONLINE);
+        pd1.setCashBackPercent(CASHBACK_PERCENT_ONLINE);
+        pd2.setPaymentMode(PAYMENT_MODE_COD);
+        pd2.setCashBackPercent(CASHBACK_PERCENT_COD);
+
         mPaymentDataList.add(pd1);
         mPaymentDataList.add(pd2);
 
@@ -214,7 +220,7 @@ public class PaymentOptionsActivity extends AppCompatActivity {
             pdholder.checkedbox.setSelected(selectedPosition == position);
 
             pdholder.paymentmode.setText(mPaymentDataList.get(position).getPaymentMode());
-            pdholder.cashbackamount.setText(String.format("%d%%", mPaymentDataList.get(position).getCashBackPercent()));
+            pdholder.cashbackamount.setText(String.format("%.1f%%", mPaymentDataList.get(position).getCashBackPercent()));
             if (mPaymentDataList.get(position).getCashBackPercent() == 0) {
                 pdholder.cashbackIcon.setVisibility(View.INVISIBLE);
             }
