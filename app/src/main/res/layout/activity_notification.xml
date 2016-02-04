@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,57 +17,57 @@
             layout="@layout/toolbar_wrapper" />
 
 
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/notifyRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="3dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
             android:layout_below="@+id/toolbarWrapper"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="2dp"
             android:overScrollMode="never" />
+
         <RelativeLayout
             android:id="@+id/obstructor"
-            android:visibility="invisible"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:alpha="0.70"
-            android:background="@android:color/black"/>
+            android:background="@android:color/black"
+            android:visibility="invisible" />
 
         <com.getbase.floatingactionbutton.FloatingActionsMenu
             android:id="@+id/fabMenu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
             android:layout_marginBottom="16dp"
             android:layout_marginRight="16dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
+            android:visibility="invisible"
             fab:fab_addButtonColorNormal="#f85439"
             fab:fab_addButtonColorPressed="#F66C57"
             fab:fab_addButtonPlusIconColor="#ffffff"
-            fab:fab_labelStyle="@style/menu_labels_style"
-            android:visibility="invisible">
+            fab:fab_labelStyle="@style/menu_labels_style">
 
             <com.getbase.floatingactionbutton.FloatingActionButton
                 android:id="@+id/checkinFab"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                fab:fab_icon="@drawable/discover_checkin_fab_icon"
                 app:fab_colorNormal="#f6931e"
+                app:fab_size="normal"
                 fab:fab_colorPressed="#F6A74D"
-                fab:fab_title="Check-in"
-                app:fab_size="normal"/>
+                fab:fab_icon="@drawable/discover_checkin_fab_icon"
+                fab:fab_title="Check-in" />
 
             <com.getbase.floatingactionbutton.FloatingActionButton
                 android:id="@+id/submitFab"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                fab:fab_icon="@drawable/discover_submit_fab_icon"
                 app:fab_colorNormal="#673d74"
                 fab:fab_colorPressed="#936c9f"
-                fab:fab_title="Submit an offer"/>
+                fab:fab_icon="@drawable/discover_submit_fab_icon"
+                fab:fab_title="Submit an offer" />
 
 
         </com.getbase.floatingactionbutton.FloatingActionsMenu>
@@ -133,11 +134,11 @@
                     android:id="@+id/orText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:layout_margin="30dp"
                     android:text="OR"
                     android:textColor="@android:color/white"
-                    android:textSize="24dp"
-                    android:layout_gravity="center_horizontal" />
+                    android:textSize="24dp" />
 
                 <com.balysv.materialripple.MaterialRippleLayout
                     android:id="@+id/uploadBillBtn"
@@ -168,7 +169,4 @@
 
     </RelativeLayout>
 
-    <include
-        android:id="@+id/drawer_list"
-        layout="@layout/drawer_list" />
-</android.support.v4.widget.DrawerLayout>
+</LinearLayout>

@@ -878,7 +878,7 @@ public class DiscoverActivity extends BaseActivity implements GoogleApiClient.Co
        discoverAdapter.updateListl(outlets);
 
        onItemsLoadComplete();
-       hideProgressHUDInLayout();
+        hideProgressHUDInLayout();
        hideSnackbar();
 
    }

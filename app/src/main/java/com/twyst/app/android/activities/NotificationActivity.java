@@ -26,6 +26,8 @@ import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.NotificationData;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
+import com.twyst.app.android.util.UtilMethods;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -33,7 +35,7 @@ import retrofit.client.Response;
 /**
  * Created by rahuls on 23/7/15.
  */
-public class NotificationActivity extends BaseActivity{
+public class NotificationActivity extends BaseActionActivity {
 
     private RecyclerView notifyRecyclerView;
     NotificationAdapter adapter;
@@ -44,19 +46,12 @@ public class NotificationActivity extends BaseActivity{
     private boolean fromDrawer, fromPushNotificationClicked;
 
     @Override
-    protected String getTagName() {
-        return null;
-    }
-
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_notification;
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setupAsChild= true;
+//        setupAsChild= true;
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_notification);
+
+        setupToolBar();
 
         fromDrawer = getIntent().getBooleanExtra(AppConstants.INTENT_PARAM_FROM_DRAWER, false);
         notifyRecyclerView = (RecyclerView) findViewById(R.id.notifyRecyclerView);
@@ -66,37 +61,37 @@ public class NotificationActivity extends BaseActivity{
         notifyRecyclerView.setLayoutManager(mLayoutManager);
 
         adapter = new NotificationAdapter();
-		notifyRecyclerView.setAdapter(adapter);
+        notifyRecyclerView.setAdapter(adapter);
 
         fabMenu = (FloatingActionsMenu) findViewById(R.id.fabMenu);
         obstructor = (RelativeLayout) findViewById(R.id.obstructor);
-        submitFab = (FloatingActionButton)findViewById(R.id.submitFab);
-        checkinFab = (FloatingActionButton)findViewById(R.id.checkinFab);
+        submitFab = (FloatingActionButton) findViewById(R.id.submitFab);
+        checkinFab = (FloatingActionButton) findViewById(R.id.checkinFab);
 
         fabMenu.setVisibility(View.VISIBLE);
 
 
         fabMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
-			@Override
-			public void onMenuExpanded() {
-				if (obstructor.getVisibility() == View.INVISIBLE) {
-					obstructor.setVisibility(View.VISIBLE);
-				}
+            @Override
+            public void onMenuExpanded() {
+                if (obstructor.getVisibility() == View.INVISIBLE) {
+                    obstructor.setVisibility(View.VISIBLE);
+                }
 
-			}
+            }
 
-			@Override
-			public void onMenuCollapsed() {
-				if (obstructor.getVisibility() == View.VISIBLE) {
-					obstructor.setVisibility(View.INVISIBLE);
-				}
-			}
-		});
+            @Override
+            public void onMenuCollapsed() {
+                if (obstructor.getVisibility() == View.VISIBLE) {
+                    obstructor.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
 
         obstructor.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Log.d(getTagName(), "fab menu obstructor clicked .... ");
+                Log.d(getLocalClassName(), "fab menu obstructor clicked .... ");
 
                 if (obstructor.getVisibility() == View.VISIBLE) {
                     fabMenu.collapse();
@@ -201,35 +196,36 @@ public class NotificationActivity extends BaseActivity{
         super.onResume();
         AppsFlyerLib.onActivityResume(this);
     }
+
     @Override
     public void onPause() {
         super.onPause();
         AppsFlyerLib.onActivityPause(this);
     }
 
-    private void getNotifications(){
-        HttpService.getInstance().getNotification(getUserToken(), new Callback<BaseResponse<ArrayList<NotificationData>>>() {
+    private void getNotifications() {
+        HttpService.getInstance().getNotification(UtilMethods.getUserToken(NotificationActivity.this), new Callback<BaseResponse<ArrayList<NotificationData>>>() {
             @Override
             public void success(BaseResponse<ArrayList<NotificationData>> notificationDataBaseResponse, Response response) {
                 hideProgressHUDInLayout();
-                if(notificationDataBaseResponse.isResponse()){
+                if (notificationDataBaseResponse.isResponse()) {
                     List<NotificationData> notificationData = notificationDataBaseResponse.getData();
-                    if(notificationData.size()>0){
+                    if (notificationData.size() > 0) {
                         adapter.setItems(notificationData);
                         adapter.notifyDataSetChanged();
 
                         findViewById(R.id.blankDataLayout).setVisibility(View.GONE);
 
-                    }else {
+                    } else {
                         findViewById(R.id.ivNoData).setBackgroundResource(R.drawable.no_notification);
                         ((TextView) findViewById(R.id.tvNoData)).setText("You have no notifications!");
                         findViewById(R.id.blankDataLayout).setVisibility(View.VISIBLE);
 //                        Toast.makeText(NotificationActivity.this,"You have no notifications!",Toast.LENGTH_SHORT).show();
                     }
 
-                }else {
+                } else {
 
-                    Toast.makeText(NotificationActivity.this,notificationDataBaseResponse.getMessage(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NotificationActivity.this, notificationDataBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -237,9 +233,9 @@ public class NotificationActivity extends BaseActivity{
             public void failure(RetrofitError error) {
                 hideProgressHUDInLayout();
                 if (error.getKind() == RetrofitError.Kind.NETWORK) {
-                    handleRetrofitError(error);
+                    UtilMethods.handleRetrofitError(NotificationActivity.this, error);
                 } else {
-                    buildAndShowSnackbarWithMessage("Unable to load notifications!");
+                    UtilMethods.buildAndShowSnackbarWithMessage(NotificationActivity.this, "Unable to load notifications!");
                 }
             }
         });
@@ -250,26 +246,10 @@ public class NotificationActivity extends BaseActivity{
         super.onNewIntent(intent);
         fromDrawer = intent.getBooleanExtra(AppConstants.INTENT_PARAM_FROM_DRAWER, false);
         fromPushNotificationClicked = intent.getBooleanExtra(AppConstants.INTENT_PARAM_FROM_PUSH_NOTIFICATION_CLICKED, false);
-        if (fromPushNotificationClicked){
+        if (fromPushNotificationClicked) {
             getNotifications();
         }
 
     }
 
-
-    @Override
-    public void onBackPressed() {
-        if (drawerOpened) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            if (fromDrawer || fromPushNotificationClicked) {
-                //clear history and go to discover
-                Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            } else {
-                super.onBackPressed();
-            }
-        }
-    }
 }

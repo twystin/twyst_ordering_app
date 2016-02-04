@@ -16,6 +16,8 @@ import com.twyst.app.android.model.SuggestionMeta;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
+import com.twyst.app.android.util.UtilMethods;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -23,31 +25,23 @@ import retrofit.client.Response;
 /**
  * Created by rahuls on 7/8/15.
  */
-public class SuggestOutletActivity extends BaseActivity{
+public class SuggestOutletActivity extends BaseActionActivity {
 
     private boolean fromDrawer;
 
     @Override
-    protected String getTagName() {
-        return null;
-    }
-
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_suggest_outlet;
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setupAsChild= true;
+//        setupAsChild= true;
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_suggest_outlet);
         fromDrawer = getIntent().getBooleanExtra(AppConstants.INTENT_PARAM_FROM_DRAWER, false);
         hideProgressHUDInLayout();
 
+        setupToolBar();
 
-        final EditText outletNameET = (EditText)findViewById(R.id.outletNameET);
-        final EditText outletLocET = (EditText)findViewById(R.id.outletLocET);
-        final EditText commentEt = (EditText)findViewById(R.id.commentEt);
+        final EditText outletNameET = (EditText) findViewById(R.id.outletNameET);
+        final EditText outletLocET = (EditText) findViewById(R.id.outletLocET);
+        final EditText commentEt = (EditText) findViewById(R.id.commentEt);
 
         findViewById(R.id.suggestOfferBtn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,15 +54,15 @@ public class SuggestOutletActivity extends BaseActivity{
                     SuggestionMeta suggestionMeta = new SuggestionMeta();
                     suggestionMeta.setOutlet(outletNameET.getText().toString());
                     suggestionMeta.setLocation(outletLocET.getText().toString());
-                    if(TextUtils.isEmpty(commentEt.getText())){
+                    if (TextUtils.isEmpty(commentEt.getText())) {
                         suggestionMeta.setComment("");
-                    }else{
+                    } else {
                         suggestionMeta.setComment(commentEt.getText().toString());
                     }
 
                     suggestion.setSuggestionMeta(suggestionMeta);
 
-                    HttpService.getInstance().postSuggestion(getUserToken(), suggestion, new Callback<BaseResponse>() {
+                    HttpService.getInstance().postSuggestion(UtilMethods.getUserToken(SuggestOutletActivity.this), suggestion, new Callback<BaseResponse>() {
                         @Override
                         public void success(BaseResponse baseResponse, Response response) {
 
@@ -83,9 +77,9 @@ public class SuggestOutletActivity extends BaseActivity{
                         public void failure(RetrofitError error) {
                             twystProgressHUD.dismiss();
                             if (error.getKind() == RetrofitError.Kind.NETWORK) {
-                                handleRetrofitError(error);
+                                UtilMethods.handleRetrofitError(SuggestOutletActivity.this, error);
                             } else {
-                                buildAndShowSnackbarWithMessage("Unable to submit outlet!");
+                                UtilMethods.buildAndShowSnackbarWithMessage(SuggestOutletActivity.this, "Unable to submit outlet!");
                             }
                         }
                     });
@@ -93,7 +87,7 @@ public class SuggestOutletActivity extends BaseActivity{
                     outletLocET.setError("Outlet location required");
                 } else if (!TextUtils.isEmpty(outletLocET.getText()) && TextUtils.isEmpty(outletNameET.getText())) {
                     outletNameET.setError("Outlet name required");
-                }  else {
+                } else {
                     outletNameET.setError("Outlet name required");
                     outletLocET.setError("Outlet location required");
                 }
@@ -114,25 +108,10 @@ public class SuggestOutletActivity extends BaseActivity{
         super.onResume();
         AppsFlyerLib.onActivityResume(this);
     }
+
     @Override
     public void onPause() {
         super.onPause();
         AppsFlyerLib.onActivityPause(this);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (drawerOpened) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            if (fromDrawer) {
-                //clear history and go to discover
-                Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            } else {
-                super.onBackPressed();
-            }
-        }
     }
 }

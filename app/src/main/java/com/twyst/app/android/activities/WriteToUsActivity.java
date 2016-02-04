@@ -16,6 +16,7 @@ import com.twyst.app.android.model.WriteToUs;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
+import com.twyst.app.android.util.UtilMethods;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -24,25 +25,16 @@ import retrofit.client.Response;
 /**
  * Created by rahuls on 7/8/15.
  */
-public class WriteToUsActivity extends BaseActivity {
+public class WriteToUsActivity extends BaseActionActivity {
     private boolean fromDrawer;
 
     @Override
-    protected String getTagName() {
-        return null;
-    }
-
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_write_to_us;
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setupAsChild = true;
+//        setupAsChild = true;
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_write_to_us);
         fromDrawer = getIntent().getBooleanExtra(AppConstants.INTENT_PARAM_FROM_DRAWER, false);
-
+        setupToolBar();
         hideProgressHUDInLayout();
         final EditText commentEt = (EditText) findViewById(R.id.commentEt);
 
@@ -60,7 +52,7 @@ public class WriteToUsActivity extends BaseActivity {
                     WriteMeta writeMeta = new WriteMeta();
                     writeMeta.setComments(commentEt.getText().toString());
                     writeToUs.setWriteMeta(writeMeta);
-                    HttpService.getInstance().writeToUs(getUserToken(), writeToUs, new Callback<BaseResponse>() {
+                    HttpService.getInstance().writeToUs(UtilMethods.getUserToken(WriteToUsActivity.this), writeToUs, new Callback<BaseResponse>() {
                         @Override
                         public void success(BaseResponse baseResponse, Response response) {
                             Toast.makeText(WriteToUsActivity.this, "Your comment has been sent to Twyst.", Toast.LENGTH_SHORT).show();
@@ -71,7 +63,7 @@ public class WriteToUsActivity extends BaseActivity {
                         @Override
                         public void failure(RetrofitError error) {
                             twystProgressHUD.dismiss();
-                            handleRetrofitError(error);
+                            UtilMethods.handleRetrofitError(WriteToUsActivity.this, error);
                         }
                     });
                 }
@@ -97,21 +89,5 @@ public class WriteToUsActivity extends BaseActivity {
     public void onPause() {
         super.onPause();
         AppsFlyerLib.onActivityPause(this);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (drawerOpened) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            if (fromDrawer) {
-                //clear history and go to discover
-                Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            } else {
-                super.onBackPressed();
-            }
-        }
     }
 }

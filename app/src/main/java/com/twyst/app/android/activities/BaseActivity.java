@@ -24,6 +24,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -193,7 +194,6 @@ public abstract class BaseActivity extends ActionBarActivity
                 drawerOpened = true;
             }
         };
-
         drawerLayout.setDrawerListener(mDrawerToggle);
         drawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
 
@@ -301,7 +301,7 @@ public abstract class BaseActivity extends ActionBarActivity
         ArrayList<DrawerItem> drawerItems = new ArrayList<>();
 
         reorder = new DrawerItem(DRAWER_ITEM_MY_ORDERS, R.drawable.drawer_list_item_myorders);
-        reorder.setNotifcation_needed(true);
+        reorder.setNotifcation_needed(false);
         reorder.setNotification_text(2);
 
         invite = new DrawerItem(DRAWER_ITEM_INVITE_FRIENDS, R.drawable.drawer_list_item_invitefriends);
@@ -969,8 +969,6 @@ public abstract class BaseActivity extends ActionBarActivity
         userName.setText(name);
 
         if (!TextUtils.isEmpty(pic)) {
-            backImage.setVisibility(View.VISIBLE);
-            userImage.setVisibility(View.VISIBLE);
             Picasso picasso = Picasso.with(this);
             picasso.setIndicatorsEnabled(AppConstants.DEGUG_PICASSO);
             picasso.setLoggingEnabled(AppConstants.DEGUG_PICASSO);
@@ -981,12 +979,7 @@ public abstract class BaseActivity extends ActionBarActivity
                     .transform(new RoundedTransformation(100, 0))
                     .into(userImage);
 
-        } else {
-            backImage.setVisibility(View.GONE);
-            userImage.setVisibility(View.VISIBLE);
         }
-
-
     }
 
     public ArrayList<OutletList> getOutletListsArray() {

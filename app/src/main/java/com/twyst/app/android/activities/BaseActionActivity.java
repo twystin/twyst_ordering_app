@@ -6,6 +6,8 @@ import android.view.View;
 
 import com.twyst.app.android.R;
 
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
+
 /**
  * Created by Vipul Sharma on 2/2/2016.
  */
@@ -21,6 +23,14 @@ public class BaseActionActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+
+    public void hideProgressHUDInLayout() {
+        CircularProgressBar circularProgressBar = (CircularProgressBar) findViewById(R.id.circularProgressBar);
+        if (circularProgressBar != null) {
+            circularProgressBar.progressiveStop();
+            circularProgressBar.setVisibility(View.GONE);
+        }
     }
 
 }

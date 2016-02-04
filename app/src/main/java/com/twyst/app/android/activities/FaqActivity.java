@@ -23,28 +23,20 @@ import com.twyst.app.android.util.TwystProgressHUD;
 /**
  * Created by rahuls on 20/8/15.
  */
-public class FaqActivity extends BaseActivity {
+public class FaqActivity extends BaseActionActivity {
     private boolean fromDrawer;
 
     @Override
-    protected String getTagName() {
-        return null;
-    }
-
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_faq;
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setupAsChild=true;
+//        setupAsChild=true;
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_faq);
         fromDrawer = getIntent().getBooleanExtra(AppConstants.INTENT_PARAM_FROM_DRAWER, false);
+        setupToolBar();
 
         final ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
 
-        TextView tvFAQ = (TextView)findViewById(R.id.tvFAQ);
+        TextView tvFAQ = (TextView) findViewById(R.id.tvFAQ);
         tvFAQ.setText(Html.fromHtml(getString(R.string.faq_body)));
 
         final WebView webView = (WebView) findViewById(R.id.webView);
@@ -76,11 +68,11 @@ public class FaqActivity extends BaseActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (url.startsWith("mailto:")) {
-                        MailTo mt = MailTo.parse(url);
-                        Intent i = newEmailIntent(FaqActivity.this, mt.getTo(), mt.getSubject(), mt.getBody(), mt.getCc());
-                        FaqActivity.this.startActivity(i);
-                        view.reload();
-                        return true;
+                    MailTo mt = MailTo.parse(url);
+                    Intent i = newEmailIntent(FaqActivity.this, mt.getTo(), mt.getSubject(), mt.getBody(), mt.getCc());
+                    FaqActivity.this.startActivity(i);
+                    view.reload();
+                    return true;
 
                 } else {
                     view.loadUrl(url);
@@ -90,7 +82,7 @@ public class FaqActivity extends BaseActivity {
 
         });
 
-        webView .loadUrl(AppConstants.HOST + "/api/v4/faq");
+        webView.loadUrl(AppConstants.HOST + "/api/v4/faq");
     }
 
     @Override
@@ -98,6 +90,7 @@ public class FaqActivity extends BaseActivity {
         super.onResume();
         AppsFlyerLib.onActivityResume(this);
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -106,30 +99,11 @@ public class FaqActivity extends BaseActivity {
 
     private Intent newEmailIntent(Context context, String address, String subject, String body, String cc) {
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[] { address });
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{address});
         intent.putExtra(Intent.EXTRA_TEXT, body);
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         intent.putExtra(Intent.EXTRA_CC, cc);
         intent.setType("message/rfc822");
         return intent;
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (drawerOpened) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            if (fromDrawer) {
-                //clear history and go to discover
-                Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                startActivity(intent);
-
-            } else {
-                super.onBackPressed();
-            }
-
-        }
     }
 }
