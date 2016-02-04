@@ -11,55 +11,67 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="TRACK YOUR ORDER"
-            android:textColor="@android:color/black" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:gravity="center"
-            android:text="ORDER ID : TW-BBB-18"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:id="@+id/iv_track_order_group"
-            android:layout_width="match_parent"
-            android:layout_height="18dp"
-            android:layout_gravity="center"
-            android:src="@drawable/collapsed" />
+        android:layout_height="match_parent">
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/offer_detail_divider_image" />
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:src="@drawable/buildingbg" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background_grey">
-
-        <ListView
-            android:id="@+id/listview_track_order_states"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="8dp"
-            android:scrollbars="none" />
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="TRACK YOUR ORDER"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="ORDER ID : TW-BBB-18"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/iv_track_order_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/collapsed" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/offer_detail_divider_image" />
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/listview_track_order_states"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="8dp"
+                android:scrollbars="none" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </LinearLayout>
 
