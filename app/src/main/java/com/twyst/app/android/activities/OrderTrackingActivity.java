@@ -78,7 +78,7 @@ public class OrderTrackingActivity extends BaseActionActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (orderIDServer == mOrderID) {
+                if (orderIDServer.equals(mOrderID)) {
                     refreshList();
                 }
             }
