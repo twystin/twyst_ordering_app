@@ -102,7 +102,7 @@ public class GcmIntentService extends IntentService {
         Activity currentActivity = ((TwystApplication) this.getApplicationContext()).getCurrentActivity();
         if (currentActivity != null) {
             OrderTrackingActivity orderTrackingActivity = (OrderTrackingActivity) currentActivity;
-            orderTrackingActivity.refreshList();
+            orderTrackingActivity.refreshListServer(orderID);
         }
 
         NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);

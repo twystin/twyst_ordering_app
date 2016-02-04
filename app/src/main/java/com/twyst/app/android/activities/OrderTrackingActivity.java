@@ -67,18 +67,21 @@ public class OrderTrackingActivity extends BaseActionActivity {
     }
 
     //Also called by when received notification
-    public void refreshList() {
-
+    public void refreshListServer(final String orderIDServer) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mTrackOrderStatesList = OrderTrackingState.getInitialList(mOrderID, OrderTrackingActivity.this);
-                if (mAdapter != null) {
-                    mAdapter.notifyDataSetChanged();
-                }
+                mOrderID = orderIDServer;
+                refreshList();
             }
         });
+    }
 
+    private void refreshList(){
+        mTrackOrderStatesList = OrderTrackingState.getInitialList(mOrderID, OrderTrackingActivity.this);
+        if (mAdapter != null) {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     class TrackOrderStatesAdapter extends ArrayAdapter<OrderTrackingState> {
