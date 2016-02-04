@@ -1,6 +1,7 @@
 package com.twyst.app.android.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,16 +11,32 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.twyst.app.android.R;
 import com.twyst.app.android.TwystApplication;
+import com.twyst.app.android.adapters.MenuOptionsAdapter;
+import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.OrderTrackingState;
+import com.twyst.app.android.model.menu.Items;
+import com.twyst.app.android.model.menu.Options;
+import com.twyst.app.android.model.order.CancelOrder;
+import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
+import com.twyst.app.android.util.TwystProgressHUD;
+import com.twyst.app.android.util.UtilMethods;
 
 import java.util.ArrayList;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class OrderTrackingActivity extends BaseActionActivity {
     private ListView trackOrderStatesListview;
@@ -115,6 +132,12 @@ public class OrderTrackingActivity extends BaseActionActivity {
                 case OrderTrackingState.STATE_PLACED:
                     if (isCurrent) {
                         viewholder.tvClickForFailure.setVisibility(View.VISIBLE);
+                        viewholder.tvClickForFailure.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                cancelOrderDialogShow();
+                            }
+                        });
                         viewholder.tvClickForFailure.setText(getResources().getString(R.string.order_placed_cancel_message));
                     }
                     break;
@@ -161,6 +184,66 @@ public class OrderTrackingActivity extends BaseActionActivity {
         public int getCount() {
             return mTrackOrderStatesList.size();
         }
+    }
+
+    private void cancelOrderDialogShow() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_order_cancel_reason, null);
+
+        final Button bOK = (Button) dialogView.findViewById(R.id.bOK);
+        final EditText etReason = (EditText) dialogView.findViewById(R.id.et_reason);
+
+        builder.setView(dialogView);
+
+        final AlertDialog dialog = builder.create();
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+
+        bOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (TextUtils.isEmpty(etReason.getText().toString())) {
+                    etReason.setError("Please mention reason for cancellation!");
+                } else {
+                    cancelOrder(etReason.getText().toString());
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        dialogView.findViewById(R.id.buttonCancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void cancelOrder(String reasonToCancel) {
+        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
+        CancelOrder cancelOrder = new CancelOrder(mOrderID, reasonToCancel);
+
+        HttpService.getInstance().postOrderCancel(UtilMethods.getUserToken(OrderTrackingActivity.this), cancelOrder, new Callback<BaseResponse>() {
+            @Override
+            public void success(BaseResponse baseResponse, Response response) {
+                if (baseResponse.isResponse()) {
+                    findViewById(R.id.tv_click_for_failure).setEnabled(false);
+                } else {
+                    Toast.makeText(OrderTrackingActivity.this, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                twystProgressHUD.dismiss();
+                UtilMethods.hideSnackbar();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                twystProgressHUD.dismiss();
+                UtilMethods.handleRetrofitError(OrderTrackingActivity.this, error);
+                UtilMethods.hideSnackbar();
+            }
+        });
     }
 
     @Override

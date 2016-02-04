@@ -41,6 +41,7 @@ import com.twyst.app.android.model.Voucher;
 import com.twyst.app.android.model.WalletData;
 import com.twyst.app.android.model.WriteToUs;
 import com.twyst.app.android.model.menu.MenuData;
+import com.twyst.app.android.model.order.CancelOrder;
 import com.twyst.app.android.model.order.OrderCheckOut;
 import com.twyst.app.android.model.order.OrderCheckOutResponse;
 import com.twyst.app.android.model.order.OrderConfirmedCOD;
@@ -136,6 +137,10 @@ public class HttpService {
 
     public void getOrderHistory(String token, Callback<BaseResponse<ArrayList<OrderHistory>>> callback) {
         twystService.getOrderHistory(token, callback);
+    }
+
+    public void postOrderCancel(String token, CancelOrder cancelOrder, Callback<BaseResponse> callback) {
+        twystService.postOrderCancel(token, cancelOrder, callback);
     }
 
     public void getRecommendedOutlets(String userToken, String lat, String lng, String date, String time, Callback<BaseResponse<DiscoverData>> callback) {

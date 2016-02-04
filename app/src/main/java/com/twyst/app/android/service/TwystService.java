@@ -33,6 +33,7 @@ import com.twyst.app.android.model.Voucher;
 import com.twyst.app.android.model.WalletData;
 import com.twyst.app.android.model.WriteToUs;
 import com.twyst.app.android.model.menu.MenuData;
+import com.twyst.app.android.model.order.CancelOrder;
 import com.twyst.app.android.model.order.OrderCheckOut;
 import com.twyst.app.android.model.order.OrderCheckOutResponse;
 import com.twyst.app.android.model.order.OrderConfirmedCOD;
@@ -90,6 +91,9 @@ public interface TwystService {
 
     @GET("/api/v4/orders")
     public void getOrderHistory(@Query("token") String token, Callback<BaseResponse<ArrayList<OrderHistory>>> callback);
+
+    @GET("/api/v4/user/cancel_order")
+    public void postOrderCancel(@Query("token") String token, CancelOrder cancelOrder,Callback<BaseResponse> callback);
 
     @PUT("/api/v4/friends")
     public void updateSocialFriends(@Query("token") String token, @Body Friend friend, Callback<BaseResponse<ProfileUpdate>> callback);
