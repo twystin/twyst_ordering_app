@@ -92,8 +92,8 @@ public interface TwystService {
     @GET("/api/v4/orders")
     public void getOrderHistory(@Query("token") String token, Callback<BaseResponse<ArrayList<OrderHistory>>> callback);
 
-    @GET("/api/v4/user/cancel_order")
-    public void postOrderCancel(@Query("token") String token, CancelOrder cancelOrder,Callback<BaseResponse> callback);
+    @POST("/api/v4/user/cancel_order")
+    public void postOrderCancel(@Query("token") String token, @Body() CancelOrder cancelOrder, Callback<BaseResponse> callback);
 
     @PUT("/api/v4/friends")
     public void updateSocialFriends(@Query("token") String token, @Body Friend friend, Callback<BaseResponse<ProfileUpdate>> callback);
