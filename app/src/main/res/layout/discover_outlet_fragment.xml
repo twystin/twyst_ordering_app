@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -25,7 +24,7 @@
                 <cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager
                     android:id="@+id/ads_pager"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"></cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager>
+                    android:layout_height="match_parent" />
 
                 <com.twyst.app.android.CirclePageIndicator
                     android:id="@+id/indicator"
@@ -115,13 +114,28 @@
 
     </android.support.design.widget.AppBarLayout>
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/outletRecyclerView"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/outletRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp">
+
+            <include
+                android:id="@+id/circularProgressBarOutlet"
+                layout="@layout/twyst_progress_hud" />
+        </RelativeLayout>
+    </RelativeLayout>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_filter"

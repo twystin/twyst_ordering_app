@@ -46,6 +46,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -81,9 +82,8 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
 
     private LinearLayout showErrorLayout;
     private TextView errorDescription;
-    private TwystProgressHUD twystProgressHUD;
+    private CircularProgressBar circularProgressBarOutlet;
     private LinearLayout showAddressLayout;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -130,7 +130,8 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
         refreshDateTime();
         String optionSelected = getActivity().getIntent().getStringExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED);
         currentAddressName = (TextView) view.findViewById(R.id.tv_current_address_location);
-        twystProgressHUD = TwystProgressHUD.show(getActivity(), false, null);
+        circularProgressBarOutlet = (CircularProgressBar) view.findViewById(R.id.circularProgressBarOutlet);
+        showProgressBar();
         switch (optionSelected) {
             case AppConstants.CHOOSE_LOCATION_OPTION_CURRENT:
                 Fragment discoverOutletFragment = (DiscoverOutletFragment) (getActivity().getSupportFragmentManager().getFragments().get(0));
@@ -160,7 +161,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
             @Override
             public void onClick(View v) {
                 showErrorLayout.setVisibility(View.GONE);
-                twystProgressHUD = TwystProgressHUD.show(getActivity(), false, null);
+                showProgressBar();
                 locationFetchUtil.requestLocation(true);
             }
 
@@ -186,7 +187,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
 
         if (requestCode == AppConstants.GET_FILTER_ACTIVITY) {
             if (resultCode == AppConstants.GOT_FILTERS_SUCCESS) {
-                twystProgressHUD = TwystProgressHUD.show(getActivity(), false, null);
+                showProgressBar();
                 Bundle extras = data.getExtras();
                 filterTagsMap.clear();
                 filterTagsMap = (HashMap<String, long[]>) extras.getSerializable(AppConstants.FILTER_TAGS);
@@ -212,7 +213,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
                     discoverAdapter.getItems().addAll(fetchedOutlets);
                     discoverAdapter.notifyDataSetChanged();
                 }
-                twystProgressHUD.dismiss();
+                hideProgressBar();
 
 
             } else {
@@ -274,9 +275,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
             Intent intent = new Intent(getActivity(), AddressMapActivity.class);
             intent.putExtra("Choose activity directed to map", true);
             startActivity(intent);
-            if (twystProgressHUD != null) {
-                twystProgressHUD.dismiss();
-            }
+            hideProgressBar();
         } else {
             showErrorLayout.setVisibility(View.VISIBLE);
             if (resultCode == AppConstants.SHOW_FETCH_LOCATION_AGAIN) {
@@ -319,7 +318,6 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
         String latitude = mAddressDetailsLocationData != null ? mAddressDetailsLocationData.getCoords().getLat() : "28.4733044";
         String longitude = mAddressDetailsLocationData != null ? mAddressDetailsLocationData.getCoords().getLon() : "77.0994511";
 
-
         Log.d(getTagName(), "Going to fetch outlets with, start: " + start + ", lat " + latitude + ", long: " + longitude + ", date: " + mDate + ", time: " + mTime);
         fetchingOutlets = true;
 
@@ -349,17 +347,29 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
                         discoverAdapter.notifyDataSetChanged();
                     }
                 }
-
-                twystProgressHUD.dismiss();
+                hideProgressBar();
             }
 
             @Override
             public void failure(RetrofitError error) {
                 fetchingOutlets = false;
-                twystProgressHUD.dismiss();
+                hideProgressBar();
                 mActivity.handleRetrofitError(error);
             }
         });
+    }
+
+    private void hideProgressBar() {
+        if (circularProgressBarOutlet != null) {
+            circularProgressBarOutlet.setVisibility(View.GONE);
+        }
+    }
+
+    private void showProgressBar() {
+        if (circularProgressBarOutlet != null) {
+            circularProgressBarOutlet.setVisibility(View.VISIBLE);
+        }
+
     }
 
     private ArrayList<Outlet> fetchOutletsWithFilters() {
