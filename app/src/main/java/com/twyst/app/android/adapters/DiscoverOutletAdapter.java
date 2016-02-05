@@ -244,10 +244,10 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             }
 
             if (outlet.getMinimumOrder() != null) {
-                String minOrderString = Utils.costString(Double.parseDouble(outlet.getMinimumOrder())) + " min order";
+                String minOrderString = "Minimum order : " + Utils.costString(Double.parseDouble(outlet.getMinimumOrder()));
                 outletViewHolder.minimumOrder.setText(minOrderString);
             } else {
-                String minOrderString = "0 min order";
+                String minOrderString = "Minimum order : " + Utils.costString(Double.parseDouble("0"));
                 outletViewHolder.minimumOrder.setText(minOrderString);
             }
             String maxCashBack = "0";

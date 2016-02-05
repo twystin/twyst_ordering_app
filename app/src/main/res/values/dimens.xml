@@ -46,6 +46,7 @@
     <dimen name="layout_huge_margin">16dp</dimen>
     <dimen name="layout_wide_margin">12dp</dimen>
     <dimen name="layout_medium_margin">8dp</dimen>
+    <dimen name="layout_big_margin">10dp</dimen>
     <dimen name="layout_small_margin">4dp</dimen>
 
     <dimen name="default_circle_indicator_radius">6dp</dimen>

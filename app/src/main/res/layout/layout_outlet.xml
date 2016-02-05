@@ -19,75 +19,71 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="@dimen/layout_big_margin">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_width="104dp"
+                android:layout_height="116dp">
 
-                <RelativeLayout
-                    android:layout_width="124dp"
-                    android:layout_height="150dp"
-                    android:padding="@dimen/layout_medium_margin">
+                <ImageView
+                    android:id="@+id/outlet_logo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/default_outlet_bg"
+                    android:scaleType="centerCrop" />
 
-                    <ImageView
-                        android:id="@+id/outlet_logo"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/default_outlet_bg"
-                        android:scaleType="centerCrop" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/outlet_logo"
+                    android:alpha="0.8"
+                    android:background="@android:color/holo_blue_dark"
+                    android:orientation="horizontal"
+                    android:paddingBottom="4dp"
+                    android:paddingTop="4dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:padding="2dp"
+                        android:text="4.1"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/layout_wide_text_size"
+                        android:textStyle="bold" />
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/outlet_logo"
-                        android:alpha="0.7"
-                        android:background="@android:color/holo_green_dark"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="right"
-                            android:padding="2dp"
-                            android:text="4.1"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/layout_wide_text_size"
-                            android:textStyle="bold" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="7dp"
-                                android:layout_height="7dp"
-                                android:layout_gravity="left|center_vertical"
-                                android:src="@drawable/star" />
-                        </LinearLayout>
+                        <ImageView
+                            android:layout_width="7dp"
+                            android:layout_height="7dp"
+                            android:layout_gravity="left|center_vertical"
+                            android:src="@drawable/star" />
                     </LinearLayout>
+                </LinearLayout>
 
-                </RelativeLayout>
-            </LinearLayout>
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:paddingBottom="@dimen/layout_medium_margin"
-                android:paddingRight="@dimen/layout_medium_margin"
-                android:paddingTop="@dimen/layout_medium_margin">
+                android:paddingLeft="@dimen/layout_medium_margin"
+                android:paddingRight="@dimen/layout_medium_margin">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingBottom="@dimen/layout_medium_margin">
+                    android:paddingBottom="@dimen/layout_small_margin">
 
                     <TextView
                         android:id="@+id/outletName"
@@ -112,7 +108,6 @@
                         android:textColor="@color/text_grey"
                         android:textSize="@dimen/layout_medium_text_size" />
 
-
                 </LinearLayout>
 
                 <TextView
@@ -120,109 +115,127 @@
                     android:layout_height="1dp"
                     android:background="@color/background_grey" />
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:paddingTop="@dimen/layout_wide_margin">
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/layout_small_margin">
 
-                    <TextView
-                        android:id="@+id/cuisines"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true"
-                        android:text="Cuisines: "
-                        android:textColor="@color/text_black"
-                        android:textSize="@dimen/layout_medium_text_size" />
-
-                    <TextView
-                        android:id="@+id/cuisines_names"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBaseline="@id/cuisines"
-                        android:layout_toRightOf="@id/cuisines"
-                        android:ellipsize="end"
-                        android:singleLine="true"
-                        android:text="chinese, italian"
-                        android:textColor="@color/text_grey"
-                        android:textSize="@dimen/layout_medium_text_size" />
-
-                    <TextView
-                        android:id="@+id/delivery_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/cuisines"
-                        android:layout_marginTop="@dimen/layout_small_margin"
-                        android:drawablePadding="@dimen/layout_small_margin"
-                        android:text="45 minutes"
-                        android:textColor="@color/text_grey"
-                        android:textSize="@dimen/layout_medium_text_size" />
-
-
-                    <TextView
-                        android:id="@+id/min_order"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/delivery_time"
-                        android:layout_marginTop="@dimen/layout_small_margin"
-                        android:drawablePadding="@dimen/layout_small_margin"
-                        android:text="300 min order"
-                        android:textColor="@color/text_grey"
-                        android:textSize="@dimen/layout_medium_text_size" />
-
-                    <TextView
-                        android:id="@+id/no_of_offers"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/min_order"
-                        android:layout_marginTop="@dimen/layout_small_margin"
-                        android:drawablePadding="@dimen/layout_small_margin"
-                        android:text="3 Offers Available"
-                        android:textColor="@color/text_grey"
-                        android:textSize="@dimen/layout_medium_text_size" />
-
-
-                    <TextView
-                        android:id="@+id/tv_twyst_bucks"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentRight="true"
-                        android:text="Twyst Bucks"
-                        android:textSize="@dimen/layout_wide_text_size" />
-
-                    <RelativeLayout
-                        android:layout_width="40dp"
-                        android:layout_height="60dp"
-                        android:layout_above="@id/tv_twyst_bucks"
-                        android:layout_alignParentRight="true"
-                        android:background="@drawable/twystbucksicon"
-                        android:padding="6dp">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="bottom"
+                        android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/tv_twyst_bucks_percentage"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/cuisines_names"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:gravity="center_horizontal"
-                            android:text="12%"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/layout_wide_text_size"
-                            android:textStyle="bold" />
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:text="chinese, italian"
+                            android:textColor="@color/text_grey"
+                            android:textSize="@dimen/layout_medium_text_size" />
 
                         <TextView
+                            android:id="@+id/delivery_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/layout_small_margin"
+                            android:drawablePadding="@dimen/layout_small_margin"
+                            android:text="45 minutes"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:textColor="@color/text_grey"
+                            android:textSize="@dimen/layout_medium_text_size" />
+
+                        <TextView
+                            android:id="@+id/min_order"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/layout_small_margin"
+                            android:drawablePadding="@dimen/layout_small_margin"
+                            android:text="300 min order"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:textColor="@color/text_grey"
+                            android:textSize="@dimen/layout_medium_text_size" />
+
+                        <TextView
+                            android:id="@+id/no_of_offers"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/layout_small_margin"
+                            android:drawablePadding="@dimen/layout_small_margin"
+                            android:text="3 Offers Available"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:textColor="@color/text_grey"
+                            android:textSize="@dimen/layout_medium_text_size" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="bottom"
+                        android:paddingLeft="@dimen/layout_small_margin"
+                        android:orientation="vertical">
+
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_above="@id/tv_twyst_bucks_percentage"
-                            android:text="Upto"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/layout_medium_text_size"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="10dp"
+                                android:layout_height="14dp"
+                                android:background="@drawable/twystbucksicon" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:paddingLeft="4dp"
+                                android:paddingRight="4dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Upto"
+                                    android:textColor="@color/text_grey"
+                                    android:textSize="@dimen/layout_medium_text_size" />
+
+                                <TextView
+                                    android:id="@+id/tv_twyst_bucks_percentage"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_horizontal"
+                                    android:text="12%"
+                                    android:textColor="@color/text_grey"
+                                    android:textSize="@dimen/layout_medium_text_size" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_twyst_bucks"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="Twyst Bucks"
+                            android:layout_marginTop="@dimen/layout_small_margin"
+                            android:textColor="@color/text_grey"
+                            android:textSize="@dimen/layout_medium_text_size" />
+                    </LinearLayout>
 
 
-                </RelativeLayout>
+                </LinearLayout>
 
 
             </LinearLayout>
