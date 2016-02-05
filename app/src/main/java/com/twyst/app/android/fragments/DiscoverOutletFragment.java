@@ -201,7 +201,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
                     }
                 }
 
-                Toast.makeText(getActivity(), tags.toString(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(getActivity(), tags.toString(), Toast.LENGTH_LONG).show();
                 if (tags.size() > 0) {
 
                     ArrayList<Outlet> list = fetchOutletsWithFilters();
@@ -217,7 +217,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
 
 
             } else {
-                Toast.makeText(getActivity(), "UNABLE TO FETCH TAGS", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getActivity(), "UNABLE TO FETCH TAGS", Toast.LENGTH_LONG).show();
                 showErrorLayout.setVisibility(View.VISIBLE);
                 errorDescription.setText(R.string.fetch_location_again_desc);
 

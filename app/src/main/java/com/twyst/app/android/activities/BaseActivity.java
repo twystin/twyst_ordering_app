@@ -313,7 +313,7 @@ public abstract class BaseActivity extends ActionBarActivity
         rate = new DrawerItem(DRAWER_ITEM_RATE, R.drawable.drawer_list_item_ratetwyst);
 
         //SEQUENCE DEFINED HERE
-        drawerItems.add(home);
+//        drawerItems.add(home);
         drawerItems.add(reorder);
         drawerItems.add(invite);
         drawerItems.add(notifications);

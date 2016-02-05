@@ -169,6 +169,7 @@
         <activity
             android:name=".activities.FiltersActivity"
             android:label="Filters"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <activity

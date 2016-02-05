@@ -22,14 +22,13 @@ import java.util.HashMap;
 /**
  * Created by anshul on 1/16/2016.
  */
-public class FiltersActivity extends AppCompatActivity implements TagFragment.OnTagSelectedListener {
-
+public class FiltersActivity extends BaseActionActivity implements TagFragment.OnTagSelectedListener {
     private SortFragment sortFragment;
     private CuisinesFragment cuisinesFragment;
     private PaymentFragment paymentFragment;
     private OffersFragment offersFragment;
     private FragmentTransaction transaction;
-    private HashMap<String,long[]> tagsMap;
+    private HashMap<String, long[]> tagsMap;
     private Toolbar toolbar;
     private TextView applyBtn;
     private TextView resetBtn;
@@ -39,21 +38,12 @@ public class FiltersActivity extends AppCompatActivity implements TagFragment.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filters);
 
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar_filters_main);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        setupToolBar();
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null){
-            tagsMap = (HashMap<String,long[]>)bundle.getSerializable(AppConstants.FILTER_MAP);
-            if (tagsMap != null && tagsMap.size() == 4){
+        if (bundle != null) {
+            tagsMap = (HashMap<String, long[]>) bundle.getSerializable(AppConstants.FILTER_MAP);
+            if (tagsMap != null && tagsMap.size() == 4) {
                 sortFragment = new SortFragment(tagsMap.get(AppConstants.sortTag));
                 cuisinesFragment = new CuisinesFragment(tagsMap.get(AppConstants.cuisinetag));
                 paymentFragment = new PaymentFragment(tagsMap.get(AppConstants.paymentTag));
@@ -65,23 +55,21 @@ public class FiltersActivity extends AppCompatActivity implements TagFragment.On
                 offersFragment = new OffersFragment(null);
             }
 
-
         }
 
-        applyBtn = (TextView)findViewById(R.id.btn_apply_filters);
+        applyBtn = (TextView) findViewById(R.id.btn_apply_filters);
         applyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 tagsMap.clear();
-                tagsMap = new HashMap<String,long[]>();
-                tagsMap.put("SORT BY",sortFragment.getSelectedOptions());
-                tagsMap.put("CUISINES",cuisinesFragment.getSelectedOptions());
+                tagsMap = new HashMap<String, long[]>();
+                tagsMap.put("SORT BY", sortFragment.getSelectedOptions());
+                tagsMap.put("CUISINES", cuisinesFragment.getSelectedOptions());
                 tagsMap.put("PAYMENT OPTION", paymentFragment.getSelectedOptions());
                 tagsMap.put("OFFERS AVAILABLE", offersFragment.getSelectedOptions());
 
-
                 Bundle data = new Bundle();
-                data.putSerializable(AppConstants.FILTER_TAGS,tagsMap);
+                data.putSerializable(AppConstants.FILTER_TAGS, tagsMap);
                 Intent intent = new Intent();
                 intent.putExtras(data);
                 setResult(AppConstants.GOT_FILTERS_SUCCESS, intent);
@@ -89,7 +77,7 @@ public class FiltersActivity extends AppCompatActivity implements TagFragment.On
             }
         });
 
-        resetBtn = (TextView)findViewById(R.id.btn_reset_filters);
+        resetBtn = (TextView) findViewById(R.id.btn_reset_filters);
         resetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,8 +89,8 @@ public class FiltersActivity extends AppCompatActivity implements TagFragment.On
                 cuisinesFragment = new CuisinesFragment(null);
                 paymentFragment = new PaymentFragment(null);
                 offersFragment = new OffersFragment(null);
-                TagFragment tagFragment = (TagFragment)getFragmentManager().findFragmentById(R.id.tag_fragment);
-                switch (tagFragment.returnCurrentSelectedTag()){
+                TagFragment tagFragment = (TagFragment) getFragmentManager().findFragmentById(R.id.tag_fragment);
+                switch (tagFragment.returnCurrentSelectedTag()) {
                     case "SORT BY":
                         transaction = getSupportFragmentManager().beginTransaction();
                         transaction.replace(R.id.fragment_container, sortFragment);
@@ -129,17 +117,10 @@ public class FiltersActivity extends AppCompatActivity implements TagFragment.On
                 }
             }
         });
-
-
     }
 
-
-
     @Override
-    public void onTagSelected(int position,TagItem tagItem) {
-
-
-
+    public void onTagSelected(int position, TagItem tagItem) {
         switch (tagItem.getName()) {
             case "SORT BY":
                 transaction = getSupportFragmentManager().beginTransaction();

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -48,10 +47,7 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:orientation="horizontal"
-            android:paddingBottom="@dimen/layout_medium_margin"
-            android:paddingLeft="@dimen/layout_wide_margin"
-            android:paddingRight="@dimen/layout_wide_margin"
-            android:paddingTop="@dimen/layout_medium_margin">
+            android:padding="@dimen/layout_huge_margin">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -59,7 +55,7 @@
                 android:clickable="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-                android:text="DELIVERS TO : "
+                android:text="DELIVERING TO : "
                 android:textAllCaps="true"
                 android:textSize="@dimen/layout_wide_margin" />
 
@@ -87,13 +83,17 @@
             android:id="@+id/linlay_discover_fragment_error_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
             android:background="@color/white"
             android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:visibility="gone">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray_divider" />
 
             <TextView
                 android:id="@+id/tv_error_description"
@@ -109,7 +109,6 @@
                 android:text=" "
                 android:textSize="@dimen/layout_wide_margin"
                 android:textStyle="italic" />
-
         </LinearLayout>
 
     </android.support.design.widget.AppBarLayout>
@@ -136,7 +135,6 @@
         </RelativeLayout>
     </RelativeLayout>
 
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_filter"
         android:layout_width="wrap_content"
@@ -155,5 +153,4 @@
         app:layout_anchor="@id/outletRecyclerView"
         app:layout_anchorGravity="bottom|right|end"
         app:layout_behavior="com.twyst.app.android.ScrollAwareFABBehavior" />
-
 </android.support.design.widget.CoordinatorLayout>
