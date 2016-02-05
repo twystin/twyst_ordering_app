@@ -38,7 +38,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/outlet_logo"
-                    android:alpha="0.8"
+                    android:alpha="0.7"
                     android:background="@android:color/holo_blue_dark"
                     android:orientation="horizontal"
                     android:paddingBottom="4dp"
