@@ -70,10 +70,10 @@ public class TwystBucksHistoryActivity extends BaseActionActivity {
         bucksData.add(new BucksHistory("15 Apr", "2016", "Chaayos", "500", "+", "750", "550"));
         bucksData.add(new BucksHistory("18 Jul", "2015", "Biryaani Blues Heaven Voucher", "Free Biryaani", "-", "350", "789"));
         bucksData.add(new BucksHistory("1 Jan", "2016", "Haye Mirchi", "1000", "+", "750", "879"));
-//        bucksData.add(new BucksHistory("26 Jun", "2015", "Dominos Pizza", "350", "-", "500", "1000"));
-//        bucksData.add(new BucksHistory("16 Aug", "2016", "Pizza Hut", "250", "+", "245", "2764"));
-//        bucksData.add(new BucksHistory("14 Jan", "2015", "Gyani's", "1800", "+", "756", "4856"));
-//        bucksData.add(new BucksHistory("16 Jan", "2016", "Captain Bill Rocking Delivery", "2350", "-", "420", "457"));
+        bucksData.add(new BucksHistory("26 Jun", "2015", "Dominos Pizza", "350", "-", "500", "1000"));
+        bucksData.add(new BucksHistory("16 Aug", "2016", "Pizza Hut", "250", "+", "245", "2764"));
+        bucksData.add(new BucksHistory("14 Jan", "2015", "Gyani's", "1800", "+", "756", "4856"));
+        bucksData.add(new BucksHistory("16 Jan", "2016", "Captain Bill Rocking Delivery", "2350", "-", "420", "457"));
     }
 
     private ArrayList<BucksHistory> getDebitData(ArrayList<BucksHistory> mDataList) {
