@@ -145,9 +145,7 @@ public abstract class BaseActivity extends ActionBarActivity
                     case R.id.action_home:
                         showHome();
                         break;
-
                 }
-
                 return true;
             }
         });
@@ -164,11 +162,7 @@ public abstract class BaseActivity extends ActionBarActivity
                 rate.setSelected(false);
                 faq.setSelected(false);
                 notifications.setSelected(false);
-                //bill.setSelected(false);
-//                wallet.setSelected(false);
                 reorder.setSelected(false);
-                //     addressDetails.setSelected(false);
-//                submitOffer.setSelected(false);
                 suggestOutlet.setSelected(false);
                 feedback.setSelected(false);
                 rate.setSelected(false);
@@ -183,11 +177,7 @@ public abstract class BaseActivity extends ActionBarActivity
                 rate.setSelected(false);
                 faq.setSelected(false);
                 notifications.setSelected(false);
-                //bill.setSelected(false);
-//                wallet.setSelected(false);
                 reorder.setSelected(false);
-                //             addressDetails.setSelected(false);
-//                submitOffer.setSelected(false);
                 suggestOutlet.setSelected(false);
                 feedback.setSelected(false);
                 rate.setSelected(false);
@@ -214,7 +204,6 @@ public abstract class BaseActivity extends ActionBarActivity
         } else {
             localityDrawer.setText(locality);
         }
-
 
         updatePicName();
 
@@ -264,7 +253,6 @@ public abstract class BaseActivity extends ActionBarActivity
 
         if (setupAsChild) {
             mDrawerToggle.setDrawerIndicatorEnabled(false);
-            //drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
             toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
@@ -331,7 +319,6 @@ public abstract class BaseActivity extends ActionBarActivity
             DrawerItem drawerItem = drawerItems.get(pos);
             drawerItem.setSelected(true);
         }
-
         return drawerItems;
     }
 
@@ -340,13 +327,11 @@ public abstract class BaseActivity extends ActionBarActivity
     }
 
     private void showNotifications() {
-
         Intent intent = new Intent(this, NotificationActivity.class);
         startActivity(intent);
     }
 
     private void showWallet() {
-
         Intent intent = new Intent(this, WalletActivity.class);
         startActivity(intent);
     }
@@ -553,41 +538,46 @@ public abstract class BaseActivity extends ActionBarActivity
         final MenuItem searchMenuItem = menu.findItem(R.id.action_search);
         final MenuItem homeMenuItem = menu.findItem(R.id.action_home);
 
-        if (getLayoutResource() == R.layout.activity_edit_profile) {
-            homeMenuItem.setVisible(false);
-            walletMenuItem.setVisible(false);
-            notificationsMenuItem.setVisible(false);
-            searchMenuItem.setVisible(false);
-        } else if (getLayoutResource() == R.layout.redeem_voucher_activity) {
-            homeMenuItem.setVisible(false);
-            walletMenuItem.setVisible(false);
-            notificationsMenuItem.setVisible(false);
-            searchMenuItem.setVisible(false);
-        } else if (getLayoutResource() == R.layout.activity_wallet) {
-            homeMenuItem.setVisible(true);
-            walletMenuItem.setVisible(false);
-        } else if (getLayoutResource() == R.layout.activity_notification) {
-            homeMenuItem.setVisible(true);
-            notificationsMenuItem.setVisible(false);
+        homeMenuItem.setVisible(false);
+        walletMenuItem.setVisible(false);
+        notificationsMenuItem.setVisible(false);
+        searchMenuItem.setVisible(true);
 
-            //Hide all action buttons
-        } else if ((getLayoutResource() == R.layout.activity_upload_bill)
-                || (getLayoutResource() == R.layout.activity_write_to_us)
-                || (getLayoutResource() == R.layout.activity_suggest_outlet)
-                || (getLayoutResource() == R.layout.checkin_succes_layout)
-                || (getLayoutResource() == R.layout.activity_submit_offer)) {
-            //Hide all action buttons
-            homeMenuItem.setVisible(false);
-            notificationsMenuItem.setVisible(false);
-            walletMenuItem.setVisible(false);
-            searchMenuItem.setVisible(false);
-        } else if (getLayoutResource() == R.layout.activity_order_online) {
-            //Hide all action buttons
-            homeMenuItem.setVisible(false);
-            notificationsMenuItem.setVisible(false);
-            walletMenuItem.setVisible(false);
-            searchMenuItem.setVisible(true);
-        }
+//        if (getLayoutResource() == R.layout.activity_edit_profile) {
+//            homeMenuItem.setVisible(false);
+//            walletMenuItem.setVisible(false);
+//            notificationsMenuItem.setVisible(false);
+//            searchMenuItem.setVisible(false);
+//        } else if (getLayoutResource() == R.layout.redeem_voucher_activity) {
+//            homeMenuItem.setVisible(false);
+//            walletMenuItem.setVisible(false);
+//            notificationsMenuItem.setVisible(false);
+//            searchMenuItem.setVisible(false);
+//        } else if (getLayoutResource() == R.layout.activity_wallet) {
+//            homeMenuItem.setVisible(true);
+//            walletMenuItem.setVisible(false);
+//        } else if (getLayoutResource() == R.layout.activity_notification) {
+//            homeMenuItem.setVisible(true);
+//            notificationsMenuItem.setVisible(false);
+//
+//            //Hide all action buttons
+//        } else if ((getLayoutResource() == R.layout.activity_upload_bill)
+//                || (getLayoutResource() == R.layout.activity_write_to_us)
+//                || (getLayoutResource() == R.layout.activity_suggest_outlet)
+//                || (getLayoutResource() == R.layout.checkin_succes_layout)
+//                || (getLayoutResource() == R.layout.activity_submit_offer)) {
+//            //Hide all action buttons
+//            homeMenuItem.setVisible(false);
+//            notificationsMenuItem.setVisible(false);
+//            walletMenuItem.setVisible(false);
+//            searchMenuItem.setVisible(false);
+//        } else if (getLayoutResource() == R.layout.activity_order_online) {
+//            //Hide all action buttons
+//            homeMenuItem.setVisible(false);
+//            notificationsMenuItem.setVisible(false);
+//            walletMenuItem.setVisible(false);
+//            searchMenuItem.setVisible(true);
+//        }
 
         searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
