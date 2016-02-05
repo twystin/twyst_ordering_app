@@ -16,6 +16,7 @@ import com.twyst.app.android.model.NotificationData;
 import com.twyst.app.android.model.OTPCode;
 import com.twyst.app.android.model.Offer;
 import com.twyst.app.android.model.OrderHistory;
+import com.twyst.app.android.model.OrderUpdate;
 import com.twyst.app.android.model.OutletDetailData;
 import com.twyst.app.android.model.Profile;
 import com.twyst.app.android.model.ProfileUpdate;
@@ -96,7 +97,7 @@ public interface TwystService {
     public void postOrderCancel(@Query("token") String token, @Body() CancelOrder cancelOrder, Callback<BaseResponse> callback);
 
     @PUT("/api/v4/friends")
-    public void updateSocialFriends(@Query("token") String token, @Body Friend friend, Callback<BaseResponse<ProfileUpdate>> callback);
+    public void updateSocialFriends(@Query("token") String token, @Body() Friend friend, Callback<BaseResponse<ProfileUpdate>> callback);
 
     @FormUrlEncoded
     @POST("/api/v4/outlet/follow")
@@ -178,9 +179,9 @@ public interface TwystService {
     @GET("/api/v4/events/notifications")
     public void getNotification(@Query("token") String token, Callback<BaseResponse<ArrayList<NotificationData>>> callback);
 
-    //Added by Raman to get outlet offers
     @GET("/api/v4/offers/outlet/{outlet_id}")
     public void getOffers(@Path("outlet_id") String outletID, @Query("token") String token, Callback<BaseResponse<ArrayList<Offer>>> callback);
 
-
+    @PUT("/api/v4/order/{order_id}")
+    public void putOrderUpdate(@Path("order_id") String order_id, @Query("token") String token, @Body() OrderUpdate orderUpdate, Callback<BaseResponse> callback);
 }

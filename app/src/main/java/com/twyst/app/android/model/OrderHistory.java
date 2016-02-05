@@ -38,7 +38,7 @@ public class OrderHistory implements Serializable {
     @SerializedName("menu_id")
     private String menuId;
 
-    @SerializedName("outlet_id")
+    @SerializedName("outlet")
     private String outletId;
 
     @SerializedName("_id")

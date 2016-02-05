@@ -24,6 +24,7 @@ import com.twyst.app.android.model.NotificationData;
 import com.twyst.app.android.model.OTPCode;
 import com.twyst.app.android.model.Offer;
 import com.twyst.app.android.model.OrderHistory;
+import com.twyst.app.android.model.OrderUpdate;
 import com.twyst.app.android.model.OutletDetailData;
 import com.twyst.app.android.model.Profile;
 import com.twyst.app.android.model.ProfileUpdate;
@@ -271,5 +272,9 @@ public class HttpService {
     //Added by Raman to get outlet offers
     public void getOffers(String outletID, String token, Callback<BaseResponse<ArrayList<Offer>>> callback) {
         twystService.getOffers(outletID, token, callback);
+    }
+
+    public void putOrderUpdate(String orderId, String token, OrderUpdate orderUpdate, Callback<BaseResponse> callback) {
+        twystService.putOrderUpdate(orderId, token, orderUpdate, callback);
     }
 }

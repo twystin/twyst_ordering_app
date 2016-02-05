@@ -245,7 +245,8 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                 addMenu(item);
             }
             mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-
+            findViewById(R.id.fNextMenu).setVisibility(View.GONE);
+            findViewById(R.id.bAddNewItem).setVisibility(View.VISIBLE);
         } else {
 
             HttpService.getInstance().getMenu(menuId, UtilMethods.getUserToken(OrderOnlineActivity.this), new Callback<BaseResponse<MenuData>>() {
