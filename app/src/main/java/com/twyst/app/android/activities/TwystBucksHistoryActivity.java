@@ -79,7 +79,7 @@ public class TwystBucksHistoryActivity extends BaseActionActivity {
     private ArrayList<BucksHistory> getDebitData(ArrayList<BucksHistory> mDataList) {
         ArrayList<BucksHistory> tempList = new ArrayList<BucksHistory>();
         for (int i = 0; i < mDataList.size(); i++) {
-            if (mDataList.get(i).getTransaction().equalsIgnoreCase("+")) {
+            if (mDataList.get(i).getTransaction().equalsIgnoreCase("-")) {
                 tempList.add(mDataList.get(i));
             }
         }
@@ -89,7 +89,7 @@ public class TwystBucksHistoryActivity extends BaseActionActivity {
     private ArrayList<BucksHistory> getCreditData(ArrayList<BucksHistory> mDataList) {
         ArrayList<BucksHistory> tempList = new ArrayList<BucksHistory>();
         for (int i = 0; i < mDataList.size(); i++) {
-            if (mDataList.get(i).getTransaction().equalsIgnoreCase("-")) {
+            if (mDataList.get(i).getTransaction().equalsIgnoreCase("+")) {
                 tempList.add(mDataList.get(i));
             }
         }
