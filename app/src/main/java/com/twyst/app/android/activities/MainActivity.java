@@ -55,6 +55,13 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                if (tab.getPosition() == 0) {
+                    //Discover fragment selected, enable searchView
+                    showSearchView();
+                } else {
+                    closeSearchView();
+                    hideSearchView();
+                }
             }
 
             @Override
@@ -95,7 +102,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             if (!searchView.isIconified()) {
-                hideSeachView();
+                closeSearchView();
             } else {
                 MainActivity.this.finish();
             }
@@ -167,6 +174,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 searchView.setSuggestionsAdapter(null);
                 if (isFocused) {
                     findViewById(R.id.layout_search_outlet).setVisibility(View.VISIBLE);
+                    findViewById(R.id.tab_layout).setVisibility(View.GONE);
                 } else {
 //                    findViewById(R.id.layout_search_food).setVisibility(View.GONE);
                 }
@@ -177,6 +185,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             @Override
             public boolean onClose() {
                 findViewById(R.id.layout_search_outlet).setVisibility(View.GONE);
+                findViewById(R.id.tab_layout).setVisibility(View.VISIBLE);
                 return false;
             }
         });
@@ -258,13 +267,17 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         }
     }
 
-
-    private void hideSeachView() {
+    private void closeSearchView() {
         searchView.setQuery("", false);
         searchView.clearFocus();
-//                mSearchMenuItem.collapseActionView();
         searchView.setIconified(true);
         findViewById(R.id.layout_search_outlet).setVisibility(View.GONE);
+        findViewById(R.id.tab_layout).setVisibility(View.VISIBLE);
     }
 
+    private void hideSearchView() {
+        if (mSearchMenuItem != null) {
+            mSearchMenuItem.setVisible(false);
+        }
+    }
 }

@@ -220,7 +220,6 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         mMenuViewPager = (ViewPager) findViewById(R.id.menuPager);
         mMenuViewPager.setAdapter(adapter);
 
-
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(mMenuViewPager);
@@ -598,17 +597,16 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
             mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         } else {
             if (!searchView.isIconified()) {
-                hideSeachView();
+                closeSearchView();
             } else {
                 super.onBackPressed();
             }
         }
     }
 
-    private void hideSeachView() {
+    private void closeSearchView() {
         searchView.setQuery("", false);
         searchView.clearFocus();
-//                mSearchMenuItem.collapseActionView();
         searchView.setIconified(true);
         findViewById(R.id.layout_search_food).setVisibility(View.GONE);
     }
@@ -681,7 +679,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
 
     private void updateCartMenu() {
         if (searchView != null && !searchView.isIconified()) {
-            hideSeachView();
+            closeSearchView();
         }
 
         mCartAdapter.notifyDataSetChanged();
