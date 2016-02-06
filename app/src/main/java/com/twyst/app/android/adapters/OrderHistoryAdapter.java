@@ -4,11 +4,13 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +20,7 @@ import com.twyst.app.android.activities.OrderHistoryActivity;
 import com.twyst.app.android.activities.OrderOnlineActivity;
 import com.twyst.app.android.activities.OrderTrackingActivity;
 import com.twyst.app.android.model.BaseResponse;
+import com.twyst.app.android.model.Data;
 import com.twyst.app.android.model.OrderHistory;
 import com.twyst.app.android.model.OrderUpdate;
 import com.twyst.app.android.model.Outlet;
@@ -38,8 +41,16 @@ import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
 import com.twyst.app.android.util.Utils;
 
+import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -49,7 +60,8 @@ import retrofit.client.Response;
  * Created by Raman on 1/14/2016.
  */
 public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapter.ViewHolder> {
-    private final ArrayList<OrderHistory> mOrderHistoryList;
+    private final static String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+    private ArrayList<OrderHistory> mOrderHistoryList;
     private final Context mContext;
     private ReorderMenuAndCart reorderMenuAndCart = null;
     private TwystProgressHUD mTwystProgressHUD;
@@ -57,6 +69,53 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     public OrderHistoryAdapter(Context context, ArrayList<OrderHistory> orderHistoryList) {
         mContext = context;
         this.mOrderHistoryList = orderHistoryList;
+        customSortOrderHistoryList();
+    }
+
+    /*
+     * There are three categories to be maintained for sorting to be placed in the following order:
+     * 1. Trackable
+     * 2. Favourite (Old Order)
+     * 3. Not-Favourite (Old Order)
+     *
+     * In each category sorting must be chronologically.
+     */
+    private void customSortOrderHistoryList() {
+
+        Collections.sort(mOrderHistoryList, new Comparator<OrderHistory>() {
+            @Override
+            public int compare(OrderHistory lhs, OrderHistory rhs) {
+                SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+                try {
+                    Date orderDateLhs = sdf.parse(lhs.getOrderDate());
+                    Date orderDateRhs = sdf.parse(rhs.getOrderDate());
+                    return orderDateLhs.compareTo(orderDateRhs);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    return 0;
+                }
+            }
+        });
+
+        int orderHistoryListSize = mOrderHistoryList.size();
+        ArrayList<OrderHistory> orderHistorySortedList = new ArrayList<>();
+        int fav_flag = 0;
+        int unfav_flag = 0;
+
+        for (int i = 0; i < orderHistoryListSize; i++) {
+            OrderHistory order = mOrderHistoryList.get(i);
+            if (order.isTrackable()) {
+                orderHistorySortedList.add(0, order);
+                fav_flag++;
+                unfav_flag++;
+            } else if (order.isFavourite()) {
+                orderHistorySortedList.add(fav_flag, order);
+                unfav_flag++;
+            } else {
+                orderHistorySortedList.add(unfav_flag, order);
+            }
+        }
+        mOrderHistoryList = orderHistorySortedList;
     }
 
     @Override
@@ -77,16 +136,18 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.dateTextView.setText(Utils.formatDateTime(orderDate));
         holder.itemBodyTextView.setText(getCompleteItemName(orderHistory));
 
-        if (isTrackable(orderHistory.getOrderStatus())) {
+        if (orderHistory.isTrackable()) {
             holder.reOrderTextView.setText("Track");
+            holder.reorder_button.setBackgroundColor(mContext.getResources().getColor(R.color.colorSecondaryBlue));
         } else {
             holder.reOrderTextView.setText("Re-Order");
+            holder.reorder_button.setBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
         }
         holder.reOrderTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mTwystProgressHUD = TwystProgressHUD.show(mContext, false, null);
-                if (isTrackable(orderHistory.getOrderStatus())) {
+                if (orderHistory.isTrackable()) {
                     trackOrder(orderHistory);
                     mTwystProgressHUD.dismiss();
                 } else {
@@ -119,7 +180,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                 if (baseResponse.isResponse()) {
                     favIcon.setSelected(!favIcon.isSelected());
                 } else {
-                    Toast.makeText(((OrderHistoryActivity) mContext), baseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
                 mTwystProgressHUD.dismiss();
                 UtilMethods.hideSnackbar();
@@ -144,19 +205,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         mContext.startActivity(orderTrackingIntent);
     }
 
-    private boolean isTrackable(String orderStatus) {
-        switch (orderStatus.toUpperCase()) {
-            case "CHECKOUT":
-                return false;
-            case "PAYMENT_FAILED":
-                return false;
-            case "REJECTED":
-                return false;
-            case "DELIVERED":
-                return false;
-        }
-        return true;
-    }
 
     private String getCompleteItemName(OrderHistory orderHistory) {
         int itemsCount = orderHistory.getItems().size();
@@ -198,6 +246,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         public TextView orderCostTextView;
         public TextView dateTextView;
         public TextView reOrderTextView;
+        public View reorder_button;
         public Button favouriteIconButton;
 
         public ViewHolder(View itemLayoutView) {
@@ -208,6 +257,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             orderCostTextView = (TextView) itemLayoutView.findViewById(R.id.orderCost_tv);
             dateTextView = (TextView) itemLayoutView.findViewById(R.id.date_tv);
             reOrderTextView = (TextView) itemLayoutView.findViewById(R.id.reorder_TextView);
+            reorder_button = itemLayoutView.findViewById(R.id.reorder_button);
             favouriteIconButton = (Button) itemLayoutView.findViewById(R.id.icon_favourite);
         }
     }

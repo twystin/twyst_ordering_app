@@ -131,4 +131,19 @@ public class OrderHistory implements Serializable {
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
     }
+
+
+    public boolean isTrackable() {
+        switch (orderStatus.toUpperCase()) {
+            case "CHECKOUT":
+                return false;
+            case "PAYMENT_FAILED":
+                return false;
+            case "REJECTED":
+                return false;
+            case "DELIVERED":
+                return false;
+        }
+        return true;
+    }
 }

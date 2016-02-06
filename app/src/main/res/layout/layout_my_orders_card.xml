@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/outlet_logo"
                     android:alpha="0.7"
-                    android:background="@android:color/holo_blue_dark"
+                    android:background="@color/colorSecondaryBlue"
                     android:orientation="horizontal"
                     android:paddingBottom="4dp"
                     android:paddingTop="4dp">

@@ -4,6 +4,8 @@
 
     <color name="colorPrimary">#f59221</color>
     <color name="colorPrimaryDark">#000</color>
+    <color name="colorSecondaryBlue">#0076a9</color>
+
 
     <color name="textColorPrimary">#212121</color>
     <color name="textColorSecondary">#727272</color>
