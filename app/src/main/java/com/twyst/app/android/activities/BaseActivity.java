@@ -67,9 +67,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by satish on 04/12/14.
  */
-public abstract class BaseActivity extends ActionBarActivity
-        implements SearchView.OnQueryTextListener, SearchView.OnSuggestionListener {
-
+public abstract class BaseActivity extends ActionBarActivity {
     protected static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     protected ActionBarDrawerToggle mDrawerToggle;
     protected Toolbar toolbar;
@@ -350,55 +348,6 @@ public abstract class BaseActivity extends ActionBarActivity
         getSupportActionBar().setTitle(mTitle);
     }
 
-
-    @Override
-    public boolean onQueryTextSubmit(final String s) {
-        Log.d(BaseActivity.class.getSimpleName(), "onQueryTextSubmit q= " + s);
-
-        searchView.setQuery("", true);
-        searchView.setIconified(true);
-        searchView.clearFocus();
-        searchView.setSuggestionsAdapter(null);
-
-       /* if (s.length() < 3) {
-            return true;
-        }*/
-        SharedPreferences.Editor sharedPreferences = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).edit();
-        sharedPreferences.putString(AppConstants.PREFERENCE_PARAM_SEARCH_QUERY, s);
-        sharedPreferences.commit();
-        Intent intent = new Intent(getBaseContext(), SearchActivity.class);
-        intent.putExtra("Search", true);
-        intent.setAction("setChildYes");
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-
-        return true;
-    }
-
-    @Override
-    public boolean onQueryTextChange(final String s) {
-        Log.d(BaseActivity.class.getSimpleName(), "onQueryTextChange q= " + s);
-
-        if (s.length() < 3) {
-            searchView.setSuggestionsAdapter(null);
-            return true;
-        }
-
-        return true;
-    }
-
-    @Override
-    public boolean onSuggestionClick(int i) {
-        Log.d(getTagName(), "onSuggestionClick item: " + i);
-        return true;
-    }
-
-    @Override
-    public boolean onSuggestionSelect(int i) {
-        Log.d(getTagName(), "onSuggestionSelect item: " + i);
-        return false;
-    }
-
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -523,122 +472,6 @@ public abstract class BaseActivity extends ActionBarActivity
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawerLayout toggl
         mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
-
-        this.menu = menu;
-
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
-        final MenuItem notificationsMenuItem = menu.findItem(R.id.action_notifications);
-        final MenuItem walletMenuItem = menu.findItem(R.id.action_wallet);
-        final MenuItem searchMenuItem = menu.findItem(R.id.action_search);
-        final MenuItem homeMenuItem = menu.findItem(R.id.action_home);
-
-        homeMenuItem.setVisible(false);
-        walletMenuItem.setVisible(false);
-        notificationsMenuItem.setVisible(false);
-        searchMenuItem.setVisible(true);
-
-//        if (getLayoutResource() == R.layout.activity_edit_profile) {
-//            homeMenuItem.setVisible(false);
-//            walletMenuItem.setVisible(false);
-//            notificationsMenuItem.setVisible(false);
-//            searchMenuItem.setVisible(false);
-//        } else if (getLayoutResource() == R.layout.redeem_voucher_activity) {
-//            homeMenuItem.setVisible(false);
-//            walletMenuItem.setVisible(false);
-//            notificationsMenuItem.setVisible(false);
-//            searchMenuItem.setVisible(false);
-//        } else if (getLayoutResource() == R.layout.activity_wallet) {
-//            homeMenuItem.setVisible(true);
-//            walletMenuItem.setVisible(false);
-//        } else if (getLayoutResource() == R.layout.activity_notification) {
-//            homeMenuItem.setVisible(true);
-//            notificationsMenuItem.setVisible(false);
-//
-//            //Hide all action buttons
-//        } else if ((getLayoutResource() == R.layout.activity_upload_bill)
-//                || (getLayoutResource() == R.layout.activity_write_to_us)
-//                || (getLayoutResource() == R.layout.activity_suggest_outlet)
-//                || (getLayoutResource() == R.layout.checkin_succes_layout)
-//                || (getLayoutResource() == R.layout.activity_submit_offer)) {
-//            //Hide all action buttons
-//            homeMenuItem.setVisible(false);
-//            notificationsMenuItem.setVisible(false);
-//            walletMenuItem.setVisible(false);
-//            searchMenuItem.setVisible(false);
-//        } else if (getLayoutResource() == R.layout.activity_order_online) {
-//            //Hide all action buttons
-//            homeMenuItem.setVisible(false);
-//            notificationsMenuItem.setVisible(false);
-//            walletMenuItem.setVisible(false);
-//            searchMenuItem.setVisible(true);
-//        }
-
-        searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        // Assumes current activity is the searchable activity
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        //searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
-
-        searchView.setOnQueryTextListener(this);
-        searchView.setOnSuggestionListener(this);
-        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                searchView.setSuggestionsAdapter(null);
-                if (b) {
-                    if (getLayoutResource() == R.layout.activity_wallet) {
-                        homeMenuItem.setVisible(true);
-                        walletMenuItem.setVisible(false);
-                    } else if (getLayoutResource() == R.layout.activity_notification) {
-                        homeMenuItem.setVisible(true);
-                        notificationsMenuItem.setVisible(false);
-                    } else {
-                        notificationsMenuItem.setVisible(true);
-                        walletMenuItem.setVisible(true);
-                    }
-
-                } else {
-                    if (getLayoutResource() == R.layout.activity_wallet) {
-                        homeMenuItem.setVisible(true);
-                        walletMenuItem.setVisible(false);
-                    } else if (getLayoutResource() == R.layout.activity_notification) {
-                        homeMenuItem.setVisible(true);
-                        notificationsMenuItem.setVisible(false);
-                    } else {
-                        notificationsMenuItem.setVisible(true);
-                        walletMenuItem.setVisible(true);
-                    }
-                }
-            }
-        });
-        searchView.setQueryHint("Search");
-
-        SearchView.SearchAutoComplete autoCompleteTextView = (SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
-        if (autoCompleteTextView != null) {
-            autoCompleteTextView.setDropDownBackgroundDrawable(getResources().getDrawable(R.drawable.abc_popup_background_mtrl_mult));
-        }
-        View searchPlate = searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
-
-        if (searchPlate != null) {
-            searchPlate.setBackgroundResource(R.drawable.textfield_searchview_holo_light);
-        }
-
-        return true;
-    }
-
-    /* Called whenever we call invalidateOptionsMenu() */
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        // If the nav drawerLayout is open, hide action items related to the content view
-        //boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-        //menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
-        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override

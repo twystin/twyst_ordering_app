@@ -49,7 +49,6 @@
 
     <include
         android:id="@+id/layout_search_food"
-        layout="@layout/layout_search_food"
+        layout="@layout/layout_search"
         android:visibility="gone" />
-
 </RelativeLayout>
