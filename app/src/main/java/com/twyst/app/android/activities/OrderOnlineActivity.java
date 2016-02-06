@@ -150,7 +150,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                     @Override
                     public void onGlobalLayout() {
                         Drawable img = getResources().getDrawable(
-                                R.drawable.outlet_min_order_icon);
+                                R.drawable.bill_white);
                         int height = outletMinimumOrder.getMeasuredHeight() * 2 / 3;
                         img.setBounds(0, 0, height, height);
                         outletMinimumOrder.setCompoundDrawables(img, null, null, null);

@@ -68,7 +68,8 @@
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/outlet_followed_icon" />
+                android:background="@drawable/outlet_followed_icon"
+                android:visibility="gone" />
         </LinearLayout>
 
     </RelativeLayout>

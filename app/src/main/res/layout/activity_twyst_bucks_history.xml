@@ -16,7 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
-        android:layout_marginBottom="4dp"
         android:background="@color/white"
         android:gravity="center_horizontal"
         android:orientation="vertical"
@@ -71,11 +70,19 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/strip"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:layout_below="@id/rl_header"
+        android:scaleType="fitXY"
+        android:src="@drawable/strip_white" />
+
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs_my_twyst_bucks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rl_header"
+        android:layout_below="@id/strip"
         android:layout_marginBottom="2dp"
         android:background="@android:color/white"
         android:minHeight="?attr/actionBarSize"

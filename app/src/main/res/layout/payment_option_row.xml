@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/background_light"
-        android:padding="6dp">
+        android:padding="16dp"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_gravity="center"
             android:orientation="horizontal">
 
             <ImageView
@@ -30,9 +32,51 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="24dp"
-                android:text="Online Payment"
+                android:text="@string/online_payment"
+                android:textSize="16dp"
                 android:textColor="@android:color/black" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp">
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="16dp"
+                    android:layout_marginRight="4dp"
+                    android:background="@drawable/twystbucksicon" />
+
+                <TextView
+                    android:id="@+id/tv_cashback_percent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="15%"
+                    android:textColor="@color/text_grey"
+                    android:textSize="@dimen/layout_wide_text_size" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tv_cashback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_small_margin"
+                android:text="Cash Back"
+                android:textColor="@color/text_grey"
+                android:textSize="@dimen/layout_medium_text_size" />
+        </LinearLayout>
+
 
         <RelativeLayout
             android:id="@+id/rl_cashback_icon"
@@ -40,34 +84,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true">
 
-            <LinearLayout
-                android:id="@+id/ll_twystbucks_icon"
-                android:layout_width="40dp"
-                android:layout_height="60dp"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/twystbucksicon"
-                android:gravity="center"
-                android:padding="6dp">
 
-                <TextView
-                    android:id="@+id/tv_cashback_percent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="15%"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/layout_wide_text_size" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tv_cashback"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/ll_twystbucks_icon"
-                android:layout_centerHorizontal="true"
-                android:text="CashBack"
-                android:textSize="@dimen/layout_wide_text_size" />
         </RelativeLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>
