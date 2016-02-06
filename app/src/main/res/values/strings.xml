@@ -38,6 +38,7 @@
     <string name="title_activity_shopping_vouchers">Shopping Vouchers</string>
     <string name="title_activity_voucher_details">Voucher Details</string>
 
+    <string name="search_outlet_hint">Search Outlets</string>
     <!-- For menu-->
     <string name="search_menu_hint">Search for menu items</string>
     <string name="recommended_category">Recommended</string>

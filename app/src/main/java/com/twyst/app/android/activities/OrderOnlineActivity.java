@@ -291,7 +291,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(mMenuViewPager);
 
-        setUpSearchView();
+        showSearhView();
     }
 
 
@@ -345,25 +345,10 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         }, 50);
     }
 
-    private void setUpSearchView() {
+    private void showSearhView() {
         if (mSearchMenuItem != null) {
             mSearchMenuItem.setVisible(true);
         }
-
-//        RecyclerView searchExpandableList = (RecyclerView) findViewById(R.id.search_recycler_view);
-//        searchExpandableList.setHasFixedSize(true);
-//        searchExpandableList.setLayoutManager(new LinearLayoutManager(OrderOnlineActivity.this, LinearLayoutManager.VERTICAL, false));
-//
-//        searchExpandableList.setOnTouchListener(new View.OnTouchListener() {
-//            public boolean onTouch(View v, MotionEvent event) {
-//                hideSoftKeyBoard(v);
-//                return false;
-//            }
-//        });
-//
-//        ArrayList<ParentListItem> filteredSearchList = new ArrayList<>();
-//        mSearchExpandableAdapter = new MenuExpandableAdapter(OrderOnlineActivity.this, filteredSearchList, searchExpandableList);
-//        searchExpandableList.setAdapter(mSearchExpandableAdapter);
     }
 
     private void setupCartRecyclerView() {
@@ -694,13 +679,6 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         return index;
     }
 
-    private boolean isDuplicateItemAvailableCart(Items item) {
-        for (Items cartItem : mCartAdapter.getmCartItemsList()) {
-            if (cartItem.getId().equals(item.getId())) return true;
-        }
-        return false;
-    }
-
     private void updateCartMenu() {
         if (searchView != null && !searchView.isIconified()) {
             hideSeachView();
@@ -773,7 +751,6 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
             circularProgressBar.setVisibility(View.GONE);
         }
     }
-
 
     public void handleRetrofitError(RetrofitError error) {
         if (error.getKind() == RetrofitError.Kind.NETWORK) {

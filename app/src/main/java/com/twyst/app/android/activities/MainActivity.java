@@ -1,13 +1,23 @@
 package com.twyst.app.android.activities;
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.appsflyer.AppsFlyerLib;
 import com.twyst.app.android.R;
@@ -22,9 +32,15 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     protected boolean search;
     private DiscoverOutletFragment outletsFragment;
 
+    private MenuItem mSearchMenuItem;
+    //Toolbar search widget
+    private SearchView searchView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        showSearchView();
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Order"));
@@ -78,7 +94,11 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         if (drawerOpened) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            MainActivity.this.finish();
+            if (!searchView.isIconified()) {
+                hideSeachView();
+            } else {
+                MainActivity.this.finish();
+            }
         }
     }
 
@@ -119,7 +139,132 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         return false;
     }
 
-    private void updateOutletList(String newText) {
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+        final MenuItem notificationsMenuItem = menu.findItem(R.id.action_notifications);
+        final MenuItem walletMenuItem = menu.findItem(R.id.action_wallet);
+        mSearchMenuItem = menu.findItem(R.id.action_search);
+        final MenuItem homeMenuItem = menu.findItem(R.id.action_home);
 
+        //Hide all action buttons
+        homeMenuItem.setVisible(false);
+        notificationsMenuItem.setVisible(false);
+        walletMenuItem.setVisible(false);
+        mSearchMenuItem.setVisible(false);
+
+        searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        // Assumes current activity is the searchable activity
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+//        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+
+        searchView.setOnQueryTextListener(this);
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean isFocused) {
+                searchView.setSuggestionsAdapter(null);
+                if (isFocused) {
+                    findViewById(R.id.layout_search_outlet).setVisibility(View.VISIBLE);
+                } else {
+//                    findViewById(R.id.layout_search_food).setVisibility(View.GONE);
+                }
+            }
+        });
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                findViewById(R.id.layout_search_outlet).setVisibility(View.GONE);
+                return false;
+            }
+        });
+
+        searchView.setQueryHint(getResources().getString(R.string.search_outlet_hint));
+
+        SearchView.SearchAutoComplete autoCompleteTextView = (SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
+        if (autoCompleteTextView != null) {
+            autoCompleteTextView.setDropDownBackgroundDrawable(getResources().getDrawable(R.drawable.abc_popup_background_mtrl_mult));
+        }
+        View searchPlate = searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
+
+        if (searchPlate != null) {
+            searchPlate.setBackgroundResource(R.drawable.textfield_searchview_holo_light);
+        }
+
+        showSearchView();
+        return true;
     }
+
+    private void updateOutletList(String newText) {
+        RecyclerView searchExpandableList = (RecyclerView) findViewById(R.id.search_recycler_view);
+        searchExpandableList.setHasFixedSize(true);
+        searchExpandableList.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
+
+        searchExpandableList.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                hideSoftKeyBoard(v);
+                return false;
+            }
+        });
+
+//        SubCategories subCategories = new SubCategories();
+//        subCategories.setSubCategoryName(AppConstants.DEFAULT_SUB_CATEGORY);
+//
+//        for (int i = 0; i < mMenuTabsPagerAdapter.getMenuCategoriesList().size(); i++) {
+//            MenuCategories menuCategory = mMenuTabsPagerAdapter.getMenuCategoriesList().get(i);
+//            // skip loop, if recommended
+//            if (menuCategory.getCategoryName().equalsIgnoreCase(getResources().getString(R.string.recommended_category)))
+//                continue;
+//
+//            for (int j = 0; j < menuCategory.getSubCategoriesList().size(); j++) {
+//                SubCategories subCategory = menuCategory.getSubCategoriesList().get(j);
+//                for (int k = 0; k < subCategory.getItemsList().size(); k++) {
+//                    Items item = subCategory.getItemsList().get(k);
+//
+//                    if ((item.getItemName() != null && item.getItemName().toLowerCase().contains(newText.toLowerCase()))
+//                            || (item.getItemDescription() != null && item.getItemDescription().toLowerCase().contains(newText.toLowerCase()))
+//                            || (item.getCategoryName() != null && item.getCategoryName().toLowerCase().contains(newText.toLowerCase()))
+//                            || (item.getSubCategoryName() != null) &&
+//                            !item.getSubCategoryName().equalsIgnoreCase(AppConstants.DEFAULT_SUB_CATEGORY) && item.getSubCategoryName().toLowerCase().contains(newText.toLowerCase())) {
+//                        subCategories.getItemsList().add(item);
+//                    }
+//
+//                } // k loop
+//            } // j loop
+//        } // i loop
+
+//        ArrayList<ParentListItem> filteredSearchList = new ArrayList<>();
+//        filteredSearchList.add(subCategories);
+//        mSearchExpandableAdapter = new MenuExpandableAdapter(OrderOnlineActivity.this, filteredSearchList, searchExpandableList, true);
+//        searchExpandableList.setAdapter(mSearchExpandableAdapter);
+    }
+
+    private void hideSoftKeyBoard(final View view) {
+        view.requestFocus();
+        view.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        }, 50);
+    }
+
+    private void showSearchView() {
+        if (mSearchMenuItem != null) {
+            mSearchMenuItem.setVisible(true);
+        }
+    }
+
+
+    private void hideSeachView() {
+        searchView.setQuery("", false);
+        searchView.clearFocus();
+//                mSearchMenuItem.collapseActionView();
+        searchView.setIconified(true);
+        findViewById(R.id.layout_search_outlet).setVisibility(View.GONE);
+    }
+
 }
