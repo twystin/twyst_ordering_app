@@ -274,7 +274,7 @@ public class HttpService {
         twystService.getOffers(outletID, token, callback);
     }
 
-    public void putOrderUpdate(String orderId, String token, OrderUpdate orderUpdate, Callback<BaseResponse> callback) {
-        twystService.putOrderUpdate(orderId, token, orderUpdate, callback);
+    public void putOrderUpdate(String token, OrderUpdate orderUpdate, Callback<BaseResponse> callback) {
+        twystService.putOrderUpdate(token, orderUpdate, callback);
     }
 }
