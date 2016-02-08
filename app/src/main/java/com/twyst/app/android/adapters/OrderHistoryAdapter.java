@@ -10,17 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.twyst.app.android.R;
 import com.twyst.app.android.activities.OrderHistoryActivity;
 import com.twyst.app.android.activities.OrderOnlineActivity;
 import com.twyst.app.android.activities.OrderTrackingActivity;
 import com.twyst.app.android.model.BaseResponse;
-import com.twyst.app.android.model.Data;
 import com.twyst.app.android.model.OrderHistory;
 import com.twyst.app.android.model.OrderUpdate;
 import com.twyst.app.android.model.Outlet;
@@ -41,13 +41,10 @@ import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
 import com.twyst.app.android.util.Utils;
 
-import org.json.JSONObject;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -168,6 +165,15 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         //change the drawable icon if the item is a favourite
 //        if(mOrderHistoryList.get(position).isFavourite()){
 //        }
+
+        Picasso picasso = Picasso.with(holder.itemView.getContext());
+
+        if (orderHistory.getBackground() != null) {
+            Log.d("Image path:",orderHistory.getBackground());
+            picasso.load(orderHistory.getBackground())
+                    .noFade()
+                    .into(holder.backgroundImage);
+        }
     }
 
     private void updateOrderFavourite(final Button favIcon, final OrderHistory orderHistory) {
@@ -248,6 +254,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         public TextView reOrderTextView;
         public View reorder_button;
         public Button favouriteIconButton;
+        public ImageView backgroundImage;
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
@@ -259,6 +266,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             reOrderTextView = (TextView) itemLayoutView.findViewById(R.id.reorder_TextView);
             reorder_button = itemLayoutView.findViewById(R.id.reorder_button);
             favouriteIconButton = (Button) itemLayoutView.findViewById(R.id.icon_favourite);
+            backgroundImage = (ImageView) itemLayoutView.findViewById(R.id.outlet_logo_reorder);
         }
     }
 
@@ -512,30 +520,20 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     }
 
     private void fetchOutletAndPassIntent(final OrderHistory orderHistory) {
-        mTwystProgressHUD = TwystProgressHUD.show(mContext, false, null);
-        HttpService.getInstance().getOutletDetails(orderHistory.getOutletId(), (UtilMethods.getUserToken((OrderHistoryActivity) mContext)), null, null, new Callback<BaseResponse<OutletDetailData>>() {
-            @Override
-            public void success(BaseResponse<OutletDetailData> outletBaseResponse, Response response) {
-                if (outletBaseResponse.isResponse()) {
-                    Outlet reorderOutlet = outletBaseResponse.getData().getOutlet();
-                    Intent intent = new Intent(mContext, OrderOnlineActivity.class);
-                    intent.putExtra(AppConstants.INTENT_PLACE_REORDER_MENUID, orderHistory.getMenuId());
-                    intent.putExtra(AppConstants.INTENT_PLACE_REORDER, reorderMenuAndCart);
-                    intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_OBJECT, reorderOutlet);
-                    mContext.startActivity(intent);
-                } else {
-                    Toast.makeText(mContext, outletBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-                UtilMethods.hideSnackbar();
-                mTwystProgressHUD.dismiss();
-            }
+        Outlet reorderOutlet = new Outlet();
 
-            @Override
-            public void failure(RetrofitError error) {
-                UtilMethods.hideSnackbar();
-                UtilMethods.handleRetrofitError((OrderHistoryActivity) mContext, error);
-            }
-        });
+        reorderOutlet.setName(orderHistory.getOutletName());
+        reorderOutlet.set_id(orderHistory.getOutletId());
+        reorderOutlet.setDeliveryTime(orderHistory.getDelivery_zone().get(0).getDeliveryEstimatedTime());
+        reorderOutlet.setMinimumOrder(orderHistory.getDelivery_zone().get(0).getMinDeliveryAmt());
+        reorderOutlet.setBackground(orderHistory.getBackground());
+        reorderOutlet.setMenuId(orderHistory.getMenuId());
+        reorderOutlet.setLogo(orderHistory.getBackground());
 
+        Intent intent = new Intent(mContext, OrderOnlineActivity.class);
+        intent.putExtra(AppConstants.INTENT_PLACE_REORDER_MENUID, orderHistory.getMenuId());
+        intent.putExtra(AppConstants.INTENT_PLACE_REORDER, reorderMenuAndCart);
+        intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_OBJECT, reorderOutlet);
+        mContext.startActivity(intent);
     }
 }

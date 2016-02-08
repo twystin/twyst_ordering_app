@@ -44,6 +44,15 @@ public class OrderHistory implements Serializable {
     @SerializedName("_id")
     private String orderID;
 
+    @SerializedName("background")
+    private String background;
+
+    @SerializedName("delivery_zone")
+    private ArrayList<DeliveryZone> delivery_zone;
+
+    @SerializedName("logo")
+    private String logo;
+
     public String getOrderID() {
         return orderID;
     }
@@ -145,5 +154,29 @@ public class OrderHistory implements Serializable {
                 return false;
         }
         return true;
+    }
+
+    public String getBackground() {
+        return background;
+    }
+
+    public void setBackground(String background) {
+        this.background = background;
+    }
+
+    public ArrayList<DeliveryZone> getDelivery_zone() {
+        return delivery_zone;
+    }
+
+    public void setDelivery_zone(ArrayList<DeliveryZone> delivery_zone) {
+        this.delivery_zone = delivery_zone;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 }
