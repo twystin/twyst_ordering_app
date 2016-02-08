@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,7 +27,7 @@ import com.twyst.app.android.model.order.Coords;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.LocationFetchUtil;
-import com.twyst.app.android.util.SharedPreferenceAddress;
+import com.twyst.app.android.util.SharedPreferenceSingleton;
 import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
 
@@ -87,7 +85,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AddressDetailsLocationData addressDetailsLocationData = (AddressDetailsLocationData) listView.getItemAtPosition(position);
-                UtilMethods.checkOut(false, addressDetailsLocationData, mCartItemsList, mOutletId, AddressDetailsActivity.this);
+                UtilMethods.checkOut(addressDetailsLocationData, mCartItemsList, mOutletId, AddressDetailsActivity.this);
             }
         });
     }
@@ -119,7 +117,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
                 if (!((mLocationAddressTextView.getText().toString()).equals("unavailable!"))) {
                     ((ImageView) findViewById(R.id.radio_current_loc)).setSelected(true);
 //                    checkCurrentDeliverableAndProceed();
-                    UtilMethods.checkOut(true, mAddressDetailsLocationData, mCartItemsList, mOutletId, AddressDetailsActivity.this);
+                    UtilMethods.checkOut(mAddressDetailsLocationData, mCartItemsList, mOutletId, AddressDetailsActivity.this);
                 }
 
             }
@@ -154,11 +152,13 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
 
     private void fetchSavedAddresses() {
         Bundle bundle = getIntent().getExtras();
-        mOutletId = bundle.getString(AppConstants.INTENT_PARAM_OUTLET_ID);
-        mCartItemsList = (ArrayList<Items>) bundle.getSerializable(AppConstants.INTENT_PARAM_CART_LIST);
+//        mOutletId = bundle.getString(AppConstants.INTENT_PARAM_OUTLET_ID);
+//        mCartItemsList = (ArrayList<Items>) bundle.getSerializable(AppConstants.INTENT_PARAM_CART_LIST);
+        mOutletId = OrderInfoSingleton.getInstance().getOrderSummary().getOutletId();
+        mCartItemsList = OrderInfoSingleton.getInstance().getOrderSummary().getmCartItemsList();
 
-        SharedPreferenceAddress preference = new SharedPreferenceAddress();
-        mAddressList = preference.getAddresses(AddressDetailsActivity.this);
+        SharedPreferenceSingleton preference = SharedPreferenceSingleton.getInstance();
+        mAddressList = preference.getAddresses();
         if (mAddressList != null && mAddressList.size() > 0) {
             ((CardView) findViewById(R.id.cardView_listview)).setVisibility(View.VISIBLE);
             ((CardView) findViewById(R.id.cardView_noAddress)).setVisibility(View.GONE);

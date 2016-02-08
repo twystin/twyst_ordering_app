@@ -48,8 +48,10 @@ import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.menu.MenuCategories;
 import com.twyst.app.android.model.menu.MenuData;
 import com.twyst.app.android.model.menu.SubCategories;
+import com.twyst.app.android.model.order.OrderSummary;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
+import com.twyst.app.android.util.SharedPreferenceSingleton;
 import com.twyst.app.android.util.UtilMethods;
 import com.twyst.app.android.util.Utils;
 
@@ -458,14 +460,18 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     }
 
     private void checkOut() {
-        Intent addressDetailsIntent = new Intent(OrderOnlineActivity.this, AddressDetailsActivity.class);
+        if (SharedPreferenceSingleton.getInstance().isSkipLocationClicked()) {
+            Intent addressDetailsIntent = new Intent(OrderOnlineActivity.this, AddressDetailsActivity.class);
+            OrderSummary orderSummary = new OrderSummary(mCartAdapter.getmCartItemsList(),mOutletId,null); // location will be set in AddressDetailsActivity
+            OrderInfoSingleton.getInstance().setOrderSummary(orderSummary);
 
-        Bundle addressDetailsBundle = new Bundle();
-        addressDetailsBundle.putString(AppConstants.INTENT_PARAM_OUTLET_ID, mOutletId);
-        addressDetailsBundle.putSerializable(AppConstants.INTENT_PARAM_CART_LIST, mCartAdapter.getmCartItemsList());
-
-        addressDetailsIntent.putExtras(addressDetailsBundle);
-        startActivity(addressDetailsIntent);
+//            Bundle addressDetailsBundle = new Bundle();
+//            addressDetailsBundle.putString(AppConstants.INTENT_PARAM_OUTLET_ID, mOutletId);
+//            addressDetailsBundle.putSerializable(AppConstants.INTENT_PARAM_CART_LIST, mCartAdapter.getmCartItemsList());
+            startActivity(addressDetailsIntent);
+        } else {
+            UtilMethods.checkOut(SharedPreferenceSingleton.getInstance().getDeliveryLocation(), mCartAdapter.getmCartItemsList(), mOutletId, OrderOnlineActivity.this);
+        }
     }
 
     @Override

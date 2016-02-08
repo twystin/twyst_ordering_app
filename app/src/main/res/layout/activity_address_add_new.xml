@@ -215,24 +215,80 @@
         </android.support.v7.widget.CardView>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:id="@+id/linlay_proceed">
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/proceedChangeLocation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_yellow"
+            android:padding="5dp"
+            app:mrl_rippleOverlay="true">
+
+            <TextView
+                android:id="@+id/tvChangeLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawablePadding="10dp"
+                android:focusable="false"
+                android:text="CHANGE"
+                android:textColor="@android:color/white"
+                android:textSize="18dp" />
+        </com.balysv.materialripple.MaterialRippleLayout>
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/proceed_address_new"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_yellow"
+            android:padding="5dp"
+            app:mrl_rippleOverlay="true">
+
+            <TextView
+                android:id="@+id/tvProceed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawablePadding="10dp"
+                android:focusable="false"
+                android:text="PROCEED"
+                android:textColor="@android:color/white"
+                android:textSize="18dp" />
+        </com.balysv.materialripple.MaterialRippleLayout>
+
+    </LinearLayout>
+
     <com.balysv.materialripple.MaterialRippleLayout
-        android:id="@+id/proceed_address_new"
+        android:id="@+id/proceed_ok"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/button_red"
-        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/button_yellow"
+        android:padding="5dp"
+        android:visibility="gone"
         app:mrl_rippleOverlay="true">
 
         <TextView
-            android:id="@+id/tvProceed"
+            android:id="@+id/tvProceedOk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|center_vertical"
+            android:layout_gravity="center"
             android:drawablePadding="10dp"
             android:focusable="false"
-            android:text="PROCEED"
+            android:text="OK"
             android:textColor="@android:color/white"
-            android:textSize="20dp" />
+            android:textSize="18dp" />
     </com.balysv.materialripple.MaterialRippleLayout>
+
 </RelativeLayout>

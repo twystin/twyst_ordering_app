@@ -3,22 +3,19 @@ package com.twyst.app.android.activities;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.AddressDetailsLocationData;
 import com.twyst.app.android.model.order.OrderSummary;
 import com.twyst.app.android.util.AppConstants;
-import com.twyst.app.android.util.SharedPreferenceAddress;
+import com.twyst.app.android.util.SharedPreferenceSingleton;
 
 /**
  * Created by anshul on 1/8/2016.
@@ -42,8 +39,7 @@ public class AddressAddNewActivity extends BaseActionActivity {
         setContentView(R.layout.activity_address_add_new);
 
         setupToolBar();
-        Bundle extras = getIntent().getExtras();
-        mOrderSummary = (OrderSummary) extras.getSerializable(AppConstants.INTENT_ORDER_SUMMARY);
+
 
         homeTag = (ImageView) findViewById(R.id.add_address_home_tag);
         workTag = (ImageView) findViewById(R.id.add_address_work_tag);
@@ -114,16 +110,20 @@ public class AddressAddNewActivity extends BaseActionActivity {
             }
         });
 
-//        Boolean setUpMap = getIntent().getBooleanExtra(AppConstants.MAP_TO_BE_SHOWN, false);
-//        if (setUpMap) {
-//            Intent intent = new Intent(AddressAddNewActivity.this, AddressMapActivity.class);
-//            startActivityForResult(intent, PLACE_PICKER_REQUEST);
-//        } else {
-//            mNewAddress = (AddressDetailsLocationData) getIntent().getSerializableExtra(AppConstants.DATA_TO_BE_SHOWN);
-        mNewAddress = mOrderSummary.getAddressDetailsLocationData();
-        setTextLocationFetch(mNewAddress);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            mOrderSummary = (OrderSummary) extras.getSerializable(AppConstants.INTENT_ORDER_SUMMARY);
+            mNewAddress = mOrderSummary.getAddressDetailsLocationData();
+            setTextLocationFetch(mNewAddress);
+        } else {
+            mNewAddress = SharedPreferenceSingleton.getInstance().getDeliveryLocation();
+            setTextLocationFetch(mNewAddress);
+            findViewById(R.id.linlay_proceed).setVisibility(View.GONE);
+            findViewById(R.id.proceed_ok).setVisibility(View.VISIBLE);
+        }
+
         ((LinearLayout) findViewById(R.id.linlay_add_address)).setVisibility(View.VISIBLE);
-//        }
+
 
         final TextView tvProceed = (TextView) findViewById(R.id.tvProceed);
         tvProceed.getViewTreeObserver()
@@ -162,13 +162,54 @@ public class AddressAddNewActivity extends BaseActionActivity {
                         mNewAddress.setTag(((EditText) findViewById(R.id.editView_other_tag)).getText().toString());
                     }
 
-                    SharedPreferenceAddress preference = new SharedPreferenceAddress();
-                    preference.addAddress(AddressAddNewActivity.this, mNewAddress);
+                    SharedPreferenceSingleton preference = SharedPreferenceSingleton.getInstance();
+                    preference.addAddress(mNewAddress);
                     updateOrderSummaryAndCheckout(mNewAddress);
                 } else {
                     validateEditText(neighborhood);
                     validateEditText(address);
                 }
+            }
+        });
+
+        findViewById(R.id.tvProceedOk).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText neighborhood = (EditText) findViewById(R.id.editView_building);
+                EditText name = (EditText) findViewById(R.id.editView_name);
+                EditText address = (EditText) findViewById(R.id.editView_address);
+                EditText landmark = (EditText) findViewById(R.id.editView_landmark);
+
+                if (validateEditText(name) && validateEditText(neighborhood) && validateEditText(address)) {
+                    mNewAddress.setNeighborhood(neighborhood.getText().toString());
+                    mNewAddress.setName(name.getText().toString());
+                    mNewAddress.setAddress(address.getText().toString());
+                    mNewAddress.setLandmark(landmark.getText().toString());
+                    if (homeTag.isSelected()) {
+                        mNewAddress.setTag(AddressDetailsLocationData.TAG_HOME);
+                    } else if (workTag.isSelected()) {
+                        mNewAddress.setTag(AddressDetailsLocationData.TAG_WORK);
+                    } else {
+                        mNewAddress.setTag(((EditText) findViewById(R.id.editView_other_tag)).getText().toString());
+                    }
+
+                    SharedPreferenceSingleton preference = SharedPreferenceSingleton.getInstance();
+                    preference.saveCurrentUsedLocation(mNewAddress);
+                    finish();
+
+                } else {
+                    validateEditText(neighborhood);
+                    validateEditText(address);
+                }
+            }
+        });
+
+        findViewById(R.id.tvChangeLocation).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddressAddNewActivity.this,AddressDetailsActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }

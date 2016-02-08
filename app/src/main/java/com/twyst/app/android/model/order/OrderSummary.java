@@ -9,13 +9,12 @@ import com.twyst.app.android.model.menu.SubOptions;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Vipul Sharma on 12/21/2015.
  */
 public class OrderSummary implements Serializable {
-    public OrderSummary(List<Items> cartItemsList, String outletId,Coords coords) {
+    public OrderSummary(ArrayList<Items> cartItemsList, String outletId,Coords coords) {
         this.mCartItemsList = cartItemsList;
         this.outletId = outletId;
         this.coordinates = coords;
@@ -55,7 +54,7 @@ public class OrderSummary implements Serializable {
         }
     }
 
-    private List<Items> mCartItemsList = new ArrayList<>();
+    private ArrayList<Items> mCartItemsList = new ArrayList<>();
 
     @SerializedName("items")
     private ArrayList<OrderItem> orderItemList = new ArrayList<>();
@@ -141,11 +140,11 @@ public class OrderSummary implements Serializable {
         this.coordinates = coordinates;
     }
 
-    public List<Items> getmCartItemsList() {
+    public ArrayList<Items> getmCartItemsList() {
         return mCartItemsList;
     }
 
-    public void setmCartItemsList(List<Items> mCartItemsList) {
+    public void setmCartItemsList(ArrayList<Items> mCartItemsList) {
         this.mCartItemsList = mCartItemsList;
     }
 

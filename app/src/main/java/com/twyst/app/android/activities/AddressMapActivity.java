@@ -27,7 +27,7 @@ import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.order.Coords;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.LocationFetchUtil;
-import com.twyst.app.android.util.SharedPreferenceAddress;
+import com.twyst.app.android.util.SharedPreferenceSingleton;
 import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
 
@@ -240,9 +240,8 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
 
             if (getIntent().getBooleanExtra(AppConstants.FROM_CHOOSE_ACTIVITY_TO_MAP, false)) {
                 Intent intent = new Intent(AddressMapActivity.this, MainActivity.class);
-                SharedPreferenceAddress sharedPreferenceAddress = new SharedPreferenceAddress();
-                sharedPreferenceAddress.saveCurrentUsedLocation(AddressMapActivity.this, locationData);
-                sharedPreferenceAddress.saveLastUsedLocation(AddressMapActivity.this, locationData);
+                SharedPreferenceSingleton sharedPreferenceSingleton = SharedPreferenceSingleton.getInstance();
+                sharedPreferenceSingleton.saveCurrentUsedLocation(locationData);
                 intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_ADD);
                 startActivity(intent);
                 finish();
@@ -252,7 +251,7 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
                 String outletId = bundle.getString(AppConstants.INTENT_PARAM_OUTLET_ID);
                 ArrayList<Items> cartItemsList = (ArrayList<Items>) bundle.getSerializable(AppConstants.INTENT_PARAM_CART_LIST);
 
-                UtilMethods.checkOut(true, locationData, cartItemsList, outletId, AddressMapActivity.this);
+                UtilMethods.checkOut(locationData, cartItemsList, outletId, AddressMapActivity.this);
 //                Intent intent = new Intent();
 //                intent.putExtras(info);
 //                setResult(RESULT_OK, intent);
@@ -283,8 +282,8 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
             errorMessage.setVisibility(View.GONE);
         } else {
             mFetchAddressButton.setClickable(false);
-            SharedPreferenceAddress sharedPreference = new SharedPreferenceAddress();
-            locationData = sharedPreference.getLastUsedLocation(AddressMapActivity.this);
+            SharedPreferenceSingleton sharedPreference = SharedPreferenceSingleton.getInstance();
+            locationData = sharedPreference.getCurrentUsedLocation();
             mLastLocation = new Location("default");
 
             if (locationData != null) {

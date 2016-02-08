@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.twyst.app.android.CirclePageIndicator;
 import com.twyst.app.android.R;
+import com.twyst.app.android.activities.AddressAddNewActivity;
 import com.twyst.app.android.activities.AddressMapActivity;
 import com.twyst.app.android.activities.FiltersActivity;
 import com.twyst.app.android.activities.MainActivity;
@@ -36,8 +37,7 @@ import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.FilterOptions;
 import com.twyst.app.android.util.LocationFetchUtil;
-import com.twyst.app.android.util.SharedPreferenceAddress;
-import com.twyst.app.android.util.TwystProgressHUD;
+import com.twyst.app.android.util.SharedPreferenceSingleton;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -78,7 +78,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
     private AddressDetailsLocationData mAddressDetailsLocationData;
     private LocationFetchUtil locationFetchUtil;
     private TextView currentAddressName;
-    SharedPreferenceAddress sharedPreferenceAddress = new SharedPreferenceAddress();
+    SharedPreferenceSingleton sharedPreferenceSingleton = SharedPreferenceSingleton.getInstance();
 
     private LinearLayout showErrorLayout;
     private TextView errorDescription;
@@ -134,19 +134,24 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
         showProgressBar();
         switch (optionSelected) {
             case AppConstants.CHOOSE_LOCATION_OPTION_CURRENT:
-                Fragment discoverOutletFragment = (DiscoverOutletFragment) (getActivity().getSupportFragmentManager().getFragments().get(0));
-                locationFetchUtil = new LocationFetchUtil(getActivity(), discoverOutletFragment);
-                locationFetchUtil.requestLocation(true);
+                mAddressDetailsLocationData = sharedPreferenceSingleton.getCurrentUsedLocation();
+                currentAddressName.setText(mAddressDetailsLocationData.getAddress());
+                fetchOutlets(1);
                 break;
             case AppConstants.CHOOSE_LOCATION_OPTION_SAVED:
-                mAddressDetailsLocationData = sharedPreferenceAddress.getCurrentUsedLocation(getActivity());
+                mAddressDetailsLocationData = sharedPreferenceSingleton.getCurrentUsedLocation();
                 currentAddressName.setText(mAddressDetailsLocationData.getAddress());
                 fetchOutlets(1);
                 break;
             case AppConstants.CHOOSE_LOCATION_OPTION_ADD:
-                mAddressDetailsLocationData = sharedPreferenceAddress.getCurrentUsedLocation(getActivity());
+                mAddressDetailsLocationData = sharedPreferenceSingleton.getCurrentUsedLocation();
                 currentAddressName.setText(mAddressDetailsLocationData.getAddress());
                 fetchOutlets(1);
+                break;
+            case AppConstants.CHOOSE_LOCATION_OPTION_SKIPPED:
+                Fragment discoverOutletFragment = (DiscoverOutletFragment) (getActivity().getSupportFragmentManager().getFragments().get(0));
+                locationFetchUtil = new LocationFetchUtil(getActivity(), discoverOutletFragment);
+                locationFetchUtil.requestLocation(true);
                 break;
             default:
                 break;
@@ -170,11 +175,20 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
         showAddressLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().finish();
+                Intent intent = new Intent(getActivity(), AddressAddNewActivity.class);
+                startActivity(intent);
             }
         });
 
         return view;
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mAddressDetailsLocationData = SharedPreferenceSingleton.getInstance().getDeliveryLocation();
+        currentAddressName.setText(mAddressDetailsLocationData.getLandmark() + ", " + mAddressDetailsLocationData.getNeighborhood());
 
     }
 
@@ -238,8 +252,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
             mAddressDetailsLocationData.setAddress(mAddressOutput);
             mAddressDetailsLocationData.setNeighborhood(address.getAddressLine(0));
             mAddressDetailsLocationData.setLandmark(address.getAddressLine(1));
-            sharedPreferenceAddress.saveCurrentUsedLocation(getActivity(), mAddressDetailsLocationData);
-            sharedPreferenceAddress.saveLastUsedLocation(getActivity(), mAddressDetailsLocationData);
+            sharedPreferenceSingleton.saveCurrentUsedLocation(mAddressDetailsLocationData);
             currentAddressName.setText(address.getAddressLine(0) + ", " + address.getAddressLine(1));
             fetchOutlets(1);
         } else {
@@ -247,8 +260,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
             mAddressDetailsLocationData.setAddress("Unnamed Address");
             mAddressDetailsLocationData.setNeighborhood("Unnamed Address");
             mAddressDetailsLocationData.setLandmark("Unnamed Address");
-            sharedPreferenceAddress.saveCurrentUsedLocation(getActivity(), mAddressDetailsLocationData);
-            sharedPreferenceAddress.saveLastUsedLocation(getActivity(), mAddressDetailsLocationData);
+            sharedPreferenceSingleton.saveCurrentUsedLocation(mAddressDetailsLocationData);
             currentAddressName.setText("Unnamed Address");
             fetchOutlets(1);
         }
@@ -269,7 +281,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
     }
 
     public void resolveError(int resultCode) {
-        mAddressDetailsLocationData = sharedPreferenceAddress.getLastUsedLocation(getActivity());
+        mAddressDetailsLocationData = sharedPreferenceSingleton.getCurrentUsedLocation();
 
         if (mAddressDetailsLocationData == null) {
             Intent intent = new Intent(getActivity(), AddressMapActivity.class);

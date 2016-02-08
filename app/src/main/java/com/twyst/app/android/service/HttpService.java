@@ -95,6 +95,7 @@ public class HttpService {
         return context.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
     }
 
+
     public void registerDevice(String appName, String appVersion, String deviceUUID, String deviceToken, String deviceModel, String deviceVersion, Callback<Response> callback) {
 
     }

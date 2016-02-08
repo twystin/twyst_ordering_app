@@ -190,6 +190,7 @@ public class AppConstants {
     public static final String CHOOSE_LOCATION_OPTION_CURRENT = "Current Location";
     public static final String CHOOSE_LOCATION_OPTION_SAVED = "Saved Location";
     public static final String CHOOSE_LOCATION_OPTION_ADD = "Add New Location";
+    public static final String CHOOSE_LOCATION_OPTION_SKIPPED = "Choose Location Skipped";
 
     public static final String CURRENT_USED_LOCATION = "current_used_location";
     public static final String LAST_USED_LOCATION = "last_used_location";

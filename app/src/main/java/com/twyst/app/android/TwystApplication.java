@@ -7,14 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.multidex.MultiDex;
 import android.support.v7.widget.AppCompatTextView;
-import android.widget.Toast;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
-
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.service.LocationService;
 import com.twyst.app.android.util.AppConstants;
+import com.twyst.app.android.util.SharedPreferenceSingleton;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
@@ -35,6 +34,7 @@ public class TwystApplication extends Application {
         );
 
         HttpService.getInstance().setup(getApplicationContext(), getGATracker());
+        SharedPreferenceSingleton.getInstance().setup(getApplicationContext());
 
         if (!isMyServiceRunning(LocationService.class)) {
             Intent locationService = new Intent();

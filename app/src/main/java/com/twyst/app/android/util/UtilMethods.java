@@ -12,7 +12,7 @@ import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
 import com.nispok.snackbar.listeners.ActionClickListener;
 import com.twyst.app.android.activities.AddressAddNewActivity;
-import com.twyst.app.android.activities.AvailableOffersActivity;
+import com.twyst.app.android.activities.OrderInfoSingleton;
 import com.twyst.app.android.activities.OrderSummaryActivity;
 import com.twyst.app.android.model.AddressDetailsLocationData;
 import com.twyst.app.android.model.BaseResponse;
@@ -30,9 +30,10 @@ import retrofit.client.Response;
  * Created by Vipul Sharma on 1/30/2016.
  */
 public class UtilMethods {
-    public static void checkOut(final boolean isLocationInputRequired, final AddressDetailsLocationData addressDetailsLocationData, final ArrayList<Items> mCartItemsList, String mOutletId, final Activity activity) {
+    public static void checkOut(final AddressDetailsLocationData addressDetailsLocationData, final ArrayList<Items> mCartItemsList, String mOutletId, final Activity activity) {
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(activity, false, null);
         final OrderSummary orderSummary = new OrderSummary(mCartItemsList, mOutletId, addressDetailsLocationData.getCoords());
+        OrderInfoSingleton.getInstance().setOrderSummary(orderSummary);
         HttpService.getInstance().postOrderVerify(getUserToken(activity), orderSummary, new Callback<BaseResponse<OrderSummary>>() {
             @Override
             public void success(BaseResponse<OrderSummary> orderSummaryBaseResponse, Response response) {
@@ -43,16 +44,7 @@ public class UtilMethods {
                     returnOrderSummary.setOutletId(orderSummary.getOutletId());
                     returnOrderSummary.setAddressDetailsLocationData(addressDetailsLocationData);
 
-                    if (isLocationInputRequired) {
-                        checkOutIntent = new Intent(activity, AddressAddNewActivity.class);
-                    } else {
-                        if (returnOrderSummary.getOfferOrderList().size() > 0) {
-                            checkOutIntent = new Intent(activity, AvailableOffersActivity.class);
-                        } else {
-                            checkOutIntent = new Intent(activity, OrderSummaryActivity.class);
-                        }
-                    }
-
+                    checkOutIntent = new Intent(activity, AddressAddNewActivity.class);
                     Bundle orderSummaryData = new Bundle();
                     orderSummaryData.putSerializable(AppConstants.INTENT_ORDER_SUMMARY, returnOrderSummary);
                     checkOutIntent.putExtras(orderSummaryData);
