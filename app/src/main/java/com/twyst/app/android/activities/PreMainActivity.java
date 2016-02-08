@@ -204,7 +204,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             }
         });
 
-        TextView tvSkipLocation = (TextView)findViewById(R.id.tv_skip_location);
+        TextView tvSkipLocation = (TextView) findViewById(R.id.tv_skip_location);
         tvSkipLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -865,7 +865,6 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     }
 
 
-
     private class MyRunnable implements Runnable {
         private int retry = 0;
         private OTPCode otpCode;
@@ -1138,18 +1137,6 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RC_SIGN_IN) {
-            // If the error resolution was not successful we should not resolve further.
-            if (resultCode != RESULT_OK) {
-                mShouldResolve = false;
-            }
-
-            mIsResolving = false;
-            mGoogleApiClient.connect();
-        }
-
         if (requestCode == AppConstants.REQUEST_CHECK_SETTINGS) {
 
             switch (resultCode) {
@@ -1163,6 +1150,18 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                     intent.putExtra(AppConstants.FROM_CHOOSE_ACTIVITY_TO_MAP, true);
                     startActivity(intent);
                     break;
+            }
+        } else {
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+
+            if (requestCode == RC_SIGN_IN) {
+                // If the error resolution was not successful we should not resolve further.
+                if (resultCode != RESULT_OK) {
+                    mShouldResolve = false;
+                }
+
+                mIsResolving = false;
+                mGoogleApiClient.connect();
             }
         }
     }
