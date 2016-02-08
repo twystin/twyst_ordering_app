@@ -181,6 +181,11 @@ public abstract class BaseActivity extends ActionBarActivity {
                 rate.setSelected(false);
                 drawerOpened = true;
             }
+
+            public void onDrawerSlide(View drawerView , float slideOffset) {
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                supportInvalidateOptionsMenu();
+            }
         };
         drawerLayout.setDrawerListener(mDrawerToggle);
         drawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));

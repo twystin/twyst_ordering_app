@@ -77,9 +77,9 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     private CircularProgressBar circularProgressBar;
     private CircularProgressBar scrollingOfffersProgressBar;
 
-    private MenuItem mSearchMenuItem;
     MenuExpandableAdapter mSearchExpandableAdapter;
 
+    private boolean mSearchViewToShow;
     //Toolbar search widget
     private SearchView searchView;
 
@@ -240,6 +240,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
 
         if (ifReordered) {
             setupMenuFetched(reorderMenuAndCart.getMenuData());
+            hideProgressHUDInLayout();
             for (Items item : reorderMenuAndCart.getCartItemsList()) {
                 addMenu(item);
             }
@@ -290,7 +291,10 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(mMenuViewPager);
 
-        showSearhView();
+        mSearchViewToShow = true;
+        invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+        supportInvalidateOptionsMenu();
+//        showSearhView();
     }
 
 
@@ -342,12 +346,6 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         }, 50);
-    }
-
-    private void showSearhView() {
-        if (mSearchMenuItem != null) {
-            mSearchMenuItem.setVisible(true);
-        }
     }
 
     private void setupCartRecyclerView() {
@@ -537,14 +535,14 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         getMenuInflater().inflate(R.menu.menu, menu);
         final MenuItem notificationsMenuItem = menu.findItem(R.id.action_notifications);
         final MenuItem walletMenuItem = menu.findItem(R.id.action_wallet);
-        mSearchMenuItem = menu.findItem(R.id.action_search);
+        final MenuItem searchMenuItem = menu.findItem(R.id.action_search);
         final MenuItem homeMenuItem = menu.findItem(R.id.action_home);
 
         //Hide all action buttons
         homeMenuItem.setVisible(false);
         notificationsMenuItem.setVisible(false);
         walletMenuItem.setVisible(false);
-        mSearchMenuItem.setVisible(false);
+        searchMenuItem.setVisible(mSearchViewToShow);
 
         searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);

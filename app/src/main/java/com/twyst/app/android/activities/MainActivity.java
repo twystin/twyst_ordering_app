@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -147,6 +148,14 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(final Menu menu) {
+        hideSoftKeyBoard(getCurrentFocus());
+        findViewById(R.id.layout_search_outlet).setVisibility(View.GONE);
+        findViewById(R.id.tab_layout).setVisibility(View.VISIBLE);
+        return true;
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -176,7 +185,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     findViewById(R.id.layout_search_outlet).setVisibility(View.VISIBLE);
                     findViewById(R.id.tab_layout).setVisibility(View.GONE);
                 } else {
-//                    findViewById(R.id.layout_search_food).setVisibility(View.GONE);
+//                    findViewById(R.id.layout_search_outlet).setVisibility(View.GONE);
+//                    findViewById(R.id.tab_layout).setVisibility(View.VISIBLE);
+//                    hideSoftKeyBoard(view);
                 }
             }
         });
@@ -211,12 +222,12 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         searchExpandableList.setHasFixedSize(true);
         searchExpandableList.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
 
-        searchExpandableList.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                hideSoftKeyBoard(v);
-                return false;
-            }
-        });
+//        searchExpandableList.setOnTouchListener(new View.OnTouchListener() {
+//            public boolean onTouch(View v, MotionEvent event) {
+//                hideSoftKeyBoard(v);
+//                return false;
+//            }
+//        });
 
 //        SubCategories subCategories = new SubCategories();
 //        subCategories.setSubCategoryName(AppConstants.DEFAULT_SUB_CATEGORY);

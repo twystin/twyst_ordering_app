@@ -169,7 +169,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         Picasso picasso = Picasso.with(holder.itemView.getContext());
 
         if (orderHistory.getBackground() != null) {
-            Log.d("Image path:",orderHistory.getBackground());
             picasso.load(orderHistory.getBackground())
                     .noFade()
                     .into(holder.backgroundImage);
