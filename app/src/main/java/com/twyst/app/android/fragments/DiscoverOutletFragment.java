@@ -45,6 +45,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import fr.castorflex.android.circularprogressbar.CircularProgressBar;
@@ -198,7 +199,11 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
         super.onResume();
         mAddressDetailsLocationData = SharedPreferenceSingleton.getInstance().getDeliveryLocation();
         if (mAddressDetailsLocationData != null) {
-            currentAddressName.setText(mAddressDetailsLocationData.getLandmark() + ", " + mAddressDetailsLocationData.getNeighborhood());
+            if (mAddressDetailsLocationData.getLandmark().equals("Unnamed Address")){
+                currentAddressName.setText(mAddressDetailsLocationData.getLandmark());
+            } else {
+                currentAddressName.setText(mAddressDetailsLocationData.getLandmark() + ", " + mAddressDetailsLocationData.getNeighborhood());
+            }
         }
 
     }
@@ -373,6 +378,19 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
                         discoverAdapter.setOutletsNotFound(false);
                         discoverAdapter.getItems().addAll(fetchedOutlets);
                         discoverAdapter.notifyDataSetChanged();
+                        LinkedHashSet<String> cuisinesSet = new LinkedHashSet<String>();
+                        for (Outlet outlet: fetchedOutlets){
+                            cuisinesSet.addAll(outlet.getCuisines());
+                        }
+
+                        ArrayList<String> cuisinesList = new ArrayList<String>();
+                        for (String cuisine: cuisinesSet){
+                            cuisinesList.add(cuisine);
+                        }
+                        cuisinesSet = null;
+                        FilterOptions.updateCuisinesList(cuisinesList);
+
+                        int a =0;
                     }
                 }
                 hideProgressBar();
@@ -409,6 +427,13 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
 
                 if (filterTagsMap.get(AppConstants.offersTag) != null && filterTagsMap.get(AppConstants.offersTag).length > 0) {
                     if (outlet.getOfferCount() <= 0) {
+                        qualified = false;
+                        continue;
+                    }
+                }
+
+                if (filterTagsMap.get(AppConstants.paymentTag) != null && filterTagsMap.get(AppConstants.paymentTag).length > 0){
+                    if (outlet.getPaymentOptions() != null  && !outlet.getPaymentOptions().contains("cod")){
                         qualified = false;
                         continue;
                     }

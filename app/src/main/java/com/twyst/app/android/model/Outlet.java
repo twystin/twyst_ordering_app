@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 
 /**
  * Created by anshul on 1/5/2016.
@@ -29,9 +28,12 @@ public class Outlet extends Data implements Serializable {
     @SerializedName("offer_count")
     private int offerCount;
 
+    @SerializedName("payment_options")
+    private ArrayList<String> paymentOptions;
+
     private ArrayList<Offer> offers = new ArrayList<>();
 
-    private List<String> cuisines;
+    private ArrayList<String> cuisines;
 
     private String lng;
 
@@ -82,11 +84,19 @@ public class Outlet extends Data implements Serializable {
         this.minimumOrder = minimumOrder;
     }
 
-    public List<String> getCuisines() {
+    public ArrayList<String> getCuisines() {
         return cuisines;
     }
 
-    public void setCuisines(List<String> cuisines) {
+    public ArrayList<String> getPaymentOptions() {
+        return paymentOptions;
+    }
+
+    public void setPaymentOptions(ArrayList<String> paymentOptions) {
+        this.paymentOptions = paymentOptions;
+    }
+
+    public void setCuisines(ArrayList<String> cuisines) {
         this.cuisines = cuisines;
     }
 

@@ -9,15 +9,15 @@ import java.util.HashMap;
  */
 public class FilterOptions {
 
-
-        private static HashMap<String, ArrayList<String>> myMap;
-        static {
-            myMap = new HashMap<String, ArrayList<String>>();
-            myMap.put(AppConstants.sortTag, new ArrayList<String>(Arrays.asList("Delivery Time - Low to High","Minimum Bill - Low to High","Cost for Two - Low to High","Cost for Two - Hign to Low","Minimum Bill - High to Low")));
-            myMap.put(AppConstants.cuisinetag, new ArrayList<String>(Arrays.asList("Pure Veg Only","American","Arabian","Asian","Assamese","Bakery","Bangladeshi","Bengali","Beverages","Biryani","Cafe","Chinese","continental","Desert","European","Fast Food","Goan")));
-            myMap.put(AppConstants.paymentTag, new ArrayList<String>(Arrays.asList("COD Available")));
-            myMap.put(AppConstants.offersTag, new ArrayList<String>(Arrays.asList("Only Show Outlets with Offers")));
-        }
+    private static ArrayList<String> cuisinesList = new ArrayList<>();
+    private static HashMap<String, ArrayList<String>> myMap;
+    static {
+        myMap = new HashMap<String, ArrayList<String>>();
+        myMap.put(AppConstants.sortTag, new ArrayList<String>(Arrays.asList("Delivery Time - Low to High","Minimum Bill - Low to High","Minimum Bill - High to Low")));
+        myMap.put(AppConstants.cuisinetag, getCuisinesList());
+        myMap.put(AppConstants.paymentTag, new ArrayList<String>(Arrays.asList("COD Available")));
+        myMap.put(AppConstants.offersTag, new ArrayList<String>(Arrays.asList("Only Show Outlets with Offers")));
+    }
 
 
     public static HashMap<String, ArrayList<String>> getMyMap() {
@@ -26,6 +26,15 @@ public class FilterOptions {
 
     public static void setMyMap(HashMap<String, ArrayList<String>> myMap) {
         FilterOptions.myMap = myMap;
+    }
+
+    public static void updateCuisinesList(ArrayList<String> list){
+        cuisinesList = list;
+        myMap.put(AppConstants.cuisinetag,cuisinesList);
+    }
+
+    public static ArrayList<String> getCuisinesList(){
+        return cuisinesList;
     }
 
 

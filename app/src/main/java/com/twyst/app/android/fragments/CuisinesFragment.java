@@ -29,7 +29,6 @@ import com.twyst.app.android.R;
 import com.twyst.app.android.util.FilterOptions;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class CuisinesFragment extends Fragment {
     ArrayList<String> optionsList;
@@ -43,8 +42,7 @@ public class CuisinesFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.cuisines_fragment_layout, container, false);
-        HashMap<String, ArrayList<String>> myMap = FilterOptions.getMyMap();
-        optionsList = myMap.get("CUISINES");
+        optionsList = FilterOptions.getCuisinesList();
         listView = (ListView) view.findViewById(R.id.lv_cuisines_options);
 
 
@@ -102,7 +100,7 @@ public class CuisinesFragment extends Fragment {
             View row = convertView;
 
             LayoutInflater inflater = getActivity().getLayoutInflater();
-            if (optionsList.get(position).equals("American")) {
+            if (position == 0) {
                 row = inflater.inflate(R.layout.cuisine_american_row_option_layout, parent, false);
             } else {
                 row = inflater.inflate(R.layout.options_row_layout, parent, false);
