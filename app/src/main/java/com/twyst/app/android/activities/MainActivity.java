@@ -239,6 +239,13 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             Outlet outlet = outletsFragment.getFetchedOutlets().get(i);
             if (outlet.getName() != null && outlet.getName().toLowerCase().contains(newText.toLowerCase())) {
                 filteredOutlets.add(outlet);
+            } else if (outlet.getCuisines() != null && outlet.getCuisines().size() > 0){
+                for (String cuisine: outlet.getCuisines()){
+                    if (cuisine.toLowerCase().contains(newText.toLowerCase())){
+                        filteredOutlets.add(outlet);
+                        break;
+                    }
+                }
             }
         }
 
