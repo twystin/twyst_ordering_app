@@ -340,7 +340,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                     socialName = etVerifyName.getText().toString();
                     source = "phonebook";
                     userImage = "";
-                    firstName = "";
+                    firstName = etVerifyName.getText().toString();
                     middleName = "";
                     lastName = "";
                     dob = "";
