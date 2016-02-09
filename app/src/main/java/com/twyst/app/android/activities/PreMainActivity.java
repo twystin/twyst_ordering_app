@@ -835,12 +835,17 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             mAddressDetailsLocationData.setNeighborhood(address.getAddressLine(0));
             mAddressDetailsLocationData.setLandmark(address.getAddressLine(1));
             sharedPreferenceSingleton.saveCurrentUsedLocation(mAddressDetailsLocationData);
-            twystProgressHUD.dismiss();
+            if (twystProgressHUD != null) {
+                twystProgressHUD.dismiss();
+            }
             Intent intent = new Intent(PreMainActivity.this, MainActivity.class);
             intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_CURRENT);
             startActivity(intent);
         } else {
             Toast.makeText(PreMainActivity.this, "onReceiveAddressError : " + resultCode, Toast.LENGTH_LONG).show();
+            if (twystProgressHUD != null) {
+                twystProgressHUD.dismiss();
+            }
             mAddressDetailsLocationData.setAddress("Unnamed Address");
             mAddressDetailsLocationData.setNeighborhood("Unnamed Address");
             mAddressDetailsLocationData.setLandmark("Unnamed Address");
@@ -857,6 +862,9 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             mAddressDetailsLocationData.setCoords(coords);
             locationFetchUtil.requestAddress(location, false);
         } else {
+            if (twystProgressHUD != null) {
+                twystProgressHUD.dismiss();
+            }
             Toast.makeText(PreMainActivity.this, "onReceiveLocationError : " + resultCode, Toast.LENGTH_LONG).show();
             Intent intent = new Intent(PreMainActivity.this, AddressMapActivity.class);
             intent.putExtra(AppConstants.FROM_CHOOSE_ACTIVITY_TO_MAP, true);
@@ -1146,6 +1154,9 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                     break;
                 case Activity.RESULT_CANCELED:
                     Log.i(getTagName(), "User chose not to make required location settings changes.");
+                    if (twystProgressHUD != null) {
+                        twystProgressHUD.dismiss();
+                    }
                     Intent intent = new Intent(PreMainActivity.this, AddressMapActivity.class);
                     intent.putExtra(AppConstants.FROM_CHOOSE_ACTIVITY_TO_MAP, true);
                     startActivity(intent);

@@ -115,4 +115,18 @@ public class AddressDetailsLocationData implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "AddressDetailsLocationData{" +
+                "neighborhood='" + neighborhood + '\'' +
+                ", landmark='" + landmark + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return this.toString().equals(((AddressDetailsLocationData)o).toString());
+    }
 }

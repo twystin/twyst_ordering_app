@@ -17,6 +17,8 @@ import com.twyst.app.android.model.order.OrderSummary;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.SharedPreferenceSingleton;
 
+import java.util.ArrayList;
+
 /**
  * Created by anshul on 1/8/2016.
  */
@@ -145,13 +147,11 @@ public class AddressAddNewActivity extends BaseActionActivity {
             @Override
             public void onClick(View v) {
                 EditText neighborhood = (EditText) findViewById(R.id.editView_building);
-                EditText name = (EditText) findViewById(R.id.editView_name);
                 EditText address = (EditText) findViewById(R.id.editView_address);
                 EditText landmark = (EditText) findViewById(R.id.editView_landmark);
 
-                if (validateEditText(name) && validateEditText(neighborhood) && validateEditText(address)) {
+                if (validateEditText(neighborhood) && validateEditText(address)) {
                     mNewAddress.setNeighborhood(neighborhood.getText().toString());
-                    mNewAddress.setName(name.getText().toString());
                     mNewAddress.setAddress(address.getText().toString());
                     mNewAddress.setLandmark(landmark.getText().toString());
                     if (homeTag.isSelected()) {
@@ -163,7 +163,20 @@ public class AddressAddNewActivity extends BaseActionActivity {
                     }
 
                     SharedPreferenceSingleton preference = SharedPreferenceSingleton.getInstance();
-                    preference.addAddress(mNewAddress);
+                    boolean isLocationAlreadyExist = false;
+                    ArrayList<AddressDetailsLocationData> savedAddressList = preference.getAddresses();
+                    if (savedAddressList != null && savedAddressList.size() > 0) {
+                        for (AddressDetailsLocationData savedLocation : preference.getAddresses()) {
+                            if (savedLocation.equals(mNewAddress)) {
+                                isLocationAlreadyExist = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!isLocationAlreadyExist) {
+                        preference.addAddress(mNewAddress);
+                    }
                     updateOrderSummaryAndCheckout(mNewAddress);
                 } else {
                     validateEditText(neighborhood);
@@ -176,13 +189,11 @@ public class AddressAddNewActivity extends BaseActionActivity {
             @Override
             public void onClick(View v) {
                 EditText neighborhood = (EditText) findViewById(R.id.editView_building);
-                EditText name = (EditText) findViewById(R.id.editView_name);
                 EditText address = (EditText) findViewById(R.id.editView_address);
                 EditText landmark = (EditText) findViewById(R.id.editView_landmark);
 
-                if (validateEditText(name) && validateEditText(neighborhood) && validateEditText(address)) {
+                if (validateEditText(neighborhood) && validateEditText(address)) {
                     mNewAddress.setNeighborhood(neighborhood.getText().toString());
-                    mNewAddress.setName(name.getText().toString());
                     mNewAddress.setAddress(address.getText().toString());
                     mNewAddress.setLandmark(landmark.getText().toString());
                     if (homeTag.isSelected()) {

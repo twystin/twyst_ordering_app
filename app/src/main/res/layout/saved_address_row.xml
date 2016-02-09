@@ -14,36 +14,19 @@
         android:duplicateParentState="true"
         android:scaleType="centerCrop" />
 
-    <LinearLayout
+
+    <TextView
+        android:id="@+id/tv_address"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/address_layout_horizontal_medium_margin">
-
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="bottom"
-            android:paddingBottom="2dp"
-            android:text="Samir"
-            android:textColor="@color/black_54"
-            android:textSize="@dimen/address_medium_text_size" />
-
-        <TextView
-            android:id="@+id/tv_address"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:gravity="top"
-            android:singleLine="true"
-            android:text="A-5/16, DLF Phase 1"
-            android:textColor="@color/black_38"
-            android:textSize="@dimen/address_medium_text_size" />
-    </LinearLayout>
+        android:gravity="center_vertical"
+        android:ellipsize="end"
+        android:paddingLeft="@dimen/address_layout_horizontal_medium_margin"
+        android:singleLine="true"
+        android:text="A-5/16, DLF Phase 1"
+        android:textColor="@color/black_38"
+        android:textSize="@dimen/address_medium_text_size" />
 
     <LinearLayout
         android:layout_width="wrap_content"

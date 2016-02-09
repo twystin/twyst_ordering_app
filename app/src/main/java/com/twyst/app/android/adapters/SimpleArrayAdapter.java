@@ -13,7 +13,6 @@ import com.twyst.app.android.R;
 import com.twyst.app.android.model.AddressDetailsLocationData;
 import com.twyst.app.android.model.LocationDetails.LocationsVerified;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,21 +60,18 @@ public class SimpleArrayAdapter extends ArrayAdapter<AddressDetailsLocationData>
 
     static class AddressHolder {
         private ImageView radioButton;
-        private TextView name;
         private TextView address;
         private ImageView tagImage;
         private TextView tagName;
 
         AddressHolder(View row) {
             radioButton = (ImageView) row.findViewById(R.id.radio_saved_address);
-            name = (TextView) row.findViewById(R.id.tv_name);
             address = (TextView) row.findViewById(R.id.tv_address);
             tagImage = (ImageView) row.findViewById(R.id.image_tag);
             tagName = (TextView) row.findViewById(R.id.tv_tag_name);
         }
 
         private void populateFrom(AddressDetailsLocationData addr) {
-            name.setText(addr.getName());
             address.setText(addr.getAddress());
 
             switch (addr.getTag()) {

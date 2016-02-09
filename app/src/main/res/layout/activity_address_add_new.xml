@@ -107,20 +107,6 @@
                             android:src="@drawable/edit_icon" />
                     </LinearLayout>
 
-
-                    <EditText
-                        android:id="@+id/editView_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_underline"
-                        android:ellipsize="end"
-                        android:hint="@string/hint_name"
-                        android:inputType="textNoSuggestions|textPersonName"
-                        android:textColor="@color/black_54"
-                        android:textColorHint="@color/black_38"
-                        android:textSize="@dimen/address_huge_text_size" />
-
-
                 </LinearLayout>
 
             </LinearLayout>

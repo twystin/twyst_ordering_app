@@ -347,6 +347,8 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
                     if (fetchedOutlets.isEmpty()) {
                         outletsNotFound = true;
                         discoverAdapter.setOutletsNotFound(true);
+                        discoverAdapter.getItems().clear();
+                        discoverAdapter.notifyDataSetChanged();
                     } else {
                         if (start == 1) {//Clear the items in adapter, fresh download
                             Log.d(getTagName(), "clearing outlets on discover screen");
