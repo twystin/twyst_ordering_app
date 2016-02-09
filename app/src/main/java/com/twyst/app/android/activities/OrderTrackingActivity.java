@@ -24,13 +24,10 @@ import android.widget.Toast;
 
 import com.twyst.app.android.R;
 import com.twyst.app.android.TwystApplication;
-import com.twyst.app.android.adapters.MenuOptionsAdapter;
 import com.twyst.app.android.adapters.SummaryAdapter;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.OrderTrackingState;
 import com.twyst.app.android.model.OrderUpdate;
-import com.twyst.app.android.model.menu.Items;
-import com.twyst.app.android.model.menu.Options;
 import com.twyst.app.android.model.order.CancelOrder;
 import com.twyst.app.android.model.order.OrderInfoLocal;
 import com.twyst.app.android.service.HttpService;
@@ -194,8 +191,7 @@ public class OrderTrackingActivity extends BaseActionActivity {
                         viewholder.tvClickForFailure.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-//                                cancelOrderDialogShow();
-                                orderDeliveredSuccess();
+                                cancelOrderDialogShow();
                             }
                         });
                         viewholder.tvClickForFailure.setText(getResources().getString(R.string.order_placed_cancel_message));
