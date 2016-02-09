@@ -53,6 +53,9 @@ public class OrderHistory implements Serializable {
     @SerializedName("_id")
     private String orderID;
 
+    @SerializedName("order_number")
+    private String orderNumber;
+
     @SerializedName("background")
     private String background;
 
@@ -116,6 +119,14 @@ public class OrderHistory implements Serializable {
 
     public void setIsFavourite(boolean isFavourite) {
         this.isFavourite = isFavourite;
+    }
+
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
     public Double getOrderCost() {

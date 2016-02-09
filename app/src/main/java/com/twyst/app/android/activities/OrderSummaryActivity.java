@@ -9,16 +9,19 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.SummaryAdapter;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.order.OrderCheckOut;
 import com.twyst.app.android.model.order.OrderCheckOutResponse;
+import com.twyst.app.android.model.order.OrderInfoLocal;
 import com.twyst.app.android.model.order.OrderSummary;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -77,6 +80,7 @@ public class OrderSummaryActivity extends BaseActionActivity {
                     OrderCheckOutResponse orderCheckOutResponse = baseResponse.getData();
                     Intent paymentOptionsIntent = new Intent(OrderSummaryActivity.this, PaymentOptionsActivity.class);
                     paymentOptionsIntent.putExtra(AppConstants.INTENT_ORDER_CHECKOUT_RESPONSE, orderCheckOutResponse);
+                    paymentOptionsIntent.putExtra(AppConstants.INTENT_ORDER_INFO_LOCAL, new OrderInfoLocal(orderCheckOutResponse.getOrderNumber(), mOrderSummary, mFreeItemIndex));
                     startActivity(paymentOptionsIntent);
                 } else {
                     Toast.makeText(OrderSummaryActivity.this, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();

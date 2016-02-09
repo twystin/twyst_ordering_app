@@ -30,6 +30,7 @@ import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.PaymentData;
 import com.twyst.app.android.model.order.OrderCheckOutResponse;
 import com.twyst.app.android.model.order.OrderConfirmedCOD;
+import com.twyst.app.android.model.order.OrderInfoLocal;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
@@ -109,13 +110,7 @@ public class PaymentOptionsActivity extends AppCompatActivity {
             @Override
             public void success(BaseResponse baseResponse, Response response) {
                 if (baseResponse.isResponse()) {
-                    Toast.makeText(PaymentOptionsActivity.this, "Order placed successfully!", Toast.LENGTH_SHORT).show();
-                    Intent orderTrackingIntent = new Intent(PaymentOptionsActivity.this, OrderTrackingActivity.class);
-                    orderTrackingIntent.putExtra(AppConstants.INTENT_ORDER_ID, mOrderCheckoutResponse.getOrderID());
-                    orderTrackingIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    startActivity(orderTrackingIntent);
-                    finish();
+                    gotoOrderTracking();
                 } else {
                     Toast.makeText(PaymentOptionsActivity.this, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -131,6 +126,19 @@ public class PaymentOptionsActivity extends AppCompatActivity {
                 UtilMethods.hideSnackbar();
             }
         });
+    }
+
+    private void gotoOrderTracking() {
+        Toast.makeText(PaymentOptionsActivity.this, "Order placed successfully!", Toast.LENGTH_SHORT).show();
+        Intent orderTrackingIntent = new Intent(PaymentOptionsActivity.this, OrderTrackingActivity.class);
+
+        OrderInfoLocal.saveLocalList(mOrderCheckoutResponse.getOrderID(),
+                (OrderInfoLocal) getIntent().getSerializableExtra(AppConstants.INTENT_ORDER_INFO_LOCAL), PaymentOptionsActivity.this);
+        orderTrackingIntent.putExtra(AppConstants.INTENT_ORDER_ID, mOrderCheckoutResponse.getOrderID());
+        orderTrackingIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(orderTrackingIntent);
+        finish();
     }
 
     private void goToPayment() {
@@ -163,6 +171,9 @@ public class PaymentOptionsActivity extends AppCompatActivity {
                 MKTransactionResponse response = (MKTransactionResponse)
                         data.getSerializableExtra(MobikwikSDK.EXTRA_TRANSACTION_RESPONSE);
                 Toast.makeText(PaymentOptionsActivity.this, response.statusMessage, Toast.LENGTH_SHORT).show();
+                if (response.statusCode.equals("0")) {
+                    gotoOrderTracking();
+                }
                 Log.d("PaymentOptionsActivity", response.statusMessage);
                 Log.d("PaymentOptionsActivity", response.statusCode);
             }

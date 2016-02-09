@@ -77,7 +77,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
      * In each category sorting must be chronologically.
      */
     private void customSortOrderHistoryList() {
-
         Collections.sort(mOrderHistoryList, new Comparator<OrderHistory>() {
             @Override
             public int compare(OrderHistory lhs, OrderHistory rhs) {
@@ -203,6 +202,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     private void trackOrder(OrderHistory orderHistory) {
         Intent orderTrackingIntent = new Intent(mContext, OrderTrackingActivity.class);
         orderTrackingIntent.putExtra(AppConstants.INTENT_ORDER_ID, orderHistory.getOrderID());
+        orderTrackingIntent.putExtra(AppConstants.INTENT_ORDER_NUMBER, orderHistory.getOrderNumber());
         orderTrackingIntent.putExtra(AppConstants.INTENT_PARAM_FROM_ORDER_HISTORY, true);
         orderTrackingIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
