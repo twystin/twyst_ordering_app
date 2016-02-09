@@ -336,6 +336,7 @@
         <activity
             android:name=".activities.OrderTrackingActivity"
             android:label="@string/track_order"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <!--Redeem Screens-->

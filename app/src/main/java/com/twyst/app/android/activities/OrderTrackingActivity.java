@@ -43,7 +43,7 @@ public class OrderTrackingActivity extends BaseActionActivity {
     private ListView trackOrderStatesListview;
     private ArrayList<OrderTrackingState> mTrackOrderStatesList;
     private TrackOrderStatesAdapter mAdapter;
-    String mOrderID;
+    private String mOrderID;
     protected TwystApplication twystApplication;
 
     @Override
@@ -51,14 +51,18 @@ public class OrderTrackingActivity extends BaseActionActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_tracking);
 
-        mOrderID = getIntent().getExtras().getString(AppConstants.INTENT_ORDER_ID, "");
-        mTrackOrderStatesList = OrderTrackingState.getInitialList(mOrderID, OrderTrackingActivity.this);
+        processExtraData();
 
         setupToolBar();
         trackOrderStatesListview = (ListView) findViewById(R.id.listview_track_order_states);
         mAdapter = new TrackOrderStatesAdapter();
         trackOrderStatesListview.setAdapter(mAdapter);
         twystApplication = (TwystApplication) this.getApplicationContext();
+    }
+
+    private void processExtraData() {
+        mOrderID = getIntent().getExtras().getString(AppConstants.INTENT_ORDER_ID, "");
+        refreshList();
     }
 
     @Override
@@ -81,8 +85,8 @@ public class OrderTrackingActivity extends BaseActionActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        mOrderID = intent.getExtras().getString(AppConstants.INTENT_ORDER_ID, "");
-        refreshList();
+        setIntent(intent);
+        processExtraData();
     }
 
     private void clearReferences() {
