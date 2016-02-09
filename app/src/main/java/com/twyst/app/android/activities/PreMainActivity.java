@@ -850,6 +850,9 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             mAddressDetailsLocationData.setNeighborhood("Unnamed Address");
             mAddressDetailsLocationData.setLandmark("Unnamed Address");
             sharedPreferenceSingleton.saveCurrentUsedLocation(mAddressDetailsLocationData);
+            Intent intent = new Intent(PreMainActivity.this, MainActivity.class);
+            intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_CURRENT);
+            startActivity(intent);
         }
     }
 

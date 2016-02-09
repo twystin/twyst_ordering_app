@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.OrderHistory;
 import com.twyst.app.android.model.OrderUpdate;
 import com.twyst.app.android.model.Outlet;
-import com.twyst.app.android.model.OutletDetailData;
 import com.twyst.app.android.model.ReorderMenuAndCart;
 import com.twyst.app.android.model.menu.AddonSet;
 import com.twyst.app.android.model.menu.Addons;
@@ -324,6 +322,18 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                         for (Items items : subCategories.getItemsList()) {
                             if (items.getId().equals(reOrderItem.getId())) { //found item
                                 itemFound = true;
+                                
+                                // added code to add subCategoryId and menuCategoryId to item
+                                // Setting menuCategory ID & subCategory ID
+                                items.setCategoryID(menuCategories.getId());
+                                items.setSubCategoryID(subCategories.getId());
+
+                                //Setting menuCategoryName & subCategoryName
+                                items.setCategoryName(menuCategories.getCategoryName());
+                                items.setSubCategoryName(subCategories.getSubCategoryName());
+
+
+
                                 Items cartItem = new Items(items);
                                 Options selected = reOrderItem.getSelectedOption();
 

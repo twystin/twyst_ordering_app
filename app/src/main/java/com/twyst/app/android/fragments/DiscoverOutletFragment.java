@@ -188,7 +188,9 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
     public void onResume() {
         super.onResume();
         mAddressDetailsLocationData = SharedPreferenceSingleton.getInstance().getDeliveryLocation();
-        currentAddressName.setText(mAddressDetailsLocationData.getLandmark() + ", " + mAddressDetailsLocationData.getNeighborhood());
+        if (mAddressDetailsLocationData != null) {
+            currentAddressName.setText(mAddressDetailsLocationData.getLandmark() + ", " + mAddressDetailsLocationData.getNeighborhood());
+        }
 
     }
 
