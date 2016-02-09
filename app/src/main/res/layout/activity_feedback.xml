@@ -7,6 +7,10 @@
     android:orientation="vertical"
     tools:context="com.twyst.app.android.activities.FeedbackActivity">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
     <ListView
         android:id="@+id/dishes_rating_list_view"
         android:layout_width="match_parent"

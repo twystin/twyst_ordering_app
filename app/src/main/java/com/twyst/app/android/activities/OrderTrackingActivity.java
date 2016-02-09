@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,19 +17,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.twyst.app.android.R;
 import com.twyst.app.android.TwystApplication;
-import com.twyst.app.android.adapters.MenuOptionsAdapter;
+import com.twyst.app.android.adapters.SummaryAdapter;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.OrderTrackingState;
 import com.twyst.app.android.model.OrderUpdate;
-import com.twyst.app.android.model.menu.Items;
-import com.twyst.app.android.model.menu.Options;
 import com.twyst.app.android.model.order.CancelOrder;
+import com.twyst.app.android.model.order.OrderInfoLocal;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
@@ -43,22 +45,75 @@ public class OrderTrackingActivity extends BaseActionActivity {
     private ListView trackOrderStatesListview;
     private ArrayList<OrderTrackingState> mTrackOrderStatesList;
     private TrackOrderStatesAdapter mAdapter;
-    String mOrderID;
+    private String mOrderID;
     protected TwystApplication twystApplication;
+    private boolean ivArrowExpanded;
+    private boolean isOrderDeliverySuccessInProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_tracking);
 
-        mOrderID = getIntent().getExtras().getString(AppConstants.INTENT_ORDER_ID, "");
-        mTrackOrderStatesList = OrderTrackingState.getInitialList(mOrderID, OrderTrackingActivity.this);
+        processExtraData();
 
         setupToolBar();
         trackOrderStatesListview = (ListView) findViewById(R.id.listview_track_order_states);
         mAdapter = new TrackOrderStatesAdapter();
         trackOrderStatesListview.setAdapter(mAdapter);
         twystApplication = (TwystApplication) this.getApplicationContext();
+    }
+
+    private void processExtraData() {
+        mOrderID = getIntent().getExtras().getString(AppConstants.INTENT_ORDER_ID, "");
+        refreshList();
+
+        OrderInfoLocal orderInfoLocal = OrderInfoLocal.getLocalList(mOrderID, OrderTrackingActivity.this);
+        if (orderInfoLocal == null) {// No  local data
+            findViewById(R.id.iv_arrow).setVisibility(View.GONE);
+            if (TextUtils.isEmpty(getIntent().getExtras().getString(AppConstants.INTENT_ORDER_NUMBER, ""))) {
+                findViewById(R.id.order_number_layout).setVisibility(View.GONE);
+            } else {
+                showOrderNumber(getIntent().getExtras().getString(AppConstants.INTENT_ORDER_NUMBER, ""));
+            }
+        } else {
+            showOrderNumber(orderInfoLocal.getOrderNumber());
+            setupSummaryRecyclerView(orderInfoLocal);
+            findViewById(R.id.iv_arrow).setVisibility(View.VISIBLE);
+            findViewById(R.id.iv_arrow).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (ivArrowExpanded) {
+                        findViewById(R.id.summaryRecyclerView).setVisibility(View.GONE);
+                        ivArrowExpanded = false;
+                        ((ImageView) findViewById(R.id.iv_arrow)).setImageResource(R.drawable.collapsed);
+                    } else {
+                        findViewById(R.id.summaryRecyclerView).setVisibility(View.VISIBLE);
+                        ivArrowExpanded = true;
+                        ((ImageView) findViewById(R.id.iv_arrow)).setImageResource(R.drawable.expanded);
+                    }
+                }
+            });
+        }
+
+    }
+
+    private void showOrderNumber(String orderNumber) {
+        findViewById(R.id.order_number_layout).setVisibility(View.VISIBLE);
+        ((TextView) findViewById(R.id.tv_order_number)).setText(orderNumber);
+    }
+
+
+    private void setupSummaryRecyclerView(OrderInfoLocal orderInfoLocal) {
+        RecyclerView mSummaryRecyclerView = (RecyclerView) findViewById(R.id.summaryRecyclerView);
+        mSummaryRecyclerView.setHasFixedSize(true);
+
+        //Assigning resources
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mSummaryRecyclerView.setLayoutManager(mLayoutManager);
+
+        SummaryAdapter mSummaryAdapter = new SummaryAdapter(OrderTrackingActivity.this, orderInfoLocal.getOrderSummary(), orderInfoLocal.getFreeItemIndex());
+        mSummaryRecyclerView.setAdapter(mSummaryAdapter);
     }
 
     @Override
@@ -81,8 +136,8 @@ public class OrderTrackingActivity extends BaseActionActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        mOrderID = intent.getExtras().getString(AppConstants.INTENT_ORDER_ID, "");
-        refreshList();
+        setIntent(intent);
+        processExtraData();
     }
 
     private void clearReferences() {
@@ -198,6 +253,12 @@ public class OrderTrackingActivity extends BaseActionActivity {
                     }
                     break;
 
+                case OrderTrackingState.STATE_DELIVERED:
+                    if (!isOrderDeliverySuccessInProgress) {
+                        orderDeliveredSuccess();
+                    }
+                    break;
+
                 default:
                     break;
             }
@@ -209,6 +270,15 @@ public class OrderTrackingActivity extends BaseActionActivity {
         public int getCount() {
             return mTrackOrderStatesList.size();
         }
+    }
+
+    private void orderDeliveredSuccess() {
+        isOrderDeliverySuccessInProgress = true;
+        Toast.makeText(OrderTrackingActivity.this, "Order delivered successfully! Please rate the order and claim your cashback!", Toast.LENGTH_LONG).show();
+        HttpService.getInstance().getSharedPreferences().edit().putString(AppConstants.INTENT_ORDER_ID_FEEDBACK, mOrderID).apply();
+        Intent feedbackIntent = new Intent(OrderTrackingActivity.this, FeedbackActivity.class);
+        startActivity(feedbackIntent);
+        finish();
     }
 
     private void orderDelivered(final boolean isDelivered) {

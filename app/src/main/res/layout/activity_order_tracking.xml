@@ -40,21 +40,45 @@
                     android:textColor="@android:color/black"
                     android:textSize="12dp" />
 
-                <TextView
+                <LinearLayout
+                    android:id="@+id/order_number_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:gravity="center"
-                    android:text="ORDER ID : TW-BBB-18"
-                    android:textColor="@android:color/black"
-                    android:textSize="16dp" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ORDER ID : "
+                        android:textColor="@android:color/black"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/tv_order_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TW-BBB-18"
+                        android:textColor="@android:color/black"
+                        android:textSize="16dp" />
+
+                </LinearLayout>
 
                 <ImageView
-                    android:id="@+id/iv_track_order_group"
+                    android:id="@+id/iv_arrow"
                     android:layout_width="match_parent"
                     android:layout_height="24dp"
                     android:layout_gravity="center"
                     android:src="@drawable/collapsed" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/summaryRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:dividerHeight="0dp"
+                    android:overScrollMode="never"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:layout_width="match_parent"

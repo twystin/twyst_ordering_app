@@ -10,6 +10,7 @@ import java.io.Serializable;
 public class OrderUpdate implements Serializable {
     public static final String FAVOURITE = "update_favourite";
     public static final String DELIVERY_STATUS = "update_delivery_status";
+    public static final String FEEDBACK = "feedback";
 
     public OrderUpdate(String orderId, String updateType, boolean isFavouriteDelivered) {
         this.orderId = orderId;
@@ -24,17 +25,38 @@ public class OrderUpdate implements Serializable {
         }
     }
 
+    public OrderUpdate(String orderId, boolean isOnTime, int orderRating) {
+        this.orderId = orderId;
+        this.updateType = FEEDBACK;
+        this.orderRating = orderRating;
+        this.isOnTime = isOnTime;
+    }
+
     @SerializedName("order_id")
     private String orderId;
 
     @SerializedName("update_type")
     private String updateType;
 
+    @SerializedName("order_rating")
+    private int orderRating;
+
     @SerializedName("is_favourite")
     private boolean isFavourite;
 
     @SerializedName("is_delivered")
     private boolean isDelivered;
+
+    @SerializedName("is_ontime")
+    private boolean isOnTime;
+
+    public int getOrderRating() {
+        return orderRating;
+    }
+
+    public void setOrderRating(int orderRating) {
+        this.orderRating = orderRating;
+    }
 
     public String getOrderId() {
         return orderId;

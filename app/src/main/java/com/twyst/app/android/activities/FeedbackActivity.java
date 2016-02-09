@@ -3,9 +3,8 @@ package com.twyst.app.android.activities;
 /**
  * Created by Tushar on 1/29/2016.
  */
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,17 +14,27 @@ import android.widget.Toast;
 
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.FeedbackAdapter;
+import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.OrderFeedback;
+import com.twyst.app.android.model.OrderTrackingState;
+import com.twyst.app.android.model.OrderUpdate;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.order.OrderSummary;
+import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
+import com.twyst.app.android.util.TwystProgressHUD;
+import com.twyst.app.android.util.UtilMethods;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class FeedbackActivity extends AppCompatActivity {
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
-    String[] cartlist_temp = {"Dish 1", "Dish 2", "Dish 3", "Dish 4", "Dish 5"};
+public class FeedbackActivity extends BaseActionActivity {
+    //    String[] cartlist_temp = {"Dish 1", "Dish 2", "Dish 3", "Dish 4", "Dish 5"};
+    String[] cartlist_temp = {};
 
     private ImageView[] foodOverallRatingStarIcon = new ImageView[5];
     private TextView submit;
@@ -38,10 +47,9 @@ public class FeedbackActivity extends AppCompatActivity {
 
     // below variable needs to come from some other activity
     private ArrayList<String> orderedItems = new ArrayList<>();
-    private String orderId;
 
     // Variables to collect feedback -- also to be sent to server
-    boolean foodDelieveredOnTime;
+    boolean foodDeliveredOnTime;
     int foodOverallRating;
     ArrayList<Integer> dishRating = new ArrayList<>();
 
@@ -50,18 +58,10 @@ public class FeedbackActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
 
-        //getExtrasFromBundle();
+        setupToolBar();
         for (int i = 0; i < cartlist_temp.length; i++) {
             orderedItems.add(cartlist_temp[i]);
         }
-
-        // For every ORDER, we need to store 'feedback given or not' value (boolean).
-        SharedPreferences settings;
-        SharedPreferences.Editor editor;
-        settings = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        editor = settings.edit();
-        editor.putBoolean(orderId, feedbackSubmitted);
-        editor.commit();
 
         // Submit button shouldn't be clickable till the first two responses (in the ListView header) are provided.
         submit = (TextView) findViewById(R.id.bSubmit);
@@ -96,7 +96,7 @@ public class FeedbackActivity extends AppCompatActivity {
         timelyDeliveryResponseYES.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                foodDelieveredOnTime = true;
+                foodDeliveredOnTime = true;
                 foodDeliveredOnTimeResponseGiven = true;
                 timelyDeliveryResponseYES.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 timelyDeliveryResponseYES.setTextColor(getResources().getColor(R.color.white));
@@ -109,7 +109,7 @@ public class FeedbackActivity extends AppCompatActivity {
         timelyDeliveryResponseNO.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                foodDelieveredOnTime = false;
+                foodDeliveredOnTime = false;
                 foodDeliveredOnTimeResponseGiven = true;
                 timelyDeliveryResponseNO.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 timelyDeliveryResponseNO.setTextColor(getResources().getColor(R.color.white));
@@ -136,22 +136,43 @@ public class FeedbackActivity extends AppCompatActivity {
                 sb.append("Food Delivery Response Given: ");
                 sb.append(foodDeliveredOnTimeResponseGiven);
                 sb.append("Food Delivered on Time: ");
-                sb.append(foodDelieveredOnTime);
+                sb.append(foodDeliveredOnTime);
                 sb.append("Food Over All Rating: ");
                 sb.append(foodOverallRating);
-                Toast.makeText(FeedbackActivity.this, sb.toString() + dishRating.toString(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(FeedbackActivity.this, sb.toString() + dishRating.toString(), Toast.LENGTH_SHORT).show();
+
+                submitFeedback(HttpService.getInstance().getSharedPreferences().getString(AppConstants.INTENT_ORDER_ID_FEEDBACK, ""),
+                        foodOverallRating, foodDeliveredOnTime);
             }
         });
     }
 
-    private void getExtrasFromBundle() {
-        Bundle bundle = getIntent().getExtras();
-        OrderSummary orderSummary = (OrderSummary) bundle.getSerializable(AppConstants.INTENT_ORDER_SUMMARY);
-//        orderId = orderSummary.getOrderID();
-        orderId = "KJDKKTMEK";
-        for (Items i : orderSummary.getmCartItemsList()) {
-            orderedItems.add(i.getItemName());
-        }
+    private void submitFeedback(String orderId, int foodOverallRating, boolean foodDeliveredOnTime) {
+        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
+        OrderUpdate feedbackOrderUpdate = new OrderUpdate(orderId, foodDeliveredOnTime, foodOverallRating);
+
+        HttpService.getInstance().putOrderUpdate(UtilMethods.getUserToken(FeedbackActivity.this), feedbackOrderUpdate, new Callback<BaseResponse>() {
+            @Override
+            public void success(BaseResponse baseResponse, Response response) {
+                if (baseResponse.isResponse()) {
+                    HttpService.getInstance().getSharedPreferences().edit().putString(AppConstants.INTENT_ORDER_ID_FEEDBACK, "").apply();
+                    Toast.makeText(FeedbackActivity.this, "Thank You for your feedback!", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(FeedbackActivity.this, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                twystProgressHUD.dismiss();
+                UtilMethods.hideSnackbar();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                twystProgressHUD.dismiss();
+                UtilMethods.handleRetrofitError(FeedbackActivity.this, error);
+                UtilMethods.hideSnackbar();
+            }
+        });
     }
 
     /**
@@ -159,7 +180,7 @@ public class FeedbackActivity extends AppCompatActivity {
      */
     private void fillFeedback() {
         OrderFeedback orderFeedback = new OrderFeedback();
-        orderFeedback.setFb_foodDeliveredOnTime(foodDelieveredOnTime);
+        orderFeedback.setFb_foodDeliveredOnTime(foodDeliveredOnTime);
         orderFeedback.setFb_foodOverallRating(foodOverallRating);
 
         HashMap<String, Integer> dishRatingHashMap = new HashMap<>();
@@ -182,7 +203,6 @@ public class FeedbackActivity extends AppCompatActivity {
      * Customized OnClickListener to accept a variable index.
      */
     class MyOnClickListener implements View.OnClickListener {
-
         private int index;
 
         MyOnClickListener(int index) {
@@ -203,6 +223,16 @@ public class FeedbackActivity extends AppCompatActivity {
             makeSubmitClickable();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+//        super.onBackPressed();
+    }
+
 
 }
 

@@ -6,7 +6,7 @@ import com.twyst.app.android.BuildConfig;
  * Created by satish on 31/05/15.
  */
 public class AppConstants {
-//            public static final String HOST = "http://192.168.1.27:3000";
+    //            public static final String HOST = "http://192.168.1.27:3000";
     public static final String HOST = "http://staging.twyst.in";
 //    public static final String HOST = "http://twyst.in";
 
@@ -163,7 +163,7 @@ public class AppConstants {
     public static final int SHOW_TURN_ON_GPS = 3;
     public static final int SHOW_FETCH_LOCATION_AGAIN = 4;
 
-//    public static final String MAP_TO_BE_SHOWN = "MAP_TO_BE_SHOWN";
+    //    public static final String MAP_TO_BE_SHOWN = "MAP_TO_BE_SHOWN";
     public static final String DATA_TO_BE_SHOWN = "DATA_TO_BE_SHOWN";
     public static final String ADDRESS_FOUND = "ADDRESS_FOUND";
 
@@ -210,10 +210,13 @@ public class AppConstants {
     public static final String INTENT_PLACE_REORDER_MENUID = "place_reorder_menuid";
 
     //AddressDetailActivity from Cart
-    public static final String INTENT_PARAM_CART_LIST= "intent_cart_list";
+    public static final String INTENT_PARAM_CART_LIST = "intent_cart_list";
 
     //Payment Data
-    public static final String INTENT_ORDER_CHECKOUT_RESPONSE= "intent_order_checkout_response";
-    public static final String INTENT_ORDER_ID= "order_id";
+    public static final String INTENT_ORDER_CHECKOUT_RESPONSE = "intent_order_checkout_response";
+    public static final String INTENT_ORDER_INFO_LOCAL = "intent_order_info_local";
+    public static final String INTENT_ORDER_ID = "order_id";
+    public static final String INTENT_ORDER_ID_FEEDBACK = "order_id_feedback";
+    public static final String INTENT_ORDER_NUMBER = "order_number";
 
 }
