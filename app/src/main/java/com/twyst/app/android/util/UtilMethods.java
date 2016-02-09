@@ -30,7 +30,7 @@ import retrofit.client.Response;
  * Created by Vipul Sharma on 1/30/2016.
  */
 public class UtilMethods {
-    public static void checkOut(final AddressDetailsLocationData addressDetailsLocationData, final ArrayList<Items> mCartItemsList, String mOutletId, final Activity activity) {
+    public static void checkOut(final AddressDetailsLocationData addressDetailsLocationData, final ArrayList<Items> mCartItemsList, String mOutletId, final Activity activity, final boolean toFinish) {
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(activity, false, null);
         final OrderSummary orderSummary = new OrderSummary(mCartItemsList, mOutletId, addressDetailsLocationData.getCoords());
         OrderInfoSingleton.getInstance().setOrderSummary(orderSummary);
@@ -49,7 +49,9 @@ public class UtilMethods {
                     orderSummaryData.putSerializable(AppConstants.INTENT_ORDER_SUMMARY, returnOrderSummary);
                     checkOutIntent.putExtras(orderSummaryData);
                     activity.startActivity(checkOutIntent);
-                    activity.finish();
+                    if (toFinish) {
+                        activity.finish();
+                    }
                 } else {
                     Toast.makeText(activity, orderSummaryBaseResponse.getMessage(), Toast.LENGTH_LONG).show();
                 }
