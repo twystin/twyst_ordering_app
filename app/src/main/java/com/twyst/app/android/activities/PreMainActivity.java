@@ -178,6 +178,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 AddressDetailsLocationData chosenLocation = addressList.get(position);
                                 preference.saveCurrentUsedLocation(chosenLocation);
+                                preference.setSaveLocationClicked(true);
                                 Intent intent = new Intent(PreMainActivity.this, MainActivity.class);
                                 intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_SAVED);
                                 startActivity(intent);

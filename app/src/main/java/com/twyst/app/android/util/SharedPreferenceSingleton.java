@@ -20,6 +20,7 @@ public class SharedPreferenceSingleton {
     private SharedPreferences sharedPreferences = null;
     private Context context;
     private boolean skipLocationClicked = false;
+    private boolean saveLocationClicked = false;
 
     public boolean isSkipLocationClicked() {
         return skipLocationClicked;
@@ -27,6 +28,14 @@ public class SharedPreferenceSingleton {
 
     public void setSkipLocationClicked(boolean skipLocationClicked) {
         this.skipLocationClicked = skipLocationClicked;
+    }
+
+    public boolean isSaveLocationClicked() {
+        return saveLocationClicked;
+    }
+
+    public void setSaveLocationClicked(boolean saveLocationClicked) {
+        this.saveLocationClicked = saveLocationClicked;
     }
 
     private SharedPreferenceSingleton() {

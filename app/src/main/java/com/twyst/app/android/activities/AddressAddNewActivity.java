@@ -226,6 +226,16 @@ public class AddressAddNewActivity extends BaseActionActivity {
         });
     }
 
+    @Override
+    public void setupToolBar() {
+        super.setupToolBar();
+        if (SharedPreferenceSingleton.getInstance().isSaveLocationClicked()){
+            this.setTitle("Confirm Address");
+        } else {
+            this.setTitle("Edit Address");
+        }
+    }
+
     private void updateOrderSummaryAndCheckout(AddressDetailsLocationData mNewAddress) {
         mOrderSummary.setAddressDetailsLocationData(mNewAddress);
         checkOut();

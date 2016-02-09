@@ -84,6 +84,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SharedPreferenceSingleton.getInstance().setSaveLocationClicked(true);
                 AddressDetailsLocationData addressDetailsLocationData = (AddressDetailsLocationData) listView.getItemAtPosition(position);
                 UtilMethods.checkOut(addressDetailsLocationData, mCartItemsList, mOutletId, AddressDetailsActivity.this);
             }
