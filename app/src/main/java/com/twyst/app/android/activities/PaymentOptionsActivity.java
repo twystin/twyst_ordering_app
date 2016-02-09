@@ -44,7 +44,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class PaymentOptionsActivity extends AppCompatActivity {
+public class PaymentOptionsActivity extends BaseActionActivity {
     private List<PaymentData> mPaymentDataList = new ArrayList<PaymentData>();
     private static final int PAYMENT_REQ_CODE = 0;
 
@@ -156,6 +156,7 @@ public class PaymentOptionsActivity extends AppCompatActivity {
 
         User usr = new User(emailID, number);
         Transaction newTransaction = Transaction.Factory.newTransaction(usr, mOrderCheckoutResponse.getOrderNumber(), String.valueOf("1"));
+//        Transaction newTransaction = Transaction.Factory.newTransaction(usr, mOrderCheckoutResponse.getOrderNumber(), String.valueOf(mOrderCheckoutResponse.getActualAmountPaid()));
 
         Intent mobikwikIntent = new Intent(this, MobikwikSDK.class);
         mobikwikIntent.putExtra(MobikwikSDK.EXTRA_TRANSACTION_CONFIG, config);
@@ -178,18 +179,6 @@ public class PaymentOptionsActivity extends AppCompatActivity {
                 Log.d("PaymentOptionsActivity", response.statusCode);
             }
         }
-    }
-
-    private void setupToolBar() {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
     }
 
     public class PaymentArrayAdapter extends ArrayAdapter<PaymentData> {
