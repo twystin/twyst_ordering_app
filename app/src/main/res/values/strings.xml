@@ -239,4 +239,15 @@ each friend who joins.</p>
 
     <string name="no_data_outlet">Oops! Couldn\'t find any outlet delivering to this location at this time!</string>
     <string name="no_data_reorder">Oops! You have no previous orders to show!</string>
+
+    <string name="ok">OK</string>
+    <string name="permission_contacts_rationale">Contacts permission is needed to get contact info</string>
+    <string name="permission_location_rationale">Location permission is needed to fetch current location</string>
+    <string name="permission_phone_rationale">Phone permission is needed to get phone info</string>
+    <string name="permission_sms_rationale">SMS permission is needed to get send and recieve sms</string>
+    <string name="permision_available_contacts">Contacts Permissions have been granted.</string>
+    <string name="permision_available_location">Location Permissions have been granted.</string>
+    <string name="permision_available_phone">Phone Permissions have been granted.</string>
+    <string name="permision_available_sms">SMS Permissions have been granted.</string>
+    <string name="permissions_not_granted">Permissions were not granted.</string>
 </resources>

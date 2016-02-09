@@ -84,6 +84,7 @@ import com.twyst.app.android.model.order.Coords;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.LocationFetchUtil;
+import com.twyst.app.android.util.PermissionUtil;
 import com.twyst.app.android.util.PhoneBookContacts;
 import com.twyst.app.android.util.SharedPreferenceSingleton;
 import com.twyst.app.android.util.TwystProgressHUD;
@@ -117,14 +118,23 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     private LocationFetchUtil locationFetchUtil;
     private Location mLocation;
     private TwystProgressHUD twystProgressHUD = null;
+    private View mLayout = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_main);
+        mLayout = findViewById(R.id.sample_main_layout);
+
+        PermissionUtil askPermission = PermissionUtil.getInstance();
         startInitialAnimation();
         splashCode();
+
+
+
+
     }
+
 
     private void startInitialAnimation() {
         final ImageView app_background = (ImageView) findViewById(R.id.app_background_iv);
@@ -597,6 +607,8 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     }
 
     private boolean checkSmsCode() {
+        if (!PermissionUtil.getInstance().approveSMS(mLayout,PreMainActivity.this)) return false;
+
         Cursor cursor = getContentResolver().query(Uri.parse("content://sms/inbox"), null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
@@ -1322,7 +1334,9 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             prefs.edit().putBoolean(AppConstants.PREFERENCE_IS_FIRST_RUN, false).apply();
         }
 
-        new FetchContact().execute();
+        if (PermissionUtil.getInstance().approveContacts(mLayout,PreMainActivity.this)) {
+            new FetchContact().execute();
+        }
 
         if (checkPlayServices()) {
             buildGoogleApiClient();
