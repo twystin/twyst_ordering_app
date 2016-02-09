@@ -116,7 +116,7 @@ public class TagFragment extends ListFragment implements AdapterView.OnItemClick
             TextView tagName = (TextView)row.findViewById(R.id.tag_name);
             TagItem tagItem= tagList.get(position);
 //            tagImage.setImageDrawable(tagItem.getIcon());
-            tagImage.setImageDrawable(getActivity().getDrawable(tagItem.getIcon()));
+            tagImage.setImageDrawable(getResources().getDrawable(tagItem.getIcon()));
             tagName.setText(tagItem.getName());
             return row;
         }

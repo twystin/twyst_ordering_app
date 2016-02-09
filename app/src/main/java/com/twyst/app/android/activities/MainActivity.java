@@ -13,18 +13,20 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.appsflyer.AppsFlyerLib;
 import com.twyst.app.android.R;
+import com.twyst.app.android.adapters.DiscoverOutletAdapter;
 import com.twyst.app.android.adapters.DiscoverPagerAdapter;
 import com.twyst.app.android.fragments.DiscoverOutletFragment;
+import com.twyst.app.android.model.Outlet;
 import com.twyst.app.android.util.AppConstants;
+
+import java.util.ArrayList;
 
 /**
  * Created by Anshul on 1/14/2016.
@@ -32,6 +34,9 @@ import com.twyst.app.android.util.AppConstants;
 public class MainActivity extends BaseActivity implements SearchView.OnQueryTextListener {
     protected boolean search;
     private DiscoverOutletFragment outletsFragment;
+    private DiscoverOutletAdapter mSearchExpandableAdapter;
+    private RecyclerView searchExpandableList;
+    private ArrayList<Outlet> mSearchedOutletsList;
 
     private MenuItem mSearchMenuItem;
     //Toolbar search widget
@@ -184,6 +189,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 if (isFocused) {
                     findViewById(R.id.layout_search_outlet).setVisibility(View.VISIBLE);
                     findViewById(R.id.tab_layout).setVisibility(View.GONE);
+                    setupSearchView();
                 } else {
 //                    findViewById(R.id.layout_search_outlet).setVisibility(View.GONE);
 //                    findViewById(R.id.tab_layout).setVisibility(View.VISIBLE);
@@ -217,17 +223,27 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         return true;
     }
 
-    private void updateOutletList(String newText) {
-        RecyclerView searchExpandableList = (RecyclerView) findViewById(R.id.search_recycler_view);
+    private void setupSearchView() {
+        outletsFragment = (DiscoverOutletFragment) getSupportFragmentManager().getFragments().get(0);
+        searchExpandableList = (RecyclerView) findViewById(R.id.search_recycler_view);
         searchExpandableList.setHasFixedSize(true);
         searchExpandableList.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
+        mSearchExpandableAdapter = new DiscoverOutletAdapter();
+        mSearchExpandableAdapter.setmContext(MainActivity.this);
+        searchExpandableList.setAdapter(mSearchExpandableAdapter);
+    }
 
-//        searchExpandableList.setOnTouchListener(new View.OnTouchListener() {
-//            public boolean onTouch(View v, MotionEvent event) {
-//                hideSoftKeyBoard(v);
-//                return false;
-//            }
-//        });
+    private void updateOutletList(String newText) {
+        ArrayList<Outlet> filteredOutlets = new ArrayList<>();
+        for (int i = 0; i < outletsFragment.getFetchedOutlets().size(); i++) {
+            Outlet outlet = outletsFragment.getFetchedOutlets().get(i);
+            if (outlet.getName() != null && outlet.getName().toLowerCase().contains(newText.toLowerCase())) {
+                filteredOutlets.add(outlet);
+            }
+        }
+
+        mSearchExpandableAdapter.setItems(filteredOutlets);
+        mSearchExpandableAdapter.notifyDataSetChanged();
 
 //        SubCategories subCategories = new SubCategories();
 //        subCategories.setSubCategoryName(AppConstants.DEFAULT_SUB_CATEGORY);

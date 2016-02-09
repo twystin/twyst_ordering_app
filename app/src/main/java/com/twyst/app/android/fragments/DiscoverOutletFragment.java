@@ -71,6 +71,11 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
     private MainActivity mActivity;
     private FloatingActionButton fabFilter;
     private HashMap<String, long[]> filterTagsMap = new HashMap<>();
+
+    public ArrayList<Outlet> getFetchedOutlets() {
+        return fetchedOutlets;
+    }
+
     private ArrayList<Outlet> fetchedOutlets;
     private HashMap<String, ArrayList<String>> optionsMap = FilterOptions.getMyMap();
 
