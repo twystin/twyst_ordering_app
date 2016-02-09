@@ -224,6 +224,8 @@
         <activity
             android:name=".activities.PaymentOptionsActivity"
             android:label="Choose Payment Option"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <activity
