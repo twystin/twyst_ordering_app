@@ -192,7 +192,7 @@ public class AddressAddNewActivity extends BaseActionActivity {
                 EditText address = (EditText) findViewById(R.id.editView_address);
                 EditText landmark = (EditText) findViewById(R.id.editView_landmark);
 
-                if (validateEditText(neighborhood) && validateEditText(address)) {
+                if (validateEditText(landmark) && validateEditText(neighborhood) && validateEditText(address)) {
                     mNewAddress.setNeighborhood(neighborhood.getText().toString());
                     mNewAddress.setAddress(address.getText().toString());
                     mNewAddress.setLandmark(landmark.getText().toString());
@@ -211,6 +211,7 @@ public class AddressAddNewActivity extends BaseActionActivity {
                 } else {
                     validateEditText(neighborhood);
                     validateEditText(address);
+                    validateEditText(landmark);
                 }
             }
         });
