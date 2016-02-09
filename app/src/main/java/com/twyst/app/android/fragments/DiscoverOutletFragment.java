@@ -28,6 +28,7 @@ import com.twyst.app.android.activities.FiltersActivity;
 import com.twyst.app.android.activities.MainActivity;
 import com.twyst.app.android.adapters.DiscoverOutletAdapter;
 import com.twyst.app.android.adapters.ImagePagerAdapter;
+import com.twyst.app.android.layout.NoDataHolder;
 import com.twyst.app.android.model.AddressDetailsLocationData;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.DiscoverData;
@@ -57,6 +58,7 @@ import retrofit.client.Response;
 public class DiscoverOutletFragment extends Fragment implements LocationFetchUtil.LocationFetchResultCodeListener {
     private DiscoverOutletAdapter discoverAdapter;
     private RecyclerView mRecyclerView;
+    private NoDataHolder noDataHolder;
 
     private String mDate;
     private String mTime;
@@ -97,6 +99,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
         mRecyclerView = (RecyclerView) view.findViewById(R.id.outletRecyclerView);
         mRecyclerView.setHasFixedSize(true);
 
+        noDataHolder = new NoDataHolder(view);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
@@ -172,6 +175,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
             public void onClick(View v) {
                 showErrorLayout.setVisibility(View.GONE);
                 showProgressBar();
+                noDataHolder.noDataOutlet.setVisibility(View.GONE);
                 locationFetchUtil.requestLocation(true);
             }
 
@@ -356,6 +360,9 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
                         discoverAdapter.setOutletsNotFound(true);
                         discoverAdapter.getItems().clear();
                         discoverAdapter.notifyDataSetChanged();
+                        noDataHolder.noDataOutlet.setVisibility(View.VISIBLE);
+                        noDataHolder.tvNoData.setText(getResources().getString(R.string.no_data_outlet));
+                        noDataHolder.ivNoData.setImageResource(R.drawable.no_data_order);
                     } else {
                         if (start == 1) {//Clear the items in adapter, fresh download
                             Log.d(getTagName(), "clearing outlets on discover screen");
@@ -472,7 +479,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
     }
 
     protected String getTagName() {
-        return getActivity().getClass().getSimpleName();
+        return "DiscoverOutletFragment";
     }
 
     private String convertMinutesToString(int minutes) {

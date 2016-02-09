@@ -4,11 +4,15 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.OrderHistoryAdapter;
+import com.twyst.app.android.layout.NoDataHolder;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.OrderHistory;
 import com.twyst.app.android.service.HttpService;
@@ -23,13 +27,14 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class OrderHistoryActivity extends BaseActionActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_history);
-
         setupToolBar();
 //        setupOrderHistoryLocally();
+
         fetchOrderHistory();
     }
 
@@ -50,20 +55,29 @@ public class OrderHistoryActivity extends BaseActionActivity {
     }
 
     private void fetchOrderHistory() {
+        findViewById(R.id.no_data_reorder).setVisibility(View.GONE);
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
         HttpService.getInstance().getOrderHistory(UtilMethods.getUserToken(OrderHistoryActivity.this), new Callback<BaseResponse<ArrayList<OrderHistory>>>() {
             @Override
             public void success(BaseResponse<ArrayList<OrderHistory>> orderHistoryBaseResponse, Response response) {
                 if (orderHistoryBaseResponse.isResponse()) {
                     ArrayList<OrderHistory> orderHistoryList = orderHistoryBaseResponse.getData();
-                    RecyclerView myOrdersRecyclerView = (RecyclerView) findViewById(R.id.my_orders_recyclerView);
+                    if (orderHistoryList.size() > 0) {
+                        RecyclerView myOrdersRecyclerView = (RecyclerView) findViewById(R.id.my_orders_recyclerView);
 
-                    LinearLayoutManager mLayoutManager = new LinearLayoutManager(OrderHistoryActivity.this, LinearLayoutManager.VERTICAL, false);
-                    myOrdersRecyclerView.setLayoutManager(mLayoutManager);
-                    myOrdersRecyclerView.setHasFixedSize(true);
+                        LinearLayoutManager mLayoutManager = new LinearLayoutManager(OrderHistoryActivity.this, LinearLayoutManager.VERTICAL, false);
+                        myOrdersRecyclerView.setLayoutManager(mLayoutManager);
+                        myOrdersRecyclerView.setHasFixedSize(true);
 
-                    OrderHistoryAdapter mAdapter = new OrderHistoryAdapter(OrderHistoryActivity.this, orderHistoryList);
-                    myOrdersRecyclerView.setAdapter(mAdapter);
+                        OrderHistoryAdapter mAdapter = new OrderHistoryAdapter(OrderHistoryActivity.this, orderHistoryList);
+                        myOrdersRecyclerView.setAdapter(mAdapter);
+                    } else {
+                        findViewById(R.id.no_data_reorder).setVisibility(View.VISIBLE);
+                        ImageView iv = (ImageView) findViewById(R.id.iv_no_data);
+                        iv.setImageResource(R.drawable.no_data_order);
+                        TextView tv = (TextView) findViewById(R.id.tv_no_data);
+                        tv.setText(getResources().getString(R.string.no_data_reorder));
+                    }
 
                 } else {
                     Toast.makeText(OrderHistoryActivity.this, orderHistoryBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();

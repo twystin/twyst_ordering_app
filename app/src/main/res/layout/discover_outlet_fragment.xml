@@ -133,6 +133,11 @@
                 android:id="@+id/circularProgressBarOutlet"
                 layout="@layout/twyst_progress_hud" />
         </RelativeLayout>
+
+        <include
+            android:id="@+id/no_data_outlet"
+            layout="@layout/layout_no_data"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton

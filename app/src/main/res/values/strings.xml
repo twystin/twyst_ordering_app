@@ -235,4 +235,7 @@ each friend who joins.</p>
     <string name="order_not_delivered_message_success">Yes, I received it. Let me have my cashback</string>
     <string name="track_order">Track Order</string>
     <string name="online_payment">Online Payment</string>
+
+    <string name="no_data_outlet">Oops! Couldn\'t find any outlet delivering to this location at this time!</string>
+    <string name="no_data_reorder">Oops! You have no previous orders to show!</string>
 </resources>

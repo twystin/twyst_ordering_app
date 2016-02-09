@@ -14,11 +14,22 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/my_orders_recyclerView"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/toolbar" />
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/my_orders_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/no_data_reorder"
+                layout="@layout/layout_no_data"
+                android:visibility="gone" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
