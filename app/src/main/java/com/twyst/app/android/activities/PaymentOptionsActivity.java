@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
 
+import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,8 +50,6 @@ public class PaymentOptionsActivity extends AppCompatActivity {
     private OrderCheckOutResponse mOrderCheckoutResponse;
     private static final String PAYMENT_MODE_COD = "Cash On Delivery";
     private static final String PAYMENT_MODE_ONLINE = "Online Payment";
-    private static final float CASHBACK_PERCENT_COD = (float) 5.0;
-    private static final float CASHBACK_PERCENT_ONLINE = (float) 15.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +64,9 @@ public class PaymentOptionsActivity extends AppCompatActivity {
         PaymentData pd2 = new PaymentData();
 
         pd1.setPaymentMode(PAYMENT_MODE_ONLINE);
-        pd1.setCashBackPercent(CASHBACK_PERCENT_ONLINE);
+        pd1.setCashBackPercent(mOrderCheckoutResponse.getInapp_cashback());
         pd2.setPaymentMode(PAYMENT_MODE_COD);
-        pd2.setCashBackPercent(CASHBACK_PERCENT_COD);
+        pd2.setCashBackPercent(mOrderCheckoutResponse.getCod_cashback());
 
         mPaymentDataList.add(pd1);
         mPaymentDataList.add(pd2);
@@ -213,7 +213,7 @@ public class PaymentOptionsActivity extends AppCompatActivity {
             pdholder.checkedbox.setSelected(selectedPosition == position);
 
             pdholder.paymentmode.setText(mPaymentDataList.get(position).getPaymentMode());
-            pdholder.cashbackamount.setText(String.format("%.1f%%", mPaymentDataList.get(position).getCashBackPercent()));
+            pdholder.cashbackamount.setText(String.format("%d%%", mPaymentDataList.get(position).getCashBackPercent()));
             if (mPaymentDataList.get(position).getCashBackPercent() == 0) {
                 pdholder.cashbackIcon.setVisibility(View.INVISIBLE);
             }
@@ -226,13 +226,13 @@ public class PaymentOptionsActivity extends AppCompatActivity {
         private TextView paymentmode;
         private TextView cashbackamount;
         private ImageView checkedbox;
-        private RelativeLayout cashbackIcon;
+        private LinearLayout cashbackIcon;
 
         PaymentDataHolder(View view) {
             paymentmode = (TextView) view.findViewById(R.id.tv_payment_option_name);
             cashbackamount = (TextView) view.findViewById(R.id.tv_cashback_percent);
             checkedbox = (ImageView) view.findViewById(R.id.iv_rb_payment_select);
-            cashbackIcon = (RelativeLayout) view.findViewById(R.id.rl_cashback_icon);
+            cashbackIcon = (LinearLayout) view.findViewById(R.id.ll_cashback_info);
         }
     }
 }

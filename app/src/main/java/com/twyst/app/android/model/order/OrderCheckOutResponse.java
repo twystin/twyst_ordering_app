@@ -20,6 +20,26 @@ public class OrderCheckOutResponse implements Serializable {
     @SerializedName("_id")
     private String orderID;
 
+    public int getCod_cashback() {
+        return cod_cashback;
+    }
+
+    public void setCod_cashback(int cod_cashback) {
+        this.cod_cashback = cod_cashback;
+    }
+
+    public int getInapp_cashback() {
+        return inapp_cashback;
+    }
+
+    public void setInapp_cashback(int inapp_cashback) {
+        this.inapp_cashback = inapp_cashback;
+    }
+
+    private int cod_cashback;
+
+    private int inapp_cashback;
+
     public String getOrderNumber() {
         return orderNumber;
     }

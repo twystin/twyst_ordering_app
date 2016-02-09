@@ -5,7 +5,7 @@ package com.twyst.app.android.model;
  */
 public class PaymentData {
     private String paymentMode;
-    private float cashBackPercent;
+    private int cashBackPercent;
 
     public String getPaymentMode() {
         return paymentMode;
@@ -15,11 +15,11 @@ public class PaymentData {
         this.paymentMode = paymentMode;
     }
 
-    public float getCashBackPercent() {
+    public int getCashBackPercent() {
         return cashBackPercent;
     }
 
-    public void setCashBackPercent(float cashBackPercent) {
+    public void setCashBackPercent(int cashBackPercent) {
         this.cashBackPercent = cashBackPercent;
     }
 }
