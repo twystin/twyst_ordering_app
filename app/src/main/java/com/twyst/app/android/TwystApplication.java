@@ -3,10 +3,12 @@ package com.twyst.app.android;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.multidex.MultiDex;
 import android.support.v7.widget.AppCompatTextView;
+import android.text.TextUtils;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
@@ -41,6 +43,18 @@ public class TwystApplication extends Application {
             locationService.setClass(getApplicationContext(), LocationService.class);
             startService(locationService);
         }
+        if (!TextUtils.isEmpty(HttpService.getInstance().getSharedPreferences().getString(AppConstants.INTENT_ORDER_ID_FEEDBACK, ""))) {
+            Intent feedBackActivity = new Intent("com.FeedbackActivity");//this has to match your intent filter
+            feedBackActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 22, feedBackActivity, 0);
+            try {
+                pendingIntent.send();
+            } catch (PendingIntent.CanceledException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
     }
 
     private Activity mCurrentActivity = null;

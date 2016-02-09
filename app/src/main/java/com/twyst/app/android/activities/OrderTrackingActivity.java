@@ -51,6 +51,7 @@ public class OrderTrackingActivity extends BaseActionActivity {
     private String mOrderID;
     protected TwystApplication twystApplication;
     private boolean ivArrowExpanded;
+    private boolean isOrderDeliverySuccessInProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,7 +194,8 @@ public class OrderTrackingActivity extends BaseActionActivity {
                         viewholder.tvClickForFailure.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                cancelOrderDialogShow();
+//                                cancelOrderDialogShow();
+                                orderDeliveredSuccess();
                             }
                         });
                         viewholder.tvClickForFailure.setText(getResources().getString(R.string.order_placed_cancel_message));
@@ -255,6 +257,12 @@ public class OrderTrackingActivity extends BaseActionActivity {
                     }
                     break;
 
+                case OrderTrackingState.STATE_DELIVERED:
+                    if (!isOrderDeliverySuccessInProgress) {
+                        orderDeliveredSuccess();
+                    }
+                    break;
+
                 default:
                     break;
             }
@@ -266,6 +274,15 @@ public class OrderTrackingActivity extends BaseActionActivity {
         public int getCount() {
             return mTrackOrderStatesList.size();
         }
+    }
+
+    private void orderDeliveredSuccess() {
+        isOrderDeliverySuccessInProgress = true;
+        Toast.makeText(OrderTrackingActivity.this, "Order delivered successfully! Please rate the order and claim your cashback!", Toast.LENGTH_LONG).show();
+        HttpService.getInstance().getSharedPreferences().edit().putString(AppConstants.INTENT_ORDER_ID_FEEDBACK, mOrderID).apply();
+        Intent feedbackIntent = new Intent(OrderTrackingActivity.this, FeedbackActivity.class);
+        startActivity(feedbackIntent);
+        finish();
     }
 
     private void orderDelivered(final boolean isDelivered) {
