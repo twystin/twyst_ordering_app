@@ -251,7 +251,7 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
                 String outletId = bundle.getString(AppConstants.INTENT_PARAM_OUTLET_ID);
                 ArrayList<Items> cartItemsList = (ArrayList<Items>) bundle.getSerializable(AppConstants.INTENT_PARAM_CART_LIST);
 
-                UtilMethods.checkOut(locationData, cartItemsList, outletId, AddressMapActivity.this);
+                UtilMethods.checkOut(locationData, cartItemsList, outletId, AddressMapActivity.this, true);
 //                Intent intent = new Intent();
 //                intent.putExtras(info);
 //                setResult(RESULT_OK, intent);
