@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -125,7 +126,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         final OrderHistory orderHistory = mOrderHistoryList.get(position);
 
         holder.outletNameTextView.setText(orderHistory.getOutletName());
-        holder.outletAddressTextView.setText("No data from server");
+        holder.outletAddressTextView.setText(orderHistory.addressString());
         holder.orderCostTextView.setText(Utils.costString(orderHistory.getOrderCost()));
         String orderDate = orderHistory.getOrderDate();
         holder.dateTextView.setText(Utils.formatDateTime(orderDate));
@@ -322,7 +323,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                         for (Items items : subCategories.getItemsList()) {
                             if (items.getId().equals(reOrderItem.getId())) { //found item
                                 itemFound = true;
-                                
+
                                 // added code to add subCategoryId and menuCategoryId to item
                                 // Setting menuCategory ID & subCategory ID
                                 items.setCategoryID(menuCategories.getId());
@@ -331,7 +332,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                                 //Setting menuCategoryName & subCategoryName
                                 items.setCategoryName(menuCategories.getCategoryName());
                                 items.setSubCategoryName(subCategories.getSubCategoryName());
-
 
 
                                 Items cartItem = new Items(items);

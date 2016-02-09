@@ -1,5 +1,7 @@
 package com.twyst.app.android.model;
 
+import android.text.TextUtils;
+
 import com.google.gson.annotations.SerializedName;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.order.Address;
@@ -11,6 +13,13 @@ import java.util.ArrayList;
  * Created by Raman on 1/15/2016.
  */
 public class OrderHistory implements Serializable {
+
+    private String locality_2;
+
+    private String locality_1;
+
+    private String city;
+
     @SerializedName("outlet_name")
     private String outletName;
 
@@ -179,4 +188,58 @@ public class OrderHistory implements Serializable {
     public void setLogo(String logo) {
         this.logo = logo;
     }
+
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getLocality_1() {
+        return locality_1;
+    }
+
+    public void setLocality_1(String locality_1) {
+        this.locality_1 = locality_1;
+    }
+
+    public String getLocality_2() {
+        return locality_2;
+    }
+
+    public void setLocality_2(String locality_2) {
+        this.locality_2 = locality_2;
+    }
+
+
+    public String addressString() {
+        String s = "";
+        boolean added = false;
+        if (!TextUtils.isEmpty(getLocality_1())) {
+            s = getLocality_1();
+            added = true;
+        }
+
+        if (!TextUtils.isEmpty(getLocality_2())) {
+            if (added) {
+                s = s + ", ";
+            }
+            s = s + getLocality_2();
+            added = true;
+        }
+
+        if (!TextUtils.isEmpty(getCity())) {
+            if (added) {
+                s = s + ", ";
+            }
+            s = s + getCity();
+        }
+
+        return s;
+    }
+
+
 }
