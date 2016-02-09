@@ -252,7 +252,7 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             }
             String maxCashBack = "0";
             if (outlet.getCashback() != null) {
-                maxCashBack = outlet.getCashback().getMax();
+                maxCashBack = outlet.getCashback();
             }
 
             if (Double.parseDouble(maxCashBack) < 10 && !maxCashBack.contains(".")) {

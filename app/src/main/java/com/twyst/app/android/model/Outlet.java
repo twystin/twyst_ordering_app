@@ -52,17 +52,17 @@ public class Outlet extends Data implements Serializable {
     @SerializedName("open_next")
     private OpenNext openNext;
 
-    private Cashback cashback;
+    private String cashback;
 
     private String lat;
 
     private String logo;
 
-    public Cashback getCashback() {
+    public String getCashback() {
         return cashback;
     }
 
-    public void setCashback(Cashback cashback) {
+    public void setCashback(String cashback) {
         this.cashback = cashback;
     }
 
