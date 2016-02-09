@@ -110,9 +110,28 @@ public class OrderTrackingState {
         return new OrderTrackingState(timeArray[0], timeArray[1], context.getResources().getString(R.string.order_placed_message), STATE_PLACED);
     }
 
+    public static OrderTrackingState getCancelledOrderTrackingState(Context context) {
+        String[] timeArray = getTimeArray(new Date());
+        return new OrderTrackingState(timeArray[0], timeArray[1], context.getResources().getString(R.string.order_cancelled_message), STATE_CANCELLED);
+    }
+
+    public static OrderTrackingState getDeliveredOrderTrackingState(Context context) {
+        String[] timeArray = getTimeArray(new Date());
+        return new OrderTrackingState(timeArray[0], timeArray[1], context.getResources().getString(R.string.order_delivered_message), STATE_DELIVERED);
+    }
+
+    public static OrderTrackingState getNotDeliveredOrderTrackingState(Context context) {
+        String[] timeArray = getTimeArray(new Date());
+        return new OrderTrackingState(timeArray[0], timeArray[1], context.getResources().getString(R.string.order_not_delivered_message), STATE_NOT_DELIVERED);
+    }
+
     public static void addToList(String orderIDServer, String stateServer, String messageServer, String timeServer, Context context) {
         String[] timeArray = getTimeArray(new Date(Long.parseLong(timeServer)));
         addNewStateToList(context, orderIDServer, getInitialList(orderIDServer, context), new OrderTrackingState(timeArray[0], timeArray[1], messageServer, stateServer));
+    }
+
+    public static void addToListLocally(String orderIDServer, OrderTrackingState orderTrackingState, Context context) {
+        addNewStateToList(context, orderIDServer, getInitialList(orderIDServer, context), orderTrackingState);
     }
 
     private static void addNewStateToList(Context context, String orderIDServer, ArrayList<OrderTrackingState> initialList, OrderTrackingState orderTrackingState) {

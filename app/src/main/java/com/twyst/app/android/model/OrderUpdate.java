@@ -9,11 +9,19 @@ import java.io.Serializable;
  */
 public class OrderUpdate implements Serializable {
     public static final String FAVOURITE = "update_favourite";
+    public static final String DELIVERY_STATUS = "update_delivery_status";
 
-    public OrderUpdate(String orderId, String updateType, boolean isFavourite) {
+    public OrderUpdate(String orderId, String updateType, boolean isFavouriteDelivered) {
         this.orderId = orderId;
         this.updateType = updateType;
-        this.isFavourite = isFavourite;
+        switch (updateType) {
+            case FAVOURITE:
+                this.isFavourite = isFavouriteDelivered;
+                break;
+            case DELIVERY_STATUS:
+                this.isDelivered = isFavouriteDelivered;
+                break;
+        }
     }
 
     @SerializedName("order_id")
@@ -24,6 +32,9 @@ public class OrderUpdate implements Serializable {
 
     @SerializedName("is_favourite")
     private boolean isFavourite;
+
+    @SerializedName("is_delivered")
+    private boolean isDelivered;
 
     public String getOrderId() {
         return orderId;

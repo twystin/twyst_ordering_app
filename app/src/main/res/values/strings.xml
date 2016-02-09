@@ -224,6 +224,8 @@ each friend who joins.</p>
     <string name="order_assumed_delivery_message_failure">No! I haven\'t received it yet.</string>
     <string name="order_assumed_delivery_message_success">Yes! Let me have my cashback.</string>
     <string name="order_placed_message">Your order has been placed</string>
+    <string name="order_cancelled_message">Your order has been cancelled</string>
+    <string name="order_delivered_message">Your order has been delivered</string>
     <string name="order_placed_cancel_message">Cancel Order</string>
     <string name="order_accepted_message">Your Order has been accepted</string>
     <string name="order_accepted_contact_outlet_message">Contact outlet</string>

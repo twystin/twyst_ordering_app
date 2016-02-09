@@ -24,6 +24,7 @@ import com.twyst.app.android.TwystApplication;
 import com.twyst.app.android.adapters.MenuOptionsAdapter;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.OrderTrackingState;
+import com.twyst.app.android.model.OrderUpdate;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.menu.Options;
 import com.twyst.app.android.model.order.CancelOrder;
@@ -154,6 +155,12 @@ public class OrderTrackingActivity extends BaseActionActivity {
                     if (isCurrent) {
                         viewholder.tvClickForSuccess.setVisibility(View.VISIBLE);
                         viewholder.tvClickForSuccess.setText(getResources().getString(R.string.order_dispatched_message_success));
+                        viewholder.tvClickForSuccess.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                orderDelivered(true);
+                            }
+                        });
                     }
                     break;
 
@@ -161,8 +168,20 @@ public class OrderTrackingActivity extends BaseActionActivity {
                     if (isCurrent) {
                         viewholder.tvClickForFailure.setVisibility(View.VISIBLE);
                         viewholder.tvClickForFailure.setText(getResources().getString(R.string.order_assumed_delivery_message_failure));
+                        viewholder.tvClickForFailure.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                orderDelivered(false);
+                            }
+                        });
                         viewholder.tvClickForSuccess.setVisibility(View.VISIBLE);
                         viewholder.tvClickForSuccess.setText(getResources().getString(R.string.order_assumed_delivery_message_success));
+                        viewholder.tvClickForSuccess.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                orderDelivered(true);
+                            }
+                        });
                     }
                     break;
 
@@ -170,6 +189,12 @@ public class OrderTrackingActivity extends BaseActionActivity {
                     if (isCurrent) {
                         viewholder.tvClickForSuccess.setVisibility(View.VISIBLE);
                         viewholder.tvClickForSuccess.setText(getResources().getString(R.string.order_not_delivered_message_success));
+                        viewholder.tvClickForSuccess.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                orderDelivered(true);
+                            }
+                        });
                     }
                     break;
 
@@ -184,6 +209,37 @@ public class OrderTrackingActivity extends BaseActionActivity {
         public int getCount() {
             return mTrackOrderStatesList.size();
         }
+    }
+
+    private void orderDelivered(final boolean isDelivered) {
+        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
+        OrderUpdate orderUpdate = new OrderUpdate(mOrderID, OrderUpdate.DELIVERY_STATUS, isDelivered);
+
+        HttpService.getInstance().putOrderUpdate(UtilMethods.getUserToken(OrderTrackingActivity.this), orderUpdate, new Callback<BaseResponse>() {
+            @Override
+            public void success(BaseResponse baseResponse, Response response) {
+                if (baseResponse.isResponse()) {
+                    if (isDelivered) {
+                        OrderTrackingState.addToListLocally(mOrderID, OrderTrackingState.getDeliveredOrderTrackingState(OrderTrackingActivity.this), OrderTrackingActivity.this);
+                    } else {
+                        OrderTrackingState.addToListLocally(mOrderID, OrderTrackingState.getNotDeliveredOrderTrackingState(OrderTrackingActivity.this), OrderTrackingActivity.this);
+                    }
+                    refreshList();
+                } else {
+                    Toast.makeText(OrderTrackingActivity.this, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                twystProgressHUD.dismiss();
+                UtilMethods.hideSnackbar();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                twystProgressHUD.dismiss();
+                UtilMethods.handleRetrofitError(OrderTrackingActivity.this, error);
+                UtilMethods.hideSnackbar();
+            }
+        });
     }
 
     private void cancelOrderDialogShow() {
@@ -228,7 +284,8 @@ public class OrderTrackingActivity extends BaseActionActivity {
             @Override
             public void success(BaseResponse baseResponse, Response response) {
                 if (baseResponse.isResponse()) {
-                    findViewById(R.id.tv_click_for_failure).setEnabled(false);
+                    OrderTrackingState.addToListLocally(mOrderID, OrderTrackingState.getCancelledOrderTrackingState(OrderTrackingActivity.this), OrderTrackingActivity.this);
+                    refreshList();
                 } else {
                     Toast.makeText(OrderTrackingActivity.this, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
