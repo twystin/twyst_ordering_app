@@ -172,6 +172,8 @@ public class OrderHistory implements Serializable {
                 return false;
             case "DELIVERED":
                 return false;
+            case "CANCELLED":
+                return false;
         }
         return true;
     }
