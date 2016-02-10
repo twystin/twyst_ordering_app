@@ -142,6 +142,9 @@ public class PaymentOptionsActivity extends BaseActionActivity {
     }
 
     private void goToPayment() {
+        OrderInfoLocal.saveLocalList(mOrderCheckoutResponse.getOrderID(),
+                (OrderInfoLocal) getIntent().getSerializableExtra(AppConstants.INTENT_ORDER_INFO_LOCAL), PaymentOptionsActivity.this);
+
         TransactionConfiguration config = new TransactionConfiguration();
         config.setDebitWallet(true);
         config.setPgResponseUrl(AppConstants.HOST + "/api/v4/zaakpay/response"); //You need to replace this string with the path of the page hosted on your server
@@ -155,8 +158,8 @@ public class PaymentOptionsActivity extends BaseActionActivity {
         String emailID = sharedPreferences.getString(AppConstants.PREFERENCE_USER_EMAIL, "");
 
         User usr = new User(emailID, number);
-        Transaction newTransaction = Transaction.Factory.newTransaction(usr, mOrderCheckoutResponse.getOrderNumber(), String.valueOf("1"));
-//        Transaction newTransaction = Transaction.Factory.newTransaction(usr, mOrderCheckoutResponse.getOrderNumber(), String.valueOf(mOrderCheckoutResponse.getActualAmountPaid()));
+//        Transaction newTransaction = Transaction.Factory.newTransaction(usr, mOrderCheckoutResponse.getOrderNumber(), String.valueOf("1"));
+        Transaction newTransaction = Transaction.Factory.newTransaction(usr, mOrderCheckoutResponse.getOrderNumber(), String.valueOf(mOrderCheckoutResponse.getActualAmountPaid()));
 
         Intent mobikwikIntent = new Intent(this, MobikwikSDK.class);
         mobikwikIntent.putExtra(MobikwikSDK.EXTRA_TRANSACTION_CONFIG, config);
