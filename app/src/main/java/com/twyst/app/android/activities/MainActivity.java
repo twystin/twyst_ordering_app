@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -234,14 +235,20 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     private void updateOutletList(String newText) {
+        if (outletsFragment == null) {
+            return;
+        }
+        if (outletsFragment.getFetchedOutlets() == null) {
+            return;
+        }
         ArrayList<Outlet> filteredOutlets = new ArrayList<>();
         for (int i = 0; i < outletsFragment.getFetchedOutlets().size(); i++) {
             Outlet outlet = outletsFragment.getFetchedOutlets().get(i);
             if (outlet.getName() != null && outlet.getName().toLowerCase().contains(newText.toLowerCase())) {
                 filteredOutlets.add(outlet);
-            } else if (outlet.getCuisines() != null && outlet.getCuisines().size() > 0){
-                for (String cuisine: outlet.getCuisines()){
-                    if (cuisine.toLowerCase().contains(newText.toLowerCase())){
+            } else if (outlet.getCuisines() != null && outlet.getCuisines().size() > 0) {
+                for (String cuisine : outlet.getCuisines()) {
+                    if (cuisine.toLowerCase().contains(newText.toLowerCase())) {
                         filteredOutlets.add(outlet);
                         break;
                     }
