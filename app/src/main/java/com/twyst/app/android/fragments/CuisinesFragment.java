@@ -15,6 +15,7 @@
  */
 package com.twyst.app.android.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -34,7 +35,7 @@ public class CuisinesFragment extends Fragment {
     ArrayList<String> optionsList;
     OptionsListAdapter optionsListAdapter;
     private ListView listView;
-    long[] previouslySelectedPosition ;
+    long[] previouslySelectedPosition;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,8 +51,7 @@ public class CuisinesFragment extends Fragment {
     }
 
 
-
-    public CuisinesFragment(long[] positions){
+    public CuisinesFragment(long[] positions) {
         previouslySelectedPosition = positions;
     }
 
@@ -62,9 +62,9 @@ public class CuisinesFragment extends Fragment {
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         optionsListAdapter = new OptionsListAdapter();
         listView.setAdapter(optionsListAdapter);
-        if (previouslySelectedPosition != null && previouslySelectedPosition.length > 0){
-            for (long position: previouslySelectedPosition){
-                listView.setItemChecked((int)position,true);
+        if (previouslySelectedPosition != null && previouslySelectedPosition.length > 0) {
+            for (long position : previouslySelectedPosition) {
+                listView.setItemChecked((int) position, true);
             }
         }
 
@@ -79,10 +79,10 @@ public class CuisinesFragment extends Fragment {
 
     }
 
-    public void clearSelection(){
-        if (listView.getCheckedItemCount() > 0){
-            for (long position : listView.getCheckedItemIds()){
-                listView.setItemChecked((int)position,false);
+    public void clearSelection() {
+        if (listView.getCheckedItemCount() > 0) {
+            for (long position : listView.getCheckedItemIds()) {
+                listView.setItemChecked((int) position, false);
             }
         }
     }
