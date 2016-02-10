@@ -252,6 +252,41 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name="com.mobikwik.sdk.MobikwikSDK"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="MobiKwik"
+            android:theme="@style/MKSDKTransparent"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name="com.mobikwik.sdk.PGWebView"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="BankPage"
+            android:theme="@style/MKSDKTheme"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name="com.mobikwik.sdk.PaymentOptions"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:theme="@style/MKSDKTheme"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name="com.mobikwik.sdk.PaymentActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:theme="@style/MKSDKTheme"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name="com.mobikwik.sdk.GetUserDetailsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:theme="@style/MKSDKTheme"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
             android:name=".activities.InviteFriendsActivity"
             android:label="@string/invite"
             android:launchMode="singleTop"
