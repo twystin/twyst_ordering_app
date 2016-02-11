@@ -232,17 +232,6 @@ public abstract class BaseActivity extends ActionBarActivity {
         });
         */
 
-        TextView versionApp = (TextView) list_footer.findViewById(R.id.tv_version_app);
-        PackageInfo pInfo = null;
-        try {
-            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        String version = pInfo.versionName;
-        int verNum = pInfo.versionCode;
-        versionApp.setText(version);
-
         drawerList.addHeaderView(list_header, null, true);
 //        drawerList.addFooterView(list_footer, null, false);
 
