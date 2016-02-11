@@ -46,7 +46,7 @@
             android:layout_gravity="center_vertical"
             android:background="@drawable/drawer_profile_bg"
             android:gravity="center_vertical"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:paddingBottom="8dp"
             android:paddingLeft="16dp"
             android:paddingTop="8dp">
@@ -58,55 +58,17 @@
                 android:ellipsize="end"
                 android:maxEms="6"
                 android:maxLines="1"
-                android:paddingRight="7dp"
+                android:paddingRight="10dp"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:text="John Doe"
                 android:textColor="@android:color/white"
                 android:textSize="18dp" />
 
-            <com.balysv.materialripple.MaterialRippleLayout
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:mrl_rippleOverlay="true">
-
-                <LinearLayout
-                    android:id="@+id/editProfile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:layout_marginRight="5dp"
-                        android:src="@drawable/drawer_icon_location1" />
-
-                    <TextView
-                        android:id="@+id/localityDrawer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:ellipsize="end"
-                        android:maxEms="12"
-                        android:maxLines="1"
-                        android:scrollHorizontally="true"
-                        android:singleLine="true"
-                        android:text="Gurgaon"
-                        android:textAllCaps="true"
-                        android:textColor="@color/drawer_header_text_color"
-                        android:textSize="12dp" />
-
-                    <ImageView
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:src="@drawable/drawer_icon_edit1" />
-                </LinearLayout>
-            </com.balysv.materialripple.MaterialRippleLayout>
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/drawer_icon_edit1" />
 
         </LinearLayout>
 

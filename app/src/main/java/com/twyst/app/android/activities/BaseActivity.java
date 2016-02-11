@@ -98,7 +98,7 @@ public abstract class BaseActivity extends ActionBarActivity {
     private final String DRAWER_ITEM_FEEDBACK = "FEEDBACK";
     private final String DRAWER_ITEM_FAQ = "FAQs";
     private final String DRAWER_ITEM_RATE = "RATE TWYST";
-    private final String DRAWER_ITEM_ABOUT = "ABOUT";
+    private final String DRAWER_ITEM_ABOUT = "ABOUT US";
 
     protected abstract String getTagName();
 
@@ -183,7 +183,7 @@ public abstract class BaseActivity extends ActionBarActivity {
                 drawerOpened = true;
             }
 
-            public void onDrawerSlide(View drawerView , float slideOffset) {
+            public void onDrawerSlide(View drawerView, float slideOffset) {
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
                 supportInvalidateOptionsMenu();
             }
@@ -198,19 +198,20 @@ public abstract class BaseActivity extends ActionBarActivity {
         userName = (TextView) list_header.findViewById(R.id.userName);
         backImage = (ImageView) list_header.findViewById(R.id.backImage);
         userImage = (ImageView) list_header.findViewById(R.id.userImage);
-        LinearLayout editProfile = (LinearLayout) list_header.findViewById(R.id.editProfile);
-        localityDrawer = (TextView) list_header.findViewById(R.id.localityDrawer);
+/*        LinearLayout editProfile = (LinearLayout) list_header.findViewById(R.id.editProfile);
+        localityDrawer = (TextView) list_header.findViewById(R.id.localityDrawer);*/
 
         SharedPreferences prefs = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        String locality = prefs.getString(AppConstants.PREFERENCE_CURRENT_USED_LOCATION_NAME, "");
+/*        String locality = prefs.getString(AppConstants.PREFERENCE_CURRENT_USED_LOCATION_NAME, "");
         if (locality.equals("")) {
             editProfile.setVisibility(View.GONE);
         } else {
             localityDrawer.setText(locality);
-        }
+        }*/
 
         updatePicName();
 
+/*
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -229,6 +230,7 @@ public abstract class BaseActivity extends ActionBarActivity {
 
             }
         });
+        */
 
         TextView versionApp = (TextView) list_footer.findViewById(R.id.tv_version_app);
         PackageInfo pInfo = null;
