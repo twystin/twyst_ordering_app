@@ -25,7 +25,7 @@
     <string name="outlet_detail">Outlet Detail</string>
     <string name="offer_detail">Offer Detail</string>
     <string name="notification">Notifications</string>
-    <string name="about">About</string>
+    <string name="about">About Us</string>
     <string name="invite">Invite Friends</string>
     <string name="upload_bill">Upload Bill</string>
     <string name="write_to_us">Write to us</string>
@@ -125,6 +125,7 @@
 <p>If you have unlocked a coupon, and the lapse date is coming up, but you do not wish your friends to be able to grab it (it&rsquo;s good to be selfish sometimes!), you can extend the coupon till its expiry date. When you extend it, your friends do not get to see or grab your coupon.</p>
 <p>You need to use Twyst Bucks to grab as well as extend coupons.</p>
 ]]>
+
  </string><string name="earn_more_body">
      <![CDATA[
 <p>&middot; &nbsp; Upload your bill every time you visit or order from a Twyst

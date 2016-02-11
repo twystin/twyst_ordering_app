@@ -294,7 +294,7 @@ public abstract class BaseActivity extends ActionBarActivity {
         feedback = new DrawerItem(DRAWER_ITEM_FEEDBACK, R.drawable.drawer_list_item_feedback);
         faq = new DrawerItem(DRAWER_ITEM_FAQ, R.drawable.drawer_list_item_faqs);
         rate = new DrawerItem(DRAWER_ITEM_RATE, R.drawable.drawer_list_item_ratetwyst);
-        about = new DrawerItem(DRAWER_ITEM_ABOUT, R.drawable.drawer_list_item_ratetwyst);
+        about = new DrawerItem(DRAWER_ITEM_ABOUT, R.drawable.drawer_list_item_about);
 
         //SEQUENCE DEFINED HERE
 //        drawerItems.add(home);

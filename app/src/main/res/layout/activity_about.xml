@@ -18,11 +18,11 @@
             layout="@layout/toolbar" />
 
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/twyst_logo" />
 
         <TextView
             android:id="@+id/tvAppVersion"
@@ -50,7 +50,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="Terms Of Use"
-            android:textColor="@color/black"
+            android:textColor="@color/notification_text_gray"
             android:textSize="18dp" />
 
         <View
@@ -66,7 +66,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="Privacy Policy"
-            android:textColor="@color/black"
+            android:textColor="@color/notification_text_gray"
             android:textSize="18dp" />
 
     </LinearLayout>
