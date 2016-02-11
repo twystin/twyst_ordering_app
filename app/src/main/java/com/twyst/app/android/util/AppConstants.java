@@ -6,8 +6,9 @@ import com.twyst.app.android.BuildConfig;
  * Created by satish on 31/05/15.
  */
 public class AppConstants {
-    //            public static final String HOST = "http://192.168.1.27:3000";
-    public static final String HOST = "http://staging.twyst.in";
+    public static final String HOST = "http://beta.twyst.in";
+//    public static final String HOST = "http://192.168.1.27:3000";
+//    public static final String HOST = "http://staging.twyst.in";
 //    public static final String HOST = "http://twyst.in";
 
     public static final String HOST_SECURE = "https://www.twyst.in";
@@ -15,7 +16,7 @@ public class AppConstants {
     public static final String GCM_PROJECT_ID = "216832068690";
     public static final String GOOGLE_ANALYTICS_ID = "UA-51763503-2";
 
-    public static final boolean IS_DEVELOPMENT = false;
+    public static final boolean IS_DEVELOPMENT = true;
     public static final boolean DEGUG_PICASSO = false;
 
     public static final int DISCOVER_LIST_PAGESIZE = 20;
