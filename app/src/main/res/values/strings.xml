@@ -105,25 +105,33 @@
  <string name="faq_body">
      <![CDATA[
 <p><b>How to Twyst?</b></p>
-<p><b>&middot; &nbsp; &nbsp; How do I use Twyst?</b></p>
-<p>It&rsquo;s easy &ndash; scroll or search for the offer you are looking for, and tap &lsquo;Use Offer&rsquo; to use them! Most offers are available to use immediately, some can be unlocked when you check-in. You can plan ahead as well, by tapping on your current location and choosing a different location, date or time.</p>
+<p><b>&middot; &nbsp; &nbsp;  What is Twyst?</b></p>
+<p>Twyst is a service that lets you order food from neighbouring restaurants with the convenience of an App. Whats more it lets you earn Cashback everytime you order. The Cashback (in the form of Twyst Bucks) can be earned across all restaurants on Twyst, so you don&rsquo;t need to change where you order from based on who is running the best deal! Twyst Bucks can be used to Top Up your mobile phone, get online shopping vouchers on popular eCommerce sites as well as save money the next time you order on Twyst.</p>
 <p>&nbsp;</p>
-<p><b>&middot; &nbsp; &nbsp; What&rsquo;s the number I sometimes see next to &lsquo;Use Offer&rsquo;?</b></p>
-<p>That number signifies the cost of the offer in Twyst Bucks. Twyst Bucks are the points on Twyst, that you need to use some offers. You can also use Twyst Bucks to extend your coupons and grab your friends&rsquo; coupons.</p>
+<p><b>&middot; &nbsp; &nbsp; What are Twyst Bucks?</b></p>
+<p>Twyst Bucks is the currency in which you get your Cashback on Twyst. 1 Twyst Buck = 1 Rupee worth of value.</p>
 <p>&nbsp;</p>
-<p><b>&middot; &nbsp; &nbsp; So, how do I earn Twyst Bucks?</b></p>
-<p>You earn Twyst Bucks each time you check-in by uploading a restaurant bill or scanning a QR code. You can also invite friends to join you on Twyst, and get 250 Twyst Bucks for each friend who joins Twyst on your invitation. Also earn Twyst Bucks when you follow an outlet, like an offer, submit an offer and suggest an outlet on Twyst.</p>
+<p><b>&middot; &nbsp; &nbsp; Where can I use Twyst Bucks?</b></p>
+<p>Twyst Bucks can be used to Top up your mobile phone, get vouchers for online shopping and also vouchers that help you save money when you order on Twyst. We&rsquo;re working to add more categories where you can use Twyst Bucks. If you would like a particular category or place where you want to be able to use Twyst Bucks, do write to us and we will do our best to bring them on board.</p>
 <p>&nbsp;</p>
-<p><b>&middot; &nbsp; &nbsp; Why should I upload the bill? Can I upload from home?</b></p>
-<p>Uploading a bill is a way of checking-in at an outlet. You can upload your bills whether you went out to eat or ordered in. One bill can be uploaded only once for approval. When an uploaded bill is approved, you get a check-in at that outlet, and some Twyst Bucks!</p>
+<p><b>&middot; &nbsp; &nbsp; Can I use Twyst Bucks to order or pay for my food?</b></p>
+<p>Right now, you can use Twyst Bucks to utilise offers when ordering food. We will soon introduce a way for you to make a part payment for your order itself with Twyst Bucks.</p>
 <p>&nbsp;</p>
-<p><b>&middot; &nbsp; &nbsp; On Twyst, what are friends for?</b></p>
-<p>To get you more offers, that&rsquo;s what! Get 250 Twyst Bucks for each friend who joins Twyst on your invitation &ndash; use those Bucks to use some yummy offers! What&rsquo;s more, when your friends check-in and unlock some cool coupons, you get to Grab and use those coupons as well. Remember, they too get to grab the coupons you unlock!</p>
+<p><b>&middot; &nbsp; &nbsp; Why is the Cashback rate at a restaurant not a fixed amount?</b></p>
+<p>Well, like most things, you give more to get more You will usually earn the highest amount of Twyst Bucks at any outlet when you make an online payment (pay via the app instead of cash on delivery) and have a larger order value.</p>
 <p>&nbsp;</p>
-<p><b>&middot; &nbsp; &nbsp; What are &lsquo;Grab Offer&rsquo; and &lsquo;Extend&rsquo;?</b></p>
-<p>Grab Offer is how you use your friends&rsquo; coupons. If a friend has checked-in and unlocked a coupon, but has not used it until the lapse date, the voucher becomes available to you (and all his other friends on Twyst) to &lsquo;grab&rsquo;. Once grabbed, the coupon goes into your Wallet and is exclusively available to you until it expires.</p>
-<p>If you have unlocked a coupon, and the lapse date is coming up, but you do not wish your friends to be able to grab it (it&rsquo;s good to be selfish sometimes!), you can extend the coupon till its expiry date. When you extend it, your friends do not get to see or grab your coupon.</p>
-<p>You need to use Twyst Bucks to grab as well as extend coupons.</p>
+<p><b>&middot; &nbsp; &nbsp; I selected Current Location but its showing the wrong address?</b></p>
+<p>In some cases, the address for a particular GPS location may be incorrectly detected. If you’re sure that the location being detected is correct, you can always edit the actual address before placing the final order.</p>
+<p><b>&middot; &nbsp; &nbsp; I can&rsquo;t find XYZ outlet on Twyst?</b></p>
+<p>We only show you the outlets that deliver to your selected location (you can choose your current location or even a different location) as per the information given to us by the outlet. If you’re sure that the outlet delivers to your area try making sure that your phone is correctly picking up the location by enabling GPS.</p>
+<p><b>&middot; &nbsp; &nbsp; Can I cancel an order once I have placed it?</b></p>
+<p>Yes – but only till the restaurant has accepted it. Once they start working on the order, we don&rsquo;t think it&rsquo;s fair to allow cancellation. You can however request the outlet and if they&rsquo;re ok, the order can be cancelled. For more on cancellation, check out the Terms of Use.</p>
+<p><b>&middot; &nbsp; &nbsp; Why am I charged a \'Handling Fee\' for some vouchers?</b></p>
+<p>We charge a small handling fee for some of the vouchers. This helps us pay our bills and ensures that we keep getting you the Cashback that you love!</p>
+<p><b>&middot; &nbsp; &nbsp; I ordered on Twyst but I didn’t get any Cashback… why??</b></p>
+<p>The only case where you don’t get Cashback for ordering via Twyst is when you apply a food voucher to order on Twyst. You cannot GET Twyst Bucks and USE Twyst Bucks on the same order – but hey, you did save when you applied the offer. If you didn’t apply an offer to your order but still didn’t get any Twyst Bucks then please write to us and we’ll look into it.</p>
+<p><b>&middot; &nbsp; &nbsp; Do Twyst Bucks expire?</b></p>
+<p>Short answer - Yes. Twyst Bucks are valid for a period of 6 months from when they are earned. The Twyst Bucks that you earn earlier will be used earlier every time you redeem, so you shouldn’t have to worry about expiry, but in case you do have expiring Twyst Bucks we’ll notify you well in advance.</p>
 ]]>
 
  </string><string name="earn_more_body">
