@@ -24,14 +24,12 @@ import com.twyst.app.android.util.TwystProgressHUD;
  * Created by rahuls on 20/8/15.
  */
 public class FaqActivity extends BaseActionActivity {
-    private boolean fromDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 //        setupAsChild=true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_faq);
-        fromDrawer = getIntent().getBooleanExtra(AppConstants.INTENT_PARAM_FROM_DRAWER, false);
         setupToolBar();
 
         final ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);

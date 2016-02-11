@@ -80,7 +80,7 @@ public abstract class BaseActivity extends ActionBarActivity {
     private CircularProgressBar circularProgressBar;
     protected boolean setupAsChild;
     protected boolean drawerOpened;
-    private DrawerItem invite, faq, bill, wallet, notifications, submitOffer, suggestOutlet, feedback, rate, addressDetails, reorder, home;
+    private DrawerItem invite, faq, bill, wallet, notifications, submitOffer, suggestOutlet, feedback, rate, addressDetails, reorder, home, about;
     protected SharedPreferences.Editor sharedPreferences;
 
     TextView localityDrawer;
@@ -98,6 +98,7 @@ public abstract class BaseActivity extends ActionBarActivity {
     private final String DRAWER_ITEM_FEEDBACK = "FEEDBACK";
     private final String DRAWER_ITEM_FAQ = "FAQs";
     private final String DRAWER_ITEM_RATE = "RATE TWYST";
+    private final String DRAWER_ITEM_ABOUT = "ABOUT";
 
     protected abstract String getTagName();
 
@@ -241,7 +242,7 @@ public abstract class BaseActivity extends ActionBarActivity {
         versionApp.setText(version);
 
         drawerList.addHeaderView(list_header, null, true);
-        drawerList.addFooterView(list_footer, null, false);
+//        drawerList.addFooterView(list_footer, null, false);
 
         createDrawerProfileBanner();
         //drawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, navigationTitles));
@@ -302,6 +303,7 @@ public abstract class BaseActivity extends ActionBarActivity {
         feedback = new DrawerItem(DRAWER_ITEM_FEEDBACK, R.drawable.drawer_list_item_feedback);
         faq = new DrawerItem(DRAWER_ITEM_FAQ, R.drawable.drawer_list_item_faqs);
         rate = new DrawerItem(DRAWER_ITEM_RATE, R.drawable.drawer_list_item_ratetwyst);
+        about = new DrawerItem(DRAWER_ITEM_ABOUT, R.drawable.drawer_list_item_ratetwyst);
 
         //SEQUENCE DEFINED HERE
 //        drawerItems.add(home);
@@ -312,6 +314,7 @@ public abstract class BaseActivity extends ActionBarActivity {
         drawerItems.add(feedback);
         drawerItems.add(faq);
         drawerItems.add(rate);
+        drawerItems.add(about);
 
         for (DrawerItem drawerItem : drawerItems) {
             if (pos == drawerItems.indexOf(drawerItem)) {
@@ -449,6 +452,11 @@ public abstract class BaseActivity extends ActionBarActivity {
                             rateApp();
                             return;
 
+                        case DRAWER_ITEM_ABOUT:
+                            //about
+                            intent = new Intent(getBaseContext(), AboutActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            break;
                     }
                 }
 

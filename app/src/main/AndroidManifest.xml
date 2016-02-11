@@ -252,6 +252,12 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".activities.AboutActivity"
+            android:label="@string/about"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name="com.mobikwik.sdk.MobikwikSDK"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="MobiKwik"
