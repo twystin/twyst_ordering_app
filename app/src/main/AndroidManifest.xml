@@ -224,6 +224,7 @@
             android:name=".activities.OrderHistoryActivity"
             android:label="@string/title_activity_my_orders"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <activity
@@ -261,6 +262,7 @@
             android:name="com.mobikwik.sdk.MobikwikSDK"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="MobiKwik"
+            android:screenOrientation="portrait"
             android:theme="@style/MKSDKTransparent"
             android:windowSoftInputMode="stateHidden" />
 
@@ -268,6 +270,7 @@
             android:name="com.mobikwik.sdk.PGWebView"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="BankPage"
+            android:screenOrientation="portrait"
             android:theme="@style/MKSDKTheme"
             android:windowSoftInputMode="stateHidden" />
 
@@ -275,6 +278,7 @@
             android:name="com.mobikwik.sdk.PaymentOptions"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/MKSDKTheme"
             android:windowSoftInputMode="stateHidden" />
 
@@ -282,6 +286,7 @@
             android:name="com.mobikwik.sdk.PaymentActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/MKSDKTheme"
             android:windowSoftInputMode="stateHidden" />
 
@@ -289,6 +294,7 @@
             android:name="com.mobikwik.sdk.GetUserDetailsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/MKSDKTheme"
             android:windowSoftInputMode="stateHidden" />
 

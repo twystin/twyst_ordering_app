@@ -45,6 +45,9 @@ public class Items implements Serializable {
     @SerializedName("option_is_addon")
     private boolean optionIsAddon;
 
+    @SerializedName("option_price_is_additive")
+    private boolean optionPriceIsAdditive;
+
     @SerializedName("options")
     private ArrayList<Options> optionsList = new ArrayList<>();
     // Optional field for the selected item in cart.
@@ -88,6 +91,14 @@ public class Items implements Serializable {
 
     @SerializedName("sub_options")
     private ArrayList<SubOptions> SubOptionsList = new ArrayList<>();
+
+    public boolean isOptionPriceIsAdditive() {
+        return optionPriceIsAdditive;
+    }
+
+    public void setOptionPriceIsAdditive(boolean optionPriceIsAdditive) {
+        this.optionPriceIsAdditive = optionPriceIsAdditive;
+    }
 
     public String getSubCategoryID() {
         return subCategoryID;

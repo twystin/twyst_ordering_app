@@ -13,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bignerdranch.expandablerecyclerview.Adapter.ExpandableRecyclerAdapter;
@@ -262,7 +261,11 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
                 Options optionNew = new Options(option);
                 cartItem.getOptionsList().clear();
                 cartItem.getOptionsList().add(optionNew);
-                cartItem.setItemCost(optionNew.getOptionCost());
+                if (cartItem.getItemOriginalReference().isOptionPriceIsAdditive()) {
+                    cartItem.setItemCost(cartItem.getItemOriginalReference().getItemCost() + optionNew.getOptionCost());
+                } else {
+                    cartItem.setItemCost(optionNew.getOptionCost());
+                }
                 if (option.getSubOptionsList().size() > 0) {
                     showDialogSubOptions(cartItem, 0);
                 } else {
