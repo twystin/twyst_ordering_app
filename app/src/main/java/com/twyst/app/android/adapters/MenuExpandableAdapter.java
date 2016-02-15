@@ -1,5 +1,6 @@
 package com.twyst.app.android.adapters;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -93,7 +94,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
     }
 
     @Override
-    public void onBindChildViewHolder(MenuChildViewHolder childViewHolder, final int childPosition, Object childListItem) {
+    public void onBindChildViewHolder(final MenuChildViewHolder childViewHolder, final int childPosition, Object childListItem) {
         final Items item = (Items) childListItem;
         childViewHolder.mIvPLus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,7 +137,8 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
                             }
                             mVegIconHeight = tvMenuItemName.getMeasuredHeight() * 2 / 3;
                             img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
-                            tvMenuItemName.setCompoundDrawables(img, null, null, null);
+                            childViewHolder.mIvVegNonVegIcon.setImageDrawable(img);
+/*                            tvMenuItemName.setCompoundDrawables(img, null, null, null);
 
                             LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) tvMenuBreadCrumb.getLayoutParams();
                             params1.setMargins((mVegIconHeight + tvMenuItemName.getCompoundDrawablePadding()), params1.topMargin, 0, 0);
@@ -144,7 +146,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
 
                             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) tvMenuItemDesc.getLayoutParams();
                             params.setMargins((mVegIconHeight + tvMenuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
-                            tvMenuItemDesc.setLayoutParams(params);
+                            tvMenuItemDesc.setLayoutParams(params);*/
 
                             tvMenuItemName.getViewTreeObserver()
                                     .removeOnGlobalLayoutListener(this);
@@ -160,7 +162,8 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
                         R.drawable.nonveg);
             }
             img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
-            childViewHolder.menuItemName.setCompoundDrawables(img, null, null, null);
+            childViewHolder.mIvVegNonVegIcon.setImageDrawable(img);
+/*            childViewHolder.menuItemName.setCompoundDrawables(img, null, null, null);
 
             LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) childViewHolder.menuItemBreadCrumb.getLayoutParams();
             params1.setMargins((mVegIconHeight + childViewHolder.menuItemName.getCompoundDrawablePadding()), params1.topMargin, 0, 0);
@@ -168,7 +171,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
 
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) childViewHolder.menuItemDesc.getLayoutParams();
             params.setMargins((mVegIconHeight + childViewHolder.menuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
-            childViewHolder.menuItemDesc.setLayoutParams(params);
+            childViewHolder.menuItemDesc.setLayoutParams(params);*/
         }
 
         childViewHolder.menuItemName.setText(item.getItemName());

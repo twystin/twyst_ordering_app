@@ -10,6 +10,19 @@
     android:padding="@dimen/menu_padding_layout">
 
     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingRight="@dimen/menu_padding_layout"
+        android:paddingTop="2dp">
+
+        <ImageView
+            android:id="@+id/ivVegNonVegIcon"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:src="@drawable/veg" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="7"
