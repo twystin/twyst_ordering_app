@@ -1,7 +1,5 @@
 package com.twyst.app.android.util;
 
-import com.twyst.app.android.BuildConfig;
-
 /**
  * Created by satish on 31/05/15.
  */

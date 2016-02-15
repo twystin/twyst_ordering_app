@@ -18,24 +18,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fc6e51"
-        android:paddingBottom="2dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginBottom="20dp">
+        android:layout_marginTop="20dp"
+        android:background="#fc6e51"
+        android:paddingBottom="2dp">
 
         <AutoCompleteTextView
             android:id="@+id/customLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#fafafa"
-            android:hint="Enter your location"
-            android:singleLine="true"
             android:completionThreshold="1"
-            android:textSize="@dimen/dialog_content_text"
+            android:hint="Enter your location"
+            android:paddingBottom="3dp"
+            android:singleLine="true"
             android:textColorHint="#ccc"
-            android:paddingBottom="3dp" />
+            android:textSize="@dimen/dialog_content_text" />
 
     </LinearLayout>
 
@@ -44,41 +44,43 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp">
 
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:layout_width="wrap_content"
+        <FrameLayout
             android:id="@+id/customLocationSubmitBtn"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            app:mrl_rippleOverlay="true">
+            android:background="@drawable/button_primary">
 
-            <Button
-                android:layout_width="80dp"
-                android:layout_height="37dp"
-                android:background="@drawable/button_red"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:text="SUBMIT"
-                android:textSize="@dimen/dialog_button_text"
-                android:textColor="@android:color/white" />
-        </com.balysv.materialripple.MaterialRippleLayout>
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dialog_button_text" />
+        </FrameLayout>
 
-        <com.balysv.materialripple.MaterialRippleLayout
+        <FrameLayout
             android:id="@+id/cancelBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="14dp"
             android:layout_toLeftOf="@+id/customLocationSubmitBtn"
-            app:mrl_rippleOverlay="true">
+            android:background="@drawable/button_transparent">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="34dp"
+                android:layout_height="30dp"
                 android:background="#fafafa"
-                android:gravity="center_vertical|center_horizontal"
+                android:gravity="center"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="Use Last Known"
                 android:textColor="#959595"
                 android:textSize="@dimen/dialog_button_text" />
-        </com.balysv.materialripple.MaterialRippleLayout>
+        </FrameLayout>
 
     </RelativeLayout>
 

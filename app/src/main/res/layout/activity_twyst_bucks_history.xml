@@ -46,13 +46,13 @@
             android:text="435"
             android:textSize="@dimen/bucks_text_huge" />
 
-        <com.balysv.materialripple.MaterialRippleLayout
+        <FrameLayout
             android:id="@+id/button_earn_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_bucks_amount"
-            android:background="@drawable/rounded_corner"
-            app:mrl_rippleOverlay="true">
+            android:background="@drawable/button_primary"
+            android:clickable="true">
 
             <TextView
                 android:id="@+id/tv_earn_more"
@@ -66,7 +66,7 @@
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/bucks_text_huge" />
-        </com.balysv.materialripple.MaterialRippleLayout>
+        </FrameLayout>
 
     </LinearLayout>
 

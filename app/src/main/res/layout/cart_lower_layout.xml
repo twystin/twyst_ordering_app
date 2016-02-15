@@ -79,8 +79,9 @@
                 android:id="@+id/fNextMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@drawable/button_red"
-                android:padding="10dp">
+                android:background="@drawable/button_primary"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
 
                 <TextView
                     android:id="@+id/tvNextMenu"
@@ -94,20 +95,22 @@
                     android:textSize="14dp" />
             </FrameLayout>
 
-            <Button
+            <TextView
                 android:id="@+id/bAddNewItem"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
+                android:gravity="center"
                 android:layout_margin="5dp"
                 android:layout_marginRight="5dp"
-                android:background="@drawable/button_red"
+                android:background="@drawable/button_primary"
                 android:text="Add new item"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/outlet_details_coupon_txt"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"/>
 
         </LinearLayout>
 

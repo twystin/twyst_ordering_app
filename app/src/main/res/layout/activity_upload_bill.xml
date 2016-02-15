@@ -192,19 +192,18 @@
                 android:layout_marginTop="10dp">
 
 
-                <com.balysv.materialripple.MaterialRippleLayout
+                <FrameLayout
                     android:id="@+id/takePhoto"
                     android:layout_width="170dp"
                     android:layout_height="30dp"
                     android:layout_centerHorizontal="true"
-                    app:mrl_rippleOverlay="true">
+                    android:background="@drawable/button_primary">
 
                     <LinearLayout
                         android:id="@+id/takePhotoLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="@drawable/button_red"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -227,7 +226,7 @@
                             android:textSize="12dp" />
                     </LinearLayout>
 
-                </com.balysv.materialripple.MaterialRippleLayout>
+                </FrameLayout>
 
                 <RelativeLayout
                     android:id="@+id/layoutImage"
@@ -258,27 +257,26 @@
                 </RelativeLayout>
 
 
-                <com.balysv.materialripple.MaterialRippleLayout
+                <FrameLayout
                     android:id="@+id/uploadBtn"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
-                    android:paddingBottom="10dp"
                     android:layout_marginRight="20dp"
                     android:layout_centerHorizontal="true"
-                    app:mrl_rippleOverlay="true">
+                    android:background="@drawable/button_primary">
 
-                    <Button
+                    <TextView
                         android:id="@+id/uploadPhotoButton"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
-                        android:background="@drawable/button_grey"
                         android:text="Upload"
+                        android:gravity="center"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/dialog_button_text" />
 
-                </com.balysv.materialripple.MaterialRippleLayout>
+                </FrameLayout>
 
 
             </RelativeLayout>

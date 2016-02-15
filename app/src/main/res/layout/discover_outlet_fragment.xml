@@ -38,46 +38,53 @@
             </RelativeLayout>
         </android.support.design.widget.CollapsingToolbarLayout>
 
-        <LinearLayout
-            android:id="@+id/linlay_display_address"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:clickable="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:orientation="horizontal"
-            android:padding="@dimen/layout_huge_margin">
-
-            <TextView
-                android:layout_width="wrap_content"
+            android:background="@color/white">
+            <LinearLayout
+                android:id="@+id/linlay_display_address"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
                 android:clickable="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-                android:text="DELIVERING TO : "
-                android:textAllCaps="true"
-                android:textSize="@dimen/layout_wide_margin" />
+                android:orientation="horizontal"
+                android:padding="@dimen/layout_huge_margin">
 
-            <TextView
-                android:id="@+id/tv_current_address_location"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="false"
-                android:ellipsize="end"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:paddingRight="@dimen/layout_wide_margin"
-                android:singleLine="true"
-                android:textSize="@dimen/layout_wide_margin" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:text="DELIVERING TO : "
+                    android:textAllCaps="true"
+                    android:textSize="@dimen/layout_wide_margin" />
 
-            <ImageView
-                android:layout_width="@dimen/layout_huge_margin"
-                android:layout_height="@dimen/layout_huge_margin"
-                android:src="@drawable/location_edit" />
+                <TextView
+                    android:id="@+id/tv_current_address_location"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="false"
+                    android:ellipsize="end"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:paddingRight="@dimen/layout_wide_margin"
+                    android:singleLine="true"
+                    android:textSize="@dimen/layout_wide_margin" />
 
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="@dimen/layout_huge_margin"
+                    android:layout_height="@dimen/layout_huge_margin"
+                    android:src="@drawable/location_edit" />
+
+            </LinearLayout>
+
+
+        </FrameLayout>
 
         <LinearLayout
             android:id="@+id/linlay_discover_fragment_error_layout"

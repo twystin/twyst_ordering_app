@@ -22,7 +22,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -400,7 +399,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
             }
         });
 
-        Button bAddNewItem = (Button) findViewById(R.id.bAddNewItem);
+        View bAddNewItem = (View) findViewById(R.id.bAddNewItem);
         bAddNewItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

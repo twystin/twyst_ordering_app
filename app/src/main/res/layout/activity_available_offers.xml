@@ -44,15 +44,14 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <com.balysv.materialripple.MaterialRippleLayout
+            <FrameLayout
                 android:id="@+id/bSkip"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/button_yellow"
-                android:padding="5dp"
-                app:mrl_rippleOverlay="true">
+                android:background="@drawable/button_primary"
+                android:padding="5dp">
 
                 <TextView
                     android:id="@+id/tvSkip"
@@ -64,17 +63,16 @@
                     android:text="SKIP"
                     android:textColor="@android:color/white"
                     android:textSize="18dp" />
-            </com.balysv.materialripple.MaterialRippleLayout>
+            </FrameLayout>
 
-            <com.balysv.materialripple.MaterialRippleLayout
+            <FrameLayout
                 android:id="@+id/bApply"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/button_yellow"
-                android:padding="5dp"
-                app:mrl_rippleOverlay="true">
+                android:background="@drawable/button_primary"
+                android:padding="5dp">
 
                 <TextView
                     android:id="@+id/tvApply"
@@ -86,7 +84,7 @@
                     android:text="APPLY"
                     android:textColor="@android:color/white"
                     android:textSize="18dp" />
-            </com.balysv.materialripple.MaterialRippleLayout>
+            </FrameLayout>
 
         </LinearLayout>
     </LinearLayout>

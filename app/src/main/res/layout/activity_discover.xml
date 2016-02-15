@@ -185,26 +185,26 @@
                         android:textSize="@dimen/discover_plan_ahead_text_size" />
 
 
-                    <com.balysv.materialripple.MaterialRippleLayout
+                    <FrameLayout
                         android:id="@+id/changeOnMapBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        app:mrl_rippleOverlay="true">
+                        android:layout_centerVertical="true">
 
-                        <Button
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
                             android:paddingBottom="5dp"
                             android:paddingTop="5dp"
+                            android:gravity="center"
                             android:background="@drawable/button_green"
                             android:text="CHANGE ON MAP"
                             android:textColor="@android:color/white"
                             android:textSize="10dp" />
-                    </com.balysv.materialripple.MaterialRippleLayout>
+                    </FrameLayout>
 
                 </RelativeLayout>
 
@@ -398,14 +398,14 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="15dp">
 
-                    <com.balysv.materialripple.MaterialRippleLayout
+                    <FrameLayout
                         android:id="@+id/planAheadCancelBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
                         android:layout_toLeftOf="@+id/planAheadSubmitBtn"
                         android:layout_toStartOf="@+id/planAheadSubmitBtn"
-                        app:mrl_rippleOverlay="true">
+                        android:background="?android:attr/selectableItemBackground">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -417,24 +417,24 @@
                             android:text="CANCEL"
                             android:textColor="#959595"
                             android:textSize="10dp" />
-                    </com.balysv.materialripple.MaterialRippleLayout>
+                    </FrameLayout>
 
-                    <com.balysv.materialripple.MaterialRippleLayout
+                    <FrameLayout
                         android:id="@+id/planAheadSubmitBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        app:mrl_rippleOverlay="true">
+                        android:layout_centerVertical="true">
 
-                        <Button
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="30dp"
                             android:background="@drawable/button_green"
                             android:text="SUBMIT"
+                            android:gravity="center"
                             android:textColor="@android:color/white"
                             android:textSize="10dp" />
-                    </com.balysv.materialripple.MaterialRippleLayout>
+                    </FrameLayout>
 
 
                 </RelativeLayout>
@@ -523,17 +523,16 @@
                 android:layout_centerInParent="true"
                 android:orientation="vertical">
 
-                <com.balysv.materialripple.MaterialRippleLayout
+                <FrameLayout
                     android:id="@+id/scanBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:mrl_rippleOverlay="true">
+                    android:background="@drawable/button_primary">
 
-                    <Button
+                    <TextView
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button_orange"
                         android:drawableLeft="@drawable/icon_button_scan_qr"
                         android:drawablePadding="20dp"
                         android:paddingBottom="10dp"
@@ -541,11 +540,12 @@
                         android:paddingRight="30dp"
                         android:paddingTop="10dp"
                         android:text="Scan QR"
+                        android:gravity="center"
                         android:textColor="@android:color/white"
                         android:textSize="24dp"
                         android:textStyle="bold" />
 
-                </com.balysv.materialripple.MaterialRippleLayout>
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/orText"
@@ -557,16 +557,15 @@
                     android:textSize="24dp"
                     android:layout_gravity="center_horizontal" />
 
-                <com.balysv.materialripple.MaterialRippleLayout
+                <FrameLayout
                     android:id="@+id/uploadBillBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:mrl_rippleOverlay="true">
+                    android:background="@drawable/button_primary">
 
-                    <Button
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button_orange"
                         android:drawableLeft="@drawable/icon_button_upload_bill"
                         android:drawablePadding="20dp"
                         android:paddingBottom="10dp"
@@ -574,11 +573,12 @@
                         android:paddingRight="30dp"
                         android:paddingTop="10dp"
                         android:text="Upload Bill"
+                        android:gravity="center"
                         android:textColor="@android:color/white"
                         android:textSize="24dp"
                         android:textStyle="bold" />
 
-                </com.balysv.materialripple.MaterialRippleLayout>
+                </FrameLayout>
             </LinearLayout>
 
 

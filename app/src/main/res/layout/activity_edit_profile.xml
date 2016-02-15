@@ -562,21 +562,23 @@
                 </LinearLayout>
             </it.gmariotti.cardslib.library.view.CardViewNative>
 
-            <com.balysv.materialripple.MaterialRippleLayout
+            <FrameLayout
                 android:id="@+id/updateProf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="30dp"
-                app:mrl_rippleOverlay="true">
+                android:layout_margin="30dp">
 
-                <Button
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/button_red"
+                    android:background="@drawable/button_primary"
                     android:text="Update"
+                    android:gravity="center"
                     android:textColor="@android:color/white"
-                    android:textSize="18dp" />
-            </com.balysv.materialripple.MaterialRippleLayout>
+                    android:textSize="18dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"/>
+            </FrameLayout>
 
         </LinearLayout>
     </ScrollView>

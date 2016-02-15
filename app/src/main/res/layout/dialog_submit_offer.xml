@@ -121,44 +121,45 @@
                 android:layout_marginBottom="10dp"
                 android:gravity="end|right">
 
-                <com.balysv.materialripple.MaterialRippleLayout
+                <FrameLayout
                     android:id="@+id/submitCancelBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_toLeftOf="@+id/submitOfferBtn"
                     android:layout_toStartOf="@+id/submitOfferBtn"
-                    app:mrl_rippleOverlay="true">
+                    android:background="@drawable/button_transparent">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:background="#fafafa"
-                        android:gravity="center_vertical|center_horizontal"
+                        android:gravity="center"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:text="CANCEL"
                         android:textColor="#959595"
                         android:textSize="12dp" />
-                </com.balysv.materialripple.MaterialRippleLayout>
+                </FrameLayout>
 
-                <com.balysv.materialripple.MaterialRippleLayout
+                <FrameLayout
                     android:id="@+id/submitOfferBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    app:mrl_rippleOverlay="true">
+                    android:layout_centerVertical="true">
 
-                    <Button
-                        android:layout_width="70dp"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:background="@drawable/button_green"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
                         android:text="SUBMIT"
                         android:textColor="@android:color/white"
                         android:textSize="12dp" />
-                </com.balysv.materialripple.MaterialRippleLayout>
-
+                </FrameLayout>
 
             </RelativeLayout>
 

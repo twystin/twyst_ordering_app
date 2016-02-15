@@ -15,17 +15,17 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="horizontal"
+            android:layout_height="wrap_content"
             android:background="#323232"
-            android:layout_height="wrap_content">
+            android:orientation="horizontal">
 
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-               android:layout_marginLeft="15dp"
-                android:src="@drawable/checked_inrecently_error_icon"/>
+                android:layout_marginLeft="15dp"
+                android:src="@drawable/checked_inrecently_error_icon" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -66,47 +66,47 @@
                 android:layout_marginTop="15dp"
                 android:gravity="end|right">
 
-                <com.balysv.materialripple.MaterialRippleLayout
+                <FrameLayout
                     android:id="@+id/redeemCancelBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="14dp"
                     android:layout_toLeftOf="@+id/redeemConfirmBtn"
                     android:layout_toStartOf="@+id/redeemConfirmBtn"
-                    app:mrl_rippleOverlay="true">
+                    android:background="@drawable/button_transparent">
 
                     <TextView
                         android:id="@+id/cancelExtendBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="34dp"
                         android:background="#fafafa"
-                        android:gravity="center_vertical|center_horizontal"
+                        android:gravity="center"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:text="Dismiss"
                         android:textAllCaps="true"
                         android:textColor="#959595"
                         android:textSize="@dimen/dialog_button_text" />
-                </com.balysv.materialripple.MaterialRippleLayout>
+                </FrameLayout>
 
-                <com.balysv.materialripple.MaterialRippleLayout
+                <FrameLayout
                     android:id="@+id/redeemConfirmBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    app:mrl_rippleOverlay="true">
+                    android:background="@drawable/button_primary">
 
-                    <Button
+                    <TextView
                         android:id="@+id/extendBtn"
                         android:layout_width="80dp"
                         android:layout_height="34dp"
-                        android:background="@drawable/button_red"
+                        android:gravity="center"
                         android:text="Try Later"
                         android:textAllCaps="true"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/dialog_button_text" />
-                </com.balysv.materialripple.MaterialRippleLayout>
+                </FrameLayout>
 
 
             </RelativeLayout>

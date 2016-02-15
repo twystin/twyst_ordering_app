@@ -29,12 +29,12 @@
 
         </LinearLayout>
 
-        <Button
+        <TextView
             android:id="@+id/bProceed"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/button_yellow"
+            android:background="@drawable/button_primary"
             android:clickable="true"
             android:enabled="false"
             android:gravity="center"

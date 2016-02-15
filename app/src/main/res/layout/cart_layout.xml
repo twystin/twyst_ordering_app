@@ -6,14 +6,13 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <com.balysv.materialripple.MaterialRippleLayout
+    <FrameLayout
         android:id="@+id/bCheckOutCart"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="56dp"
         android:padding="10dp"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/button_red"
-        app:mrl_rippleOverlay="true">
+        android:background="@drawable/button_primary">
 
         <TextView
             android:id="@+id/tvCheckOutCart"
@@ -25,7 +24,7 @@
             android:layout_gravity="right|center_vertical"
             android:textColor="@android:color/white"
             android:textSize="20dp" />
-    </com.balysv.materialripple.MaterialRippleLayout>
+    </FrameLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/cartRecyclerView"

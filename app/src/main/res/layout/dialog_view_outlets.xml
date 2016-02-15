@@ -46,44 +46,46 @@
                 android:layout_marginTop="20dp"
                 android:gravity="end|right">
 
-                <com.balysv.materialripple.MaterialRippleLayout
+                <FrameLayout
                     android:id="@+id/locCancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="14dp"
                     android:layout_toLeftOf="@+id/locChoose"
                     android:layout_toStartOf="@+id/locChoose"
-                    android:visibility="visible"
-                    app:mrl_rippleOverlay="true">
+                    android:background="@drawable/button_transparent"
+                    android:visibility="visible">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:background="#fafafa"
-                        android:gravity="center_vertical|center_horizontal"
+                        android:gravity="center"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:text="CANCEL"
                         android:textColor="#959595"
                         android:textSize="12dp" />
-                </com.balysv.materialripple.MaterialRippleLayout>
+                </FrameLayout>
 
-                <com.balysv.materialripple.MaterialRippleLayout
+                <FrameLayout
                     android:id="@+id/locChoose"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    app:mrl_rippleOverlay="true">
+                    android:background="@drawable/button_primary">
 
-                    <Button
-                        android:layout_width="75dp"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="30dp"
-                        android:background="@drawable/button_red"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
                         android:text="Choose"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/outlet_details_coupon_txt" />
-                </com.balysv.materialripple.MaterialRippleLayout>
+                </FrameLayout>
 
 
             </RelativeLayout>

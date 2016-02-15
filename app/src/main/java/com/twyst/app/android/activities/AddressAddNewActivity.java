@@ -185,7 +185,7 @@ public class AddressAddNewActivity extends BaseActionActivity {
             }
         });
 
-        findViewById(R.id.tvProceedOk).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.proceed_ok).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EditText neighborhood = (EditText) findViewById(R.id.editView_building);
@@ -216,7 +216,7 @@ public class AddressAddNewActivity extends BaseActionActivity {
             }
         });
 
-        findViewById(R.id.tvChangeLocation).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.proceedChangeLocation).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AddressAddNewActivity.this,AddressDetailsActivity.class);

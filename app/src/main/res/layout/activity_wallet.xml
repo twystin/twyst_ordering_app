@@ -32,10 +32,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#f7f7f3"
+                android:paddingBottom="10dp"
                 android:paddingLeft="10dp"
-                android:paddingTop="10dp"
                 android:paddingRight="10dp"
-                android:paddingBottom="10dp">
+                android:paddingTop="10dp">
 
                 <TextView
                     android:id="@+id/twystText"
@@ -79,18 +79,18 @@
                         android:textSize="@dimen/wallet_bucks_text" />
                 </LinearLayout>
 
-                <com.balysv.materialripple.MaterialRippleLayout
+                <FrameLayout
                     android:id="@+id/earnMoreBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    app:mrl_rippleOverlay="true">
+                    android:layout_centerVertical="true">
 
-                    <Button
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/button_green"
+                        android:gravity="center"
                         android:paddingBottom="5dp"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
@@ -99,28 +99,28 @@
                         android:textAllCaps="false"
                         android:textColor="@android:color/white"
                         android:textSize="14dp" />
-                </com.balysv.materialripple.MaterialRippleLayout>
+                </FrameLayout>
 
 
             </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:orientation="vertical"
                 android:background="#acacac"
-                android:id="@+id/divider"/>
+                android:orientation="vertical" />
 
             <RelativeLayout
                 android:id="@+id/hideSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingTop="3dp"
-                android:paddingRight="10dp"
                 android:paddingBottom="3dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="3dp"
                 android:visibility="gone">
 
 
@@ -283,19 +283,19 @@
                 android:layout_centerInParent="true"
                 android:orientation="vertical">
 
-                <com.balysv.materialripple.MaterialRippleLayout
+                <FrameLayout
                     android:id="@+id/scanBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:mrl_rippleOverlay="true">
+                    android:background="@drawable/button_primary">
 
-                    <Button
+                    <TextView
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button_orange"
                         android:drawableLeft="@drawable/icon_button_scan_qr"
                         android:drawablePadding="20dp"
+                        android:gravity="center"
                         android:paddingBottom="10dp"
                         android:paddingLeft="30dp"
                         android:paddingRight="30dp"
@@ -305,7 +305,7 @@
                         android:textSize="24dp"
                         android:textStyle="bold" />
 
-                </com.balysv.materialripple.MaterialRippleLayout>
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/orText"
@@ -317,18 +317,18 @@
                     android:textColor="@android:color/white"
                     android:textSize="24dp" />
 
-                <com.balysv.materialripple.MaterialRippleLayout
+                <FrameLayout
                     android:id="@+id/uploadBillBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:mrl_rippleOverlay="true">
+                    android:background="@drawable/button_primary">
 
-                    <Button
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button_orange"
                         android:drawableLeft="@drawable/icon_button_upload_bill"
                         android:drawablePadding="20dp"
+                        android:gravity="center"
                         android:paddingBottom="10dp"
                         android:paddingLeft="30dp"
                         android:paddingRight="30dp"
@@ -338,7 +338,7 @@
                         android:textSize="24dp"
                         android:textStyle="bold" />
 
-                </com.balysv.materialripple.MaterialRippleLayout>
+                </FrameLayout>
             </LinearLayout>
 
 

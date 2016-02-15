@@ -28,23 +28,22 @@
 
             </WebView>
 
-            <com.balysv.materialripple.MaterialRippleLayout
+            <FrameLayout
                 android:id="@+id/okButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="15dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
-                app:mrl_rippleOverlay="true">
+                android:background="@drawable/button_primary">
 
-                <Button
+                <TextView
                     android:layout_width="75dp"
                     android:layout_height="30dp"
-                    android:background="@drawable/button_red"
                     android:text="OK"
+                    android:gravity="center"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/outlet_details_coupon_txt" />
-            </com.balysv.materialripple.MaterialRippleLayout>
+            </FrameLayout>
         </RelativeLayout>
 
 </LinearLayout>

@@ -180,22 +180,17 @@
                             android:textColor="@color/text_grey"
                             android:textSize="@dimen/layout_medium_text_size" />
 
-                        <com.balysv.materialripple.MaterialRippleLayout
+                        <FrameLayout
                             android:id="@+id/reorder_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/rounded_corner"
-                            android:paddingTop="2dp"
-                            android:paddingBottom="2dp"
-                            android:paddingLeft="4dp"
-                            android:paddingRight="4dp"
-                            app:mrl_rippleOverlay="true">
+                            android:background="@drawable/button_primary">
 
                             <TextView
                                 android:id="@+id/reorder_TextView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="center_vertical|center_horizontal"
+                                android:gravity="center"
                                 android:paddingBottom="@dimen/layout_small_margin"
                                 android:paddingLeft="@dimen/layout_medium_margin"
                                 android:paddingRight="@dimen/layout_medium_margin"
@@ -204,7 +199,7 @@
                                 android:textAllCaps="true"
                                 android:textColor="@android:color/white"
                                 android:textSize="@dimen/layout_wide_text_size" />
-                        </com.balysv.materialripple.MaterialRippleLayout>
+                        </FrameLayout>
 
                     </LinearLayout>
 

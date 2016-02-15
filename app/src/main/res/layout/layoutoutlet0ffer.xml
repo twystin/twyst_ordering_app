@@ -138,19 +138,18 @@
 
 
             </RelativeLayout>
-            <com.balysv.materialripple.MaterialRippleLayout
+            <FrameLayout
                 android:id="@+id/view"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/outlet_details_coupon_btn_height"
                 android:layout_below="@+id/couponDetail"
-                android:layout_marginTop="2dp"
-                app:mrl_rippleOverlay="true">
+                android:layout_marginTop="2dp">
 
                 <LinearLayout
                     android:id="@+id/footer_bckgrd"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/button_grey"
+                    android:background="@drawable/button_disabled"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -190,7 +189,7 @@
 
                 </LinearLayout>
 
-            </com.balysv.materialripple.MaterialRippleLayout>
+            </FrameLayout>
 
         </RelativeLayout>
 </LinearLayout>

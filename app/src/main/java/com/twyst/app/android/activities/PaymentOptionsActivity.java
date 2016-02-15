@@ -3,20 +3,16 @@ package com.twyst.app.android.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +32,6 @@ import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
 
-import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +68,7 @@ public class PaymentOptionsActivity extends BaseActionActivity {
         mPaymentDataList.add(pd2);
 
         final PaymentArrayAdapter pdAdapter = new PaymentArrayAdapter();
-        final Button proceed = (Button) findViewById(R.id.bProceed);
+        final View proceed = (View) findViewById(R.id.bProceed);
         ListView listView = (ListView) findViewById(R.id.lv_payment_options);
         listView.setAdapter(pdAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

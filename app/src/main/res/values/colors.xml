@@ -27,6 +27,12 @@
     <color name="button_disabled">#7d7d7d</color>
     <color name="button_orange">#f79421</color>
     <color name="button_green">#009688</color>
+    <color name="button_green_pressed">#006f64</color>
+    <color name="button_primary">#f79421</color>
+    <color name="button_primary_pressed">#A9600A</color>
+    <color name="button_secondary">#007AFF</color>
+    <color name="button_secondary_pressed">#0076a9</color>
+    <color name="button_transparent_pressed">#c7c7c7</color>
 
     <color name="offer_color_gray">#636363</color>
     <color name="offer_color_red">#e9573f</color>

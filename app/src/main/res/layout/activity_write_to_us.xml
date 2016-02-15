@@ -71,43 +71,43 @@
                 android:layout_marginTop="20dp"
                 android:gravity="end|right">
 
-                <com.balysv.materialripple.MaterialRippleLayout
+                <FrameLayout
                     android:id="@+id/writeCancelBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_toLeftOf="@+id/writeToUsBtn"
                     android:layout_toStartOf="@+id/writeToUsBtn"
-                    app:mrl_rippleOverlay="true">
+                    android:background="@drawable/button_transparent">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="34dp"
                         android:background="#fafafa"
-                        android:gravity="center_vertical|center_horizontal"
+                        android:gravity="center"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:text="CANCEL"
                         android:textColor="#959595"
                         android:textSize="@dimen/dialog_button_text" />
-                </com.balysv.materialripple.MaterialRippleLayout>
+                </FrameLayout>
 
-                <com.balysv.materialripple.MaterialRippleLayout
+                <FrameLayout
                     android:id="@+id/writeToUsBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    app:mrl_rippleOverlay="true">
+                    android:background="@drawable/button_primary">
 
-                    <Button
+                    <TextView
                         android:layout_width="80dp"
                         android:layout_height="34dp"
-                        android:background="@drawable/button_red"
+                        android:gravity="center"
                         android:text="SUBMIT"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/dialog_button_text" />
-                </com.balysv.materialripple.MaterialRippleLayout>
+                </FrameLayout>
 
 
             </RelativeLayout>

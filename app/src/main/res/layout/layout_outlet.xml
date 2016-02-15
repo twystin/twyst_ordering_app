@@ -20,7 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:padding="@dimen/layout_medium_margin">
+            android:padding="@dimen/layout_medium_margin"
+            android:background="?android:attr/selectableItemBackground">
 
             <RelativeLayout
                 android:layout_width="104dp"

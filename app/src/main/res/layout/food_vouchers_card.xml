@@ -20,24 +20,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp">
-
+            android:paddingBottom="16dp"
+            android:paddingTop="16dp">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp">
+                android:layout_marginRight="16dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_header_food_vouchers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="La Pino'z Pizza"
                     android:layout_marginBottom="4dp"
+                    android:text="La Pino'z Pizza"
                     android:textColor="@android:color/black"
                     android:textSize="16dp" />
 
@@ -45,7 +44,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginBottom="8dp"
-                    android:background="@color/background_grey"/>
+                    android:background="@color/background_grey" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -122,24 +121,25 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="8dp">
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
 
-                    <com.balysv.materialripple.MaterialRippleLayout
+                    <FrameLayout
                         android:id="@+id/button_terms"
                         android:layout_width="0dp"
-                        android:layout_marginRight="8dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginRight="8dp"
                         android:layout_weight="1"
-                        app:mrl_rippleOverlay="true">
+                        android:background="@drawable/button_transparent"
+                        android:clickable="true">
 
                         <TextView
                             android:id="@+id/tv_terms"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/border_rounded_black"
-                            android:gravity="center_vertical|center_horizontal"
+                            android:gravity="center"
                             android:paddingBottom="@dimen/layout_medium_margin"
                             android:paddingLeft="@dimen/layout_medium_margin"
                             android:paddingRight="@dimen/layout_medium_margin"
@@ -148,22 +148,22 @@
                             android:textAllCaps="true"
                             android:textColor="@android:color/black"
                             android:textSize="@dimen/layout_wide_text_size" />
-                    </com.balysv.materialripple.MaterialRippleLayout>
+                    </FrameLayout>
 
-                    <com.balysv.materialripple.MaterialRippleLayout
+                    <FrameLayout
                         android:id="@+id/button_buy"
                         android:layout_width="0dp"
-                        android:layout_marginLeft="8dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
                         android:layout_weight="1"
-                        app:mrl_rippleOverlay="true">
+                        android:background="@drawable/button_secondary"
+                        android:clickable="true">
 
                         <TextView
                             android:id="@+id/tv_buy"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/border_round_blue"
-                            android:gravity="center_vertical|center_horizontal"
+                            android:gravity="center"
                             android:paddingBottom="@dimen/layout_medium_margin"
                             android:paddingLeft="@dimen/layout_medium_margin"
                             android:paddingRight="@dimen/layout_medium_margin"
@@ -172,12 +172,11 @@
                             android:textAllCaps="true"
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/layout_wide_text_size" />
-                    </com.balysv.materialripple.MaterialRippleLayout>
+                    </FrameLayout>
 
                 </LinearLayout>
 
             </LinearLayout>
-
 
 
         </LinearLayout>

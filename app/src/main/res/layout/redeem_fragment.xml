@@ -76,52 +76,59 @@
             </RelativeLayout>
         </android.support.design.widget.CollapsingToolbarLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_twyst_bucks_launcher"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="@dimen/layout_huge_margin">
+            android:background="@color/white">
 
-            <ImageView
-                android:layout_width="@dimen/layout_huge_margin"
-                android:layout_height="@dimen/layout_huge_margin"
-                android:layout_marginRight="@dimen/layout_wide_margin"
-                android:src="@drawable/twystbucksicon" />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/ll_twyst_bucks_launcher"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="My Twyst Bucks"
-                android:textSize="@dimen/layout_wide_margin" />
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/layout_huge_margin">
 
-            <TextView
-                android:id="@+id/tv_current_address_location"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:paddingRight="@dimen/layout_wide_margin"
-                android:singleLine="true"
-                android:textSize="@dimen/layout_wide_margin" />
+                <ImageView
+                    android:layout_width="@dimen/layout_huge_margin"
+                    android:layout_height="@dimen/layout_huge_margin"
+                    android:layout_marginRight="@dimen/layout_wide_margin"
+                    android:src="@drawable/twystbucksicon" />
 
-            <TextView
-                android:id="@+id/tv_my_twyst_bucks"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/layout_small_margin"
-                android:text="580"
-                android:textSize="@dimen/layout_wide_margin" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="My Twyst Bucks"
+                    android:textSize="@dimen/layout_wide_margin" />
 
-            <ImageView
-                android:layout_width="@dimen/layout_huge_margin"
-                android:layout_height="@dimen/layout_huge_margin"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/collapsed" />
+                <TextView
+                    android:id="@+id/tv_current_address_location"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:paddingRight="@dimen/layout_wide_margin"
+                    android:singleLine="true"
+                    android:textSize="@dimen/layout_wide_margin" />
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_my_twyst_bucks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/layout_small_margin"
+                    android:text="580"
+                    android:textSize="@dimen/layout_wide_margin" />
+
+                <ImageView
+                    android:layout_width="@dimen/layout_huge_margin"
+                    android:layout_height="@dimen/layout_huge_margin"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/collapsed" />
+
+            </LinearLayout>
+
+        </FrameLayout>
 
     </android.support.design.widget.AppBarLayout>
 </android.support.design.widget.CoordinatorLayout>

@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:background="?android:attr/selectableItemBackground"
             android:orientation="vertical"
             android:paddingBottom="32dp"
             android:paddingLeft="16dp"
@@ -40,13 +41,13 @@
             </RelativeLayout>
 
 
-            <com.balysv.materialripple.MaterialRippleLayout
+            <FrameLayout
                 android:id="@+id/reorder_button"
                 android:layout_width="108dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/rectangle"
-                app:mrl_rippleOverlay="true">
+                android:background="@drawable/button_transparent"
+                android:clickable="false">
 
                 <TextView
                     android:id="@+id/tv_redeem_grid"
@@ -54,12 +55,13 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:paddingBottom="4dp"
+                    android:background="@drawable/border_rounded_black"
                     android:paddingTop="4dp"
                     android:text="Coming Soon"
                     android:textAllCaps="true"
                     android:textColor="@android:color/black" />
 
-            </com.balysv.materialripple.MaterialRippleLayout>
+            </FrameLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>
