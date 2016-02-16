@@ -81,10 +81,9 @@ public class CartAdapter extends RecyclerView.Adapter<MenuChildViewHolder> {
                                 img = mContext.getResources().getDrawable(
                                         R.drawable.nonveg);
                             }
-                            mVegIconHeight = tvMenuItemName.getMeasuredHeight() * 2 / 3;
+                            mVegIconHeight = tvMenuItemName.getLineHeight();
                             img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
-//                            tvMenuItemName.setCompoundDrawables(img, null, null, null);
-                            holder.mIvVegNonVegIcon.setImageDrawable(img);
+                            tvMenuItemName.setCompoundDrawables(img, null, null, null);
                             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) llCustomisationsFinal.getLayoutParams();
                             params.setMargins((mVegIconHeight + tvMenuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
                             llCustomisationsFinal.setLayoutParams(params);
@@ -103,8 +102,7 @@ public class CartAdapter extends RecyclerView.Adapter<MenuChildViewHolder> {
                         R.drawable.nonveg);
             }
             img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
-//            holder.menuItemName.setCompoundDrawables(img, null, null, null);
-            holder.mIvVegNonVegIcon.setImageDrawable(img);
+            holder.menuItemName.setCompoundDrawables(img, null, null, null);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) holder.llCustomisations.getLayoutParams();
             params.setMargins((mVegIconHeight + holder.menuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
             holder.llCustomisations.setLayoutParams(params);
