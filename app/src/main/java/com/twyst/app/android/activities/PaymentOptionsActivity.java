@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.mobikwik.sdk.MobikwikSDK;
 import com.mobikwik.sdk.lib.MKTransactionResponse;
+import com.mobikwik.sdk.lib.SDKErrorCodes;
 import com.mobikwik.sdk.lib.Transaction;
 import com.mobikwik.sdk.lib.TransactionConfiguration;
 import com.mobikwik.sdk.lib.User;
@@ -170,7 +171,7 @@ public class PaymentOptionsActivity extends BaseActionActivity {
                 MKTransactionResponse response = (MKTransactionResponse)
                         data.getSerializableExtra(MobikwikSDK.EXTRA_TRANSACTION_RESPONSE);
                 Toast.makeText(PaymentOptionsActivity.this, response.statusMessage, Toast.LENGTH_SHORT).show();
-                if (response.statusCode.equals("0")) {
+                if (response.statusCode.equals(SDKErrorCodes.SUCCESS)) {
                     gotoOrderTracking();
                 }
                 Log.d("PaymentOptionsActivity", response.statusMessage);
