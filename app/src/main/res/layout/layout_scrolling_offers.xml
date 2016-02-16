@@ -31,9 +31,11 @@
         android:background="@color/background"/>
 
     <LinearLayout
+        android:id="@+id/ll_scrolling_offers"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
+        android:background="?android:attr/selectableItemBackground"
         android:padding="@dimen/scrolling_offers_large_padding">
 
         <ImageView

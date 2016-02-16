@@ -17,38 +17,40 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="2" />
+
         <TextView
+            android:id="@+id/tv_map_error_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CLick to turn On GPS, currently showing last known!"
-            android:textStyle="italic"
-            android:background="@color/white"
-            android:textSize="@dimen/layout_medium_text_size"
-            android:padding="@dimen/layout_small_margin"
-            android:textColor="@color/text_grey"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/layout_huge_margin"
-            android:id="@+id/tv_map_error_message"
-            android:visibility="gone"/>
+            android:background="@color/white"
+            android:padding="@dimen/layout_small_margin"
+            android:text="CLick to turn On GPS, currently showing last known!"
+            android:textColor="@color/text_grey"
+            android:textSize="@dimen/layout_medium_text_size"
+            android:textStyle="italic"
+            android:visibility="gone" />
 
-        <com.balysv.materialripple.MaterialRippleLayout
+        <FrameLayout
             android:id="@+id/sendBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            app:mrl_rippleOverlay="true">
+            android:background="@drawable/button_primary">
 
-            <Button
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_red"
+                android:gravity="center"
+                android:padding="16dp"
                 android:text="Choose location"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/outlet_details_coupon_txt" />
-        </com.balysv.materialripple.MaterialRippleLayout>
+                android:textSize="@dimen/layout_huge_text_size" />
+        </FrameLayout>
 
         <ImageButton
             android:id="@+id/fetch_address_button"

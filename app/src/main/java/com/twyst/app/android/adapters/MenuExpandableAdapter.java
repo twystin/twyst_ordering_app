@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -220,7 +219,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
         final View dialogView = mInflater.inflate(R.layout.dialog_menu, null);
 
         TextView tvTitle = (TextView) dialogView.findViewById(R.id.tvTitle);
-        final Button bOK = (Button) dialogView.findViewById(R.id.bOK);
+        final TextView bOK = (TextView) dialogView.findViewById(R.id.bOK);
         TextView tvCancel = (TextView) dialogView.findViewById(R.id.tvCancel);
         ListView listMenuOptions = (ListView) dialogView.findViewById(R.id.listMenuOptions);
         bOK.setText("CONFIRM");
@@ -296,7 +295,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
         final View dialogView = mInflater.inflate(R.layout.dialog_menu, null);
 
         TextView tvTitle = (TextView) dialogView.findViewById(R.id.tvTitle);
-        final Button bOK = (Button) dialogView.findViewById(R.id.bOK);
+        final TextView bOK = (TextView) dialogView.findViewById(R.id.bOK);
         TextView tvCancel = (TextView) dialogView.findViewById(R.id.tvCancel);
         ListView listMenuOptions = (ListView) dialogView.findViewById(R.id.listMenuOptions);
         bOK.setText("CONFIRM");
@@ -367,7 +366,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
         final View dialogView = mInflater.inflate(R.layout.dialog_menu, null);
 
         TextView tvTitle = (TextView) dialogView.findViewById(R.id.tvTitle);
-        final Button bOK = (Button) dialogView.findViewById(R.id.bOK);
+        final TextView bOK = (TextView) dialogView.findViewById(R.id.bOK);
         TextView tvCancel = (TextView) dialogView.findViewById(R.id.tvCancel);
         ListView listMenuOptions = (ListView) dialogView.findViewById(R.id.listMenuOptions);
         bOK.setText("CONFIRM");

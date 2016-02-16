@@ -135,7 +135,7 @@
     <dimen name="scrolling_offers_image_height">48dp</dimen>
     <dimen name="scrolling_offers_text_size_medium">16dp</dimen>
     <dimen name="scrolling_offers_text_size_small">10dp</dimen>
-    <dimen name="menu_icons_width">27dp</dimen>
+    <dimen name="menu_icons_width">28dp</dimen>
     <dimen name="menu_layout_height">70dp</dimen>
     <dimen name="summary_layout_height">70dp</dimen>
     <dimen name="menu_text">14dp</dimen>

@@ -79,7 +79,8 @@ public class ScrollingOffersAdapter extends PagerAdapter {
 
         ((ViewPager) container).addView(itemView);
 
-        itemView.setOnClickListener(new View.OnClickListener() {
+
+        itemView.findViewById(R.id.ll_scrolling_offers).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent offerDisplayIntent = new Intent(mContext, OfferDisplayActivity.class);

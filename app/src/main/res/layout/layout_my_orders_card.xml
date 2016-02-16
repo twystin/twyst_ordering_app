@@ -24,7 +24,7 @@
 
             <RelativeLayout
                 android:layout_width="112dp"
-                android:layout_height="124dp"
+                android:layout_height="136dp"
                 android:padding="@dimen/layout_medium_margin">
 
                 <ImageView
