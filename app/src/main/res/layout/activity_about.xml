@@ -49,7 +49,7 @@
             android:background="@drawable/about_bg_for_buttons"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Terms Of Use"
+            android:text="Terms of Use"
             android:textColor="@color/notification_text_gray"
             android:textSize="18dp" />
 
