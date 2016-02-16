@@ -248,8 +248,8 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
 
             } else {
 //                Toast.makeText(getActivity(), "UNABLE TO FETCH TAGS", Toast.LENGTH_LONG).show();
-                showErrorLayout.setVisibility(View.VISIBLE);
-                errorDescription.setText(R.string.fetch_location_again_desc);
+//                showErrorLayout.setVisibility(View.VISIBLE);
+//                errorDescription.setText(R.string.fetch_location_again_desc);
 
             }
         }

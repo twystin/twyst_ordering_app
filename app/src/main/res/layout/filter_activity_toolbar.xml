@@ -35,7 +35,7 @@
         android:elevation="2dp"
         android:padding="@dimen/layout_medium_margin"
         android:layout_marginTop="@dimen/layout_medium_margin"
-        android:text="RESET"
+        android:text="CLEAR"
         android:textColor="@android:color/white"
         android:textSize="@dimen/layout_huge_text_size"
         android:layout_toLeftOf="@id/btn_apply_filters"
