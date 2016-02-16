@@ -1,10 +1,13 @@
 package com.twyst.app.android.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
@@ -102,7 +105,30 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
             public void onClick(View v) {
                 mAddressRequested = true;
                 twystProgressHUD = TwystProgressHUD.show(AddressMapActivity.this, false, null);
-                locationFetchUtil.requestAddress(mLastLocation, false);
+
+                ConnectivityManager cm =
+                        (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                boolean isConnected = activeNetwork != null &&
+                        activeNetwork.isConnectedOrConnecting();
+                if (isConnected) {
+                    locationFetchUtil.requestAddress(mLastLocation, false);
+                } else {
+
+                    final AlertDialog.Builder alertDialog = new AlertDialog.Builder(AddressMapActivity.this);
+                    alertDialog.setTitle("Alert");
+                    alertDialog.setMessage(R.string.internet_connection_unavailable);
+                    alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    if (twystProgressHUD != null){
+                        twystProgressHUD.dismiss();
+                    }
+                    mAddressRequested = false;
+                    alertDialog.show();
+                }
             }
         });
 
@@ -311,7 +337,7 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
         alertDialog.setTitle("Alert");
 
         // Setting Dialog Message
-        alertDialog.setMessage("Sorry Service was not available, try again?");
+        alertDialog.setMessage(R.string.couldnot_fetch_addressName);
 
         // On pressing Settings button
         alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {

@@ -168,12 +168,14 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             }
         });
 
+
         listViewSavedLocations = (ListView) findViewById(R.id.lv_saved_locations);
         listViewSavedLocations.setAdapter(adapter);
 
         final SharedPreferenceSingleton preference = SharedPreferenceSingleton.getInstance();
         addressList = preference.getAddresses();
         if (addressList != null && addressList.size() > 0) {
+
             linlaySavedLocation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -183,6 +185,16 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                         listViewSavedLocations = (ListView) findViewById(R.id.lv_saved_locations);
                         listViewSavedLocations.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
                         listViewSavedLocations.setAdapter(adapter);
+                        if(adapter.getCount() > 3){
+                            View item = adapter.getView(0, null, listViewSavedLocations);
+                            item.measure(0, 0);
+//                            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (3 * item.getMeasuredHeight()));
+                            ViewGroup.LayoutParams params = listViewSavedLocations.getLayoutParams();
+                            params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                            params.height = (int) (3.5 * item.getMeasuredHeight());
+                            listViewSavedLocations.requestLayout();
+//                            listViewSavedLocations.setLayoutParams(params);
+                        }
                         listViewSavedLocations.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -855,16 +867,21 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_CURRENT);
             startActivity(intent);
         } else {
-            Toast.makeText(PreMainActivity.this, "onReceiveAddressError : " + resultCode, Toast.LENGTH_LONG).show();
+//            Toast.makeText(PreMainActivity.this, "onReceiveAddressError : " + resultCode, Toast.LENGTH_LONG).show();
+            Toast.makeText(PreMainActivity.this, R.string.couldnot_fetch_location, Toast.LENGTH_LONG).show();
             if (twystProgressHUD != null) {
                 twystProgressHUD.dismiss();
             }
-            mAddressDetailsLocationData.setAddress("Unnamed Address");
-            mAddressDetailsLocationData.setNeighborhood("Unnamed Address");
-            mAddressDetailsLocationData.setLandmark("Unnamed Address");
-            sharedPreferenceSingleton.saveCurrentUsedLocation(mAddressDetailsLocationData);
-            Intent intent = new Intent(PreMainActivity.this, MainActivity.class);
-            intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_CURRENT);
+//            mAddressDetailsLocationData.setAddress("Unnamed Address");
+//            mAddressDetailsLocationData.setNeighborhood("Unnamed Address");
+//            mAddressDetailsLocationData.setLandmark("Unnamed Address");
+//            sharedPreferenceSingleton.saveCurrentUsedLocation(mAddressDetailsLocationData);
+//            Intent intent = new Intent(PreMainActivity.this, MainActivity.class);
+//            intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_CURRENT);
+//            startActivity(intent);
+            Toast.makeText(PreMainActivity.this, R.string.couldnot_fetch_location, Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(PreMainActivity.this, AddressMapActivity.class);
+            intent.putExtra(AppConstants.FROM_CHOOSE_ACTIVITY_TO_MAP, true);
             startActivity(intent);
         }
     }
@@ -881,7 +898,8 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             if (twystProgressHUD != null) {
                 twystProgressHUD.dismiss();
             }
-            Toast.makeText(PreMainActivity.this, "onReceiveLocationError : " + resultCode, Toast.LENGTH_LONG).show();
+//            Toast.makeText(PreMainActivity.this, "onReceiveLocationError : " + resultCode, Toast.LENGTH_LONG).show();
+            Toast.makeText(PreMainActivity.this, R.string.couldnot_fetch_location, Toast.LENGTH_LONG).show();
             Intent intent = new Intent(PreMainActivity.this, AddressMapActivity.class);
             intent.putExtra(AppConstants.FROM_CHOOSE_ACTIVITY_TO_MAP, true);
             startActivity(intent);

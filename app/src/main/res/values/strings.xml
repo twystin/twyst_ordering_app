@@ -260,4 +260,9 @@ each friend who joins.</p>
     <string name="permision_available_phone">Phone Permissions have been granted.</string>
     <string name="permision_available_sms">SMS Permissions have been granted.</string>
     <string name="permissions_not_granted">Permissions were not granted.</string>
+
+
+    <string name="couldnot_fetch_location">Couldn\'t fetch location</string>
+    <string name="couldnot_fetch_addressName">Couldn\'t fetch location, try again?</string>
+    <string name="internet_connection_unavailable">No internet connection.</string>
 </resources>

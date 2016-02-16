@@ -111,13 +111,14 @@
                 android:src="@drawable/choose_location_saved_icon" />
         </LinearLayout>
 
-        <ListView
-            android:id="@+id/lv_saved_locations"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:layout_marginTop="1dp"
-            android:fadeScrollbars="true"
-            android:visibility="gone"></ListView>
+
+            <ListView
+                android:id="@+id/lv_saved_locations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:fadeScrollbars="true"
+                android:visibility="gone"/>
 
         <LinearLayout
             android:id="@+id/linlay_choose_location_add_new"
