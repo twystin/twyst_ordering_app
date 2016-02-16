@@ -341,6 +341,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
     }
 
     private void fetchOutlets(final int start) {
+        fabFilter.setVisibility(View.GONE);
 //        String latitude = getPrefs().getString(AppConstants.PREFERENCE_CURRENT_USED_LAT, null);
 //        String longitude = getPrefs().getString(AppConstants.PREFERENCE_CURRENT_USED_LNG, null);
         String latitude = mAddressDetailsLocationData != null ? mAddressDetailsLocationData.getCoords().getLat() : "28.4733044";
@@ -394,6 +395,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
                     }
                 }
                 hideProgressBar();
+                fabFilter.setVisibility(View.VISIBLE);
             }
 
             @Override
