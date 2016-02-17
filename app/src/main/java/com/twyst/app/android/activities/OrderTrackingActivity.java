@@ -3,6 +3,7 @@ package com.twyst.app.android.activities;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -203,6 +204,7 @@ public class OrderTrackingActivity extends BaseActionActivity {
                         viewholder.tvClickForSuccess.setVisibility(View.VISIBLE);
                         viewholder.tvClickForSuccess.setBackgroundColor(getResources().getColor(R.color.background_green));
                         viewholder.tvClickForSuccess.setText(getResources().getString(R.string.order_accepted_contact_outlet_message));
+//                        showDialogCall("8505850504");
                     }
                     break;
 
@@ -265,6 +267,40 @@ public class OrderTrackingActivity extends BaseActionActivity {
 
             return row;
         }
+/*
+
+        private void showDialogCall(final String phNo) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(OrderTrackingActivity.this);
+            final View dialogView = LayoutInflater.from(OrderTrackingActivity.this).inflate(R.layout.dialog_call_outlet, null);
+
+            builder.setView(dialogView);
+            final AlertDialog dialog = builder.create();
+            dialog.setCancelable(false);
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.show();
+
+            TextView bYES = (TextView)dialogView.findViewById(R.id.bYES);
+            TextView bCANCEL = (TextView) dialogView.findViewById(R.id.bCANCEL);
+
+            bCANCEL.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            bYES.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse(phNo));
+                    startActivity(callIntent);
+                    dialog.dismiss();
+                }
+            });
+
+        }
+*/
 
         @Override
         public int getCount() {
