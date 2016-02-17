@@ -221,4 +221,5 @@ public class AppConstants {
     //permissions
     public static final String INTENT_PERMISSION = "intent_permission";
     public static final String INTENT_PERMISSIONS_RATIONALE = "intent_permissions_rationale";
+    public static final String INTENT_ORDER_FEEDBACK = "order_feedback";
 }

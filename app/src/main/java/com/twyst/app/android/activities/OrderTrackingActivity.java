@@ -41,7 +41,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class OrderTrackingActivity extends BaseActionActivity implements  ActivityCompat.OnRequestPermissionsResultCallback {
+public class OrderTrackingActivity extends BaseActionActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     private ListView trackOrderStatesListview;
     private ArrayList<OrderTrackingState> mTrackOrderStatesList;
     private TrackOrderStatesAdapter mAdapter;
@@ -280,7 +280,7 @@ public class OrderTrackingActivity extends BaseActionActivity implements  Activi
             dialog.setCanceledOnTouchOutside(true);
             dialog.show();
 
-            TextView bYES = (TextView)dialogView.findViewById(R.id.bYES);
+            TextView bYES = (TextView) dialogView.findViewById(R.id.bYES);
             TextView bCANCEL = (TextView) dialogView.findViewById(R.id.bCANCEL);
 
             bCANCEL.setOnClickListener(new View.OnClickListener() {
@@ -312,11 +312,13 @@ public class OrderTrackingActivity extends BaseActionActivity implements  Activi
 
     private void orderDeliveredSuccess() {
         isOrderDeliverySuccessInProgress = true;
-        Toast.makeText(OrderTrackingActivity.this, "Order delivered successfully! Please rate the order and claim your cashback!", Toast.LENGTH_LONG).show();
-        HttpService.getInstance().getSharedPreferences().edit().putString(AppConstants.INTENT_ORDER_ID_FEEDBACK, mOrderID).apply();
-        Intent feedbackIntent = new Intent(OrderTrackingActivity.this, FeedbackActivity.class);
-        startActivity(feedbackIntent);
-        finish();
+        if (HttpService.getInstance().getSharedPreferences().getBoolean(mOrderID + AppConstants.INTENT_ORDER_FEEDBACK, false)) {
+            Toast.makeText(OrderTrackingActivity.this, "Order delivered successfully! Please rate the order and claim your cashback!", Toast.LENGTH_LONG).show();
+            HttpService.getInstance().getSharedPreferences().edit().putString(AppConstants.INTENT_ORDER_ID_FEEDBACK, mOrderID).apply();
+            Intent feedbackIntent = new Intent(OrderTrackingActivity.this, FeedbackActivity.class);
+            startActivity(feedbackIntent);
+            finish();
+        }
     }
 
     private void orderDelivered(final boolean isDelivered) {
@@ -454,14 +456,13 @@ public class OrderTrackingActivity extends BaseActionActivity implements  Activi
             } else {
                 Log.i(TAG, "Phone permissions were NOT granted.");
                 Intent intent = new Intent(OrderTrackingActivity.this, NoPermissionsActivity.class);
-                intent.putExtra(AppConstants.INTENT_PERMISSION,REQUEST_PHONE);
+                intent.putExtra(AppConstants.INTENT_PERMISSION, REQUEST_PHONE);
                 intent.putExtra(AppConstants.INTENT_PERMISSIONS_RATIONALE, R.string.permission_phone_rationale);
                 startActivity(intent);
             }
 
         }
     }
-
 
 
 }
