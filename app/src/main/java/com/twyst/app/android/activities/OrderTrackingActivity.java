@@ -316,7 +316,7 @@ public class OrderTrackingActivity extends BaseActionActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_order_cancel_reason, null);
 
-        final Button bOK = (Button) dialogView.findViewById(R.id.bOK);
+        final View fOK = dialogView.findViewById(R.id.fOK);
         final EditText etReason = (EditText) dialogView.findViewById(R.id.et_reason);
 
         builder.setView(dialogView);
@@ -326,7 +326,7 @@ public class OrderTrackingActivity extends BaseActionActivity {
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
 
-        bOK.setOnClickListener(new View.OnClickListener() {
+        fOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (TextUtils.isEmpty(etReason.getText().toString())) {
@@ -338,7 +338,7 @@ public class OrderTrackingActivity extends BaseActionActivity {
             }
         });
 
-        dialogView.findViewById(R.id.buttonCancel).setOnClickListener(new View.OnClickListener() {
+        dialogView.findViewById(R.id.fCancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
