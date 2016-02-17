@@ -715,13 +715,15 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
             public void success(BaseResponse<ArrayList<Offer>> offersBaseResponse, Response response) {
                 if (offersBaseResponse.isResponse()) {
                     View view = (View) findViewById(R.id.middleLayout);
-                    view.setVisibility(View.VISIBLE);
                     ArrayList<Offer> offersList = offersBaseResponse.getData();
-                    mScrollingOffersAdapter = new ScrollingOffersAdapter(OrderOnlineActivity.this, offersList);
-                    mScrollingOffersViewPager = (ViewPager) findViewById(R.id.scrollingOffersPager);
-                    mScrollingOffersViewPager.setPadding(32, 0, 32, 0);
-                    mScrollingOffersViewPager.setPageMargin(16);
-                    mScrollingOffersViewPager.setAdapter(mScrollingOffersAdapter);
+                    if (offersList.size() != 0) {
+                        view.setVisibility(View.VISIBLE);
+                        mScrollingOffersAdapter = new ScrollingOffersAdapter(OrderOnlineActivity.this, offersList);
+                        mScrollingOffersViewPager = (ViewPager) findViewById(R.id.scrollingOffersPager);
+                        mScrollingOffersViewPager.setPadding(32, 0, 32, 0);
+                        mScrollingOffersViewPager.setPageMargin(16);
+                        mScrollingOffersViewPager.setAdapter(mScrollingOffersAdapter);
+                    }
                 } else {
                     Log.d("OrderOnlineActivity", "No offers available");
                 }
