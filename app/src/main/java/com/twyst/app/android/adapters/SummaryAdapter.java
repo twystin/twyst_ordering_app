@@ -215,6 +215,20 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             // Footer
             final SummaryViewHolderFooter summaryViewHolderFooter = (SummaryViewHolderFooter) holder;
 
+            if (mOrderSummary.getDelivery_charges() == 0) {
+                summaryViewHolderFooter.llDeliveryCharge.setVisibility(View.GONE);
+            } else {
+                summaryViewHolderFooter.llDeliveryCharge.setVisibility(View.VISIBLE);
+                summaryViewHolderFooter.tvDeliveryCharge.setText(Utils.costString(mOrderSummary.getDelivery_charges()));
+            }
+
+            if (mOrderSummary.getPackaging_charges() == 0) {
+                summaryViewHolderFooter.llPackagingCharge.setVisibility(View.GONE);
+            } else {
+                summaryViewHolderFooter.llPackagingCharge.setVisibility(View.VISIBLE);
+                summaryViewHolderFooter.tvPackagingCharge.setText(Utils.costString(mOrderSummary.getDelivery_charges()));
+            }
+
             if (mOrderSummary.getOfferUsed() != null) {
                 // Offer applied
                 if (mFreeItemIndex >= 0) {
@@ -249,7 +263,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
 
             } else {
-                // Offer applied
+                // Offer Not applied
                 summaryViewHolderFooter.llOfferApplied.setVisibility(View.GONE);
 
                 //Item Total
@@ -294,6 +308,10 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView tvVat;
         LinearLayout llServiceTax;
         TextView tvServiceTax;
+        LinearLayout llDeliveryCharge;
+        TextView tvDeliveryCharge;
+        LinearLayout llPackagingCharge;
+        TextView tvPackagingCharge;
         LinearLayout llGrandTotal;
         TextView tvGrandTotal;
         EditText etSuggestion;
@@ -309,6 +327,13 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             this.tvVat = (TextView) itemView.findViewById(R.id.tvVat);
             this.llServiceTax = (LinearLayout) itemView.findViewById(R.id.llServiceTax);
             this.tvServiceTax = (TextView) itemView.findViewById(R.id.tvServiceTax);
+
+            this.llDeliveryCharge = (LinearLayout) itemView.findViewById(R.id.llDeliveryCharges);
+            this.tvDeliveryCharge = (TextView) itemView.findViewById(R.id.tvDelieveryCharges);
+
+            this.llPackagingCharge = (LinearLayout) itemView.findViewById(R.id.llPackagingCharges);
+            this.tvPackagingCharge = (TextView) itemView.findViewById(R.id.tvPackagingCharges);
+
             this.llGrandTotal = (LinearLayout) itemView.findViewById(R.id.llGrandTotal);
             this.tvGrandTotal = (TextView) itemView.findViewById(R.id.tvGrandTotal);
             this.etSuggestion = (EditText) itemView.findViewById(R.id.etSuggestion);

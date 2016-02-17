@@ -118,6 +118,58 @@
             android:textSize="@dimen/outlet_offer_header_textsize" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/llDeliveryCharges"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="@string/delivery_charge"
+            android:textColor="@color/black_text_color"
+            android:textSize="@dimen/outlet_offer_header_textsize" />
+
+        <TextView
+            android:id="@+id/tvDelieveryCharges"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="0"
+            android:textColor="@color/black_text_color"
+            android:textSize="@dimen/outlet_offer_header_textsize" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llPackagingCharges"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="@string/packaging_charges"
+            android:textColor="@color/black_text_color"
+            android:textSize="@dimen/outlet_offer_header_textsize" />
+
+        <TextView
+            android:id="@+id/tvPackagingCharges"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="0"
+            android:textColor="@color/black_text_color"
+            android:textSize="@dimen/outlet_offer_header_textsize" />
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

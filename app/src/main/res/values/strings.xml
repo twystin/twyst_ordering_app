@@ -184,6 +184,8 @@ each friend who joins.</p>
     <string name="item_total">Item Total</string>
     <string name="vat">VAT</string>
     <string name="service_tax">Service Tax</string>
+    <string name="delivery_charge">Delivery Charges</string>
+    <string name="packaging_charges">Packaging Charges</string>
     <string name="grand_total">Grand Total</string>
     <string name="suggestion">Want a little less sugar, a little more spicy?\nPlease mention here</string>
 

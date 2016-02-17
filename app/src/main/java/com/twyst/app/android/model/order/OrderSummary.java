@@ -92,6 +92,28 @@ public class OrderSummary implements Serializable {
     @SerializedName("order_actual_value_with_tax")
     private double orderActualValueWithTax;
 
+    @SerializedName("delivery_charge")
+    private double delivery_charges;
+
+    public double getDelivery_charges() {
+        return delivery_charges;
+    }
+
+    public void setDelivery_charges(double delivery_charges) {
+        this.delivery_charges = delivery_charges;
+    }
+
+    public double getPackaging_charges() {
+        return packaging_charges;
+    }
+
+    public void setPackaging_charges(double packaging_charges) {
+        this.packaging_charges = packaging_charges;
+    }
+
+    @SerializedName("packing_charge")
+    private double packaging_charges;
+
     public ArrayList<OrderItem> getOrderItemList() {
         return orderItemList;
     }
