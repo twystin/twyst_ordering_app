@@ -8,134 +8,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_alpha"
-        android:orientation="vertical"
-        android:padding="5dp">
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal|center_vertical"
-            android:background="@drawable/edit_text_border_white"
-            android:orientation="horizontal"
-            android:padding="3dp"
-            android:layout_margin="10dp">
-
-            <EditText
-                android:id="@+id/et_verify_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@null"
-                android:gravity="center"
-                android:hint="@string/hint_verify_name"
-                android:inputType="textEmailAddress"
-                android:padding="3dp"
-                android:selectAllOnFocus="true"
-                android:textColor="@color/white"
-                android:textColorHint="@color/verify_half_white"
-                android:textCursorDrawable="@null" />
-
-            <ImageView
-                android:id="@+id/iv_edit_name"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/verify_edit" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal|center_vertical"
-            android:orientation="horizontal"
-            android:padding="3dp"
-            android:background="@drawable/edit_text_border_white"
-            android:layout_margin="10dp">
-
-            <EditText
-                android:id="@+id/et_verify_email"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@null"
-                android:gravity="center"
-                android:hint="@string/hint_verify_email"
-                android:inputType="textEmailAddress"
-                android:padding="3dp"
-                android:selectAllOnFocus="true"
-                android:textColor="@color/white"
-                android:textColorHint="@color/verify_half_white"
-                android:textCursorDrawable="@null" />
-
-            <ImageView
-                android:id="@+id/iv_edit_email"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/verify_edit" />
-        </LinearLayout>
-
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/submit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/button_red"
-            android:padding="5dp"
-            app:mrl_rippleOverlay="true">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="5dp"
-                android:layout_marginLeft="5dp"
-                android:focusable="false"
-                android:gravity="center"
-                android:text="SUBMIT"
-                android:textColor="@color/white"
-                android:textSize="16dp" />
-        </com.balysv.materialripple.MaterialRippleLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/divider1"
-                android:layout_width="40dp"
-                android:layout_height="1dp"
-                android:background="@android:color/white"
-                android:textColor="@android:color/white" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:fontFamily="sans-serif-light"
-                android:gravity="center"
-                android:text="or sign in with "
-                android:textColor="@android:color/white"
-                android:textStyle="italic" />
-
-            <TextView
-                android:id="@+id/divider2"
-                android:layout_width="40dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="0dp"
-                android:background="@android:color/white"
-                android:textColor="@android:color/white" />
-
-        </LinearLayout>
-
-        <LinearLayout
+            android:id="@+id/fb_gplus_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -151,8 +27,8 @@
 
                 <ImageView
                     android:id="@+id/fbLogin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
                     android:background="@drawable/facebook_logo" />
             </com.balysv.materialripple.MaterialRippleLayout>
 
@@ -164,12 +40,134 @@
 
                 <ImageView
                     android:id="@+id/gPlusLogin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
                     android:background="@drawable/google_plus_logo" />
             </com.balysv.materialripple.MaterialRippleLayout>
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/divider1"
+                android:layout_width="40dp"
+                android:layout_height="1dp"
+                android:background="@color/verify_half_white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:text="or sign in with email"
+                android:textColor="@color/verify_half_white"
+                android:textSize="@dimen/signup_text_size"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/divider2"
+                android:layout_width="40dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="0dp"
+                android:background="@color/verify_half_white" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_alpha"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/edit_text_border_white"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/et_verify_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="@string/hint_verify_name"
+                    android:inputType="textEmailAddress"
+                    android:padding="8dp"
+                    android:selectAllOnFocus="true"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/verify_half_white"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/signup_text_size" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/edit_text_border_white"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/et_verify_email"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="@string/hint_verify_email"
+                    android:inputType="textEmailAddress"
+                    android:padding="8dp"
+                    android:selectAllOnFocus="true"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/verify_half_white"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/signup_text_size" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_primary">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:focusable="false"
+                    android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="8dp"
+                    android:text="SUBMIT"
+                    android:textColor="@color/white"
+                    android:textSize="16dp" />
+            </FrameLayout>
+        </LinearLayout>
+
     </LinearLayout>
+
+
 </android.support.v7.widget.CardView>

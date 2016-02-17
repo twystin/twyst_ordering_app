@@ -18,17 +18,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:gravity="center"
-            android:text="VERIFY NUMBER"
-            android:textAllCaps="true"
+            android:text="Verify your Number"
             android:textColor="@color/white"
-            android:textSize="@dimen/phone_verification_heading" />
+            android:textSize="@dimen/phone_verification_edit_text_size" />
 
         <TextView
             android:id="@+id/verify_number_hint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:gravity="center"
+            android:gravity="center|center_horizontal"
             android:text="@string/verify_number_hint_enter_phone"
             android:textColor="@color/verify_half_white"
             android:textSize="@dimen/phone_verification_hint" />
@@ -36,13 +35,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal|center_vertical"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/verify_number_phone_pre"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:background="@null"
                 android:enabled="false"
                 android:focusable="false"
@@ -53,9 +52,11 @@
 
             <EditText
                 android:id="@+id/verify_number_phone_code"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center_horizontal"
                 android:hint="@string/verify_number_phone_hint"
                 android:inputType="number"
                 android:maxLength="10"
@@ -69,7 +70,6 @@
                 android:id="@+id/verify_number_go_layout"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_margin="5dp"
                 android:padding="5dp">
 
                 <com.balysv.materialripple.MaterialRippleLayout

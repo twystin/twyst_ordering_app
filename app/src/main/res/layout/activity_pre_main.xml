@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sample_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
-    android:id="@+id/sample_main_layout">
+    android:background="@color/black">
 
     <ImageView
         android:id="@+id/app_background_iv"
@@ -29,7 +29,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/pre_main_layout_margin"
         android:layout_marginRight="@dimen/pre_main_layout_margin"
-        android:layout_marginTop="@dimen/pre_main_layout_margin"/>
+        android:layout_marginTop="@dimen/pre_main_layout_margin" />
 
     <RelativeLayout
         android:layout_width="match_parent"

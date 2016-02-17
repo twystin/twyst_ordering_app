@@ -213,8 +213,9 @@ each friend who joins.</p>
     <string name="choose_location_description_line1">Where would you like</string>
     <string name="choose_location_description_line2">your food to be delivered?</string>
 
-    <string name="registered_line1">Get registered with</string>
-    <string name="registered_line2">us</string>
+    <string name="registered_line1">Let\'s get Started</string>
+    <string name="registered_line2">Complete your Sign Up</string>
+    <string name="registered_line3">Line 3</string>
 
     <string name="turn_on_gps_desc">Turn On GPS, currently using Last known!</string>
     <string name="fetch_location_again_desc">Fetch Location Again, currently using last known!</string>
@@ -265,7 +266,6 @@ each friend who joins.</p>
 
     <string name="no_permission_provided">Sorry! Required Permissions weren\'t provided</string>
     <string name="retry">RETRY</string>
-
 
 
     <string name="couldnot_fetch_location">Couldn\'t fetch location</string>
