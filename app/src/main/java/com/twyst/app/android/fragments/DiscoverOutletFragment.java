@@ -272,13 +272,17 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
             currentAddressName.setText(address.getAddressLine(0) + ", " + address.getAddressLine(1));
             fetchOutlets(1);
         } else {
-            Toast.makeText(getActivity(), "onReceiveAddressError : " + resultCode, Toast.LENGTH_LONG).show();
-            mAddressDetailsLocationData.setAddress("Unnamed Address");
-            mAddressDetailsLocationData.setNeighborhood("Unnamed Address");
-            mAddressDetailsLocationData.setLandmark("Unnamed Address");
-            sharedPreferenceSingleton.saveCurrentUsedLocation(mAddressDetailsLocationData);
-            currentAddressName.setText("Unnamed Address");
-            fetchOutlets(1);
+//            Toast.makeText(getActivity(), "onReceiveAddressError : " + resultCode, Toast.LENGTH_LONG).show();
+//            mAddressDetailsLocationData.setAddress("Unnamed Address");
+//            mAddressDetailsLocationData.setNeighborhood("Unnamed Address");
+//            mAddressDetailsLocationData.setLandmark("Unnamed Address");
+//            sharedPreferenceSingleton.saveCurrentUsedLocation(mAddressDetailsLocationData);
+//            currentAddressName.setText("Unnamed Address");
+//            fetchOutlets(1);
+            Toast.makeText(getActivity(), R.string.couldnot_fetch_location, Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getActivity(), AddressMapActivity.class);
+            intent.putExtra(AppConstants.FROM_CHOOSE_ACTIVITY_TO_MAP, true);
+            startActivity(intent);
         }
     }
 
@@ -291,7 +295,8 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
             mAddressDetailsLocationData.setCoords(coords);
             locationFetchUtil.requestAddress(location, false);
         } else {
-            Toast.makeText(getActivity(), "onReceiveLocationError : " + resultCode, Toast.LENGTH_LONG).show();
+//            Toast.makeText(getActivity(), "onReceiveLocationError : " + resultCode, Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), R.string.couldnot_fetch_location, Toast.LENGTH_LONG).show();
             resolveError(resultCode);
         }
     }
