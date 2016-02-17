@@ -716,16 +716,19 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                 if (offersBaseResponse.isResponse()) {
                     View view = (View) findViewById(R.id.middleLayout);
                     ArrayList<Offer> offersList = offersBaseResponse.getData();
-                    if (offersList.size() != 0) {
+                    if (offersList.size() > 0) {
                         view.setVisibility(View.VISIBLE);
                         mScrollingOffersAdapter = new ScrollingOffersAdapter(OrderOnlineActivity.this, offersList);
                         mScrollingOffersViewPager = (ViewPager) findViewById(R.id.scrollingOffersPager);
                         mScrollingOffersViewPager.setPadding(32, 0, 32, 0);
                         mScrollingOffersViewPager.setPageMargin(16);
                         mScrollingOffersViewPager.setAdapter(mScrollingOffersAdapter);
+                    } else {
+                        view.setVisibility(View.GONE);
+                        Log.d("OrderOnlineActivity", "No offers available");
                     }
                 } else {
-                    Log.d("OrderOnlineActivity", "No offers available");
+                    Toast.makeText(OrderOnlineActivity.this, offersBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
                 hideProgressHUDInOffers();
