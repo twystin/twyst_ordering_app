@@ -133,17 +133,12 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
                                 img = mContext.getResources().getDrawable(
                                         R.drawable.nonveg);
                             }
-                            mVegIconHeight = tvMenuItemName.getLineHeight();
-                            img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
-                            tvMenuItemName.setCompoundDrawables(img, null, null, null);
-
-                            LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) tvMenuBreadCrumb.getLayoutParams();
-                            params1.setMargins((mVegIconHeight + tvMenuItemName.getCompoundDrawablePadding()), params1.topMargin, 0, 0);
-                            tvMenuBreadCrumb.setLayoutParams(params1);
-
-                            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) tvMenuItemDesc.getLayoutParams();
-                            params.setMargins((mVegIconHeight + tvMenuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
-                            tvMenuItemDesc.setLayoutParams(params);
+                            mVegIconHeight = tvMenuItemName.getLineHeight() * 7 / 8;
+                            ViewGroup.LayoutParams lp = childViewHolder.mIvVegNonVegIcon.getLayoutParams();
+                            lp.width = mVegIconHeight;
+                            lp.height = mVegIconHeight;
+                            childViewHolder.mIvVegNonVegIcon.setLayoutParams(lp);
+                            childViewHolder.mIvVegNonVegIcon.setImageDrawable(img);
 
                             tvMenuItemName.getViewTreeObserver()
                                     .removeOnGlobalLayoutListener(this);
@@ -158,16 +153,12 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
                 img = mContext.getResources().getDrawable(
                         R.drawable.nonveg);
             }
-            img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
-            childViewHolder.menuItemName.setCompoundDrawables(img, null, null, null);
+            ViewGroup.LayoutParams lp = childViewHolder.mIvVegNonVegIcon.getLayoutParams();
+            lp.width = mVegIconHeight;
+            lp.height = mVegIconHeight;
+            childViewHolder.mIvVegNonVegIcon.setLayoutParams(lp);
+            childViewHolder.mIvVegNonVegIcon.setImageDrawable(img);
 
-            LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) childViewHolder.menuItemBreadCrumb.getLayoutParams();
-            params1.setMargins((mVegIconHeight + childViewHolder.menuItemName.getCompoundDrawablePadding()), params1.topMargin, 0, 0);
-            childViewHolder.menuItemBreadCrumb.setLayoutParams(params1);
-
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) childViewHolder.menuItemDesc.getLayoutParams();
-            params.setMargins((mVegIconHeight + childViewHolder.menuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
-            childViewHolder.menuItemDesc.setLayoutParams(params);
         }
 
         childViewHolder.menuItemName.setText(item.getItemName());

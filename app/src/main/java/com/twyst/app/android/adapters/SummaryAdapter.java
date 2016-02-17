@@ -117,9 +117,12 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     img = mContext.getResources().getDrawable(
                                             R.drawable.nonveg);
                                 }
-                                mVegIconHeight = tvMenuItemName.getLineHeight();
-                                img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
-                                tvMenuItemName.setCompoundDrawables(img, null, null, null);
+                                mVegIconHeight = tvMenuItemName.getLineHeight() * 7 / 8;
+                                ViewGroup.LayoutParams lp = summaryViewHolder.vegNonVegIcon.getLayoutParams();
+                                lp.width = mVegIconHeight;
+                                lp.height = mVegIconHeight;
+                                summaryViewHolder.vegNonVegIcon.setLayoutParams(lp);
+                                summaryViewHolder.vegNonVegIcon.setImageDrawable(img);
                                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) llCustomisationsFinal.getLayoutParams();
                                 params.setMargins((mVegIconHeight + tvMenuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
                                 llCustomisationsFinal.setLayoutParams(params);
@@ -138,8 +141,11 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     img = mContext.getResources().getDrawable(
                             R.drawable.nonveg);
                 }
-                img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
-                summaryViewHolder.menuItemName.setCompoundDrawables(img, null, null, null);
+                ViewGroup.LayoutParams lp = summaryViewHolder.vegNonVegIcon.getLayoutParams();
+                lp.width = mVegIconHeight;
+                lp.height = mVegIconHeight;
+                summaryViewHolder.vegNonVegIcon.setLayoutParams(lp);
+                summaryViewHolder.vegNonVegIcon.setImageDrawable(img);
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) summaryViewHolder.llCustomisations.getLayoutParams();
                 params.setMargins((mVegIconHeight + summaryViewHolder.menuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
                 summaryViewHolder.llCustomisations.setLayoutParams(params);
@@ -209,6 +215,20 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             // Footer
             final SummaryViewHolderFooter summaryViewHolderFooter = (SummaryViewHolderFooter) holder;
 
+            if (mOrderSummary.getDelivery_charges() == 0) {
+                summaryViewHolderFooter.llDeliveryCharge.setVisibility(View.GONE);
+            } else {
+                summaryViewHolderFooter.llDeliveryCharge.setVisibility(View.VISIBLE);
+                summaryViewHolderFooter.tvDeliveryCharge.setText(Utils.costString(mOrderSummary.getDelivery_charges()));
+            }
+
+            if (mOrderSummary.getPackaging_charges() == 0) {
+                summaryViewHolderFooter.llPackagingCharge.setVisibility(View.GONE);
+            } else {
+                summaryViewHolderFooter.llPackagingCharge.setVisibility(View.VISIBLE);
+                summaryViewHolderFooter.tvPackagingCharge.setText(Utils.costString(mOrderSummary.getDelivery_charges()));
+            }
+
             if (mOrderSummary.getOfferUsed() != null) {
                 // Offer applied
                 if (mFreeItemIndex >= 0) {
@@ -243,7 +263,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
 
             } else {
-                // Offer applied
+                // Offer Not applied
                 summaryViewHolderFooter.llOfferApplied.setVisibility(View.GONE);
 
                 //Item Total
@@ -288,6 +308,10 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView tvVat;
         LinearLayout llServiceTax;
         TextView tvServiceTax;
+        LinearLayout llDeliveryCharge;
+        TextView tvDeliveryCharge;
+        LinearLayout llPackagingCharge;
+        TextView tvPackagingCharge;
         LinearLayout llGrandTotal;
         TextView tvGrandTotal;
         EditText etSuggestion;
@@ -303,6 +327,13 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             this.tvVat = (TextView) itemView.findViewById(R.id.tvVat);
             this.llServiceTax = (LinearLayout) itemView.findViewById(R.id.llServiceTax);
             this.tvServiceTax = (TextView) itemView.findViewById(R.id.tvServiceTax);
+
+            this.llDeliveryCharge = (LinearLayout) itemView.findViewById(R.id.llDeliveryCharges);
+            this.tvDeliveryCharge = (TextView) itemView.findViewById(R.id.tvDelieveryCharges);
+
+            this.llPackagingCharge = (LinearLayout) itemView.findViewById(R.id.llPackagingCharges);
+            this.tvPackagingCharge = (TextView) itemView.findViewById(R.id.tvPackagingCharges);
+
             this.llGrandTotal = (LinearLayout) itemView.findViewById(R.id.llGrandTotal);
             this.tvGrandTotal = (TextView) itemView.findViewById(R.id.tvGrandTotal);
             this.etSuggestion = (EditText) itemView.findViewById(R.id.etSuggestion);
@@ -310,6 +341,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public static class SummaryViewHolder extends RecyclerView.ViewHolder {
+        ImageView vegNonVegIcon;
         TextView menuItemName;
         TextView tvItemQuantity;
         TextView tvCost;
@@ -320,6 +352,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public SummaryViewHolder(View itemView) {
             super(itemView);
+            this.vegNonVegIcon = (ImageView) itemView.findViewById(R.id.iv_vegNonVegIcon);
             this.menuItemName = (TextView) itemView.findViewById(R.id.menuItem);
             this.tvItemQuantity = (TextView) itemView.findViewById(R.id.tvItemQuantity);
             this.tvCost = (TextView) itemView.findViewById(R.id.tvCost);

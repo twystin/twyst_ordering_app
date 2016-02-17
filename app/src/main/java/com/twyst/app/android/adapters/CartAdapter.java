@@ -81,12 +81,17 @@ public class CartAdapter extends RecyclerView.Adapter<MenuChildViewHolder> {
                                 img = mContext.getResources().getDrawable(
                                         R.drawable.nonveg);
                             }
-                            mVegIconHeight = tvMenuItemName.getLineHeight();
-                            img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
-                            tvMenuItemName.setCompoundDrawables(img, null, null, null);
+                            mVegIconHeight = tvMenuItemName.getLineHeight() * 7 / 8;
+                            ViewGroup.LayoutParams lp = holder.mIvVegNonVegIcon.getLayoutParams();
+                            lp.width = mVegIconHeight;
+                            lp.height = mVegIconHeight;
+                            holder.mIvVegNonVegIcon.setLayoutParams(lp);
+                            holder.mIvVegNonVegIcon.setImageDrawable(img);
+/*
                             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) llCustomisationsFinal.getLayoutParams();
                             params.setMargins((mVegIconHeight + tvMenuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
                             llCustomisationsFinal.setLayoutParams(params);
+*/
 
                             tvMenuItemName.getViewTreeObserver()
                                     .removeOnGlobalLayoutListener(this);
@@ -101,11 +106,16 @@ public class CartAdapter extends RecyclerView.Adapter<MenuChildViewHolder> {
                 img = mContext.getResources().getDrawable(
                         R.drawable.nonveg);
             }
-            img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
-            holder.menuItemName.setCompoundDrawables(img, null, null, null);
+            ViewGroup.LayoutParams lp = holder.mIvVegNonVegIcon.getLayoutParams();
+            lp.width = mVegIconHeight;
+            lp.height = mVegIconHeight;
+            holder.mIvVegNonVegIcon.setLayoutParams(lp);
+            holder.mIvVegNonVegIcon.setImageDrawable(img);
+/*
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) holder.llCustomisations.getLayoutParams();
             params.setMargins((mVegIconHeight + holder.menuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
             holder.llCustomisations.setLayoutParams(params);
+*/
 
         }
 
