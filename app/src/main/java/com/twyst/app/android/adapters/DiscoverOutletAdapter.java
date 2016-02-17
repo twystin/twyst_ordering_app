@@ -186,6 +186,7 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             final Outlet outlet = items.get(position);
 
+
             View view = outletViewHolder.itemView;
 
             view.setOnClickListener(new View.OnClickListener() {
@@ -275,11 +276,19 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             SharedPreferences prefs = view.getContext().getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
             final String userToken = prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");
 
+            if (outlet.getOfferCount() == 0) {
+                ((OutletViewHolder) holder).noOfOffers.setVisibility(View.INVISIBLE);
+            } else {
+                ((OutletViewHolder) holder).noOfOffers.setVisibility(View.VISIBLE);
+                ((OutletViewHolder) holder).noOfOffers.setText(outlet.getOfferCount() + " Offers Available");
+            }
+
         } else {
 
             System.out.println("DiscoverOutletAdapter.onBindViewHolder footer called... position: " + position + ", outletsNotFound: " + outletsNotFound);
 
             OutletViewHolderFooter outletViewHolderFooter = (OutletViewHolderFooter) holder;
+
 
 //            if (position > 0 && !outletsNotFound) {
 //                outletViewHolderFooter.itemView.findViewById(R.id.circularFooterProgressBar).setVisibility(View.VISIBLE);
