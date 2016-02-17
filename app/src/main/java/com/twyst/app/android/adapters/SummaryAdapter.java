@@ -117,9 +117,12 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     img = mContext.getResources().getDrawable(
                                             R.drawable.nonveg);
                                 }
-                                mVegIconHeight = tvMenuItemName.getLineHeight();
-                                img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
-                                tvMenuItemName.setCompoundDrawables(img, null, null, null);
+                                mVegIconHeight = tvMenuItemName.getLineHeight() * 7 / 8;
+                                ViewGroup.LayoutParams lp = summaryViewHolder.vegNonVegIcon.getLayoutParams();
+                                lp.width = mVegIconHeight;
+                                lp.height = mVegIconHeight;
+                                summaryViewHolder.vegNonVegIcon.setLayoutParams(lp);
+                                summaryViewHolder.vegNonVegIcon.setImageDrawable(img);
                                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) llCustomisationsFinal.getLayoutParams();
                                 params.setMargins((mVegIconHeight + tvMenuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
                                 llCustomisationsFinal.setLayoutParams(params);
@@ -138,8 +141,11 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     img = mContext.getResources().getDrawable(
                             R.drawable.nonveg);
                 }
-                img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
-                summaryViewHolder.menuItemName.setCompoundDrawables(img, null, null, null);
+                ViewGroup.LayoutParams lp = summaryViewHolder.vegNonVegIcon.getLayoutParams();
+                lp.width = mVegIconHeight;
+                lp.height = mVegIconHeight;
+                summaryViewHolder.vegNonVegIcon.setLayoutParams(lp);
+                summaryViewHolder.vegNonVegIcon.setImageDrawable(img);
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) summaryViewHolder.llCustomisations.getLayoutParams();
                 params.setMargins((mVegIconHeight + summaryViewHolder.menuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
                 summaryViewHolder.llCustomisations.setLayoutParams(params);
@@ -310,6 +316,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public static class SummaryViewHolder extends RecyclerView.ViewHolder {
+        ImageView vegNonVegIcon;
         TextView menuItemName;
         TextView tvItemQuantity;
         TextView tvCost;
@@ -320,6 +327,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public SummaryViewHolder(View itemView) {
             super(itemView);
+            this.vegNonVegIcon = (ImageView) itemView.findViewById(R.id.iv_vegNonVegIcon);
             this.menuItemName = (TextView) itemView.findViewById(R.id.menuItem);
             this.tvItemQuantity = (TextView) itemView.findViewById(R.id.tvItemQuantity);
             this.tvCost = (TextView) itemView.findViewById(R.id.tvCost);

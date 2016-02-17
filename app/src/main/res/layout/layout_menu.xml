@@ -3,11 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_weight="10"
+    android:layout_weight="11"
     android:background="@color/white"
     android:minHeight="@dimen/menu_layout_height"
     android:orientation="horizontal"
     android:padding="@dimen/menu_padding_layout">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingRight="@dimen/menu_padding_layout"
+        android:paddingTop="2dp">
+
+        <ImageView
+            android:id="@+id/iv_vegNonVegIcon"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:src="@drawable/veg"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -58,8 +71,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:text="160"
             android:layout_marginRight="4dp"
+            android:text="160"
             android:textColor="@android:color/black"
             android:textSize="@dimen/menu_text" />
 
