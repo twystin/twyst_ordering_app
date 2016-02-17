@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +29,7 @@ import com.twyst.app.android.model.order.Coords;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.LocationFetchUtil;
+import com.twyst.app.android.util.PermissionUtil;
 import com.twyst.app.android.util.SharedPreferenceSingleton;
 import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
@@ -41,7 +44,7 @@ import retrofit.client.Response;
 /**
  * Created by anshul on 1/8/2016.
  */
-public class AddressDetailsActivity extends BaseActionActivity implements LocationFetchUtil.LocationFetchResultCodeListener {
+public class AddressDetailsActivity extends BaseActionActivity implements LocationFetchUtil.LocationFetchResultCodeListener , ActivityCompat.OnRequestPermissionsResultCallback  {
     List<AddressDetailsLocationData> mAddressList = new ArrayList<AddressDetailsLocationData>();
     SimpleArrayAdapter adapter = null;
     private LinearLayout add;
@@ -49,6 +52,8 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
     protected static final String TAG = "AddressDetailsActivity";
     protected static final String ADDRESS_REQUESTED_KEY = "address-request-pending";
     protected static final String LOCATION_ADDRESS_KEY = "location-address";
+
+    private static final int REQUEST_LOCATION = 1;
 
     private Location mLocation;
     private AddressDetailsLocationData mAddressDetailsLocationData;
@@ -209,9 +214,14 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
     }
 
     public void fetchCurrentLocation() {
-        updateUIWidgets(AppConstants.SHOW_PROGRESS_BAR);
-        mLocation = null;
-        locationFetchUtil.requestLocation(true);
+        if (PermissionUtil.getInstance().approveLocation(AddressDetailsActivity.this,false)){
+            updateUIWidgets(AppConstants.SHOW_PROGRESS_BAR);
+            mLocation = null;
+            locationFetchUtil.requestLocation(true);
+        } else {
+            updateUIWidgets(AppConstants.SHOW_FETCH_LOCATION_AGAIN);
+        }
+
     }
 
     protected String getTagName() {
@@ -232,6 +242,29 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
                     updateUIWidgets(AppConstants.SHOW_TURN_ON_GPS);
                     break;
             }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_LOCATION) {
+            Log.i(TAG, "Received response for location permissions request.");
+
+            // We have requested multiple permissions for contacts, so all of them need to be
+            // checked.
+            if (PermissionUtil.getInstance().verifyPermissions(grantResults)) {
+                fetchCurrentLocation();
+            } else {
+                Log.i(TAG, "Location permissions were NOT granted.");
+
+                Intent intent = new Intent(AddressDetailsActivity.this, NoPermissionsActivity.class);
+                intent.putExtra(AppConstants.INTENT_PERMISSION, REQUEST_LOCATION);
+                intent.putExtra(AppConstants.INTENT_PERMISSIONS_RATIONALE, getResources().getString(R.string.permission_location_rationale));
+                startActivity(intent);
+
+            }
+
         }
     }
 

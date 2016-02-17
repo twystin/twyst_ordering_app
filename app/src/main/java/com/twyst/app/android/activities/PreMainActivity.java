@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Address;
 import android.location.Location;
@@ -121,7 +122,9 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     private Location mLocation;
     private TwystProgressHUD twystProgressHUD = null;
     private View mLayout = null;
+    private static final int REQUEST_CONTATCS = 0;
     private static final int REQUEST_LOCATION = 1;
+    private static final int REQUEST_SMS = 3;
     private static final String TAG = "PreMainActivity";
 
     @Override
@@ -160,7 +163,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
 
         startChooseLocationAnimation();
 
-        PermissionUtil.getInstance().approveLocation(PreMainActivity.this,false);
+        PermissionUtil.getInstance().approveLocation(PreMainActivity.this, false);
 
         findViewById(R.id.layout_choose_location).setVisibility(View.VISIBLE);
         findViewById(R.id.layout_user_verification).setVisibility(View.GONE);
@@ -334,6 +337,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
 
     // Show User Verification Layout
     private void showUserVerificationLayout() {
+
         startUserVerficationAnimation();
         findViewById(R.id.layout_choose_location).setVisibility(View.GONE);
         findViewById(R.id.layout_user_verification).setVisibility(View.VISIBLE);
@@ -748,7 +752,9 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         verifyNumberGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fetchOTP();
+                if (PermissionUtil.getInstance().approveSMS(PreMainActivity.this,false)) {
+                    fetchOTP();
+                }
             }
         });
         verifyNumberGo.setEnabled(true);
@@ -1360,7 +1366,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             prefs.edit().putBoolean(AppConstants.PREFERENCE_IS_FIRST_RUN, false).apply();
         }
 
-        if (PermissionUtil.getInstance().approveContacts(PreMainActivity.this,true)) {
+        if (PermissionUtil.getInstance().approveContacts(PreMainActivity.this,false)) {
             new FetchContact().execute();
         }
 
@@ -1657,10 +1663,44 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
 
                 Intent intent = new Intent(PreMainActivity.this, NoPermissionsActivity.class);
                 intent.putExtra(AppConstants.INTENT_PERMISSION,REQUEST_LOCATION);
-                intent.putExtra(AppConstants.INTENT_PERMISSIONS_RATIONALE, R.string.permission_location_rationale);
+                intent.putExtra(AppConstants.INTENT_PERMISSIONS_RATIONALE, getResources().getString(R.string.permission_location_rationale));
                 startActivity(intent);
 
             }
+
+        } else if (requestCode == REQUEST_SMS) {
+            Log.i(TAG, "Received response for sms permissions request.");
+
+            // We have requested multiple permissions for contacts, so all of them need to be
+            // checked.
+            if (PermissionUtil.getInstance().verifyPermissions(grantResults)) {
+                fetchOTP();
+            } else {
+                Log.i(TAG, "SMS permissions were NOT granted.");
+//                Intent intent = new Intent(PreMainActivity.this, NoPermissionsActivity.class);
+//                intent.putExtra(AppConstants.INTENT_PERMISSION,REQUEST_SMS);
+//                intent.putExtra(AppConstants.INTENT_PERMISSIONS_RATIONALE, getResources().getString(R.string.permission_sms_rationale));
+//                startActivity(intent);
+                fetchOTP();
+            }
+
+        } else if (requestCode == REQUEST_CONTATCS) {
+            // BEGIN_INCLUDE(permission_result)
+            // Received permission result for contacts permission.
+            Log.i(TAG, "Received response for Contact permission request.");
+
+            // Check if the only required permission has been granted
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                new FetchContact().execute();
+            } else {
+                Log.i(TAG, "CONTACT permission was NOT granted.");
+//                Intent intent = new Intent(PreMainActivity.this, NoPermissionsActivity.class);
+//                intent.putExtra(AppConstants.INTENT_PERMISSION,REQUEST_CONTATCS);
+//                intent.putExtra(AppConstants.INTENT_PERMISSIONS_RATIONALE, getResources().getString(R.string.permission_contacts_rationale));
+//                startActivity(intent);
+
+            }
+            // END_INCLUDE(permission_result)
 
         }
     }

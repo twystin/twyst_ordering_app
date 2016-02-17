@@ -9,6 +9,8 @@ import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -30,6 +32,7 @@ import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.order.Coords;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.LocationFetchUtil;
+import com.twyst.app.android.util.PermissionUtil;
 import com.twyst.app.android.util.SharedPreferenceSingleton;
 import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
@@ -39,11 +42,14 @@ import java.util.ArrayList;
 /**
  * Created by anshul on 1/8/2016.
  */
-public class AddressMapActivity extends FragmentActivity implements LocationFetchUtil.LocationFetchResultCodeListener, OnMapReadyCallback {
+public class AddressMapActivity extends FragmentActivity implements LocationFetchUtil.LocationFetchResultCodeListener, OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
     private GoogleMap mMap;
     protected static final String ADDRESS_REQUESTED_KEY = "address-request-pending";
     protected static final String LOCATION_ADDRESS_KEY = "location-address";
     protected Location mLastLocation;
+
+    private static final int REQUEST_LOCATION = 1;
+    protected static final String TAG = "AddressMapActivity";
 
     protected boolean mAddressRequested;
     protected boolean mLocationRequested;
@@ -145,9 +151,32 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
     }
 
     public void fetchLocation() {
-        twystProgressHUD = TwystProgressHUD.show(AddressMapActivity.this, false, null);
-        mLocationRequested = true;
-        locationFetchUtil.requestLocation(false);
+        if (PermissionUtil.getInstance().approveLocation(AddressMapActivity.this,false)) {
+            twystProgressHUD = TwystProgressHUD.show(AddressMapActivity.this, false, null);
+            mLocationRequested = true;
+            locationFetchUtil.requestLocation(false);
+        } else{
+
+            mFetchAddressButton.setClickable(false);
+            SharedPreferenceSingleton sharedPreference = SharedPreferenceSingleton.getInstance();
+            locationData = sharedPreference.getCurrentUsedLocation();
+            mLastLocation = new Location("default");
+
+            if (locationData != null) {
+                currentPosition = new LatLng(Double.parseDouble(locationData.getCoords().getLat()), Double.parseDouble(locationData.getCoords().getLon()));
+                errorMessage.setVisibility(View.VISIBLE);
+                errorMessage.setText("Location permissions not provided!");
+                mLastLocation.setLatitude(Double.parseDouble(locationData.getCoords().getLat()));
+                mLastLocation.setLongitude(Double.parseDouble(locationData.getCoords().getLon()));
+            } else {
+                locationData = new AddressDetailsLocationData();
+                errorMessage.setVisibility(View.VISIBLE);
+                errorMessage.setText("Location permissions not provided!!");
+                mLastLocation.setLatitude(currentPosition.latitude);
+                mLastLocation.setLongitude(currentPosition.longitude);
+                locationData.setCoords(new Coords(String.valueOf(currentPosition.latitude), String.valueOf(currentPosition.longitude)));
+            }
+        }
     }
 
     private void setUpMapIfNeeded() {
@@ -204,6 +233,29 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
                     errorMessage.setVisibility(View.VISIBLE);
                     break;
             }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_LOCATION) {
+            Log.i(TAG, "Received response for location permissions request.");
+
+            // We have requested multiple permissions for contacts, so all of them need to be
+            // checked.
+            if (PermissionUtil.getInstance().verifyPermissions(grantResults)) {
+                fetchLocation();
+            } else {
+                Log.i(TAG, "Location permissions were NOT granted.");
+
+                Intent intent = new Intent(AddressMapActivity.this, NoPermissionsActivity.class);
+                intent.putExtra(AppConstants.INTENT_PERMISSION, REQUEST_LOCATION);
+                intent.putExtra(AppConstants.INTENT_PERMISSIONS_RATIONALE, getResources().getString(R.string.permission_location_rationale));
+                startActivity(intent);
+
+            }
+
         }
     }
 

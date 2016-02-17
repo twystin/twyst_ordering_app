@@ -5,18 +5,16 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -33,6 +31,7 @@ import com.twyst.app.android.model.order.CancelOrder;
 import com.twyst.app.android.model.order.OrderInfoLocal;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
+import com.twyst.app.android.util.PermissionUtil;
 import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
 
@@ -42,7 +41,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class OrderTrackingActivity extends BaseActionActivity {
+public class OrderTrackingActivity extends BaseActionActivity implements  ActivityCompat.OnRequestPermissionsResultCallback {
     private ListView trackOrderStatesListview;
     private ArrayList<OrderTrackingState> mTrackOrderStatesList;
     private TrackOrderStatesAdapter mAdapter;
@@ -50,6 +49,9 @@ public class OrderTrackingActivity extends BaseActionActivity {
     protected TwystApplication twystApplication;
     private boolean ivArrowExpanded;
     private boolean isOrderDeliverySuccessInProgress;
+
+    private static final int REQUEST_PHONE = 2;
+    private final String TAG = "OrderTrackingActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -267,7 +269,6 @@ public class OrderTrackingActivity extends BaseActionActivity {
 
             return row;
         }
-/*
 
         private void showDialogCall(final String phNo) {
             AlertDialog.Builder builder = new AlertDialog.Builder(OrderTrackingActivity.this);
@@ -292,15 +293,16 @@ public class OrderTrackingActivity extends BaseActionActivity {
             bYES.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent callIntent = new Intent(Intent.ACTION_CALL);
-                    callIntent.setData(Uri.parse(phNo));
-                    startActivity(callIntent);
-                    dialog.dismiss();
+                    if (PermissionUtil.getInstance().approvePhone(OrderTrackingActivity.this, false)) {
+                        Intent callIntent = new Intent(Intent.ACTION_CALL);
+                        callIntent.setData(Uri.parse(phNo));
+                        startActivity(callIntent);
+                        dialog.dismiss();
+                    }
                 }
             });
 
         }
-*/
 
         @Override
         public int getCount() {
@@ -436,5 +438,30 @@ public class OrderTrackingActivity extends BaseActionActivity {
             tvClickForSuccess = (TextView) view.findViewById(R.id.tv_click_for_success);
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+
+        if (requestCode == REQUEST_PHONE) {
+            Log.i(TAG, "Received response for phone permissions request.");
+
+            // We have requested multiple permissions for contacts, so all of them need to be
+            // checked.
+            if (PermissionUtil.getInstance().verifyPermissions(grantResults)) {
+//                findViewById(R.id.bYES).performClick();
+                // todo
+            } else {
+                Log.i(TAG, "Phone permissions were NOT granted.");
+                Intent intent = new Intent(OrderTrackingActivity.this, NoPermissionsActivity.class);
+                intent.putExtra(AppConstants.INTENT_PERMISSION,REQUEST_PHONE);
+                intent.putExtra(AppConstants.INTENT_PERMISSIONS_RATIONALE, R.string.permission_phone_rationale);
+                startActivity(intent);
+            }
+
+        }
+    }
+
+
 
 }
