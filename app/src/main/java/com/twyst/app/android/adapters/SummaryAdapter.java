@@ -117,7 +117,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     img = mContext.getResources().getDrawable(
                                             R.drawable.nonveg);
                                 }
-                                mVegIconHeight = tvMenuItemName.getMeasuredHeight() * 2 / 3;
+                                mVegIconHeight = tvMenuItemName.getLineHeight();
                                 img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
                                 tvMenuItemName.setCompoundDrawables(img, null, null, null);
                                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) llCustomisationsFinal.getLayoutParams();

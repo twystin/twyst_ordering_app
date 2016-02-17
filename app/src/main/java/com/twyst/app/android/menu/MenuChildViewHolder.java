@@ -14,7 +14,6 @@ import com.twyst.app.android.R;
 public class MenuChildViewHolder extends ChildViewHolder {
     public ImageView mIvMinus;
     public ImageView mIvPLus;
-    public ImageView mIvVegNonVegIcon;
     public TextView menuItemName;
     public LinearLayout llCustomisations;
     public TextView menuItemBreadCrumb;
@@ -26,7 +25,6 @@ public class MenuChildViewHolder extends ChildViewHolder {
         super(itemView);
         this.mIvMinus = (ImageView) itemView.findViewById(R.id.ivMinus);
         this.mIvPLus = (ImageView) itemView.findViewById(R.id.ivPlus);
-        this.mIvVegNonVegIcon = (ImageView) itemView.findViewById(R.id.ivVegNonVegIcon);
         this.menuItemName = (TextView) itemView.findViewById(R.id.menuItem);
         this.llCustomisations = (LinearLayout) itemView.findViewById(R.id.llCustomisations);
         this.menuItemBreadCrumb = (TextView) itemView.findViewById(R.id.item_bread_crumb);

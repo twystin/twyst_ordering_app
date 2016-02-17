@@ -36,10 +36,10 @@
                 android:id="@+id/listMenuOptions"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="1"
                 android:layout_marginBottom="10dp"
-                android:divider="@null"
                 android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:divider="@null"
                 android:gravity="bottom" />
 
             <RelativeLayout
@@ -49,44 +49,49 @@
                 android:layout_marginTop="25dp"
                 android:gravity="end|right">
 
-                <com.balysv.materialripple.MaterialRippleLayout
+                <FrameLayout
                     android:id="@+id/buttonCancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="14dp"
-                    android:layout_toLeftOf="@+id/buttonOK"
-                    app:mrl_rippleOverlay="true">
+                    android:layout_toLeftOf="@+id/buttonOK">
 
                     <TextView
                         android:id="@+id/tvCancel"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
-                        android:background="#fafafa"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
+                        android:background="@drawable/button_transparent"
+                        android:gravity="center"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="8dp"
                         android:text="NO"
                         android:textColor="#959595"
                         android:textSize="12dp" />
-                </com.balysv.materialripple.MaterialRippleLayout>
+                </FrameLayout>
 
-                <com.balysv.materialripple.MaterialRippleLayout
+                <FrameLayout
                     android:id="@+id/buttonOK"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    app:mrl_rippleOverlay="true">
+                    android:layout_centerVertical="true">
 
-                    <Button
+                    <TextView
                         android:id="@+id/bOK"
-                        android:layout_width="75dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="30dp"
-                        android:background="@drawable/button_red"
+                        android:background="@drawable/button_primary"
+                        android:gravity="center"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="8dp"
                         android:text="Yes"
                         android:textColor="@android:color/white"
                         android:textSize="12dp" />
-                </com.balysv.materialripple.MaterialRippleLayout>
+                </FrameLayout>
 
 
             </RelativeLayout>

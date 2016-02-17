@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -133,10 +133,9 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
                                 img = mContext.getResources().getDrawable(
                                         R.drawable.nonveg);
                             }
-                            mVegIconHeight = tvMenuItemName.getMeasuredHeight() * 2 / 3;
+                            mVegIconHeight = tvMenuItemName.getLineHeight();
                             img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
-                            childViewHolder.mIvVegNonVegIcon.setImageDrawable(img);
-/*                            tvMenuItemName.setCompoundDrawables(img, null, null, null);
+                            tvMenuItemName.setCompoundDrawables(img, null, null, null);
 
                             LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) tvMenuBreadCrumb.getLayoutParams();
                             params1.setMargins((mVegIconHeight + tvMenuItemName.getCompoundDrawablePadding()), params1.topMargin, 0, 0);
@@ -144,7 +143,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
 
                             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) tvMenuItemDesc.getLayoutParams();
                             params.setMargins((mVegIconHeight + tvMenuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
-                            tvMenuItemDesc.setLayoutParams(params);*/
+                            tvMenuItemDesc.setLayoutParams(params);
 
                             tvMenuItemName.getViewTreeObserver()
                                     .removeOnGlobalLayoutListener(this);
@@ -160,8 +159,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
                         R.drawable.nonveg);
             }
             img.setBounds(0, 0, mVegIconHeight, mVegIconHeight);
-            childViewHolder.mIvVegNonVegIcon.setImageDrawable(img);
-/*            childViewHolder.menuItemName.setCompoundDrawables(img, null, null, null);
+            childViewHolder.menuItemName.setCompoundDrawables(img, null, null, null);
 
             LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) childViewHolder.menuItemBreadCrumb.getLayoutParams();
             params1.setMargins((mVegIconHeight + childViewHolder.menuItemName.getCompoundDrawablePadding()), params1.topMargin, 0, 0);
@@ -169,7 +167,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
 
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) childViewHolder.menuItemDesc.getLayoutParams();
             params.setMargins((mVegIconHeight + childViewHolder.menuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
-            childViewHolder.menuItemDesc.setLayoutParams(params);*/
+            childViewHolder.menuItemDesc.setLayoutParams(params);
         }
 
         childViewHolder.menuItemName.setText(item.getItemName());
@@ -220,7 +218,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
         final View dialogView = mInflater.inflate(R.layout.dialog_menu, null);
 
         TextView tvTitle = (TextView) dialogView.findViewById(R.id.tvTitle);
-        final Button bOK = (Button) dialogView.findViewById(R.id.bOK);
+        final TextView bOK = (TextView) dialogView.findViewById(R.id.bOK);
         TextView tvCancel = (TextView) dialogView.findViewById(R.id.tvCancel);
         ListView listMenuOptions = (ListView) dialogView.findViewById(R.id.listMenuOptions);
         bOK.setText("CONFIRM");
@@ -296,7 +294,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
         final View dialogView = mInflater.inflate(R.layout.dialog_menu, null);
 
         TextView tvTitle = (TextView) dialogView.findViewById(R.id.tvTitle);
-        final Button bOK = (Button) dialogView.findViewById(R.id.bOK);
+        final TextView bOK = (TextView) dialogView.findViewById(R.id.bOK);
         TextView tvCancel = (TextView) dialogView.findViewById(R.id.tvCancel);
         ListView listMenuOptions = (ListView) dialogView.findViewById(R.id.listMenuOptions);
         bOK.setText("CONFIRM");
@@ -367,7 +365,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
         final View dialogView = mInflater.inflate(R.layout.dialog_menu, null);
 
         TextView tvTitle = (TextView) dialogView.findViewById(R.id.tvTitle);
-        final Button bOK = (Button) dialogView.findViewById(R.id.bOK);
+        final TextView bOK = (TextView) dialogView.findViewById(R.id.bOK);
         TextView tvCancel = (TextView) dialogView.findViewById(R.id.tvCancel);
         ListView listMenuOptions = (ListView) dialogView.findViewById(R.id.listMenuOptions);
         bOK.setText("CONFIRM");

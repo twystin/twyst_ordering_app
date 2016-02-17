@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -133,12 +132,15 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
         if (orderHistory.isTrackable()) {
             holder.reOrderTextView.setText("Track");
-            holder.reorder_button.setBackgroundColor(mContext.getResources().getColor(R.color.colorSecondaryBlue));
+//            holder.reorder_button.setBackgroundColor(mContext.getResources().getColor(R.color.colorSecondaryBlue));
+            holder.reorder_button.setBackground(mContext.getResources().getDrawable(R.drawable.button_secondary));
+
         } else {
             holder.reOrderTextView.setText("Re-Order");
-            holder.reorder_button.setBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
+//            holder.reorder_button.setBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
+            holder.reorder_button.setBackground(mContext.getResources().getDrawable(R.drawable.button_primary));
         }
-        holder.reOrderTextView.setOnClickListener(new View.OnClickListener() {
+        holder.reorder_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mTwystProgressHUD = TwystProgressHUD.show(mContext, false, null);

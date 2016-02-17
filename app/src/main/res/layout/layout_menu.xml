@@ -10,22 +10,9 @@
     android:padding="@dimen/menu_padding_layout">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:paddingRight="@dimen/menu_padding_layout"
-        android:paddingTop="2dp">
-
-        <ImageView
-            android:id="@+id/ivVegNonVegIcon"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:src="@drawable/veg" />
-    </LinearLayout>
-
-    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="7"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <TextView
@@ -62,9 +49,8 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="3"
         android:orientation="vertical">
 
         <TextView
@@ -73,6 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:text="160"
+            android:layout_marginRight="4dp"
             android:textColor="@android:color/black"
             android:textSize="@dimen/menu_text" />
 
@@ -80,8 +67,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp">
 
             <ImageView
                 android:id="@+id/ivMinus"
@@ -109,6 +99,7 @@
                 android:layout_gravity="center_vertical"
                 android:padding="2dp"
                 android:src="@drawable/plus" />
+
 
         </LinearLayout>
 
