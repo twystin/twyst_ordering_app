@@ -283,6 +283,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
             Intent intent = new Intent(getActivity(), AddressMapActivity.class);
             intent.putExtra(AppConstants.FROM_CHOOSE_ACTIVITY_TO_MAP, true);
             startActivity(intent);
+            getActivity().finish();
         }
     }
 

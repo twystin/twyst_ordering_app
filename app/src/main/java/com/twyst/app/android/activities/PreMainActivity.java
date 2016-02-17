@@ -14,6 +14,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
@@ -112,13 +114,15 @@ import retrofit.client.Response;
 /**
  * Created by anshul on 1/18/2016.
  */
-public class PreMainActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationFetchUtil.LocationFetchResultCodeListener {
+public class PreMainActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationFetchUtil.LocationFetchResultCodeListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
     private AddressDetailsLocationData mAddressDetailsLocationData;
     private LocationFetchUtil locationFetchUtil;
     private Location mLocation;
     private TwystProgressHUD twystProgressHUD = null;
     private View mLayout = null;
+    private static final int REQUEST_LOCATION = 1;
+    private static final String TAG = "PreMainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +157,11 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
 
     //Choose Location Layout
     private void showChooseLocationLayout() {
+
         startChooseLocationAnimation();
+
+        PermissionUtil.getInstance().approveLocation(PreMainActivity.this,false);
+
         findViewById(R.id.layout_choose_location).setVisibility(View.VISIBLE);
         findViewById(R.id.layout_user_verification).setVisibility(View.GONE);
         LinearLayout linLayCurrentLocation = (LinearLayout) findViewById(R.id.linlay_choose_location_current);
@@ -619,7 +627,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     }
 
     private boolean checkSmsCode() {
-        if (!PermissionUtil.getInstance().approveSMS(mLayout,PreMainActivity.this)) return false;
+        if (!PermissionUtil.getInstance().approveSMS(PreMainActivity.this,true)) return false;
 
         Cursor cursor = getContentResolver().query(Uri.parse("content://sms/inbox"), null, null, null, null);
         if (cursor.moveToFirst()) {
@@ -1352,7 +1360,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             prefs.edit().putBoolean(AppConstants.PREFERENCE_IS_FIRST_RUN, false).apply();
         }
 
-        if (PermissionUtil.getInstance().approveContacts(mLayout,PreMainActivity.this)) {
+        if (PermissionUtil.getInstance().approveContacts(PreMainActivity.this,true)) {
             new FetchContact().execute();
         }
 
@@ -1633,6 +1641,30 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             prefsEdit.apply();
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_LOCATION) {
+            Log.i(TAG, "Received response for location permissions request.");
+
+            // We have requested multiple permissions for contacts, so all of them need to be
+            // checked.
+            if (PermissionUtil.getInstance().verifyPermissions(grantResults)) {
+
+            } else {
+                Log.i(TAG, "Location permissions were NOT granted.");
+
+                Intent intent = new Intent(PreMainActivity.this, NoPermissionsActivity.class);
+                intent.putExtra(AppConstants.INTENT_PERMISSION,REQUEST_LOCATION);
+                intent.putExtra(AppConstants.INTENT_PERMISSIONS_RATIONALE, R.string.permission_location_rationale);
+                startActivity(intent);
+
+            }
+
+        }
+    }
+
 
 
 }

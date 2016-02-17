@@ -261,8 +261,18 @@ each friend who joins.</p>
     <string name="permision_available_sms">SMS Permissions have been granted.</string>
     <string name="permissions_not_granted">Permissions were not granted.</string>
 
+    <string name="no_permission_provided">Sorry! Required Permissions weren\'t provided</string>
+    <string name="retry">RETRY</string>
+
+
 
     <string name="couldnot_fetch_location">Couldn\'t fetch location</string>
     <string name="couldnot_fetch_addressName">Couldn\'t fetch location, try again?</string>
     <string name="internet_connection_unavailable">No internet connection.</string>
+    <string name="title_activity_no_permissions">NoPermissionsActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+
 </resources>

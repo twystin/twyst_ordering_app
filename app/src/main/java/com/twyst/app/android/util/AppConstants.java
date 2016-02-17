@@ -218,4 +218,7 @@ public class AppConstants {
     public static final String INTENT_ORDER_ID_FEEDBACK = "order_id_feedback";
     public static final String INTENT_ORDER_NUMBER = "order_number";
 
+    //permissions
+    public static final String INTENT_PERMISSION = "intent_permission";
+    public static final String INTENT_PERMISSIONS_RATIONALE = "intent_permissions_rationale";
 }
