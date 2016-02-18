@@ -234,7 +234,7 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             if (outlet.getDeliveryExperience() != 0.0){
                 outletViewHolder.deliveryExperience.setText(String.valueOf(outlet.getDeliveryExperience()));
             } else {
-                outletViewHolder.deliveryExperience.setText("-.-");
+                outletViewHolder.deliveryExperience.setText("- -");
                 outletViewHolder.ivStar.setVisibility(View.GONE);
             }
 
