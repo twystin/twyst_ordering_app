@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/layout_small_margin"
                 android:text="(100 Twyst Bucks)"
-                android:textSize="6dp" />
+                android:textSize="9dp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
