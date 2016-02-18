@@ -35,6 +35,12 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int VIEW_NORMAL = 0;
     private static final int VIEW_FOOTER = 1;
 
+    public SummaryViewHolderFooter getmSummaryViewHolderFooter() {
+        return mSummaryViewHolderFooter;
+    }
+
+    private SummaryViewHolderFooter mSummaryViewHolderFooter;
+
     private double grandTotal;
 
     public SummaryAdapter(Context context, OrderSummary orderSummary, int freeItemIndex) {
@@ -67,6 +73,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             v.setLayoutParams(layoutParams);
 
             SummaryViewHolderFooter vh = new SummaryViewHolderFooter(v);
+            mSummaryViewHolderFooter = vh;
             return vh;
         }
 
@@ -90,7 +97,8 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             final Items item = mCartItemsList.get(position);
             summaryViewHolder.menuItemName.setText(item.getItemName());
-            summaryViewHolder.tvCost.setText(Utils.costString(item.getItemCost() * item.getItemQuantity()));
+
+            summaryViewHolder.tvCost.setText(costFormatter(item.getItemCost() * item.getItemQuantity()));
 
             //Setting divider
             if (position + 1 == mCartItemsList.size()) {
@@ -123,9 +131,9 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 lp.height = mVegIconHeight;
                                 summaryViewHolder.vegNonVegIcon.setLayoutParams(lp);
                                 summaryViewHolder.vegNonVegIcon.setImageDrawable(img);
-                                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) llCustomisationsFinal.getLayoutParams();
+                                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) llOfferAppliedSpecificFinal.getLayoutParams();
                                 params.setMargins((mVegIconHeight + tvMenuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
-                                llCustomisationsFinal.setLayoutParams(params);
+//                                llCustomisationsFinal.setLayoutParams(params);
                                 llOfferAppliedSpecificFinal.setLayoutParams(params);
 
                                 tvMenuItemName.getViewTreeObserver()
@@ -146,9 +154,9 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 lp.height = mVegIconHeight;
                 summaryViewHolder.vegNonVegIcon.setLayoutParams(lp);
                 summaryViewHolder.vegNonVegIcon.setImageDrawable(img);
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) summaryViewHolder.llCustomisations.getLayoutParams();
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) summaryViewHolder.llOfferAppliedSpecific.getLayoutParams();
                 params.setMargins((mVegIconHeight + summaryViewHolder.menuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
-                summaryViewHolder.llCustomisations.setLayoutParams(params);
+//                summaryViewHolder.llCustomisations.setLayoutParams(params);
                 summaryViewHolder.llOfferAppliedSpecific.setLayoutParams(params);
 
             }
@@ -184,7 +192,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             final LinearLayout llOfferAppliedSpecificFinal = summaryViewHolder.llOfferAppliedSpecific;
             if (mFreeItemIndex == position) {
                 if (mOrderSummary.getOfferUsed() != null) {
-                    summaryViewHolder.tvOfferSpecificCost.setText("- " + Utils.costString(mOrderSummary.getOrderActualValueWithOutTax() - mOrderSummary.getOfferUsed().getOrderValueWithOutTax()));
+                    summaryViewHolder.tvOfferSpecificCost.setText("- " + costFormatter(mOrderSummary.getOrderActualValueWithOutTax() - mOrderSummary.getOfferUsed().getOrderValueWithOutTax()));
 
                     final TextView[] textViews = new TextView[1];
                     textViews[0] = new TextView(mContext);
@@ -219,14 +227,14 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 summaryViewHolderFooter.llDeliveryCharge.setVisibility(View.GONE);
             } else {
                 summaryViewHolderFooter.llDeliveryCharge.setVisibility(View.VISIBLE);
-                summaryViewHolderFooter.tvDeliveryCharge.setText(Utils.costString(mOrderSummary.getDelivery_charges()));
+                summaryViewHolderFooter.tvDeliveryCharge.setText(costFormatter(mOrderSummary.getDelivery_charges()));
             }
 
             if (mOrderSummary.getPackaging_charges() == 0) {
                 summaryViewHolderFooter.llPackagingCharge.setVisibility(View.GONE);
             } else {
                 summaryViewHolderFooter.llPackagingCharge.setVisibility(View.VISIBLE);
-                summaryViewHolderFooter.tvPackagingCharge.setText(Utils.costString(mOrderSummary.getDelivery_charges()));
+                summaryViewHolderFooter.tvPackagingCharge.setText(costFormatter(mOrderSummary.getDelivery_charges()));
             }
 
             if (mOrderSummary.getOfferUsed() != null) {
@@ -236,20 +244,20 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } else {
                     summaryViewHolderFooter.llOfferApplied.setVisibility(View.VISIBLE);
                     summaryViewHolderFooter.tvOfferTitle.setText("Offer Applied : " + mOrderSummary.getOfferUsed().getHeader());
-                    summaryViewHolderFooter.tvOfferApplied.setText("- " + Utils.costString(mOrderSummary.getOrderActualValueWithOutTax() - mOrderSummary.getOfferUsed().getOrderValueWithOutTax()));
+                    summaryViewHolderFooter.tvOfferApplied.setText("- " + costFormatter(mOrderSummary.getOrderActualValueWithOutTax() - mOrderSummary.getOfferUsed().getOrderValueWithOutTax()));
                 }
 
                 //Item Total
-                summaryViewHolderFooter.tvItemTotal.setText(Utils.costString(mOrderSummary.getOfferUsed().getOrderValueWithOutTax()));
+                summaryViewHolderFooter.tvItemTotal.setText(costFormatter(mOrderSummary.getOfferUsed().getOrderValueWithOutTax()));
 
                 //Grand Total
-                summaryViewHolderFooter.tvGrandTotal.setText(Utils.costString(mOrderSummary.getOfferUsed().getOrderValueWithTax()));
+                summaryViewHolderFooter.tvGrandTotal.setText(costFormatter(mOrderSummary.getOfferUsed().getOrderValueWithTax()));
                 grandTotal = mOrderSummary.getOfferUsed().getOrderValueWithTax();
 
                 //Vat
                 if (mOrderSummary.getOfferUsed().getVatValue() != 0) {
                     summaryViewHolderFooter.llVat.setVisibility(View.VISIBLE);
-                    summaryViewHolderFooter.tvVat.setText(Utils.costString(mOrderSummary.getOfferUsed().getVatValue()));
+                    summaryViewHolderFooter.tvVat.setText(costFormatter(mOrderSummary.getOfferUsed().getVatValue()));
                 } else {
                     summaryViewHolderFooter.llVat.setVisibility(View.GONE);
                 }
@@ -257,7 +265,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 //Service Tax
                 if (mOrderSummary.getOfferUsed().getServiceTaxValue() != 0) {
                     summaryViewHolderFooter.llServiceTax.setVisibility(View.VISIBLE);
-                    summaryViewHolderFooter.tvServiceTax.setText(Utils.costString(mOrderSummary.getOfferUsed().getServiceTaxValue()));
+                    summaryViewHolderFooter.tvServiceTax.setText(costFormatter(mOrderSummary.getOfferUsed().getServiceTaxValue()));
                 } else {
                     summaryViewHolderFooter.llServiceTax.setVisibility(View.GONE);
                 }
@@ -267,16 +275,16 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 summaryViewHolderFooter.llOfferApplied.setVisibility(View.GONE);
 
                 //Item Total
-                summaryViewHolderFooter.tvItemTotal.setText(Utils.costString(mOrderSummary.getOrderActualValueWithOutTax()));
+                summaryViewHolderFooter.tvItemTotal.setText(costFormatter(mOrderSummary.getOrderActualValueWithOutTax()));
 
                 //Grand Total
-                summaryViewHolderFooter.tvGrandTotal.setText(Utils.costString(mOrderSummary.getOrderActualValueWithTax()));
+                summaryViewHolderFooter.tvGrandTotal.setText(costFormatter(mOrderSummary.getOrderActualValueWithTax()));
                 grandTotal = mOrderSummary.getOrderActualValueWithTax();
 
                 //Vat
                 if (mOrderSummary.getVatValue() != 0) {
                     summaryViewHolderFooter.llVat.setVisibility(View.VISIBLE);
-                    summaryViewHolderFooter.tvVat.setText(Utils.costString(mOrderSummary.getVatValue()));
+                    summaryViewHolderFooter.tvVat.setText(costFormatter(mOrderSummary.getVatValue()));
                 } else {
                     summaryViewHolderFooter.llVat.setVisibility(View.GONE);
                 }
@@ -284,13 +292,23 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 //Service Tax
                 if (mOrderSummary.getServiceTaxValue() != 0) {
                     summaryViewHolderFooter.llServiceTax.setVisibility(View.VISIBLE);
-                    summaryViewHolderFooter.tvServiceTax.setText(Utils.costString(mOrderSummary.getServiceTaxValue()));
+                    summaryViewHolderFooter.tvServiceTax.setText(costFormatter(mOrderSummary.getServiceTaxValue()));
                 } else {
                     summaryViewHolderFooter.llServiceTax.setVisibility(View.GONE);
                 }
             }
 
         }
+    }
+
+    private String costFormatter(double d) {
+        String sCost = Utils.costString(d);
+
+        // Need to always show 2 places of decimal.
+        if (!sCost.contains(".")) {
+            return (sCost + ".00");
+        }
+        return sCost;
     }
 
     @Override
@@ -314,6 +332,11 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView tvPackagingCharge;
         LinearLayout llGrandTotal;
         TextView tvGrandTotal;
+
+        public EditText getEtSuggestion() {
+            return etSuggestion;
+        }
+
         EditText etSuggestion;
 
         public SummaryViewHolderFooter(View itemView) {

@@ -9,11 +9,6 @@ import java.io.Serializable;
  * Created by Vipul Sharma on 1/30/2016.
  */
 public class OrderCheckOut implements Serializable {
-    public OrderCheckOut(String orderNumber, String outletID, AddressDetailsLocationData addressDetailsLocationData) {
-        this.orderNumber = orderNumber;
-        this.outletID = outletID;
-        this.addressDetailsLocationData = addressDetailsLocationData;
-    }
 
     @SerializedName("order_number")
     private String orderNumber;
@@ -23,4 +18,22 @@ public class OrderCheckOut implements Serializable {
 
     @SerializedName("address")
     private AddressDetailsLocationData addressDetailsLocationData;
+
+    @SerializedName("comments")
+    private String comments;
+
+    public OrderCheckOut(String orderNumber, String outletID, AddressDetailsLocationData addressDetailsLocationData) {
+        this.orderNumber = orderNumber;
+        this.outletID = outletID;
+        this.addressDetailsLocationData = addressDetailsLocationData;
+    }
+
+    public void setComments(String s) {
+        comments = s;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
 }
