@@ -117,14 +117,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/layout_small_margin"
-                    android:text="580"
                     android:textSize="@dimen/layout_wide_margin" />
 
                 <ImageView
                     android:layout_width="@dimen/layout_huge_margin"
                     android:layout_height="@dimen/layout_huge_margin"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/collapsed" />
+                    android:src="@drawable/go_button" />
 
             </LinearLayout>
 

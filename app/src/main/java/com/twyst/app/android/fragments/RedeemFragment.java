@@ -77,8 +77,8 @@ public class RedeemFragment extends Fragment {
         view.findViewById(R.id.ll_twyst_bucks_launcher).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent twystBucksIntent = new Intent(view.getContext(), TwystBucksHistoryActivity.class);
-                view.getContext().startActivity(twystBucksIntent);
+//                Intent twystBucksIntent = new Intent(view.getContext(), TwystBucksHistoryActivity.class);
+//                view.getContext().startActivity(twystBucksIntent);
             }
         });
 
