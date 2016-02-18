@@ -73,8 +73,8 @@
 
     <!--User Verification-->
     <string name="verify_number_hint_enter_phone">Please enter your Mobile Number</string>
-    <string name="verify_number_hint_fetch">Fetching OTP</string>
-    <string name="verify_number_hint_waiting">Waiting for OTP</string>
+    <string name="verify_number_hint_fetch">Waiting for OTP</string>
+    <string name="verify_number_hint_waiting">Reading the received OTP</string>
     <string name="verify_number_hint_enter_code">Please enter 4-digit code you received</string>
     <string name="verify_number_hint_verify">Verifying OTP</string>
     <string name="verify_number_hint_verified">Number verified</string>
@@ -214,9 +214,9 @@ each friend who joins.</p>
     <string name="choose_location_description_line1">Where would you like</string>
     <string name="choose_location_description_line2">your food to be delivered?</string>
 
-    <string name="registered_line1">Let\'s get Started</string>
-    <string name="registered_line2">Complete your Sign Up</string>
-    <string name="registered_line3">Line 3</string>
+    <string name="registered_line1">Verify your Number</string>
+    <string name="registered_line2">to get Started</string>
+    <string name="complete_signup">Complete your Sign Up</string>
 
     <string name="turn_on_gps_desc">Turn On GPS, currently using Last known!</string>
     <string name="fetch_location_again_desc">Fetch Location Again, currently using last known!</string>

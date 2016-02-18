@@ -13,14 +13,14 @@
         android:orientation="vertical"
         android:padding="5dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:text="Verify your Number"
-            android:textColor="@color/white"
-            android:textSize="@dimen/phone_verification_edit_text_size" />
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="5dp"-->
+            <!--android:gravity="center"-->
+            <!--android:text="Verify your Number"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="@dimen/phone_verification_edit_text_size" />-->
 
         <TextView
             android:id="@+id/verify_number_hint"
@@ -30,7 +30,7 @@
             android:gravity="center|center_horizontal"
             android:text="@string/verify_number_hint_enter_phone"
             android:textColor="@color/verify_half_white"
-            android:textSize="@dimen/phone_verification_hint" />
+            android:textSize="@dimen/phone_verification_hint"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,12 +50,13 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/phone_verification_edit_text_size" />
 
+
             <EditText
                 android:id="@+id/verify_number_phone_code"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="24dp"
                 android:layout_weight="1"
-                android:background="@null"
+                android:background="@drawable/underline_selected_gray"
                 android:gravity="center_horizontal"
                 android:hint="@string/verify_number_phone_hint"
                 android:inputType="number"
@@ -64,7 +65,7 @@
                 android:textColor="@color/white"
                 android:textColorHint="@color/verify_half_white"
                 android:textCursorDrawable="@null"
-                android:textSize="@dimen/phone_verification_edit_text_size" />
+                android:textSize="@dimen/phone_verification_edit_text_size"/>
 
             <RelativeLayout
                 android:id="@+id/verify_number_go_layout"
