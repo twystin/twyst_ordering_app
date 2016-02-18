@@ -3,7 +3,6 @@ package com.twyst.app.android.adapters;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +10,6 @@ import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
@@ -60,7 +57,8 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_summary, parent, false);
 
             RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.setMargins(10, 10, 10, -5);
+//            layoutParams.setMargins(10, 10, 10, -5);
+            layoutParams.setMargins(0, 15, 0, 15);
             v.setLayoutParams(layoutParams);
 
             SummaryViewHolder vh = new SummaryViewHolder(v);
