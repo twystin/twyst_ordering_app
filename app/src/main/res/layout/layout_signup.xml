@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    style="@style/card_view_style"
-    card_view:cardBackgroundColor="@android:color/transparent">
+    style="@style/card_view_style">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -71,7 +69,7 @@
                 android:gravity="center"
                 android:text="or sign in with email"
                 android:textColor="@color/verify_half_white"
-                android:textSize="@dimen/signup_text_size"
+                android:textSize="@dimen/phone_verification_hint"
                 android:textStyle="italic" />
 
             <TextView
@@ -87,15 +85,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_alpha"
-            android:orientation="vertical"
-            android:padding="5dp">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/edit_text_border_white"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/choose_location_background"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -108,7 +104,7 @@
                     android:gravity="center"
                     android:hint="@string/hint_verify_name"
                     android:inputType="textEmailAddress"
-                    android:padding="8dp"
+                    android:padding="16dp"
                     android:selectAllOnFocus="true"
                     android:textColor="@color/white"
                     android:textColorHint="@color/verify_half_white"
@@ -120,8 +116,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/edit_text_border_white"
+                android:background="@drawable/choose_location_background"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -134,7 +129,7 @@
                     android:gravity="center"
                     android:hint="@string/hint_verify_email"
                     android:inputType="textEmailAddress"
-                    android:padding="8dp"
+                    android:padding="16dp"
                     android:selectAllOnFocus="true"
                     android:textColor="@color/white"
                     android:textColorHint="@color/verify_half_white"
@@ -169,5 +164,4 @@
 
     </LinearLayout>
 
-
-</android.support.v7.widget.CardView>
+</LinearLayout>

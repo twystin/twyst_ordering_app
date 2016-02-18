@@ -53,12 +53,13 @@
             android:id="@+id/linlay_choose_location_current"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/choose_location_option_list_background"
+            android:background="@drawable/choose_location_background"
             android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="16dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -84,13 +85,15 @@
             android:id="@+id/linlay_choose_location_saved"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@color/choose_location_option_list_background"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/choose_location_background"
             android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="16dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -104,8 +107,8 @@
                 android:textSize="@dimen/layout_extra_wide_text_size" />
 
             <ImageView
-                android:layout_width="@dimen/layout_wide_text_size"
-                android:layout_height="@dimen/layout_wide_text_size"
+                android:layout_width="@dimen/layout_huge_text_size"
+                android:layout_height="@dimen/layout_huge_text_size"
                 android:clickable="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
@@ -113,25 +116,25 @@
         </LinearLayout>
 
 
-            <ListView
-                android:id="@+id/lv_saved_locations"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:fadeScrollbars="true"
-                android:visibility="gone"/>
+        <ListView
+            android:id="@+id/lv_saved_locations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:fadeScrollbars="true"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/linlay_choose_location_add_new"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:background="@color/choose_location_option_list_background"
+            android:background="@drawable/choose_location_background"
             android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="16dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -145,8 +148,8 @@
                 android:textSize="@dimen/layout_extra_wide_text_size" />
 
             <ImageView
-                android:layout_width="@dimen/layout_wide_text_size"
-                android:layout_height="@dimen/layout_wide_text_size"
+                android:layout_width="@dimen/layout_huge_text_size"
+                android:layout_height="@dimen/layout_huge_text_size"
                 android:clickable="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"

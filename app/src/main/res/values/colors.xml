@@ -151,7 +151,8 @@
     <color name="default_circle_indicator_stroke_color">#FFDDDDDD</color>
 
     <!-- User Verification Layout -->
-    <color name="choose_location_option_list_background">#73DDDDDD</color>
+    <!--<color name="choose_location_option_list_background">#73DDDDDD</color>-->
+    <color name="premain_background_gray">#B34d4d4d</color>
     <color name="background_alpha">#73191919</color>
     <color name="verify_half_white">#8c8c8c</color>
 
