@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -211,6 +212,16 @@ public class PaymentOptionsActivity extends BaseActionActivity {
                 row.setTag(pdholder);
             } else {
                 pdholder = (PaymentDataHolder) row.getTag();
+            }
+
+            if (position == 0) {//  Disable Online Payment as of now
+                row.setAlpha(.5f);
+                row.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return true;
+                    }
+                });
             }
 
             pdholder.checkedbox.setSelected(selectedPosition == position);
