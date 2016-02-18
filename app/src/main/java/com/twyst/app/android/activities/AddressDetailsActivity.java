@@ -68,6 +68,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
 
     // From Cart
     private String mOutletId;
+    private String mPhone;
     private ArrayList<Items> mCartItemsList = new ArrayList<>();
 
     @Override
@@ -91,7 +92,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SharedPreferenceSingleton.getInstance().setSaveLocationClicked(true);
                 AddressDetailsLocationData addressDetailsLocationData = (AddressDetailsLocationData) listView.getItemAtPosition(position);
-                UtilMethods.checkOut(addressDetailsLocationData, mCartItemsList, mOutletId, AddressDetailsActivity.this, true);
+                UtilMethods.checkOut(addressDetailsLocationData, mCartItemsList, mOutletId, mPhone, AddressDetailsActivity.this, true);
             }
         });
     }
@@ -142,7 +143,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
                     ((ImageView) findViewById(R.id.radio_current_loc)).setSelected(true);
 //                    checkCurrentDeliverableAndProceed();
                     if (SharedPreferenceSingleton.getInstance().isPassedCartCheckoutStage()) {
-                        UtilMethods.checkOut(mAddressDetailsLocationData, mCartItemsList, mOutletId, AddressDetailsActivity.this, true);
+                        UtilMethods.checkOut(mAddressDetailsLocationData, mCartItemsList, mOutletId, mPhone, AddressDetailsActivity.this, true);
                     } else {
                         SharedPreferenceSingleton.getInstance().setSaveLocationClicked(false);
                         SharedPreferenceSingleton.getInstance().saveCurrentUsedLocation(mAddressDetailsLocationData);
@@ -176,6 +177,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
         if (SharedPreferenceSingleton.getInstance().isPassedCartCheckoutStage()) {
             Bundle addressDetailsBundle = new Bundle();
             addressDetailsBundle.putString(AppConstants.INTENT_PARAM_OUTLET_ID, mOutletId);
+            addressDetailsBundle.putString(AppConstants.INTENT_PARAM_PHONE, mPhone);
             addressDetailsBundle.putSerializable(AppConstants.INTENT_PARAM_CART_LIST, mCartItemsList);
             addressDetailsIntent.putExtras(addressDetailsBundle);
         }
@@ -201,6 +203,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
 //        mOutletId = bundle.getString(AppConstants.INTENT_PARAM_OUTLET_ID);
 //        mCartItemsList = (ArrayList<Items>) bundle.getSerializable(AppConstants.INTENT_PARAM_CART_LIST);
                 mOutletId = OrderInfoSingleton.getInstance().getOrderSummary().getOutletId();
+                mPhone = OrderInfoSingleton.getInstance().getOrderSummary().getPhone();
                 mCartItemsList = OrderInfoSingleton.getInstance().getOrderSummary().getmCartItemsList();
                 ((CardView) findViewById(R.id.cardView_listview)).setVisibility(View.VISIBLE);
                 ((CardView) findViewById(R.id.cardView_noAddress)).setVisibility(View.GONE);

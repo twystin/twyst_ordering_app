@@ -171,7 +171,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         linLayCurrentLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (PermissionUtil.getInstance().approveLocation(PreMainActivity.this,false)) {
+                if (PermissionUtil.getInstance().approveLocation(PreMainActivity.this, false)) {
                     twystProgressHUD = TwystProgressHUD.show(PreMainActivity.this, false, null);
                     locationFetchUtil = new LocationFetchUtil(PreMainActivity.this);
                     locationFetchUtil.requestLocation(true);
@@ -742,12 +742,17 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         findViewById(R.id.card_verify_number).setVisibility(View.VISIBLE);
         findViewById(R.id.card_signup).setVisibility(View.GONE);
         //Enter your number
-        tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_enter_phone));
+        //Enter your number
+        //        tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_enter_phone));
+        tvVerifyNumberHint.setVisibility(View.GONE);
+
         etPhonePre.setVisibility(View.VISIBLE);
         etPhoneCodeInput.setHint(getResources().getString(R.string.verify_number_phone_hint));
         verifyNumberProgressBar.setVisibility(View.GONE);
-        tvVerifyNumberLowerHint.setVisibility(View.INVISIBLE);
-        tvVerifyNumberResendManually.setVisibility(View.INVISIBLE);
+        tvVerifyNumberLowerHint.setVisibility(View.GONE);
+        tvVerifyNumberResendManually.setVisibility(View.GONE);
+
+
         etPhoneCodeInput.setEnabled(true);
         etPhoneCodeInput.requestFocus();
         verifyNumberGo.setBackground(getResources().getDrawable(R.drawable.verify_number_arrow));
@@ -771,8 +776,9 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         etPhoneCodeInput.setEnabled(false);
         verifyNumberProgressBar.setVisibility(View.VISIBLE);
         tvVerifyNumberGoText.setBackground(null);
-        tvVerifyNumberLowerHint.setVisibility(View.INVISIBLE);
-        tvVerifyNumberResendManually.setVisibility(View.INVISIBLE);
+        tvVerifyNumberLowerHint.setVisibility(View.GONE);
+        tvVerifyNumberResendManually.setVisibility(View.GONE);
+        tvVerifyNumberHint.setVisibility(View.VISIBLE);
         tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_fetch));
         verifyNumberGo.setBackground(null);
         verifyNumberGo.setEnabled(false);
@@ -780,7 +786,8 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
 
     private void waitForOTPUIUpdate(OTPCode otpCode) {
         //Waiting for OTP
-        tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_waiting));
+        tvVerifyNumberHint.setVisibility(View.VISIBLE);
+        tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_fetch));
         tvVerifyNumberLowerHint.setVisibility(View.GONE);
         tvVerifyNumberResendManually.setVisibility(View.VISIBLE);
         tvVerifyNumberResendManually.setText(getResources().getString(R.string.verify_number_manually));
@@ -796,6 +803,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             }
         });
 
+        tvVerifyNumberGoText.setText(String.valueOf(AppConstants.MAX_WAIT_FOR_SMS_IN_SECONDS));
         myRunnable = new MyRunnable(otpCode);
         handler.postDelayed(myRunnable, 1000);
         hideSnackbar();
@@ -804,7 +812,8 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     private void askUserToEnterOTPUIUpdate() {
         handler.removeCallbacks(myRunnable);
         etPhoneCodeInput.setEnabled(true);
-        tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_enter_code));
+        tvVerifyNumberHint.setVisibility(View.GONE);
+        //        tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_enter_code));
         etPhonePre.setVisibility(View.INVISIBLE);
         etPhoneCodeInput.setText("");
         etPhoneCodeInput.setHint(getResources().getString(R.string.verify_number_code_hint));
@@ -840,12 +849,13 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         findViewById(R.id.card_verify_number).setVisibility(View.GONE);
         findViewById(R.id.card_signup).setVisibility(View.VISIBLE);
         tvRegister2.setVisibility(View.GONE);
-        tvRegister1.setText(getResources().getString(R.string.registered_line3));
+        tvRegister1.setText(getResources().getString(R.string.complete_signup));
         isNumberVerified = true;
         etPhoneCodeInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(14)});
         etPhoneCodeInput.setText("+91-" + getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).getString(AppConstants.PREFERENCE_USER_PHONE, ""));
         etPhoneCodeInput.setEnabled(false);
         etPhonePre.setVisibility(View.GONE);
+        tvVerifyNumberHint.setVisibility(View.VISIBLE);
         tvVerifyNumberHint.setText(getResources().getString(R.string.verify_number_hint_verified));
         tvVerifyNumberGoLayout.setVisibility(View.GONE);
         tvVerifyNumberResendManually.setVisibility(View.INVISIBLE);
@@ -857,8 +867,11 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     }
 
     private void startSignUpAnimation() {
+        final View getRegisteredTV = (View) findViewById(R.id.ll_get_registered);
         final View signUp = (View) findViewById(R.id.card_signup);
         final Animation enterSignUp = AnimationUtils.loadAnimation(this, R.anim.enter_from_left);
+        final Animation fadeInGetRegistered = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        getRegisteredTV.startAnimation(fadeInGetRegistered);
         signUp.setAnimation(enterSignUp);
     }
 
@@ -940,11 +953,12 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                 validateOTP(otpCode);
 
             } else {
-                if (retry < AppConstants.MAX_WAIT_FOR_SMS_IN_SECONDS) {
+                if (retry < AppConstants.MAX_WAIT_FOR_SMS_IN_SECONDS - 1) {
                     handler.postDelayed(this, 1000);
-                    tvVerifyNumberGoText.setText(String.valueOf(AppConstants.MAX_WAIT_FOR_SMS_IN_SECONDS - retry));
-                    Log.d("retry", "" + retry);
                     retry++;
+                    Log.d("retry", "" + retry);
+                    tvVerifyNumberGoText.setText(String.valueOf(AppConstants.MAX_WAIT_FOR_SMS_IN_SECONDS - retry));
+
                 } else {
                     sharedPreferences.putString(AppConstants.PREFERENCE_USER_PHONE, otpCode.getPhone());
                     sharedPreferences.apply();
