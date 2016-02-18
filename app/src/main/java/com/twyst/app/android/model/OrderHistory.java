@@ -164,6 +164,8 @@ public class OrderHistory implements Serializable {
 
     public boolean isTrackable() {
         switch (orderStatus.toUpperCase()) {
+            case "CLOSED":
+                return false;
             case "CHECKOUT":
                 return false;
             case "PAYMENT_FAILED":
