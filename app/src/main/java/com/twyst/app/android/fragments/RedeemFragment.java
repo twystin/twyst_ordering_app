@@ -94,9 +94,9 @@ public class RedeemFragment extends Fragment {
         mIndicator.setViewPager(viewPager);
         mIndicator.setOnPageChangeListener(new MyOnPageChangeListener());
 
-        viewPager.setInterval(2000);
+        viewPager.setInterval(5000);
         viewPager.startAutoScroll();
-        viewPager.setCurrentItem(2);
+        viewPager.setCurrentItem(1);
         viewPager.setScrollDurationFactor(5);
     }
 
