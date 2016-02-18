@@ -40,6 +40,7 @@ public class OrderCheckOutResponse implements Serializable {
 
     private int inapp_cashback;
 
+    @SerializedName("cod_cashback_percenatage")
     private double cod_cashback_percent;
 
     public double getCod_cashback_percent() {
@@ -58,6 +59,7 @@ public class OrderCheckOutResponse implements Serializable {
         this.inapp_cashback_percent = inapp_cashback_percent;
     }
 
+    @SerializedName("inapp_cashback_percenatage")
     private double inapp_cashback_percent;
 
     public String getOrderNumber() {
