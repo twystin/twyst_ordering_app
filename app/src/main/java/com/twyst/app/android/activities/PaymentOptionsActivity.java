@@ -22,6 +22,7 @@ import com.mobikwik.sdk.lib.SDKErrorCodes;
 import com.mobikwik.sdk.lib.Transaction;
 import com.mobikwik.sdk.lib.TransactionConfiguration;
 import com.mobikwik.sdk.lib.User;
+import com.squareup.okhttp.internal.Util;
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.PaymentData;
@@ -60,10 +61,13 @@ public class PaymentOptionsActivity extends BaseActionActivity {
         PaymentData pd1 = new PaymentData();
         PaymentData pd2 = new PaymentData();
 
+        // Two modes : COD, Online Payment
         pd1.setPaymentMode(PAYMENT_MODE_ONLINE);
-        pd1.setCashBackPercent(mOrderCheckoutResponse.getInapp_cashback());
+        pd1.setCashBackPercent(mOrderCheckoutResponse.getInapp_cashback_percent());
+        pd1.setCashBackAmount(mOrderCheckoutResponse.getInapp_cashback());
         pd2.setPaymentMode(PAYMENT_MODE_COD);
-        pd2.setCashBackPercent(mOrderCheckoutResponse.getCod_cashback());
+        pd2.setCashBackPercent(mOrderCheckoutResponse.getCod_cashback_percent());
+        pd2.setCashBackAmount(mOrderCheckoutResponse.getCod_cashback());
 
         mPaymentDataList.add(pd1);
         mPaymentDataList.add(pd2);
@@ -210,26 +214,38 @@ public class PaymentOptionsActivity extends BaseActionActivity {
             }
 
             pdholder.checkedbox.setSelected(selectedPosition == position);
-
             pdholder.paymentmode.setText(mPaymentDataList.get(position).getPaymentMode());
-            pdholder.cashbackamount.setText(String.format("%d%%", mPaymentDataList.get(position).getCashBackPercent()));
+
             if (mPaymentDataList.get(position).getCashBackPercent() == 0) {
                 pdholder.cashbackIcon.setVisibility(View.INVISIBLE);
+            } else {
+                pdholder.cashbackIcon.setVisibility(View.VISIBLE);
+                double cashbackpercent = mPaymentDataList.get(position).getCashBackPercent();
+                String cashbackpercent_str = "";
+                // if the decimal value is too small, don't display it.
+                if (cashbackpercent - (int) cashbackpercent < 0.001) {
+                    cashbackpercent_str = String.format("%d%%", (int) cashbackpercent);
+                } else {
+                    cashbackpercent_str = String.format("%.1f%%", cashbackpercent);
+                }
+                pdholder.cashBackPercent.setText(cashbackpercent_str);
+                pdholder.cashBackAmount.setText(String.format("(%d Twyst Bucks)", mPaymentDataList.get(position).getCashBackAmount()));
             }
-
             return row;
         }
     }
 
     static class PaymentDataHolder {
         private TextView paymentmode;
-        private TextView cashbackamount;
+        private TextView cashBackPercent;
         private ImageView checkedbox;
         private LinearLayout cashbackIcon;
+        private TextView cashBackAmount;
 
         PaymentDataHolder(View view) {
             paymentmode = (TextView) view.findViewById(R.id.tv_payment_option_name);
-            cashbackamount = (TextView) view.findViewById(R.id.tv_cashback_percent);
+            cashBackPercent = (TextView) view.findViewById(R.id.tv_cashback_percent);
+            cashBackAmount = (TextView) view.findViewById(R.id.tv_cashback_amount);
             checkedbox = (ImageView) view.findViewById(R.id.iv_rb_payment_select);
             cashbackIcon = (LinearLayout) view.findViewById(R.id.ll_cashback_info);
         }

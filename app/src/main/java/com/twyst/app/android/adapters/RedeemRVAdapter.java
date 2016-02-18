@@ -62,7 +62,8 @@ public class RedeemRVAdapter extends RecyclerView.Adapter<RedeemRVAdapter.Redeem
         @Override
         public void onClick(View view) {
             String text = ((TextView) view.findViewById(R.id.tv_redeem_grid)).getText().toString();
-            Toast.makeText(view.getContext(), text, Toast.LENGTH_SHORT).show();
+            Toast.makeText(view.getContext(), "Coming Soon", Toast.LENGTH_SHORT).show();
+/*
 
             switch (text) {
                 case RedeemFragment.REDEEM_FOOD_OFFERS:
@@ -79,6 +80,7 @@ public class RedeemRVAdapter extends RecyclerView.Adapter<RedeemRVAdapter.Redeem
                     break;
 
             }
+*/
 
         }
     }
