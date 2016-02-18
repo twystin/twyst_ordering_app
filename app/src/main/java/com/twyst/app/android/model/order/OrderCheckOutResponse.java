@@ -40,6 +40,26 @@ public class OrderCheckOutResponse implements Serializable {
 
     private int inapp_cashback;
 
+    private double cod_cashback_percent;
+
+    public double getCod_cashback_percent() {
+        return cod_cashback_percent;
+    }
+
+    public void setCod_cashback_percent(double cod_cashback_percent) {
+        this.cod_cashback_percent = cod_cashback_percent;
+    }
+
+    public double getInapp_cashback_percent() {
+        return inapp_cashback_percent;
+    }
+
+    public void setInapp_cashback_percent(double inapp_cashback_percent) {
+        this.inapp_cashback_percent = inapp_cashback_percent;
+    }
+
+    private double inapp_cashback_percent;
+
     public String getOrderNumber() {
         return orderNumber;
     }

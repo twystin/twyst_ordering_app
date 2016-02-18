@@ -187,7 +187,8 @@ each friend who joins.</p>
     <string name="delivery_charge">Delivery Charges</string>
     <string name="packaging_charges">Packaging Charges</string>
     <string name="grand_total">Grand Total</string>
-    <string name="suggestion">Want a little less sugar, a little more spicy?\nPlease mention here</string>
+    <!--<string name="suggestion">Want a little less sugar, a little more spicy?\nPlease mention here</string>-->
+    <string name="suggestion">Please add any special Instructions here...</string>
 
     <!--Address Details-->
     <string name="hint_address">Address</string>

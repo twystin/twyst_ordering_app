@@ -73,6 +73,7 @@ public class OrderSummaryActivity extends BaseActionActivity {
     private void showPaymentOptions() {
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
         OrderCheckOut orderCheckOut = new OrderCheckOut(mOrderSummary.getOrderNumber(), mOrderSummary.getOutletId(), mOrderSummary.getAddressDetailsLocationData());
+        orderCheckOut.setComments(mSummaryAdapter.getmSummaryViewHolderFooter().getEtSuggestion().getText().toString());
         HttpService.getInstance().postOrderCheckOut(UtilMethods.getUserToken(OrderSummaryActivity.this), orderCheckOut, new Callback<BaseResponse<OrderCheckOutResponse>>() {
             @Override
             public void success(BaseResponse<OrderCheckOutResponse> baseResponse, Response response) {
@@ -109,5 +110,6 @@ public class OrderSummaryActivity extends BaseActionActivity {
 
         mSummaryAdapter = new SummaryAdapter(OrderSummaryActivity.this, mOrderSummary, mFreeItemIndex);
         mSummaryRecyclerView.setAdapter(mSummaryAdapter);
+
     }
 }
