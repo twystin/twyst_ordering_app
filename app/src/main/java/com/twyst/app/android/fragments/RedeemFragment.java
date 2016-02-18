@@ -54,10 +54,8 @@ public class RedeemFragment extends Fragment {
             };
     private int[] add_imageIds =
             {
-                    R.drawable.banner1,
-                    R.drawable.banner2,
-                    R.drawable.banner3,
-                    R.drawable.banner4
+                    R.drawable.app_redeem_slide1,
+                    R.drawable.app_redeem_slide2
             };
 
     public void createList() {

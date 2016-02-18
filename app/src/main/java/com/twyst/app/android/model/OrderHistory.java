@@ -181,12 +181,10 @@ public class OrderHistory implements Serializable {
                 return false;
             case "REJECTED":
                 return false;
-            case "DELIVERED":
-                return false;
             case "CANCELLED":
                 return false;
         }
-        return true;
+        return true; // Pending, Delivered
     }
 
     public String getBackground() {
