@@ -69,13 +69,20 @@
 
 
             <TextView
-                android:id="@+id/tv_cashback"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/layout_small_margin"
                 android:text="Cash Back"
                 android:textColor="@color/text_grey"
                 android:textSize="@dimen/layout_medium_text_size" />
+
+            <TextView
+                android:id="@+id/tv_cashback_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_small_margin"
+                android:text="(100 Twyst Bucks)"
+                android:textSize="6dp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
