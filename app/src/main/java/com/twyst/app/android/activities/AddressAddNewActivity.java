@@ -1,5 +1,6 @@
 package com.twyst.app.android.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -7,10 +8,18 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.AddressDetailsLocationData;
 import com.twyst.app.android.model.order.OrderSummary;
@@ -22,7 +31,7 @@ import java.util.ArrayList;
 /**
  * Created by anshul on 1/8/2016.
  */
-public class AddressAddNewActivity extends BaseActionActivity {
+public class AddressAddNewActivity extends BaseActionActivity implements OnMapReadyCallback {
     private static final int PLACE_PICKER_REQUEST = 2;
     private ImageView homeTag;
     private ImageView workTag;
@@ -32,6 +41,13 @@ public class AddressAddNewActivity extends BaseActionActivity {
     private EditText address;
     private EditText neighborhood;
     private EditText landmark;
+    private GoogleMap mMap;
+    private ImageView chosenLocationButton;
+    private LatLng currentPosition = null;
+    private TextView tvProceed;
+    private FrameLayout flProceed;
+    private TextView tvAddressDetected;
+
 
     private OrderSummary mOrderSummary;
     private AddressDetailsLocationData mNewAddress = new AddressDetailsLocationData();
@@ -78,6 +94,9 @@ public class AddressAddNewActivity extends BaseActionActivity {
             }
         });
 
+        landmark.setCursorVisible(false);
+        neighborhood.setCursorVisible(false);
+
         homeTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,111 +131,73 @@ public class AddressAddNewActivity extends BaseActionActivity {
             }
         });
 
-        Bundle extras = getIntent().getExtras();
+        tvProceed = (TextView)findViewById(R.id.tvProceedOk);
+        flProceed = (FrameLayout)findViewById(R.id.proceed_ok);
+        tvAddressDetected = (TextView)findViewById(R.id.tv_detetcted_address);
+        if (SharedPreferenceSingleton.getInstance().isPassedCartCheckoutStage()) {
+            tvProceed.getViewTreeObserver()
+                    .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            Drawable img = getResources().getDrawable(
+                                    R.drawable.checkout_arrow);
+                            int height = tvProceed.getMeasuredHeight() * 2 / 3;
+                            img.setBounds(0, 0, height, height);
+                            tvProceed.setCompoundDrawables(null, null, img, null);
+                            tvProceed.getViewTreeObserver()
+                                    .removeOnGlobalLayoutListener(this);
+                        }
+                    });
+        }
+
+        if (SharedPreferenceSingleton.getInstance().isSaveLocationClicked()){
+            tvAddressDetected.setText("Saved Address");
+        } else {
+            tvAddressDetected.setText("Auto Detected Address");
+        }
+
+        final Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mOrderSummary = (OrderSummary) extras.getSerializable(AppConstants.INTENT_ORDER_SUMMARY);
             mNewAddress = mOrderSummary.getAddressDetailsLocationData();
             setTextLocationFetch(mNewAddress);
+            tvProceed.setText("PROCEED");
         } else {
             mNewAddress = SharedPreferenceSingleton.getInstance().getDeliveryLocation();
             setTextLocationFetch(mNewAddress);
-            findViewById(R.id.linlay_proceed).setVisibility(View.GONE);
-            findViewById(R.id.proceed_ok).setVisibility(View.VISIBLE);
+            tvProceed.setText("OK");
+        }
+
+
+        flProceed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (extras!=null){
+                    clickProceedFunc();
+                } else {
+                    clickOkFunc();
+                }
+            }
+        });
+
+        // setting up map
+        chosenLocationButton = (ImageView)findViewById(R.id.chosen_location_button);
+        if (mNewAddress!= null) {
+            currentPosition = new LatLng(Double.parseDouble(mNewAddress.getCoords().getLat()),Double.parseDouble(mNewAddress.getCoords().getLon()));
+        }
+        setUpMapIfNeeded();
+        if (currentPosition!= null) {
+            chosenLocationButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setMarkerOnMap(currentPosition, "Current location", true);
+                }
+            });
         }
 
         ((LinearLayout) findViewById(R.id.linlay_add_address)).setVisibility(View.VISIBLE);
 
-
-        final TextView tvProceed = (TextView) findViewById(R.id.tvProceed);
-        tvProceed.getViewTreeObserver()
-                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        Drawable img = getResources().getDrawable(
-                                R.drawable.checkout_arrow);
-                        int height = tvProceed.getMeasuredHeight() * 2 / 3;
-                        img.setBounds(0, 0, height, height);
-                        tvProceed.setCompoundDrawables(null, null, img, null);
-                        tvProceed.getViewTreeObserver()
-                                .removeOnGlobalLayoutListener(this);
-                    }
-                });
-
-
-        findViewById(R.id.proceed_address_new).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText neighborhood = (EditText) findViewById(R.id.editView_building);
-                EditText address = (EditText) findViewById(R.id.editView_address);
-                EditText landmark = (EditText) findViewById(R.id.editView_landmark);
-
-                if (validateEditText(neighborhood) && validateEditText(address)) {
-                    mNewAddress.setNeighborhood(neighborhood.getText().toString());
-                    mNewAddress.setAddress(address.getText().toString());
-                    mNewAddress.setLandmark(landmark.getText().toString());
-                    if (homeTag.isSelected()) {
-                        mNewAddress.setTag(AddressDetailsLocationData.TAG_HOME);
-                    } else if (workTag.isSelected()) {
-                        mNewAddress.setTag(AddressDetailsLocationData.TAG_WORK);
-                    } else {
-                        mNewAddress.setTag(((EditText) findViewById(R.id.editView_other_tag)).getText().toString());
-                    }
-
-                    SharedPreferenceSingleton preference = SharedPreferenceSingleton.getInstance();
-                    boolean isLocationAlreadyExist = false;
-                    ArrayList<AddressDetailsLocationData> savedAddressList = preference.getAddresses();
-                    if (savedAddressList != null && savedAddressList.size() > 0) {
-                        for (AddressDetailsLocationData savedLocation : preference.getAddresses()) {
-                            if (savedLocation.equals(mNewAddress)) {
-                                isLocationAlreadyExist = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (!isLocationAlreadyExist) {
-                        preference.addAddress(mNewAddress);
-                    }
-                    updateOrderSummaryAndCheckout(mNewAddress);
-                } else {
-                    validateEditText(neighborhood);
-                    validateEditText(address);
-                }
-            }
-        });
-
-        findViewById(R.id.proceed_ok).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText neighborhood = (EditText) findViewById(R.id.editView_building);
-                EditText address = (EditText) findViewById(R.id.editView_address);
-                EditText landmark = (EditText) findViewById(R.id.editView_landmark);
-
-                if (validateEditText(landmark) && validateEditText(neighborhood) && validateEditText(address)) {
-                    mNewAddress.setNeighborhood(neighborhood.getText().toString());
-                    mNewAddress.setAddress(address.getText().toString());
-                    mNewAddress.setLandmark(landmark.getText().toString());
-                    if (homeTag.isSelected()) {
-                        mNewAddress.setTag(AddressDetailsLocationData.TAG_HOME);
-                    } else if (workTag.isSelected()) {
-                        mNewAddress.setTag(AddressDetailsLocationData.TAG_WORK);
-                    } else {
-                        mNewAddress.setTag(((EditText) findViewById(R.id.editView_other_tag)).getText().toString());
-                    }
-
-                    SharedPreferenceSingleton preference = SharedPreferenceSingleton.getInstance();
-                    preference.saveCurrentUsedLocation(mNewAddress);
-                    finish();
-
-                } else {
-                    validateEditText(neighborhood);
-                    validateEditText(address);
-                    validateEditText(landmark);
-                }
-            }
-        });
-
-        findViewById(R.id.proceedChangeLocation).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.tvChangeLocation).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AddressAddNewActivity.this,AddressDetailsActivity.class);
@@ -224,6 +205,86 @@ public class AddressAddNewActivity extends BaseActionActivity {
                 finish();
             }
         });
+    }
+
+    private void clickProceedFunc(){
+        EditText neighborhood = (EditText) findViewById(R.id.editView_building);
+        EditText address = (EditText) findViewById(R.id.editView_address);
+        EditText landmark = (EditText) findViewById(R.id.editView_landmark);
+
+        if (validateEditText(neighborhood) && validateEditText(address)) {
+            mNewAddress.setNeighborhood(neighborhood.getText().toString());
+            mNewAddress.setAddress(address.getText().toString());
+            mNewAddress.setLandmark(landmark.getText().toString());
+            if (homeTag.isSelected()) {
+                mNewAddress.setTag(AddressDetailsLocationData.TAG_HOME);
+            } else if (workTag.isSelected()) {
+                mNewAddress.setTag(AddressDetailsLocationData.TAG_WORK);
+            } else {
+                mNewAddress.setTag(((EditText) findViewById(R.id.editView_other_tag)).getText().toString());
+            }
+
+            SharedPreferenceSingleton preference = SharedPreferenceSingleton.getInstance();
+            preference.saveCurrentUsedLocation(mNewAddress);
+            boolean isLocationAlreadyExist = false;
+            ArrayList<AddressDetailsLocationData> savedAddressList = preference.getAddresses();
+            if (savedAddressList != null && savedAddressList.size() > 0) {
+                for (AddressDetailsLocationData savedLocation : preference.getAddresses()) {
+                    if (savedLocation.equals(mNewAddress)) {
+                        isLocationAlreadyExist = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!isLocationAlreadyExist) {
+                preference.addAddress(mNewAddress);
+            }
+            updateOrderSummaryAndCheckout(mNewAddress);
+        } else {
+            validateEditText(neighborhood);
+            validateEditText(address);
+        }
+    }
+
+    private void clickOkFunc(){
+        EditText neighborhood = (EditText) findViewById(R.id.editView_building);
+        EditText address = (EditText) findViewById(R.id.editView_address);
+        EditText landmark = (EditText) findViewById(R.id.editView_landmark);
+
+        if (validateEditText(landmark) && validateEditText(neighborhood) && validateEditText(address)) {
+            mNewAddress.setNeighborhood(neighborhood.getText().toString());
+            mNewAddress.setAddress(address.getText().toString());
+            mNewAddress.setLandmark(landmark.getText().toString());
+            if (homeTag.isSelected()) {
+                mNewAddress.setTag(AddressDetailsLocationData.TAG_HOME);
+            } else if (workTag.isSelected()) {
+                mNewAddress.setTag(AddressDetailsLocationData.TAG_WORK);
+            } else {
+                mNewAddress.setTag(((EditText) findViewById(R.id.editView_other_tag)).getText().toString());
+            }
+
+            SharedPreferenceSingleton preference = SharedPreferenceSingleton.getInstance();
+            preference.saveCurrentUsedLocation(mNewAddress);
+            Intent intent = new Intent();
+            setResult(Activity.RESULT_OK,intent);
+            finish();
+
+        } else {
+            validateEditText(neighborhood);
+            validateEditText(address);
+            validateEditText(landmark);
+        }
+    }
+
+    private void setUpMapIfNeeded() {
+        if (mMap == null) {
+            // Try to obtain the map from the SupportMapFragment.
+            MapFragment mapFragment = (MapFragment) getFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
+            mMap = mapFragment.getMap();
+        }
     }
 
     @Override
@@ -292,4 +353,29 @@ public class AddressAddNewActivity extends BaseActionActivity {
         landmark.setText(locationData.getLandmark());
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        if (currentPosition != null) {
+            mMap = googleMap;
+            setMarkerOnMap(currentPosition, "Current location", true);
+        }
+    }
+
+    private void setMarkerOnMap(LatLng latLng, String addressTitle, boolean isAnimate) {
+        MarkerOptions markerOptions = new MarkerOptions();
+        // Setting the position for the marker
+        markerOptions.position(latLng);
+        markerOptions.title(addressTitle);
+
+        mMap.clear();
+        mMap.addMarker(markerOptions);
+        if (isAnimate) {
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+            CameraPosition myPosition = new CameraPosition.Builder()
+                    .target(latLng).zoom(17).bearing(90).tilt(30).build();
+            mMap.animateCamera(
+                    CameraUpdateFactory.newCameraPosition(myPosition));
+        }
+
+    }
 }

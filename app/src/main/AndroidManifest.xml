@@ -383,6 +383,7 @@
         <activity
             android:name=".activities.AddressAddNewActivity"
             android:label="@string/address_add_new"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait" />
 
         <activity

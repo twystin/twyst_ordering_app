@@ -59,7 +59,6 @@ public class AppConstants {
     public static final String INTENT_PARAM_OUTLET_LOCATION_LONG = "lng";
     public static final String INTENT_PARAM_OUTLET_NAME = "outlet_name";
     public static final String INTENT_PARAM_OUTLET_ID = "outlet_id";
-    public static final String INTENT_PARAM_PHONE = "outlet_phone";
     public static final String INTENT_PARAM_OFFER_ID = "offer_id";
     public static final String INTENT_PARAM_OUTLET_OBJECT = "outlet_object";
     public static final String INTENT_PARAM_OFFER_OBJECT = "offer_object";
@@ -183,6 +182,8 @@ public class AppConstants {
     public static final String offersTag = "OFFERS AVAILABLE";
     public static final int GET_FILTER_ACTIVITY = 5;
     public static final int GOT_FILTERS_SUCCESS = -5;
+    public static final int EDIT_ADDRESS_SUCCESS = -111;
+    public static final int EDIT_ADDRESS = 111;
     public static final String FILTER_TAGS = "FILTER_TAGS_SENT";
     public static final String FILTER_MAP = "filter_map";
 

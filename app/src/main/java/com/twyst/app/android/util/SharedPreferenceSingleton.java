@@ -21,6 +21,15 @@ public class SharedPreferenceSingleton {
     private Context context;
     private boolean skipLocationClicked = false;
     private boolean saveLocationClicked = false;
+    private boolean passedCartCheckoutStage = false;
+
+    public boolean isPassedCartCheckoutStage() {
+        return passedCartCheckoutStage;
+    }
+
+    public void setPassedCartCheckoutStage(boolean passedCartCheckoutStage) {
+        this.passedCartCheckoutStage = passedCartCheckoutStage;
+    }
 
     public boolean isSkipLocationClicked() {
         return skipLocationClicked;
@@ -91,18 +100,6 @@ public class SharedPreferenceSingleton {
         editor.commit();
     }
 
-    public void saveLastUsedLocation( AddressDetailsLocationData lastUsedLocation) {
-        SharedPreferences.Editor editor;
-        editor = sharedPreferences.edit();
-
-        Gson gson = new Gson();
-        String jsonLastUsedLocation = gson.toJson(lastUsedLocation);
-
-        editor.putString(AppConstants.LAST_USED_LOCATION, jsonLastUsedLocation);
-
-        editor.commit();
-    }
-
     public AddressDetailsLocationData getCurrentUsedLocation() {
         if (sharedPreferences != null && sharedPreferences.contains(AppConstants.CURRENT_USED_LOCATION)) {
             String jsonFavorites = sharedPreferences.getString(AppConstants.CURRENT_USED_LOCATION, null);
@@ -115,20 +112,6 @@ public class SharedPreferenceSingleton {
             return null;
 
     }
-
-    public AddressDetailsLocationData getLastUsedLocation() {
-        if (sharedPreferences != null && sharedPreferences.contains(AppConstants.LAST_USED_LOCATION)) {
-            String jsonFavorites = sharedPreferences.getString(AppConstants.LAST_USED_LOCATION, null);
-            Gson gson = new Gson();
-            AddressDetailsLocationData lastUsedLocation = gson.fromJson(jsonFavorites,
-                    AddressDetailsLocationData.class);
-
-            return lastUsedLocation;
-        } else
-            return null;
-
-    }
-
 
     public void addAddress(AddressDetailsLocationData product) {
         List<AddressDetailsLocationData> favorites = getAddresses();

@@ -93,6 +93,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
     private CircularProgressBar circularProgressBarOutlet;
     private LinearLayout showAddressLayout;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.discover_outlet_fragment, container, false);
@@ -141,29 +142,35 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
         currentAddressName = (TextView) view.findViewById(R.id.tv_current_address_location);
         circularProgressBarOutlet = (CircularProgressBar) view.findViewById(R.id.circularProgressBarOutlet);
         showProgressBar();
-        switch (optionSelected) {
-            case AppConstants.CHOOSE_LOCATION_OPTION_CURRENT:
-                mAddressDetailsLocationData = sharedPreferenceSingleton.getCurrentUsedLocation();
-                currentAddressName.setText(mAddressDetailsLocationData.getAddress());
-                fetchOutlets(1);
-                break;
-            case AppConstants.CHOOSE_LOCATION_OPTION_SAVED:
-                mAddressDetailsLocationData = sharedPreferenceSingleton.getCurrentUsedLocation();
-                currentAddressName.setText(mAddressDetailsLocationData.getAddress());
-                fetchOutlets(1);
-                break;
-            case AppConstants.CHOOSE_LOCATION_OPTION_ADD:
-                mAddressDetailsLocationData = sharedPreferenceSingleton.getCurrentUsedLocation();
-                currentAddressName.setText(mAddressDetailsLocationData.getAddress());
-                fetchOutlets(1);
-                break;
-            case AppConstants.CHOOSE_LOCATION_OPTION_SKIPPED:
-                Fragment discoverOutletFragment = (DiscoverOutletFragment) (getActivity().getSupportFragmentManager().getFragments().get(0));
-                locationFetchUtil = new LocationFetchUtil(getActivity(), discoverOutletFragment);
-                locationFetchUtil.requestLocation(true);
-                break;
-            default:
-                break;
+        if (savedInstanceState == null) {
+            switch (optionSelected) {
+                case AppConstants.CHOOSE_LOCATION_OPTION_CURRENT:
+                    mAddressDetailsLocationData = sharedPreferenceSingleton.getDeliveryLocation();
+                    currentAddressName.setText(mAddressDetailsLocationData.getAddress());
+                    fetchOutlets(1);
+                    break;
+                case AppConstants.CHOOSE_LOCATION_OPTION_SAVED:
+                    mAddressDetailsLocationData = sharedPreferenceSingleton.getDeliveryLocation();
+                    currentAddressName.setText(mAddressDetailsLocationData.getAddress());
+                    fetchOutlets(1);
+                    break;
+                case AppConstants.CHOOSE_LOCATION_OPTION_ADD:
+                    mAddressDetailsLocationData = sharedPreferenceSingleton.getDeliveryLocation();
+                    currentAddressName.setText(mAddressDetailsLocationData.getAddress());
+                    fetchOutlets(1);
+                    break;
+                case AppConstants.CHOOSE_LOCATION_OPTION_SKIPPED:
+                    Fragment discoverOutletFragment = (DiscoverOutletFragment) (getActivity().getSupportFragmentManager().getFragments().get(0));
+                    locationFetchUtil = new LocationFetchUtil(getActivity(), discoverOutletFragment);
+                    locationFetchUtil.requestLocation(true);
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            mAddressDetailsLocationData = sharedPreferenceSingleton.getDeliveryLocation();
+            currentAddressName.setText(mAddressDetailsLocationData.getAddress());
+            fetchOutlets(1);
         }
 
 
@@ -186,7 +193,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AddressAddNewActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, AppConstants.EDIT_ADDRESS);
             }
         });
 
@@ -199,11 +206,11 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
         super.onResume();
         mAddressDetailsLocationData = SharedPreferenceSingleton.getInstance().getDeliveryLocation();
         if (mAddressDetailsLocationData != null) {
-            if (mAddressDetailsLocationData.getLandmark().equals("Unnamed Address")){
-                currentAddressName.setText(mAddressDetailsLocationData.getLandmark());
-            } else {
-                currentAddressName.setText(mAddressDetailsLocationData.getLandmark() + ", " + mAddressDetailsLocationData.getNeighborhood());
-            }
+                if (mAddressDetailsLocationData.getLandmark().equals("Unnamed Address")) {
+                    currentAddressName.setText(mAddressDetailsLocationData.getLandmark());
+                } else {
+                    currentAddressName.setText(mAddressDetailsLocationData.getLandmark() + ", " + mAddressDetailsLocationData.getNeighborhood());
+                }
         }
 
     }
@@ -246,12 +253,23 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
                 hideProgressBar();
 
 
-            } else {
-//                Toast.makeText(getActivity(), "UNABLE TO FETCH TAGS", Toast.LENGTH_LONG).show();
-//                showErrorLayout.setVisibility(View.VISIBLE);
-//                errorDescription.setText(R.string.fetch_location_again_desc);
-
             }
+        } else if (requestCode == AppConstants.EDIT_ADDRESS) {
+                AddressDetailsLocationData newAddressLocationData = SharedPreferenceSingleton.getInstance().getDeliveryLocation();
+                if (newAddressLocationData != null) {
+
+                    if (newAddressLocationData.getLandmark().equals("Unnamed Address")) {
+                        currentAddressName.setText(newAddressLocationData.getLandmark());
+                    }  else {
+                        currentAddressName.setText(newAddressLocationData.getLandmark() + ", " + newAddressLocationData.getNeighborhood());
+                    }
+
+                    if (!newAddressLocationData.equals(mAddressDetailsLocationData)) {
+                        mAddressDetailsLocationData = newAddressLocationData;
+                        fetchOutlets(1);
+                    }
+                }
+
         }
     }
 
@@ -347,6 +365,10 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
     }
 
     private void fetchOutlets(final int start) {
+        discoverAdapter.getItems().clear();
+        discoverAdapter.notifyDataSetChanged();
+        noDataHolder.noDataOutlet.setVisibility(View.GONE);
+        showProgressBar();
         fabFilter.setVisibility(View.GONE);
 //        String latitude = getPrefs().getString(AppConstants.PREFERENCE_CURRENT_USED_LAT, null);
 //        String longitude = getPrefs().getString(AppConstants.PREFERENCE_CURRENT_USED_LNG, null);

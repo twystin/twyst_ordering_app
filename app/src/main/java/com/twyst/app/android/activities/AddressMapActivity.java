@@ -113,7 +113,7 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
                 twystProgressHUD = TwystProgressHUD.show(AddressMapActivity.this, false, null);
 
                 ConnectivityManager cm =
-                        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                        (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
                 boolean isConnected = activeNetwork != null &&
                         activeNetwork.isConnectedOrConnecting();
@@ -129,7 +129,7 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
                             dialog.cancel();
                         }
                     });
-                    if (twystProgressHUD != null) {
+                    if (twystProgressHUD != null){
                         twystProgressHUD.dismiss();
                     }
                     mAddressRequested = false;
@@ -151,11 +151,11 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
     }
 
     public void fetchLocation() {
-        if (PermissionUtil.getInstance().approveLocation(AddressMapActivity.this, false)) {
+        if (PermissionUtil.getInstance().approveLocation(AddressMapActivity.this,false)) {
             twystProgressHUD = TwystProgressHUD.show(AddressMapActivity.this, false, null);
             mLocationRequested = true;
             locationFetchUtil.requestLocation(false);
-        } else {
+        } else{
 
             mFetchAddressButton.setClickable(false);
             SharedPreferenceSingleton sharedPreference = SharedPreferenceSingleton.getInstance();
@@ -318,23 +318,30 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
 
             if (getIntent().getBooleanExtra(AppConstants.FROM_CHOOSE_ACTIVITY_TO_MAP, false)) {
                 Intent intent = new Intent(AddressMapActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 SharedPreferenceSingleton sharedPreferenceSingleton = SharedPreferenceSingleton.getInstance();
                 sharedPreferenceSingleton.saveCurrentUsedLocation(locationData);
+                sharedPreferenceSingleton.setSaveLocationClicked(false);
                 intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_ADD);
                 startActivity(intent);
                 finish();
             } else {
-                // in Payment flow
-                Bundle bundle = getIntent().getExtras();
-                String outletId = bundle.getString(AppConstants.INTENT_PARAM_OUTLET_ID);
-                String phone = bundle.getString(AppConstants.INTENT_PARAM_PHONE);
-                ArrayList<Items> cartItemsList = (ArrayList<Items>) bundle.getSerializable(AppConstants.INTENT_PARAM_CART_LIST);
 
-                UtilMethods.checkOut(locationData, cartItemsList, outletId, phone, AddressMapActivity.this, true);
-//                Intent intent = new Intent();
-//                intent.putExtras(info);
-//                setResult(RESULT_OK, intent);
-//                finish();
+                if (SharedPreferenceSingleton.getInstance().isPassedCartCheckoutStage()) {
+                    // in Payment flow
+                    Bundle bundle = getIntent().getExtras();
+                    String outletId = bundle.getString(AppConstants.INTENT_PARAM_OUTLET_ID);
+                    ArrayList<Items> cartItemsList = (ArrayList<Items>) bundle.getSerializable(AppConstants.INTENT_PARAM_CART_LIST);
+                    SharedPreferenceSingleton.getInstance().setSaveLocationClicked(false);
+                    UtilMethods.checkOut(locationData, cartItemsList, outletId, AddressMapActivity.this, true);
+                } else {
+                    Intent intent = new Intent(AddressMapActivity.this, AddressAddNewActivity.class);
+                    SharedPreferenceSingleton.getInstance().saveCurrentUsedLocation(locationData);
+                    SharedPreferenceSingleton.getInstance().setSaveLocationClicked(false);
+                    startActivity(intent);
+                    finish();
+                }
+
             }
         } else {
             // ideally only error should be AppConstants.SHOW_FETCH_LOCATION_AGAIN

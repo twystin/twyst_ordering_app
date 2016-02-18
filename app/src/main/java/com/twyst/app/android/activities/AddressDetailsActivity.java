@@ -68,7 +68,6 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
 
     // From Cart
     private String mOutletId;
-    private String mPhone;
     private ArrayList<Items> mCartItemsList = new ArrayList<>();
 
     @Override
@@ -92,7 +91,25 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SharedPreferenceSingleton.getInstance().setSaveLocationClicked(true);
                 AddressDetailsLocationData addressDetailsLocationData = (AddressDetailsLocationData) listView.getItemAtPosition(position);
-                UtilMethods.checkOut(addressDetailsLocationData, mCartItemsList, mOutletId, mPhone, AddressDetailsActivity.this, true);
+                UtilMethods.checkOut(addressDetailsLocationData, mCartItemsList, mOutletId, AddressDetailsActivity.this, true);
+            }
+        });
+    }
+
+    private void setupAdapterWithoutVerifyAPI() {
+        adapter = new SimpleArrayAdapter(AddressDetailsActivity.this, mAddressList, null);
+        final ListView listView = (ListView) findViewById(R.id.saved_address_list_view);
+        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SharedPreferenceSingleton.getInstance().setSaveLocationClicked(true);
+                AddressDetailsLocationData addressDetailsLocationData = (AddressDetailsLocationData) listView.getItemAtPosition(position);
+                SharedPreferenceSingleton.getInstance().saveCurrentUsedLocation(addressDetailsLocationData);
+                Intent intent = new Intent(AddressDetailsActivity.this, AddressAddNewActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
@@ -124,7 +141,15 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
                 if (!((mLocationAddressTextView.getText().toString()).equals("unavailable!"))) {
                     ((ImageView) findViewById(R.id.radio_current_loc)).setSelected(true);
 //                    checkCurrentDeliverableAndProceed();
-                    UtilMethods.checkOut(mAddressDetailsLocationData, mCartItemsList, mOutletId, mPhone, AddressDetailsActivity.this, true);
+                    if (SharedPreferenceSingleton.getInstance().isPassedCartCheckoutStage()) {
+                        UtilMethods.checkOut(mAddressDetailsLocationData, mCartItemsList, mOutletId, AddressDetailsActivity.this, true);
+                    } else {
+                        SharedPreferenceSingleton.getInstance().setSaveLocationClicked(false);
+                        SharedPreferenceSingleton.getInstance().saveCurrentUsedLocation(mAddressDetailsLocationData);
+                        Intent intent = new Intent(AddressDetailsActivity.this,AddressAddNewActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
 
             }
@@ -148,33 +173,42 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
     private void addNewAddress() {
         Intent addressDetailsIntent = new Intent(AddressDetailsActivity.this, AddressMapActivity.class);
 
-        Bundle addressDetailsBundle = new Bundle();
-        addressDetailsBundle.putString(AppConstants.INTENT_PARAM_OUTLET_ID, mOutletId);
-        addressDetailsBundle.putString(AppConstants.INTENT_PARAM_PHONE, mPhone);
-        addressDetailsBundle.putSerializable(AppConstants.INTENT_PARAM_CART_LIST, mCartItemsList);
+        if (SharedPreferenceSingleton.getInstance().isPassedCartCheckoutStage()) {
+            Bundle addressDetailsBundle = new Bundle();
+            addressDetailsBundle.putString(AppConstants.INTENT_PARAM_OUTLET_ID, mOutletId);
+            addressDetailsBundle.putSerializable(AppConstants.INTENT_PARAM_CART_LIST, mCartItemsList);
+            addressDetailsIntent.putExtras(addressDetailsBundle);
+        }
 
-        addressDetailsIntent.putExtras(addressDetailsBundle);
         startActivity(addressDetailsIntent);
         finish();
     }
 
     private void fetchSavedAddresses() {
-        mOutletId = OrderInfoSingleton.getInstance().getOrderSummary().getOutletId();
-        mPhone = OrderInfoSingleton.getInstance().getOrderSummary().getPhone();
-        mCartItemsList = OrderInfoSingleton.getInstance().getOrderSummary().getmCartItemsList();
+
 
         SharedPreferenceSingleton preference = SharedPreferenceSingleton.getInstance();
         mAddressList = preference.getAddresses();
-        if (mAddressList != null && mAddressList.size() > 0) {
-            ((CardView) findViewById(R.id.cardView_listview)).setVisibility(View.VISIBLE);
-            ((CardView) findViewById(R.id.cardView_noAddress)).setVisibility(View.GONE);
-            verifyLocationsAPI();
 
-        } else {
+        if (mAddressList == null || mAddressList.size() == 0) {
             ((CardView) findViewById(R.id.cardView_listview)).setVisibility(View.GONE);
             ((CardView) findViewById(R.id.cardView_noAddress)).setVisibility(View.VISIBLE);
+        } else {
+            if (!SharedPreferenceSingleton.getInstance().isPassedCartCheckoutStage()) {
+                setupAdapterWithoutVerifyAPI();
+            } else {
+                Bundle bundle = getIntent().getExtras();
+//        mOutletId = bundle.getString(AppConstants.INTENT_PARAM_OUTLET_ID);
+//        mCartItemsList = (ArrayList<Items>) bundle.getSerializable(AppConstants.INTENT_PARAM_CART_LIST);
+                mOutletId = OrderInfoSingleton.getInstance().getOrderSummary().getOutletId();
+                mCartItemsList = OrderInfoSingleton.getInstance().getOrderSummary().getmCartItemsList();
+                ((CardView) findViewById(R.id.cardView_listview)).setVisibility(View.VISIBLE);
+                ((CardView) findViewById(R.id.cardView_noAddress)).setVisibility(View.GONE);
+                verifyLocationsAPI();
+            }
         }
     }
+
 
     private void verifyLocationsAPI() {
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);

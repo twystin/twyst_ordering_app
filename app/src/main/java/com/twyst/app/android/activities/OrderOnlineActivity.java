@@ -100,6 +100,10 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_online);
 
+        if (savedInstanceState != null){
+            finish();
+        }
+
         mOutlet = (Outlet) getIntent().getSerializableExtra(AppConstants.INTENT_PARAM_OUTLET_OBJECT);
 
         // To be deleted
@@ -459,13 +463,18 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     }
 
     private void checkOut() {
+        SharedPreferenceSingleton.getInstance().setPassedCartCheckoutStage(true);
         if (SharedPreferenceSingleton.getInstance().isSkipLocationClicked()) {
             Intent addressDetailsIntent = new Intent(OrderOnlineActivity.this, AddressDetailsActivity.class);
-            OrderSummary orderSummary = new OrderSummary(mCartAdapter.getmCartItemsList(), mOutletId, mOutlet.getPhone(), null); // location will be set in AddressDetailsActivity
+            OrderSummary orderSummary = new OrderSummary(mCartAdapter.getmCartItemsList(), mOutletId, null); // location will be set in AddressDetailsActivity
             OrderInfoSingleton.getInstance().setOrderSummary(orderSummary);
+
+//            Bundle addressDetailsBundle = new Bundle();
+//            addressDetailsBundle.putString(AppConstants.INTENT_PARAM_OUTLET_ID, mOutletId);
+//            addressDetailsBundle.putSerializable(AppConstants.INTENT_PARAM_CART_LIST, mCartAdapter.getmCartItemsList());
             startActivity(addressDetailsIntent);
         } else {
-            UtilMethods.checkOut(SharedPreferenceSingleton.getInstance().getDeliveryLocation(), mCartAdapter.getmCartItemsList(), mOutletId, mOutlet.getPhone(), OrderOnlineActivity.this, false);
+            UtilMethods.checkOut(SharedPreferenceSingleton.getInstance().getDeliveryLocation(), mCartAdapter.getmCartItemsList(), mOutletId, OrderOnlineActivity.this, false);
         }
     }
 

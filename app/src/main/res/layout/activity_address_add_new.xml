@@ -1,266 +1,299 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <LinearLayout
-        android:id="@+id/linlay_add_address"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        android:orientation="vertical"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:padding="10dp"
         android:visibility="visible">
 
-        <android.support.v7.widget.CardView style="@style/card_view_style">
+        <LinearLayout
+            android:id="@+id/linlay_add_address"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+            <android.support.v7.widget.CardView style="@style/card_view_style">
 
-                <TextView
-                    style="@style/card_text_heading"
-                    android:text="Address Details" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/card_text_heading"
+                            android:text="Location on Map" />
+
+                        <TextView
+                            android:id="@+id/tvChangeLocation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/layout_medium_margin"
+                            android:background="@color/primary"
+                            android:padding="@dimen/address_layout_small_margin"
+                            android:text="CHANGE"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/address_medium_text_size" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1">
+
+                        <fragment
+                            android:id="@+id/map"
+                            android:name="com.google.android.gms.maps.MapFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                        <ImageView
+                            android:id="@+id/chosen_location_button"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_margin="@dimen/layout_wide_margin"
+                            android:background="@drawable/location_buton" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView style="@style/card_view_style">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:dividerPadding="@dimen/address_layout_vertical_huge_margin"
-                    android:orientation="vertical"
-                    android:paddingBottom="@dimen/address_layout_vertical_medium_margin"
-                    android:paddingLeft="@dimen/address_layout_horizontal_huge_margin"
-                    android:paddingRight="@dimen/address_layout_horizontal_huge_margin"
-                    android:paddingTop="@dimen/address_layout_vertical_medium_margin">
+                    android:orientation="vertical">
 
-                    <EditText
-                        android:id="@+id/editView_address"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:drawable/screen_background_light_transparent"
-                        android:cursorVisible="false"
-                        android:editable="false"
-                        android:ellipsize="end"
-                        android:focusable="false"
-                        android:hint="@string/hint_address"
-                        android:singleLine="true"
-                        android:textColor="@color/black_54"
-                        android:textSize="@dimen/address_huge_text_size" />
+                    <TextView
+                        android:id="@+id/tv_detetcted_address"
+                        style="@style/card_text_heading"
+                        android:text="Auto Detected Address" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:dividerPadding="@dimen/address_layout_vertical_huge_margin"
+                        android:orientation="vertical"
+                        android:paddingBottom="@dimen/address_layout_vertical_medium_margin"
+                        android:paddingLeft="@dimen/address_layout_horizontal_huge_margin"
+                        android:paddingRight="@dimen/address_layout_horizontal_huge_margin"
+                        android:paddingTop="@dimen/address_layout_vertical_medium_margin">
 
                         <EditText
-                            android:id="@+id/editView_building"
-                            android:layout_width="0dp"
+                            android:id="@+id/editView_address"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_text_underline"
+                            android:background="@android:drawable/screen_background_light_transparent"
+                            android:cursorVisible="false"
+                            android:editable="false"
                             android:ellipsize="end"
-                            android:hint="@string/hint_building_name"
-                            android:inputType="textImeMultiLine|textNoSuggestions"
+                            android:focusable="false"
+                            android:hint="@string/hint_address"
                             android:singleLine="true"
                             android:textColor="@color/black_54"
-                            android:textColorHint="@color/black_38"
                             android:textSize="@dimen/address_huge_text_size" />
 
-                        <ImageView
-                            android:id="@+id/edit_image_neighborhood"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_gravity="right|center_vertical"
-                            android:src="@drawable/edit_icon" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <EditText
-                            android:id="@+id/editView_landmark"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_text_underline"
-                            android:ellipsize="end"
-                            android:hint="@string/hint_landmark"
-                            android:inputType="textNoSuggestions"
-                            android:singleLine="true"
-                            android:textColor="@color/black_54"
-                            android:textColorHint="@color/black_38"
-                            android:textSize="@dimen/address_huge_text_size" />
-
-                        <ImageView
-                            android:id="@+id/edit_image_landmark"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_gravity="right|center_vertical"
-                            android:src="@drawable/edit_icon" />
                     </LinearLayout>
 
                 </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView style="@style/card_view_style">
 
-        <android.support.v7.widget.CardView style="@style/card_view_style">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    style="@style/card_text_heading"
-                    android:text="Tag Address" />
-
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp">
-
-                    <ImageView
-                        android:id="@+id/add_address_home_tag"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true"
-                        android:src="@drawable/address_home_disabled" />
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_tag_home"
-                        android:layout_width="wrap_content"
+                        style="@style/card_text_heading"
+                        android:text="Edit Address Details" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_below="@id/add_address_home_tag"
-                        android:paddingTop="@dimen/address_layout_vertical_small_margin"
-                        android:textColor="@color/black_38"
-                        android:textSize="@dimen/address_medium_text_size" />
+                        android:dividerPadding="@dimen/address_layout_vertical_huge_margin"
+                        android:orientation="vertical"
+                        android:paddingBottom="@dimen/address_layout_vertical_medium_margin"
+                        android:paddingLeft="@dimen/address_layout_horizontal_huge_margin"
+                        android:paddingRight="@dimen/address_layout_horizontal_huge_margin"
+                        android:paddingTop="@dimen/address_layout_vertical_medium_margin">
 
-                    <ImageView
-                        android:id="@+id/add_address_work_tag"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        android:src="@drawable/address_home_disabled" />
 
-                    <TextView
-                        android:id="@+id/tv_tag_work"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/add_address_work_tag"
-                        android:layout_centerHorizontal="true"
-                        android:paddingTop="@dimen/address_layout_vertical_small_margin"
-                        android:textColor="@color/black_38"
-                        android:textSize="@dimen/address_medium_text_size" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/add_address_other_tag"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
-                        android:src="@drawable/address_location_disabled" />
+                            <EditText
+                                android:id="@+id/editView_building"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_text_underline"
+                                android:ellipsize="end"
+                                android:hint="@string/hint_building_name"
+                                android:inputType="textImeMultiLine|textNoSuggestions"
+                                android:singleLine="true"
+                                android:textColor="@color/black_54"
+                                android:textColorHint="@color/black_38"
+                                android:textSize="@dimen/address_huge_text_size" />
 
-                    <TextView
-                        android:id="@+id/tv_tag_other"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_below="@id/add_address_other_tag"
-                        android:paddingTop="@dimen/address_layout_vertical_small_margin"
-                        android:textColor="@color/black_38"
-                        android:textSize="@dimen/address_medium_text_size" />
-                </RelativeLayout>
+                            <ImageView
+                                android:id="@+id/edit_image_neighborhood"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_gravity="right|center_vertical"
+                                android:src="@drawable/edit_icon" />
+                        </LinearLayout>
 
-                <EditText
-                    android:id="@+id/editView_other_tag"
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/editView_landmark"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_text_underline"
+                                android:ellipsize="end"
+                                android:hint="@string/hint_landmark"
+                                android:inputType="textNoSuggestions"
+                                android:singleLine="true"
+                                android:textColor="@color/black_54"
+                                android:textColorHint="@color/black_38"
+                                android:textSize="@dimen/address_huge_text_size" />
+
+                            <ImageView
+                                android:id="@+id/edit_image_landmark"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_gravity="right|center_vertical"
+                                android:src="@drawable/edit_icon" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView style="@style/card_view_style">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/card_text_layout_margin"
-                    android:background="@drawable/edit_text_underline"
-                    android:ellipsize="end"
-                    android:hint="@string/hint_other_tag"
-                    android:inputType="textNoSuggestions"
-                    android:textColor="@color/black_54"
-                    android:textColorHint="@color/black_38"
-                    android:textSize="@dimen/address_huge_text_size"
-                    android:visibility="gone" />
-            </LinearLayout>
+                    android:orientation="vertical">
 
-        </android.support.v7.widget.CardView>
-    </LinearLayout>
+                    <TextView
+                        style="@style/card_text_heading"
+                        android:text="Tag Address" />
 
-    <LinearLayout
-        android:id="@+id/linlay_proceed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp">
 
-        <FrameLayout
-            android:id="@+id/proceedChangeLocation"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_primary">
+                        <ImageView
+                            android:id="@+id/add_address_home_tag"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentTop="true"
+                            android:src="@drawable/address_home_disabled" />
 
-            <TextView
-                android:id="@+id/tvChangeLocation"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:drawablePadding="10dp"
-                android:focusable="false"
-                android:text="CHANGE"
-                android:padding="5dp"
-                android:textColor="@android:color/white"
-                android:textSize="18dp" />
-        </FrameLayout>
+                        <TextView
+                            android:id="@+id/tv_tag_home"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_below="@id/add_address_home_tag"
+                            android:paddingTop="@dimen/address_layout_vertical_small_margin"
+                            android:textColor="@color/black_38"
+                            android:textSize="@dimen/address_medium_text_size" />
 
-        <FrameLayout
-            android:id="@+id/proceed_address_new"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_primary"
-            >
+                        <ImageView
+                            android:id="@+id/add_address_work_tag"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:src="@drawable/address_home_disabled" />
 
-            <TextView
-                android:id="@+id/tvProceed"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:drawablePadding="10dp"
-                android:focusable="false"
-                android:text="PROCEED"
-                android:padding="5dp"
-                android:textColor="@android:color/white"
-                android:textSize="18dp" />
-        </FrameLayout>
+                        <TextView
+                            android:id="@+id/tv_tag_work"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/add_address_work_tag"
+                            android:layout_centerHorizontal="true"
+                            android:paddingTop="@dimen/address_layout_vertical_small_margin"
+                            android:textColor="@color/black_38"
+                            android:textSize="@dimen/address_medium_text_size" />
 
-    </LinearLayout>
+                        <ImageView
+                            android:id="@+id/add_address_other_tag"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentTop="true"
+                            android:src="@drawable/address_location_disabled" />
+
+                        <TextView
+                            android:id="@+id/tv_tag_other"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@id/add_address_other_tag"
+                            android:paddingTop="@dimen/address_layout_vertical_small_margin"
+                            android:textColor="@color/black_38"
+                            android:textSize="@dimen/address_medium_text_size" />
+                    </RelativeLayout>
+
+                    <EditText
+                        android:id="@+id/editView_other_tag"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/card_text_layout_margin"
+                        android:background="@drawable/edit_text_underline"
+                        android:ellipsize="end"
+                        android:hint="@string/hint_other_tag"
+                        android:inputType="textNoSuggestions"
+                        android:textColor="@color/black_54"
+                        android:textColorHint="@color/black_38"
+                        android:textSize="@dimen/address_huge_text_size"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
 
     <FrameLayout
         android:id="@+id/proceed_ok"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
         android:background="@drawable/button_primary"
-        android:padding="5dp"
-        android:visibility="gone">
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/tvProceedOk"
@@ -274,4 +307,4 @@
             android:textSize="18dp" />
     </FrameLayout>
 
-</RelativeLayout>
+</LinearLayout>
