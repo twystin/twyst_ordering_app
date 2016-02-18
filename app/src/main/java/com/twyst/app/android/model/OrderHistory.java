@@ -13,7 +13,6 @@ import java.util.ArrayList;
  * Created by Raman on 1/15/2016.
  */
 public class OrderHistory implements Serializable {
-
     private String locality_2;
 
     private String locality_1;
@@ -22,6 +21,8 @@ public class OrderHistory implements Serializable {
 
     @SerializedName("outlet_name")
     private String outletName;
+
+    String phone;
 
     @SerializedName("items")
     private ArrayList<Items> items = new ArrayList<Items>();
@@ -64,6 +65,14 @@ public class OrderHistory implements Serializable {
 
     @SerializedName("logo")
     private String logo;
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     public String getOrderID() {
         return orderID;

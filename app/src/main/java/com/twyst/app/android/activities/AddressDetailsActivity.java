@@ -44,7 +44,7 @@ import retrofit.client.Response;
 /**
  * Created by anshul on 1/8/2016.
  */
-public class AddressDetailsActivity extends BaseActionActivity implements LocationFetchUtil.LocationFetchResultCodeListener , ActivityCompat.OnRequestPermissionsResultCallback  {
+public class AddressDetailsActivity extends BaseActionActivity implements LocationFetchUtil.LocationFetchResultCodeListener, ActivityCompat.OnRequestPermissionsResultCallback {
     List<AddressDetailsLocationData> mAddressList = new ArrayList<AddressDetailsLocationData>();
     SimpleArrayAdapter adapter = null;
     private LinearLayout add;
@@ -68,6 +68,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
 
     // From Cart
     private String mOutletId;
+    private String mPhone;
     private ArrayList<Items> mCartItemsList = new ArrayList<>();
 
     @Override
@@ -91,7 +92,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SharedPreferenceSingleton.getInstance().setSaveLocationClicked(true);
                 AddressDetailsLocationData addressDetailsLocationData = (AddressDetailsLocationData) listView.getItemAtPosition(position);
-                UtilMethods.checkOut(addressDetailsLocationData, mCartItemsList, mOutletId, AddressDetailsActivity.this, true);
+                UtilMethods.checkOut(addressDetailsLocationData, mCartItemsList, mOutletId, mPhone, AddressDetailsActivity.this, true);
             }
         });
     }
@@ -123,7 +124,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
                 if (!((mLocationAddressTextView.getText().toString()).equals("unavailable!"))) {
                     ((ImageView) findViewById(R.id.radio_current_loc)).setSelected(true);
 //                    checkCurrentDeliverableAndProceed();
-                    UtilMethods.checkOut(mAddressDetailsLocationData, mCartItemsList, mOutletId, AddressDetailsActivity.this, true);
+                    UtilMethods.checkOut(mAddressDetailsLocationData, mCartItemsList, mOutletId, mPhone, AddressDetailsActivity.this, true);
                 }
 
             }
@@ -149,6 +150,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
 
         Bundle addressDetailsBundle = new Bundle();
         addressDetailsBundle.putString(AppConstants.INTENT_PARAM_OUTLET_ID, mOutletId);
+        addressDetailsBundle.putString(AppConstants.INTENT_PARAM_PHONE, mPhone);
         addressDetailsBundle.putSerializable(AppConstants.INTENT_PARAM_CART_LIST, mCartItemsList);
 
         addressDetailsIntent.putExtras(addressDetailsBundle);
@@ -157,10 +159,8 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
     }
 
     private void fetchSavedAddresses() {
-        Bundle bundle = getIntent().getExtras();
-//        mOutletId = bundle.getString(AppConstants.INTENT_PARAM_OUTLET_ID);
-//        mCartItemsList = (ArrayList<Items>) bundle.getSerializable(AppConstants.INTENT_PARAM_CART_LIST);
         mOutletId = OrderInfoSingleton.getInstance().getOrderSummary().getOutletId();
+        mPhone = OrderInfoSingleton.getInstance().getOrderSummary().getPhone();
         mCartItemsList = OrderInfoSingleton.getInstance().getOrderSummary().getmCartItemsList();
 
         SharedPreferenceSingleton preference = SharedPreferenceSingleton.getInstance();
@@ -214,7 +214,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
     }
 
     public void fetchCurrentLocation() {
-        if (PermissionUtil.getInstance().approveLocation(AddressDetailsActivity.this,false)){
+        if (PermissionUtil.getInstance().approveLocation(AddressDetailsActivity.this, false)) {
             updateUIWidgets(AppConstants.SHOW_PROGRESS_BAR);
             mLocation = null;
             locationFetchUtil.requestLocation(true);

@@ -49,6 +49,9 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
     protected TwystApplication twystApplication;
     private boolean ivArrowExpanded;
     private boolean isOrderDeliverySuccessInProgress;
+    OrderInfoLocal mOrderInfoLocal;
+
+    private String mPhoneNumber;
 
     private static final int REQUEST_PHONE = 2;
     private final String TAG = "OrderTrackingActivity";
@@ -71,17 +74,24 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
         mOrderID = getIntent().getExtras().getString(AppConstants.INTENT_ORDER_ID, "");
         refreshList();
 
-        OrderInfoLocal orderInfoLocal = OrderInfoLocal.getLocalList(mOrderID, OrderTrackingActivity.this);
-        if (orderInfoLocal == null) {// No  local data
+        mOrderInfoLocal = OrderInfoLocal.getLocalList(mOrderID, OrderTrackingActivity.this);
+        if (mOrderInfoLocal == null) {// No  local data
             findViewById(R.id.iv_arrow).setVisibility(View.GONE);
             if (TextUtils.isEmpty(getIntent().getExtras().getString(AppConstants.INTENT_ORDER_NUMBER, ""))) {
                 findViewById(R.id.order_number_layout).setVisibility(View.GONE);
             } else {
                 showOrderNumber(getIntent().getExtras().getString(AppConstants.INTENT_ORDER_NUMBER, ""));
             }
+
+            if (TextUtils.isEmpty(getIntent().getExtras().getString(AppConstants.INTENT_PARAM_PHONE, ""))) {
+                mPhoneNumber = null;
+            } else {
+                mPhoneNumber = getIntent().getExtras().getString(AppConstants.INTENT_PARAM_PHONE, "");
+            }
         } else {
-            showOrderNumber(orderInfoLocal.getOrderNumber());
-            setupSummaryRecyclerView(orderInfoLocal);
+            mPhoneNumber = mOrderInfoLocal.getOrderSummary().getPhone();
+            showOrderNumber(mOrderInfoLocal.getOrderNumber());
+            setupSummaryRecyclerView(mOrderInfoLocal);
             findViewById(R.id.iv_arrow).setVisibility(View.VISIBLE);
             findViewById(R.id.iv_arrow).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -203,10 +213,18 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
 
                 case OrderTrackingState.STATE_ACCEPTED:
                     if (isCurrent) {
-                        viewholder.tvClickForSuccess.setVisibility(View.VISIBLE);
-                        viewholder.tvClickForSuccess.setBackgroundColor(getResources().getColor(R.color.background_green));
-                        viewholder.tvClickForSuccess.setText(getResources().getString(R.string.order_accepted_contact_outlet_message));
-//                        showDialogCall("8505850504");
+                        if (!TextUtils.isEmpty(mPhoneNumber)) {
+                            viewholder.tvClickForSuccess.setVisibility(View.VISIBLE);
+                            viewholder.tvClickForSuccess.setBackgroundColor(getResources().getColor(R.color.background_green));
+                            viewholder.tvClickForSuccess.setText(getResources().getString(R.string.order_accepted_contact_outlet_message));
+                            viewholder.tvClickForSuccess.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    showDialogCall(mPhoneNumber);
+                                }
+                            });
+                        }
+
                     }
                     break;
 
@@ -295,7 +313,7 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
                 public void onClick(View v) {
                     if (PermissionUtil.getInstance().approvePhone(OrderTrackingActivity.this, false)) {
                         Intent callIntent = new Intent(Intent.ACTION_CALL);
-                        callIntent.setData(Uri.parse(phNo));
+                        callIntent.setData(Uri.parse("tel:" + phNo));
                         startActivity(callIntent);
                         dialog.dismiss();
                     }

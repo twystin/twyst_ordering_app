@@ -204,6 +204,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     private void trackOrder(OrderHistory orderHistory) {
         Intent orderTrackingIntent = new Intent(mContext, OrderTrackingActivity.class);
         orderTrackingIntent.putExtra(AppConstants.INTENT_ORDER_ID, orderHistory.getOrderID());
+        orderTrackingIntent.putExtra(AppConstants.INTENT_PARAM_PHONE, orderHistory.getPhone());
         orderTrackingIntent.putExtra(AppConstants.INTENT_ORDER_NUMBER, orderHistory.getOrderNumber());
         orderTrackingIntent.putExtra(AppConstants.INTENT_PARAM_FROM_ORDER_HISTORY, true);
         orderTrackingIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -540,6 +541,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         reorderOutlet.setBackground(orderHistory.getBackground());
         reorderOutlet.setMenuId(orderHistory.getMenuId());
         reorderOutlet.setLogo(orderHistory.getBackground());
+        reorderOutlet.setPhone(orderHistory.getPhone());
 
         Intent intent = new Intent(mContext, OrderOnlineActivity.class);
         intent.putExtra(AppConstants.INTENT_PLACE_REORDER_MENUID, orderHistory.getMenuId());

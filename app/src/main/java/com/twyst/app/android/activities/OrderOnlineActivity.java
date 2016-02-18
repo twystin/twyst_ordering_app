@@ -461,15 +461,11 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     private void checkOut() {
         if (SharedPreferenceSingleton.getInstance().isSkipLocationClicked()) {
             Intent addressDetailsIntent = new Intent(OrderOnlineActivity.this, AddressDetailsActivity.class);
-            OrderSummary orderSummary = new OrderSummary(mCartAdapter.getmCartItemsList(), mOutletId, null); // location will be set in AddressDetailsActivity
+            OrderSummary orderSummary = new OrderSummary(mCartAdapter.getmCartItemsList(), mOutletId, mOutlet.getPhone(), null); // location will be set in AddressDetailsActivity
             OrderInfoSingleton.getInstance().setOrderSummary(orderSummary);
-
-//            Bundle addressDetailsBundle = new Bundle();
-//            addressDetailsBundle.putString(AppConstants.INTENT_PARAM_OUTLET_ID, mOutletId);
-//            addressDetailsBundle.putSerializable(AppConstants.INTENT_PARAM_CART_LIST, mCartAdapter.getmCartItemsList());
             startActivity(addressDetailsIntent);
         } else {
-            UtilMethods.checkOut(SharedPreferenceSingleton.getInstance().getDeliveryLocation(), mCartAdapter.getmCartItemsList(), mOutletId, OrderOnlineActivity.this, false);
+            UtilMethods.checkOut(SharedPreferenceSingleton.getInstance().getDeliveryLocation(), mCartAdapter.getmCartItemsList(), mOutletId, mOutlet.getPhone(), OrderOnlineActivity.this, false);
         }
     }
 

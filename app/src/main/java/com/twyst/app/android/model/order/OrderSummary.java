@@ -14,9 +14,10 @@ import java.util.ArrayList;
  * Created by Vipul Sharma on 12/21/2015.
  */
 public class OrderSummary implements Serializable {
-    public OrderSummary(ArrayList<Items> cartItemsList, String outletId,Coords coords) {
+    public OrderSummary(ArrayList<Items> cartItemsList, String outletId, String phone, Coords coords) {
         this.mCartItemsList = cartItemsList;
         this.outletId = outletId;
+        this.phone = phone;
         this.coordinates = coords;
         createOrder();
     }
@@ -97,6 +98,16 @@ public class OrderSummary implements Serializable {
 
     public double getDelivery_charges() {
         return delivery_charges;
+    }
+
+    private String phone;
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public void setDelivery_charges(double delivery_charges) {

@@ -30,9 +30,9 @@ import retrofit.client.Response;
  * Created by Vipul Sharma on 1/30/2016.
  */
 public class UtilMethods {
-    public static void checkOut(final AddressDetailsLocationData addressDetailsLocationData, final ArrayList<Items> mCartItemsList, String mOutletId, final Activity activity, final boolean toFinish) {
+    public static void checkOut(final AddressDetailsLocationData addressDetailsLocationData, final ArrayList<Items> mCartItemsList, String mOutletId, String phone, final Activity activity, final boolean toFinish) {
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(activity, false, null);
-        final OrderSummary orderSummary = new OrderSummary(mCartItemsList, mOutletId, addressDetailsLocationData.getCoords());
+        final OrderSummary orderSummary = new OrderSummary(mCartItemsList, mOutletId, phone, addressDetailsLocationData.getCoords());
         OrderInfoSingleton.getInstance().setOrderSummary(orderSummary);
         HttpService.getInstance().postOrderVerify(getUserToken(activity), orderSummary, new Callback<BaseResponse<OrderSummary>>() {
             @Override
@@ -42,6 +42,7 @@ public class UtilMethods {
                     Intent checkOutIntent;
                     returnOrderSummary.setmCartItemsList(mCartItemsList);
                     returnOrderSummary.setOutletId(orderSummary.getOutletId());
+                    returnOrderSummary.setPhone(orderSummary.getPhone());
                     returnOrderSummary.setAddressDetailsLocationData(addressDetailsLocationData);
 
                     checkOutIntent = new Intent(activity, AddressAddNewActivity.class);
