@@ -12,6 +12,7 @@ import android.text.TextUtils;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
+import com.twyst.app.android.activities.FeedbackActivity;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.service.LocationService;
 import com.twyst.app.android.util.AppConstants;
@@ -44,8 +45,7 @@ public class TwystApplication extends Application {
             startService(locationService);
         }
         if (!TextUtils.isEmpty(HttpService.getInstance().getSharedPreferences().getString(AppConstants.INTENT_ORDER_ID_FEEDBACK, ""))) {
-            Intent feedBackActivity = new Intent("com.FeedbackActivity");//this has to match your intent filter
-            feedBackActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            Intent feedBackActivity = new Intent(getApplicationContext(), FeedbackActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 22, feedBackActivity, 0);
             try {
                 pendingIntent.send();

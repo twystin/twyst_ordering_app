@@ -219,6 +219,7 @@ public class AppConstants {
     public static final String INTENT_ORDER_INFO_LOCAL = "intent_order_info_local";
     public static final String INTENT_ORDER_ID = "order_id";
     public static final String INTENT_ORDER_ID_FEEDBACK = "order_id_feedback";
+    public static final String INTENT_ORDER_IS_DELIVERED = "order_is_delivered";
     public static final String INTENT_ORDER_NUMBER = "order_number";
 
     //permissions

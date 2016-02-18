@@ -109,6 +109,11 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
             });
         }
 
+        boolean isDelivered = getIntent().getExtras().getBoolean(AppConstants.INTENT_ORDER_IS_DELIVERED, false);
+        if (isDelivered) {
+            OrderTrackingState.addToListLocally(mOrderID, OrderTrackingState.getDeliveredOrderTrackingState(OrderTrackingActivity.this), OrderTrackingActivity.this);
+            refreshList();
+        }
     }
 
     private void showOrderNumber(String orderNumber) {
@@ -330,7 +335,7 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
 
     private void orderDeliveredSuccess() {
         isOrderDeliverySuccessInProgress = true;
-        if (HttpService.getInstance().getSharedPreferences().getBoolean(mOrderID + AppConstants.INTENT_ORDER_FEEDBACK, false)) {
+        if (!HttpService.getInstance().getSharedPreferences().getBoolean(mOrderID + AppConstants.INTENT_ORDER_FEEDBACK, false)) {
             Toast.makeText(OrderTrackingActivity.this, "Order delivered successfully! Please rate the order and claim your cashback!", Toast.LENGTH_LONG).show();
             HttpService.getInstance().getSharedPreferences().edit().putString(AppConstants.INTENT_ORDER_ID_FEEDBACK, mOrderID).apply();
             Intent feedbackIntent = new Intent(OrderTrackingActivity.this, FeedbackActivity.class);

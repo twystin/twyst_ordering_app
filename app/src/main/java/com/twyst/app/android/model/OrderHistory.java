@@ -170,6 +170,13 @@ public class OrderHistory implements Serializable {
         this.orderStatus = orderStatus;
     }
 
+    public boolean isDelivered() {
+        switch (orderStatus.toUpperCase()) {
+            case "DELIVERED":
+                return true;
+        }
+        return false;
+    }
 
     public boolean isTrackable() {
         switch (orderStatus.toUpperCase()) {

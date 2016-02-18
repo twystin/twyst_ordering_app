@@ -207,6 +207,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         orderTrackingIntent.putExtra(AppConstants.INTENT_PARAM_PHONE, orderHistory.getPhone());
         orderTrackingIntent.putExtra(AppConstants.INTENT_ORDER_NUMBER, orderHistory.getOrderNumber());
         orderTrackingIntent.putExtra(AppConstants.INTENT_PARAM_FROM_ORDER_HISTORY, true);
+        orderTrackingIntent.putExtra(AppConstants.INTENT_ORDER_IS_DELIVERED, orderHistory.isDelivered());
         orderTrackingIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         mContext.startActivity(orderTrackingIntent);
