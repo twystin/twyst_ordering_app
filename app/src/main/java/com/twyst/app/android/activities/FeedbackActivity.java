@@ -159,8 +159,8 @@ public class FeedbackActivity extends BaseActionActivity {
                     Toast.makeText(FeedbackActivity.this, "Thank You for your feedback!", Toast.LENGTH_SHORT).show();
                     HttpService.getInstance().getSharedPreferences().edit().putBoolean(orderId + AppConstants.INTENT_ORDER_FEEDBACK, true);
                     Intent intent = new Intent(FeedbackActivity.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            | Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_CURRENT);
                     startActivity(intent);
                     finish();

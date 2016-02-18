@@ -435,8 +435,8 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
     public void onBackPressed() {
         if (!getIntent().getBooleanExtra(AppConstants.INTENT_PARAM_FROM_ORDER_HISTORY, false)) {
             Intent intent = new Intent(OrderTrackingActivity.this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                    | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_CURRENT);
             startActivity(intent);
         }
