@@ -71,24 +71,22 @@
                 android:layout_height="40dp"
                 android:padding="5dp">
 
-                <com.balysv.materialripple.MaterialRippleLayout
+                <FrameLayout
                     android:id="@+id/verify_number_go"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_centerInParent="true"
                     android:background="@drawable/verify_number_arrow"
-                    android:padding="5dp"
-                    app:mrl_rippleDelayClick="true"
-                    app:mrl_rippleOverlay="true">
+                    android:padding="5dp">
 
                     <TextView
                         android:id="@+id/verify_number_go_text"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:textColor="@color/white"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/phone_verification_edit_text_size" />
-                </com.balysv.materialripple.MaterialRippleLayout>
+                </FrameLayout>
 
                 <include
                     android:id="@+id/verify_number_progress_bar"

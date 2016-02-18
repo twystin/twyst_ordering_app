@@ -6,12 +6,6 @@
     android:orientation="vertical"
     android:paddingTop="36dp">
 
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="@dimen/layout_wide_margin"
-        android:src="@drawable/choose_location_icon" />
 
     <LinearLayout
         android:id="@+id/ll_delivery_location"
@@ -26,9 +20,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/layout_small_margin"
             android:text="@string/choose_location_description_line1"
-            android:textAllCaps="true"
             android:textColor="@color/white"
-            android:textSize="@dimen/layout_extra_wide_text_size" />
+            android:textSize="@dimen/signup_header" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,9 +29,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="20dp"
             android:text="@string/choose_location_description_line2"
-            android:textAllCaps="true"
             android:textColor="@color/white"
-            android:textSize="@dimen/layout_extra_wide_text_size" />
+            android:textSize="@dimen/signup_header" />
 
     </LinearLayout>
 
@@ -156,18 +148,24 @@
                 android:src="@drawable/choose_location_add_icon" />
         </LinearLayout>
 
-    </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_skip_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/layout_wide_margin"
-        android:text="--- SKIP ---"
-        android:textColor="@color/white"
-        android:textSize="@dimen/layout_extra_wide_text_size"
-        android:textStyle="italic" />
+        <TextView
+            android:id="@+id/tv_skip_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/choose_location_background"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:text="Skip"
+            android:textColor="@color/white"
+            android:textSize="@dimen/layout_extra_wide_text_size"
+            android:textStyle="italic" />
+
+    </LinearLayout>
 
 
 </LinearLayout>
