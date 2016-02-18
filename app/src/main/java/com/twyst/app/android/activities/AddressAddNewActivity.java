@@ -63,7 +63,7 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
         workTag = (ImageView) findViewById(R.id.add_address_work_tag);
         otherTag = (ImageView) findViewById(R.id.add_address_other_tag);
         homeTag.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.home_tag_config));
-        homeTag.setSelected(true);
+//        homeTag.setSelected(true);
         workTag.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.work_tag_config));
         otherTag.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.other_tag_config));
 
@@ -168,6 +168,20 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
             tvProceed.setText("OK");
         }
 
+        if (SharedPreferenceSingleton.getInstance().isSaveLocationClicked() && mNewAddress.getTag()!=null){
+            switch (mNewAddress.getTag()){
+                case AddressDetailsLocationData.TAG_HOME:
+                    homeTag.setSelected(true);
+                    break;
+                case AddressDetailsLocationData.TAG_WORK:
+                    workTag.setSelected(true);
+                    break;
+                default:
+                    otherTag.setSelected(true);
+                    break;
+            }
+        }
+
 
         flProceed.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -220,25 +234,28 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
                 mNewAddress.setTag(AddressDetailsLocationData.TAG_HOME);
             } else if (workTag.isSelected()) {
                 mNewAddress.setTag(AddressDetailsLocationData.TAG_WORK);
-            } else {
+            } else if (otherTag.isSelected()) {
                 mNewAddress.setTag(((EditText) findViewById(R.id.editView_other_tag)).getText().toString());
             }
 
             SharedPreferenceSingleton preference = SharedPreferenceSingleton.getInstance();
             preference.saveCurrentUsedLocation(mNewAddress);
-            boolean isLocationAlreadyExist = false;
-            ArrayList<AddressDetailsLocationData> savedAddressList = preference.getAddresses();
-            if (savedAddressList != null && savedAddressList.size() > 0) {
-                for (AddressDetailsLocationData savedLocation : preference.getAddresses()) {
-                    if (savedLocation.equals(mNewAddress)) {
-                        isLocationAlreadyExist = true;
-                        break;
+
+            if (mNewAddress.getTag()!=null) {
+                boolean isLocationAlreadyExist = false;
+                ArrayList<AddressDetailsLocationData> savedAddressList = preference.getAddresses();
+                if (savedAddressList != null && savedAddressList.size() > 0) {
+                    for (AddressDetailsLocationData savedLocation : preference.getAddresses()) {
+                        if (savedLocation.equals(mNewAddress)) {
+                            isLocationAlreadyExist = true;
+                            break;
+                        }
                     }
                 }
-            }
 
-            if (!isLocationAlreadyExist) {
-                preference.addAddress(mNewAddress);
+                if (!isLocationAlreadyExist) {
+                    preference.addAddress(mNewAddress);
+                }
             }
             updateOrderSummaryAndCheckout(mNewAddress);
         } else {
@@ -260,7 +277,7 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
                 mNewAddress.setTag(AddressDetailsLocationData.TAG_HOME);
             } else if (workTag.isSelected()) {
                 mNewAddress.setTag(AddressDetailsLocationData.TAG_WORK);
-            } else {
+            } else if (otherTag.isSelected()){
                 mNewAddress.setTag(((EditText) findViewById(R.id.editView_other_tag)).getText().toString());
             }
 

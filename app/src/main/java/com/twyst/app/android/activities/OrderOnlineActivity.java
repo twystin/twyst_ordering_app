@@ -598,6 +598,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
 
     @Override
     public void onBackPressed() {
+        SharedPreferenceSingleton.getInstance().setPassedCartCheckoutStage(false);
         if (mSlidingUpPanelLayout != null &&
                 (mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED ||
                         mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED ||

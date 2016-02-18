@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -87,6 +88,15 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
         final ListView listView = (ListView) findViewById(R.id.saved_address_list_view);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listView.setAdapter(adapter);
+        if (adapter.getCount() > 4){
+            View item = adapter.getView(0, null, listView);
+            item.measure(0, 0);
+//                            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (3 * item.getMeasuredHeight()));
+            ViewGroup.LayoutParams params = listView.getLayoutParams();
+            params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            params.height = (int) (4.5 * item.getMeasuredHeight());
+            listView.requestLayout();
+        }
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -102,6 +112,15 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
         final ListView listView = (ListView) findViewById(R.id.saved_address_list_view);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listView.setAdapter(adapter);
+        if (adapter.getCount() > 4){
+            View item = adapter.getView(0, null, listView);
+            item.measure(0, 0);
+//                            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (3 * item.getMeasuredHeight()));
+            ViewGroup.LayoutParams params = listView.getLayoutParams();
+            params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            params.height = (int) (4.5 * item.getMeasuredHeight());
+            listView.requestLayout();
+        }
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
