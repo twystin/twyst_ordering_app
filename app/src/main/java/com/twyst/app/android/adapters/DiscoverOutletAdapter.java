@@ -231,6 +231,13 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             outletViewHolder.outletAddress.setText(address);
 
+            if (outlet.getDeliveryExperience() != 0.0){
+                outletViewHolder.deliveryExperience.setText(String.valueOf(outlet.getDeliveryExperience()));
+            } else {
+                outletViewHolder.deliveryExperience.setText("-.-");
+                outletViewHolder.ivStar.setVisibility(View.GONE);
+            }
+
             if (outlet.getCuisines() != null && outlet.getCuisines().size() > 0) {
                 String cuisines = outlet.getCuisines().toString();
                 outletViewHolder.cuisinesNames.setText(cuisines.substring(1, cuisines.length() - 1));
@@ -329,6 +336,8 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         TextView minimumOrder;
         TextView twystBucksPercentage;
         TextView noOfOffers;
+        TextView deliveryExperience;
+        ImageView ivStar;
 
 
         public OutletViewHolder(View itemView) {
@@ -343,6 +352,8 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             minimumOrder = (TextView) itemView.findViewById(R.id.min_order);
             twystBucksPercentage = (TextView) itemView.findViewById(R.id.tv_twyst_bucks_percentage);
             noOfOffers = (TextView) itemView.findViewById(R.id.no_of_offers);
+            deliveryExperience = (TextView) itemView.findViewById(R.id.tvDeliveryExperience);
+            ivStar = (ImageView)itemView.findViewById(R.id.iv_star);
 
             outletImage = (ImageView) itemView.findViewById(R.id.outlet_logo);
 

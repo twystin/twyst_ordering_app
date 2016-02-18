@@ -22,6 +22,9 @@ public class Outlet extends Data implements Serializable {
     @SerializedName("delivery_time")
     private String deliveryTime;
 
+    @SerializedName("delivery_experiance")
+    private double deliveryExperience;
+
     @SerializedName("minimum_order")
     private String minimumOrder;
 
@@ -102,6 +105,14 @@ public class Outlet extends Data implements Serializable {
 
     public String getLocality_2() {
         return locality_2;
+    }
+
+    public double getDeliveryExperience() {
+        return deliveryExperience;
+    }
+
+    public void setDeliveryExperience(double deliveryExperience) {
+        this.deliveryExperience = deliveryExperience;
     }
 
     public void setLocality_2(String locality_2) {

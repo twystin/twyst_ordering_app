@@ -15,11 +15,11 @@
         android:duplicateParentState="true"/>
     <TextView
         android:layout_marginTop="@dimen/layout_medium_margin"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tag_name"
         android:textSize="@dimen/layout_wide_text_size"
-        android:layout_gravity="center_horizontal"
+        android:gravity="center"
         android:duplicateParentState="true"
         android:textColor="@color/tag_text_color_config" />
 
