@@ -147,7 +147,7 @@ public class FeedbackActivity extends BaseActionActivity {
         });
     }
 
-    private void submitFeedback(String orderId, int foodOverallRating, boolean foodDeliveredOnTime) {
+    private void submitFeedback(final String orderId, int foodOverallRating, boolean foodDeliveredOnTime) {
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
         OrderUpdate feedbackOrderUpdate = new OrderUpdate(orderId, foodDeliveredOnTime, foodOverallRating);
 
@@ -157,6 +157,12 @@ public class FeedbackActivity extends BaseActionActivity {
                 if (baseResponse.isResponse()) {
                     HttpService.getInstance().getSharedPreferences().edit().putString(AppConstants.INTENT_ORDER_ID_FEEDBACK, "").apply();
                     Toast.makeText(FeedbackActivity.this, "Thank You for your feedback!", Toast.LENGTH_SHORT).show();
+                    HttpService.getInstance().getSharedPreferences().edit().putBoolean(orderId + AppConstants.INTENT_ORDER_FEEDBACK, true);
+                    Intent intent = new Intent(FeedbackActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_CURRENT);
+                    startActivity(intent);
                     finish();
                 } else {
                     Toast.makeText(FeedbackActivity.this, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();

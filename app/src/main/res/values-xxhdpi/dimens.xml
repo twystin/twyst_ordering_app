@@ -145,6 +145,8 @@
     <dimen name="phone_verification_heading">16dp</dimen>
     <dimen name="phone_verification_edit_text_size">14dp</dimen>
     <dimen name="phone_verification_hint">12dp</dimen>
+    <dimen name="signup_text_size">14dp</dimen>
+    <dimen name="signup_header">20dp</dimen>
 
     <!--BucksHistory-->
     <dimen name="bucks_text_huge">16dp</dimen>

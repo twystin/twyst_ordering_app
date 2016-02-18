@@ -138,8 +138,6 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         splashCode();
 
 
-
-
     }
 
 
@@ -196,7 +194,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                         listViewSavedLocations = (ListView) findViewById(R.id.lv_saved_locations);
                         listViewSavedLocations.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
                         listViewSavedLocations.setAdapter(adapter);
-                        if(adapter.getCount() > 3){
+                        if (adapter.getCount() > 3) {
                             View item = adapter.getView(0, null, listViewSavedLocations);
                             item.measure(0, 0);
 //                            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (3 * item.getMeasuredHeight()));
@@ -282,6 +280,9 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     EditText etPhoneCodeInput;
     View verifyNumberGo;
     TextView tvVerifyNumberGoText;
+    TextView tvRegister1;
+    TextView tvRegister2;
+
     CircularProgressBar verifyNumberProgressBar;
     TextView tvVerifyNumberLowerHint;
     TextView tvVerifyNumberResendManually;
@@ -294,10 +295,8 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     private String otpCodeReaded;
 
     //Verify Email
-    private ImageView ivEditName;
     private EditText etVerifyName;
 
-    private ImageView ivEditEmail;
     private EditText etVerifyEmail;
 
     //Signup
@@ -396,25 +395,23 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     }
 
     private void setupVerifyEmail() {
-        ivEditName = (ImageView) findViewById(R.id.iv_edit_name);
         etVerifyName = (EditText) findViewById(R.id.et_verify_name);
 
-        ivEditEmail = (ImageView) findViewById(R.id.iv_edit_email);
         etVerifyEmail = (EditText) findViewById(R.id.et_verify_email);
 
-        ivEditName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                focusShowKeyBoard(etVerifyName);
-            }
-        });
+//        etVerifyName.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                focusShowKeyBoard(etVerifyName);
+//            }
+//        });
 
-        ivEditEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                focusShowKeyBoard(etVerifyEmail);
-            }
-        });
+//        etVerifyEmail.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                focusShowKeyBoard(etVerifyEmail);
+//            }
+//        });
 
         Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
         Account[] accounts = AccountManager.get(PreMainActivity.this).getAccounts();
@@ -583,6 +580,8 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         tvVerifyNumberLowerHint = (TextView) findViewById(R.id.verify_number_lower_hint);
         tvVerifyNumberResendManually = (TextView) findViewById(R.id.verify_number_resend_enter_manually);
         tvVerifyNumberGoLayout = (RelativeLayout) findViewById(R.id.verify_number_go_layout);
+        tvRegister1 = (TextView) findViewById(R.id.tv_register_line1);
+        tvRegister2 = (TextView) findViewById(R.id.tv_register_line2);
 
         sharedPreferences = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).edit();
         SharedPreferences prefs = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
@@ -631,7 +630,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     }
 
     private boolean checkSmsCode() {
-        if (!PermissionUtil.getInstance().approveSMS(PreMainActivity.this,true)) return false;
+        if (!PermissionUtil.getInstance().approveSMS(PreMainActivity.this, true)) return false;
 
         Cursor cursor = getContentResolver().query(Uri.parse("content://sms/inbox"), null, null, null, null);
         if (cursor.moveToFirst()) {
@@ -752,7 +751,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         verifyNumberGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (PermissionUtil.getInstance().approveSMS(PreMainActivity.this,false)) {
+                if (PermissionUtil.getInstance().approveSMS(PreMainActivity.this, false)) {
                     fetchOTP();
                 }
             }
@@ -836,6 +835,8 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         startSignUpAnimation();
         findViewById(R.id.card_verify_number).setVisibility(View.GONE);
         findViewById(R.id.card_signup).setVisibility(View.VISIBLE);
+        tvRegister2.setVisibility(View.GONE);
+        tvRegister1.setText(getResources().getString(R.string.registered_line3));
         isNumberVerified = true;
         etPhoneCodeInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(14)});
         etPhoneCodeInput.setText("+91-" + getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).getString(AppConstants.PREFERENCE_USER_PHONE, ""));
@@ -1366,7 +1367,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             prefs.edit().putBoolean(AppConstants.PREFERENCE_IS_FIRST_RUN, false).apply();
         }
 
-        if (PermissionUtil.getInstance().approveContacts(PreMainActivity.this,false)) {
+        if (PermissionUtil.getInstance().approveContacts(PreMainActivity.this, false)) {
             new FetchContact().execute();
         }
 
@@ -1662,7 +1663,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                 Log.i(TAG, "Location permissions were NOT granted.");
 
                 Intent intent = new Intent(PreMainActivity.this, NoPermissionsActivity.class);
-                intent.putExtra(AppConstants.INTENT_PERMISSION,REQUEST_LOCATION);
+                intent.putExtra(AppConstants.INTENT_PERMISSION, REQUEST_LOCATION);
                 intent.putExtra(AppConstants.INTENT_PERMISSIONS_RATIONALE, getResources().getString(R.string.permission_location_rationale));
                 startActivity(intent);
 
@@ -1704,7 +1705,6 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
 
         }
     }
-
 
 
 }
