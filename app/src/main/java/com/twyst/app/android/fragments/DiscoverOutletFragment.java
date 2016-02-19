@@ -470,9 +470,10 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
 
                 if (qualified && filterTagsMap.get(AppConstants.cuisinetag) != null && filterTagsMap.get(AppConstants.cuisinetag).length > 0) {
                     for (long optionPosition : filterTagsMap.get(AppConstants.cuisinetag)) {
+                        qualified = false;
                         String option = optionsMap.get(AppConstants.cuisinetag).get((int) optionPosition);
-                        if (!(outlet.getCuisines().contains(option))) {
-                            qualified = false;
+                        if (outlet.getCuisines().contains(option)) {
+                            qualified = true;
                             break;
                         }
                     }
