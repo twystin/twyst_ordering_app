@@ -193,6 +193,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
         showAddressLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferenceSingleton.getInstance().setPassedCartCheckoutStage(false);
                 Intent intent = new Intent(getActivity(), AddressAddNewActivity.class);
                 startActivityForResult(intent, AppConstants.EDIT_ADDRESS);
             }
