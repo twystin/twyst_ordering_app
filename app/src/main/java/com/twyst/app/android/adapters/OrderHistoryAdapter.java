@@ -153,6 +153,14 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             }
         });
 
+        if (orderHistory.getDeliveryExperience() > 0) {
+            holder.deliveryExperience.setText(String.valueOf(orderHistory.getDeliveryExperience()));
+            holder.ivStar.setVisibility(View.VISIBLE);
+        } else {
+            holder.deliveryExperience.setText("- -");
+            holder.ivStar.setVisibility(View.GONE);
+        }
+
         holder.favouriteIconButton.setSelected(orderHistory.isFavourite());
         holder.favouriteIconButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -257,6 +265,8 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         public View reorder_button;
         public Button favouriteIconButton;
         public ImageView backgroundImage;
+        public TextView deliveryExperience;
+        public ImageView ivStar;
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
@@ -269,6 +279,8 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             reorder_button = itemLayoutView.findViewById(R.id.reorder_button);
             favouriteIconButton = (Button) itemLayoutView.findViewById(R.id.icon_favourite);
             backgroundImage = (ImageView) itemLayoutView.findViewById(R.id.outlet_logo_reorder);
+            deliveryExperience = (TextView) itemView.findViewById(R.id.tvDeliveryExperience);
+            ivStar = (ImageView) itemView.findViewById(R.id.iv_star);
         }
     }
 

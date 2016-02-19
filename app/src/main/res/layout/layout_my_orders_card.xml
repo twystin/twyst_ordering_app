@@ -46,6 +46,7 @@
                     android:paddingTop="4dp">
 
                     <TextView
+                        android:id="@+id/tvDeliveryExperience"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -63,6 +64,7 @@
                         android:orientation="horizontal">
 
                         <ImageView
+                            android:id="@+id/iv_star"
                             android:layout_width="7dp"
                             android:layout_height="7dp"
                             android:layout_gravity="left|center_vertical"

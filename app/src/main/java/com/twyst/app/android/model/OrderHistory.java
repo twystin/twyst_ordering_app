@@ -24,6 +24,9 @@ public class OrderHistory implements Serializable {
 
     String phone;
 
+    @SerializedName("delivery_experience")
+    private double deliveryExperience;
+
     @SerializedName("items")
     private ArrayList<Items> items = new ArrayList<Items>();
 
@@ -124,6 +127,14 @@ public class OrderHistory implements Serializable {
 
     public boolean isFavourite() {
         return isFavourite;
+    }
+
+    public double getDeliveryExperience() {
+        return deliveryExperience;
+    }
+
+    public void setDeliveryExperience(double deliveryExperience) {
+        this.deliveryExperience = deliveryExperience;
     }
 
     public void setIsFavourite(boolean isFavourite) {

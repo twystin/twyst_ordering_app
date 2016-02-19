@@ -5,7 +5,7 @@ package com.twyst.app.android.util;
  */
 public class AppConstants {
     public static final String HOST = "http://beta.twyst.in";
-//    public static final String HOST = "http://192.168.1.27:3000";
+//    public static final String HOST = "http://192.168.1.10:3000";
 //    public static final String HOST = "http://staging.twyst.in";
 //    public static final String HOST = "http://twyst.in";
 

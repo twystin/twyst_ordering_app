@@ -231,8 +231,9 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             outletViewHolder.outletAddress.setText(address);
 
-            if (outlet.getDeliveryExperience() != 0.0){
+            if (outlet.getDeliveryExperience() > 0) {
                 outletViewHolder.deliveryExperience.setText(String.valueOf(outlet.getDeliveryExperience()));
+                outletViewHolder.ivStar.setVisibility(View.VISIBLE);
             } else {
                 outletViewHolder.deliveryExperience.setText("- -");
                 outletViewHolder.ivStar.setVisibility(View.GONE);
@@ -325,11 +326,9 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public static class OutletViewHolder extends RecyclerView.ViewHolder {
-
         TextView outletName;
         TextView outletAddress;
         TextView minOrder;
-
         ImageView outletImage;
         TextView cuisinesNames;
         TextView deliveryTime;
@@ -342,19 +341,16 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         public OutletViewHolder(View itemView) {
             super(itemView);
-
             outletName = (TextView) itemView.findViewById(R.id.outletName);
             outletAddress = (TextView) itemView.findViewById(R.id.outletAddress);
             deliveryTime = (TextView) itemView.findViewById(R.id.delivery_time);
             minOrder = (TextView) itemView.findViewById(R.id.min_order);
             cuisinesNames = (TextView) itemView.findViewById(R.id.cuisines_names);
-            deliveryTime = (TextView) itemView.findViewById(R.id.delivery_time);
             minimumOrder = (TextView) itemView.findViewById(R.id.min_order);
             twystBucksPercentage = (TextView) itemView.findViewById(R.id.tv_twyst_bucks_percentage);
             noOfOffers = (TextView) itemView.findViewById(R.id.no_of_offers);
             deliveryExperience = (TextView) itemView.findViewById(R.id.tvDeliveryExperience);
-            ivStar = (ImageView)itemView.findViewById(R.id.iv_star);
-
+            ivStar = (ImageView) itemView.findViewById(R.id.iv_star);
             outletImage = (ImageView) itemView.findViewById(R.id.outlet_logo);
 
         }
