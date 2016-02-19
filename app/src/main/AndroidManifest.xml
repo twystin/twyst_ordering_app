@@ -381,7 +381,7 @@
             android:label="@string/address_add_new"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <activity
             android:name=".activities.AddressMapActivity"

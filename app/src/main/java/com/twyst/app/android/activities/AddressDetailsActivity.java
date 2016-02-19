@@ -77,9 +77,11 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_details);
 
-        mOutletId = OrderInfoSingleton.getInstance().getOrderSummary().getOutletId();
-        mPhone = OrderInfoSingleton.getInstance().getOrderSummary().getPhone();
-        mCartItemsList = OrderInfoSingleton.getInstance().getOrderSummary().getmCartItemsList();
+        if (SharedPreferenceSingleton.getInstance().isPassedCartCheckoutStage() && OrderInfoSingleton.getInstance().getOrderSummary()!=null) {
+            mOutletId = OrderInfoSingleton.getInstance().getOrderSummary().getOutletId();
+            mPhone = OrderInfoSingleton.getInstance().getOrderSummary().getPhone();
+            mCartItemsList = OrderInfoSingleton.getInstance().getOrderSummary().getmCartItemsList();
+        }
         setupToolBar();
         setup();
         fetchSavedAddresses();
