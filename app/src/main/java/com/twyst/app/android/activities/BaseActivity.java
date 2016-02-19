@@ -29,6 +29,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -91,10 +92,10 @@ public abstract class BaseActivity extends ActionBarActivity {
     private final int DRAWER_ITEM_POS_HEADER = 0;
     // One should not set any of the below Drawer item values to 0 or less.
     private final String DRAWER_ITEM_MY_ORDERS = "MY ORDERS";
-    private final String DRAWER_ITEM_INVITE_FRIENDS = "INVITE FRIENDS";
+    public static final String DRAWER_ITEM_INVITE_FRIENDS = "INVITE FRIENDS";
     private final String DRAWER_ITEM_SUGGEST = "SUGGEST AN OUTLET";
     private final String DRAWER_ITEM_HOME = "HOME";
-    private final String DRAWER_ITEM_NOTIFICATIONS = "NOTIFICATIONS";
+    public static final String DRAWER_ITEM_NOTIFICATIONS = "NOTIFICATIONS";
     private final String DRAWER_ITEM_FEEDBACK = "FEEDBACK";
     private final String DRAWER_ITEM_FAQ = "FAQs";
     private final String DRAWER_ITEM_RATE = "RATE TWYST";

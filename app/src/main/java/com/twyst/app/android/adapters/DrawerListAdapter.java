@@ -3,6 +3,7 @@ package com.twyst.app.android.adapters;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.twyst.app.android.R;
+import com.twyst.app.android.activities.BaseActivity;
 import com.twyst.app.android.model.DrawerItem;
 
 /**
@@ -61,6 +63,20 @@ public class DrawerListAdapter extends BaseAdapter {
         }
 
         DrawerItem drawerItem = drawerItems.get(position);
+
+        // Disabling Notification & Invite Friends as of now
+        if ((drawerItem.getTitle().equals(BaseActivity.DRAWER_ITEM_INVITE_FRIENDS)) ||
+                drawerItem.getTitle().equals(BaseActivity.DRAWER_ITEM_NOTIFICATIONS)) {
+            convertView.setAlpha(.5f);
+            convertView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return true;
+                }
+            });
+        }
+
+
         holder.titleTextView.setText(drawerItem.getTitle());
         holder.iconView.setImageResource(drawerItem.getIcon());
 
