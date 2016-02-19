@@ -56,9 +56,6 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_add_new);
 
-        setupToolBar();
-
-
         homeTag = (ImageView) findViewById(R.id.add_address_home_tag);
         workTag = (ImageView) findViewById(R.id.add_address_work_tag);
         otherTag = (ImageView) findViewById(R.id.add_address_other_tag);
@@ -150,11 +147,7 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
                     });
         }
 
-        if (SharedPreferenceSingleton.getInstance().isSaveLocationClicked()) {
-            tvAddressDetected.setText("Saved Address");
-        } else {
-            tvAddressDetected.setText("Auto Detected Address");
-        }
+
 
         final Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -168,7 +161,14 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
             tvProceed.setText("OK");
         }
 
-        if (SharedPreferenceSingleton.getInstance().isSaveLocationClicked() && mNewAddress.getTag() != null) {
+        setupToolBar();
+        if (mNewAddress!=null && mNewAddress.getTag()!=null) {
+            tvAddressDetected.setText("Saved Address");
+        } else {
+            tvAddressDetected.setText("Auto Detected Address");
+        }
+
+        if (mNewAddress!= null && mNewAddress.getTag() != null) {
             switch (mNewAddress.getTag()) {
                 case AddressDetailsLocationData.TAG_HOME:
                     homeTag.setSelected(true);
@@ -309,7 +309,7 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
     @Override
     public void setupToolBar() {
         super.setupToolBar();
-        if (SharedPreferenceSingleton.getInstance().isSaveLocationClicked()) {
+        if (mNewAddress!= null && mNewAddress.getTag() != null) {
             this.setTitle("Confirm Address");
         } else {
             this.setTitle("Edit Address");
@@ -414,12 +414,15 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
         if (!SharedPreferenceSingleton.getInstance().getDeliveryLocation().equals(mNewAddress)) {
             mNewAddress = SharedPreferenceSingleton.getInstance().getDeliveryLocation();
 
+
             if (mNewAddress != null) {
                 setTextLocationFetch(mNewAddress);
                 homeTag.setSelected(false);
                 workTag.setSelected(false);
                 otherTag.setSelected(false);
-                if (SharedPreferenceSingleton.getInstance().isSaveLocationClicked() && mNewAddress.getTag() != null) {
+                if (mNewAddress.getTag() != null) {
+                    this.setTitle("Confirm Address");
+                    tvAddressDetected.setText("Saved Address");
                     switch (mNewAddress.getTag()) {
                         case AddressDetailsLocationData.TAG_HOME:
                             homeTag.setSelected(true);
@@ -431,6 +434,9 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
                             otherTag.setSelected(true);
                             break;
                     }
+                } else {
+                    tvAddressDetected.setText("Auto Detected Address");
+                    this.setTitle("Edit Address");
                 }
                 currentPosition = new LatLng(Double.parseDouble(mNewAddress.getCoords().getLat()), Double.parseDouble(mNewAddress.getCoords().getLon()));
                 setMarkerOnMap(currentPosition, "Current location", true);
