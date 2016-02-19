@@ -102,6 +102,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SharedPreferenceSingleton.getInstance().setSaveLocationClicked(true);
                 AddressDetailsLocationData addressDetailsLocationData = (AddressDetailsLocationData) listView.getItemAtPosition(position);
+                SharedPreferenceSingleton.getInstance().saveCurrentUsedLocation(addressDetailsLocationData);
                 UtilMethods.checkOut(addressDetailsLocationData, mCartItemsList, mOutletId, mPhone, AddressDetailsActivity.this, true);
             }
         });
@@ -162,6 +163,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
                     ((ImageView) findViewById(R.id.radio_current_loc)).setSelected(true);
 //                    checkCurrentDeliverableAndProceed();
                     if (SharedPreferenceSingleton.getInstance().isPassedCartCheckoutStage()) {
+                        SharedPreferenceSingleton.getInstance().saveCurrentUsedLocation(mAddressDetailsLocationData);
                         UtilMethods.checkOut(mAddressDetailsLocationData, mCartItemsList, mOutletId, mPhone, AddressDetailsActivity.this, true);
                     } else {
                         SharedPreferenceSingleton.getInstance().setSaveLocationClicked(false);

@@ -72,7 +72,7 @@ public class SimpleArrayAdapter extends ArrayAdapter<AddressDetailsLocationData>
         }
 
         private void populateFrom(AddressDetailsLocationData addr) {
-            address.setText(addr.getLandmark() + ", " + addr.getNeighborhood());
+            address.setText(addr.getNeighborhood() + ", " + addr.getLandmark());
 
             switch (addr.getTag()) {
                 case AddressDetailsLocationData.TAG_HOME:

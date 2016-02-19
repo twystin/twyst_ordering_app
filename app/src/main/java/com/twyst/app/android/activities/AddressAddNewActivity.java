@@ -131,9 +131,9 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
             }
         });
 
-        tvProceed = (TextView)findViewById(R.id.tvProceedOk);
-        flProceed = (FrameLayout)findViewById(R.id.proceed_ok);
-        tvAddressDetected = (TextView)findViewById(R.id.tv_detetcted_address);
+        tvProceed = (TextView) findViewById(R.id.tvProceedOk);
+        flProceed = (FrameLayout) findViewById(R.id.proceed_ok);
+        tvAddressDetected = (TextView) findViewById(R.id.tv_detetcted_address);
         if (SharedPreferenceSingleton.getInstance().isPassedCartCheckoutStage()) {
             tvProceed.getViewTreeObserver()
                     .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -150,7 +150,7 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
                     });
         }
 
-        if (SharedPreferenceSingleton.getInstance().isSaveLocationClicked()){
+        if (SharedPreferenceSingleton.getInstance().isSaveLocationClicked()) {
             tvAddressDetected.setText("Saved Address");
         } else {
             tvAddressDetected.setText("Auto Detected Address");
@@ -168,8 +168,8 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
             tvProceed.setText("OK");
         }
 
-        if (SharedPreferenceSingleton.getInstance().isSaveLocationClicked() && mNewAddress.getTag()!=null){
-            switch (mNewAddress.getTag()){
+        if (SharedPreferenceSingleton.getInstance().isSaveLocationClicked() && mNewAddress.getTag() != null) {
+            switch (mNewAddress.getTag()) {
                 case AddressDetailsLocationData.TAG_HOME:
                     homeTag.setSelected(true);
                     break;
@@ -186,7 +186,7 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
         flProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (extras!=null){
+                if (extras != null) {
                     clickProceedFunc();
                 } else {
                     clickOkFunc();
@@ -195,12 +195,12 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
         });
 
         // setting up map
-        chosenLocationButton = (ImageView)findViewById(R.id.chosen_location_button);
-        if (mNewAddress!= null) {
-            currentPosition = new LatLng(Double.parseDouble(mNewAddress.getCoords().getLat()),Double.parseDouble(mNewAddress.getCoords().getLon()));
+        chosenLocationButton = (ImageView) findViewById(R.id.chosen_location_button);
+        if (mNewAddress != null) {
+            currentPosition = new LatLng(Double.parseDouble(mNewAddress.getCoords().getLat()), Double.parseDouble(mNewAddress.getCoords().getLon()));
         }
         setUpMapIfNeeded();
-        if (currentPosition!= null) {
+        if (currentPosition != null) {
             chosenLocationButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -214,14 +214,16 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
         findViewById(R.id.tvChangeLocation).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddressAddNewActivity.this,AddressDetailsActivity.class);
+                Intent intent = new Intent(AddressAddNewActivity.this, AddressDetailsActivity.class);
                 startActivity(intent);
-                finish();
+                if (SharedPreferenceSingleton.getInstance().isPassedCartCheckoutStage()) {
+                    finish();
+                }
             }
         });
     }
 
-    private void clickProceedFunc(){
+    private void clickProceedFunc() {
         EditText neighborhood = (EditText) findViewById(R.id.editView_building);
         EditText address = (EditText) findViewById(R.id.editView_address);
         EditText landmark = (EditText) findViewById(R.id.editView_landmark);
@@ -241,7 +243,7 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
             SharedPreferenceSingleton preference = SharedPreferenceSingleton.getInstance();
             preference.saveCurrentUsedLocation(mNewAddress);
 
-            if (mNewAddress.getTag()!=null) {
+            if (mNewAddress.getTag() != null) {
                 boolean isLocationAlreadyExist = false;
                 ArrayList<AddressDetailsLocationData> savedAddressList = preference.getAddresses();
                 if (savedAddressList != null && savedAddressList.size() > 0) {
@@ -264,7 +266,7 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
         }
     }
 
-    private void clickOkFunc(){
+    private void clickOkFunc() {
         EditText neighborhood = (EditText) findViewById(R.id.editView_building);
         EditText address = (EditText) findViewById(R.id.editView_address);
         EditText landmark = (EditText) findViewById(R.id.editView_landmark);
@@ -277,14 +279,14 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
                 mNewAddress.setTag(AddressDetailsLocationData.TAG_HOME);
             } else if (workTag.isSelected()) {
                 mNewAddress.setTag(AddressDetailsLocationData.TAG_WORK);
-            } else if (otherTag.isSelected()){
+            } else if (otherTag.isSelected()) {
                 mNewAddress.setTag(((EditText) findViewById(R.id.editView_other_tag)).getText().toString());
             }
 
             SharedPreferenceSingleton preference = SharedPreferenceSingleton.getInstance();
             preference.saveCurrentUsedLocation(mNewAddress);
             Intent intent = new Intent();
-            setResult(Activity.RESULT_OK,intent);
+            setResult(Activity.RESULT_OK, intent);
             finish();
 
         } else {
@@ -307,7 +309,7 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
     @Override
     public void setupToolBar() {
         super.setupToolBar();
-        if (SharedPreferenceSingleton.getInstance().isSaveLocationClicked()){
+        if (SharedPreferenceSingleton.getInstance().isSaveLocationClicked()) {
             this.setTitle("Confirm Address");
         } else {
             this.setTitle("Edit Address");
@@ -394,5 +396,46 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
                     CameraUpdateFactory.newCameraPosition(myPosition));
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        func();
+    }
+
+    private void func() {
+        if (!SharedPreferenceSingleton.getInstance().getDeliveryLocation().equals(mNewAddress)) {
+            mNewAddress = SharedPreferenceSingleton.getInstance().getDeliveryLocation();
+
+            if (mNewAddress != null) {
+                setTextLocationFetch(mNewAddress);
+                homeTag.setSelected(false);
+                workTag.setSelected(false);
+                otherTag.setSelected(false);
+                if (SharedPreferenceSingleton.getInstance().isSaveLocationClicked() && mNewAddress.getTag() != null) {
+                    switch (mNewAddress.getTag()) {
+                        case AddressDetailsLocationData.TAG_HOME:
+                            homeTag.setSelected(true);
+                            break;
+                        case AddressDetailsLocationData.TAG_WORK:
+                            workTag.setSelected(true);
+                            break;
+                        default:
+                            otherTag.setSelected(true);
+                            break;
+                    }
+                }
+                currentPosition = new LatLng(Double.parseDouble(mNewAddress.getCoords().getLat()), Double.parseDouble(mNewAddress.getCoords().getLon()));
+                setMarkerOnMap(currentPosition, "Current location", true);
+            }
+
+        }
     }
 }

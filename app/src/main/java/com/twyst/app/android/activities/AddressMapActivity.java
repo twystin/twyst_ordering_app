@@ -333,12 +333,13 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
                     String outletId = bundle.getString(AppConstants.INTENT_PARAM_OUTLET_ID);
                     String phone = bundle.getString(AppConstants.INTENT_PARAM_PHONE);
                     ArrayList<Items> cartItemsList = (ArrayList<Items>) bundle.getSerializable(AppConstants.INTENT_PARAM_CART_LIST);
+                    SharedPreferenceSingleton.getInstance().saveCurrentUsedLocation(locationData);
                     SharedPreferenceSingleton.getInstance().setSaveLocationClicked(false);
                     UtilMethods.checkOut(locationData, cartItemsList, outletId, phone, AddressMapActivity.this, true);
                 } else {
                     Intent intent = new Intent(AddressMapActivity.this, AddressAddNewActivity.class);
-                    SharedPreferenceSingleton.getInstance().saveCurrentUsedLocation(locationData);
                     SharedPreferenceSingleton.getInstance().setSaveLocationClicked(false);
+                    SharedPreferenceSingleton.getInstance().saveCurrentUsedLocation(locationData);
                     startActivity(intent);
                     finish();
                 }
