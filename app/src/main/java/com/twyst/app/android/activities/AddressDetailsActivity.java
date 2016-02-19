@@ -77,6 +77,9 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_details);
 
+        mOutletId = OrderInfoSingleton.getInstance().getOrderSummary().getOutletId();
+        mPhone = OrderInfoSingleton.getInstance().getOrderSummary().getPhone();
+        mCartItemsList = OrderInfoSingleton.getInstance().getOrderSummary().getmCartItemsList();
         setupToolBar();
         setup();
         fetchSavedAddresses();
@@ -88,7 +91,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
         final ListView listView = (ListView) findViewById(R.id.saved_address_list_view);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listView.setAdapter(adapter);
-        if (adapter.getCount() > 4){
+        if (adapter.getCount() > 4) {
             View item = adapter.getView(0, null, listView);
             item.measure(0, 0);
 //                            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (3 * item.getMeasuredHeight()));
@@ -113,7 +116,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
         final ListView listView = (ListView) findViewById(R.id.saved_address_list_view);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listView.setAdapter(adapter);
-        if (adapter.getCount() > 4){
+        if (adapter.getCount() > 4) {
             View item = adapter.getView(0, null, listView);
             item.measure(0, 0);
 //                            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (3 * item.getMeasuredHeight()));
@@ -168,7 +171,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
                     } else {
                         SharedPreferenceSingleton.getInstance().setSaveLocationClicked(false);
                         SharedPreferenceSingleton.getInstance().saveCurrentUsedLocation(mAddressDetailsLocationData);
-                        Intent intent = new Intent(AddressDetailsActivity.this,AddressAddNewActivity.class);
+                        Intent intent = new Intent(AddressDetailsActivity.this, AddressAddNewActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -223,9 +226,9 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
                 Bundle bundle = getIntent().getExtras();
 //        mOutletId = bundle.getString(AppConstants.INTENT_PARAM_OUTLET_ID);
 //        mCartItemsList = (ArrayList<Items>) bundle.getSerializable(AppConstants.INTENT_PARAM_CART_LIST);
-                mOutletId = OrderInfoSingleton.getInstance().getOrderSummary().getOutletId();
-                mPhone = OrderInfoSingleton.getInstance().getOrderSummary().getPhone();
-                mCartItemsList = OrderInfoSingleton.getInstance().getOrderSummary().getmCartItemsList();
+//                mOutletId = OrderInfoSingleton.getInstance().getOrderSummary().getOutletId();
+//                mPhone = OrderInfoSingleton.getInstance().getOrderSummary().getPhone();
+//                mCartItemsList = OrderInfoSingleton.getInstance().getOrderSummary().getmCartItemsList();
                 ((CardView) findViewById(R.id.cardView_listview)).setVisibility(View.VISIBLE);
                 ((CardView) findViewById(R.id.cardView_noAddress)).setVisibility(View.GONE);
                 verifyLocationsAPI();
