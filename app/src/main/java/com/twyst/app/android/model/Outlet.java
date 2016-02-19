@@ -22,7 +22,7 @@ public class Outlet extends Data implements Serializable {
     @SerializedName("delivery_time")
     private String deliveryTime;
 
-    @SerializedName("delivery_experiance")
+    @SerializedName("delivery_experience")
     private double deliveryExperience;
 
     @SerializedName("minimum_order")
