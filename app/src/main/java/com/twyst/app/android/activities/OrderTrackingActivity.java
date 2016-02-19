@@ -220,7 +220,7 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
                     if (isCurrent) {
                         if (!TextUtils.isEmpty(mPhoneNumber)) {
                             viewholder.tvClickForSuccess.setVisibility(View.VISIBLE);
-                            viewholder.tvClickForSuccess.setBackgroundColor(getResources().getColor(R.color.background_green));
+                            viewholder.tvClickForSuccess.setBackground(getResources().getDrawable(R.drawable.button_green));
                             viewholder.tvClickForSuccess.setText(getResources().getString(R.string.order_accepted_contact_outlet_message));
                             viewholder.tvClickForSuccess.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -228,8 +228,9 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
                                     showDialogCall(mPhoneNumber);
                                 }
                             });
+                        } else {
+                            viewholder.tvClickForSuccess.setVisibility(View.GONE);
                         }
-
                     }
                     break;
 
@@ -303,17 +304,14 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
             dialog.setCanceledOnTouchOutside(true);
             dialog.show();
 
-            TextView bYES = (TextView) dialogView.findViewById(R.id.bYES);
-            TextView bCANCEL = (TextView) dialogView.findViewById(R.id.bCANCEL);
-
-            bCANCEL.setOnClickListener(new View.OnClickListener() {
+            dialogView.findViewById(R.id.fCancel).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
                 }
             });
 
-            bYES.setOnClickListener(new View.OnClickListener() {
+            dialogView.findViewById(R.id.fOK).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (PermissionUtil.getInstance().approvePhone(OrderTrackingActivity.this, false)) {
