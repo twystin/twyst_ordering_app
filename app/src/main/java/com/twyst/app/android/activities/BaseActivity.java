@@ -57,9 +57,6 @@ import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import retrofit.RetrofitError;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-/**
- * Created by satish on 04/12/14.
- */
 public abstract class BaseActivity extends ActionBarActivity {
     protected static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     protected ActionBarDrawerToggle mDrawerToggle;
@@ -322,8 +319,8 @@ public abstract class BaseActivity extends ActionBarActivity {
     }
 
     private void showWallet() {
-        Intent intent = new Intent(this, WalletActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, WalletActivity.class);
+//        startActivity(intent);
     }
 
     private void showHome() {

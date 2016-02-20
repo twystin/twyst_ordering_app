@@ -14,7 +14,6 @@ import com.twyst.app.android.R;
  * Created by tushar on 20/01/16.
  */
 public class RedeemGridAdapter extends BaseAdapter {
-
     private Context mContext;
     private String[] mText;
     private int[] mImageIds;
@@ -46,7 +45,7 @@ public class RedeemGridAdapter extends BaseAdapter {
         if (gridItem == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             //LayoutInflater inflater = LayoutInflater.from(mContext);
-            gridItem = inflater.inflate(R.layout.redeem_grid_item,parent,false);
+            gridItem = inflater.inflate(R.layout.redeem_grid_item, parent, false);
             ((TextView) gridItem.findViewById(R.id.tv_redeem_grid)).setText(mText[position]);
             ((ImageView) gridItem.findViewById(R.id.iv_redeem_grid)).setImageResource(mImageIds[position]);
         }

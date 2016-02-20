@@ -29,7 +29,6 @@ import java.util.List;
  * Created by satish on 06/06/15.
  */
 public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
     private List<Outlet> items = new ArrayList<>();
     private OnViewHolderListener onViewHolderListener;
     private Context mContext;
@@ -73,7 +72,6 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         if (viewType == VIEW_NORMAL) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_outlet, parent, false);
 

@@ -20,7 +20,7 @@ public class ShoppingVouchersAdapter extends RecyclerView.Adapter<ShoppingVouche
     private final ArrayList<Integer> mVouchersList;
     private final Context mContext;
 
-    public ShoppingVouchersAdapter(Context context,ArrayList<Integer> mVouchersList) {
+    public ShoppingVouchersAdapter(Context context, ArrayList<Integer> mVouchersList) {
         this.mVouchersList = mVouchersList;
         mContext = context;
     }
@@ -33,7 +33,7 @@ public class ShoppingVouchersAdapter extends RecyclerView.Adapter<ShoppingVouche
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(),VoucherDetailsActivity.class);
+                Intent intent = new Intent(v.getContext(), VoucherDetailsActivity.class);
                 v.getContext().startActivity(intent);
             }
         });
@@ -53,6 +53,7 @@ public class ShoppingVouchersAdapter extends RecyclerView.Adapter<ShoppingVouche
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView voucherIV;
+
         public ViewHolder(View view) {
             super(view);
             voucherIV = (ImageView) view.findViewById(R.id.iv_voucher_logo);

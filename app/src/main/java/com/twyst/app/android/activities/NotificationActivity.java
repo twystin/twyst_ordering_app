@@ -2,7 +2,6 @@ package com.twyst.app.android.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -30,9 +29,6 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-/**
- * Created by rahuls on 23/7/15.
- */
 public class NotificationActivity extends BaseActionActivity {
 
     private RecyclerView notifyRecyclerView;
@@ -100,34 +96,34 @@ public class NotificationActivity extends BaseActionActivity {
             }
         });
 
-        checkinFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fabMenu.collapse();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //IntentIntegrator integrator = new IntentIntegrator(DiscoverActivity.this);
-                        //integrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
-                        Intent intent = new Intent(NotificationActivity.this, ScannerActivity.class);
-                        startActivity(intent);
-                    }
-                }, 100);
-            }
-        });
+//        checkinFab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                fabMenu.collapse();
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        //IntentIntegrator integrator = new IntentIntegrator(DiscoverActivity.this);
+//                        //integrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
+//                        Intent intent = new Intent(NotificationActivity.this, ScannerActivity.class);
+//                        startActivity(intent);
+//                    }
+//                }, 100);
+//            }
+//        });
 
-        submitFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (obstructor.getVisibility() == View.VISIBLE) {
-                    Intent intent = new Intent(NotificationActivity.this, SubmitOfferActivity.class);
-                    intent.setAction("setChildYes");
-                    startActivity(intent);
-                    fabMenu.collapse();
-
-                }
-            }
-        });
+//        submitFab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (obstructor.getVisibility() == View.VISIBLE) {
+//                    Intent intent = new Intent(NotificationActivity.this, SubmitOfferActivity.class);
+//                    intent.setAction("setChildYes");
+//                    startActivity(intent);
+//                    fabMenu.collapse();
+//
+//                }
+//            }
+//        });
 
         final View checkinObstructor = findViewById(R.id.checkinObstructor);
         final View checkinObstructor2 = findViewById(R.id.checkinObstructor2);
@@ -149,41 +145,41 @@ public class NotificationActivity extends BaseActionActivity {
             }
         });
 
-        findViewById(R.id.scanBtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkinObstructor.setVisibility(View.GONE);
-                checkinObstructor2.setVisibility(View.GONE);
+//        findViewById(R.id.scanBtn).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                checkinObstructor.setVisibility(View.GONE);
+//                checkinObstructor2.setVisibility(View.GONE);
+//
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        //IntentIntegrator integrator = new IntentIntegrator(DiscoverActivity.this);
+//                        //integrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
+//                        Intent intent = new Intent(NotificationActivity.this, ScannerActivity.class);
+//                        startActivity(intent);
+//                    }
+//                }, 100);
+//            }
+//        });
 
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //IntentIntegrator integrator = new IntentIntegrator(DiscoverActivity.this);
-                        //integrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
-                        Intent intent = new Intent(NotificationActivity.this, ScannerActivity.class);
-                        startActivity(intent);
-                    }
-                }, 100);
-            }
-        });
-
-        findViewById(R.id.uploadBillBtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkinObstructor.setVisibility(View.GONE);
-                checkinObstructor2.setVisibility(View.GONE);
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        Intent intent = new Intent(NotificationActivity.this, UploadBillActivity.class);
-                        intent.setAction("setChildYes");
-                        startActivity(intent);
-                    }
-                }, 100);
-            }
-        });
+//        findViewById(R.id.uploadBillBtn).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                checkinObstructor.setVisibility(View.GONE);
+//                checkinObstructor2.setVisibility(View.GONE);
+//
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//
+//                        Intent intent = new Intent(NotificationActivity.this, UploadBillActivity.class);
+//                        intent.setAction("setChildYes");
+//                        startActivity(intent);
+//                    }
+//                }, 100);
+//            }
+//        });
 
         getNotifications();
 

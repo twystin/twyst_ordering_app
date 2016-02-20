@@ -10,7 +10,6 @@ import com.twyst.app.android.adapters.BucksPagerAdapter;
 import java.util.ArrayList;
 
 public class TwystBucksHistoryActivity extends BaseActionActivity {
-
     private final int TAB_COUNT = 3;
     private ViewPager viewPager;
     private BucksPagerAdapter mPagerAdapter;

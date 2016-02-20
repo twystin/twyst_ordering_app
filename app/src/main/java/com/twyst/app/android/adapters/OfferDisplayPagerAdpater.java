@@ -24,7 +24,6 @@ import java.util.ArrayList;
  * Created by tushar on 25/01/16.
  */
 public class OfferDisplayPagerAdpater extends PagerAdapter {
-
     private final static String OFFER_TYPE = "offer";
 
     private TextView mHeader;
@@ -78,7 +77,6 @@ public class OfferDisplayPagerAdpater extends PagerAdapter {
 
 
         ((ViewPager) container).addView(itemView);
-
 
 
         return itemView;

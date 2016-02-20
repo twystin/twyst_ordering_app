@@ -20,9 +20,6 @@ import com.twyst.app.android.util.SharedPreferenceSingleton;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
-/**
- * Created by satish on 31/05/15.
- */
 public class TwystApplication extends Application {
 
     @Override

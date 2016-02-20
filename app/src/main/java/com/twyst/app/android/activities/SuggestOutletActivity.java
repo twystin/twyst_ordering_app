@@ -20,16 +20,11 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-/**
- * Created by rahuls on 7/8/15.
- */
 public class SuggestOutletActivity extends BaseActionActivity {
-
     private boolean fromDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        setupAsChild= true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suggest_outlet);
         fromDrawer = getIntent().getBooleanExtra(AppConstants.INTENT_PARAM_FROM_DRAWER, false);

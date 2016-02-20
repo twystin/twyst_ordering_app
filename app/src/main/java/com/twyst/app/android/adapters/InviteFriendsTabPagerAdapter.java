@@ -17,7 +17,6 @@ import com.twyst.app.android.util.SlidingTabLayout;
  * Created by rahuls on 20/10/14.
  */
 public class InviteFriendsTabPagerAdapter extends FragmentPagerAdapter implements SlidingTabLayout.TabIconProvider {
-
     private static final int iconRes[] = {
             R.drawable.tab_twyst,
             R.drawable.tab_phonebook,

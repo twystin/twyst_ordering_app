@@ -28,9 +28,6 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-/**
- * Created by vivek on 05/08/15.
- */
 public class InviteFriendsActivity extends BaseActionActivity {
     private List<Profile.FriendLists> friendLists;
     private boolean fromDrawer;

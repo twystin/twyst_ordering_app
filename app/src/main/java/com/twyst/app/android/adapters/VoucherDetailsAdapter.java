@@ -16,10 +16,10 @@ import java.util.ArrayList;
  * Created by Raman on 2/1/2016.
  */
 public class VoucherDetailsAdapter extends RecyclerView.Adapter<VoucherDetailsAdapter.ViewHolder> {
-
     ArrayList<VoucherDetailsActivity.MyData> mData;
     Context mContext;
-    public VoucherDetailsAdapter(Context context,ArrayList<VoucherDetailsActivity.MyData> data) {
+
+    public VoucherDetailsAdapter(Context context, ArrayList<VoucherDetailsActivity.MyData> data) {
         mContext = context;
         mData = data;
     }
@@ -45,6 +45,7 @@ public class VoucherDetailsAdapter extends RecyclerView.Adapter<VoucherDetailsAd
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView offerAmountTV;
         public TextView bucksAmountTV;
+
         public ViewHolder(View view) {
             super(view);
             offerAmountTV = (TextView) view.findViewById(R.id.offer_amount);

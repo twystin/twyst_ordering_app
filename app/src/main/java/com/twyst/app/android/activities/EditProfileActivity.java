@@ -73,9 +73,6 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-/**
- * Created by rahuls on 2/9/15.
- */
 public class EditProfileActivity extends BaseActionActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private boolean fromDrawer;
     private String source = "";

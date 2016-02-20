@@ -19,13 +19,12 @@ import java.util.List;
  * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2014-2-23
  */
 public class ImagePagerAdapter extends PagerAdapter {
-
     Context mContext;
     LayoutInflater mLayoutInflater;
     private List<Integer> mResources;
-    private boolean   isInfiniteLoop;
+    private boolean isInfiniteLoop;
 
-    public ImagePagerAdapter (Context context,List<Integer> list) {
+    public ImagePagerAdapter(Context context, List<Integer> list) {
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mResources = list;

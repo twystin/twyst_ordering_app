@@ -20,9 +20,6 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-/**
- * Created by rahuls on 7/8/15.
- */
 public class WriteToUsActivity extends BaseActionActivity {
     private boolean fromDrawer;
 
