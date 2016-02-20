@@ -216,9 +216,6 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
             public void onClick(View v) {
                 Intent intent = new Intent(AddressAddNewActivity.this, AddressDetailsActivity.class);
                 startActivity(intent);
-                if (SharedPreferenceSingleton.getInstance().isPassedCartCheckoutStage()) {
-                    finish();
-                }
             }
         });
     }

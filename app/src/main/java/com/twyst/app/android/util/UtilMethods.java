@@ -44,6 +44,7 @@ public class UtilMethods {
                     returnOrderSummary.setOutletId(orderSummary.getOutletId());
                     returnOrderSummary.setPhone(orderSummary.getPhone());
                     returnOrderSummary.setAddressDetailsLocationData(addressDetailsLocationData);
+                    SharedPreferenceSingleton.getInstance().saveCurrentUsedLocation(addressDetailsLocationData);
 
                     checkOutIntent = new Intent(activity, AddressAddNewActivity.class);
                     Bundle orderSummaryData = new Bundle();

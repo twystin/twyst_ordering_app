@@ -506,7 +506,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         LayoutInflater inflater = LayoutInflater.from(mContext);
         final View dialogView = inflater.inflate(R.layout.dialog_menu, null);
         TextView tvTitle = (TextView) dialogView.findViewById(R.id.tvTitle);
-        final Button bOK = (Button) dialogView.findViewById(R.id.bOK);
+        final TextView bOK = (TextView) dialogView.findViewById(R.id.bOK);
         TextView tvCancel = (TextView) dialogView.findViewById(R.id.tvCancel);
         ListView listMenuOptions = (ListView) dialogView.findViewById(R.id.listMenuOptions);
 
