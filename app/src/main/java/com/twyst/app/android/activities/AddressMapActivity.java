@@ -113,7 +113,7 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
                 twystProgressHUD = TwystProgressHUD.show(AddressMapActivity.this, false, null);
 
                 ConnectivityManager cm =
-                        (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+                        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
                 boolean isConnected = activeNetwork != null &&
                         activeNetwork.isConnectedOrConnecting();
@@ -129,7 +129,7 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
                             dialog.cancel();
                         }
                     });
-                    if (twystProgressHUD != null){
+                    if (twystProgressHUD != null) {
                         twystProgressHUD.dismiss();
                     }
                     mAddressRequested = false;
@@ -151,11 +151,11 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
     }
 
     public void fetchLocation() {
-        if (PermissionUtil.getInstance().approveLocation(AddressMapActivity.this,false)) {
+        if (PermissionUtil.getInstance().approveLocation(AddressMapActivity.this, false)) {
             twystProgressHUD = TwystProgressHUD.show(AddressMapActivity.this, false, null);
             mLocationRequested = true;
             locationFetchUtil.requestLocation(false);
-        } else{
+        } else {
 
             mFetchAddressButton.setClickable(false);
             SharedPreferenceSingleton sharedPreference = SharedPreferenceSingleton.getInstance();
