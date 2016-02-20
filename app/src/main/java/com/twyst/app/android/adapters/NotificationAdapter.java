@@ -15,7 +15,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
-import com.twyst.app.android.activities.DiscoverActivity;
 import com.twyst.app.android.activities.MainActivity;
 import com.twyst.app.android.activities.OfferDetailActivity;
 import com.twyst.app.android.activities.SearchActivity;

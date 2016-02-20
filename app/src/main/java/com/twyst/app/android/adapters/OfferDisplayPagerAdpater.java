@@ -1,6 +1,5 @@
 package com.twyst.app.android.adapters;
 
-;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
@@ -18,6 +17,8 @@ import com.twyst.app.android.model.Offer;
 import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
+
+;
 
 /**
  * Created by tushar on 25/01/16.

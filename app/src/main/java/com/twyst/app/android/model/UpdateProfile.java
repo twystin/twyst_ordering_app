@@ -4,8 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-import retrofit.http.Field;
-
 /**
  * Created by Vipul Sharma on 10/15/2015.
  */

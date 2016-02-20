@@ -33,7 +33,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.CustomisedAddress;
 import com.twyst.app.android.model.LocationData;
@@ -42,7 +41,6 @@ import com.twyst.app.android.util.AppConstants;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by rahuls on 30/7/15.

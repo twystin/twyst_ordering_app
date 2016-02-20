@@ -7,9 +7,9 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-import java.util.List;
-
 import com.twyst.app.android.model.Offer;
+
+import java.util.List;
 
 /**
  * Created by rahuls on 2/9/15.

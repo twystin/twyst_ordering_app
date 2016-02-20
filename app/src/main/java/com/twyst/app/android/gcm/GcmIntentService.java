@@ -1,12 +1,10 @@
 package com.twyst.app.android.gcm;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,7 +17,6 @@ import android.util.Log;
 
 import com.androidquery.callback.BitmapAjaxCallback;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-
 import com.twyst.app.android.R;
 import com.twyst.app.android.TwystApplication;
 import com.twyst.app.android.activities.NotificationActivity;

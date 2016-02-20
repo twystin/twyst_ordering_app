@@ -1,9 +1,7 @@
 package com.twyst.app.android.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.twyst.app.android.R;
-import com.twyst.app.android.activities.FoodVouchersActivity;
-import com.twyst.app.android.activities.ShoppingVouchersActivity;
-import com.twyst.app.android.fragments.RedeemFragment;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 

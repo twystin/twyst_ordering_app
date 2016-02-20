@@ -32,10 +32,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.util.ArrayList;
-
 import com.appsflyer.AppsFlyerLib;
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.BaseResponse;
@@ -45,6 +41,10 @@ import com.twyst.app.android.model.SubmitOfferMeta;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.util.ArrayList;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;

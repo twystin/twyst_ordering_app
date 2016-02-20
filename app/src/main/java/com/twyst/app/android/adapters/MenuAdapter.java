@@ -25,7 +25,6 @@ import com.twyst.app.android.model.menu.SubOptions;
 import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by Vipul Sharma on 11/20/2015.

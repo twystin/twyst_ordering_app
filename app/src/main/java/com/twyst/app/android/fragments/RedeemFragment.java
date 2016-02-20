@@ -1,6 +1,5 @@
 package com.twyst.app.android.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -13,8 +12,6 @@ import android.view.ViewGroup;
 import com.google.common.primitives.Ints;
 import com.twyst.app.android.CirclePageIndicator;
 import com.twyst.app.android.R;
-import com.twyst.app.android.activities.FoodVouchersActivity;
-import com.twyst.app.android.activities.TwystBucksHistoryActivity;
 import com.twyst.app.android.adapters.ImagePagerAdapter;
 import com.twyst.app.android.adapters.RedeemRVAdapter;
 

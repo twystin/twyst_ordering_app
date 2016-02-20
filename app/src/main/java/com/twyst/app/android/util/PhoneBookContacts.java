@@ -5,11 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.ContactsContract;
 
+import com.twyst.app.android.model.Friend;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-
-import com.twyst.app.android.model.Friend;
 
 /**
  * Created by rahuls on 29/6/15.

@@ -17,7 +17,6 @@ import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
 import com.nispok.snackbar.listeners.ActionClickListener;
-
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.AuthToken;
 import com.twyst.app.android.model.BaseResponse;
@@ -25,6 +24,7 @@ import com.twyst.app.android.model.OTPCode;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;

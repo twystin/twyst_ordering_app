@@ -1,8 +1,6 @@
 package com.twyst.app.android.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;

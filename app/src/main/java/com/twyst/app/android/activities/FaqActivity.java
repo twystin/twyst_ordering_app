@@ -1,19 +1,16 @@
 package com.twyst.app.android.activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.MailTo;
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
 import android.text.Html;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.appsflyer.AppsFlyerLib;
 import com.twyst.app.android.R;

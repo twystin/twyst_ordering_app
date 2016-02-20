@@ -3,35 +3,26 @@ package com.twyst.app.android.service;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-
 import android.content.SharedPreferences;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-
 import com.google.gson.Gson;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.LocationOffline;
 import com.twyst.app.android.model.LocationOfflineList;
 import com.twyst.app.android.model.UserLocation;
 import com.twyst.app.android.util.AppConstants;
+
+import java.util.LinkedList;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;

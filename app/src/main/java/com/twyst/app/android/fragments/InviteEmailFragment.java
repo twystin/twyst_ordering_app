@@ -10,7 +10,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -21,7 +20,20 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import com.twyst.app.android.R;
+import com.twyst.app.android.adapters.GoogleContactListAdapter;
+import com.twyst.app.android.util.GetAccessToken;
+import com.twyst.app.android.util.GoogleConstants;
+import com.twyst.app.android.util.GoogleContact;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 //import com.google.gdata.client.Query;
 //import com.google.gdata.client.contacts.ContactsService;
@@ -29,22 +41,6 @@ import android.widget.Toast;
 //import com.google.gdata.data.contacts.ContactFeed;
 //import com.google.gdata.data.extensions.Email;
 //import com.google.gdata.data.extensions.Name;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import com.twyst.app.android.R;
-import com.twyst.app.android.adapters.GoogleContactListAdapter;
-import com.twyst.app.android.util.GetAccessToken;
-import com.twyst.app.android.util.GoogleConstants;
-import com.twyst.app.android.util.GoogleContact;
-import com.twyst.app.android.util.Utils;
 
 /**
  * Created by vivek on 05/08/15.

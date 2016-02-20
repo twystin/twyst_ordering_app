@@ -7,10 +7,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
-
 import com.twyst.app.android.R;
 import com.twyst.app.android.util.GoogleContact;
+
+import java.util.List;
 
 /**
  * Created by vivek on 07/08/15.

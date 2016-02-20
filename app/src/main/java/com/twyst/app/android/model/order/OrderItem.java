@@ -2,12 +2,10 @@ package com.twyst.app.android.model.order;
 
 import com.google.gson.annotations.SerializedName;
 import com.twyst.app.android.model.menu.Addons;
-import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.menu.SubOptions;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Vipul Sharma on 12/21/2015.

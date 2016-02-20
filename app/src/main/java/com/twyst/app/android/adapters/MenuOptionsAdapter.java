@@ -1,6 +1,5 @@
 package com.twyst.app.android.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
-import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.menu.Options;
 import com.twyst.app.android.util.Utils;
 

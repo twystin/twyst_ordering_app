@@ -6,8 +6,6 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.twyst.app.android.activities.OrderTrackingActivity;
-import com.twyst.app.android.model.Friend;
 import com.twyst.app.android.util.AppConstants;
 
 import java.io.Serializable;

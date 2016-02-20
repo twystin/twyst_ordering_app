@@ -12,6 +12,7 @@ import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.ShareOutlet;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;

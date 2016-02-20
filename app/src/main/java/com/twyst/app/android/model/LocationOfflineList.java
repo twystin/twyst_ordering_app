@@ -1,12 +1,5 @@
 package com.twyst.app.android.model;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.location.Location;
-
-import com.twyst.app.android.service.LocationService;
-import com.twyst.app.android.util.AppConstants;
-
 import java.io.Serializable;
 import java.util.LinkedList;
 

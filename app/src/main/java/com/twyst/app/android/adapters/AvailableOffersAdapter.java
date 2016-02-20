@@ -16,8 +16,6 @@ import com.twyst.app.android.model.order.OfferOrder;
 import com.twyst.app.android.model.order.OrderSummary;
 import com.twyst.app.android.util.Utils;
 
-import java.util.ArrayList;
-
 /**
  * Created by Vipul Sharma on 12/24/2015.
  */

@@ -10,9 +10,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
-import com.twyst.app.android.model.menu.Options;
 import com.twyst.app.android.model.menu.SubOptionSet;
-import com.twyst.app.android.model.menu.SubOptions;
 import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;

@@ -1,6 +1,5 @@
 package com.twyst.app.android.adapters;
 
-import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -10,12 +9,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.twyst.app.android.R;
 import com.twyst.app.android.activities.BaseActivity;
 import com.twyst.app.android.model.DrawerItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by satish on 05/12/14.

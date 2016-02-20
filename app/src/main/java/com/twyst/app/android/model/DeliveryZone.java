@@ -1,7 +1,6 @@
 package com.twyst.app.android.model;
 
 import com.google.gson.annotations.SerializedName;
-import com.twyst.app.android.activities.EditProfileActivity;
 
 /**
  * Created by tushar on 08/02/16.

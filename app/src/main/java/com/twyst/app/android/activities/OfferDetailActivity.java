@@ -32,16 +32,6 @@ import com.balysv.materialripple.MaterialRippleLayout;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import com.squareup.picasso.Picasso;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
 import com.twyst.app.android.R;
 import com.twyst.app.android.alarm.NotificationPublisherReceiver;
 import com.twyst.app.android.model.AvailableNext;
@@ -65,6 +55,16 @@ import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.Utils;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;

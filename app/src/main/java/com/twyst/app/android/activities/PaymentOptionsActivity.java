@@ -23,7 +23,6 @@ import com.mobikwik.sdk.lib.SDKErrorCodes;
 import com.mobikwik.sdk.lib.Transaction;
 import com.mobikwik.sdk.lib.TransactionConfiguration;
 import com.mobikwik.sdk.lib.User;
-import com.squareup.okhttp.internal.Util;
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.PaymentData;

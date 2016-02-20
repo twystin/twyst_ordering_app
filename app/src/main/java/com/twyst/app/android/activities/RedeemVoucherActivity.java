@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.appsflyer.AppsFlyerLib;
 import com.squareup.picasso.Picasso;
-
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.EventMeta;
@@ -27,6 +26,7 @@ import com.twyst.app.android.model.ShareOfferData;
 import com.twyst.app.android.model.UseOfferData;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;

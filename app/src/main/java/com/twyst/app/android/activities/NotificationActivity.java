@@ -3,7 +3,6 @@ package com.twyst.app.android.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,10 +15,6 @@ import android.widget.Toast;
 import com.appsflyer.AppsFlyerLib;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.NotificationAdapter;
 import com.twyst.app.android.model.BaseResponse;
@@ -27,6 +22,9 @@ import com.twyst.app.android.model.NotificationData;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.UtilMethods;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;

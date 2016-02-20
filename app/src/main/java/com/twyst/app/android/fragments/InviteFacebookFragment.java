@@ -16,9 +16,9 @@ import com.facebook.FacebookSdk;
 import com.facebook.applinks.AppLinkData;
 import com.facebook.share.model.AppInviteContent;
 import com.facebook.share.widget.AppInviteDialog;
+import com.twyst.app.android.R;
 
 import bolts.AppLinks;
-import com.twyst.app.android.R;
 
 /**
  * Created by vivek on 05/08/15.
