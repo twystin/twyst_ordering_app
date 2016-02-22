@@ -399,8 +399,8 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
                 addonsNew.setAddonSetList(addonSetListNew);
                 option.getAddonsList().set(currentIndex, addonsNew);
 
-                if ((currentIndex + 1) < option.getSubOptionsList().size()) {
-                    showDialogAddons(cartItem, 0);
+                if ((currentIndex + 1) < option.getAddonsList().size()) {
+                    showDialogAddons(cartItem, currentIndex + 1);
                 } else {
                     addToCart(cartItem);
                 }
