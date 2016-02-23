@@ -174,9 +174,10 @@ public class PaymentOptionsActivity extends BaseActionActivity {
             if (data != null) {
                 MKTransactionResponse response = (MKTransactionResponse)
                         data.getSerializableExtra(MobikwikSDK.EXTRA_TRANSACTION_RESPONSE);
-                Toast.makeText(PaymentOptionsActivity.this, response.statusMessage, Toast.LENGTH_SHORT).show();
-                if (response.statusCode.equals(SDKErrorCodes.SUCCESS)) {
+                if (response.statusCode.equals(SDKErrorCodes.SUCCESS.getErrorCode())) {
                     gotoOrderTracking();
+                } else {
+                    Toast.makeText(PaymentOptionsActivity.this, response.statusMessage, Toast.LENGTH_SHORT).show();
                 }
                 Log.d("PaymentOptionsActivity", response.statusMessage);
                 Log.d("PaymentOptionsActivity", response.statusCode);
