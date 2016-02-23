@@ -48,7 +48,6 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
     private FrameLayout flProceed;
     private TextView tvAddressDetected;
 
-
     private OrderSummary mOrderSummary;
     private AddressDetailsLocationData mNewAddress = new AddressDetailsLocationData();
 
@@ -148,7 +147,6 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
         }
 
 
-
         final Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mOrderSummary = (OrderSummary) extras.getSerializable(AppConstants.INTENT_ORDER_SUMMARY);
@@ -162,13 +160,13 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
         }
 
         setupToolBar();
-        if (mNewAddress!=null && mNewAddress.getTag()!=null) {
+        if (mNewAddress != null && mNewAddress.getTag() != null) {
             tvAddressDetected.setText("Saved Address");
         } else {
             tvAddressDetected.setText("Auto Detected Address");
         }
 
-        if (mNewAddress!= null && mNewAddress.getTag() != null) {
+        if (mNewAddress != null && mNewAddress.getTag() != null) {
             switch (mNewAddress.getTag()) {
                 case AddressDetailsLocationData.TAG_HOME:
                     homeTag.setSelected(true);
@@ -306,7 +304,7 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
     @Override
     public void setupToolBar() {
         super.setupToolBar();
-        if (mNewAddress!= null && mNewAddress.getTag() != null) {
+        if (mNewAddress != null && mNewAddress.getTag() != null) {
             this.setTitle("Confirm Address");
         } else {
             this.setTitle("Edit Address");
