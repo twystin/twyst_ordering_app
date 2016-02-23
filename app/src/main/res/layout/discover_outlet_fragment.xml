@@ -119,6 +119,31 @@
                 android:textStyle="italic" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/linlay_discover_fragment_show_default_error_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray_divider" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/layout_medium_margin"
+                android:paddingLeft="@dimen/layout_wide_margin"
+                android:paddingRight="@dimen/layout_wide_margin"
+                android:paddingTop="@dimen/layout_medium_margin"
+                android:text="@string/default_location_chosen"
+                android:textSize="@dimen/layout_wide_margin"
+                android:textStyle="italic" />
+        </LinearLayout>
+
     </android.support.design.widget.AppBarLayout>
 
     <RelativeLayout

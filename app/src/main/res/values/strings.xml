@@ -220,6 +220,7 @@ each friend who joins.</p>
 
     <string name="turn_on_gps_desc">Turn On GPS, currently using Last known!</string>
     <string name="fetch_location_again_desc">Fetch Location Again, currently using last known!</string>
+    <string name="default_location_chosen">No Location Found, Using Default Location!</string>
 
     <string-array name="tag_titles">
         <item>SORT BY</item>

@@ -91,6 +91,7 @@ import com.twyst.app.android.util.PermissionUtil;
 import com.twyst.app.android.util.PhoneBookContacts;
 import com.twyst.app.android.util.SharedPreferenceSingleton;
 import com.twyst.app.android.util.TwystProgressHUD;
+import com.twyst.app.android.util.UtilMethods;
 import com.twyst.app.android.util.Utils;
 
 import org.json.JSONArray;
@@ -126,6 +127,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     private static final int REQUEST_LOCATION = 1;
     private static final int REQUEST_SMS = 3;
     private static final String TAG = "PreMainActivity";
+    private boolean isAddressesSynced = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,7 +160,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
 
     //Choose Location Layout
     private void showChooseLocationLayout() {
-
+        synAddressFromProfile();
         startChooseLocationAnimation();
 
         PermissionUtil.getInstance().approveLocation(PreMainActivity.this, false);
@@ -181,31 +183,40 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
 
 
         listViewSavedLocations = (ListView) findViewById(R.id.lv_saved_locations);
+        adapter = new com.twyst.app.android.adapters.SimpleArrayAdapter(PreMainActivity.this, addressList, null);
+        listViewSavedLocations.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listViewSavedLocations.setAdapter(adapter);
+        final RelativeLayout loaderRow = (RelativeLayout) findViewById(R.id.loader_row);
+        loaderRow.setVisibility(View.GONE);
 
         final SharedPreferenceSingleton preference = SharedPreferenceSingleton.getInstance();
         addressList = preference.getAddresses();
-        if (addressList != null && addressList.size() > 0) {
+        linlaySavedLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isSaveLocationClicked) {
+                    isSaveLocationClicked = true;
+                    int minNoOfRows = 3;
+                    if (!isAddressesSynced) {
+                        loaderRow.setVisibility(View.VISIBLE);
+                        minNoOfRows = 2;
+                    }
 
-            linlaySavedLocation.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!isSaveLocationClicked) {
-                        isSaveLocationClicked = true;
-                        adapter = new com.twyst.app.android.adapters.SimpleArrayAdapter(PreMainActivity.this, addressList, null);
-                        listViewSavedLocations = (ListView) findViewById(R.id.lv_saved_locations);
-                        listViewSavedLocations.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-                        listViewSavedLocations.setAdapter(adapter);
-                        if (adapter.getCount() > 3) {
+                    addressList = preference.getAddresses();
+                    if (addressList != null && addressList.size() > 0) {
+                        adapter.clear();
+                        adapter.addAll(addressList);
+
+                        if (adapter.getCount() > minNoOfRows) {
                             View item = adapter.getView(0, null, listViewSavedLocations);
                             item.measure(0, 0);
-//                            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (3 * item.getMeasuredHeight()));
                             ViewGroup.LayoutParams params = listViewSavedLocations.getLayoutParams();
                             params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-                            params.height = (int) (3.5 * item.getMeasuredHeight());
+                            params.height = (int) ((minNoOfRows + 0.5) * item.getMeasuredHeight());
                             listViewSavedLocations.requestLayout();
-//                            listViewSavedLocations.setLayoutParams(params);
                         }
+
+                        adapter.notifyDataSetChanged();
                         listViewSavedLocations.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -220,15 +231,20 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                         });
                         listViewSavedLocations.setVisibility(View.VISIBLE);
                     } else {
-                        isSaveLocationClicked = false;
-                        listViewSavedLocations.setVisibility(View.GONE);
+                        if (isAddressesSynced){
+                            findViewById(R.id.no_saved_address_row).setVisibility(View.VISIBLE);
+                        }
                     }
+                } else {
+                    isSaveLocationClicked = false;
+                    listViewSavedLocations.setVisibility(View.GONE);
+                    findViewById(R.id.no_saved_address_row).setVisibility(View.GONE);
+                    findViewById(R.id.loader_row).setVisibility(View.GONE);
+
                 }
-            });
-        } else {
-            linlaySavedLocation.setEnabled(false);
-            linlaySavedLocation.setClickable(false);
-        }
+            }
+        });
+
 
         linlayAdNewLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1666,6 +1682,51 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
 
             prefsEdit.apply();
         }
+    }
+
+    private void synAddressFromProfile() {
+        isAddressesSynced = false;
+        HttpService.getInstance().getProfile(UtilMethods.getUserToken(PreMainActivity.this), new Callback<BaseResponse<com.twyst.app.android.model.Profile>>() {
+            @Override
+            public void success(final BaseResponse<com.twyst.app.android.model.Profile> profileBaseResponse, Response response) {
+
+                if (profileBaseResponse.isResponse()) {
+                    ArrayList<AddressDetailsLocationData> addressList = new ArrayList<>(profileBaseResponse.getData().getAddressList());
+                    ArrayList<AddressDetailsLocationData> savedAddressList = new ArrayList<AddressDetailsLocationData>();
+                    for (AddressDetailsLocationData address : addressList) {
+                        if (address.getTag() != null && address.getTag() != "") {
+                            savedAddressList.add(address);
+                        }
+                    }
+                    SharedPreferenceSingleton.getInstance().saveAddresses(savedAddressList);
+                    if (isSaveLocationClicked) {
+                        findViewById(R.id.loader_row).setVisibility(View.GONE);
+                        if (savedAddressList != null && savedAddressList.size()>0) {
+                            if (adapter.getCount() > 3) {
+                                View item = adapter.getView(0, null, listViewSavedLocations);
+                                item.measure(0, 0);
+                                ViewGroup.LayoutParams params = listViewSavedLocations.getLayoutParams();
+                                params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                                params.height = (int) ((3 + 0.5) * item.getMeasuredHeight());
+                                listViewSavedLocations.requestLayout();
+                            }
+                            adapter.clear();
+                            adapter.addAll(savedAddressList);
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            findViewById(R.id.no_saved_address_row).setVisibility(View.VISIBLE);
+                        }
+                    }
+                    isAddressesSynced = true;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                UtilMethods.handleRetrofitError(PreMainActivity.this, error);
+                isAddressesSynced = false;
+            }
+        });
     }
 
     @Override

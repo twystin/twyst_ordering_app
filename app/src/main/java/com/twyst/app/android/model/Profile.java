@@ -18,6 +18,9 @@ public class Profile implements Serializable{
     @SerializedName("twyst_friends")
     private List<FriendLists> twystFriendLists;
 
+    @SerializedName("address")
+    private List<AddressDetailsLocationData> addressList;
+
     @SerializedName("google_connect")
     private boolean googleConnect;
 
@@ -53,6 +56,14 @@ public class Profile implements Serializable{
 
     public void setFacebookConnect(boolean facebookConnect) {
         this.facebookConnect = facebookConnect;
+    }
+
+    public List<AddressDetailsLocationData> getAddressList() {
+        return addressList;
+    }
+
+    public void setAddressList(List<AddressDetailsLocationData> addressList) {
+        this.addressList = addressList;
     }
 
     public List<FriendLists> getFriendLists() {

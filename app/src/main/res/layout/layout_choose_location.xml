@@ -107,6 +107,9 @@
                 android:src="@drawable/choose_location_saved_icon" />
         </LinearLayout>
 
+        <include
+            android:id="@+id/loader_row"
+            layout="@layout/show_loader_row" />
 
         <ListView
             android:id="@+id/lv_saved_locations"
@@ -115,6 +118,20 @@
             android:layout_marginTop="1dp"
             android:fadeScrollbars="true"
             android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/no_saved_address_row"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/no_address_found"
+                android:textSize="@dimen/address_medium_text_size" />
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/linlay_choose_location_add_new"

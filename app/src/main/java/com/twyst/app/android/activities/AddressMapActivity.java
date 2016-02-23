@@ -415,6 +415,19 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
                 mAddressRequested = false;
+                locationData = new AddressDetailsLocationData();
+                locationData.setCoords(new Coords("28.49", "77.09"));
+                locationData.setAddress("DLF Cyber City, DLF Phase 2, Sector 24, Gurgaon, Haryana 122021, India");
+                locationData.setNeighborhood("DLF Cyber City, DLF Phase 2");
+                locationData.setLandmark(" Sector 24, Gurgaon");
+                Intent intent = new Intent(AddressMapActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                SharedPreferenceSingleton sharedPreferenceSingleton = SharedPreferenceSingleton.getInstance();
+                sharedPreferenceSingleton.saveCurrentUsedLocation(locationData);
+                sharedPreferenceSingleton.setSaveLocationClicked(false);
+                intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_ADD);
+                intent.putExtra(AppConstants.CHOOSE_LOCATION_DEFAULT, true);
+                startActivity(intent);
                 twystProgressHUD.dismiss();
                 finish();
 

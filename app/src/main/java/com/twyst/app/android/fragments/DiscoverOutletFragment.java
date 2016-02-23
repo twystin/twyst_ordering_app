@@ -90,6 +90,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
     SharedPreferenceSingleton sharedPreferenceSingleton = SharedPreferenceSingleton.getInstance();
 
     private LinearLayout showErrorLayout;
+    private LinearLayout showDefaultLocationError;
     private TextView errorDescription;
     private CircularProgressBar circularProgressBarOutlet;
     private LinearLayout showAddressLayout;
@@ -142,6 +143,10 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
         String optionSelected = getActivity().getIntent().getStringExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED);
         currentAddressName = (TextView) view.findViewById(R.id.tv_current_address_location);
         circularProgressBarOutlet = (CircularProgressBar) view.findViewById(R.id.circularProgressBarOutlet);
+        showErrorLayout = (LinearLayout) view.findViewById(R.id.linlay_discover_fragment_error_layout);
+        showDefaultLocationError = (LinearLayout) view.findViewById(R.id.linlay_discover_fragment_show_default_error_message);
+        errorDescription = (TextView) view.findViewById(R.id.tv_error_description);
+        showAddressLayout = (LinearLayout) view.findViewById(R.id.linlay_display_address);
         showProgressBar();
         if (savedInstanceState == null) {
             switch (optionSelected) {
@@ -158,6 +163,9 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
                 case AppConstants.CHOOSE_LOCATION_OPTION_ADD:
                     mAddressDetailsLocationData = sharedPreferenceSingleton.getDeliveryLocation();
                     currentAddressName.setText(mAddressDetailsLocationData.getNeighborhood() + ", " + mAddressDetailsLocationData.getLandmark());
+                    if (getActivity().getIntent().getBooleanExtra(AppConstants.CHOOSE_LOCATION_DEFAULT,false)){
+                        showDefaultLocationError.setVisibility(View.VISIBLE);
+                    }
                     fetchOutlets(1);
                     break;
                 case AppConstants.CHOOSE_LOCATION_OPTION_SKIPPED:
@@ -175,9 +183,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
         }
 
 
-        showErrorLayout = (LinearLayout) view.findViewById(R.id.linlay_discover_fragment_error_layout);
-        errorDescription = (TextView) view.findViewById(R.id.tv_error_description);
-        showAddressLayout = (LinearLayout) view.findViewById(R.id.linlay_display_address);
+
 
         showErrorLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,9 +199,12 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
         showAddressLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferenceSingleton.getInstance().setPassedCartCheckoutStage(false);
-                Intent intent = new Intent(getActivity(), AddressAddNewActivity.class);
-                startActivityForResult(intent, AppConstants.EDIT_ADDRESS);
+                if (mAddressDetailsLocationData!=null) {
+                    showDefaultLocationError.setVisibility(View.GONE);
+                    SharedPreferenceSingleton.getInstance().setPassedCartCheckoutStage(false);
+                    Intent intent = new Intent(getActivity(), AddressAddNewActivity.class);
+                    startActivityForResult(intent, AppConstants.EDIT_ADDRESS);
+                }
             }
         });
 

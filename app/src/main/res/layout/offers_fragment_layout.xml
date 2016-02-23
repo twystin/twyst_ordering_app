@@ -1,30 +1,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".SortFragment"
-    android:orientation="vertical">
+    tools:context=".SortFragment">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/layout_medium_margin"
+        android:paddingRight="@dimen/layout_medium_margin"
         android:text="@string/offers_available_description"
-        android:textStyle="italic"
-        android:textSize="@dimen/layout_wide_text_size"  />
+        android:textSize="@dimen/layout_wide_text_size"
+        android:textStyle="italic" />
 
     <View
-        android:layout_marginTop="@dimen/layout_medium_margin"
-        android:layout_marginBottom="@dimen/layout_medium_margin"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/background_grey"/>
+        android:layout_marginBottom="@dimen/layout_medium_margin"
+        android:layout_marginTop="@dimen/layout_medium_margin"
+        android:background="@color/background_grey"
+        android:paddingLeft="@dimen/layout_medium_margin"
+        android:paddingRight="@dimen/layout_medium_margin" />
 
     <ListView
-        android:layout_width="match_parent"
+        android:id="@+id/lv_offers_options"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/lv_offers_options"/>
-
+        android:layout_gravity="center_horizontal" />
 
 
 </LinearLayout>
