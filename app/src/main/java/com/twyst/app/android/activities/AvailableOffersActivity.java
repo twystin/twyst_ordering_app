@@ -85,7 +85,7 @@ public class AvailableOffersActivity extends BaseActionActivity {
                     });
                     findViewById(R.id.bSkip).setEnabled(false);
                 }
-                mAvailableOffersAdapter.notifyDataSetChanged();
+                mAvailableOffersAdapter.notifyItemChanged(position);
             }
         });
     }
