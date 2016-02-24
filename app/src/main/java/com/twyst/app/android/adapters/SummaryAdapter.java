@@ -31,20 +31,20 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int mFreeItemIndex;
     private static final int VIEW_NORMAL = 0;
     private static final int VIEW_FOOTER = 1;
+    private SummaryViewHolderFooter mSummaryViewHolderFooter;
+    private double grandTotal;
+    private boolean isSuggestionToShow;
 
     public SummaryViewHolderFooter getmSummaryViewHolderFooter() {
         return mSummaryViewHolderFooter;
     }
 
-    private SummaryViewHolderFooter mSummaryViewHolderFooter;
-
-    private double grandTotal;
-
-    public SummaryAdapter(Context context, OrderSummary orderSummary, int freeItemIndex) {
+    public SummaryAdapter(Context context, OrderSummary orderSummary, int freeItemIndex, boolean isSuggestionToShow) {
         this.mOrderSummary = orderSummary;
         mContext = context;
         mFreeItemIndex = freeItemIndex;
         mCartItemsList = orderSummary.getmCartItemsList();
+        this.isSuggestionToShow = isSuggestionToShow;
     }
 
     public double getGrandTotal() {
@@ -57,7 +57,6 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_summary, parent, false);
 
             RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-//            layoutParams.setMargins(10, 10, 10, -5);
             layoutParams.setMargins(0, 15, 0, 15);
             v.setLayoutParams(layoutParams);
 
@@ -154,7 +153,6 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 summaryViewHolder.vegNonVegIcon.setImageDrawable(img);
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) summaryViewHolder.llOfferAppliedSpecific.getLayoutParams();
                 params.setMargins((mVegIconHeight + summaryViewHolder.menuItemName.getCompoundDrawablePadding()), params.topMargin, 0, 0);
-//                summaryViewHolder.llCustomisations.setLayoutParams(params);
                 summaryViewHolder.llOfferAppliedSpecific.setLayoutParams(params);
 
             }
@@ -294,6 +292,12 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } else {
                     summaryViewHolderFooter.llServiceTax.setVisibility(View.GONE);
                 }
+            }
+
+            if (isSuggestionToShow) {
+                summaryViewHolderFooter.etSuggestion.setVisibility(View.VISIBLE);
+            } else {
+                summaryViewHolderFooter.etSuggestion.setVisibility(View.GONE);
             }
 
         }

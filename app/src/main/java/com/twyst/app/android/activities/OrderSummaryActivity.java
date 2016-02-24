@@ -108,7 +108,7 @@ public class OrderSummaryActivity extends BaseActionActivity {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mSummaryRecyclerView.setLayoutManager(mLayoutManager);
 
-        mSummaryAdapter = new SummaryAdapter(OrderSummaryActivity.this, mOrderSummary, mFreeItemIndex);
+        mSummaryAdapter = new SummaryAdapter(OrderSummaryActivity.this, mOrderSummary, mFreeItemIndex, true);
         mSummaryRecyclerView.setAdapter(mSummaryAdapter);
 
     }

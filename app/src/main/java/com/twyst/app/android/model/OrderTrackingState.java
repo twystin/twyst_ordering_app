@@ -167,7 +167,6 @@ public class OrderTrackingState {
             e.printStackTrace();
         }
         return formattedDate;
-
     }
 
     public static void updateOverrideList(Context context, String orderID, ArrayList<OrderAction> orderActionsList, String orderPlacedDate) {

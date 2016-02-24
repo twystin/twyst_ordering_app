@@ -136,7 +136,7 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mSummaryRecyclerView.setLayoutManager(mLayoutManager);
 
-        SummaryAdapter mSummaryAdapter = new SummaryAdapter(OrderTrackingActivity.this, orderInfoLocal.getOrderSummary(), orderInfoLocal.getFreeItemIndex());
+        SummaryAdapter mSummaryAdapter = new SummaryAdapter(OrderTrackingActivity.this, orderInfoLocal.getOrderSummary(), orderInfoLocal.getFreeItemIndex(), false);
         mSummaryRecyclerView.setAdapter(mSummaryAdapter);
     }
 
