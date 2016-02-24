@@ -36,8 +36,6 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
     private ImageView homeTag;
     private ImageView workTag;
     private ImageView otherTag;
-    private ImageView editNeighborhood;
-    private ImageView editLandmark;
     private EditText address;
     private EditText neighborhood;
     private EditText landmark;
@@ -47,6 +45,7 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
     private TextView tvProceed;
     private FrameLayout flProceed;
     private TextView tvAddressDetected;
+
 
     private OrderSummary mOrderSummary;
     private AddressDetailsLocationData mNewAddress = new AddressDetailsLocationData();
@@ -66,32 +65,12 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
         address = (EditText) findViewById(R.id.editView_address);
         neighborhood = (EditText) findViewById(R.id.editView_building);
         landmark = (EditText) findViewById(R.id.editView_landmark);
-        editNeighborhood = (ImageView) findViewById(R.id.edit_image_neighborhood);
-        editLandmark = (ImageView) findViewById(R.id.edit_image_landmark);
 
         //Setting text
         ((TextView) findViewById(R.id.tv_tag_home)).setText(AddressDetailsLocationData.TAG_HOME);
         ((TextView) findViewById(R.id.tv_tag_work)).setText(AddressDetailsLocationData.TAG_WORK);
         ((TextView) findViewById(R.id.tv_tag_other)).setText(AddressDetailsLocationData.TAG_OTHER);
 
-        editNeighborhood.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                neighborhood.setCursorVisible(true);
-                neighborhood.requestFocus();
-            }
-        });
-
-        editLandmark.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                landmark.setCursorVisible(true);
-                landmark.requestFocus();
-            }
-        });
-
-        landmark.setCursorVisible(false);
-        neighborhood.setCursorVisible(false);
 
         homeTag.setOnClickListener(new View.OnClickListener() {
             @Override

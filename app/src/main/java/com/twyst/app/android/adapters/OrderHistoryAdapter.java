@@ -323,7 +323,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         });
     }
 
-    public void placeReorderProcessing(MenuData menuData, OrderHistory reOrder) {
+    private void placeReorderProcessing(MenuData menuData, OrderHistory reOrder) {
         ArrayList<String> issuesFound = new ArrayList<>();
         ArrayList<Items> itemsToBeAddedToCart = new ArrayList<>();
 
@@ -360,21 +360,30 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                                 if ((items.getItemCost() - reOrderItem.getItemCost()) > 0) {
                                     costIssueFound = true;
                                     costIssueString = "Item cost differs by : " + String.valueOf((items.getItemCost() - reOrderItem.getItemCost()));
+                                    issuesFound.add(cartItem.getItemName() + " " + costIssueString);
                                 }
 
-                                if (!costIssueFound && selected != null && cartItem.getOptionsList().size() > 0) {
+                                if (selected != null && cartItem.getOptionsList().size() > 0) {
 
                                     found = false;
                                     for (Options options : cartItem.getOptionsList()) {
                                         if (options.getId().equals(selected.getId())) {
                                             found = true;// found the option
 
+                                            //check for isOptionPriceIsAdditive
+                                            if (cartItem.isOptionPriceIsAdditive() || cartItem.isOptionIsAddon()) {
+                                                cartItem.setItemCost(cartItem.getItemCost() + options.getOptionCost());
+                                            } else {
+                                                cartItem.setItemCost(options.getOptionCost());
+                                            }
+
                                             if ((options.getOptionCost() - selected.getOptionCost()) > 0) {
                                                 costIssueFound = true;
                                                 costIssueString = options.getOptionValue() + " cost differs by : " + String.valueOf((items.getItemCost() - reOrderItem.getItemCost()));
+                                                issuesFound.add(cartItem.getItemName() + " " + costIssueString);
                                             }
                                             //check for addons
-                                            if (!costIssueFound && selected.getAddonsList().size() != 0) {
+                                            if (selected.getAddonsList().size() != 0) {
                                                 for (Addons selectedAddon : selected.getAddonsList()) {
                                                     found = false;
                                                     for (Addons addon : options.getAddonsList()) {
@@ -387,10 +396,13 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                                                                 for (AddonSet addonSet : addon.getAddonSetList()) {
                                                                     if ((addonSet.getId()).equals(selectedAddonSet.getId())) {
                                                                         found = true;
+                                                                        // updating cartItem ItmCost
+                                                                        cartItem.setItemCost(cartItem.getItemCost() + addonSet.getAddonCost());
 
                                                                         if ((addonSet.getAddonCost() - selectedAddonSet.getAddonCost() > 0)) {
                                                                             costIssueFound = true;
                                                                             costIssueString = addon.getAddonTitle() + " " + addonSet.getAddonValue() + " cost differs by : " + String.valueOf(addonSet.getAddonCost() - selectedAddonSet.getAddonCost());
+                                                                            issuesFound.add(cartItem.getItemName() + " " + costIssueString);
                                                                         }
                                                                         break;
                                                                     }
@@ -398,6 +410,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                                                                 if (!found) {
                                                                     /// some AddonSet not found ,set inelligibleMisc
                                                                     foundIssueString = selectedAddon.getAddonTitle() + " " + selectedAddonSet.getAddonValue() + " not found in the menu";
+                                                                    issuesFound.add(cartItem.getItemName() + " " + foundIssueString);
                                                                     break;
                                                                 }
                                                             }
@@ -407,6 +420,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                                                     if (!found) {
                                                         // addon not found
                                                         foundIssueString = selectedAddon.getAddonTitle() + " not found in the menu";
+                                                        issuesFound.add(cartItem.getItemName() + " " + foundIssueString);
                                                         break;
                                                     }
                                                 }
@@ -414,7 +428,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
 
                                             //check for subOptions
-                                            if (!costIssueFound && found && selected.getSubOptionsList().size() > 0) {
+                                            if (selected.getSubOptionsList().size() > 0) {
                                                 found = true;
                                                 for (SubOptions selectedSubOption : selected.getSubOptionsList()) {
                                                     found = false;
@@ -428,10 +442,13 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                                                                 for (SubOptionSet subOptionSet : subOption.getSubOptionSetList()) {
                                                                     if ((subOptionSet.getId()).equals(selectedSubOptionSet)) {
                                                                         found = true;
+                                                                        // updating cartItem ItmCost
+                                                                        cartItem.setItemCost(cartItem.getItemCost() + subOptionSet.getSubOptionCost());
 
                                                                         if ((subOptionSet.getSubOptionCost() - selectedSubOptionSet.getSubOptionCost()) > 0) {
                                                                             costIssueFound = true;
                                                                             costIssueString = subOption.getSubOptionTitle() + " " + selectedSubOptionSet.getSubOptionValue() + " cost differs by " + String.valueOf(subOptionSet.getSubOptionCost() - selectedSubOptionSet.getSubOptionCost());
+                                                                            issuesFound.add(cartItem.getItemName() + " " + costIssueString);
                                                                         }
                                                                         break;
                                                                     }
@@ -439,6 +456,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                                                                 if (!found) {
                                                                     // subOptionSet not found
                                                                     foundIssueString = subOption.getSubOptionTitle() + " " + selectedSubOptionSet.getSubOptionValue() + " not found in the menu";
+                                                                    issuesFound.add(cartItem.getItemName() + " " + foundIssueString);
                                                                     break;
                                                                 }
                                                             }
@@ -448,6 +466,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                                                     if (!found) {
                                                         // subOption not found
                                                         foundIssueString = selectedSubOption.getSubOptionTitle() + " not found in the menu";
+                                                        issuesFound.add(cartItem.getItemName() + " " + foundIssueString);
                                                         break;
                                                     }
                                                 }
@@ -457,30 +476,24 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
                                     if (!found && foundIssueString == null) {
                                         foundIssueString = selected.getOptionValue() + " not found in the menu";
+                                        issuesFound.add(cartItem.getItemName() + " " + foundIssueString);
                                     }
 
-                                    if (found && !costIssueFound) {
-                                        /// needs to be added to cart
-                                        cartItem.getOptionsList().clear();
-                                        cartItem.setOptionsList(new ArrayList<Options>(Arrays.asList(selected)));
-                                        for (int i = 0; i < reOrderItem.getItemQuantity(); i++) {
-                                            itemsToBeAddedToCart.add(cartItem);
-                                        }
-                                        Toast.makeText(mContext, "Item found: " + cartItem.getItemName(), Toast.LENGTH_LONG).show();
-                                    } else if (!found) {
-                                        issuesFound.add(cartItem.getItemName() + " " + foundIssueString);
-                                    } else if (costIssueFound) {
-                                        issuesFound.add(cartItem.getItemName() + " " + costIssueString);
-                                    } else {
-                                        issuesFound.add(cartItem.getItemName() + " couldn't add to cart due to misc reasons");
+                                    /// needs to be added to cart
+                                    cartItem.getOptionsList().clear();
+                                    cartItem.setOptionsList(new ArrayList<Options>(Arrays.asList(selected)));
+                                    for (int i = 0; i < reOrderItem.getItemQuantity(); i++) {
+                                        itemsToBeAddedToCart.add(cartItem);
                                     }
-                                } else if (costIssueFound) {
-                                    issuesFound.add(cartItem.getItemName() + " " + costIssueString);
+//                                        Toast.makeText(mContext, "Item found: " + cartItem.getItemName(), Toast.LENGTH_LONG).show();
+
                                 } else {
+
                                     for (int i = 0; i < reOrderItem.getItemQuantity(); i++) {
                                         itemsToBeAddedToCart.add(cartItem);
                                     }
                                 }
+
                             }
                         }
                     }
@@ -505,7 +518,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
     }
 
-    public void showReorderErrorsDialog(ArrayList<String> list, final OrderHistory orderHistory) {
+    private void showReorderErrorsDialog(ArrayList<String> list, final OrderHistory orderHistory) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         LayoutInflater inflater = LayoutInflater.from(mContext);
         final View dialogView = inflater.inflate(R.layout.dialog_menu, null);
