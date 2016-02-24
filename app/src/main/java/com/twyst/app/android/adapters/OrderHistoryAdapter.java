@@ -139,12 +139,10 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
         if (orderHistory.isTrackable()) {
             holder.reOrderTextView.setText("Track");
-//            holder.reorder_button.setBackgroundColor(mContext.getResources().getColor(R.color.colorSecondaryBlue));
             holder.reorder_button.setBackground(mContext.getResources().getDrawable(R.drawable.button_secondary));
 
         } else {
             holder.reOrderTextView.setText("Re-Order");
-//            holder.reorder_button.setBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
             holder.reorder_button.setBackground(mContext.getResources().getDrawable(R.drawable.button_primary));
         }
         holder.reorder_button.setOnClickListener(new View.OnClickListener() {
@@ -172,14 +170,9 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.favouriteIconButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Currently state changed without server hit
-//                holder.favouriteIconButton.setSelected(!holder.favouriteIconButton.isSelected());
                 updateOrderFavourite(holder.favouriteIconButton, orderHistory);
             }
         });
-        //change the drawable icon if the item is a favourite
-//        if(orderHistoryList.get(position).isFavourite()){
-//        }
 
         Picasso picasso = Picasso.with(holder.itemView.getContext());
 
@@ -191,14 +184,16 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     }
 
     private void updateOrderFavourite(final Button favIcon, final OrderHistory orderHistory) {
+        final boolean finalValue = !favIcon.isSelected();
         mTwystProgressHUD = TwystProgressHUD.show(mContext, false, null);
-        OrderUpdate orderUpdateFavourite = new OrderUpdate(orderHistory.getOrderID(), OrderUpdate.FAVOURITE, !favIcon.isSelected());
+        OrderUpdate orderUpdateFavourite = new OrderUpdate(orderHistory.getOrderID(), OrderUpdate.FAVOURITE, finalValue);
 
         HttpService.getInstance().putOrderUpdate(UtilMethods.getUserToken((OrderHistoryActivity) mContext), orderUpdateFavourite, new Callback<BaseResponse>() {
             @Override
             public void success(BaseResponse baseResponse, Response response) {
                 if (baseResponse.isResponse()) {
-                    favIcon.setSelected(!favIcon.isSelected());
+                    favIcon.setSelected(finalValue);
+                    orderHistory.setIsFavourite(finalValue);
                 } else {
                     Toast.makeText(mContext, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
