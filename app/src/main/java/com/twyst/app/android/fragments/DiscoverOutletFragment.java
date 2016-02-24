@@ -294,6 +294,9 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
             mAddressDetailsLocationData.setAddress(mAddressOutput);
             mAddressDetailsLocationData.setNeighborhood(address.getAddressLine(0));
             mAddressDetailsLocationData.setLandmark(address.getAddressLine(1));
+            mAddressDetailsLocationData.setCity(address.getSubAdminArea()); // to be checked
+            mAddressDetailsLocationData.setState(address.getAdminArea()); // to be checked
+
             sharedPreferenceSingleton.saveCurrentUsedLocation(mAddressDetailsLocationData);
             currentAddressName.setText(address.getAddressLine(0) + ", " + address.getAddressLine(1));
             fetchOutlets(1);

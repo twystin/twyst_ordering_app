@@ -77,7 +77,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_details);
 
-        if (SharedPreferenceSingleton.getInstance().isPassedCartCheckoutStage() && OrderInfoSingleton.getInstance().getOrderSummary()!=null) {
+        if (SharedPreferenceSingleton.getInstance().isPassedCartCheckoutStage() && OrderInfoSingleton.getInstance().getOrderSummary() != null) {
             mOutletId = OrderInfoSingleton.getInstance().getOrderSummary().getOutletId();
             mPhone = OrderInfoSingleton.getInstance().getOrderSummary().getPhone();
             mCartItemsList = OrderInfoSingleton.getInstance().getOrderSummary().getmCartItemsList();
@@ -212,8 +212,6 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
     }
 
     private void fetchSavedAddresses() {
-
-
         SharedPreferenceSingleton preference = SharedPreferenceSingleton.getInstance();
         mAddressList = preference.getAddresses();
 
@@ -373,6 +371,8 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
             mAddressDetailsLocationData.setAddress(mAddressOutput);
             mAddressDetailsLocationData.setNeighborhood(address.getAddressLine(0));
             mAddressDetailsLocationData.setLandmark(address.getAddressLine(1));
+            mAddressDetailsLocationData.setCity(address.getSubAdminArea()); // to be checked
+            mAddressDetailsLocationData.setState(address.getAdminArea()); // to be checked
             mLocationAddressTextView.setText(address.getAddressLine(0) + ", " + address.getAddressLine(1));
         }
         updateUIWidgets(resultCode);

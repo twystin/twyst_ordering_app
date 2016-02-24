@@ -312,6 +312,8 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
 
             locationData.setNeighborhood(mAddress.getAddressLine(0));
             locationData.setLandmark(mAddress.getAddressLine(1));
+            locationData.setCity(address.getSubAdminArea()); // to be checked
+            locationData.setState(address.getAdminArea()); // to be checked
 
             Bundle info = new Bundle();
             info.putSerializable("locationData", locationData);

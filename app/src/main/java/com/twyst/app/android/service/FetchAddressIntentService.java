@@ -49,7 +49,7 @@ public class FetchAddressIntentService extends IntentService {
      * result receiver. If unsuccessful, sends an error message instead.
      * Note: We define a {@link ResultReceiver} in * MainActivity to process content
      * sent from this service.
-     *
+     * <p>
      * This service calls this method from the default worker thread with the intent that started
      * the service. When this method returns, the service automatically stops.
      */
@@ -66,7 +66,7 @@ public class FetchAddressIntentService extends IntentService {
         }
 
         // Get the location passed to this service through an extra.
-        Location location = (Location)intent.getParcelableExtra(AppConstants.LOCATION_DATA_EXTRA);
+        Location location = (Location) intent.getParcelableExtra(AppConstants.LOCATION_DATA_EXTRA);
 
         // Make sure that the location data was really sent over through an extra. If it wasn't,
         // send an error error message and return.
@@ -74,7 +74,7 @@ public class FetchAddressIntentService extends IntentService {
             errorMessage = getString(R.string.no_location_data_provided);
             Log.wtf(TAG, errorMessage);
 //            deliverResultToReceiver(AppConstants.FAILURE_RESULT, errorMessage);
-            deliverResultToReceiver(AppConstants.FAILURE_RESULT, errorMessage,null);
+            deliverResultToReceiver(AppConstants.FAILURE_RESULT, errorMessage, null);
 
             return;
         }
@@ -99,7 +99,7 @@ public class FetchAddressIntentService extends IntentService {
             // surrounding the given latitude and longitude. The results are a best guess and are
             // not guaranteed to be accurate.
             addresses = geocoder.getFromLocation(
-                    location.getLatitude(),location.getLongitude(),
+                    location.getLatitude(), location.getLongitude(),
                     // In this sample, we get just a single address.
                     1);
         } catch (IOException ioException) {
@@ -115,13 +115,13 @@ public class FetchAddressIntentService extends IntentService {
         }
 
         // Handle case where no address was found.
-        if (addresses == null || addresses.size()  == 0) {
+        if (addresses == null || addresses.size() == 0) {
             if (errorMessage.isEmpty()) {
                 errorMessage = getString(R.string.no_address_found);
                 Log.e(TAG, errorMessage);
             }
 //            deliverResultToReceiver(AppConstants.FAILURE_RESULT, errorMessage);
-            deliverResultToReceiver(AppConstants.FAILURE_RESULT, errorMessage,null);
+            deliverResultToReceiver(AppConstants.FAILURE_RESULT, errorMessage, null);
 
         } else {
             address = addresses.get(0);
@@ -144,7 +144,7 @@ public class FetchAddressIntentService extends IntentService {
 //                    TextUtils.join(" ", addressFragments));
             Log.i(TAG, getString(R.string.address_found));
 //            deliverResultToReceiver(AppConstants.SUCCESS_RESULT,address.getAddressLine(0) + ", " + address.getAddressLine(1));
-            deliverResultToReceiver(AppConstants.SUCCESS_RESULT,AppConstants.ADDRESS_FOUND,address);
+            deliverResultToReceiver(AppConstants.SUCCESS_RESULT, AppConstants.ADDRESS_FOUND, address);
 
         }
     }
@@ -152,10 +152,10 @@ public class FetchAddressIntentService extends IntentService {
     /**
      * Sends a resultCode and message to the receiver.
      */
-    private void deliverResultToReceiver(int resultCode, String message,Address address) {
+    private void deliverResultToReceiver(int resultCode, String message, Address address) {
         Bundle bundle = new Bundle();
         bundle.putString(AppConstants.RESULT_DATA_KEY, message);
-        bundle.putParcelable(AppConstants.ADDRESS_DATA_KEY,address);
+        bundle.putParcelable(AppConstants.ADDRESS_DATA_KEY, address);
         mReceiver.send(resultCode, bundle);
     }
 }
