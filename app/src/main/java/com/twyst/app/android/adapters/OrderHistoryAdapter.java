@@ -56,15 +56,22 @@ import retrofit.client.Response;
  */
 public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapter.ViewHolder> {
     private final static String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
-    private ArrayList<OrderHistory> mOrderHistoryList;
+    private ArrayList<OrderHistory> orderHistoryList = new ArrayList<>();
     private final Context mContext;
     private ReorderMenuAndCart reorderMenuAndCart = null;
     private TwystProgressHUD mTwystProgressHUD;
 
-    public OrderHistoryAdapter(Context context, ArrayList<OrderHistory> orderHistoryList) {
-        mContext = context;
-        this.mOrderHistoryList = orderHistoryList;
+    public ArrayList<OrderHistory> getOrderHistoryList() {
+        return orderHistoryList;
+    }
+
+    public void setOrderHistoryList(ArrayList<OrderHistory> mOrderHistoryList) {
+        this.orderHistoryList = mOrderHistoryList;
         customSortOrderHistoryList();
+    }
+
+    public OrderHistoryAdapter(Context context) {
+        mContext = context;
     }
 
     /*
@@ -76,7 +83,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
      * In each category sorting must be chronologically.
      */
     private void customSortOrderHistoryList() {
-        Collections.sort(mOrderHistoryList, new Comparator<OrderHistory>() {
+        Collections.sort(orderHistoryList, new Comparator<OrderHistory>() {
             @Override
             public int compare(OrderHistory lhs, OrderHistory rhs) {
                 SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
@@ -91,13 +98,13 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             }
         });
 
-        int orderHistoryListSize = mOrderHistoryList.size();
+        int orderHistoryListSize = orderHistoryList.size();
         ArrayList<OrderHistory> orderHistorySortedList = new ArrayList<>();
         int fav_flag = 0;
         int unfav_flag = 0;
 
         for (int i = 0; i < orderHistoryListSize; i++) {
-            OrderHistory order = mOrderHistoryList.get(i);
+            OrderHistory order = orderHistoryList.get(i);
             if (order.isTrackable()) {
                 orderHistorySortedList.add(0, order);
                 fav_flag++;
@@ -109,7 +116,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                 orderHistorySortedList.add(unfav_flag, order);
             }
         }
-        mOrderHistoryList = orderHistorySortedList;
+        orderHistoryList = orderHistorySortedList;
     }
 
     @Override
@@ -121,7 +128,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
     @Override
     public void onBindViewHolder(final OrderHistoryAdapter.ViewHolder holder, final int position) {
-        final OrderHistory orderHistory = mOrderHistoryList.get(position);
+        final OrderHistory orderHistory = orderHistoryList.get(position);
 
         holder.outletNameTextView.setText(orderHistory.getOutletName());
         holder.outletAddressTextView.setText(orderHistory.addressString());
@@ -171,7 +178,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             }
         });
         //change the drawable icon if the item is a favourite
-//        if(mOrderHistoryList.get(position).isFavourite()){
+//        if(orderHistoryList.get(position).isFavourite()){
 //        }
 
         Picasso picasso = Picasso.with(holder.itemView.getContext());
@@ -252,7 +259,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
     @Override
     public int getItemCount() {
-        return mOrderHistoryList.size();
+        return orderHistoryList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

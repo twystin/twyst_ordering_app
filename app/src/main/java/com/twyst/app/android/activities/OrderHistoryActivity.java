@@ -1,6 +1,7 @@
 package com.twyst.app.android.activities;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.OrderHistoryAdapter;
 import com.twyst.app.android.model.BaseResponse;
@@ -18,85 +18,109 @@ import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class OrderHistoryActivity extends BaseActionActivity {
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private RecyclerView myOrdersRecyclerView;
+    private OrderHistoryAdapter mOrderHistoryAdapter;
+    private boolean mFetchingOrderHistory;
+    TwystProgressHUD twystProgressHUD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_history);
         setupToolBar();
-//        setupOrderHistoryLocally();
 
+        myOrdersRecyclerView = (RecyclerView) findViewById(R.id.my_orders_recyclerView);
+        myOrdersRecyclerView.setHasFixedSize(true);
+        myOrdersRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        setupSwipeRefresh();
+        setupOrderHistoryAdapter();
+        twystProgressHUD = TwystProgressHUD.show(this, false, null);
         fetchOrderHistory();
     }
 
-    private void setupOrderHistoryLocally() {
-        String historyString = getOrderHistoryString();
-        Gson gson = new Gson();
-        OrderHistory[] orderHistoriesArray = gson.fromJson(historyString, OrderHistory[].class);
-        ArrayList<OrderHistory> orderHistoryList = new ArrayList<>(Arrays.asList(orderHistoriesArray));
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mOrderHistoryAdapter != null) {
+            refreshOrderHistoryBackground();
+        }
+    }
 
-        RecyclerView myOrdersRecyclerView = (RecyclerView) findViewById(R.id.my_orders_recyclerView);
+    private void refreshOrderHistoryBackground() {
+        mSwipeRefreshLayout.setRefreshing(true);
+        if (!mFetchingOrderHistory) {
+            fetchOrderHistory();
+        }
+    }
 
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(OrderHistoryActivity.this, LinearLayoutManager.VERTICAL, false);
-        myOrdersRecyclerView.setLayoutManager(mLayoutManager);
-        myOrdersRecyclerView.setHasFixedSize(true);
+    private void updateList(ArrayList<OrderHistory> orderHistoryList) {
+        findViewById(R.id.no_data_reorder).setVisibility(View.GONE);
+        if (orderHistoryList != null && orderHistoryList.size() > 0) {
+            mOrderHistoryAdapter.setOrderHistoryList(orderHistoryList);
+            mOrderHistoryAdapter.notifyDataSetChanged();
+        } else {
+            findViewById(R.id.no_data_reorder).setVisibility(View.VISIBLE);
+            ImageView iv = (ImageView) findViewById(R.id.iv_no_data);
+            iv.setImageResource(R.drawable.no_data_order);
+            TextView tv = (TextView) findViewById(R.id.tv_no_data);
+            tv.setText(getResources().getString(R.string.no_data_reorder));
+        }
+    }
 
-        OrderHistoryAdapter mAdapter = new OrderHistoryAdapter(OrderHistoryActivity.this, orderHistoryList);
-        myOrdersRecyclerView.setAdapter(mAdapter);
+    private void setupOrderHistoryAdapter() {
+        mOrderHistoryAdapter = new OrderHistoryAdapter(OrderHistoryActivity.this);
+        myOrdersRecyclerView.setAdapter(mOrderHistoryAdapter);
+    }
+
+    private void setupSwipeRefresh() {
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.button_orange);
+        mSwipeRefreshLayout.setEnabled(false);
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshOrderHistoryBackground();
+            }
+        });
     }
 
     private void fetchOrderHistory() {
-        findViewById(R.id.no_data_reorder).setVisibility(View.GONE);
-        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
+        mFetchingOrderHistory = true;
+        mSwipeRefreshLayout.setEnabled(false);
         HttpService.getInstance().getOrderHistory(UtilMethods.getUserToken(OrderHistoryActivity.this), new Callback<BaseResponse<ArrayList<OrderHistory>>>() {
             @Override
             public void success(BaseResponse<ArrayList<OrderHistory>> orderHistoryBaseResponse, Response response) {
                 if (orderHistoryBaseResponse.isResponse()) {
-                    ArrayList<OrderHistory> orderHistoryList = orderHistoryBaseResponse.getData();
-                    if (orderHistoryList.size() > 0) {
-                        RecyclerView myOrdersRecyclerView = (RecyclerView) findViewById(R.id.my_orders_recyclerView);
-
-                        LinearLayoutManager mLayoutManager = new LinearLayoutManager(OrderHistoryActivity.this, LinearLayoutManager.VERTICAL, false);
-                        myOrdersRecyclerView.setLayoutManager(mLayoutManager);
-                        myOrdersRecyclerView.setHasFixedSize(true);
-
-                        OrderHistoryAdapter mAdapter = new OrderHistoryAdapter(OrderHistoryActivity.this, orderHistoryList);
-                        myOrdersRecyclerView.setAdapter(mAdapter);
-                    } else {
-                        findViewById(R.id.no_data_reorder).setVisibility(View.VISIBLE);
-                        ImageView iv = (ImageView) findViewById(R.id.iv_no_data);
-                        iv.setImageResource(R.drawable.no_data_order);
-                        TextView tv = (TextView) findViewById(R.id.tv_no_data);
-                        tv.setText(getResources().getString(R.string.no_data_reorder));
-                    }
-
+                    updateList(orderHistoryBaseResponse.getData());
                 } else {
                     Toast.makeText(OrderHistoryActivity.this, orderHistoryBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
                 twystProgressHUD.dismiss();
-                UtilMethods.hideSnackbar();
+                hideSnackbar();
+                mFetchingOrderHistory = false;
+                mSwipeRefreshLayout.setRefreshing(false);
+                mSwipeRefreshLayout.setEnabled(true);
             }
 
             @Override
             public void failure(RetrofitError error) {
                 twystProgressHUD.dismiss();
-                UtilMethods.hideSnackbar();
-                UtilMethods.handleRetrofitError(OrderHistoryActivity.this, error);
+                hideSnackbar();
+                handleRetrofitError(error);
+                mFetchingOrderHistory = false;
+                mSwipeRefreshLayout.setRefreshing(false);
+                mSwipeRefreshLayout.setEnabled(true);
             }
         });
-    }
-
-    public String getOrderHistoryString() {
-//        String dataFromServer = "[{\"outlet_name\":\"Beyond Breads\",\"items\":[{\"_id\":\"5680efc0e5b619416c628899\",\"item_name\":\"Choco Mocha Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":669,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c6288a9\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c6288a5\",\"item_name\":\"Coffee Crunch Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":645,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c6288a6\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c6288a1\",\"item_name\":\"Tiramisu Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":130,\"option_value\":\"Two Pieces\",\"_id\":\"5680f18ce5b619416c6288a4\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]}],\"outlet_id\":\"540ea3d32f61834b5170eb10\",\"menu_id\":\"5680efbfe5b619416c628896\",\"address\":{\"coords\":{}},\"is_favourite\":false,\"order_cost\":773.277,\"cashback\":0,\"order_date\":\"2016-01-20T05:50:19.543Z\",\"order_status\":\"checkout\"},{\"outlet_name\":\"Beyond Breads\",\"items\":[{\"_id\":\"5680efc0e5b619416c628899\",\"item_name\":\"Choco Mocha Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":669,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c6288a9\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c6288a5\",\"item_name\":\"Coffee Crunch Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":645,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c6288a6\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c6288a1\",\"item_name\":\"Tiramisu Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":130,\"option_value\":\"Two Pieces\",\"_id\":\"5680f18ce5b619416c6288a4\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]}],\"outlet_id\":\"540ea3d32f61834b5170eb10\",\"menu_id\":\"5680efbfe5b619416c628896\",\"address\":{\"coords\":{}},\"is_favourite\":false,\"order_cost\":1717.277,\"cashback\":0,\"order_date\":\"2016-01-20T07:04:15.967Z\",\"order_status\":\"checkout\"},{\"outlet_name\":\"Beyond Breads\",\"items\":[{\"_id\":\"5680efc0e5b619416c628899\",\"item_name\":\"Choco Mocha Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":669,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c6288a9\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c6288a5\",\"item_name\":\"Coffee Crunch Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":645,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c6288a6\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c6288a1\",\"item_name\":\"Tiramisu Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":130,\"option_value\":\"Two Pieces\",\"_id\":\"5680f18ce5b619416c6288a4\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]}],\"outlet_id\":\"540ea3d32f61834b5170eb10\",\"menu_id\":\"5680efbfe5b619416c628896\",\"address\":{\"coords\":{}},\"is_favourite\":false,\"order_cost\":1545.5493,\"cashback\":0,\"order_date\":\"2016-01-20T07:12:11.254Z\",\"order_status\":\"checkout\"},{\"outlet_name\":\"Beyond Breads\",\"items\":[{\"_id\":\"5680efc0e5b619416c628899\",\"item_name\":\"Choco Mocha Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":365,\"option_value\":\"Half Kg\",\"_id\":\"5680f18ce5b619416c6288aa\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c6288a5\",\"item_name\":\"Coffee Crunch Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":645,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c6288a6\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c6288a1\",\"item_name\":\"Tiramisu Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":645,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c6288a2\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c62889a\",\"item_name\":\"Coffee Almond and Berry Cake\",\"item_quantity\":1,\"item_cost\":\"410\",\"option\":{\"option_cost\":799,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c62889b\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f330e5b619416c6288be\",\"item_name\":\"Choco Marble Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":660,\"option_value\":\"One Kg\",\"_id\":\"5680f330e5b619416c6288bf\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"choco and cream combo\"]},{\"_id\":\"5680f330e5b619416c6288b6\",\"item_name\":\"Italian Cassatta Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":130,\"option_value\":\"Two Pieces\",\"_id\":\"5680f330e5b619416c6288b9\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"choco and cream combo\"]}],\"outlet_id\":\"540ea3d32f61834b5170eb10\",\"menu_id\":\"5680efbfe5b619416c628896\",\"address\":{\"coords\":{}},\"is_favourite\":false,\"order_cost\":3472.1342999999997,\"cashback\":0,\"order_date\":\"2016-01-20T07:32:11.795Z\",\"order_status\":\"checkout\"},{\"outlet_name\":\"Beyond Breads\",\"items\":[{\"_id\":\"5680efc0e5b619416c628899\",\"item_name\":\"Choco Mocha Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":365,\"option_value\":\"Half Kg\",\"_id\":\"5680f18ce5b619416c6288aa\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c6288a5\",\"item_name\":\"Coffee Crunch Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":645,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c6288a6\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c6288a1\",\"item_name\":\"Tiramisu Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":645,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c6288a2\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c62889a\",\"item_name\":\"Coffee Almond and Berry Cake\",\"item_quantity\":1,\"item_cost\":\"410\",\"option\":{\"option_cost\":799,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c62889b\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f330e5b619416c6288be\",\"item_name\":\"Choco Marble Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":660,\"option_value\":\"One Kg\",\"_id\":\"5680f330e5b619416c6288bf\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"choco and cream combo\"]},{\"_id\":\"5680f330e5b619416c6288b6\",\"item_name\":\"Italian Cassatta Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":130,\"option_value\":\"Two Pieces\",\"_id\":\"5680f330e5b619416c6288b9\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"choco and cream combo\"]}],\"outlet_id\":\"540ea3d32f61834b5170eb10\",\"menu_id\":\"5680efbfe5b619416c628896\",\"address\":{\"coords\":{}},\"is_favourite\":false,\"order_cost\":3472.1342999999997,\"cashback\":0,\"order_date\":\"2016-01-20T09:30:08.300Z\",\"order_status\":\"cancelled\"},{\"outlet_name\":\"Beyond Breads\",\"items\":[{\"_id\":\"5680efc0e5b619416c628899\",\"item_name\":\"Choco Mocha Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":365,\"option_value\":\"Half Kg\",\"_id\":\"5680f18ce5b619416c6288aa\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c6288a5\",\"item_name\":\"Coffee Crunch Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":645,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c6288a6\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c6288a1\",\"item_name\":\"Tiramisu Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":645,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c6288a2\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c62889a\",\"item_name\":\"Coffee Almond and Berry Cake\",\"item_quantity\":1,\"item_cost\":\"410\",\"option\":{\"option_cost\":799,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c62889b\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f330e5b619416c6288be\",\"item_name\":\"Choco Marble Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":660,\"option_value\":\"One Kg\",\"_id\":\"5680f330e5b619416c6288bf\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"choco and cream combo\"]},{\"_id\":\"5680f330e5b619416c6288b6\",\"item_name\":\"Italian Cassatta Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":130,\"option_value\":\"Two Pieces\",\"_id\":\"5680f330e5b619416c6288b9\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"choco and cream combo\"]}],\"outlet_id\":\"540ea3d32f61834b5170eb10\",\"menu_id\":\"5680efbfe5b619416c628896\",\"address\":{\"coords\":{}},\"is_favourite\":false,\"order_cost\":3472.1342999999997,\"cashback\":0,\"order_date\":\"2016-01-20T11:51:10.123Z\",\"order_status\":\"cancelled\"}]";
-        String dataFromServer = "[{\"outlet_name\":\"Beyond Breads\",\"items\":[{\"_id\":\"5680efc0e5b619416c628898\",\"item_name\":\"Choco Mocha Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":669,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c6288a9\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c6288a5\",\"item_name\":\"Coffee Crunch Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":645,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c6288a5\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c6288a1\",\"item_name\":\"Tiramisu Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":130,\"option_value\":\"Two Pieces\",\"_id\":\"5680f18ce5b619416c6288a4\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]}],\"outlet_id\":\"540ea3d32f61834b5170eb10\",\"menu_id\":\"5680efbfe5b619416c628896\",\"address\":{\"coords\":{}},\"is_favourite\":false,\"order_cost\":773.277,\"cashback\":0,\"order_date\":\"2016-01-20T05:50:19.543Z\",\"order_status\":\"checkout\"},{\"outlet_name\":\"Beyond Breads\",\"items\":[{\"_id\":\"5680efc0e5b619416c628899\",\"item_name\":\"Choco Mocha Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":669,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c6288a9\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c6288a5\",\"item_name\":\"Coffee Crunch Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":645,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c6288a6\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c6288a1\",\"item_name\":\"Tiramisu Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":130,\"option_value\":\"Two Pieces\",\"_id\":\"5680f18ce5b619416c6288a4\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]}],\"outlet_id\":\"540ea3d32f61834b5170eb10\",\"menu_id\":\"5680efbfe5b619416c628896\",\"address\":{\"coords\":{}},\"is_favourite\":false,\"order_cost\":1717.277,\"cashback\":0,\"order_date\":\"2016-01-20T07:04:15.967Z\",\"order_status\":\"checkout\"},{\"outlet_name\":\"Beyond Breads\",\"items\":[{\"_id\":\"5680efc0e5b619416c628899\",\"item_name\":\"Choco Mocha Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":669,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c6288a8\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c6288a5\",\"item_name\":\"Coffee Crunch Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":645,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c6288a6\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c6288a1\",\"item_name\":\"Tiramisu Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":130,\"option_value\":\"Two Pieces\",\"_id\":\"5680f18ce5b619416c6288a4\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]}],\"outlet_id\":\"540ea3d32f61834b5170eb10\",\"menu_id\":\"5680efbfe5b619416c628896\",\"address\":{\"coords\":{}},\"is_favourite\":false,\"order_cost\":1545.5493,\"cashback\":0,\"order_date\":\"2016-01-20T07:12:11.254Z\",\"order_status\":\"checkout\"},{\"outlet_name\":\"Beyond Breads\",\"items\":[{\"_id\":\"5680efc0e5b619416c628899\",\"item_name\":\"Choco Mocha Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":365,\"option_value\":\"Half Kg\",\"_id\":\"5680f18ce5b619416c6288aa\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c6288a5\",\"item_name\":\"Coffee Crunch Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":645,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c6288a6\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c6288a1\",\"item_name\":\"Tiramisu Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":645,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c6288a2\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c62889a\",\"item_name\":\"Coffee Almond and Berry Cake\",\"item_quantity\":1,\"item_cost\":\"410\",\"option\":{\"option_cost\":799,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c62889b\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f330e5b619416c6288be\",\"item_name\":\"Choco Marble Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":660,\"option_value\":\"One Kg\",\"_id\":\"5680f330e5b619416c6288bf\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"choco and cream combo\"]},{\"_id\":\"5680f330e5b619416c6288b6\",\"item_name\":\"Italian Cassatta Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":130,\"option_value\":\"Two Pieces\",\"_id\":\"5680f330e5b619416c6288b9\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"choco and cream combo\"]}],\"outlet_id\":\"540ea3d32f61834b5170eb10\",\"menu_id\":\"5680efbfe5b619416c628896\",\"address\":{\"coords\":{}},\"is_favourite\":false,\"order_cost\":3472.1342999999997,\"cashback\":0,\"order_date\":\"2016-01-20T07:32:11.795Z\",\"order_status\":\"checkout\"},{\"outlet_name\":\"Beyond Breads\",\"items\":[{\"_id\":\"5680efc0e5b619416c628899\",\"item_name\":\"Choco Mocha Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":365,\"option_value\":\"Half Kg\",\"_id\":\"5680f18ce5b619416c6288aa\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c6288a5\",\"item_name\":\"Coffee Crunch Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":645,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c6288a6\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c6288a1\",\"item_name\":\"Tiramisu Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":645,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c6288a2\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c62889a\",\"item_name\":\"Coffee Almond and Berry Cake\",\"item_quantity\":1,\"item_cost\":\"410\",\"option\":{\"option_cost\":799,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c62889b\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f330e5b619416c6288be\",\"item_name\":\"Choco Marble Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":660,\"option_value\":\"One Kg\",\"_id\":\"5680f330e5b619416c6288bf\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"choco and cream combo\"]},{\"_id\":\"5680f330e5b619416c6288b6\",\"item_name\":\"Italian Cassatta Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":130,\"option_value\":\"Two Pieces\",\"_id\":\"5680f330e5b619416c6288b9\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"choco and cream combo\"]}],\"outlet_id\":\"540ea3d32f61834b5170eb10\",\"menu_id\":\"5680efbfe5b619416c628896\",\"address\":{\"coords\":{}},\"is_favourite\":false,\"order_cost\":3472.1342999999997,\"cashback\":0,\"order_date\":\"2016-01-20T09:30:08.300Z\",\"order_status\":\"cancelled\"},{\"outlet_name\":\"Beyond Breads\",\"items\":[{\"_id\":\"5680efc0e5b619416c628899\",\"item_name\":\"Choco Mocha Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":365,\"option_value\":\"Half Kg\",\"_id\":\"5680f18ce5b619416c6288aa\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c6288a5\",\"item_name\":\"Coffee Crunch Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":645,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c6288a6\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c6288a1\",\"item_name\":\"Tiramisu Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":645,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c6288a2\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f18ce5b619416c62889a\",\"item_name\":\"Coffee Almond and Berry Cake\",\"item_quantity\":1,\"item_cost\":\"410\",\"option\":{\"option_cost\":799,\"option_value\":\"One Kg\",\"_id\":\"5680f18ce5b619416c62889b\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"coffee cakes\"]},{\"_id\":\"5680f330e5b619416c6288be\",\"item_name\":\"Choco Marble Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":660,\"option_value\":\"One Kg\",\"_id\":\"5680f330e5b619416c6288bf\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"choco and cream combo\"]},{\"_id\":\"5680f330e5b619416c6288b6\",\"item_name\":\"Italian Cassatta Cake\",\"item_quantity\":1,\"item_cost\":\"130\",\"option\":{\"option_cost\":130,\"option_value\":\"Two Pieces\",\"_id\":\"5680f330e5b619416c6288b9\",\"is_vegetarian\":true,\"addons\":[],\"sub_options\":[],\"option_is_addon\":false},\"item_tags\":[\"choco and cream combo\"]}],\"outlet_id\":\"540ea3d32f61834b5170eb10\",\"menu_id\":\"5680efbfe5b619416c628896\",\"address\":{\"coords\":{}},\"is_favourite\":false,\"order_cost\":3472.1342999999997,\"cashback\":0,\"order_date\":\"2016-01-20T11:51:10.123Z\",\"order_status\":\"cancelled\"}]";
-        return dataFromServer;
     }
 
 }
