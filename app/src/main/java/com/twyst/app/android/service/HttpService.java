@@ -141,6 +141,10 @@ public class HttpService {
         twystService.getOrderHistory(token, callback);
     }
 
+    public void getOrderDetail(String orderID, String token, Callback<BaseResponse<OrderHistory>> callback) {
+        twystService.getOrderDetail(orderID, token, callback);
+    }
+
     public void postOrderCancel(String token, CancelOrder cancelOrder, Callback<BaseResponse> callback) {
         twystService.postOrderCancel(token, cancelOrder, callback);
     }

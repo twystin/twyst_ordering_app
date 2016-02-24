@@ -12,6 +12,18 @@
         layout="@layout/toolbar" />
 
     <RelativeLayout
+        android:id="@+id/circularProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:padding="5dp">
+
+        <include layout="@layout/circular_progress_bar_single"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

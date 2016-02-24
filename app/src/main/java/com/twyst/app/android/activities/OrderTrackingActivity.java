@@ -51,6 +51,7 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
     private boolean ivArrowExpanded;
     private boolean isOrderDeliverySuccessInProgress;
     OrderInfoLocal mOrderInfoLocal;
+    private boolean isSyncing;
 
     private String mPhoneNumber;
 
@@ -116,9 +117,13 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
                 OrderTrackingState.addToListLocally(mOrderID, OrderTrackingState.getDeliveredOrderTrackingState(OrderTrackingActivity.this), OrderTrackingActivity.this);
                 refreshList();
             } else {
-                OrderTrackingState.updateOverrideList(OrderTrackingActivity.this, mOrderID, orderHistory.getOrderActionsList(), orderHistory.getOrderDate());
-                refreshList();
+                updateOrderDetail(orderHistory);
             }
+        }
+
+        boolean isNotificationClicked = getIntent().getBooleanExtra(AppConstants.INTENT_PARAM_FROM_PUSH_NOTIFICATION_CLICKED, false);
+        if (isNotificationClicked) {
+            sync(true);
         }
     }
 
@@ -145,6 +150,41 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
         super.onResume();
         twystApplication.setCurrentActivity(this);
         refreshList();
+        sync(false);
+    }
+
+    private void updateOrderDetail(OrderHistory orderHistory) {
+        OrderTrackingState.updateOverrideList(OrderTrackingActivity.this, mOrderID, orderHistory.getOrderActionsList(), orderHistory.getOrderDate());
+        refreshList();
+    }
+
+    private void sync(boolean isFirstSyncInProgress) {
+        //logic to be corrected
+        if (isSyncing || isFirstSyncInProgress) {
+            return;
+        }
+
+        isSyncing = true;
+        findViewById(R.id.circularProgressBar).setVisibility(View.VISIBLE);
+
+        HttpService.getInstance().getOrderDetail(mOrderID, getUserToken(), new Callback<BaseResponse<OrderHistory>>() {
+            @Override
+            public void success(BaseResponse<OrderHistory> orderDetailBaseResponse, Response response) {
+                if (orderDetailBaseResponse.isResponse()) {
+                    updateOrderDetail(orderDetailBaseResponse.getData());
+                } else {
+                    Toast.makeText(OrderTrackingActivity.this, orderDetailBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                isSyncing = false;
+                findViewById(R.id.circularProgressBar).setVisibility(View.GONE);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                isSyncing = false;
+                findViewById(R.id.circularProgressBar).setVisibility(View.GONE);
+            }
+        });
     }
 
     protected void onPause() {
