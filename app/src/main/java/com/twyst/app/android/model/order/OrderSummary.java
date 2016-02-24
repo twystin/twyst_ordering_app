@@ -122,7 +122,7 @@ public class OrderSummary implements Serializable {
         this.packaging_charges = packaging_charges;
     }
 
-    @SerializedName("packing_charge")
+    @SerializedName("packaging_charge")
     private double packaging_charges;
 
     public ArrayList<OrderItem> getOrderItemList() {
