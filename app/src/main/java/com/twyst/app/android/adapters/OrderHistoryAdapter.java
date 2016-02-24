@@ -3,6 +3,7 @@ package com.twyst.app.android.adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -140,7 +141,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         if (orderHistory.isTrackable()) {
             holder.reOrderTextView.setText("Track");
             holder.reorder_button.setBackground(mContext.getResources().getDrawable(R.drawable.button_secondary));
-
         } else {
             holder.reOrderTextView.setText("Re-Order");
             holder.reorder_button.setBackground(mContext.getResources().getDrawable(R.drawable.button_primary));
@@ -213,11 +213,13 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
     private void trackOrder(OrderHistory orderHistory) {
         Intent orderTrackingIntent = new Intent(mContext, OrderTrackingActivity.class);
-        orderTrackingIntent.putExtra(AppConstants.INTENT_ORDER_ID, orderHistory.getOrderID());
-        orderTrackingIntent.putExtra(AppConstants.INTENT_PARAM_PHONE, orderHistory.getPhone());
-        orderTrackingIntent.putExtra(AppConstants.INTENT_ORDER_NUMBER, orderHistory.getOrderNumber());
-        orderTrackingIntent.putExtra(AppConstants.INTENT_PARAM_FROM_ORDER_HISTORY, true);
-        orderTrackingIntent.putExtra(AppConstants.INTENT_ORDER_IS_DELIVERED, orderHistory.isDelivered());
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(AppConstants.INTENT_ORDER_HISTORY, orderHistory);
+        bundle.putBoolean(AppConstants.INTENT_PARAM_FROM_ORDER_HISTORY, true);
+        bundle.putString(AppConstants.INTENT_ORDER_ID, orderHistory.getOrderID());
+        bundle.putString(AppConstants.INTENT_PARAM_PHONE, orderHistory.getPhone());
+        bundle.putString(AppConstants.INTENT_ORDER_NUMBER, orderHistory.getOrderNumber());
+        orderTrackingIntent.putExtras(bundle);
         orderTrackingIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         mContext.startActivity(orderTrackingIntent);

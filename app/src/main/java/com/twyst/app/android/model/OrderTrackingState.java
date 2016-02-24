@@ -7,13 +7,17 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.twyst.app.android.R;
+import com.twyst.app.android.model.order.OrderAction;
 import com.twyst.app.android.util.AppConstants;
 
 import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by Vipul Sharma on 1/27/2016.
@@ -90,7 +94,7 @@ public class OrderTrackingState {
 
         if (TextUtils.isEmpty(orderTrackingStateListString)) {
             //List is empty, get the list with default Order State (ORDER_PLACED)
-            trackOrderStatesList.add(getDefaultOrderTrackingState(context));
+            trackOrderStatesList.add(getDefaultOrderTrackingState(context, getTimeArray(new Date())));
             if (updateListLocally(context, orderID, trackOrderStatesList)) {
                 return trackOrderStatesList;
             }
@@ -105,8 +109,7 @@ public class OrderTrackingState {
         return trackOrderStatesList;
     }
 
-    private static OrderTrackingState getDefaultOrderTrackingState(Context context) {
-        String[] timeArray = getTimeArray(new Date());
+    private static OrderTrackingState getDefaultOrderTrackingState(Context context, String[] timeArray) {
         return new OrderTrackingState(timeArray[0], timeArray[1], context.getResources().getString(R.string.order_placed_message), STATE_PLACED);
     }
 
@@ -136,7 +139,7 @@ public class OrderTrackingState {
 
     private static void addNewStateToList(Context context, String orderIDServer, ArrayList<OrderTrackingState> initialList, OrderTrackingState orderTrackingState) {
         //To be added after time based sorting
-        initialList.add(0,orderTrackingState);
+        initialList.add(0, orderTrackingState);
         updateListLocally(context, orderIDServer, initialList);
     }
 
@@ -152,5 +155,66 @@ public class OrderTrackingState {
         SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
         String formattedDate = dateFormat.format(date).toString();
         return formattedDate.split("\\s+");
+    }
+
+    private static Date getFormattedDate(String orderDate) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("IST"));
+        Date formattedDate = null;
+        try {
+            formattedDate = sdf.parse(orderDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return formattedDate;
+
+    }
+
+    public static void updateOverrideList(Context context, String orderID, ArrayList<OrderAction> orderActionsList, String orderPlacedDate) {
+        ArrayList<OrderTrackingState> trackOrderStatesList = new ArrayList<>();
+
+        trackOrderStatesList.add(getDefaultOrderTrackingState(context, getTimeArray(getFormattedDate(orderPlacedDate))));
+        if (orderActionsList != null && orderActionsList.size() > 0) {
+            for (OrderAction orderAction : orderActionsList) {
+                trackOrderStatesList.add(0, getOrderState(context, orderAction));
+            }
+        }
+
+        updateListLocally(context, orderID, trackOrderStatesList);
+    }
+
+    private static OrderTrackingState getOrderState(Context context, OrderAction orderAction) {
+        String[] timeArray = getTimeArray(getFormattedDate(orderAction.getActionTime()));
+        String message = orderAction.getMessage();
+        switch (orderAction.getActionType()) {
+            case STATE_ACCEPTED:
+                message = context.getResources().getString(R.string.order_accepted_message);
+                break;
+            case STATE_DISPATCHED:
+                message = context.getResources().getString(R.string.order_dispatched_message);
+                break;
+            case STATE_CANCELLED:
+                message = context.getResources().getString(R.string.order_cancelled_message);
+                break;
+            case STATE_REJECTED:
+                message = context.getResources().getString(R.string.order_rejected_message);
+                break;
+            case STATE_ASSUMED_DELIVERED:
+                message = context.getResources().getString(R.string.order_assumed_delivery_message);
+                break;
+            case STATE_NOT_DELIVERED:
+                message = context.getResources().getString(R.string.order_not_delivered_message);
+                break;
+            case STATE_ABANDONED:
+                message = context.getResources().getString(R.string.order_abandoned_message);
+                break;
+            case STATE_DELIVERED:
+                message = context.getResources().getString(R.string.order_delivered_message);
+                break;
+        }
+
+        return new OrderTrackingState(timeArray[0], timeArray[1], message, orderAction.getActionType());
+//        // To do for default case
+//        return null;
     }
 }

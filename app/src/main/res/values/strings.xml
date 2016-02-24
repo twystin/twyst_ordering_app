@@ -236,16 +236,18 @@ each friend who joins.</p>
         <item>@drawable/payment_icon_config</item>
     </array>
 
-    <string name="order_assumed_delivery_message">Your Order should have been delivered by </string>
+    <string name="order_assumed_delivery_message">Your Order should have been delivered</string>
     <string name="order_assumed_delivery_message_failure">No! I haven\'t received it yet.</string>
     <string name="order_assumed_delivery_message_success">Yes! Let me have my cashback.</string>
     <string name="order_placed_message">Your order has been placed</string>
     <string name="order_cancelled_message">Your order has been cancelled</string>
+    <string name="order_rejected_message">Your order has been rejected</string>
     <string name="order_delivered_message">Your order has been delivered</string>
     <string name="order_placed_cancel_message">Cancel Order</string>
     <string name="order_accepted_message">Your Order has been accepted</string>
+    <string name="order_abandoned_message">User rejected the order</string>
     <string name="order_accepted_contact_outlet_message">Contact outlet</string>
-    <string name="order_dispatched_message">Your Order should have been dispatched and should read you in </string>
+    <string name="order_dispatched_message">Your Order should have been dispatched</string>
     <string name="order_dispatched_message_success">Yes. I received it. Let me have my Cashback.</string>
     <string name="order_not_delivered_message">OK, we\'re checking on your order. This may take  some time. Please let us know if you get it in the meanwhile.</string>
     <string name="order_not_delivered_message_success">Yes, I received it. Let me have my cashback</string>

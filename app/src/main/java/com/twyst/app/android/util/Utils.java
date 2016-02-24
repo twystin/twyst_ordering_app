@@ -16,6 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 
 /**
@@ -187,6 +188,7 @@ public class Utils {
         String orderDateNew = null;
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("IST"));
         DateFormat dateInstance = DateFormat.getDateInstance(DateFormat.MEDIUM);
         DateFormat timeInstance = DateFormat.getTimeInstance(DateFormat.SHORT);
 

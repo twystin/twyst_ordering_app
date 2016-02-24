@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.google.gson.annotations.SerializedName;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.order.Address;
+import com.twyst.app.android.model.order.OrderAction;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -68,6 +69,9 @@ public class OrderHistory implements Serializable {
 
     @SerializedName("logo")
     private String logo;
+
+    @SerializedName("actions")
+    private ArrayList<OrderAction> orderActionsList;
 
     public String getPhone() {
         return phone;
@@ -137,6 +141,14 @@ public class OrderHistory implements Serializable {
         this.deliveryExperience = deliveryExperience;
     }
 
+    public ArrayList<OrderAction> getOrderActionsList() {
+        return orderActionsList;
+    }
+
+    public void setOrderActionsList(ArrayList<OrderAction> orderActionsList) {
+        this.orderActionsList = orderActionsList;
+    }
+
     public void setIsFavourite(boolean isFavourite) {
         this.isFavourite = isFavourite;
     }
@@ -202,7 +214,7 @@ public class OrderHistory implements Serializable {
             case "CANCELLED":
                 return false;
         }
-        return true; // Pending, Delivered
+        return true; // Pending, Delivered, ACCEPTED, DISPATCHED
     }
 
     public String getBackground() {

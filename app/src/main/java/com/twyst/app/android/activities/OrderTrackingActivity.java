@@ -25,6 +25,7 @@ import com.twyst.app.android.R;
 import com.twyst.app.android.TwystApplication;
 import com.twyst.app.android.adapters.SummaryAdapter;
 import com.twyst.app.android.model.BaseResponse;
+import com.twyst.app.android.model.OrderHistory;
 import com.twyst.app.android.model.OrderTrackingState;
 import com.twyst.app.android.model.OrderUpdate;
 import com.twyst.app.android.model.order.CancelOrder;
@@ -109,10 +110,15 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
             });
         }
 
-        boolean isDelivered = getIntent().getExtras().getBoolean(AppConstants.INTENT_ORDER_IS_DELIVERED, false);
-        if (isDelivered) {
-            OrderTrackingState.addToListLocally(mOrderID, OrderTrackingState.getDeliveredOrderTrackingState(OrderTrackingActivity.this), OrderTrackingActivity.this);
-            refreshList();
+        OrderHistory orderHistory = (OrderHistory) getIntent().getExtras().getSerializable(AppConstants.INTENT_ORDER_HISTORY);
+        if (orderHistory != null) {
+            if (orderHistory.isDelivered()) {
+                OrderTrackingState.addToListLocally(mOrderID, OrderTrackingState.getDeliveredOrderTrackingState(OrderTrackingActivity.this), OrderTrackingActivity.this);
+                refreshList();
+            } else {
+                OrderTrackingState.updateOverrideList(OrderTrackingActivity.this, mOrderID, orderHistory.getOrderActionsList(), orderHistory.getOrderDate());
+                refreshList();
+            }
         }
     }
 

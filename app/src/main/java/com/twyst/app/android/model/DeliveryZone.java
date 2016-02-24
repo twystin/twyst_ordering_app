@@ -2,10 +2,12 @@ package com.twyst.app.android.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by tushar on 08/02/16.
  */
-public class DeliveryZone {
+public class DeliveryZone implements Serializable{
 
     @SerializedName("min_amt_for_delivery")
     private String minDeliveryAmt;
