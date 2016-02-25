@@ -84,6 +84,9 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
         locationFetchUtil = new LocationFetchUtil(this);
 
         setUpMapIfNeeded();
+        if (mMap != null) {
+            mMap.setMyLocationEnabled(true);
+        }
         fetchLocation();
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {

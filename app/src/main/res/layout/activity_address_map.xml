@@ -16,20 +16,6 @@
             android:layout_height="match_parent"
             android:layout_weight="2" />
 
-        <TextView
-            android:id="@+id/tv_map_error_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/layout_huge_margin"
-            android:background="@color/white"
-            android:padding="@dimen/layout_small_margin"
-            android:text="CLick to turn On GPS, currently showing last known!"
-            android:textColor="@color/text_grey"
-            android:textSize="@dimen/layout_medium_text_size"
-            android:textStyle="italic"
-            android:visibility="gone" />
 
         <FrameLayout
             android:id="@+id/sendBtn"
@@ -50,6 +36,22 @@
                 android:textSize="@dimen/layout_huge_text_size" />
         </FrameLayout>
 
+        <TextView
+            android:id="@+id/tv_map_error_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/sendBtn"
+            android:layout_centerHorizontal="true"
+
+            android:layout_marginBottom="@dimen/layout_huge_margin"
+            android:background="@color/white"
+            android:padding="@dimen/layout_small_margin"
+            android:text="Click to turn On GPS, currently showing last known!"
+            android:textColor="@color/primary"
+            android:textSize="@dimen/layout_wide_text_size"
+            android:textStyle="italic"
+            android:visibility="gone" />
+
         <ImageButton
             android:id="@+id/fetch_address_button"
             android:layout_width="50dp"
@@ -59,7 +61,8 @@
             android:layout_margin="10dp"
             android:background="@drawable/my_location"
             android:contentDescription="My Location"
-            android:onClick="fetchAddressButtonHandler" />
+            android:onClick="fetchAddressButtonHandler"
+            android:visibility="gone"/>
     </RelativeLayout>
 
 </RelativeLayout>
