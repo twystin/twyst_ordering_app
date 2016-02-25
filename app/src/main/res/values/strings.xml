@@ -39,6 +39,7 @@
     <string name="available_offers">Offers Available</string>
     <string name="title_activity_shopping_vouchers">Shopping Vouchers</string>
     <string name="title_activity_recharge">Mobile Recharge</string>
+    <string name="title_activity_voucher_list">Voucher List</string>
     <string name="title_activity_voucher_details">Voucher Details</string>
 
     <string name="search_outlet_hint">Search Outlets</string>
