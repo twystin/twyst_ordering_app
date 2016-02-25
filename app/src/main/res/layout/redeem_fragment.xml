@@ -5,41 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--      <android.support.v4.widget.NestedScrollView
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:fillViewport="true"
-              app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-              <LinearLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:orientation="vertical">-->
-
-    <!--    <GridView
-            android:id="@+id/gv_redeem"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="fill_vertical"
-            android:layout_margin="@dimen/grid_spacing"
-            android:horizontalSpacing="@dimen/grid_spacing"
-            android:numColumns="2"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="@dimen/grid_spacing"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />-->
-    <!--
-            </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>-->
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/gv_redeem"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/address_layout_medium_margin"
         android:layout_marginTop="@dimen/address_layout_medium_margin"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-    </android.support.v7.widget.RecyclerView>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/outlet_fragment_appbar"

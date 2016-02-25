@@ -41,7 +41,6 @@
     <uses-feature
         android:name="android.hardware.telephony"
         android:required="true" />
-
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -52,15 +51,12 @@
         android:icon="@drawable/ic_launcher_icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/GOOGLE_MAP_KEY_ID" />
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/FACEBOOK_APP_ID" />
@@ -71,12 +67,10 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
         <activity
             android:name=".activities.NoPermissionsActivity"
             android:label="Permissions Required"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.PreMainActivity"
             android:label="@string/app_name"
@@ -85,79 +79,68 @@
             android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/discover"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.FiltersActivity"
             android:label="Filters"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.OrderOnlineActivity"
             android:label="@string/order_online"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.OfferDisplayActivity"
             android:label="@string/order_online"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
         <activity
             android:name=".activities.AvailableOffersActivity"
             android:label="@string/available_offers"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.OrderSummaryActivity"
             android:label="@string/order_details"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.FeedbackActivity"
             android:label="@string/submit_feedback"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.OrderHistoryActivity"
             android:label="@string/title_activity_my_orders"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".activities.PaymentOptionsActivity"
             android:label="Choose Payment Option"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".activities.NotificationActivity"
             android:label="@string/notification"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.AboutActivity"
             android:label="@string/about"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="com.mobikwik.sdk.MobikwikSDK"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -165,7 +148,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/MKSDKTransparent"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
             android:name="com.mobikwik.sdk.PGWebView"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -173,7 +155,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/MKSDKTheme"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
             android:name="com.mobikwik.sdk.PaymentOptions"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -181,7 +162,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/MKSDKTheme"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
             android:name="com.mobikwik.sdk.PaymentActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -189,7 +169,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/MKSDKTheme"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
             android:name="com.mobikwik.sdk.GetUserDetailsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -197,7 +176,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/MKSDKTheme"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
             android:name=".activities.InviteFriendsActivity"
             android:label="@string/invite"
@@ -212,83 +190,74 @@
                 <data android:scheme="twyst" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.WriteToUsActivity"
             android:label="@string/write_to_us"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.SuggestOutletActivity"
             android:label="@string/suggest_outlet"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.FaqActivity"
             android:label="@string/faq"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.EditProfileActivity"
             android:label="@string/profile"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
-        <!--Address Details-->
+        <!-- Address Details -->
         <activity
             android:name=".activities.AddressDetailsActivity"
             android:label="@string/choose_address"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.AddressAddNewActivity"
             android:label="@string/address_add_new"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-
         <activity
             android:name=".activities.AddressMapActivity"
             android:label="@string/action_search"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.OrderTrackingActivity"
             android:label="@string/track_order"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
-        <!--Redeem Screens-->
+        <!-- Redeem Screens -->
         <activity
             android:name=".activities.ShoppingVouchersActivity"
             android:label="@string/title_activity_shopping_vouchers"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
-            android:name=".activities.VoucherDetailsActivity"
+            android:name=".activities.ShoppingVoucherListActivity"
             android:label="@string/title_activity_voucher_details"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".activities.FoodVouchersActivity"
             android:label="@string/title_activity_food_vouchers"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".activities.TwystBucksHistoryActivity"
             android:label="@string/title_activity_twyst_bucks_history"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
-        <!--.
+        <!--
+          .
           WakefulBroadcastReceiver that will receive intents from GCM
           services and hand them to the custom IntentService.
 
@@ -299,18 +268,18 @@
             android:name=".gcm.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
+
                 <!-- Receives the actual messages. -->
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
-
         <receiver android:name=".sms.SmsListener">
             <intent-filter android:priority="2147483647">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name="com.appsflyer.MultipleInstallBroadcastReceiver"
             android:exported="true">
@@ -326,10 +295,10 @@
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
-
         <receiver android:name="com.appsflyer.AppsFlyerLib">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
@@ -345,6 +314,8 @@
         <service
             android:name=".service.FetchAddressIntentService"
             android:exported="false" />
+
+        <activity android:name=".activities.VoucherDetailsActivity"></activity>
     </application>
 
 </manifest>

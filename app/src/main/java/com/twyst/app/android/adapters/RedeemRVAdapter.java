@@ -1,6 +1,7 @@
 package com.twyst.app.android.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.twyst.app.android.R;
+import com.twyst.app.android.activities.FoodVouchersActivity;
+import com.twyst.app.android.activities.ShoppingVouchersActivity;
+import com.twyst.app.android.fragments.RedeemFragment;
 
 import java.util.List;
 
@@ -55,8 +59,7 @@ public class RedeemRVAdapter extends RecyclerView.Adapter<RedeemRVAdapter.Redeem
         @Override
         public void onClick(View view) {
             String text = ((TextView) view.findViewById(R.id.tv_redeem_grid)).getText().toString();
-            Toast.makeText(view.getContext(), "Coming Soon", Toast.LENGTH_SHORT).show();
-/*
+//            Toast.makeText(view.getContext(), "Coming Soon", Toast.LENGTH_SHORT).show();
 
             switch (text) {
                 case RedeemFragment.REDEEM_FOOD_OFFERS:
@@ -71,9 +74,7 @@ public class RedeemRVAdapter extends RecyclerView.Adapter<RedeemRVAdapter.Redeem
                     break;
                 case RedeemFragment.REDEEM_COMING_SOON:
                     break;
-
             }
-*/
 
         }
     }

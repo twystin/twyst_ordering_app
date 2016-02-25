@@ -90,5 +90,6 @@ public class BaseActionActivity extends AppCompatActivity {
     public String getUserToken() {
         SharedPreferences prefs = this.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");
+//        return "K6u7tHMzjMFlfk5L_5FnhL5Qb8A2Xppe";
     }
 }

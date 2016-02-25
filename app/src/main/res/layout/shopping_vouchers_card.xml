@@ -30,14 +30,16 @@
             <ImageView
                 android:id="@+id/iv_voucher_logo"
                 android:layout_width="0dp"
-                android:layout_height="64dp"
-                android:layout_gravity="center"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical|left"
                 android:layout_weight="1"
-                android:scaleType="fitStart" />
+                android:padding="10dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/ebay_logo" />
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:layout_gravity="center"
                 android:background="@drawable/go_button"
                 android:padding="8dp"

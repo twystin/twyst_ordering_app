@@ -2,6 +2,7 @@ package com.twyst.app.android.service;
 
 import com.twyst.app.android.model.AuthToken;
 import com.twyst.app.android.model.BaseResponse;
+import com.twyst.app.android.model.Cashback;
 import com.twyst.app.android.model.CheckinData;
 import com.twyst.app.android.model.Data;
 import com.twyst.app.android.model.DiscoverData;
@@ -187,4 +188,8 @@ public interface TwystService {
 
     @PUT("/api/v4/order")
     public void putOrderUpdate(@Query("token") String token, @Body() OrderUpdate orderUpdate, Callback<BaseResponse> callback);
+    
+    @GET("/api/v4/cashback/offers")
+    public void getCashbackOffers(@Query("token") String token, Callback<BaseResponse<ArrayList<Cashback>>> callback);
+
 }

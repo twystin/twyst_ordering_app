@@ -1,28 +1,41 @@
 package com.twyst.app.android.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by anshul on 1/14/2016.
  */
-public class Cashback extends Data implements Serializable {
+public class Cashback implements Serializable {
 
-    private String min;
-    private String max;
+    private String merchant;
+    private String merchant_logo;
+    private ArrayList<CashbackOffers> cashbackOffers;
 
-    public String getMin() {
-        return min;
+    public ArrayList<CashbackOffers> getCashbackOffers() {
+        return cashbackOffers;
     }
 
-    public void setMin(String min) {
-        this.min = min;
+    public void setCashbackOffers(ArrayList<CashbackOffers> cashbackOffers) {
+        this.cashbackOffers = cashbackOffers;
     }
 
-    public String getMax() {
-        return max;
+    public String getMerchant() {
+        return merchant;
     }
 
-    public void setMax(String max) {
-        this.max = max;
+    public void setMerchant(String merchant) {
+        this.merchant = merchant;
+    }
+
+    public String getMerchant_logo() {
+        return merchant_logo;
+    }
+
+    public void setMerchant_logo(String merchant_logo) {
+        this.merchant_logo = merchant_logo;
     }
 }

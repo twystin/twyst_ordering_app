@@ -10,6 +10,7 @@ import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 import com.twyst.app.android.model.AuthToken;
 import com.twyst.app.android.model.BaseResponse;
+import com.twyst.app.android.model.Cashback;
 import com.twyst.app.android.model.CheckinData;
 import com.twyst.app.android.model.Data;
 import com.twyst.app.android.model.DiscoverData;
@@ -49,6 +50,7 @@ import com.twyst.app.android.model.order.OrderConfirmedCOD;
 import com.twyst.app.android.model.order.OrderSummary;
 import com.twyst.app.android.util.AppConstants;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import retrofit.Callback;
@@ -281,5 +283,9 @@ public class HttpService {
 
     public void putOrderUpdate(String token, OrderUpdate orderUpdate, Callback<BaseResponse> callback) {
         twystService.putOrderUpdate(token, orderUpdate, callback);
+    }
+
+    public void getCashbackOffers(String token, Callback<BaseResponse<ArrayList<Cashback>>> callback) {
+        twystService.getCashbackOffers(token, callback);
     }
 }

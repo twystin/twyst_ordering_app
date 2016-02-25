@@ -4,8 +4,8 @@ package com.twyst.app.android.util;
  * Created by satish on 31/05/15.
  */
 public class AppConstants {
-    public static final String HOST = "http://beta.twyst.in";
-//    public static final String HOST = "http://192.168.1.10:3000";
+//    public static final String HOST = "http://beta.twyst.in";
+    public static final String HOST = "http://192.168.1.5:3000";
 //    public static final String HOST = "http://staging.twyst.in";
 //    public static final String HOST = "http://twyst.in";
 
@@ -230,4 +230,7 @@ public class AppConstants {
     public static final String INTENT_PERMISSION = "intent_permission";
     public static final String INTENT_PERMISSIONS_RATIONALE = "intent_permissions_rationale";
     public static final String INTENT_ORDER_FEEDBACK = "order_feedback";
+
+    // Cashback
+    public static final String BUNDLE_CASHBACK_OFFERS = "cashback_offer";
 }

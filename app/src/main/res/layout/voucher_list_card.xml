@@ -24,16 +24,23 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
+                android:layout_gravity="left"
                 android:orientation="horizontal">
 
-                <ImageView
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="96dp"
-                    android:layout_marginLeft="16dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/ebay_logo"
-                    android:scaleType="fitCenter" />
+                    android:layout_gravity="left|top"
+                    android:paddingLeft="16dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:scaleType="fitStart"
+                        android:src="@drawable/ebay_logo" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -141,6 +148,7 @@
                             android:background="@drawable/clock_orange" />
 
                         <TextView
+                            android:id="@+id/tvValidDate"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Valid till 28 Feb"
@@ -167,20 +175,20 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginRight="8dp"
-                    android:background="@drawable/button_transparent"
                     android:layout_weight="1"
+                    android:background="@drawable/button_transparent"
                     android:clickable="true">
 
                     <TextView
                         android:id="@+id/tv_terms"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/border_rounded_black"
                         android:gravity="center_vertical|center_horizontal"
                         android:paddingBottom="@dimen/layout_medium_margin"
                         android:paddingLeft="@dimen/layout_medium_margin"
                         android:paddingRight="@dimen/layout_medium_margin"
                         android:paddingTop="@dimen/layout_medium_margin"
-                        android:background="@drawable/border_rounded_black"
                         android:text="View T&amp;C"
                         android:textAllCaps="true"
                         android:textColor="@android:color/black"
