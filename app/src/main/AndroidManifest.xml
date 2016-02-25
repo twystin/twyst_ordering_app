@@ -236,6 +236,12 @@
 
         <!-- Redeem Screens -->
         <activity
+            android:name=".activities.RechargeActivity"
+            android:label="@string/title_activity_recharge"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        
+        <activity
             android:name=".activities.ShoppingVouchersActivity"
             android:label="@string/title_activity_shopping_vouchers"
             android:screenOrientation="portrait"
