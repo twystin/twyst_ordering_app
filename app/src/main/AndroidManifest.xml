@@ -325,8 +325,6 @@
         <service
             android:name=".service.FetchAddressIntentService"
             android:exported="false" />
-
-        <activity android:name=".activities.VoucherDetailsActivity"></activity>
     </application>
 
 </manifest>
