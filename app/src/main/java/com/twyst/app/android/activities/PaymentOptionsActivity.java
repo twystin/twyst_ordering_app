@@ -23,6 +23,7 @@ import com.mobikwik.sdk.lib.SDKErrorCodes;
 import com.mobikwik.sdk.lib.Transaction;
 import com.mobikwik.sdk.lib.TransactionConfiguration;
 import com.mobikwik.sdk.lib.User;
+import com.mobikwik.sdk.lib.payinstrument.PaymentInstrumentType;
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.PaymentData;
@@ -45,9 +46,12 @@ public class PaymentOptionsActivity extends BaseActionActivity {
     private List<PaymentData> mPaymentDataList = new ArrayList<PaymentData>();
     private static final int PAYMENT_REQ_CODE = 0;
 
+    private String mPaymentType;
+
     private OrderCheckOutResponse mOrderCheckoutResponse;
     private static final String PAYMENT_MODE_COD = "Cash On Delivery";
-    private static final String PAYMENT_MODE_ONLINE = "Online Payment";
+    private static final String PAYMENT_MODE_BANKING = "Net Banking";
+    private static final String PAYMENT_MODE_MK_WALLET = "Mobikwik Wallet";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,17 +64,22 @@ public class PaymentOptionsActivity extends BaseActionActivity {
 
         PaymentData pd1 = new PaymentData();
         PaymentData pd2 = new PaymentData();
+        PaymentData pd3 = new PaymentData();
 
-        // Two modes : COD, Online Payment
-        pd1.setPaymentMode(PAYMENT_MODE_ONLINE);
-        pd1.setCashBackPercent(mOrderCheckoutResponse.getInapp_cashback_percent());
-        pd1.setCashBackAmount(mOrderCheckoutResponse.getInapp_cashback());
-        pd2.setPaymentMode(PAYMENT_MODE_COD);
-        pd2.setCashBackPercent(mOrderCheckoutResponse.getCod_cashback_percent());
-        pd2.setCashBackAmount(mOrderCheckoutResponse.getCod_cashback());
+        // Three modes : COD, Net Banking, Mobikwik Wallet
+        pd1.setPaymentMode(PAYMENT_MODE_COD);
+        pd1.setCashBackPercent(mOrderCheckoutResponse.getCod_cashback_percent());
+        pd1.setCashBackAmount(mOrderCheckoutResponse.getCod_cashback());
+        pd2.setPaymentMode(PAYMENT_MODE_BANKING);
+        pd2.setCashBackPercent(mOrderCheckoutResponse.getInapp_cashback_percent());
+        pd2.setCashBackAmount(mOrderCheckoutResponse.getInapp_cashback());
+        pd3.setPaymentMode(PAYMENT_MODE_MK_WALLET);
+        pd3.setCashBackPercent(mOrderCheckoutResponse.getInapp_cashback_percent());
+        pd3.setCashBackAmount(mOrderCheckoutResponse.getInapp_cashback());
 
         mPaymentDataList.add(pd1);
         mPaymentDataList.add(pd2);
+        mPaymentDataList.add(pd3);
 
         final PaymentArrayAdapter pdAdapter = new PaymentArrayAdapter();
         final View proceed = (View) findViewById(R.id.bProceed);
@@ -90,12 +99,16 @@ public class PaymentOptionsActivity extends BaseActionActivity {
             public void onClick(View v) {
                 switch (pdAdapter.getSelectedPosition()) {
                     case 0:
-                        //Online Payment
-                        goToPayment();
-                        break;
-                    case 1:
                         //COD
                         cod();
+                        break;
+                    case 1:
+                        //Net Banking
+                        goToPayment(PaymentInstrumentType.NETBANKING);
+                        break;
+                    case 2:
+                        //Mobikwik Wallet
+                        goToPayment(PaymentInstrumentType.MK_WALLET);
                         break;
 
                 }
@@ -141,7 +154,16 @@ public class PaymentOptionsActivity extends BaseActionActivity {
         finish();
     }
 
-    private void goToPayment() {
+    public String getPaymentType() {
+        return mPaymentType;
+    }
+
+    public void setPaymentType(String paymentType) {
+        this.mPaymentType = paymentType;
+    }
+
+    private void goToPayment(PaymentInstrumentType paymentType) {
+        setPaymentType(paymentType.getType());
         OrderInfoLocal.saveLocalList(mOrderCheckoutResponse.getOrderID(),
                 (OrderInfoLocal) getIntent().getSerializableExtra(AppConstants.INTENT_ORDER_INFO_LOCAL), PaymentOptionsActivity.this);
 
@@ -158,8 +180,8 @@ public class PaymentOptionsActivity extends BaseActionActivity {
         String emailID = sharedPreferences.getString(AppConstants.PREFERENCE_USER_EMAIL, "");
 
         User usr = new User(emailID, number);
-//        Transaction newTransaction = Transaction.Factory.newTransaction(usr, mOrderCheckoutResponse.getOrderNumber(), String.valueOf("1"));
-        Transaction newTransaction = Transaction.Factory.newTransaction(usr, mOrderCheckoutResponse.getOrderNumber(), String.valueOf(mOrderCheckoutResponse.getActualAmountPaid()));
+        Transaction newTransaction = Transaction.Factory.newTransaction(usr, mOrderCheckoutResponse.getOrderNumber(), String.valueOf("1"), paymentType);
+//        Transaction newTransaction = Transaction.Factory.newTransaction(usr, mOrderCheckoutResponse.getOrderNumber(), String.valueOf(mOrderCheckoutResponse.getActualAmountPaid()), paymentType);
 
         Intent mobikwikIntent = new Intent(this, MobikwikSDK.class);
         mobikwikIntent.putExtra(MobikwikSDK.EXTRA_TRANSACTION_CONFIG, config);
@@ -171,10 +193,22 @@ public class PaymentOptionsActivity extends BaseActionActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PAYMENT_REQ_CODE) {
+            String successCode = "";
+            if (getPaymentType().equals(PaymentInstrumentType.NETBANKING.getType())) {
+                successCode = "1";
+            } else if (getPaymentType().equals(PaymentInstrumentType.MK_WALLET.getType())) {
+                successCode = SDKErrorCodes.SUCCESS.getErrorCode(); //"0"
+            }
+//        Allowed Transaction are :
+//        PaymentInstrumentType.CREDIT_CARD
+//        PaymentInstrumentType.DEBIT_CARD
+//        PaymentInstrumentType.NETBANKING
+//        PaymentInstrumentType.MK_WALLET
+
             if (data != null) {
                 MKTransactionResponse response = (MKTransactionResponse)
                         data.getSerializableExtra(MobikwikSDK.EXTRA_TRANSACTION_RESPONSE);
-                if (response.statusCode.equals(SDKErrorCodes.SUCCESS.getErrorCode())) {
+                if (response.statusCode.equals(successCode)) {
                     gotoOrderTracking();
                 } else {
                     Toast.makeText(PaymentOptionsActivity.this, response.statusMessage, Toast.LENGTH_SHORT).show();
@@ -214,15 +248,15 @@ public class PaymentOptionsActivity extends BaseActionActivity {
                 pdholder = (PaymentDataHolder) row.getTag();
             }
 
-            if (position == 0) {//  Disable Online Payment as of now
-                row.setAlpha(.5f);
-                row.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        return true;
-                    }
-                });
-            }
+//            if (position == 1 || position == 2) {//  Disable Net Banking, MK Wallet as of now
+//                row.setAlpha(.5f);
+//                row.setOnTouchListener(new View.OnTouchListener() {
+//                    @Override
+//                    public boolean onTouch(View v, MotionEvent event) {
+//                        return true;
+//                    }
+//                });
+//            }
 
             pdholder.checkedbox.setSelected(selectedPosition == position);
             pdholder.paymentmode.setText(mPaymentDataList.get(position).getPaymentMode());
