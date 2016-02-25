@@ -180,8 +180,8 @@ public class PaymentOptionsActivity extends BaseActionActivity {
         String emailID = sharedPreferences.getString(AppConstants.PREFERENCE_USER_EMAIL, "");
 
         User usr = new User(emailID, number);
-        Transaction newTransaction = Transaction.Factory.newTransaction(usr, mOrderCheckoutResponse.getOrderNumber(), String.valueOf("1"), paymentType);
-//        Transaction newTransaction = Transaction.Factory.newTransaction(usr, mOrderCheckoutResponse.getOrderNumber(), String.valueOf(mOrderCheckoutResponse.getActualAmountPaid()), paymentType);
+//        Transaction newTransaction = Transaction.Factory.newTransaction(usr, mOrderCheckoutResponse.getOrderNumber(), String.valueOf("1"), paymentType);
+        Transaction newTransaction = Transaction.Factory.newTransaction(usr, mOrderCheckoutResponse.getOrderNumber(), String.valueOf(mOrderCheckoutResponse.getActualAmountPaid()), paymentType);
 
         Intent mobikwikIntent = new Intent(this, MobikwikSDK.class);
         mobikwikIntent.putExtra(MobikwikSDK.EXTRA_TRANSACTION_CONFIG, config);
