@@ -12,11 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
-        android:layout_margin="5dp"
+        android:layout_margin="10dp"
         android:background="@color/white"
         android:orientation="vertical"
         android:padding="5dp">
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,18 +24,47 @@
 
             <EditText
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:gravity="center_horizontal"
+                android:paddingRight="2dp"
+                android:singleLine="true"
                 android:text="+91"
-                android:layout_height="wrap_content" />
+                android:textColor="@color/black"
+                android:textCursorDrawable="@null" />
 
             <EditText
+                android:id="@+id/verify_number_phone_code"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_height="wrap_content" />
+                android:hint="@string/verify_number_phone_hint"
+                android:inputType="number"
+                android:maxLength="10"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/verify_half_white"
+                android:textCursorDrawable="@null" />
         </LinearLayout>
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="Operator"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textColorHint="@color/verify_half_white"
+            android:textCursorDrawable="@null" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Amount"
+            android:inputType="number"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textColorHint="@color/verify_half_white"
+            android:textCursorDrawable="@null" />
     </LinearLayout>
 
     <FrameLayout

@@ -36,7 +36,6 @@ import retrofit.client.Response;
  * A simple {@link Fragment} subclass.
  */
 public class RedeemFragment extends Fragment {
-
     public static final String REDEEM_FOOD_OFFERS = "FOOD OFFERS";
     public static final String REDEEM_RECHARGE = "RECHARGE";
     public static final String REDEEM_SHOPPING = "SHOPPING";
