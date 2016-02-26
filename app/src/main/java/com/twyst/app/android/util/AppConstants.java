@@ -233,4 +233,7 @@ public class AppConstants {
 
     // Cashback
     public static final String BUNDLE_CASHBACK_OFFERS = "cashback_offer";
+
+    public static final String INTENT_MERCHANT_LOGO = "merchant_logo";
+    public static final String INTENT_VOUCHER_DETAIL = "voucher_detail";
 }
