@@ -20,6 +20,8 @@ public class AppConstants {
     public static final int DISCOVER_LIST_PAGESIZE = 20;
     public static final int MAX_WAIT_FOR_SMS_IN_SECONDS = (IS_DEVELOPMENT) ? 30 : 30;
 
+    public static final String INDIAN_RUPEE_SYMBOL = "₹";
+
     //Earn-burn default values
     public static final int TWYST_BUCKS_INVITE_FRIENDS = 250;
     public static final int TWYST_BUCKS_FOLLOW = 20;

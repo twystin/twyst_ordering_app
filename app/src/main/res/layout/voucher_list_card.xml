@@ -32,20 +32,11 @@
                 android:paddingTop="3dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="₹"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="20dp"
-                    android:textStyle="normal" />
-
-                <TextView
                     android:id="@+id/tv_offerCost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="250"
+                    android:text="₹250"
                     android:textColor="@color/colorPrimary"
                     android:textSize="40dp" />
 

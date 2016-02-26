@@ -1,24 +1,31 @@
 package com.twyst.app.android.activities;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.twyst.app.android.R;
+import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.CashbackOffers;
-import com.twyst.app.android.model.Offer;
+import com.twyst.app.android.model.ShoppingVoucher;
+import com.twyst.app.android.model.ShoppingVoucherResponse;
+import com.twyst.app.android.model.VerifMailResonse;
+import com.twyst.app.android.model.Voucher;
+import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
-
-import org.w3c.dom.Text;
+import com.twyst.app.android.util.TwystProgressHUD;
+import com.twyst.app.android.util.UtilMethods;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,12 +33,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import static com.twyst.app.android.R.id.free;
-import static com.twyst.app.android.R.id.ll_minBillValRow;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class VoucherDetailsActivity extends BaseActionActivity {
 
+    private CashbackOffers offer;
     private boolean tncExpanded = false;
+    boolean emailVerified = false;
+    boolean verificationMailSentLimitReached = false;
+    boolean isVerifMailSent = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +52,7 @@ public class VoucherDetailsActivity extends BaseActionActivity {
 
         setupToolBar();
 
-        final CashbackOffers offer = (CashbackOffers) getIntent().getSerializableExtra(AppConstants.INTENT_VOUCHER_DETAIL);
+        offer = (CashbackOffers) getIntent().getSerializableExtra(AppConstants.INTENT_VOUCHER_DETAIL);
 
         // Load the merchant logo
         String merchantLogoUri = getIntent().getStringExtra(AppConstants.INTENT_MERCHANT_LOGO);
@@ -74,7 +86,7 @@ public class VoucherDetailsActivity extends BaseActionActivity {
 
         // Load the offer Cost
         TextView offerCost = (TextView) findViewById(R.id.tv_offerCost);
-        offerCost.setText(offer.getOffer_value());
+        offerCost.setText(AppConstants.INDIAN_RUPEE_SYMBOL + offer.getOffer_value());
 
         // Load the minimum bill value if present
         TextView minBillVal = (TextView) findViewById(R.id.tv_minBillVal);
@@ -140,9 +152,130 @@ public class VoucherDetailsActivity extends BaseActionActivity {
                 }
             }
         });
+
+        // Launch twystbucks history activity
+        (findViewById(R.id.ll_twyst_bucks_launcher)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent twystBucksIntent = new Intent(VoucherDetailsActivity.this, TwystBucksHistoryActivity.class);
+                startActivity(twystBucksIntent);
+            }
+        });
     }
 
     private void canOfferbeUsed() {
+
+        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
+        ShoppingVoucher sv = new ShoppingVoucher(offer.getOffer_id());
+        HttpService.getInstance().postCashbackOffer(getUserToken(), sv, new Callback<BaseResponse<ShoppingVoucherResponse>>() {
+                    @Override
+                    public void success(BaseResponse<ShoppingVoucherResponse> shoppingVoucherResponseBaseResponse, Response response) {
+                        if (shoppingVoucherResponseBaseResponse.isResponse()) {
+                            emailVerified = (shoppingVoucherResponseBaseResponse.getData()).isEmailVerified();
+                            verificationMailSentLimitReached = (shoppingVoucherResponseBaseResponse.getData()).isEmailVerifiedThresholdReached();
+                            showMessage();
+                        } else {
+                            Toast.makeText(VoucherDetailsActivity.this, shoppingVoucherResponseBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                        twystProgressHUD.dismiss();
+                        UtilMethods.hideSnackbar();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        twystProgressHUD.dismiss();
+                        UtilMethods.handleRetrofitError(VoucherDetailsActivity.this, error);
+                        UtilMethods.hideSnackbar();
+                    }
+                }
+
+        );
+
+    }
+
+    private void showMessage() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        if (emailVerified) {
+            View dialogView = LayoutInflater.from(VoucherDetailsActivity.this).inflate(R.layout.dialog_happy_shopping, null);
+            builder.setView(dialogView);
+            final AlertDialog dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.show();
+            dialog.findViewById(R.id.fOK).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+        } else if (!verificationMailSentLimitReached) {
+            View dialogView = LayoutInflater.from(VoucherDetailsActivity.this).inflate(R.layout.dialog_email_not_verified, null);
+            String email = HttpService.getInstance().getSharedPreferences().getString(AppConstants.PREFERENCE_USER_EMAIL, "");
+            String msg = String.format("Your Email Id %s is not verified.", email);
+            ((TextView) dialogView.findViewById(R.id.tv_emailId_line1)).setText(msg);
+            builder.setView(dialogView);
+            final AlertDialog dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.show();
+            dialog.findViewById(R.id.fSendVerifMail).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sendVerifMailAPI();
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.findViewById(R.id.fChangeMailId).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    Intent intent = new Intent(VoucherDetailsActivity.this, EditProfileActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
+    }
+
+    private void sendVerifMailAPI() {
+        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
+        HttpService.getInstance().getResendVerifMail(getUserToken(), new Callback<BaseResponse<VerifMailResonse>>() {
+            @Override
+            public void success(BaseResponse<VerifMailResonse> verifMailResonseBaseResponse, Response response) {
+                if (verifMailResonseBaseResponse.isResponse()) {
+                    isVerifMailSent = verifMailResonseBaseResponse.getData().is_mail_sent();
+                    showMessageMailSent();
+                } else {
+                    Toast.makeText(VoucherDetailsActivity.this, verifMailResonseBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                twystProgressHUD.dismiss();
+                UtilMethods.hideSnackbar();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                twystProgressHUD.dismiss();
+                UtilMethods.handleRetrofitError(VoucherDetailsActivity.this, error);
+                UtilMethods.hideSnackbar();
+            }
+        });
+    }
+
+    private void showMessageMailSent() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        if (isVerifMailSent) {
+            View dialogView = LayoutInflater.from(VoucherDetailsActivity.this).inflate(R.layout.dialog_verif_mail_sent, null);
+            builder.setView(dialogView);
+            final AlertDialog dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.show();
+            dialog.findViewById(R.id.fOK).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+        }
     }
 
     /*

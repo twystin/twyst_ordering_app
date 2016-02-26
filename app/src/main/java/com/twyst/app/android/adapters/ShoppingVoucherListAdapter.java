@@ -61,7 +61,7 @@ public class ShoppingVoucherListAdapter extends RecyclerView.Adapter<ShoppingVou
         if (mMerchant_logo != null)
             picasso.load(mMerchant_logo).noFade().into(holder.merchantLogo);
 
-        holder.offerAmountTV.setText(mOffers.get(position).getOffer_value());
+        holder.offerAmountTV.setText(AppConstants.INDIAN_RUPEE_SYMBOL + mOffers.get(position).getOffer_value());
 
         holder.validDate.getViewTreeObserver()
                 .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

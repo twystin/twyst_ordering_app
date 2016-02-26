@@ -33,12 +33,15 @@ import com.twyst.app.android.model.Referral;
 import com.twyst.app.android.model.ReportProblem;
 import com.twyst.app.android.model.ShareOffer;
 import com.twyst.app.android.model.ShareOutlet;
+import com.twyst.app.android.model.ShoppingVoucher;
+import com.twyst.app.android.model.ShoppingVoucherResponse;
 import com.twyst.app.android.model.SubmitOffer;
 import com.twyst.app.android.model.Suggestion;
 import com.twyst.app.android.model.UpdateProfile;
 import com.twyst.app.android.model.UploadBill;
 import com.twyst.app.android.model.UseOffer;
 import com.twyst.app.android.model.UserLocation;
+import com.twyst.app.android.model.VerifMailResonse;
 import com.twyst.app.android.model.Voucher;
 import com.twyst.app.android.model.WalletData;
 import com.twyst.app.android.model.WriteToUs;
@@ -57,6 +60,10 @@ import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import retrofit.client.Response;
+import retrofit.http.Body;
+import retrofit.http.GET;
+import retrofit.http.POST;
+import retrofit.http.Query;
 
 /**
  * Created by satish on 30/11/14.
@@ -293,4 +300,14 @@ public class HttpService {
     public void getCashbackOffers(String token, Callback<BaseResponse<ArrayList<Cashback>>> callback) {
         twystService.getCashbackOffers(token, callback);
     }
+
+    public void postCashbackOffer(String token, ShoppingVoucher offerId, Callback<BaseResponse<ShoppingVoucherResponse>> callback) {
+        twystService.postCashbackOffer(token, offerId, callback);
+    }
+
+    public void getResendVerifMail(String token, Callback<BaseResponse<VerifMailResonse>> callback) {
+        twystService.getResendVerifMail(token, callback);
+    }
+
+
 }

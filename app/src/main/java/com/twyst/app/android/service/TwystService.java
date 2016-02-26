@@ -3,6 +3,7 @@ package com.twyst.app.android.service;
 import com.twyst.app.android.model.AuthToken;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.Cashback;
+import com.twyst.app.android.model.CashbackOffers;
 import com.twyst.app.android.model.CheckinData;
 import com.twyst.app.android.model.Data;
 import com.twyst.app.android.model.DiscoverData;
@@ -25,12 +26,15 @@ import com.twyst.app.android.model.Referral;
 import com.twyst.app.android.model.ReportProblem;
 import com.twyst.app.android.model.ShareOffer;
 import com.twyst.app.android.model.ShareOutlet;
+import com.twyst.app.android.model.ShoppingVoucher;
+import com.twyst.app.android.model.ShoppingVoucherResponse;
 import com.twyst.app.android.model.SubmitOffer;
 import com.twyst.app.android.model.Suggestion;
 import com.twyst.app.android.model.UpdateProfile;
 import com.twyst.app.android.model.UploadBill;
 import com.twyst.app.android.model.UseOffer;
 import com.twyst.app.android.model.UserLocation;
+import com.twyst.app.android.model.VerifMailResonse;
 import com.twyst.app.android.model.Voucher;
 import com.twyst.app.android.model.WalletData;
 import com.twyst.app.android.model.WriteToUs;
@@ -195,5 +199,11 @@ public interface TwystService {
 
     @GET("/api/v4/cashback/offers")
     public void getCashbackOffers(@Query("token") String token, Callback<BaseResponse<ArrayList<Cashback>>> callback);
+
+    @POST("/api/v4/cashback/offers/use")
+    public void postCashbackOffer(@Query("token") String token, @Body() ShoppingVoucher offerId, Callback<BaseResponse<ShoppingVoucherResponse>> callback);
+
+    @GET("/api/v4/cashback/offers/use") // TODO - Change this path to correct one
+    public void getResendVerifMail(@Query("token") String token, Callback<BaseResponse<VerifMailResonse>> callback);
 
 }
