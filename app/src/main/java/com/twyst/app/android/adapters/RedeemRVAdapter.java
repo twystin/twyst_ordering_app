@@ -60,20 +60,20 @@ public class RedeemRVAdapter extends RecyclerView.Adapter<RedeemRVAdapter.Redeem
         @Override
         public void onClick(View view) {
             String text = ((TextView) view.findViewById(R.id.tv_redeem_grid)).getText().toString();
-//            Toast.makeText(view.getContext(), "Coming Soon", Toast.LENGTH_SHORT).show();
+            Toast.makeText(view.getContext(), "Coming Soon", Toast.LENGTH_SHORT).show();
 
             switch (text) {
                 case RedeemFragment.REDEEM_FOOD_OFFERS:
-                    Intent foodOffersIntent = new Intent(view.getContext(), FoodVouchersActivity.class);
-                    view.getContext().startActivity(foodOffersIntent);
+//                    Intent foodOffersIntent = new Intent(view.getContext(), FoodVouchersActivity.class);
+//                    view.getContext().startActivity(foodOffersIntent);
                     break;
                 case RedeemFragment.REDEEM_RECHARGE:
-                    Intent rechargeIntent = new Intent(view.getContext(), RechargeActivity.class);
-                    view.getContext().startActivity(rechargeIntent);
+//                    Intent rechargeIntent = new Intent(view.getContext(), RechargeActivity.class);
+//                    view.getContext().startActivity(rechargeIntent);
                     break;
                 case RedeemFragment.REDEEM_SHOPPING:
-                    Intent shoppingIntent = new Intent(view.getContext(), ShoppingVouchersActivity.class);
-                    view.getContext().startActivity(shoppingIntent);
+//                    Intent shoppingIntent = new Intent(view.getContext(), ShoppingVouchersActivity.class);
+//                    view.getContext().startActivity(shoppingIntent);
                     break;
                 case RedeemFragment.REDEEM_COMING_SOON:
                     break;

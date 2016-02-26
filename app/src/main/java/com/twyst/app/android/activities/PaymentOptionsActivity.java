@@ -164,8 +164,6 @@ public class PaymentOptionsActivity extends BaseActionActivity {
 
     private void goToPayment(PaymentInstrumentType paymentType) {
         setPaymentType(paymentType.getType());
-        OrderInfoLocal.saveLocalList(mOrderCheckoutResponse.getOrderID(),
-                (OrderInfoLocal) getIntent().getSerializableExtra(AppConstants.INTENT_ORDER_INFO_LOCAL), PaymentOptionsActivity.this);
 
         TransactionConfiguration config = new TransactionConfiguration();
         config.setDebitWallet(true);

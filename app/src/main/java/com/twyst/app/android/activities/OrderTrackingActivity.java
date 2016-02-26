@@ -155,6 +155,8 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
 
     private void updateOrderDetail(OrderHistory orderHistory) {
         OrderTrackingState.updateOverrideList(OrderTrackingActivity.this, mOrderID, orderHistory.getOrderActionsList(), orderHistory.getOrderDate());
+        mPhoneNumber = orderHistory.getPhone();
+        showOrderNumber(orderHistory.getOrderNumber());
         refreshList();
     }
 
