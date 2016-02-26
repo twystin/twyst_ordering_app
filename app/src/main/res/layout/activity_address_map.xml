@@ -43,7 +43,7 @@
             android:layout_above="@id/sendBtn"
             android:layout_centerHorizontal="true"
 
-            android:layout_marginBottom="@dimen/layout_huge_margin"
+            android:layout_marginBottom="30dp"
             android:background="@color/white"
             android:padding="@dimen/layout_small_margin"
             android:text="Click to turn On GPS, currently showing last known!"

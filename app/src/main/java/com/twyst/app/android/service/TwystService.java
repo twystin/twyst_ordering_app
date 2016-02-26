@@ -40,6 +40,7 @@ import com.twyst.app.android.model.order.OrderCheckOut;
 import com.twyst.app.android.model.order.OrderCheckOutResponse;
 import com.twyst.app.android.model.order.OrderConfirmedCOD;
 import com.twyst.app.android.model.order.OrderSummary;
+import com.twyst.app.android.offer.FoodOffer;
 
 import java.util.ArrayList;
 
@@ -186,9 +187,12 @@ public interface TwystService {
     @GET("/api/v4/offers/outlet/{outlet_id}")
     public void getOffers(@Path("outlet_id") String outletID, @Query("token") String token, Callback<BaseResponse<ArrayList<Offer>>> callback);
 
+    @GET("/api/v4/offers")
+    public void getFoodOffers(@Query("token") String token, Callback<BaseResponse<ArrayList<FoodOffer>>> callback);
+
     @PUT("/api/v4/order")
     public void putOrderUpdate(@Query("token") String token, @Body() OrderUpdate orderUpdate, Callback<BaseResponse> callback);
-    
+
     @GET("/api/v4/cashback/offers")
     public void getCashbackOffers(@Query("token") String token, Callback<BaseResponse<ArrayList<Cashback>>> callback);
 

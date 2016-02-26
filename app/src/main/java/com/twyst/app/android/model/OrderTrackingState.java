@@ -11,7 +11,6 @@ import com.twyst.app.android.model.order.OrderAction;
 import com.twyst.app.android.util.AppConstants;
 
 import java.lang.reflect.Type;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -151,13 +150,13 @@ public class OrderTrackingState {
         return sharedPreferences.commit();
     }
 
-    private static String[] getTimeArray(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+    public static String[] getTimeArray(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd");
         String formattedDate = dateFormat.format(date).toString();
         return formattedDate.split("\\s+");
     }
 
-    private static Date getFormattedDate(String orderDate) {
+    public static Date getFormattedDate(String orderDate) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         sdf.setTimeZone(TimeZone.getTimeZone("IST"));
         Date formattedDate = null;

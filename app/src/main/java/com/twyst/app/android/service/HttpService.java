@@ -48,9 +48,9 @@ import com.twyst.app.android.model.order.OrderCheckOut;
 import com.twyst.app.android.model.order.OrderCheckOutResponse;
 import com.twyst.app.android.model.order.OrderConfirmedCOD;
 import com.twyst.app.android.model.order.OrderSummary;
+import com.twyst.app.android.offer.FoodOffer;
 import com.twyst.app.android.util.AppConstants;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import retrofit.Callback;
@@ -279,6 +279,11 @@ public class HttpService {
     //Added by Raman to get outlet offers
     public void getOffers(String outletID, String token, Callback<BaseResponse<ArrayList<Offer>>> callback) {
         twystService.getOffers(outletID, token, callback);
+    }
+
+    //Added by Anshul to get Food offers
+    public void getFoodOffers(String token, Callback<BaseResponse<ArrayList<FoodOffer>>> callback) {
+        twystService.getFoodOffers(token, callback);
     }
 
     public void putOrderUpdate(String token, OrderUpdate orderUpdate, Callback<BaseResponse> callback) {
