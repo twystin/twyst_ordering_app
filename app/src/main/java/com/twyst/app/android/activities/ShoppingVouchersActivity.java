@@ -31,9 +31,6 @@ public class ShoppingVouchersActivity extends BaseActionActivity {
         getAllOffers();
     }
 
-    /*
-        Get all Offers. This method calls individual methods who take care of hitting separate APIs.
-     */
     private void getAllOffers() {
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
         HttpService.getInstance().getCashbackOffers(getUserToken(), new Callback<BaseResponse<ArrayList<Cashback>>>() {

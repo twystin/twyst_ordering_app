@@ -21,16 +21,18 @@ public class ShoppingVoucherListActivity extends BaseActionActivity {
         setupToolBar();
         Bundle bundle = getIntent().getExtras();
         offerSource = (Cashback) bundle.getSerializable(AppConstants.BUNDLE_CASHBACK_OFFERS);
-
-        showVouchers(offerSource);
+        showVouchers();
     }
 
-    private void showVouchers(Cashback cashback) {
+    private void showVouchers() {
         RecyclerView vouchersRV = (RecyclerView) findViewById(R.id.rv_voucher_details);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(ShoppingVoucherListActivity.this, LinearLayoutManager.VERTICAL, false);
         vouchersRV.setLayoutManager(mLayoutManager);
 
-        ShoppingVoucherListAdapter mShoppingVoucherListAdapter = new ShoppingVoucherListAdapter(ShoppingVoucherListActivity.this, cashback.getCashbackOffers());
+        ShoppingVoucherListAdapter mShoppingVoucherListAdapter = new ShoppingVoucherListAdapter
+                (ShoppingVoucherListActivity.this,
+                        offerSource.getCashbackOffers(),
+                        offerSource.getMerchant_logo());
         vouchersRV.setAdapter(mShoppingVoucherListAdapter);
     }
 }
