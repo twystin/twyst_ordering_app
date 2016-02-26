@@ -8,69 +8,88 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView_listview"
+        style="@style/card_view_style"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
-        android:layout_margin="10dp"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:padding="5dp">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:focusable="false"
+                    android:gravity="center_horizontal"
+                    android:paddingRight="2dp"
+                    android:singleLine="true"
+                    android:text="+91"
+                    android:textColor="@color/black"
+                    android:textCursorDrawable="@null" />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/verify_number_phone_hint"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/verify_half_white"
+                    android:textCursorDrawable="@null" />
+            </LinearLayout>
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null"
-                android:gravity="center_horizontal"
-                android:paddingRight="2dp"
+                android:layout_marginTop="5dp"
+                android:hint="Operator"
                 android:singleLine="true"
-                android:text="+91"
                 android:textColor="@color/black"
+                android:textColorHint="@color/verify_half_white"
                 android:textCursorDrawable="@null" />
 
             <EditText
-                android:id="@+id/verify_number_phone_code"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="@string/verify_number_phone_hint"
+                android:layout_marginTop="5dp"
+                android:hint="Circle"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/verify_half_white"
+                android:textCursorDrawable="@null" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:hint="Enter Amount"
                 android:inputType="number"
-                android:maxLength="10"
                 android:singleLine="true"
                 android:textColor="@color/black"
                 android:textColorHint="@color/verify_half_white"
                 android:textCursorDrawable="@null" />
         </LinearLayout>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Operator"
-            android:singleLine="true"
-            android:textColor="@color/black"
-            android:textColorHint="@color/verify_half_white"
-            android:textCursorDrawable="@null" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter Amount"
-            android:inputType="number"
-            android:singleLine="true"
-            android:textColor="@color/black"
-            android:textColorHint="@color/verify_half_white"
-            android:textCursorDrawable="@null" />
-    </LinearLayout>
+    </android.support.v7.widget.CardView>
 
     <FrameLayout
         android:id="@+id/bNext"
         android:layout_width="match_parent"
         android:layout_height="55dp"
+        android:layout_margin="5dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/button_primary"
         android:padding="10dp">
