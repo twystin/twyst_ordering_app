@@ -3,7 +3,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="2dp">
+    android:padding="0dp">
 
     <android.support.v7.widget.CardView
         android:id="@+id/voucher_details_CV"
@@ -17,210 +17,121 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:background="@color/white"
             android:orientation="vertical"
-            android:paddingBottom="16dp"
-            android:paddingTop="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_gravity="left"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_gravity="left|top"
-                    android:paddingLeft="16dp">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:scaleType="fitStart"
-                        android:src="@drawable/ebay_logo" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:paddingBottom="4dp"
-                    android:paddingTop="4dp">
-
-                    <RelativeLayout
-                        android:layout_width="320dp"
-                        android:layout_height="36dp"
-                        android:layout_marginBottom="4dp"
-                        android:background="@drawable/border_rounded_orange"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/rupee_symbol"
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginLeft="8dp"
-                            android:layout_marginTop="10dp"
-                            android:background="@drawable/rupee_orange" />
-
-                        <TextView
-                            android:id="@+id/offer_amount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="4dp"
-                            android:layout_toEndOf="@id/rupee_symbol"
-                            android:text="250"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="24dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignBaseline="@id/offer_amount"
-                            android:layout_gravity="center"
-                            android:layout_toEndOf="@id/offer_amount"
-                            android:text="Min bill Rs. 500"
-                            android:textColor="@color/text_grey"
-                            android:textSize="10dp" />
-                    </RelativeLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Cost:"
-                            android:textColor="@android:color/black"
-                            android:textSize="10dp" />
-
-                        <ImageView
-                            android:layout_width="8dp"
-                            android:layout_height="10dp"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="2dp"
-                            android:layout_marginRight="2dp"
-                            android:background="@drawable/twystbucksicon" />
-
-                        <TextView
-                            android:id="@+id/tv_bucks_amount_voucher"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="2dp"
-                            android:textColor="@android:color/black"
-                            android:textSize="10dp" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Twyst Bucks"
-                            android:textColor="@android:color/black"
-                            android:textSize="10dp" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:text="(including 10% handling fee)"
-                        android:textColor="@color/text_grey"
-                        android:textSize="10dp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="2dp"
-                            android:background="@drawable/clock_orange" />
-
-                        <TextView
-                            android:id="@+id/tvValidDate"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Valid till 28 Feb"
-                            android:textColor="@color/text_grey"
-                            android:textSize="10dp" />
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-            </LinearLayout>
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:orientation="horizontal"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                android:paddingBottom="3dp"
+                android:paddingTop="3dp">
 
-                <FrameLayout
-                    android:id="@+id/button_terms"
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/tv_offerCost"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginRight="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_transparent"
-                    android:clickable="true">
+                    android:text="₹250"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="40dp" />
 
-                    <TextView
-                        android:id="@+id/tv_terms"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/border_rounded_black"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:paddingBottom="@dimen/layout_medium_margin"
-                        android:paddingLeft="@dimen/layout_medium_margin"
-                        android:paddingRight="@dimen/layout_medium_margin"
-                        android:paddingTop="@dimen/layout_medium_margin"
-                        android:text="View T&amp;C"
-                        android:textAllCaps="true"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/layout_wide_text_size" />
-                </FrameLayout>
-
-                <FrameLayout
-                    android:id="@+id/button_buy"
+                <ImageView
+                    android:id="@+id/iv_merchantLogo"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/button_secondary"
-                    android:clickable="true">
-
-                    <TextView
-                        android:id="@+id/tv_buy"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:paddingBottom="@dimen/layout_medium_margin"
-                        android:paddingLeft="@dimen/layout_medium_margin"
-                        android:paddingRight="@dimen/layout_medium_margin"
-                        android:paddingTop="@dimen/layout_medium_margin"
-                        android:text="Buy"
-                        android:textAllCaps="true"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/layout_wide_text_size" />
-                </FrameLayout>
+                    android:gravity="center_vertical"
+                    android:scaleType="fitEnd"
+                    android:src="@drawable/ebay_logo" />
 
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/background_grey" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|left"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/tv_minBillVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="1dp"
+                    android:paddingTop="3dp"
+                    android:text="Minimum bill Rs. 500" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_freeText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:paddingTop="1dp"
+                        android:text="Free text" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_voucherValidity"
+                        android:layout_width="0dp"
+                        android:layout_height="16dp"
+                        android:layout_weight="1"
+                        android:drawablePadding="4dp"
+                        android:gravity="left"
+                        android:text="(Image) Valid till DD MMM"
+                        android:textColor="@android:color/black" />
+
+                    <FrameLayout
+                        android:id="@+id/bUseOffer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="6dp"
+                        android:background="@drawable/button_secondary">
+
+                        <TextView
+                            android:id="@+id/tv_useOffer"
+                            android:layout_width="match_parent"
+                            android:layout_height="36dp"
+                            android:gravity="center"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:text="View Offer"
+                            android:textAllCaps="true"
+                            android:textColor="@android:color/white"
+                            android:textSize="16dp" />
+                    </FrameLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
         </LinearLayout>
+
 
     </android.support.v7.widget.CardView>
 

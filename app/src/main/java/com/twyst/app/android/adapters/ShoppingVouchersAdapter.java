@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
 import com.twyst.app.android.R;
 import com.twyst.app.android.activities.ShoppingVoucherListActivity;
 import com.twyst.app.android.model.Cashback;
@@ -39,6 +40,16 @@ public class ShoppingVouchersAdapter extends RecyclerView.Adapter<ShoppingVouche
     @Override
     public void onBindViewHolder(ShoppingVouchersAdapter.ViewHolder holder, final int position) {
 
+        // Load image into holder from Picasso
+        Picasso picasso = Picasso.with(mContext);
+        final String imgUri = mVouchersList.get(position).getMerchant_logo();
+        if (imgUri != null) {
+            picasso.load(imgUri)
+                    .noFade()
+                    .into(holder.voucherIV);
+        }
+
+        // Set ClickListener and take to all vouchers display activity
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,13 +60,6 @@ public class ShoppingVouchersAdapter extends RecyclerView.Adapter<ShoppingVouche
                 v.getContext().startActivity(intent);
             }
         });
-
-        /*Picasso picasso = Picasso.with(mContext);
-        if (mVouchersList.get(position).getOffer_logo() != null) {
-            picasso.load(mVouchersList.get(position).getOffer_logo())
-                    .noFade()
-                    .into(holder.voucherIV);
-        }*/
     }
 
     @Override
@@ -63,6 +67,9 @@ public class ShoppingVouchersAdapter extends RecyclerView.Adapter<ShoppingVouche
         return mVouchersList.size();
     }
 
+    /*
+        ViewHolder Class
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView voucherIV;
 

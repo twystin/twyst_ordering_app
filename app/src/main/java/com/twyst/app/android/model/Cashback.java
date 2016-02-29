@@ -11,8 +11,12 @@ import java.util.HashMap;
  */
 public class Cashback implements Serializable {
 
+    @SerializedName("source")
     private String merchant;
+    @SerializedName("logo")
     private String merchant_logo;
+
+    @SerializedName("offers")
     private ArrayList<CashbackOffers> cashbackOffers;
 
     public ArrayList<CashbackOffers> getCashbackOffers() {

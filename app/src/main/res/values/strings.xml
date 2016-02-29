@@ -93,6 +93,11 @@
     <string name="my_twyst_bucks_balance">My Twyst Bucks Balance</string>
     <string name="earn_more">Earn More</string>
 
+    <string name="happy_shopping_message">We have sent you the Voucher Code along with Instructions to your email ID</string>
+    <string name="email_not_verified_line1">Your Email Id %s is not verified.</string>
+    <string name="email_not_verified_line2">Please verify your email ID to receive the voucher code</string>
+    <string name="verif_mail_sent">We\'ve resent the email verifcation link. Please verify your email-id and try again.</string>
+
  <string name="terms_conditions">
      &#8226; Offers (2 or more) cannot be clubbed.\n
      &#8226; Offers are not valid on specially priced combinations e.g. any other buffet/brunch deal/corporate dining rate/happy hours etc.\n

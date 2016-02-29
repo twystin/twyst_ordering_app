@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/gradient_shape"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gradient_shape"
+        android:orientation="vertical"
+        android:scrollbarAlwaysDrawVerticalTrack="true">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#323232"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:text="Verify Email Status"
+            android:textColor="@android:color/white"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tv_emailId_line1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="20dp"
+            android:text="@string/email_not_verified_line1"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/email_not_verified_line2"
+            android:textColor="@android:color/black" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#fafafa"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <FrameLayout
+                android:id="@+id/fSendVerifMail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/button_primary">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+
+                    android:gravity="center"
+                    android:text="Resend Verification Link"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"
+                    android:textSize="12dp" />
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:id="@+id/fChangeMailId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_primary">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:gravity="center"
+                    android:text="Use a different E-mail Id"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"
+                    android:textSize="12dp" />
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

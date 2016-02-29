@@ -20,6 +20,8 @@ public class AppConstants {
     public static final int DISCOVER_LIST_PAGESIZE = 20;
     public static final int MAX_WAIT_FOR_SMS_IN_SECONDS = (IS_DEVELOPMENT) ? 30 : 30;
 
+    public static final String INDIAN_RUPEE_SYMBOL = "₹";
+
     //Earn-burn default values
     public static final int TWYST_BUCKS_INVITE_FRIENDS = 250;
     public static final int TWYST_BUCKS_FOLLOW = 20;
@@ -233,4 +235,7 @@ public class AppConstants {
 
     // Cashback
     public static final String BUNDLE_CASHBACK_OFFERS = "cashback_offer";
+
+    public static final String INTENT_MERCHANT_LOGO = "merchant_logo";
+    public static final String INTENT_VOUCHER_DETAIL = "voucher_detail";
 }
