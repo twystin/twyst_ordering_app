@@ -67,7 +67,14 @@
                 android:singleLine="true"
                 android:textColor="@color/black"
                 android:textColorHint="@color/verify_half_white"
-                android:textCursorDrawable="@null" />
+                android:textCursorDrawable="@null"
+                android:visibility="gone" />
+
+            <Spinner
+                android:id="@+id/spinnerOperatorList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textCursorDrawable="@null"/>
 
             <EditText
                 android:layout_width="match_parent"

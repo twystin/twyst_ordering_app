@@ -1,16 +1,15 @@
 package com.twyst.app.android.activities;
 
-import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.twyst.app.android.R;
@@ -34,6 +33,14 @@ public class RechargeActivity extends BaseActionActivity {
                 openContacts();
             }
         });
+
+        setupSpinners();
+    }
+
+    private void setupSpinners() {
+        Spinner mySpinner = (Spinner) findViewById(R.id.spinnerOperatorList);
+        mySpinner.setAdapter(new ArrayAdapter<OperatorMapping>(this, R.layout.custom_spinner, OperatorMapping.values()));
+        String selected = ((OperatorMapping) mySpinner.getSelectedItem()).getOperatorID();
     }
 
     private void openContacts() {
@@ -96,4 +103,79 @@ public class RechargeActivity extends BaseActionActivity {
         return "";
     }
 
+    private enum OperatorMapping {
+        AIRTEL("1", "Airtel"),
+        VODAFONE("2", "Vodafone"),
+        BSNL("3", "BSNL"),
+        RCDMA("4", "Reliance CDMA"),
+        RGSM("5", "Reliance GSM"),
+        AIRCEL("6", "Aircel");
+
+        private String operatorName;
+        private String operatorID;
+
+        private OperatorMapping(String operatorID, String operatorName) {
+            this.operatorID = operatorID;
+            this.operatorName = operatorName;
+        }
+
+        public String getOperatorName() {
+            return operatorName;
+        }
+
+        public void setOperatorName(String operatorName) {
+            this.operatorName = operatorName;
+        }
+
+        public String getOperatorID() {
+            return operatorID;
+        }
+
+        public void setOperatorID(String operatorID) {
+            this.operatorID = operatorID;
+        }
+
+        @Override
+        public String toString() {
+            return operatorName;
+        }
+    }
+
+    private enum CircleMapping {
+        AP("1", "Andhra Pradesh"),
+        ASSAM("2", "Assam"),
+        BJ("3", "Bihar & Jharkhand"),
+        CHENNAI("4", "Chennai"),
+        NCR("5", "Delhi & NCR"),
+        GUJARAT("6", "Gujarat");
+
+        private String circleName;
+        private String circleCode;
+
+        private CircleMapping(String circleCode, String circleName) {
+            this.circleCode = circleCode;
+            this.circleName = circleName;
+        }
+
+        public String getCircleName() {
+            return circleName;
+        }
+
+        public void setCircleName(String circleName) {
+            this.circleName = circleName;
+        }
+
+        public String getCircleCode() {
+            return circleCode;
+        }
+
+        public void setCircleCode(String circleCode) {
+            this.circleCode = circleCode;
+        }
+
+        @Override
+        public String toString() {
+            return circleName;
+        }
+    }
 }
