@@ -231,7 +231,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                         });
                         listViewSavedLocations.setVisibility(View.VISIBLE);
                     } else {
-                        if (isAddressesSynced){
+                        if (isAddressesSynced) {
                             findViewById(R.id.no_saved_address_row).setVisibility(View.VISIBLE);
                         }
                     }
@@ -329,7 +329,8 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     private String dob;
     private String city;
     private String source = "phonebook";
-    private String socialEmail;
+    private String socialEmail = "";
+    private String mPossibleEmail = "";
     private String socialName;
     private String id, fbid, linkUri;
     private Friend friend;
@@ -399,7 +400,6 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                     lastName = "";
                     dob = "";
                     id = "";
-                    final SharedPreferences prefs = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
                     friendsList = PhoneBookContacts.getInstance().getPhoneContactList();
                     sharedPreferences = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).edit();
                     sharedPreferences.putString(AppConstants.PREFERENCE_USER_PIC, "");
@@ -437,8 +437,8 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         Account[] accounts = AccountManager.get(PreMainActivity.this).getAccounts();
         for (Account account : accounts) {
             if (emailPattern.matcher(account.name).matches()) {
-                String possibleEmail = account.name;
-                etVerifyEmail.setText(possibleEmail);
+                mPossibleEmail = account.name;
+                etVerifyEmail.setText(mPossibleEmail);
                 break;
             }
         }
@@ -474,6 +474,10 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                         try {
                             id = jsonObject.getString("id");
                             socialEmail = jsonObject.getString("email");
+
+                            if (TextUtils.isEmpty(socialEmail)) {
+                                socialEmail = mPossibleEmail;
+                            }
 
                         } catch (JSONException jsone) {
                             jsone.printStackTrace();
@@ -539,6 +543,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                 sharedPreferences.putString(AppConstants.PREFERENCE_USER_PIC, String.valueOf(currentProfile.getProfilePictureUri(250, 250)));
                 sharedPreferences.putString(AppConstants.PREFERENCE_USER_NAME, currentProfile.getFirstName());
                 sharedPreferences.putString(AppConstants.PREFERENCE_USER_FULL_NAME, currentProfile.getName());
+                sharedPreferences.putString(AppConstants.PREFERENCE_USER_EMAIL, socialEmail);
                 sharedPreferences.putBoolean(AppConstants.PREFERENCE_IS_FACEBOOK_CONNECTED, true);
                 sharedPreferences.apply();
             }
@@ -1118,20 +1123,12 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     }
 
     private void updateUserEmail() {
-        final SharedPreferences prefs = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        final String token = prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");
-        String deviceId = null;
-
-        deviceId = prefs.getString(AppConstants.PREFERENCE_REGISTRATION_ID, "");
+        final String token = HttpService.getInstance().getSharedPreferences().getString(AppConstants.PREFERENCE_USER_TOKEN, "");
+        String deviceId = HttpService.getInstance().getSharedPreferences().getString(AppConstants.PREFERENCE_REGISTRATION_ID, "");
 
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
-        final String email;
-        if (TextUtils.isEmpty(socialEmail)) {
-            email = "";
-        } else {
-            email = socialEmail;
-        }
-        city = prefs.getString(AppConstants.PREFERENCE_LOCALITY_SHOWN_DRAWER, "");
+
+        city = HttpService.getInstance().getSharedPreferences().getString(AppConstants.PREFERENCE_LOCALITY_SHOWN_DRAWER, "");
         Log.i("dob", dob + " firstName" + firstName + " lastName" + lastName + " middleName" + middleName + " city" + city + " image" + userImage);
         String facebookUri = null;
         String googleplusUri = null;
@@ -1143,7 +1140,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         }
 
         UpdateProfile updateProfile = new UpdateProfile();
-        updateProfile.setEmail(email);
+        updateProfile.setEmail(socialEmail);
         updateProfile.setImage(userImage);
         updateProfile.setFname(firstName);
         updateProfile.setMname(middleName);
@@ -1164,7 +1161,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             public void success(BaseResponse<ProfileUpdate> loginDataBaseResponse, Response response) {
                 twystProgressHUD.dismiss();
                 if (loginDataBaseResponse.isResponse()) {
-                    final String code = prefs.getString(AppConstants.PREFERENCE_USER_REFERRAL, "");
+                    final String code = HttpService.getInstance().getSharedPreferences().getString(AppConstants.PREFERENCE_USER_REFERRAL, "");
                     if (!TextUtils.isEmpty(code)) {
                         postReferral(token, code);
                     } else {
@@ -1276,6 +1273,10 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         // Show the signed-in UI
         socialEmail = Plus.AccountApi.getAccountName(mGoogleApiClient);
 
+        if (TextUtils.isEmpty(socialEmail)) {
+            socialEmail = mPossibleEmail;
+        }
+
         System.out.println("PreMainActivity.onConnected google email : " + etVerifyEmail);
 
         try {
@@ -1299,6 +1300,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                 sharedPreferences.putBoolean(AppConstants.PREFERENCE_IS_GOOGLE_CONNECTED, true);
                 sharedPreferences.putString(AppConstants.PREFERENCE_USER_PIC, personPhotoUrl);
                 sharedPreferences.putString(AppConstants.PREFERENCE_USER_NAME, personName);
+                sharedPreferences.putString(AppConstants.PREFERENCE_USER_EMAIL, socialEmail);
                 sharedPreferences.putString(AppConstants.PREFERENCE_USER_FULL_NAME, personFullName);
                 sharedPreferences.apply();
 //
@@ -1704,7 +1706,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                     SharedPreferenceSingleton.getInstance().saveAddresses(savedAddressList);
                     if (isSaveLocationClicked) {
                         findViewById(R.id.loader_row).setVisibility(View.GONE);
-                        if (savedAddressList != null && savedAddressList.size()>0) {
+                        if (savedAddressList != null && savedAddressList.size() > 0) {
                             if (adapter.getCount() > 3) {
                                 View item = adapter.getView(0, null, listViewSavedLocations);
                                 item.measure(0, 0);
