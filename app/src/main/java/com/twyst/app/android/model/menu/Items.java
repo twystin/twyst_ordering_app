@@ -57,7 +57,8 @@ public class Items implements Serializable {
     @SerializedName("item_quantity")
     private int itemQuantity;
 
-
+    @SerializedName("menu_id") // added for support of multiple menu's for an outlet
+    private String menuId;
 
     private String categoryID;
 
@@ -98,6 +99,14 @@ public class Items implements Serializable {
 
     public void setOptionPriceIsAdditive(boolean optionPriceIsAdditive) {
         this.optionPriceIsAdditive = optionPriceIsAdditive;
+    }
+
+    public String getMenuId() {
+        return menuId;
+    }
+
+    public void setMenuId(String menuId) {
+        this.menuId = menuId;
     }
 
     public String getSubCategoryID() {

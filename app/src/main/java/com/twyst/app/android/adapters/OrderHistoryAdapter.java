@@ -291,7 +291,14 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
     private void reorderProcessing(final OrderHistory reOrder) {
         String menuId;
-        menuId = reOrder.getMenuId();
+        if (reOrder.getMenuId()!=null) {
+            menuId = reOrder.getMenuId();
+        } else if (reOrder.getItems().size()>0 && reOrder.getItems().get(0).getMenuId()!=null){
+            menuId  = reOrder.getItems().get(0).getMenuId();
+        } else {
+            Toast.makeText(mContext,"Couldn't proceed as MenuId not available",Toast.LENGTH_SHORT);
+            return;
+        }
 
         HttpService.getInstance().getMenu(menuId, (UtilMethods.getUserToken((OrderHistoryActivity) mContext)), new Callback<BaseResponse<MenuData>>() {
             @Override
@@ -569,7 +576,14 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         reorderOutlet.setDeliveryTime(orderHistory.getDelivery_zone().get(0).getDeliveryEstimatedTime());
         reorderOutlet.setMinimumOrder(orderHistory.getDelivery_zone().get(0).getMinDeliveryAmt());
         reorderOutlet.setBackground(orderHistory.getBackground());
-        reorderOutlet.setMenuId(orderHistory.getMenuId());
+        if (orderHistory.getMenuId()!=null) {
+            reorderOutlet.setMenuId(orderHistory.getMenuId());
+        } else if(orderHistory.getItems().size() > 0) {
+            reorderOutlet.setMenuId(orderHistory.getItems().get(0).getMenuId());
+        } else {
+            Toast.makeText(mContext,"Unable to Proceed",Toast.LENGTH_SHORT);
+            return;
+        }
         reorderOutlet.setLogo(orderHistory.getBackground());
         reorderOutlet.setPhone(orderHistory.getPhone());
 

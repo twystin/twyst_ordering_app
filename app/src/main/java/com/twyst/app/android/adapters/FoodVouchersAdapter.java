@@ -1,6 +1,7 @@
 package com.twyst.app.android.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +11,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
+import com.twyst.app.android.activities.OrderOnlineActivity;
 import com.twyst.app.android.model.OrderTrackingState;
+import com.twyst.app.android.model.Outlet;
 import com.twyst.app.android.offer.FoodOffer;
+import com.twyst.app.android.util.AppConstants;
 
 import java.util.ArrayList;
 
@@ -35,13 +39,32 @@ public class FoodVouchersAdapter extends RecyclerView.Adapter<FoodVouchersAdapte
 
     @Override
     public void onBindViewHolder(FoodVouchersAdapter.ViewHolder holder, int position) {
-        holder.populateData(mFoodOffersList.get(position));
+        final FoodOffer foodOffer = mFoodOffersList.get(position);
+        holder.populateData(foodOffer);
+
+
+
+
+
+
         holder.flUseOffer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(mContext, OrderOnlineActivity.class);
-//                intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_OBJECT, outlet);
-//                view.getContext().startActivity(intent);
+                FoodOffer.OutletHeader outletHeader = foodOffer.getOutletHeader();
+                final Outlet outlet = new Outlet();
+                outlet.setName(outletHeader.getOutletName());
+                outlet.setMenuId(foodOffer.getMenuId());
+                outlet.set_id(outletHeader.get_id());
+                if (outletHeader.getDelivery_zone().size() > 0) {
+                    outlet.setDeliveryTime(outletHeader.getDelivery_zone().get(0).getDeliveryEstimatedTime());
+                    outlet.setMinimumOrder(outletHeader.getDelivery_zone().get(0).getMinDeliveryAmt());
+                }
+                outlet.setBackground(outletHeader.getBackground());
+                outlet.setLogo(outletHeader.getBackground());
+//              outlet.setPhone(outletHeader.getPhone());
+                Intent intent = new Intent(mContext, OrderOnlineActivity.class);
+                intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_OBJECT, outlet);
+                mContext.startActivity(intent);
             }
         });
 
@@ -74,6 +97,7 @@ public class FoodVouchersAdapter extends RecyclerView.Adapter<FoodVouchersAdapte
         }
 
         public void populateData(FoodOffer foodOffer){
+
             outletNameTV.setText(foodOffer.getOutletHeader().getOutletName());
             headerTV.setText(foodOffer.getHeader() + " " + foodOffer.getHeaderSuffix());
             maxOfferYouCanAwailTV.setText(foodOffer.getMaxOfferAvailalbleDesc());
