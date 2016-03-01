@@ -150,8 +150,8 @@ public class OrderTrackingState {
         return sharedPreferences.commit();
     }
 
-    public static String[] getTimeArray(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd");
+    private static String[] getTimeArray(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
         String formattedDate = dateFormat.format(date).toString();
         return formattedDate.split("\\s+");
     }
