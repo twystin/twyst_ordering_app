@@ -200,6 +200,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
             @Override
             public void onClick(View v) {
                 if (mAddressDetailsLocationData!=null) {
+                    filterTagsMap.clear();
                     showDefaultLocationError.setVisibility(View.GONE);
                     SharedPreferenceSingleton.getInstance().setPassedCartCheckoutStage(false);
                     Intent intent = new Intent(getActivity(), AddressAddNewActivity.class);
@@ -230,6 +231,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
 
         if (requestCode == AppConstants.GET_FILTER_ACTIVITY) {
             if (resultCode == AppConstants.GOT_FILTERS_SUCCESS) {
+                noDataHolder.noDataOutlet.setVisibility(View.GONE);
                 showProgressBar();
                 Bundle extras = data.getExtras();
                 filterTagsMap.clear();
@@ -251,11 +253,22 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
                     discoverAdapter.getItems().clear();
                     discoverAdapter.getItems().addAll(list);
                     discoverAdapter.notifyDataSetChanged();
+                    if (list.size() == 0) {
+                        noDataHolder.noDataOutlet.setVisibility(View.VISIBLE);
+                        noDataHolder.tvNoData.setText(getResources().getString(R.string.no_data_outlet));
+                        noDataHolder.ivNoData.setImageResource(R.drawable.no_data_order);
+                    }
                 } else {
                     discoverAdapter.getItems().clear();
                     discoverAdapter.getItems().addAll(fetchedOutlets);
                     discoverAdapter.notifyDataSetChanged();
+                    if (fetchedOutlets.size() == 0) {
+                        noDataHolder.noDataOutlet.setVisibility(View.VISIBLE);
+                        noDataHolder.tvNoData.setText(getResources().getString(R.string.no_data_outlet));
+                        noDataHolder.ivNoData.setImageResource(R.drawable.no_data_order);
+                    }
                 }
+
                 hideProgressBar();
 
 
