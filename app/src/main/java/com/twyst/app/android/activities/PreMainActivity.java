@@ -416,22 +416,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
 
     private void setupVerifyEmail() {
         etVerifyName = (EditText) findViewById(R.id.et_verify_name);
-
         etVerifyEmail = (EditText) findViewById(R.id.et_verify_email);
-
-//        etVerifyName.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                focusShowKeyBoard(etVerifyName);
-//            }
-//        });
-
-//        etVerifyEmail.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                focusShowKeyBoard(etVerifyEmail);
-//            }
-//        });
 
         Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
         Account[] accounts = AccountManager.get(PreMainActivity.this).getAccounts();
@@ -467,46 +452,52 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+
                 AccessToken accessToken = loginResult.getAccessToken();
-                GraphRequestBatch batch = new GraphRequestBatch(GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
-                    @Override
-                    public void onCompleted(JSONObject jsonObject, GraphResponse response) {
-                        try {
-                            id = jsonObject.getString("id");
-                            socialEmail = jsonObject.getString("email");
-
-                            if (TextUtils.isEmpty(socialEmail)) {
-                                socialEmail = mPossibleEmail;
-                            }
-
-                        } catch (JSONException jsone) {
-                            jsone.printStackTrace();
-                        }
-                        try {
-                            dob = jsonObject.getString("birthday");
-
-                        } catch (JSONException jsone) {
-                            jsone.printStackTrace();
-                        }
-                    }
-                }),
-                        GraphRequest.newMyFriendsRequest(accessToken, new GraphRequest.GraphJSONArrayCallback() {
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
                             @Override
-                            public void onCompleted(JSONArray jsonArray, GraphResponse response) {
-                                friendsList = new ArrayList<Friend.Friends>();
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    try {
-                                        friends = new Friend.Friends();
-                                        friends.setId(jsonArray.getJSONObject(i).getString("id"));
-                                        friends.setName(jsonArray.getJSONObject(i).getString("name"));
-                                        friends.setPhone(null);
-                                        friendsList.add(friends);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                Log.v("LoginActivity", response.toString());
+
+                                // Application code
+                                try {
+                                    id = object.getString("id");
+                                    socialEmail = object.getString("email");
+
+                                    if (TextUtils.isEmpty(socialEmail)) {
+                                        socialEmail = mPossibleEmail;
                                     }
+
+                                } catch (JSONException ex) {
+                                    ex.printStackTrace();
                                 }
                             }
-                        })
+                        });
+
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,email,gender, birthday");
+                request.setParameters(parameters);
+//                request.executeAsync();
+
+                GraphRequestBatch batch = new GraphRequestBatch(request, GraphRequest.newMyFriendsRequest(accessToken, new GraphRequest.GraphJSONArrayCallback() {
+                    @Override
+                    public void onCompleted(JSONArray jsonArray, GraphResponse response) {
+                        friendsList = new ArrayList<Friend.Friends>();
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            try {
+                                friends = new Friend.Friends();
+                                friends.setId(jsonArray.getJSONObject(i).getString("id"));
+                                friends.setName(jsonArray.getJSONObject(i).getString("name"));
+                                friends.setPhone(null);
+                                friendsList.add(friends);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                })
                 );
                 batch.addCallback(new GraphRequestBatch.Callback() {
                     @Override
@@ -1123,6 +1114,13 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     }
 
     private void updateUserEmail() {
+        if (TextUtils.isEmpty(socialEmail)) {
+            String fullName = firstName + " " + lastName;
+            etVerifyName.setText(fullName.trim());
+            Toast.makeText(PreMainActivity.this, "Please enter email address to proceed.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         final String token = HttpService.getInstance().getSharedPreferences().getString(AppConstants.PREFERENCE_USER_TOKEN, "");
         String deviceId = HttpService.getInstance().getSharedPreferences().getString(AppConstants.PREFERENCE_REGISTRATION_ID, "");
 
