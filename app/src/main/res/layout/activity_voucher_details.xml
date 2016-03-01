@@ -30,7 +30,7 @@
         android:background="@color/background_grey" />
 
     <LinearLayout
-        android:id="@+id/ll_twyst_bucks_launcher"
+        android:id="@+id/ll_twyst_cash_launcher"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -42,12 +42,12 @@
             android:layout_width="@dimen/layout_huge_margin"
             android:layout_height="@dimen/layout_huge_margin"
             android:layout_marginRight="@dimen/layout_wide_margin"
-            android:src="@drawable/twystbucksicon" />
+            android:src="@drawable/twyst_cash_icon" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="My Twyst Bucks" />
+            android:text="My Twyst Cash" />
 
         <TextView
             android:id="@+id/tv_current_address_location"
@@ -60,7 +60,7 @@
             android:textSize="@dimen/layout_wide_margin" />
 
         <TextView
-            android:id="@+id/tv_my_twyst_bucks"
+            android:id="@+id/tv_my_twyst_cash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/layout_small_margin"
@@ -174,10 +174,10 @@
                         android:textSize="16dp" />
 
                     <TextView
-                        android:id="@+id/tv_twystBucksFee"
+                        android:id="@+id/tv_twystCashFee"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="(Image) 75 Twyst Bucks"
+                        android:text="(Image) 75 Twyst Cash"
                         android:textColor="@android:color/black"
                         android:textSize="16dp" />
 

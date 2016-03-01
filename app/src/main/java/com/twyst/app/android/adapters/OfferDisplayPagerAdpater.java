@@ -29,8 +29,8 @@ public class OfferDisplayPagerAdpater extends PagerAdapter {
     private TextView mHeader;
     private TextView mLine1;
     private TextView mLine2;
-    private TextView mTwystBucks;
-    private LinearLayout mTwystBucksinfo;
+    private TextView mTwystCash;
+    private LinearLayout mTwystCashinfo;
     ;
     private TextView mOkButton;
 
@@ -102,13 +102,13 @@ public class OfferDisplayPagerAdpater extends PagerAdapter {
         mHeader = (TextView) v.findViewById(R.id.offer_item_header);
         mLine1 = (TextView) v.findViewById(R.id.offer_item_line1);
         mLine2 = (TextView) v.findViewById(R.id.offer_item_line2);
-        mTwystBucks = (TextView) v.findViewById(R.id.my_twyst_bucks);
+        mTwystCash = (TextView) v.findViewById(R.id.my_twyst_cash);
         mOkButton = (TextView) v.findViewById(R.id.press_ok_button);
 
         mLlOfferDisplay = (LinearLayout) v.findViewById(R.id.ll_offer);
         mOfferIcon = (ImageView) v.findViewById(R.id.offer_display_icon);
         ll_tvplusview = (LinearLayout) v.findViewById(R.id.ll_tvplusview);
-        mTwystBucksinfo = (LinearLayout) v.findViewById(R.id.twystBucksInfo);
+        mTwystCashinfo = (LinearLayout) v.findViewById(R.id.twystCashInfo);
     }
 
     private void setupView(Offer offer) {
@@ -116,7 +116,7 @@ public class OfferDisplayPagerAdpater extends PagerAdapter {
         String header = offer.getHeader();
         String line1 = offer.getLine1();
         String line2 = offer.getLine2();
-        int twystBucks = offer.getOfferCost();
+        int twystCash = offer.getOfferCost();
 
         // Set header & lines
         mHeader.setText(header);
@@ -126,11 +126,11 @@ public class OfferDisplayPagerAdpater extends PagerAdapter {
         } else
             ll_tvplusview.setVisibility(View.INVISIBLE);
 
-        // Twyst bucks
-        if ((typeOffer.equals(OFFER_TYPE)) && (twystBucks != 0)) {
-            mTwystBucks.setText(" " + String.valueOf(twystBucks) + " ");
+        // Twyst cash
+        if ((typeOffer.equals(OFFER_TYPE)) && (twystCash != 0)) {
+            mTwystCash.setText(" " + String.valueOf(twystCash) + " ");
         } else {
-            mTwystBucksinfo.setVisibility(View.INVISIBLE);
+            mTwystCashinfo.setVisibility(View.INVISIBLE);
         }
 
         // Offer Icon

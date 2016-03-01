@@ -410,7 +410,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
                 fetchingOutlets = false;
 
                 fetchedOutlets = arrayListBaseResponse.getData().getOutlets();
-                String twystBucks = arrayListBaseResponse.getData().getTwystBucks();
+                String twystCash = arrayListBaseResponse.getData().getTwystCash();
 
                 if (fetchedOutlets != null) {
                     if (fetchedOutlets.isEmpty()) {

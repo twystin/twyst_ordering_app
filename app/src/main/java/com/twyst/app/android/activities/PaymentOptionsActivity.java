@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -272,7 +271,7 @@ public class PaymentOptionsActivity extends BaseActionActivity {
                     cashbackpercent_str = String.format("%.1f%%", cashbackpercent);
                 }
                 pdholder.cashBackPercent.setText(cashbackpercent_str);
-                pdholder.cashBackAmount.setText(String.format("(%d Twyst Bucks)", mPaymentDataList.get(position).getCashBackAmount()));
+                pdholder.cashBackAmount.setText(String.format("(%d Twyst Cash)", mPaymentDataList.get(position).getCashBackAmount()));
             }
             return row;
         }

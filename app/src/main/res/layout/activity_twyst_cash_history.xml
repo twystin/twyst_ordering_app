@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.twyst.app.android.activities.TwystBucksHistoryActivity">
+    tools:context=".activities.TwystCashHistoryActivity">
 
     <include
         android:id="@+id/toolbar"
@@ -26,31 +26,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:text="@string/my_twyst_bucks_balance"
-            android:textSize="@dimen/bucks_text_huge" />
+            android:text="@string/my_twyst_cash_balance"
+            android:textSize="@dimen/twyst_cash_text_huge" />
 
         <ImageView
-            android:id="@+id/iv_twyst_bucks_icon"
+            android:id="@+id/iv_twyst_cash_icon"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_below="@+id/tv_header"
             android:layout_marginBottom="2dp"
-            android:src="@drawable/twystbucksicon" />
+            android:src="@drawable/twyst_cash_icon" />
 
         <TextView
-            android:id="@+id/tv_bucks_amount"
+            android:id="@+id/tv_cash_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_twyst_bucks_icon"
+            android:layout_below="@+id/iv_twyst_cash_icon"
             android:layout_marginBottom="4dp"
             android:text="435"
-            android:textSize="@dimen/bucks_text_huge" />
+            android:textSize="@dimen/twyst_cash_text_huge" />
 
         <FrameLayout
             android:id="@+id/button_earn_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_bucks_amount"
+            android:layout_below="@id/tv_cash_amount"
             android:background="@drawable/button_primary"
             android:clickable="true">
 
@@ -65,7 +65,7 @@
                 android:text="@string/earn_more"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/bucks_text_huge" />
+                android:textSize="@dimen/twyst_cash_text_huge" />
         </FrameLayout>
 
     </LinearLayout>
@@ -79,7 +79,7 @@
         android:src="@drawable/strip_white" />
 
     <android.support.design.widget.TabLayout
-        android:id="@+id/tabs_my_twyst_bucks"
+        android:id="@+id/tabs_my_twyst_cash"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/strip"
@@ -92,10 +92,10 @@
         app:tabTextColor="@android:color/black" />
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/pager_my_twyst_bucks"
+        android:id="@+id/pager_my_twyst_cash"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/tabs_my_twyst_bucks">
+        android:layout_below="@id/tabs_my_twyst_cash">
 
 
     </android.support.v4.view.ViewPager>

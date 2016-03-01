@@ -61,12 +61,12 @@ public class ScrollingOffersAdapter extends PagerAdapter {
         TextView tvLine12 = (TextView) itemView.findViewById(R.id.tv_line12);
         tvLine12.setText(line12);
 
-        TextView twystBucksTextView = (TextView) itemView.findViewById(R.id.twyst_bucks_textView);
-        int twystBucks = mOffersList.get(position).getOfferCost();
-        if (twystBucks == 0) {
-            itemView.findViewById(R.id.bucks_layout).setVisibility(View.GONE);
+        TextView twystCashTextView = (TextView) itemView.findViewById(R.id.twyst_cash_textView);
+        int twystCash = mOffersList.get(position).getOfferCost();
+        if (twystCash == 0) {
+            itemView.findViewById(R.id.cash_layout).setVisibility(View.GONE);
         } else {
-            twystBucksTextView.setText(String.valueOf(twystBucks));
+            twystCashTextView.setText(String.valueOf(twystCash));
         }
 
         ImageView mOfferIcon = (ImageView) itemView.findViewById(R.id.imageViewOffer);

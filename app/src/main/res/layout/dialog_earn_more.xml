@@ -10,7 +10,7 @@
         android:background="#323232"
         android:gravity="center_vertical"
         android:padding="16dp"
-        android:text="Earn Twyst Bucks"
+        android:text="Earn Twyst Cash"
         android:textColor="@android:color/white"
         android:textSize="16dp" />
 

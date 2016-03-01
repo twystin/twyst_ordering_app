@@ -7,15 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.FoodVouchersAdapter;
 import com.twyst.app.android.model.BaseResponse;
-import com.twyst.app.android.model.OrderTrackingState;
 import com.twyst.app.android.offer.FoodOffer;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;

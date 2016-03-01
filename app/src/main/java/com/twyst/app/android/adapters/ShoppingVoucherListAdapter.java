@@ -49,12 +49,11 @@ public class ShoppingVoucherListAdapter extends RecyclerView.Adapter<ShoppingVou
 
     /*
         1. Set On click Listener
-        2. Display only Usable items by checking twyst bucks cash (display faded.)
+        2. Display only Usable items by checking twyst cash (display faded.)
         3. Bind all widgets.
      */
     @Override
     public void onBindViewHolder(final ShoppingVoucherListAdapter.ViewHolder holder, final int position) {
-
 
         // Bind all widgets
         Picasso picasso = Picasso.with(mContext);
@@ -91,8 +90,8 @@ public class ShoppingVoucherListAdapter extends RecyclerView.Adapter<ShoppingVou
             holder.freeText.setVisibility(View.INVISIBLE);
         }
 
-        int twystBucksAmount = Integer.MAX_VALUE; //TODO -- from where do we get twsytBucksAmnt
-        if (twystBucksAmount < Integer.parseInt(mOffers.get(position).getOffer_cost())) {
+        int twystCashAmount = Integer.MAX_VALUE; //TODO -- from where do we get twsytCashAmnt
+        if (twystCashAmount < Integer.parseInt(mOffers.get(position).getOffer_cost())) {
             holder.itemView.setAlpha(0.5f);
             holder.itemView.setOnTouchListener(new View.OnTouchListener() {
                 @Override

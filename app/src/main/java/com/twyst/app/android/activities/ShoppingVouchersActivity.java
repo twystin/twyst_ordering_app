@@ -9,7 +9,6 @@ import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.ShoppingVouchersAdapter;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.Cashback;
-import com.twyst.app.android.model.CashbackOffers;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.TwystProgressHUD;
 

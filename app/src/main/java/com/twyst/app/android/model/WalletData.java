@@ -13,15 +13,15 @@ public class WalletData implements Serializable{
     @SerializedName("coupons")
     private ArrayList<Outlet> outlets = new ArrayList<>();
 
-    @SerializedName("twyst_bucks")
-    private String twystBucks;
+    @SerializedName("twyst_cash")
+    private String twystCash;
 
-    public String getTwystBucks() {
-        return twystBucks;
+    public String getTwystCash() {
+        return twystCash;
     }
 
-    public void setTwystBucks(String twystBucks) {
-        this.twystBucks = twystBucks;
+    public void setTwystCash(String twystCash) {
+        this.twystCash = twystCash;
     }
 
     public ArrayList<Outlet> getOutlets() {

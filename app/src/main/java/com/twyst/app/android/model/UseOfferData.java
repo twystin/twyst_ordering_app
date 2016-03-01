@@ -9,18 +9,18 @@ import java.io.Serializable;
  */
 public class UseOfferData implements Serializable{
 
-    @SerializedName("twyst_bucks")
-    private String bucks;
+    @SerializedName("twyst_cash")
+    private String twystCash;
 
     @SerializedName("code")
     private String code;
 
-    public String getBucks() {
-        return bucks;
+    public String getTwystCash() {
+        return twystCash;
     }
 
-    public void setBucks(String bucks) {
-        this.bucks = bucks;
+    public void setTwystCash(String twystCash) {
+        this.twystCash = twystCash;
     }
 
     public String getCode() {

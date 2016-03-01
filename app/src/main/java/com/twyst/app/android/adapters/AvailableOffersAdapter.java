@@ -76,7 +76,7 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
             });
         }
 
-        offerAvailableHolder.tvBucksCount.setText(String.valueOf(offerOrder.getOfferCost()));
+        offerAvailableHolder.tvCashCount.setText(String.valueOf(offerOrder.getOfferCost()));
         offerAvailableHolder.tvHeader.setText(offerOrder.getHeader());
         String offerDesc;
 
@@ -142,22 +142,22 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
         ImageView ivChecked;
         TextView tvHeader;
         TextView tvLine12;
-        TextView tvBucksCount;
+        TextView tvCashCount;
         TextView tvSaveLabel;
         TextView tvSave;
         View divider;
-        LinearLayout llBucks;
+        LinearLayout llTwystCash;
 
         public OfferAvailableHolder(View itemView) {
             super(itemView);
             this.ivChecked = (ImageView) itemView.findViewById(R.id.ivChecked);
             this.tvHeader = (TextView) itemView.findViewById(R.id.tvHeader);
             this.tvLine12 = (TextView) itemView.findViewById(R.id.tvLine12);
-            this.tvBucksCount = (TextView) itemView.findViewById(R.id.tvBucksCount);
+            this.tvCashCount = (TextView) itemView.findViewById(R.id.tvCashCount);
             this.tvSaveLabel = (TextView) itemView.findViewById(R.id.save_label);
             this.tvSave = (TextView) itemView.findViewById(R.id.tvSave);
             this.divider = (View) itemView.findViewById(R.id.divider);
-            this.llBucks = (LinearLayout) itemView.findViewById(R.id.llBucks);
+            this.llTwystCash = (LinearLayout) itemView.findViewById(R.id.llTwystCash);
         }
     }
 

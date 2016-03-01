@@ -41,9 +41,9 @@ public class InviteFriendsActivity extends BaseActionActivity {
         setupToolBar();
 
         final SharedPreferences prefs = this.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        int bucksTDisplay = prefs.getInt(AppConstants.PREFERENCE_TWYST_BUCKS_INVITE_FRIENDS, AppConstants.TWYST_BUCKS_INVITE_FRIENDS);
+        int twystCashToDisplay = prefs.getInt(AppConstants.PREFERENCE_TWYST_CASH_INVITE_FRIENDS, AppConstants.TWYST_CASH_INVITE_FRIENDS);
         String inviteText = this.getResources().getString(R.string.invite_friends_text);
-        String inviteTextFormatted = String.format(inviteText, bucksTDisplay);
+        String inviteTextFormatted = String.format(inviteText, twystCashToDisplay);
         TextView textView1 = (TextView) findViewById(R.id.textView1);
         textView1.setText(inviteTextFormatted);
 
@@ -85,8 +85,8 @@ public class InviteFriendsActivity extends BaseActionActivity {
                 SharedPreferences prefs = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
                 String phone = prefs.getString(AppConstants.PREFERENCE_USER_PHONE, "");
                 String referral = "promotion%3Dappinvite%26code%3D" + phone;
-                String text = "Hey! I wanted to tell you about Twyst - a great app that shows you the best offers and deals on food and drink at places around you. I found it super useful and I think you will too! Download it using the link below and get 500 Twyst Bucks when you start - https://play.google.com/store/apps/details?id=" + getApplication().getPackageName() + "&referrer=" + referral;
-//                String text = "Hey! I wanted to tell you about Twyst - a great app that shows you the best offers and deals on food and drink at places around you. I found it super useful and I think you will too! Download it using the link below and get 500 Twyst Bucks when you start - https://play.google.com/store/apps/details?id="+getApplication().getPackageName()+"&ah=-smMDxRK7pmXEK32N7mSNcbZ2ZM&referrer="+referral;
+                String text = "Hey! I wanted to tell you about Twyst - a great app that shows you the best offers and deals on food and drink at places around you. I found it super useful and I think you will too! Download it using the link below and get 500 Twyst Cash when you start - https://play.google.com/store/apps/details?id=" + getApplication().getPackageName() + "&referrer=" + referral;
+//                String text = "Hey! I wanted to tell you about Twyst - a great app that shows you the best offers and deals on food and drink at places around you. I found it super useful and I think you will too! Download it using the link below and get 500 Twyst Cash when you start - https://play.google.com/store/apps/details?id="+getApplication().getPackageName()+"&ah=-smMDxRK7pmXEK32N7mSNcbZ2ZM&referrer="+referral;
 
                 showShareIntents("Invite using", text);
             }

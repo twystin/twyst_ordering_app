@@ -262,8 +262,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activities.TwystBucksHistoryActivity"
-            android:label="@string/title_activity_twyst_bucks_history"
+            android:name=".activities.TwystCashHistoryActivity"
+            android:label="@string/title_activity_twyst_cash_history"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 

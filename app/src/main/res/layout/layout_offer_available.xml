@@ -52,7 +52,7 @@
                 android:textSize="@dimen/offer_available_desc_text" />
 
             <LinearLayout
-                android:id="@+id/llBucks"
+                android:id="@+id/llTwystCash"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -67,10 +67,10 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="2dp"
                     android:gravity="center"
-                    android:src='@drawable/twystbucksicon' />
+                    android:src="@drawable/twyst_cash_icon" />
 
                 <TextView
-                    android:id="@+id/tvBucksCount"
+                    android:id="@+id/tvCashCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="center"
-                    android:text="Twyst Bucks"
+                    android:text="Twyst Cash"
                     android:textColor="@color/semi_black"
                     android:textSize="@dimen/offer_available_desc_text" />
             </LinearLayout>

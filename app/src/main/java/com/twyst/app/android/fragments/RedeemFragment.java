@@ -1,8 +1,6 @@
 package com.twyst.app.android.fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -11,26 +9,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.common.primitives.Ints;
 import com.twyst.app.android.CirclePageIndicator;
 import com.twyst.app.android.R;
-import com.twyst.app.android.activities.MainActivity;
-import com.twyst.app.android.activities.TwystBucksHistoryActivity;
+import com.twyst.app.android.activities.TwystCashHistoryActivity;
 import com.twyst.app.android.adapters.ImagePagerAdapter;
 import com.twyst.app.android.adapters.RedeemRVAdapter;
-import com.twyst.app.android.model.BaseResponse;
-import com.twyst.app.android.service.HttpService;
-import com.twyst.app.android.util.AppConstants;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -74,11 +64,11 @@ public class RedeemFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.redeem_fragment, null);
 
-        view.findViewById(R.id.ll_twyst_bucks_launcher).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.ll_twyst_cash_launcher).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent twystBucksIntent = new Intent(view.getContext(), TwystBucksHistoryActivity.class);
-                view.getContext().startActivity(twystBucksIntent);
+                Intent twystCashIntent = new Intent(view.getContext(), TwystCashHistoryActivity.class);
+                view.getContext().startActivity(twystCashIntent);
             }
         });
 

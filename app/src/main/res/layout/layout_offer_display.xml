@@ -67,7 +67,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/twystBucksInfo"
+            android:id="@+id/twystCashInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -78,10 +78,10 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_gravity="center"
-                android:src="@drawable/twystbucksicon" />
+                android:src="@drawable/twyst_cash_icon" />
 
             <TextView
-                android:id="@+id/my_twyst_bucks"
+                android:id="@+id/my_twyst_cash"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -92,7 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Twyst Bucks" />
+                android:text="Twyst Cash" />
         </LinearLayout>
 
         <TextView

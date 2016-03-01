@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class CheckInSuccessData implements Serializable {
 
-    private Double twyst_bucks;
+    private Double twystCash;
     private String outlet_name;
     private String outlet_id;
     private String code;
@@ -48,12 +48,12 @@ public class CheckInSuccessData implements Serializable {
         this.outlet_id = outlet_id;
     }
 
-    public Double getTwyst_bucks() {
-        return twyst_bucks;
+    public Double getTwystCash() {
+        return twystCash;
     }
 
-    public void setTwyst_bucks(Double twyst_bucks) {
-        this.twyst_bucks = twyst_bucks;
+    public void setTwystCash(Double twystCash) {
+        this.twystCash = twystCash;
     }
 
     public String getCode() {

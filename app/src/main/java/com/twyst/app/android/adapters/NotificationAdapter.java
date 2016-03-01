@@ -175,7 +175,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         } else if (notificationData.getIcon().equalsIgnoreCase(resources.getString(R.string.icon_grab_offer))) {
             background.setColor(resources.getColor(R.color.notification_yellow));
             holder.notifyCircle.setBackground(background);
-            holder.notificationBtn.setImageDrawable(resources.getDrawable(R.drawable.notification_buck_icon));
+            holder.notificationBtn.setImageDrawable(resources.getDrawable(R.drawable.notification_cash_icon));
 //            holder.itemView.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {
@@ -196,7 +196,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         } else if (notificationData.getIcon().equalsIgnoreCase(resources.getString(R.string.icon_coupon_grabbed))) {
             background.setColor(resources.getColor(R.color.notification_light_gray));
             holder.notifyCircle.setBackground(background);
-            holder.notificationBtn.setImageDrawable(resources.getDrawable(R.drawable.notification_buck_icon));
+            holder.notificationBtn.setImageDrawable(resources.getDrawable(R.drawable.notification_cash_icon));
 
         } else if (notificationData.getIcon().equalsIgnoreCase(resources.getString(R.string.icon_birthday))) {
             background.setColor(resources.getColor(R.color.notification_pink));

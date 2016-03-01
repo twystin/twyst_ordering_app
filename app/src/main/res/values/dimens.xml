@@ -33,8 +33,8 @@
     <dimen name="outlet_details_coupon_margin_right">15dp</dimen>
     <dimen name="outlet_details_coupon_margin_top">10dp</dimen>
 
-    <dimen name="wallet_bucks_header_text">15dp</dimen>
-    <dimen name="wallet_bucks_text">13dp</dimen>
+    <dimen name="wallet_twyst_cash_header_text">15dp</dimen>
+    <dimen name="wallet_twyst_cash_text">13dp</dimen>
 
     <!--<added by anshul>-->
     <dimen name="layout_huge_text_size">16dp</dimen>

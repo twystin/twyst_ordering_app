@@ -61,9 +61,9 @@ public class FetchOutletsTask {
             @Override
             public void success(BaseResponse<DiscoverData> arrayListBaseResponse, Response response) {
                 ArrayList<Outlet> outlets = arrayListBaseResponse.getData().getOutlets();
-                String twystBucks = arrayListBaseResponse.getData().getTwystBucks();
-                if (!TextUtils.isEmpty(twystBucks)) {
-                    prefs.edit().putInt(AppConstants.PREFERENCE_LAST_TWYST_BUCK, Integer.parseInt(twystBucks)).apply();
+                String twystCash = arrayListBaseResponse.getData().getTwystCash();
+                if (!TextUtils.isEmpty(twystCash)) {
+                    prefs.edit().putInt(AppConstants.PREFERENCE_LAST_TWYST_CASH, Integer.parseInt(twystCash)).apply();
                 }
                 prefs.edit().putString(AppConstants.PREFERENCE_CHECK_FIRST_LAUNCH, "Yes").apply();
                 onSuccess(outlets);

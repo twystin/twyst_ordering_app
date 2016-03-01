@@ -2,7 +2,6 @@ package com.twyst.app.android.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -14,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.twyst.app.android.R;
 import com.twyst.app.android.activities.OrderOnlineActivity;
@@ -207,9 +205,9 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
 
         if (Double.parseDouble(maxCashBack) < 10 && !maxCashBack.contains(".")) {
-            outletViewHolder.twystBucksPercentage.setText(" " + maxCashBack + "%");
+            outletViewHolder.twystCashPercentage.setText(" " + maxCashBack + "%");
         } else {
-            outletViewHolder.twystBucksPercentage.setText(maxCashBack + "%");
+            outletViewHolder.twystCashPercentage.setText(maxCashBack + "%");
         }
 
         Picasso picasso = Picasso.with(view.getContext());
@@ -246,7 +244,7 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         TextView cuisinesNames;
         TextView deliveryTime;
         TextView minimumOrder;
-        TextView twystBucksPercentage;
+        TextView twystCashPercentage;
         TextView noOfOffers;
         TextView deliveryExperience;
         ImageView ivStar;
@@ -258,7 +256,7 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             deliveryTime = (TextView) itemView.findViewById(R.id.delivery_time);
             cuisinesNames = (TextView) itemView.findViewById(R.id.cuisines_names);
             minimumOrder = (TextView) itemView.findViewById(R.id.min_order);
-            twystBucksPercentage = (TextView) itemView.findViewById(R.id.tv_twyst_bucks_percentage);
+            twystCashPercentage = (TextView) itemView.findViewById(R.id.tv_twyst_cash_percentage);
             noOfOffers = (TextView) itemView.findViewById(R.id.no_of_offers);
             deliveryExperience = (TextView) itemView.findViewById(R.id.tvDeliveryExperience);
             ivStar = (ImageView) itemView.findViewById(R.id.iv_star);

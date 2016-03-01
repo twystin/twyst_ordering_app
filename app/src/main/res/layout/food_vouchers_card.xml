@@ -81,7 +81,7 @@
                         android:layout_gravity="center"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
-                        android:background="@drawable/twystbucksicon" />
+                        android:background="@drawable/twyst_cash_icon" />
 
                     <TextView
                         android:id="@+id/tv_offer_cost"
@@ -95,7 +95,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Twyst Bucks"
+                        android:text="Twyst Cash"
                         android:textColor="@android:color/black"
                         android:textSize="12dp" />
                 </LinearLayout>

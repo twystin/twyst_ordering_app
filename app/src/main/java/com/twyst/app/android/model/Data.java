@@ -11,14 +11,14 @@ public class Data implements Serializable {
 
     private int __v;
 
-    private int twyst_bucks;
+    private int twystCash;
 
-    public int getTwyst_bucks() {
-        return twyst_bucks;
+    public int getTwystCash() {
+        return twystCash;
     }
 
-    public void setTwyst_bucks(int twyst_bucks) {
-        this.twyst_bucks = twyst_bucks;
+    public void setTwystCash(int twystCash) {
+        this.twystCash = twystCash;
     }
 
     public String get_id() {

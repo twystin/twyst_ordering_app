@@ -13,8 +13,8 @@ public class DiscoverData implements Serializable{
     @SerializedName("outlets")
     private ArrayList<Outlet> outlets;
 
-    @SerializedName("twyst_bucks")
-    private String twystBucks;
+    @SerializedName("twyst_cash")
+    private String twystCash;
 
     public ArrayList<Outlet> getOutlets() {
         return outlets;
@@ -24,11 +24,11 @@ public class DiscoverData implements Serializable{
         this.outlets = outlets;
     }
 
-    public String getTwystBucks() {
-        return twystBucks;
+    public String getTwystCash() {
+        return twystCash;
     }
 
-    public void setTwystBucks(String twystBucks) {
-        this.twystBucks = twystBucks;
+    public void setTwystCash(String twystCash) {
+        this.twystCash = twystCash;
     }
 }

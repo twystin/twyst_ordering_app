@@ -3,7 +3,6 @@ package com.twyst.app.android.service;
 import com.twyst.app.android.model.AuthToken;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.Cashback;
-import com.twyst.app.android.model.CashbackOffers;
 import com.twyst.app.android.model.CheckinData;
 import com.twyst.app.android.model.Data;
 import com.twyst.app.android.model.DiscoverData;

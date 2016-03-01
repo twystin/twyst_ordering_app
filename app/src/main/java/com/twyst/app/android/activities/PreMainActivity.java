@@ -1643,21 +1643,21 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             Double LOCATION_OFFLINE_LIST_MAX_SIZE = (mContainerHolder.getContainer().getDouble(AppConstants.PREFERENCE_LOCATION_OFFLINE_LIST_MAX_SIZE));
 
             //Earn-burn values update
-            Double TWYST_BUCKS_INVITE_FRIENDS = (mContainerHolder.getContainer().getDouble("invite_friends"));
-            Double TWYST_BUCKS_FOLLOW = (mContainerHolder.getContainer().getDouble("follow"));
-            Double TWYST_BUCKS_LIKE_OFFER = (mContainerHolder.getContainer().getDouble("like_offer"));
-            Double TWYST_BUCKS_CHECKIN_OUTLET_NON_PAYING = (mContainerHolder.getContainer().getDouble("checkin"));
-            Double TWYST_BUCKS_CHECKIN_OUTLET_PAYING = (mContainerHolder.getContainer().getDouble("checkin_is_paying"));
-            Double TWYST_BUCKS_SUBMIT_OFFER = (mContainerHolder.getContainer().getDouble("submit_offer"));
-            Double TWYST_BUCKS_SHARE_OFFER = (mContainerHolder.getContainer().getDouble("share_offer"));
-            Double TWYST_BUCKS_SHARE_OUTLET = (mContainerHolder.getContainer().getDouble("share_outlet"));
-            Double TWYST_BUCKS_SUGGESTION = (mContainerHolder.getContainer().getDouble("suggestion"));
-            Double TWYST_BUCKS_SHARE_CHECKIN = (mContainerHolder.getContainer().getDouble("share_checkin"));
-            Double TWYST_BUCKS_SHARE_REDEMPTION = (mContainerHolder.getContainer().getDouble("share_redemption"));
-            Double TWYST_BUCKS_GRAB = (mContainerHolder.getContainer().getDouble("grab"));
-            Double TWYST_BUCKS_EXTEND = (mContainerHolder.getContainer().getDouble("extend"));
-            Double TWYST_BUCKS_REDEEM = (mContainerHolder.getContainer().getDouble("redeem"));
-            Double TWYST_BUCKS_BUY_CHECKIN = (mContainerHolder.getContainer().getDouble("buy_checkin"));
+            Double TWYST_CASH_INVITE_FRIENDS = (mContainerHolder.getContainer().getDouble("invite_friends"));
+            Double TWYST_CASH_FOLLOW = (mContainerHolder.getContainer().getDouble("follow"));
+            Double TWYST_CASH_LIKE_OFFER = (mContainerHolder.getContainer().getDouble("like_offer"));
+            Double TWYST_CASH_CHECKIN_OUTLET_NON_PAYING = (mContainerHolder.getContainer().getDouble("checkin"));
+            Double TWYST_CASH_CHECKIN_OUTLET_PAYING = (mContainerHolder.getContainer().getDouble("checkin_is_paying"));
+            Double TWYST_CASH_SUBMIT_OFFER = (mContainerHolder.getContainer().getDouble("submit_offer"));
+            Double TWYST_CASH_SHARE_OFFER = (mContainerHolder.getContainer().getDouble("share_offer"));
+            Double TWYST_CASH_SHARE_OUTLET = (mContainerHolder.getContainer().getDouble("share_outlet"));
+            Double TWYST_CASH_SUGGESTION = (mContainerHolder.getContainer().getDouble("suggestion"));
+            Double TWYST_CASH_SHARE_CHECKIN = (mContainerHolder.getContainer().getDouble("share_checkin"));
+            Double TWYST_CASH_SHARE_REDEMPTION = (mContainerHolder.getContainer().getDouble("share_redemption"));
+            Double TWYST_CASH_GRAB = (mContainerHolder.getContainer().getDouble("grab"));
+            Double TWYST_CASH_EXTEND = (mContainerHolder.getContainer().getDouble("extend"));
+            Double TWYST_CASH_REDEEM = (mContainerHolder.getContainer().getDouble("redeem"));
+            Double TWYST_CASH_BUY_CHECKIN = (mContainerHolder.getContainer().getDouble("buy_checkin"));
 
             final SharedPreferences.Editor prefsEdit = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).edit();
             prefsEdit.putInt((AppConstants.PREFERENCE_USER_ONE_LOCATION_CHECK_TIME), USER_ONE_LOCATION_CHECK_TIME.intValue());
@@ -1667,21 +1667,21 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             prefsEdit.putInt((AppConstants.PREFERENCE_LOCATION_REQUEST_PRIORITY), LOCATION_REQUEST_PRIORITY.intValue());
             prefsEdit.putInt((AppConstants.PREFERENCE_LOCATION_OFFLINE_LIST_MAX_SIZE), LOCATION_OFFLINE_LIST_MAX_SIZE.intValue());
 
-            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_INVITE_FRIENDS), TWYST_BUCKS_INVITE_FRIENDS.intValue());
-            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_FOLLOW), TWYST_BUCKS_FOLLOW.intValue());
-            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_LIKE_OFFER), TWYST_BUCKS_LIKE_OFFER.intValue());
-            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_CHECKIN_OUTLET_NON_PAYING), TWYST_BUCKS_CHECKIN_OUTLET_NON_PAYING.intValue());
-            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_CHECKIN_OUTLET_PAYING), TWYST_BUCKS_CHECKIN_OUTLET_PAYING.intValue());
-            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_SUBMIT_OFFER), TWYST_BUCKS_SUBMIT_OFFER.intValue());
-            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_SHARE_OFFER), TWYST_BUCKS_SHARE_OFFER.intValue());
-            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_SHARE_OUTLET), TWYST_BUCKS_SHARE_OUTLET.intValue());
-            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_SUGGESTION), TWYST_BUCKS_SUGGESTION.intValue());
-            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_SHARE_CHECKIN), TWYST_BUCKS_SHARE_CHECKIN.intValue());
-            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_SHARE_REDEMPTION), TWYST_BUCKS_SHARE_REDEMPTION.intValue());
-            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_GRAB), TWYST_BUCKS_GRAB.intValue());
-            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_EXTEND), TWYST_BUCKS_EXTEND.intValue());
-            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_REDEEM), TWYST_BUCKS_REDEEM.intValue());
-            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_BUCKS_BUY_CHECKIN), TWYST_BUCKS_BUY_CHECKIN.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_CASH_INVITE_FRIENDS), TWYST_CASH_INVITE_FRIENDS.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_CASH_FOLLOW), TWYST_CASH_FOLLOW.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_CASH_LIKE_OFFER), TWYST_CASH_LIKE_OFFER.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_CASH_CHECKIN_OUTLET_NON_PAYING), TWYST_CASH_CHECKIN_OUTLET_NON_PAYING.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_CASH_CHECKIN_OUTLET_PAYING), TWYST_CASH_CHECKIN_OUTLET_PAYING.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_CASH_SUBMIT_OFFER), TWYST_CASH_SUBMIT_OFFER.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_CASH_SHARE_OFFER), TWYST_CASH_SHARE_OFFER.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_CASH_SHARE_OUTLET), TWYST_CASH_SHARE_OUTLET.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_CASH_SUGGESTION), TWYST_CASH_SUGGESTION.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_CASH_SHARE_CHECKIN), TWYST_CASH_SHARE_CHECKIN.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_CASH_SHARE_REDEMPTION), TWYST_CASH_SHARE_REDEMPTION.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_CASH_GRAB), TWYST_CASH_GRAB.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_CASH_EXTEND), TWYST_CASH_EXTEND.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_CASH_REDEEM), TWYST_CASH_REDEEM.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_CASH_BUY_CHECKIN), TWYST_CASH_BUY_CHECKIN.intValue());
 
             prefsEdit.apply();
         }

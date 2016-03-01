@@ -8,25 +8,25 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
-import com.twyst.app.android.activities.TwystBucksHistoryActivity;
+import com.twyst.app.android.activities.TwystCashHistoryActivity;
 
 import java.util.ArrayList;
 
 /**
  * Created by Raman on 2/4/2016.
  */
-public class BucksRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CashRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context mContext;
-    ArrayList<TwystBucksHistoryActivity.BucksHistory> mList;
+    ArrayList<TwystCashHistoryActivity.CashHistory> mList;
 
-    public BucksRowAdapter(Context mContext, ArrayList<TwystBucksHistoryActivity.BucksHistory> mList) {
+    public CashRowAdapter(Context mContext, ArrayList<TwystCashHistoryActivity.CashHistory> mList) {
         this.mContext = mContext;
         this.mList = mList;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_bucks_row, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_cash_row, parent, false);
         RowsViewHolder vh = new RowsViewHolder(v);
         return vh;
     }

@@ -1,7 +1,6 @@
 package com.twyst.app.android.activities;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -21,7 +20,6 @@ import com.twyst.app.android.model.CashbackOffers;
 import com.twyst.app.android.model.ShoppingVoucher;
 import com.twyst.app.android.model.ShoppingVoucherResponse;
 import com.twyst.app.android.model.VerifMailResonse;
-import com.twyst.app.android.model.Voucher;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
@@ -96,21 +94,21 @@ public class VoucherDetailsActivity extends BaseActionActivity {
             ((LinearLayout) findViewById(R.id.ll_minBillValRow)).setVisibility(View.GONE);
         }
 
-        // Load the Cost (Twyst Bucks)
-        final TextView twystBucksCost = (TextView) findViewById(R.id.tv_twystBucksFee);
-        twystBucksCost.getViewTreeObserver()
+        // Load the Cost (Twyst Cash)
+        final TextView twystCashCost = (TextView) findViewById(R.id.tv_twystCashFee);
+        twystCashCost.getViewTreeObserver()
                 .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        Drawable img = getDrawable(R.drawable.twystbucksicon);
-                        int height = twystBucksCost.getMeasuredHeight() * 2 / 3;
+                        Drawable img = getDrawable(R.drawable.twyst_cash_icon);
+                        int height = twystCashCost.getMeasuredHeight() * 2 / 3;
                         img.setBounds(0, 0, height, height);
-                        twystBucksCost.setCompoundDrawables(img, null, null, null);
-                        twystBucksCost.getViewTreeObserver()
+                        twystCashCost.setCompoundDrawables(img, null, null, null);
+                        twystCashCost.getViewTreeObserver()
                                 .removeOnGlobalLayoutListener(this);
                     }
                 });
-        twystBucksCost.setText(String.format("%s Twyst Bucks", offer.getOffer_cost()));
+        twystCashCost.setText(String.format("%s Twyst Cash", offer.getOffer_cost()));
 
         // Load the handling fee
         TextView handlingFee = (TextView) findViewById(R.id.tv_handlingFee);
@@ -153,12 +151,12 @@ public class VoucherDetailsActivity extends BaseActionActivity {
             }
         });
 
-        // Launch twystbucks history activity
-        (findViewById(R.id.ll_twyst_bucks_launcher)).setOnClickListener(new View.OnClickListener() {
+        // Launch twyst cash history activity
+        (findViewById(R.id.ll_twyst_cash_launcher)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent twystBucksIntent = new Intent(VoucherDetailsActivity.this, TwystBucksHistoryActivity.class);
-                startActivity(twystBucksIntent);
+                Intent twystCashIntent = new Intent(VoucherDetailsActivity.this, TwystCashHistoryActivity.class);
+                startActivity(twystCashIntent);
             }
         });
     }

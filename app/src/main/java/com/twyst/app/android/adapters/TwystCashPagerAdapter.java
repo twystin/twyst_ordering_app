@@ -5,18 +5,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.twyst.app.android.fragments.AllBucksFragment;
-import com.twyst.app.android.fragments.CreditBucksFragment;
-import com.twyst.app.android.fragments.DebitBucksFragment;
+import com.twyst.app.android.fragments.AllTwystCashFragment;
+import com.twyst.app.android.fragments.CreditTwystCashFragment;
+import com.twyst.app.android.fragments.DebitTwystCashFragment;
 
 /**
  * Created by Raman on 2/3/2016.
  */
-public class BucksPagerAdapter extends FragmentPagerAdapter {
+public class TwystCashPagerAdapter extends FragmentPagerAdapter {
     private int mTabCount;
     private Context mContext;
 
-    public BucksPagerAdapter(int tabCount, FragmentManager fm, Context context) {
+    public TwystCashPagerAdapter(int tabCount, FragmentManager fm, Context context) {
         super(fm);
         mContext = context;
         mTabCount = tabCount;
@@ -26,11 +26,11 @@ public class BucksPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new AllBucksFragment();
+                return new AllTwystCashFragment();
             case 1:
-                return new CreditBucksFragment();
+                return new CreditTwystCashFragment();
             case 2:
-                return new DebitBucksFragment();
+                return new DebitTwystCashFragment();
             default:
                 return null;
         }
