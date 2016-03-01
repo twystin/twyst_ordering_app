@@ -17,7 +17,9 @@ import com.twyst.app.android.model.Outlet;
 import com.twyst.app.android.offer.FoodOffer;
 import com.twyst.app.android.util.AppConstants;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Raman on 2/3/2016.
@@ -25,9 +27,10 @@ import java.util.ArrayList;
 public class FoodVouchersAdapter extends RecyclerView.Adapter<FoodVouchersAdapter.ViewHolder> {
     ArrayList<FoodOffer> mFoodOffersList;
     public final Context mContext;
-    public FoodVouchersAdapter(Context context,ArrayList<FoodOffer> FoodOffersList) {
+
+    public FoodVouchersAdapter(Context context, ArrayList<FoodOffer> FoodOffersList) {
         mContext = context;
-        mFoodOffersList =FoodOffersList;
+        mFoodOffersList = FoodOffersList;
     }
 
     @Override
@@ -41,10 +44,6 @@ public class FoodVouchersAdapter extends RecyclerView.Adapter<FoodVouchersAdapte
     public void onBindViewHolder(FoodVouchersAdapter.ViewHolder holder, int position) {
         final FoodOffer foodOffer = mFoodOffersList.get(position);
         holder.populateData(foodOffer);
-
-
-
-
 
 
         holder.flUseOffer.setOnClickListener(new View.OnClickListener() {
@@ -96,20 +95,26 @@ public class FoodVouchersAdapter extends RecyclerView.Adapter<FoodVouchersAdapte
 
         }
 
-        public void populateData(FoodOffer foodOffer){
+        public void populateData(FoodOffer foodOffer) {
 
             outletNameTV.setText(foodOffer.getOutletHeader().getOutletName());
             headerTV.setText(foodOffer.getHeader() + " " + foodOffer.getHeaderSuffix());
             maxOfferYouCanAwailTV.setText(foodOffer.getMaxOfferAvailalbleDesc());
-            if (foodOffer.getOfferCost() !=0) {
+            if (foodOffer.getOfferCost() != 0) {
                 linlayOfferCost.setVisibility(View.VISIBLE);
                 offerCostTV.setText(String.valueOf(foodOffer.getOfferCost()));
             } else {
                 linlayOfferCost.setVisibility(View.GONE);
             }
-            String[] timeArray = OrderTrackingState.getTimeArray(OrderTrackingState.getFormattedDate(foodOffer.getExpiryDate()));
+            String[] timeArray = getTimeArray(OrderTrackingState.getFormattedDate(foodOffer.getExpiryDate()));
             expiryDateTV.setText(" Valid till " + timeArray[1] + " " + timeArray[2]);
 
+        }
+
+        private String[] getTimeArray(Date date) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd");
+            String formattedDate = dateFormat.format(date).toString();
+            return formattedDate.split("\\s+");
         }
     }
 }

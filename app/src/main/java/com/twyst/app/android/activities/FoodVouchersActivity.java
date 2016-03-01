@@ -38,16 +38,12 @@ public class FoodVouchersActivity extends BaseActionActivity {
 
     private void fetchFoodOffers() {
         HttpService.getInstance().getFoodOffers(UtilMethods.getUserToken(FoodVouchersActivity.this), new Callback<BaseResponse<ArrayList<FoodOffer>>>() {
-//        HttpService.getInstance().getFoodOffers("OG_4ixBTbJNNMNKnIoiCf_i5hn7XE8gF", new Callback<BaseResponse<ArrayList<FoodOffer>>>() {
 
             @Override
             public void success(final BaseResponse<ArrayList<FoodOffer>> foodOffersListBaseResponse, Response response) {
 
                 if (foodOffersListBaseResponse.isResponse()) {
                     foodOffersList = foodOffersListBaseResponse.getData();
-                    FoodOffer foodOffer1 = foodOffersList.get(0);
-                    String[] timeArray = getTimeArray(OrderTrackingState.getFormattedDate(foodOffer1.getExpiryDate()));
-
                     int i = 1;
                     if (foodOffersList != null && foodOffersList.size() > 0) {
                         showFoodVouchers(foodOffersList);
@@ -62,12 +58,6 @@ public class FoodVouchersActivity extends BaseActionActivity {
                 hideProgressBar();
             }
         });
-    }
-
-    private String[] getTimeArray(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd");
-        String formattedDate = dateFormat.format(date).toString();
-        return formattedDate.split("\\s+");
     }
 
     private void showProgressBar() {
