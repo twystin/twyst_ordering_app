@@ -464,7 +464,8 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
 
     private void checkOut() {
         SharedPreferenceSingleton.getInstance().setPassedCartCheckoutStage(true);
-        if (SharedPreferenceSingleton.getInstance().isSkipLocationClicked()) {
+        
+        if (getIntent().getBooleanExtra(AppConstants.INTENT_PARAM_FROM_FOOD_OFFER, false) || SharedPreferenceSingleton.getInstance().isSkipLocationClicked()) {
             Intent addressDetailsIntent = new Intent(OrderOnlineActivity.this, AddressDetailsActivity.class);
             OrderSummary orderSummary = new OrderSummary(mCartAdapter.getmCartItemsList(), mOutletId, mOutlet.getPhone(), null); // location will be set in AddressDetailsActivity
             OrderInfoSingleton.getInstance().setOrderSummary(orderSummary);

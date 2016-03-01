@@ -60,9 +60,10 @@ public class FoodVouchersAdapter extends RecyclerView.Adapter<FoodVouchersAdapte
                 }
                 outlet.setBackground(outletHeader.getBackground());
                 outlet.setLogo(outletHeader.getBackground());
-//              outlet.setPhone(outletHeader.getPhone());
+                outlet.setPhone(outletHeader.getPhone());
                 Intent intent = new Intent(mContext, OrderOnlineActivity.class);
                 intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_OBJECT, outlet);
+                intent.putExtra(AppConstants.INTENT_PARAM_FROM_FOOD_OFFER, true);
                 mContext.startActivity(intent);
             }
         });

@@ -126,6 +126,7 @@ public class AppConstants {
     public static final String INTENT_PARAM_FROM_DRAWER = "from_drawer";
     public static final String INTENT_PARAM_FROM_PUSH_NOTIFICATION_CLICKED = "from_push_notification";
     public static final String INTENT_PARAM_FROM_ORDER_HISTORY = "from_order_history";
+    public static final String INTENT_PARAM_FROM_FOOD_OFFER = "from_food_offer";
     public static final String INTENT_PARAM_SUBMIT_OFFER_OUTLET_NAME = "submit_offer_outlet_name";
     public static final String INTENT_PARAM_SUBMIT_OFFER_OUTLET_ADDRESS = "submit_offer_outlet_address";
     public static final String INTENT_PARAM_SUBMIT_OFFER_OUTLET_ID = "submit_offer_outlet_id";

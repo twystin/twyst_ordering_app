@@ -107,6 +107,8 @@ public class FoodOffer extends Data implements Serializable {
         @SerializedName("logo")
         private String logo;
 
+        private String phone;
+
         public String getOutletLocationLine2() {
             return outletLocationLine2;
         }
@@ -153,6 +155,14 @@ public class FoodOffer extends Data implements Serializable {
 
         public void setLogo(String logo) {
             this.logo = logo;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
         }
     }
 
