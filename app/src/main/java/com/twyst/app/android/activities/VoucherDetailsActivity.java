@@ -39,7 +39,6 @@ public class VoucherDetailsActivity extends BaseActionActivity {
     private boolean tncExpanded = false;
     boolean emailVerified = false;
     boolean emailVerifiedButOtherProblemEncountered = false;
-    boolean isVerifMailSent = false;
     private String messageToDisplay;
 
     @Override
@@ -174,6 +173,7 @@ public class VoucherDetailsActivity extends BaseActionActivity {
                             if (shoppingVoucherResponseBaseResponse.getData().isShowResendOption()) {
                                 emailVerified = false;
                             } else {
+                                emailVerified = true;
                                 emailVerifiedButOtherProblemEncountered = true;
                                 messageToDisplay = shoppingVoucherResponseBaseResponse.getData().getMessage();
                             }
@@ -196,7 +196,7 @@ public class VoucherDetailsActivity extends BaseActionActivity {
 
     private void showMessage() {
         // If email is verified then show happy shopping message.
-        if (emailVerified) {
+        if (emailVerified & !emailVerifiedButOtherProblemEncountered) {
             generateDialogBox("Happy Shopping", getString(R.string.happy_shopping_message));
         } else if (emailVerifiedButOtherProblemEncountered) {
             generateDialogBox("Status", messageToDisplay);
