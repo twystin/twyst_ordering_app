@@ -202,7 +202,6 @@ public interface TwystService {
     @POST("/api/v4/cashback/offers/use")
     public void postCashbackOffer(@Query("token") String token, @Body() ShoppingVoucher offerId, Callback<BaseResponse<ShoppingVoucherResponse>> callback);
 
-    @GET("/api/v4/cashback/offers/use") // TODO - Change this path to correct one
-    public void getResendVerifMail(@Query("token") String token, Callback<BaseResponse<VerifMailResonse>> callback);
-
+    @GET("/api/v4/send/verification/email")
+    public void getResendVerifMail(@Query("token") String token, Callback<BaseResponse> callback);
 }

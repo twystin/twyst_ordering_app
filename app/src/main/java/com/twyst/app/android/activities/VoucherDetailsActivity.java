@@ -11,7 +11,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.twyst.app.android.R;
@@ -19,7 +18,6 @@ import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.CashbackOffers;
 import com.twyst.app.android.model.ShoppingVoucher;
 import com.twyst.app.android.model.ShoppingVoucherResponse;
-import com.twyst.app.android.model.VerifMailResonse;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
@@ -40,8 +38,9 @@ public class VoucherDetailsActivity extends BaseActionActivity {
     private CashbackOffers offer;
     private boolean tncExpanded = false;
     boolean emailVerified = false;
-    boolean verificationMailSentLimitReached = false;
+    boolean emailVerifiedButOtherProblemEncountered = false;
     boolean isVerifMailSent = false;
+    private String messageToDisplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,47 +168,43 @@ public class VoucherDetailsActivity extends BaseActionActivity {
                     @Override
                     public void success(BaseResponse<ShoppingVoucherResponse> shoppingVoucherResponseBaseResponse, Response response) {
                         if (shoppingVoucherResponseBaseResponse.isResponse()) {
-                            emailVerified = (shoppingVoucherResponseBaseResponse.getData()).isEmailVerified();
-                            verificationMailSentLimitReached = (shoppingVoucherResponseBaseResponse.getData()).isEmailVerifiedThresholdReached();
-                            showMessage();
+                            emailVerified = true;
                         } else {
-                            Toast.makeText(VoucherDetailsActivity.this, shoppingVoucherResponseBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                            // from server we get a boolean which indicates whether we need to show resend verification mail dialog box or not.
+                            if (shoppingVoucherResponseBaseResponse.getData().isShowResendOption()) {
+                                emailVerified = false;
+                            } else {
+                                emailVerifiedButOtherProblemEncountered = true;
+                                messageToDisplay = shoppingVoucherResponseBaseResponse.getData().getMessage();
+                            }
                         }
+                        showMessage();
                         twystProgressHUD.dismiss();
                         UtilMethods.hideSnackbar();
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
+//                        Toast.makeText(VoucherDetailsActivity.this, error.getResponse().getReason() + " " + error.getResponse().getStatus() , Toast.LENGTH_SHORT).show();
                         twystProgressHUD.dismiss();
                         UtilMethods.handleRetrofitError(VoucherDetailsActivity.this, error);
                         UtilMethods.hideSnackbar();
                     }
                 }
-
         );
-
     }
 
     private void showMessage() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
+        // If email is verified then show happy shopping message.
         if (emailVerified) {
-            View dialogView = LayoutInflater.from(VoucherDetailsActivity.this).inflate(R.layout.dialog_happy_shopping, null);
-            builder.setView(dialogView);
-            final AlertDialog dialog = builder.create();
-            dialog.setCanceledOnTouchOutside(true);
-            dialog.show();
-            dialog.findViewById(R.id.fOK).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
-        } else if (!verificationMailSentLimitReached) {
+            generateDialogBox("Happy Shopping", getString(R.string.happy_shopping_message));
+        } else if (emailVerifiedButOtherProblemEncountered) {
+            generateDialogBox("Status", messageToDisplay);
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
             View dialogView = LayoutInflater.from(VoucherDetailsActivity.this).inflate(R.layout.dialog_email_not_verified, null);
             String email = HttpService.getInstance().getSharedPreferences().getString(AppConstants.PREFERENCE_USER_EMAIL, "");
-            String msg = String.format("Your Email Id %s is not verified.", email);
+            String msg = String.format("Your Email Id %s is not verified. %s", email, getString(R.string.email_not_verified_line2));
             ((TextView) dialogView.findViewById(R.id.tv_emailId_line1)).setText(msg);
             builder.setView(dialogView);
             final AlertDialog dialog = builder.create();
@@ -234,16 +229,32 @@ public class VoucherDetailsActivity extends BaseActionActivity {
         }
     }
 
+    private void generateDialogBox(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = LayoutInflater.from(VoucherDetailsActivity.this).inflate(R.layout.dialog_generic_with_ok_button, null);
+        builder.setView(dialogView);
+        final AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+        TextView tvTitle = ((TextView) (dialog.findViewById(R.id.tv_title)));
+        tvTitle.setText(title);
+        TextView tvMessage = (TextView) dialog.findViewById(R.id.tv_message);
+        tvMessage.setText(message);
+        dialog.findViewById(R.id.fOK).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+    }
+
     private void sendVerifMailAPI() {
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
-        HttpService.getInstance().getResendVerifMail(getUserToken(), new Callback<BaseResponse<VerifMailResonse>>() {
+        HttpService.getInstance().getResendVerifMail(getUserToken(), new Callback<BaseResponse>() {
             @Override
-            public void success(BaseResponse<VerifMailResonse> verifMailResonseBaseResponse, Response response) {
+            public void success(BaseResponse verifMailResonseBaseResponse, Response response) {
                 if (verifMailResonseBaseResponse.isResponse()) {
-                    isVerifMailSent = verifMailResonseBaseResponse.getData().is_mail_sent();
-                    showMessageMailSent();
-                } else {
-                    Toast.makeText(VoucherDetailsActivity.this, verifMailResonseBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    generateDialogBox("Status", getString(R.string.verif_mail_sent));
                 }
                 twystProgressHUD.dismiss();
                 UtilMethods.hideSnackbar();
@@ -258,27 +269,10 @@ public class VoucherDetailsActivity extends BaseActionActivity {
         });
     }
 
-    private void showMessageMailSent() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        if (isVerifMailSent) {
-            View dialogView = LayoutInflater.from(VoucherDetailsActivity.this).inflate(R.layout.dialog_verif_mail_sent, null);
-            builder.setView(dialogView);
-            final AlertDialog dialog = builder.create();
-            dialog.setCanceledOnTouchOutside(true);
-            dialog.show();
-            dialog.findViewById(R.id.fOK).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
-        }
-    }
-
     /*
      * Date is needed in the format : dd MMM
      */
+
     public String getValidityDate(String validDate) {
         String date = null;
         SimpleDateFormat inputsdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");

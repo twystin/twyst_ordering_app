@@ -301,7 +301,7 @@ public class HttpService {
         twystService.postCashbackOffer(token, offerId, callback);
     }
 
-    public void getResendVerifMail(String token, Callback<BaseResponse<VerifMailResonse>> callback) {
+    public void getResendVerifMail(String token, Callback<BaseResponse> callback) {
         twystService.getResendVerifMail(token, callback);
     }
 

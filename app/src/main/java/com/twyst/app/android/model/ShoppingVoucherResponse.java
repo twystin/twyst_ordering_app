@@ -1,5 +1,7 @@
 package com.twyst.app.android.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
@@ -7,23 +9,25 @@ import java.io.Serializable;
  */
 public class ShoppingVoucherResponse implements Serializable {
 
-    private boolean emailVerified;
+    @SerializedName("data")
+    private boolean showResendOption;
 
-    public boolean isEmailVerified() {
-        return emailVerified;
+    public boolean isShowResendOption() {
+        return showResendOption;
     }
 
-    public void setEmailVerified(boolean emailVerified) {
-        this.emailVerified = emailVerified;
+    public void setShowResendOption(boolean showResendOption) {
+        this.showResendOption = showResendOption;
     }
 
-    public boolean isEmailVerifiedThresholdReached() {
-        return emailVerifiedThresholdReached;
+    public String getMessage() {
+        return message;
     }
 
-    public void setEmailVerifiedThresholdReached(boolean emailVerifiedThresholdReached) {
-        this.emailVerifiedThresholdReached = emailVerifiedThresholdReached;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    private boolean emailVerifiedThresholdReached;
+    private String message;
+
 }
