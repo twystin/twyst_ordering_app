@@ -5,11 +5,15 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.design.widget.TabLayout;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.twyst.app.android.R;
@@ -45,6 +49,43 @@ public class RechargeActivity extends BaseActionActivity {
         Spinner circleSpinner = (Spinner) findViewById(R.id.spinnerCircleList);
         circleSpinner.setAdapter(new ArrayAdapter<CircleMapping>(this, R.layout.custom_spinner, CircleMapping.values()));
         String selectedCircle = ((CircleMapping) circleSpinner.getSelectedItem()).getCircleCode();
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.slidingTabsAmount);
+        tabLayout.addTab(tabLayout.newTab().setText("99"));
+        tabLayout.addTab(tabLayout.newTab().setText("199"));
+        tabLayout.addTab(tabLayout.newTab().setText("299"));
+        tabLayout.addTab(tabLayout.newTab().setText("399"));
+        tabLayout.addTab(tabLayout.newTab().setText("499"));
+        tabLayout.addTab(tabLayout.newTab().setText("599"));
+        tabLayout.addTab(tabLayout.newTab().setText("699"));
+
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            RelativeLayout relativeLayout = (RelativeLayout)
+                    LayoutInflater.from(this).inflate(R.layout.amount_custom_tab_layout, tabLayout, false);
+
+            TextView tabTextView = (TextView) relativeLayout.findViewById(R.id.tab_title);
+            tabTextView.setText("₹ " + tab.getText());
+            tab.setCustomView(relativeLayout);
+            tab.select();
+        }
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                ((TextView) findViewById(R.id.tvAmount)).setText("₹ " + tab.getText());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     private void openContacts() {
