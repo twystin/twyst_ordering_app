@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?><!-- Custom spinner item layout -->
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/buttonShowDropDown"
-    style="@style/spinner_style"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_centerVertical="true"
+    android:background="@drawable/gradient_spinner"
     android:drawablePadding="5dp"
     android:drawableRight="@drawable/wallet_spinner_dropdown_down"
     android:gravity="left|center_vertical"
-    android:padding="15dp"
     android:singleLine="true"
+    android:padding="10dp"
     android:textColor="@color/black"
     android:textSize="@dimen/layout_huge_text_size" />

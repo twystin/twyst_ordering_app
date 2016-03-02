@@ -65,7 +65,7 @@ public class RechargeActivity extends BaseActionActivity {
                     LayoutInflater.from(this).inflate(R.layout.amount_custom_tab_layout, tabLayout, false);
 
             TextView tabTextView = (TextView) relativeLayout.findViewById(R.id.tab_title);
-            tabTextView.setText(tab.getText());
+            tabTextView.setText("₹ " + tab.getText());
             tab.setCustomView(relativeLayout);
             tab.select();
         }
@@ -73,7 +73,7 @@ public class RechargeActivity extends BaseActionActivity {
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                ((TextView) findViewById(R.id.tvAmount)).setText(tab.getText());
+                ((TextView) findViewById(R.id.tvAmount)).setText("₹ " + tab.getText());
             }
 
             @Override

@@ -26,8 +26,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/gradient_spinner"
                 android:orientation="horizontal"
-                android:padding="5dp">
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp">
 
                 <EditText
                     android:layout_width="wrap_content"
@@ -35,7 +40,6 @@
                     android:background="@null"
                     android:focusable="false"
                     android:gravity="center_horizontal"
-                    android:paddingRight="2dp"
                     android:singleLine="true"
                     android:text="+91"
                     android:textColor="@color/black"
@@ -46,6 +50,7 @@
                     android:id="@+id/et_number"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
                     android:layout_weight="1"
                     android:hint="@string/verify_number_phone_hint"
                     android:inputType="number"
@@ -58,8 +63,8 @@
 
                 <ImageButton
                     android:id="@+id/ibContact"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:background="@drawable/contact_icon" />
             </LinearLayout>
 
@@ -67,7 +72,6 @@
                 android:id="@+id/spinnerOperatorList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:layout_marginTop="5dp"
                 android:padding="5dp" />
 
@@ -75,7 +79,6 @@
                 android:id="@+id/spinnerCircleList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:layout_marginTop="5dp"
                 android:padding="5dp" />
 
@@ -83,19 +86,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/gradient_spinner"
                 android:orientation="vertical"
-                android:padding="5dp">
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tvAmount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="Select Amount"
                     android:singleLine="true"
-                    android:text="Select Amount"
                     android:textColor="@color/black"
                     android:textColorHint="@color/verify_half_white"
-                    android:textCursorDrawable="@null"
                     android:textSize="@dimen/layout_huge_text_size" />
 
             </LinearLayout>
@@ -106,7 +109,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
                 app:tabMode="scrollable" />
 
         </LinearLayout>
