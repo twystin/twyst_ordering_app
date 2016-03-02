@@ -199,7 +199,7 @@ public interface TwystService {
     @GET("/api/v4/cashback/offers")
     public void getCashbackOffers(@Query("token") String token, Callback<BaseResponse<ArrayList<Cashback>>> callback);
 
-    @POST("/api/v4/cashback/offers/use")
+    @POST("/api/v4/shopping/offers/use")
     public void postCashbackOffer(@Query("token") String token, @Body() ShoppingVoucher offerId, Callback<BaseResponse<ShoppingVoucherResponse>> callback);
 
     @GET("/api/v4/send/verification/email")
