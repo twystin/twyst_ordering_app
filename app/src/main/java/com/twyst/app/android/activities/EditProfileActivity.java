@@ -80,14 +80,14 @@ public class EditProfileActivity extends BaseActionActivity implements GoogleApi
     private static final int RC_SIGN_IN = 0;
     private AccessTokenTracker accessTokenTracker;
     private GoogleApiClient mGoogleApiClient;
-    private EditText email;
+    private String mEmailID;
+
     private String userImage;
     private String firstName;
     private String middleName;
     private String lastName;
     private String dob;
     private String city;
-    private String socialEmail;
     private String id, fbid, linkUri;
     private String facebookUri = "", googleplusUri = "";
     private Friend friend;
@@ -166,7 +166,11 @@ public class EditProfileActivity extends BaseActionActivity implements GoogleApi
 
                         try {
                             id = jsonObject.getString("id");
-                            socialEmail = jsonObject.getString("email");
+                            String email = jsonObject.getString("email");
+
+                            if (!TextUtils.isEmpty(email)) {
+                                mEmailID = email;
+                            }
 
                         } catch (JSONException jsone) {
                             jsone.printStackTrace();
@@ -281,6 +285,7 @@ public class EditProfileActivity extends BaseActionActivity implements GoogleApi
 
                     if (!TextUtils.isEmpty(profile.getEmail())) {
                         editProfileMail.setText(profile.getEmail());
+                        mEmailID = profile.getEmail();
                     }
 
                     editEmail.setOnClickListener(new View.OnClickListener() {
@@ -390,6 +395,7 @@ public class EditProfileActivity extends BaseActionActivity implements GoogleApi
                                 editProfileMail.setError("Invalid email");
                             } else {
                                 editProfileMail.setError(null);
+                                mEmailID = editProfileMail.getText().toString();
                                 updateProfile();
                             }
                         }
@@ -433,9 +439,10 @@ public class EditProfileActivity extends BaseActionActivity implements GoogleApi
         mShouldResolve = false;
 
         // Show the signed-in UI
-        socialEmail = Plus.AccountApi.getAccountName(mGoogleApiClient);
-
-        System.out.println("LoginActivity.onConnected google email : " + email);
+        String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
+        if (!TextUtils.isEmpty(email)) {
+            mEmailID = email;
+        }
 
         profile.setGoogleConnect(true);
         setGoogleConnected(true);
@@ -463,7 +470,6 @@ public class EditProfileActivity extends BaseActionActivity implements GoogleApi
                 sharedPreferences.apply();
 
                 updatePicNameLocal();
-//
 
             }
         } catch (Exception e) {
@@ -492,8 +498,6 @@ public class EditProfileActivity extends BaseActionActivity implements GoogleApi
                     } finally {
                         personBuffer.close();
                     }
-
-
                 } else {
                     Log.e(getTagName(), "Error while getting friends from G+");
                 }
@@ -665,7 +669,7 @@ public class EditProfileActivity extends BaseActionActivity implements GoogleApi
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
 
         UpdateProfile updateProfile = new UpdateProfile();
-        updateProfile.setEmail(editProfileMail.getText().toString());
+        updateProfile.setEmail(mEmailID);
         updateProfile.setImage(userImage);
         updateProfile.setFname(firstName);
         updateProfile.setMname(middleName);
@@ -688,6 +692,7 @@ public class EditProfileActivity extends BaseActionActivity implements GoogleApi
                 twystProgressHUD.dismiss();
                 if (profileUpdateBaseResponse.isResponse()) {
                     updateSocialFriendList(UtilMethods.getUserToken(EditProfileActivity.this));
+                    HttpService.getInstance().getSharedPreferences().edit().putString(AppConstants.PREFERENCE_USER_EMAIL, mEmailID).apply();
                 }
             }
 
@@ -733,7 +738,6 @@ public class EditProfileActivity extends BaseActionActivity implements GoogleApi
     }
 
     private void updateUserEmail() {
-
         if (source.equalsIgnoreCase("FACEBOOK")) {
             facebookUri = linkUri;
 
@@ -742,27 +746,6 @@ public class EditProfileActivity extends BaseActionActivity implements GoogleApi
         }
 
         updateProfile();
-//        JSONObject facebookdata = new JSONObject();
-//        JSONObject googledata = new JSONObject();
-//        if(source.equalsIgnoreCase("FACEBOOK")) {
-//            try {
-//                facebookdata.put("id", fbid);
-//                facebookdata.put("linkUri", linkUri);
-//                googledata.put("linkUri", null);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }else if(source.equalsIgnoreCase("GOOGLE")){
-//
-//            try {
-//                facebookdata.put("id", null);
-//                facebookdata.put("linkUri", null);
-//                googledata.put("linkUri", linkUri);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-
     }
 
     private void updateSocialFriendList(String token) {

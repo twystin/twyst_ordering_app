@@ -38,9 +38,13 @@ public class RechargeActivity extends BaseActionActivity {
     }
 
     private void setupSpinners() {
-        Spinner mySpinner = (Spinner) findViewById(R.id.spinnerOperatorList);
-        mySpinner.setAdapter(new ArrayAdapter<OperatorMapping>(this, R.layout.custom_spinner, OperatorMapping.values()));
-        String selected = ((OperatorMapping) mySpinner.getSelectedItem()).getOperatorID();
+        Spinner operatorSpinner = (Spinner) findViewById(R.id.spinnerOperatorList);
+        operatorSpinner.setAdapter(new ArrayAdapter<OperatorMapping>(this, R.layout.custom_spinner, OperatorMapping.values()));
+        String selectedOperator = ((OperatorMapping) operatorSpinner.getSelectedItem()).getOperatorID();
+
+        Spinner circleSpinner = (Spinner) findViewById(R.id.spinnerCircleList);
+        circleSpinner.setAdapter(new ArrayAdapter<CircleMapping>(this, R.layout.custom_spinner, CircleMapping.values()));
+        String selectedCircle = ((CircleMapping) circleSpinner.getSelectedItem()).getCircleCode();
     }
 
     private void openContacts() {
@@ -109,7 +113,17 @@ public class RechargeActivity extends BaseActionActivity {
         BSNL("3", "BSNL"),
         RCDMA("4", "Reliance CDMA"),
         RGSM("5", "Reliance GSM"),
-        AIRCEL("6", "Aircel");
+        AIRCEL("6", "Aircel"),
+        MTNL("7", "MTNL"),
+        IDEA("8", "Idea"),
+        TATA_INDICOM("9", "Tata Indicom"),
+        LOOP_MOBILE("10", "Loop Mobile"),
+        TATA_DOCOMO("11", "Tata Docomo"),
+        VIRGIN_CDMA("12", "Virgin CDMA"),
+        MTS("13", "MTS"),
+        VIRGIN_GSM("14", "Virgin GSM"),
+        STEL("15", "S Tel"),
+        UNINOR("16", "Uninor");
 
         private String operatorName;
         private String operatorID;
@@ -147,7 +161,25 @@ public class RechargeActivity extends BaseActionActivity {
         BJ("3", "Bihar & Jharkhand"),
         CHENNAI("4", "Chennai"),
         NCR("5", "Delhi & NCR"),
-        GUJARAT("6", "Gujarat");
+        GUJARAT("6", "Gujarat"),
+        HARYANA("7", "Haryana"),
+        HP("8", "Himachal Pradesh"),
+        JK("9", "Jammu & Kashmir"),
+        KARNATAKA("10", "Karnataka"),
+        KERALA("11", "Kerala"),
+        KOLKATA("12", "Kolkata"),
+        MAHARASHTRA("13", "Maharashtra & Goa (except Mumbai)"),
+        MP("14", "MP & Chattisgarh"),
+        MUMBAI("15", "Mumbai"),
+        NORTH_EAST("16", "North East"),
+        ORISSA("17", "Orissa"),
+        PUNJAB("18", "Punjab"),
+        RAJASTHAN("19", "Rajasthan"),
+        TAMILNADU("20", "Tamilnadu"),
+        UP_E("21", "UP(EAST)"),
+        UP_W("22", "UP(WEST) & Uttarakhand"),
+        WB("23", "West Bengal"),
+        ELSE("51", "All India (except Delhi/Mumbai)");
 
         private String circleName;
         private String circleCode;
