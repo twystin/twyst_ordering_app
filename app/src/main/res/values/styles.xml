@@ -2,9 +2,7 @@
 
     <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
         <item name="tabMaxWidth">200dp</item>
-        <!--@dimen/tab_max_width-->
         <item name="tabMinWidth">100dp</item>
-        <!--@dimen/tab_max_width-->
         <item name="tabIndicatorColor">@color/colorPrimary</item>
         <item name="tabIndicatorHeight">4dp</item>
         <item name="tabPaddingStart">12dp</item>
@@ -20,10 +18,17 @@
         <item name="textAllCaps">false</item>
     </style>
 
+    <style name="AmountCustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabMaxWidth">200dp</item>
+        <item name="tabMinWidth">100dp</item>
+        <item name="tabIndicatorColor">@color/colorPrimary</item>
+        <item name="tabIndicatorHeight">0dp</item>
+        <item name="tabPaddingStart">0dp</item>
+        <item name="tabPaddingEnd">0dp</item>
+    </style>
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-
-
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 
