@@ -108,6 +108,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -122,19 +124,38 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     private LocationFetchUtil locationFetchUtil;
     private Location mLocation;
     private TwystProgressHUD twystProgressHUD = null;
-    private View mLayout = null;
     private static final int REQUEST_CONTATCS = 0;
     private static final int REQUEST_LOCATION = 1;
     private static final int REQUEST_SMS = 3;
     private static final String TAG = "PreMainActivity";
     private boolean isAddressesSynced = false;
 
+
+
+    // User Verification Variables
+    //Submit button
+    View btnSubmit;
+
+    // Verify Number
+    private boolean isNumberVerified = false;
+    @Bind(R.id.verify_number_hint) TextView tvVerifyNumberHint;
+    @Bind(R.id.verify_number_phone_pre) EditText etPhonePre;
+    @Bind(R.id.verify_number_phone_code) EditText etPhoneCodeInput;
+    @Bind(R.id.verify_number_go )View verifyNumberGo;
+    @Bind(R.id.verify_number_go_text) TextView tvVerifyNumberGoText;
+    @Bind(R.id.tv_register_line1) TextView tvRegister1;
+    @Bind(R.id.tv_register_line2) TextView tvRegister2;
+
+    @Bind(R.id.verify_number_progress_bar)CircularProgressBar verifyNumberProgressBar;
+    @Bind(R.id.verify_number_lower_hint) TextView tvVerifyNumberLowerHint;
+    @Bind(R.id.verify_number_resend_enter_manually) TextView tvVerifyNumberResendManually;
+    @Bind(R.id.verify_number_go_layout) RelativeLayout tvVerifyNumberGoLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_main);
-        mLayout = findViewById(R.id.sample_main_layout);
-
+        ButterKnife.bind(this);
         PermissionUtil askPermission = PermissionUtil.getInstance();
         startInitialAnimation();
         splashCode();
@@ -289,24 +310,6 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     }
 
 
-    // User Verification Variables
-    //Submit button
-    View btnSubmit;
-
-    // Verify Number
-    private boolean isNumberVerified = false;
-    TextView tvVerifyNumberHint;
-    EditText etPhonePre;
-    EditText etPhoneCodeInput;
-    View verifyNumberGo;
-    TextView tvVerifyNumberGoText;
-    TextView tvRegister1;
-    TextView tvRegister2;
-
-    CircularProgressBar verifyNumberProgressBar;
-    TextView tvVerifyNumberLowerHint;
-    TextView tvVerifyNumberResendManually;
-    RelativeLayout tvVerifyNumberGoLayout;
 
     MyRunnable myRunnable;
 
@@ -586,19 +589,6 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     }
 
     private void setupVerifyNumber() {
-//        ivCorrectSymbolVerifyNumber = (ImageView) findViewById(R.id.verify_number_correct_symbol);
-        tvVerifyNumberHint = (TextView) findViewById(R.id.verify_number_hint);
-        etPhonePre = (EditText) findViewById(R.id.verify_number_phone_pre);
-        etPhoneCodeInput = (EditText) findViewById(R.id.verify_number_phone_code);
-        verifyNumberGo = (View) findViewById(R.id.verify_number_go);
-        tvVerifyNumberGoText = (TextView) findViewById(R.id.verify_number_go_text);
-        verifyNumberProgressBar = (CircularProgressBar) findViewById(R.id.verify_number_progress_bar);
-        tvVerifyNumberLowerHint = (TextView) findViewById(R.id.verify_number_lower_hint);
-        tvVerifyNumberResendManually = (TextView) findViewById(R.id.verify_number_resend_enter_manually);
-        tvVerifyNumberGoLayout = (RelativeLayout) findViewById(R.id.verify_number_go_layout);
-        tvRegister1 = (TextView) findViewById(R.id.tv_register_line1);
-        tvRegister2 = (TextView) findViewById(R.id.tv_register_line2);
-
         sharedPreferences = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).edit();
         SharedPreferences prefs = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
         boolean phoneVerified = prefs.getBoolean(AppConstants.PREFERENCE_PHONE_VERIFIED, false);
