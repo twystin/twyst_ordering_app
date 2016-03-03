@@ -110,6 +110,7 @@ import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -550,28 +551,25 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                 .addApi(Plus.API)
                 .addScope(Plus.SCOPE_PLUS_LOGIN)
                 .build();
-
-        findViewById(R.id.fbLogin).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                source = "FACEBOOK";
-                facebookLogin();
-                enableButtonsRunnable(v);
-            }
-        });
-
-        findViewById(R.id.gPlusLogin).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                source = "GOOGLE";
-                // User clicked the sign-in button, so begin the sign-in process and automatically
-                // attempt to resolve any errors that occur.
-                mShouldResolve = true;
-                mGoogleApiClient.connect();
-                enableButtonsRunnable(v);
-            }
-        });
     }
+
+    @OnClick(R.id.gPlusLogin)
+    protected void onGooglePlusLoginClick(View v) {
+        source = "GOOGLE";
+        // User clicked the sign-in button, so begin the sign-in process and automatically
+        // attempt to resolve any errors that occur.
+        mShouldResolve = true;
+        mGoogleApiClient.connect();
+        enableButtonsRunnable(v);
+    }
+
+    @OnClick(R.id.fbLogin)
+    protected void onFacebookLoginClick(View v) {
+        source = "FACEBOOK";
+        facebookLogin();
+        enableButtonsRunnable(v);
+    }
+
 
     private void enableButtonsRunnable(View v) {
         findViewById(R.id.fbLogin).setEnabled(false);
