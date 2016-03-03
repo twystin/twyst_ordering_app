@@ -29,6 +29,7 @@ android {
             minifyEnabled false
             resValue "drawable", "ic_launcher_icon", "@drawable/ic_launcher"
             resValue "string", "app_name", "Twyst"
+            buildConfigField "String", "HOST", "\"http://beta.twyst.in\""
         }
 
         debug {
@@ -37,6 +38,7 @@ android {
             versionNameSuffix ".debug"
             resValue "drawable", "ic_launcher_icon", "@drawable/ic_launcher_debug"
             resValue "string", "app_name", "TwystTest"
+            buildConfigField "String", "HOST", "\"http://staging.twyst.in\""
         }
     }
 
