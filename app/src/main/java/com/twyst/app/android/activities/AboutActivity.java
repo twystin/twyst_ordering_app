@@ -11,32 +11,24 @@ import android.widget.TextView;
 import com.twyst.app.android.R;
 import com.twyst.app.android.util.AppConstants;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Created by Vipul Sharma on 2/11/2016.
  */
 public class AboutActivity extends BaseActionActivity {
+    @Bind(R.id.tvAppVersion) TextView tvAppVersion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 //        setupAsChild=true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+        ButterKnife.bind(this);
         setupToolBar();
-
         displayAppVersion();
-
-        findViewById(R.id.tvTermsOfUse).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openURL(getTermsURL());
-            }
-        });
-
-        findViewById(R.id.tvPrivacyPolicy).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openURL(getPrivayPolicyURL());
-            }
-        });
     }
 
     private String getTermsURL() {
@@ -54,7 +46,6 @@ public class AboutActivity extends BaseActionActivity {
     }
 
     private void displayAppVersion() {
-        TextView versionApp = (TextView) findViewById(R.id.tvAppVersion);
         PackageInfo pInfo = null;
         try {
             pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -65,6 +56,18 @@ public class AboutActivity extends BaseActionActivity {
         if (pInfo != null && pInfo.versionName != null) {
             version = "v" + pInfo.versionName + " Beta";
         }
-        versionApp.setText(version);
+        tvAppVersion.setText(version);
+    }
+
+    @OnClick({R.id.tvTermsOfUse, R.id.tvPrivacyPolicy})
+    protected void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tvTermsOfUse:
+                openURL(getTermsURL());
+                break;
+            case R.id.tvPrivacyPolicy:
+                openURL(getPrivayPolicyURL());
+                break;
+        }
     }
 }
