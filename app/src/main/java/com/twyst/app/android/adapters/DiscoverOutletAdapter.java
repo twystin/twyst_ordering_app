@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Picasso;
 import com.twyst.app.android.R;
 import com.twyst.app.android.activities.OrderOnlineActivity;
@@ -214,11 +216,15 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         picasso.setIndicatorsEnabled(AppConstants.DEGUG_PICASSO);
         picasso.setLoggingEnabled(AppConstants.DEGUG_PICASSO);
 
-        if (outlet.getBackground() != null && outlet.getLogo() != null)
-            picasso.load(outlet.getBackground())
-                    .noFade()
-                    .transform(new RoundedTransformation(10, 0))
+        if (outlet.getBackground() != null)
+            Glide.with(view.getContext())
+                    .load(outlet.getBackground())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(outletViewHolder.outletImage);
+//            picasso.load(outlet.getBackground())
+//                    .noFade()
+//                    .transform(new RoundedTransformation(10, 0))
+//                    .into(outletViewHolder.outletImage);
 
         if (outlet.getOfferCount() == 0) {
             ((OutletViewHolder) holder).noOfOffers.setVisibility(View.INVISIBLE);
