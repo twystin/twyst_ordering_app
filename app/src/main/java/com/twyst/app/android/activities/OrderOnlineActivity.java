@@ -27,6 +27,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
@@ -167,13 +169,14 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
             outletMinimumOrder.setText("Minimum order: " + Utils.costString(Double.parseDouble(mOutlet.getMinimumOrder())));
         }
 
-        ImageView view = (ImageView) findViewById(R.id.outletImage);
-        Picasso picasso = Picasso.with(view.getContext());
+        ImageView ivOutletImage = (ImageView) findViewById(R.id.outletImage);
+        if (mOutlet.getBackground() != null)
+            Glide.with(ivOutletImage.getContext())
+                    .load(mOutlet.getBackground())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(ivOutletImage);
 
-        if (mOutlet.getBackground() != null && mOutlet.getLogo() != null)
-            picasso.load(mOutlet.getBackground())
-                    .noFade()
-                    .into(view);
+
     }
 
     private void setupToolBar() {
