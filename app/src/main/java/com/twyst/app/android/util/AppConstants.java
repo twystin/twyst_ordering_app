@@ -12,8 +12,6 @@ public class AppConstants {
       public static final String HOST = BuildConfig.HOST;
 //    public static final String HOST = "http://twyst.in";
 
-    public static final String HOST_SECURE = "https://www.twyst.in";
-
     public static final String GCM_PROJECT_ID = "216832068690";
     public static final String GOOGLE_ANALYTICS_ID = "UA-51763503-2";
 
