@@ -14,7 +14,6 @@ import com.twyst.app.android.adapters.OrderHistoryAdapter;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.OrderHistory;
 import com.twyst.app.android.service.HttpService;
-import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
 
 import java.util.ArrayList;
@@ -28,7 +27,6 @@ public class OrderHistoryActivity extends BaseActionActivity {
     private RecyclerView myOrdersRecyclerView;
     private OrderHistoryAdapter mOrderHistoryAdapter;
     private boolean mFetchingOrderHistory;
-    TwystProgressHUD twystProgressHUD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +40,6 @@ public class OrderHistoryActivity extends BaseActionActivity {
 
         setupSwipeRefresh();
         setupOrderHistoryAdapter();
-        twystProgressHUD = TwystProgressHUD.show(this, false, null);
         fetchOrderHistory();
     }
 
@@ -104,7 +101,7 @@ public class OrderHistoryActivity extends BaseActionActivity {
                 } else {
                     Toast.makeText(OrderHistoryActivity.this, orderHistoryBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-                twystProgressHUD.dismiss();
+                hideProgressHUDInLayout();
                 hideSnackbar();
                 mFetchingOrderHistory = false;
                 mSwipeRefreshLayout.setRefreshing(false);
@@ -113,7 +110,7 @@ public class OrderHistoryActivity extends BaseActionActivity {
 
             @Override
             public void failure(RetrofitError error) {
-                twystProgressHUD.dismiss();
+                hideProgressHUDInLayout();
                 hideSnackbar();
                 handleRetrofitError(error);
                 mFetchingOrderHistory = false;

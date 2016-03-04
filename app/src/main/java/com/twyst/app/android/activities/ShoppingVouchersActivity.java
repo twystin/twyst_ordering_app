@@ -10,7 +10,6 @@ import com.twyst.app.android.adapters.ShoppingVouchersAdapter;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.Cashback;
 import com.twyst.app.android.service.HttpService;
-import com.twyst.app.android.util.TwystProgressHUD;
 
 import java.util.ArrayList;
 
@@ -31,7 +30,6 @@ public class ShoppingVouchersActivity extends BaseActionActivity {
     }
 
     private void getAllOffers() {
-        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
         HttpService.getInstance().getCashbackOffers(getUserToken(), new Callback<BaseResponse<ArrayList<Cashback>>>() {
             @Override
             public void success(BaseResponse<ArrayList<Cashback>> cashbackBaseResponse, Response response) {
@@ -46,12 +44,12 @@ public class ShoppingVouchersActivity extends BaseActionActivity {
                     Toast.makeText(ShoppingVouchersActivity.this, cashbackBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
                 hideSnackbar(); // why?
-                twystProgressHUD.dismiss();
+                hideProgressHUDInLayout();
             }
 
             @Override
             public void failure(RetrofitError error) {
-                twystProgressHUD.dismiss();
+                hideProgressHUDInLayout();
                 hideSnackbar(); // why?
                 handleRetrofitError(error);
             }

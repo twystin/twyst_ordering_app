@@ -9,7 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.twyst.app.android.R;
 import com.twyst.app.android.activities.ShoppingVoucherListActivity;
 import com.twyst.app.android.model.Cashback;
@@ -41,11 +42,14 @@ public class ShoppingVouchersAdapter extends RecyclerView.Adapter<ShoppingVouche
     public void onBindViewHolder(ShoppingVouchersAdapter.ViewHolder holder, final int position) {
 
         // Load image into holder from Picasso
-        Picasso picasso = Picasso.with(mContext);
+
         final String imgUri = mVouchersList.get(position).getMerchant_logo();
         if (imgUri != null) {
-            picasso.load(imgUri)
-                    .noFade()
+
+            Glide.with(mContext)
+                    .load(imgUri)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .centerCrop()
                     .into(holder.voucherIV);
         }
 

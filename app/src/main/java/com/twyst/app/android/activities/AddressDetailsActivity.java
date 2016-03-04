@@ -15,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,12 +31,12 @@ import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.LocationFetchUtil;
 import com.twyst.app.android.util.PermissionUtil;
 import com.twyst.app.android.util.SharedPreferenceSingleton;
-import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -60,7 +59,8 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
     private AddressDetailsLocationData mAddressDetailsLocationData;
 
     private TextView mLocationAddressTextView;
-    private ProgressBar mProgressBar;
+    private CircularProgressBar mProgressBar;
+    private CircularProgressBar mProgressBarSaved;
     private LinearLayout currentAddresslayout;
     private TextView mLocationFetchAgain;
     private TextView mTurnOnGps;
@@ -152,7 +152,8 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
 
         // fetch current location related code
         mLocationAddressTextView = (TextView) findViewById(R.id.tv_current_address);
-        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        mProgressBar = (CircularProgressBar) findViewById(R.id.progress_bar);
+        mProgressBarSaved = (CircularProgressBar) findViewById(R.id.progress_bar_saved);
         currentAddresslayout = (LinearLayout) findViewById(R.id.linlay_current_location);
         mTurnOnGps = (TextView) findViewById(R.id.tv_turn_on_gps);
         mLocationFetchAgain = (TextView) findViewById(R.id.tv_fetch_location_again);
@@ -223,11 +224,6 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
                 setupAdapterWithoutVerifyAPI();
             } else {
                 Bundle bundle = getIntent().getExtras();
-//        mOutletId = bundle.getString(AppConstants.INTENT_PARAM_OUTLET_ID);
-//        mCartItemsList = (ArrayList<Items>) bundle.getSerializable(AppConstants.INTENT_PARAM_CART_LIST);
-//                mOutletId = OrderInfoSingleton.getInstance().getOrderSummary().getOutletId();
-//                mPhone = OrderInfoSingleton.getInstance().getOrderSummary().getPhone();
-//                mCartItemsList = OrderInfoSingleton.getInstance().getOrderSummary().getmCartItemsList();
                 ((CardView) findViewById(R.id.cardView_listview)).setVisibility(View.VISIBLE);
                 ((CardView) findViewById(R.id.cardView_noAddress)).setVisibility(View.GONE);
                 verifyLocationsAPI();
@@ -237,7 +233,8 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
 
 
     private void verifyLocationsAPI() {
-        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
+//        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
+        mProgressBarSaved.setVisibility(View.VISIBLE);
         LocationsVerify locationsVerify = new LocationsVerify(mOutletId, getLocalCoordsList());
         HttpService.getInstance().postLocationsVerify(UtilMethods.getUserToken(AddressDetailsActivity.this), locationsVerify, new Callback<BaseResponse<ArrayList<LocationsVerified>>>() {
             @Override
@@ -249,13 +246,13 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
                     Toast.makeText(AddressDetailsActivity.this, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
-                twystProgressHUD.dismiss();
+                mProgressBarSaved.setVisibility(View.GONE);
                 UtilMethods.hideSnackbar();
             }
 
             @Override
             public void failure(RetrofitError error) {
-                twystProgressHUD.dismiss();
+                mProgressBarSaved.setVisibility(View.GONE);
                 UtilMethods.handleRetrofitError(AddressDetailsActivity.this, error);
                 UtilMethods.hideSnackbar();
             }

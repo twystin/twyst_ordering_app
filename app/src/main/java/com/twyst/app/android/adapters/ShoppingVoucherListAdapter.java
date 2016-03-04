@@ -13,7 +13,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.twyst.app.android.R;
 import com.twyst.app.android.activities.VoucherDetailsActivity;
 import com.twyst.app.android.model.CashbackOffers;
@@ -56,9 +57,14 @@ public class ShoppingVoucherListAdapter extends RecyclerView.Adapter<ShoppingVou
     public void onBindViewHolder(final ShoppingVoucherListAdapter.ViewHolder holder, final int position) {
 
         // Bind all widgets
-        Picasso picasso = Picasso.with(mContext);
-        if (mMerchant_logo != null)
-            picasso.load(mMerchant_logo).noFade().into(holder.merchantLogo);
+        if (mMerchant_logo != null) {
+
+            Glide.with(mContext)
+                    .load(mMerchant_logo)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .centerCrop()
+                    .into(holder.merchantLogo);
+        }
 
         holder.offerAmountTV.setText(AppConstants.INDIAN_RUPEE_SYMBOL + mOffers.get(position).getOffer_value());
 

@@ -15,7 +15,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.twyst.app.android.R;
 import com.twyst.app.android.activities.OrderHistoryActivity;
 import com.twyst.app.android.activities.OrderOnlineActivity;
@@ -174,11 +175,12 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             }
         });
 
-        Picasso picasso = Picasso.with(holder.itemView.getContext());
 
         if (orderHistory.getBackground() != null) {
-            picasso.load(orderHistory.getBackground())
-                    .noFade()
+
+            Glide.with(holder.itemView.getContext())
+                    .load(orderHistory.getBackground())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.backgroundImage);
         }
     }

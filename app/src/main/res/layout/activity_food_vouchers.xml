@@ -6,6 +6,9 @@
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
+    <include
+        android:id="@+id/circularProgressBar"
+        layout="@layout/twyst_progress_hud" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_food_vouchers"

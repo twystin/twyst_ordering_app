@@ -31,19 +31,19 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
 import com.nispok.snackbar.listeners.ActionClickListener;
-import com.squareup.picasso.Picasso;
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.DrawerListAdapter;
 import com.twyst.app.android.model.DrawerItem;
 import com.twyst.app.android.model.OutletList;
 import com.twyst.app.android.util.AppConstants;
-import com.twyst.app.android.util.RoundedTransformation;
 import com.twyst.app.android.util.TwystProgressHUD;
 
 import org.json.JSONException;
@@ -783,14 +783,11 @@ public abstract class BaseActivity extends ActionBarActivity {
         userName.setText(name);
 
         if (!TextUtils.isEmpty(pic)) {
-            Picasso picasso = Picasso.with(this);
-            picasso.setIndicatorsEnabled(AppConstants.DEGUG_PICASSO);
-            picasso.setLoggingEnabled(AppConstants.DEGUG_PICASSO);
-            picasso.load(pic)
-                    .noFade()
+
+            Glide.with(this)
+                    .load(pic)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .centerCrop()
-                    .resize(200, 200)
-                    .transform(new RoundedTransformation(100, 0))
                     .into(userImage);
 
         }

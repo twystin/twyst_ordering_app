@@ -21,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appsflyer.AppsFlyerLib;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -41,7 +43,6 @@ import com.google.android.gms.plus.People;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.google.android.gms.plus.model.people.PersonBuffer;
-import com.squareup.picasso.Picasso;
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.EventDate;
@@ -52,7 +53,6 @@ import com.twyst.app.android.model.ProfileUpdate;
 import com.twyst.app.android.model.UpdateProfile;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
-import com.twyst.app.android.util.RoundedTransformation;
 import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
 import com.twyst.app.android.util.Utils;
@@ -836,14 +836,12 @@ public class EditProfileActivity extends BaseActionActivity implements GoogleApi
         if (!TextUtils.isEmpty(pic)) {
             backImage.setVisibility(View.VISIBLE);
             image.setVisibility(View.VISIBLE);
-            Picasso picasso = Picasso.with(this);
-            picasso.setIndicatorsEnabled(AppConstants.DEGUG_PICASSO);
-            picasso.setLoggingEnabled(AppConstants.DEGUG_PICASSO);
-            picasso.load(pic)
-                    .noFade()
+
+
+            Glide.with(this)
+                    .load(pic)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .centerCrop()
-                    .resize(150, 150)
-                    .transform(new RoundedTransformation(100, 0))
                     .into(image);
 
         } else {

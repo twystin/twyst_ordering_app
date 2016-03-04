@@ -9,7 +9,6 @@ import com.twyst.app.android.adapters.FoodVouchersAdapter;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.offer.FoodOffer;
 import com.twyst.app.android.service.HttpService;
-import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
 
 import java.util.ArrayList;
@@ -20,7 +19,6 @@ import retrofit.client.Response;
 
 public class FoodVouchersActivity extends BaseActionActivity {
     private ArrayList<FoodOffer> foodOffersList;
-    private TwystProgressHUD twystProgressHUD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +26,6 @@ public class FoodVouchersActivity extends BaseActionActivity {
         setContentView(R.layout.activity_food_vouchers);
 
         setupToolBar();
-        showProgressBar();
         fetchFoodOffers();
 
     }
@@ -45,29 +42,18 @@ public class FoodVouchersActivity extends BaseActionActivity {
                     if (foodOffersList != null && foodOffersList.size() > 0) {
                         showFoodVouchers(foodOffersList);
                     }
-                    hideProgressBar();
+                    hideProgressHUDInLayout();
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
                 UtilMethods.handleRetrofitError(FoodVouchersActivity.this, error);
-                hideProgressBar();
+                hideProgressHUDInLayout();
             }
         });
     }
 
-    private void showProgressBar() {
-        if (twystProgressHUD == null) {
-            twystProgressHUD = TwystProgressHUD.show(FoodVouchersActivity.this, false, null);
-        }
-    }
-
-    private void hideProgressBar() {
-        if (twystProgressHUD != null) {
-            twystProgressHUD.dismiss();
-        }
-    }
 
 
     private void showFoodVouchers(ArrayList<FoodOffer> myDataList) {

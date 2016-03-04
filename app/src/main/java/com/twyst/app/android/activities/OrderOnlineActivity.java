@@ -35,7 +35,6 @@ import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
 import com.nispok.snackbar.listeners.ActionClickListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-import com.squareup.picasso.Picasso;
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.CartAdapter;
 import com.twyst.app.android.adapters.MenuExpandableAdapter;

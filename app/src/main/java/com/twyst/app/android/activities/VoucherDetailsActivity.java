@@ -12,7 +12,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.CashbackOffers;
@@ -53,15 +54,23 @@ public class VoucherDetailsActivity extends BaseActionActivity {
         // Load the merchant logo
         String merchantLogoUri = getIntent().getStringExtra(AppConstants.INTENT_MERCHANT_LOGO);
         ImageView merchantLogo = (ImageView) findViewById(R.id.iv_merchantLogo);
-        Picasso picasso = Picasso.with(this);
         if (merchantLogoUri != null) {
-            picasso.load(merchantLogoUri).noFade().into(merchantLogo);
+
+            Glide.with(this)
+                    .load(merchantLogoUri)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .centerCrop()
+                    .into(merchantLogo);
         }
 
         // Load the banner
         ImageView offerBanner = (ImageView) findViewById(R.id.iv_banner);
         if (merchantLogoUri != null) {
-            picasso.load(merchantLogoUri).noFade().into(offerBanner);
+            Glide.with(this)
+                    .load(merchantLogoUri)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .centerCrop()
+                    .into(offerBanner);
         }
 
         // Load the valid date

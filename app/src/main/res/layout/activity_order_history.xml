@@ -14,6 +14,10 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar" />
 
+        <include
+            android:id="@+id/circularProgressBar"
+            layout="@layout/twyst_progress_hud" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

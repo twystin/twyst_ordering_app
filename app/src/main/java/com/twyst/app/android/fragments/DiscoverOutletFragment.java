@@ -275,6 +275,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
             }
         } else if (requestCode == AppConstants.EDIT_ADDRESS) {
             if (resultCode == Activity.RESULT_OK) {
+                SharedPreferenceSingleton.getInstance().setSkipLocationClicked(false);
                 AddressDetailsLocationData newAddressLocationData = SharedPreferenceSingleton.getInstance().getDeliveryLocation();
                 if (newAddressLocationData != null) {
 
