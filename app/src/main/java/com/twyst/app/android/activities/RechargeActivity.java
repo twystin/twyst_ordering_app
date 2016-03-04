@@ -149,29 +149,39 @@ public class RechargeActivity extends BaseActionActivity {
     }
 
     private enum OperatorMapping {
-        AIRTEL("1", "Airtel"),
-        VODAFONE("2", "Vodafone"),
-        BSNL("3", "BSNL"),
-        RCDMA("4", "Reliance CDMA"),
-        RGSM("5", "Reliance GSM"),
-        AIRCEL("6", "Aircel"),
-        MTNL("7", "MTNL"),
-        IDEA("8", "Idea"),
-        TATA_INDICOM("9", "Tata Indicom"),
-        LOOP_MOBILE("10", "Loop Mobile"),
-        TATA_DOCOMO("11", "Tata Docomo"),
-        VIRGIN_CDMA("12", "Virgin CDMA"),
-        MTS("13", "MTS"),
-        VIRGIN_GSM("14", "Virgin GSM"),
-        STEL("15", "S Tel"),
-        UNINOR("16", "Uninor");
+        AIRTEL("1", "Airtel", new String[]{"AIRTEL"}),
+        VODAFONE("2", "Vodafone", new String[]{"VODAFONE"}),
+        BSNL("3", "BSNL", new String[]{"BSNL"}),
+        RCDMA("4", "Reliance CDMA", new String[]{"RELIANCE CDMA"}),
+        RGSM("5", "Reliance GSM", new String[]{"RELIANCE GSM"}),
+        AIRCEL("6", "Aircel", new String[]{"AIRCEL"}),
+        MTNL("7", "MTNL", new String[]{"MTNL DELHI", "MTNL MUMBAI"}),
+        IDEA("8", "Idea", new String[]{"IDEA"}),
+        TATA_INDICOM("9", "Tata Indicom", new String[]{"TATA INDICOM"}),
+        LOOP_MOBILE("10", "Loop Mobile", new String[]{"LOOP MOBILE"}),
+        TATA_DOCOMO("11", "Tata Docomo", new String[]{"TATA DOCOMO GSM"}),
+        VIRGIN_CDMA("12", "Virgin CDMA", new String[]{""}),
+        MTS("13", "MTS", new String[]{"MTS"}),
+        VIRGIN_GSM("14", "Virgin GSM", new String[]{"VIRGIN GSM"}),
+        STEL("15", "S Tel", new String[]{""}),
+        UNINOR("16", "Uninor", new String[]{"TELENOR"});
 
         private String operatorName;
+        private String[] sqlTableOperatorNames;
         private String operatorID;
 
-        private OperatorMapping(String operatorID, String operatorName) {
+        private OperatorMapping(String operatorID, String operatorName, String[] sqlTableOperatorNames) {
             this.operatorID = operatorID;
             this.operatorName = operatorName;
+            this.sqlTableOperatorNames = sqlTableOperatorNames;
+        }
+
+        public String[] getSqlTableOperatorNames() {
+            return sqlTableOperatorNames;
+        }
+
+        public void setSqlTableOperatorNames(String[] sqlTableOperatorNames) {
+            this.sqlTableOperatorNames = sqlTableOperatorNames;
         }
 
         public String getOperatorName() {
@@ -197,37 +207,47 @@ public class RechargeActivity extends BaseActionActivity {
     }
 
     private enum CircleMapping {
-        AP("1", "Andhra Pradesh"),
-        ASSAM("2", "Assam"),
-        BJ("3", "Bihar & Jharkhand"),
-        CHENNAI("4", "Chennai"),
-        NCR("5", "Delhi & NCR"),
-        GUJARAT("6", "Gujarat"),
-        HARYANA("7", "Haryana"),
-        HP("8", "Himachal Pradesh"),
-        JK("9", "Jammu & Kashmir"),
-        KARNATAKA("10", "Karnataka"),
-        KERALA("11", "Kerala"),
-        KOLKATA("12", "Kolkata"),
-        MAHARASHTRA("13", "Maharashtra & Goa (except Mumbai)"),
-        MP("14", "MP & Chattisgarh"),
-        MUMBAI("15", "Mumbai"),
-        NORTH_EAST("16", "North East"),
-        ORISSA("17", "Orissa"),
-        PUNJAB("18", "Punjab"),
-        RAJASTHAN("19", "Rajasthan"),
-        TAMILNADU("20", "Tamilnadu"),
-        UP_E("21", "UP(EAST)"),
-        UP_W("22", "UP(WEST) & Uttarakhand"),
-        WB("23", "West Bengal"),
-        ELSE("51", "All India (except Delhi/Mumbai)");
+        AP("1", "Andhra Pradesh", "ANDHRA PRADESH"),
+        ASSAM("2", "Assam", "ASSAM"),
+        BJ("3", "Bihar & Jharkhand", "BIHAR & JHARKHAND"),
+        CHENNAI("4", "Chennai", "CHENNAI"),
+        NCR("5", "Delhi & NCR", "DELHI & NCR"),
+        GUJARAT("6", "Gujarat", "GUJARAT"),
+        HARYANA("7", "Haryana", "HARYANA"),
+        HP("8", "Himachal Pradesh", "HIMACHAL PRADESH"),
+        JK("9", "Jammu & Kashmir", "JAMMU & KASHMIR"),
+        KARNATAKA("10", "Karnataka", "KARNATAKA"),
+        KERALA("11", "Kerala", "KERALA"),
+        KOLKATA("12", "Kolkata", "KOLKATA"),
+        MAHARASHTRA("13", "Maharashtra & Goa (except Mumbai)", "MAHARASHTRA & GOA"),
+        MP("14", "MP & Chattisgarh", "MP & CHATTISGARH"),
+        MUMBAI("15", "Mumbai", "MUMBAI"),
+        NORTH_EAST("16", "North East", "NORTH EAST"),
+        ORISSA("17", "Orissa", "ODISHA"),
+        PUNJAB("18", "Punjab", "PUNJAB"),
+        RAJASTHAN("19", "Rajasthan", "RAJASTHAN"),
+        TAMILNADU("20", "Tamilnadu", "TAMIL NADU"),
+        UP_E("21", "UP(EAST)", "UTTAR PRADESH (E)"),
+        UP_W("22", "UP(WEST) & Uttarakhand", "UTTAR PRADESH (W) & UTTARAKHAND"),
+        WB("23", "West Bengal", "WEST BENGAL & ANDAMAN NICOBAR"),
+        ELSE("51", "All India (except Delhi/Mumbai)", "");
 
         private String circleName;
+        private String sqlTableCircleName;
         private String circleCode;
 
-        private CircleMapping(String circleCode, String circleName) {
+        private CircleMapping(String circleCode, String circleName, String sqlTableCircleName) {
             this.circleCode = circleCode;
             this.circleName = circleName;
+            this.sqlTableCircleName = sqlTableCircleName;
+        }
+
+        public String getSqlTableCircleName() {
+            return sqlTableCircleName;
+        }
+
+        public void setSqlTableCircleName(String sqlTableCircleName) {
+            this.sqlTableCircleName = sqlTableCircleName;
         }
 
         public String getCircleName() {
