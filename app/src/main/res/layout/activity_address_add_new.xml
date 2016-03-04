@@ -44,11 +44,12 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="@dimen/layout_medium_margin"
-                            android:background="@color/primary"
+                            android:background="@drawable/button_primary"
                             android:padding="@dimen/address_layout_small_margin"
                             android:text="CHANGE"
                             android:textColor="@color/white"
                             android:textSize="@dimen/address_medium_text_size" />
+
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -281,7 +282,7 @@
         android:layout_width="match_parent"
         android:layout_height="55dp"
 
-        android:background="@drawable/button_primary"
+        android:background="@drawable/big_button"
         android:padding="5dp">
 
         <TextView

@@ -110,7 +110,7 @@
             android:id="@+id/press_ok_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_primary"
+            android:background="@drawable/big_button"
             android:gravity="center"
             android:padding="@dimen/layout_huge_margin"
             android:text="OK"

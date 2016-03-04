@@ -11,7 +11,7 @@
         android:layout_height="56dp"
         android:padding="10dp"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/button_primary">
+        android:background="@drawable/big_button">
 
         <TextView
             android:id="@+id/tvCheckOutCart"
