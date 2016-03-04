@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.mobikwik.sdk.lib.TransactionConfiguration;
 import com.mobikwik.sdk.lib.User;
 import com.mobikwik.sdk.lib.payinstrument.PaymentInstrumentType;
 import com.twyst.app.android.R;
+import com.twyst.app.android.fragments.DebitTwystCashFragment;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.PaymentData;
 import com.twyst.app.android.model.order.OrderCheckOutResponse;
@@ -51,6 +53,8 @@ public class PaymentOptionsActivity extends BaseActionActivity {
     private static final String PAYMENT_MODE_COD = "Cash On Delivery";
     private static final String PAYMENT_MODE_BANKING = "Net Banking";
     private static final String PAYMENT_MODE_MK_WALLET = "Mobikwik Wallet";
+    private static final String PAYMENT_MODE_CREDIT_CARD = "Credit Card";
+    private static final String PAYMENT_MODE_DEBIT_CARD = "Debit Card";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,21 +68,31 @@ public class PaymentOptionsActivity extends BaseActionActivity {
         PaymentData pd1 = new PaymentData();
         PaymentData pd2 = new PaymentData();
         PaymentData pd3 = new PaymentData();
+        PaymentData pd4 = new PaymentData();
+        PaymentData pd5 = new PaymentData();
 
-        // Three modes : COD, Net Banking, Mobikwik Wallet
+        // Three modes : COD, Mobikwik Wallet, Net Banking, Credit Card, Debit Card
         pd1.setPaymentMode(PAYMENT_MODE_COD);
         pd1.setCashBackPercent(mOrderCheckoutResponse.getCod_cashback_percent());
         pd1.setCashBackAmount(mOrderCheckoutResponse.getCod_cashback());
-        pd2.setPaymentMode(PAYMENT_MODE_BANKING);
+        pd2.setPaymentMode(PAYMENT_MODE_MK_WALLET);
         pd2.setCashBackPercent(mOrderCheckoutResponse.getInapp_cashback_percent());
         pd2.setCashBackAmount(mOrderCheckoutResponse.getInapp_cashback());
-        pd3.setPaymentMode(PAYMENT_MODE_MK_WALLET);
+        pd3.setPaymentMode(PAYMENT_MODE_BANKING);
         pd3.setCashBackPercent(mOrderCheckoutResponse.getInapp_cashback_percent());
         pd3.setCashBackAmount(mOrderCheckoutResponse.getInapp_cashback());
+        pd4.setPaymentMode(PAYMENT_MODE_CREDIT_CARD);
+        pd4.setCashBackPercent(mOrderCheckoutResponse.getInapp_cashback_percent());
+        pd4.setCashBackAmount(mOrderCheckoutResponse.getInapp_cashback());
+        pd5.setPaymentMode(PAYMENT_MODE_DEBIT_CARD);
+        pd5.setCashBackPercent(mOrderCheckoutResponse.getInapp_cashback_percent());
+        pd5.setCashBackAmount(mOrderCheckoutResponse.getInapp_cashback());
 
         mPaymentDataList.add(pd1);
         mPaymentDataList.add(pd2);
         mPaymentDataList.add(pd3);
+        mPaymentDataList.add(pd4);
+        mPaymentDataList.add(pd5);
 
         final PaymentArrayAdapter pdAdapter = new PaymentArrayAdapter();
         final View proceed = (View) findViewById(R.id.bProceed);
@@ -102,12 +116,20 @@ public class PaymentOptionsActivity extends BaseActionActivity {
                         cod();
                         break;
                     case 1:
+                        //Mobikwik Wallet
+                        goToPayment(PaymentInstrumentType.MK_WALLET);
+                        break;
+                    case 2:
                         //Net Banking
                         goToPayment(PaymentInstrumentType.NETBANKING);
                         break;
-                    case 2:
-                        //Mobikwik Wallet
-                        goToPayment(PaymentInstrumentType.MK_WALLET);
+                    case 3:
+                        //Credit Card
+                        goToPayment(PaymentInstrumentType.CREDIT_CARD);
+                        break;
+                    case 4:
+                        //Debit Card
+                        goToPayment(PaymentInstrumentType.DEBIT_CARD);
                         break;
 
                 }
@@ -176,6 +198,11 @@ public class PaymentOptionsActivity extends BaseActionActivity {
         String number = sharedPreferences.getString(AppConstants.PREFERENCE_USER_PHONE, "");
         String emailID = sharedPreferences.getString(AppConstants.PREFERENCE_USER_EMAIL, "");
 
+        if (TextUtils.isEmpty(emailID)) {
+            Toast.makeText(PaymentOptionsActivity.this, "EmailID not found. Could not proceed", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         User usr = new User(emailID, number);
 //        Transaction newTransaction = Transaction.Factory.newTransaction(usr, mOrderCheckoutResponse.getOrderNumber(), String.valueOf("1"), paymentType);
         Transaction newTransaction = Transaction.Factory.newTransaction(usr, mOrderCheckoutResponse.getOrderNumber(), String.valueOf(mOrderCheckoutResponse.getActualAmountPaid()), paymentType);
@@ -191,16 +218,13 @@ public class PaymentOptionsActivity extends BaseActionActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PAYMENT_REQ_CODE) {
             String successCode = "";
-            if (getPaymentType().equals(PaymentInstrumentType.NETBANKING.getType())) {
+            if (getPaymentType().equals(PaymentInstrumentType.NETBANKING.getType()) ||
+                    getPaymentType().equals(PaymentInstrumentType.CREDIT_CARD.getType()) ||
+                    getPaymentType().equals(PaymentInstrumentType.DEBIT_CARD.getType())) {
                 successCode = "1";
             } else if (getPaymentType().equals(PaymentInstrumentType.MK_WALLET.getType())) {
                 successCode = SDKErrorCodes.SUCCESS.getErrorCode(); //"0"
             }
-//        Allowed Transaction are :
-//        PaymentInstrumentType.CREDIT_CARD
-//        PaymentInstrumentType.DEBIT_CARD
-//        PaymentInstrumentType.NETBANKING
-//        PaymentInstrumentType.MK_WALLET
 
             if (data != null) {
                 MKTransactionResponse response = (MKTransactionResponse)
