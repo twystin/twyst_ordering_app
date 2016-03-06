@@ -6,7 +6,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.design.widget.TabLayout;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -17,6 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.twyst.app.android.R;
+import com.twyst.app.android.util.NumberDatabaseSingleton;
+
+import java.util.Arrays;
 
 /**
  * Created by Vipul Sharma on 2/25/2016.
@@ -24,31 +29,78 @@ import com.twyst.app.android.R;
 public class RechargeActivity extends BaseActionActivity {
     private static final int PICK_CONTACT = 2;
 
+    Spinner mOperatorSpinner, mCircleSpinner;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recharge);
 
         setupToolBar();
-
         findViewById(R.id.ibContact).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openContacts();
             }
         });
-
         setupSpinners();
+
+        EditText etNumber = (EditText) findViewById(R.id.et_number);
+        etNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() >= 4) {
+                    String[] string = NumberDatabaseSingleton.getInstance().getNumberDatabase().getFilteredNumberMapping(s.toString());
+                    String operator = string[0];
+                    String circle = string[1];
+                    if (!TextUtils.isEmpty(operator)) {
+                        mOperatorSpinner.setSelection(getIndex(operator));
+                    }
+                    if (!TextUtils.isEmpty(circle)) {
+                        mCircleSpinner.setSelection(getIndex1(circle));
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+    }
+
+    private int getIndex1(String circle) {
+        int index = 0;
+        for (int i = 0; i < mCircleSpinner.getCount(); i++) {
+            if (((CircleMapping) mCircleSpinner.getItemAtPosition(i)).getSqlTableCircleName().equals(circle)) {
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    private int getIndex(String myString) {
+        int index = 0;
+        for (int i = 0; i < mOperatorSpinner.getCount(); i++) {
+            if (Arrays.asList(((OperatorMapping) mOperatorSpinner.getItemAtPosition(i)).getSqlTableOperatorNames()).contains(myString)) {
+                index = i;
+            }
+        }
+        return index;
     }
 
     private void setupSpinners() {
-        Spinner operatorSpinner = (Spinner) findViewById(R.id.spinnerOperatorList);
-        operatorSpinner.setAdapter(new ArrayAdapter<OperatorMapping>(this, R.layout.custom_spinner, OperatorMapping.values()));
-        String selectedOperator = ((OperatorMapping) operatorSpinner.getSelectedItem()).getOperatorID();
+        mOperatorSpinner = (Spinner) findViewById(R.id.spinnerOperatorList);
+        mOperatorSpinner.setAdapter(new ArrayAdapter<OperatorMapping>(this, R.layout.custom_spinner, OperatorMapping.values()));
+        String selectedOperator = ((OperatorMapping) mOperatorSpinner.getSelectedItem()).getOperatorID();
 
-        Spinner circleSpinner = (Spinner) findViewById(R.id.spinnerCircleList);
-        circleSpinner.setAdapter(new ArrayAdapter<CircleMapping>(this, R.layout.custom_spinner, CircleMapping.values()));
-        String selectedCircle = ((CircleMapping) circleSpinner.getSelectedItem()).getCircleCode();
+        mCircleSpinner = (Spinner) findViewById(R.id.spinnerCircleList);
+        mCircleSpinner.setAdapter(new ArrayAdapter<CircleMapping>(this, R.layout.custom_spinner, CircleMapping.values()));
+        String selectedCircle = ((CircleMapping) mCircleSpinner.getSelectedItem()).getCircleCode();
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.slidingTabsAmount);
         tabLayout.addTab(tabLayout.newTab().setText("99"));

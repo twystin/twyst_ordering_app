@@ -240,4 +240,6 @@ public class AppConstants {
 
     public static final String INTENT_MERCHANT_LOGO = "merchant_logo";
     public static final String INTENT_VOUCHER_DETAIL = "voucher_detail";
+
+    public static final String KEY_DATABASE_SAVED = "database_saved";
 }

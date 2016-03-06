@@ -16,6 +16,7 @@ import com.twyst.app.android.activities.FeedbackActivity;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.service.LocationService;
 import com.twyst.app.android.util.AppConstants;
+import com.twyst.app.android.util.NumberDatabaseSingleton;
 import com.twyst.app.android.util.SharedPreferenceSingleton;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -35,6 +36,7 @@ public class TwystApplication extends Application {
 
         HttpService.getInstance().setup(getApplicationContext(), getGATracker());
         SharedPreferenceSingleton.getInstance().setup(getApplicationContext());
+        NumberDatabaseSingleton.getInstance().setup(getApplicationContext());
 
         if (!isMyServiceRunning(LocationService.class)) {
             Intent locationService = new Intent();
