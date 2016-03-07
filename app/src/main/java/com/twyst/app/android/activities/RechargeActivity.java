@@ -47,47 +47,53 @@ public class RechargeActivity extends BaseActionActivity {
         setupSpinners();
 
         EditText etNumber = (EditText) findViewById(R.id.et_number);
-        etNumber.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() >= 4) {
-                    String[] string = NumberDatabaseSingleton.getInstance().getNumberDatabase().getFilteredNumberMapping(s.toString());
-                    String operator = string[0];
-                    String circle = string[1];
-                    if (!TextUtils.isEmpty(operator)) {
-                        mOperatorSpinner.setSelection(getIndex(operator));
+        etNumber.addTextChangedListener(
+                new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                     }
-                    if (!TextUtils.isEmpty(circle)) {
-                        mCircleSpinner.setSelection(getIndex1(circle));
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        String operator = "";
+                        String circle = "";
+                        if (s.length() >= 4) {
+                            String[] string = NumberDatabaseSingleton.getInstance().getNumberDatabase().
+                                    getFilteredNumberMapping(s.toString());
+                            operator = string[0];
+                            circle = string[1];
+                        }
+                        mOperatorSpinner.setSelection(getOperatorIndex(operator));
+                        mCircleSpinner.setSelection(getCircleIndex(circle));
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
                     }
                 }
-            }
 
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
+        );
     }
 
-    private int getIndex1(String circle) {
+    private int getCircleIndex(String circle) {
         int index = 0;
-        for (int i = 0; i < mCircleSpinner.getCount(); i++) {
-            if (((CircleMapping) mCircleSpinner.getItemAtPosition(i)).getSqlTableCircleName().equals(circle)) {
-                index = i;
+        if (!TextUtils.isEmpty(circle)) {
+            for (int i = 0; i < mCircleSpinner.getCount(); i++) {
+                if (((CircleMapping) mCircleSpinner.getItemAtPosition(i)).getSqlTableCircleName().equals(circle)) {
+                    index = i;
+                }
             }
         }
         return index;
     }
 
-    private int getIndex(String myString) {
+    private int getOperatorIndex(String operator) {
         int index = 0;
-        for (int i = 0; i < mOperatorSpinner.getCount(); i++) {
-            if (Arrays.asList(((OperatorMapping) mOperatorSpinner.getItemAtPosition(i)).getSqlTableOperatorNames()).contains(myString)) {
-                index = i;
+        if (!TextUtils.isEmpty(operator)) {
+            for (int i = 0; i < mOperatorSpinner.getCount(); i++) {
+                if (Arrays.asList(((OperatorMapping) mOperatorSpinner.getItemAtPosition(i)).getSqlTableOperatorNames()).contains(operator)) {
+                    index = i;
+                }
             }
         }
         return index;
@@ -201,6 +207,7 @@ public class RechargeActivity extends BaseActionActivity {
     }
 
     private enum OperatorMapping {
+        DEFAULT("0", "Select Operator", new String[]{""}),
         AIRTEL("1", "Airtel", new String[]{"AIRTEL"}),
         VODAFONE("2", "Vodafone", new String[]{"VODAFONE"}),
         BSNL("3", "BSNL", new String[]{"BSNL"}),
@@ -259,6 +266,7 @@ public class RechargeActivity extends BaseActionActivity {
     }
 
     private enum CircleMapping {
+        DEFAULT("0", "Select Circle", ""),
         AP("1", "Andhra Pradesh", "ANDHRA PRADESH"),
         ASSAM("2", "Assam", "ASSAM"),
         BJ("3", "Bihar & Jharkhand", "BIHAR & JHARKHAND"),
