@@ -41,28 +41,31 @@ public class NumberDatabase extends SQLiteOpenHelper {
 
     public void insertValues(String loadJSONFromAsset) {
         this.getWritableDatabase();
-        try {
-            JSONObject jsonObject = new JSONObject(loadJSONFromAsset);
-            JSONArray jsonArray = jsonObject.getJSONArray("result");
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                String operator = jsonObject1.getString(FIELD_OPERATOR).toString();
-                String circle = jsonObject1.getString(FIELD_CIRCLE).toString();
-                String prefix = jsonObject1.getString(FIELD_PREFIX).toString();
-                insertData(operator, circle, prefix);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void insertData(String operator, String circle, String prefix) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(FIELD_OPERATOR, operator);
-        values.put(FIELD_CIRCLE, circle);
-        values.put(FIELD_PREFIX, prefix);
-        sqLiteDatabase.insert(TABLE, null, values);
+        sqLiteDatabase.beginTransaction();
+        try {
+            try {
+                JSONObject jsonObject = new JSONObject(loadJSONFromAsset);
+                JSONArray jsonArray = jsonObject.getJSONArray("result");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                    String operator = jsonObject1.getString(FIELD_OPERATOR).toString();
+                    String circle = jsonObject1.getString(FIELD_CIRCLE).toString();
+                    String prefix = jsonObject1.getString(FIELD_PREFIX).toString();
+                    values.put(FIELD_OPERATOR, operator);
+                    values.put(FIELD_CIRCLE, circle);
+                    values.put(FIELD_PREFIX, prefix);
+                    sqLiteDatabase.insert(TABLE, null, values);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            sqLiteDatabase.setTransactionSuccessful();
+        } finally {
+            sqLiteDatabase.endTransaction();
+        }
+
     }
 
     public String[] getFilteredNumberMapping(String number) {
