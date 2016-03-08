@@ -47,7 +47,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="My Twyst Cash" />
+            android:text="My Twyst Cash"
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/tv_current_address_location"
@@ -113,7 +114,8 @@
                     android:drawablePadding="4dp"
                     android:gravity="end|top"
                     android:text="(Image) Valid till dd MMM"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/black"
+                    android:textSize="14dp" />
             </LinearLayout>
 
             <View
@@ -151,7 +153,8 @@
                         android:paddingBottom="2dp"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
-                        android:text="Minimum bill Rs. 500" />
+                        android:text="Minimum bill Rs. 500"
+                        android:textSize="14dp" />
 
                     <View
                         android:layout_width="match_parent"
@@ -188,14 +191,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="1dp"
-                    android:text="(Incl. 10% handling fee)" />
+                    android:text="(Incl. 10% handling fee)"
+                    android:textSize="14dp" />
 
                 <TextView
                     android:id="@+id/tv_freeText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="1dp"
-                    android:text="Free text" />
+                    android:text="Free text"
+                    android:textSize="14dp" />
 
                 <FrameLayout
                     android:id="@+id/bUseOffer"
@@ -235,7 +240,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Terms and Conditions"
-                android:textColor="@android:color/black" />
+                android:textColor="@android:color/black"
+                android:textSize="14dp" />
 
             <ImageView
                 android:id="@+id/iv_tncArrow"
@@ -266,7 +272,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/layout_wide_margin"
                 android:text="1. All the Terms and Conditions come here and are taken from server. This line is made long to check for visual purpose only.\n2. Entered a new Line."
-                android:textColor="@android:color/black" />
+                android:textColor="@android:color/black"
+                android:textSize="14dp" />
         </LinearLayout>
     </LinearLayout>
 
