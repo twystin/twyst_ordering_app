@@ -28,6 +28,7 @@ import com.twyst.app.android.model.Offer;
 import com.twyst.app.android.model.OrderHistory;
 import com.twyst.app.android.model.OrderUpdate;
 import com.twyst.app.android.model.OutletDetailData;
+import com.twyst.app.android.model.Recharge;
 import com.twyst.app.android.model.UserProfile;
 import com.twyst.app.android.model.ProfileUpdate;
 import com.twyst.app.android.model.Referral;
@@ -305,9 +306,11 @@ public class HttpService {
         twystService.getResendVerifMail(token, callback);
     }
 
-    public void getTwystCashHistory(String token, Callback<BaseResponse<CashHistoryData>> callback){
+    public void getTwystCashHistory(String token, Callback<BaseResponse<CashHistoryData>> callback) {
         twystService.getTwystCashHistory(token, callback);
     }
 
-
+    public void postRecharge(String token, Recharge recharge, Callback<BaseResponse> callback) {
+        twystService.postRecharge(token, recharge, callback);
+    }
 }
