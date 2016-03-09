@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.twyst.app.android.R;
+import com.twyst.app.android.model.TimeStamp;
 
 import java.lang.reflect.Field;
 import java.text.DateFormat;
@@ -182,10 +183,10 @@ public class Utils {
         return builder;
     }
 
-    //Added by Raman for formatting date & time.
-    public static String formatDateTime(String orderDate) {
+    //Added by Raman for getting date & time.
+    public static TimeStamp getTimeStamp(String orderDate) {
         String orderDateOld = orderDate;
-        String orderDateNew = null;
+        TimeStamp timeStamp = new TimeStamp();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         sdf.setTimeZone(TimeZone.getTimeZone("IST"));
@@ -194,13 +195,12 @@ public class Utils {
 
         try {
             Date d = sdf.parse(orderDateOld);
-            String date = dateInstance.format(d);
-            String time = timeInstance.format(d);
-            orderDateNew = date + " at " + time;
+            timeStamp.setDate(dateInstance.format(d));
+            timeStamp.setTime(timeInstance.format(d));
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return orderDateNew;
+        return timeStamp;
     }
 
     public static int getOfferDisplayIcon(String rewardType) {

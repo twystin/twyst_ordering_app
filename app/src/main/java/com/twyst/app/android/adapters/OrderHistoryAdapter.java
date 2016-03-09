@@ -26,6 +26,7 @@ import com.twyst.app.android.model.OrderHistory;
 import com.twyst.app.android.model.OrderUpdate;
 import com.twyst.app.android.model.Outlet;
 import com.twyst.app.android.model.ReorderMenuAndCart;
+import com.twyst.app.android.model.TimeStamp;
 import com.twyst.app.android.model.menu.AddonSet;
 import com.twyst.app.android.model.menu.Addons;
 import com.twyst.app.android.model.menu.Items;
@@ -135,8 +136,9 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.outletNameTextView.setText(orderHistory.getOutletName());
         holder.outletAddressTextView.setText(orderHistory.addressString());
         holder.orderCostTextView.setText(Utils.costString(orderHistory.getOrderCost()));
-        String orderDate = orderHistory.getOrderDate();
-        holder.dateTextView.setText(Utils.formatDateTime(orderDate));
+        String orderDate = orderHistory.getOrderDate();		
+        TimeStamp timeStamp = Utils.getTimeStamp(orderDate);
+        holder.dateTextView.setText(timeStamp.getDate()+" at "+timeStamp.getTime());
         holder.itemBodyTextView.setText(getCompleteItemName(orderHistory));
 
         if (orderHistory.isTrackable()) {
