@@ -881,16 +881,17 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     public void onReceiveAddress(int resultCode, Address address) {
         SharedPreferenceSingleton sharedPreferenceSingleton = SharedPreferenceSingleton.getInstance();
         if (resultCode == AppConstants.SHOW_CURRENT_LOCATION) {
-            String mAddressOutput = "";
-            for (int i = 0; i < address.getMaxAddressLineIndex(); i++) {
-                mAddressOutput += address.getAddressLine(i);
-                mAddressOutput += ", ";
-            }
-
-            mAddressOutput += address.getAddressLine(address.getMaxAddressLineIndex());
-            mAddressDetailsLocationData.setAddress(mAddressOutput);
-            mAddressDetailsLocationData.setNeighborhood(address.getAddressLine(0));
-            mAddressDetailsLocationData.setLandmark(address.getAddressLine(1));
+            int index = address.getMaxAddressLineIndex();
+//            String mAddressOutput = "";
+//            for (int i = 0; i < index; i++) {
+//                mAddressOutput += address.getAddressLine(i);
+//                mAddressOutput += ", ";
+//            }
+//            mAddressOutput += address.getAddressLine(index);
+//            mAddressDetailsLocationData.setLine1(mAddressOutput);
+            if (index >= 0) mAddressDetailsLocationData.setLine1(address.getAddressLine(0));
+            if (index >= 1) mAddressDetailsLocationData.setLine2(address.getAddressLine(1));
+//            if (index >= 2)mAddressDetailsLocationData.setLandmark(address.getAddressLine(2));
             mAddressDetailsLocationData.setCity(address.getSubAdminArea()); // to be checked
             mAddressDetailsLocationData.setState(address.getAdminArea()); // to be checked
 
@@ -908,13 +909,6 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             if (twystProgressHUD != null) {
                 twystProgressHUD.dismiss();
             }
-//            mAddressDetailsLocationData.setAddress("Unnamed Address");
-//            mAddressDetailsLocationData.setNeighborhood("Unnamed Address");
-//            mAddressDetailsLocationData.setLandmark("Unnamed Address");
-//            sharedPreferenceSingleton.saveCurrentUsedLocation(mAddressDetailsLocationData);
-//            Intent intent = new Intent(PreMainActivity.this, MainActivity.class);
-//            intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_CURRENT);
-//            startActivity(intent);
             Toast.makeText(PreMainActivity.this, R.string.couldnot_fetch_location, Toast.LENGTH_LONG).show();
             Intent intent = new Intent(PreMainActivity.this, AddressMapActivity.class);
             intent.putExtra(AppConstants.FROM_CHOOSE_ACTIVITY_TO_MAP, true);

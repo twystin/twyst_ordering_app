@@ -127,8 +127,8 @@
 <p><b>&middot; &nbsp; &nbsp; Why is the Cashback rate at a restaurant not a fixed amount?</b></p>
 <p>Well, like most things, you give more to get more You will usually earn the highest amount of Twyst Cash at any outlet when you make an online payment (pay via the app instead of cash on delivery) and have a larger order value.</p>
 <p>&nbsp;</p>
-<p><b>&middot; &nbsp; &nbsp; I selected Current Location but its showing the wrong address?</b></p>
-<p>In some cases, the address for a particular GPS location may be incorrectly detected. If you’re sure that the location being detected is correct, you can always edit the actual address before placing the final order.</p>
+<p><b>&middot; &nbsp; &nbsp; I selected Current Location but its showing the wrong line1?</b></p>
+<p>In some cases, the line1 for a particular GPS location may be incorrectly detected. If you’re sure that the location being detected is correct, you can always edit the actual line1 before placing the final order.</p>
 <p><b>&middot; &nbsp; &nbsp; I can&rsquo;t find XYZ outlet on Twyst?</b></p>
 <p>We only show you the outlets that deliver to your selected location (you can choose your current location or even a different location) as per the information given to us by the outlet. If you’re sure that the outlet delivers to your area try making sure that your phone is correctly picking up the location by enabling GPS.</p>
 <p><b>&middot; &nbsp; &nbsp; Can I cancel an order once I have placed it?</b></p>
@@ -199,13 +199,14 @@ each friend who joins.</p>
 
     <!--Address Details-->
     <string name="hint_address">Address</string>
-    <string name="hint_building_name">Building Name/Flat Name</string>
+    <string name="hint_line1">Line 1</string>
     <string name="hint_name">Enter your name</string>
+    <string name="hint_line2">Line 2</string>
     <string name="hint_landmark">Landmark</string>
     <string name="hint_other_tag">E.g. Friend\'s Home</string>
 
     <string name="address_found">Address found</string>
-    <string name="no_address_found">Sorry, no address found</string>
+    <string name="no_address_found">Sorry, no line1 found</string>
     <string name="no_location_data_provided">No location data provided</string>
     <string name="service_not_available">Sorry, the service is not available</string>
     <string name="invalid_lat_long_used">Invalid latitude or longitude used</string>

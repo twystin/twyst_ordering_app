@@ -304,17 +304,17 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
             mAddressRequested = false;
             twystProgressHUD.dismiss();
             mAddress = address;
-            mAddressOutput = "";
-            for (int i = 0; i < mAddress.getMaxAddressLineIndex(); i++) {
-                mAddressOutput += mAddress.getAddressLine(i);
-                mAddressOutput += ", ";
-            }
+            int index = address.getMaxAddressLineIndex();
+//            mAddressOutput = "";
+//            for (int i = 0; i < mAddress.getMaxAddressLineIndex(); i++) {
+//                mAddressOutput += mAddress.getAddressLine(i);
+//                mAddressOutput += ", ";
+//            }
+//            mAddressOutput += mAddress.getAddressLine(mAddress.getMaxAddressLineIndex());
+//            locationData.setLine1(mAddressOutput);
 
-            mAddressOutput += mAddress.getAddressLine(mAddress.getMaxAddressLineIndex());
-            locationData.setAddress(mAddressOutput);
-
-            locationData.setNeighborhood(mAddress.getAddressLine(0));
-            locationData.setLandmark(mAddress.getAddressLine(1));
+            if (index >= 0) locationData.setLine2(address.getAddressLine(0));
+            if (index >= 1) locationData.setLine2(address.getAddressLine(1));
             locationData.setCity(address.getSubAdminArea()); // to be checked
             locationData.setState(address.getAdminArea()); // to be checked
 
@@ -422,9 +422,8 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
                 mAddressRequested = false;
                 locationData = new AddressDetailsLocationData();
                 locationData.setCoords(new Coords("28.49", "77.09"));
-                locationData.setAddress("DLF Cyber City, DLF Phase 2, Sector 24, Gurgaon, Haryana 122021, India");
-                locationData.setNeighborhood("DLF Cyber City, DLF Phase 2");
-                locationData.setLandmark(" Sector 24, Gurgaon");
+                locationData.setLine1("DLF Cyber City, DLF Phase 2");
+                locationData.setLine2(" Sector 24, Gurgaon");
                 Intent intent = new Intent(AddressMapActivity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 SharedPreferenceSingleton sharedPreferenceSingleton = SharedPreferenceSingleton.getInstance();

@@ -358,16 +358,17 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
     @Override
     public void onReceiveAddress(int resultCode, Address address) {
         if (resultCode == AppConstants.SHOW_CURRENT_LOCATION) {
-            String mAddressOutput = "";
-            for (int i = 0; i < address.getMaxAddressLineIndex(); i++) {
-                mAddressOutput += address.getAddressLine(i);
-                mAddressOutput += ", ";
-            }
-
-            mAddressOutput += address.getAddressLine(address.getMaxAddressLineIndex());
-            mAddressDetailsLocationData.setAddress(mAddressOutput);
-            mAddressDetailsLocationData.setNeighborhood(address.getAddressLine(0));
-            mAddressDetailsLocationData.setLandmark(address.getAddressLine(1));
+            int index = address.getMaxAddressLineIndex();
+//            String mAddressOutput = "";
+//            for (int i = 0; i < index; i++) {
+//                mAddressOutput += address.getAddressLine(i);
+//                mAddressOutput += ", ";
+//            }
+//            mAddressOutput += address.getAddressLine(index);
+//            mAddressDetailsLocationData.setLine1(mAddressOutput);
+            if (index >= 0) mAddressDetailsLocationData.setLine1(address.getAddressLine(0));
+            if (index >= 1) mAddressDetailsLocationData.setLine2(address.getAddressLine(1));
+//            if (index >= 2)mAddressDetailsLocationData.setLandmark(address.getAddressLine(2));
             mAddressDetailsLocationData.setCity(address.getSubAdminArea()); // to be checked
             mAddressDetailsLocationData.setState(address.getAdminArea()); // to be checked
             mLocationAddressTextView.setText(address.getAddressLine(0) + ", " + address.getAddressLine(1));

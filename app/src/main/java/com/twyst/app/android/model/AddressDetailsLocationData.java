@@ -15,10 +15,10 @@ public class AddressDetailsLocationData implements Serializable {
     public final static String TAG_OTHER = "Other";
 
     @SerializedName("line1")
-    private String address;
+    private String line1;
 
     @SerializedName("line2")
-    private String neighborhood;
+    private String line2;
 
     private String landmark;
 
@@ -44,20 +44,20 @@ public class AddressDetailsLocationData implements Serializable {
         this.locationsVerified = locationsVerified;
     }
 
-    public String getAddress() {
-        return address;
+    public String getLine1() {
+        return line1;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setLine1(String line1) {
+        this.line1 = line1;
     }
 
-    public String getNeighborhood() {
-        return neighborhood;
+    public String getLine2() {
+        return line2;
     }
 
-    public void setNeighborhood(String neighborhood) {
-        this.neighborhood = neighborhood;
+    public void setLine2(String line2) {
+        this.line2 = line2;
     }
 
     public String getLandmark() {
@@ -119,9 +119,9 @@ public class AddressDetailsLocationData implements Serializable {
     @Override
     public String toString() {
         return "AddressDetailsLocationData{" +
-                "neighborhood='" + neighborhood + '\'' +
+                "line2='" + line2 + '\'' +
                 ", landmark='" + landmark + '\'' +
-                ", address='" + address + '\'' +
+                ", line1='" + line1 + '\'' +
                 '}';
     }
 

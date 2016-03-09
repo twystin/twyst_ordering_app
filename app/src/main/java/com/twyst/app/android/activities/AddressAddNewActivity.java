@@ -37,7 +37,8 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
     private ImageView workTag;
     private ImageView otherTag;
     private EditText address;
-    private EditText neighborhood;
+    private EditText line1;
+    private EditText line2;
     private EditText landmark;
     private GoogleMap mMap;
     private ImageView chosenLocationButton;
@@ -63,7 +64,8 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
         otherTag.setImageDrawable(getBaseContext().getResources().getDrawable(R.drawable.other_tag_config));
 
         address = (EditText) findViewById(R.id.editView_address);
-        neighborhood = (EditText) findViewById(R.id.editView_building);
+        line1 = (EditText) findViewById(R.id.editView_line1);
+        line2 = (EditText) findViewById(R.id.editView_line2);
         landmark = (EditText) findViewById(R.id.editView_landmark);
 
         //Setting text
@@ -191,20 +193,27 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
         findViewById(R.id.tvChangeLocation).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddressAddNewActivity.this, AddressDetailsActivity.class);
-                startActivity(intent);
+                if (SharedPreferenceSingleton.getInstance().isPassedCartCheckoutStage()){
+                    Intent intent = new Intent(AddressAddNewActivity.this, AddressDetailsActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Intent intent = new Intent(AddressAddNewActivity.this, AddressDetailsActivity.class);
+                    startActivity(intent);
+                }
             }
         });
     }
 
     private void clickProceedFunc() {
-        EditText neighborhood = (EditText) findViewById(R.id.editView_building);
         EditText address = (EditText) findViewById(R.id.editView_address);
+        EditText line1 = (EditText) findViewById(R.id.editView_line1);
+        EditText line2 = (EditText) findViewById(R.id.editView_line2);
         EditText landmark = (EditText) findViewById(R.id.editView_landmark);
 
-        if (validateEditText(neighborhood) && validateEditText(address)) {
-            mNewAddress.setNeighborhood(neighborhood.getText().toString());
-            mNewAddress.setAddress(address.getText().toString());
+        if (validateEditText(line1) && validateEditText(line2) && validateEditText(landmark)) {
+            mNewAddress.setLine1(line1.getText().toString());
+            mNewAddress.setLine2(line2.getText().toString());
             mNewAddress.setLandmark(landmark.getText().toString());
             if (homeTag.isSelected()) {
                 mNewAddress.setTag(AddressDetailsLocationData.TAG_HOME);
@@ -235,19 +244,21 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
             }
             updateOrderSummaryAndCheckout(mNewAddress);
         } else {
-            validateEditText(neighborhood);
-            validateEditText(address);
+            validateEditText(line1);
+            validateEditText(line2);
+            validateEditText(landmark);
         }
     }
 
     private void clickOkFunc() {
-        EditText neighborhood = (EditText) findViewById(R.id.editView_building);
         EditText address = (EditText) findViewById(R.id.editView_address);
+        EditText line1 = (EditText) findViewById(R.id.editView_line1);
+        EditText line2 = (EditText) findViewById(R.id.editView_line2);
         EditText landmark = (EditText) findViewById(R.id.editView_landmark);
 
-        if (validateEditText(landmark) && validateEditText(neighborhood) && validateEditText(address)) {
-            mNewAddress.setNeighborhood(neighborhood.getText().toString());
-            mNewAddress.setAddress(address.getText().toString());
+        if (validateEditText(line2) && validateEditText(line1) && validateEditText(landmark)) {
+            mNewAddress.setLine1(line1.getText().toString());
+            mNewAddress.setLine2(line2.getText().toString());
             mNewAddress.setLandmark(landmark.getText().toString());
             if (homeTag.isSelected()) {
                 mNewAddress.setTag(AddressDetailsLocationData.TAG_HOME);
@@ -264,8 +275,8 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
             finish();
 
         } else {
-            validateEditText(neighborhood);
-            validateEditText(address);
+            validateEditText(line1);
+            validateEditText(line2);
             validateEditText(landmark);
         }
     }
@@ -341,8 +352,9 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
     }
 
     private void setTextLocationFetch(AddressDetailsLocationData locationData) {
-        address.setText(locationData.getAddress());
-        neighborhood.setText(locationData.getNeighborhood());
+        address.setText(locationData.getLine1() + ", " + locationData.getLine2() + ", " + locationData.getLandmark());
+        line1.setText(locationData.getLine1());
+        line2.setText(locationData.getLine2());
         landmark.setText(locationData.getLandmark());
     }
 

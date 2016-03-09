@@ -204,7 +204,7 @@ public class InviteEmailFragment extends Fragment {
 //                    List<Email> emails = contactEntry.getEmailAddresses();
 //                    if (null != emails && emails.size() > 0) {
 //                        Email tempEmail = (Email) emails.get(0);
-//                        email = tempEmail.getAddress();
+//                        email = tempEmail.getLine1();
 //                    }
 //
 //                    if (TextUtils.isEmpty(name) || TextUtils.isEmpty(email)) {
