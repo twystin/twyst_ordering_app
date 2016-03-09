@@ -15,7 +15,7 @@ public class CashHistoryData implements Serializable {
     int twystCash;
 
     @SerializedName("twyst_cash_history")
-    ArrayList<TwystCashHistory> cashHistory = new ArrayList<>();
+    ArrayList<TwystCashHistory> cashHistory = new ArrayList<TwystCashHistory>();
 
     public int getTwystCash() {
         return twystCash;

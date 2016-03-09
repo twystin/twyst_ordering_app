@@ -9,8 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.twyst.app.android.R;
-import com.twyst.app.android.activities.TwystCashHistoryActivity;
 import com.twyst.app.android.adapters.CashRowAdapter;
+import com.twyst.app.android.model.TwystCashHistory;
+import com.twyst.app.android.util.AppConstants;
 
 import java.util.ArrayList;
 
@@ -18,11 +19,15 @@ import java.util.ArrayList;
  * Created by Raman on 2/4/2016.
  */
 public class DebitTwystCashFragment extends Fragment {
-    ArrayList<TwystCashHistoryActivity.CashHistory> list = TwystCashHistoryActivity.getDebitList();
+    ArrayList<TwystCashHistory> list = new ArrayList<TwystCashHistory>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cash_layout, container, false);
-        RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.rv_cash_fragment);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rv_cash_fragment);
+
+        Bundle bundle = getArguments();
+        list = (ArrayList<TwystCashHistory>) bundle.getSerializable(AppConstants.BUNDLE_DEBIT_CASH_HISTORY);
 
         setUpDebitCashRV(recyclerView);
         return view;
@@ -32,7 +37,7 @@ public class DebitTwystCashFragment extends Fragment {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(mLayoutManager);
 
-        CashRowAdapter mCashRowAdapter = new CashRowAdapter(getContext(),list);
+        CashRowAdapter mCashRowAdapter = new CashRowAdapter(getContext(), list);
         recyclerView.setAdapter(mCashRowAdapter);
     }
 }

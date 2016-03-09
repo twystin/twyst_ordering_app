@@ -9,7 +9,7 @@ public class AppConstants {
 //    public static final String HOST = "http://beta.twyst.in";
 //    public static final String HOST = "http://192.168.1.18:3000";
 //    public static final String HOST = "http://staging.twyst.in";
-      public static final String HOST = BuildConfig.HOST;
+    public static final String HOST = BuildConfig.HOST;
 //    public static final String HOST = "http://twyst.in";
 
     public static final String GCM_PROJECT_ID = "216832068690";
@@ -242,4 +242,10 @@ public class AppConstants {
     public static final String INTENT_VOUCHER_DETAIL = "voucher_detail";
 
     public static final String KEY_DATABASE_SAVED = "database_saved";
+
+    //Twyst Cash History
+    public static final String INTENT_PARAM_CASH_HISTORY = "intent_twyst_Cash_history";
+    public static final String BUNDLE_ALL_CASH_HISTORY = "all_cash_history";
+    public static final String BUNDLE_CREDIT_CASH_HISTORY = "credit_cash_history";
+    public static final String BUNDLE_DEBIT_CASH_HISTORY = "debit_cash_history";
 }

@@ -42,31 +42,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/iv_twyst_cash_icon"
-            android:layout_marginBottom="4dp"
-            android:text="435"
+            android:text="0"
             android:textSize="@dimen/twyst_cash_text_huge" />
-
-        <FrameLayout
-            android:id="@+id/button_earn_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_cash_amount"
-            android:background="@drawable/button_primary"
-            android:clickable="true">
-
-            <TextView
-                android:id="@+id/tv_earn_more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/layout_small_margin"
-                android:paddingLeft="@dimen/layout_medium_margin"
-                android:paddingRight="@dimen/layout_medium_margin"
-                android:paddingTop="@dimen/layout_small_margin"
-                android:text="@string/earn_more"
-                android:textAllCaps="true"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/twyst_cash_text_huge" />
-        </FrameLayout>
 
     </LinearLayout>
 
@@ -91,13 +68,65 @@
         app:tabSelectedTextColor="@color/colorPrimary"
         app:tabTextColor="@android:color/black" />
 
+    <LinearLayout
+        android:id="@+id/ll_cash_row_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tabs_my_twyst_cash"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:weightSum="100">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="15"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="Date"
+                android:textSize="@dimen/twyst_cash_text_medium" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="65"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="Transaction"
+                android:textSize="@dimen/twyst_cash_text_medium" />
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="20"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="Amount"
+                android:textSize="@dimen/twyst_cash_text_medium" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/background_grey" />
+
+    </LinearLayout>
+
     <android.support.v4.view.ViewPager
         android:id="@+id/pager_my_twyst_cash"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/tabs_my_twyst_cash">
-
-
-    </android.support.v4.view.ViewPager>
+        android:layout_below="@id/ll_cash_row_header"
+        android:background="@color/white"></android.support.v4.view.ViewPager>
 
 </RelativeLayout>

@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingTop="4dp"
     android:paddingBottom="4dp"
+    android:paddingTop="4dp"
     android:weightSum="100">
 
     <LinearLayout
@@ -39,19 +39,19 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="35"
         android:layout_gravity="center"
+        android:layout_weight="65"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_order_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
             android:gravity="center"
+            android:maxLines="1"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
-            android:maxLines="1"
-            android:ellipsize="end"
             android:text="Biryaani Blues"
             android:textColor="@android:color/black"
             android:textSize="@dimen/twyst_cash_text_medium" />
@@ -69,17 +69,6 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_transaction"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="10"
-        android:gravity="center"
-        android:padding="2dp"
-        android:text="+"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/twyst_cash_text_medium" />
-
-    <TextView
         android:id="@+id/tv_transaction_amount"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -90,15 +79,5 @@
         android:textColor="@android:color/black"
         android:textSize="@dimen/twyst_cash_text_medium" />
 
-    <TextView
-        android:id="@+id/tv_balance"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="20"
-        android:gravity="center"
-        android:padding="2dp"
-        android:text="550"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/twyst_cash_text_medium" />
 
 </LinearLayout>

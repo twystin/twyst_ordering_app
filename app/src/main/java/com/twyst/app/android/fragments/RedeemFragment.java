@@ -9,18 +9,29 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.common.primitives.Ints;
 import com.twyst.app.android.CirclePageIndicator;
 import com.twyst.app.android.R;
+import com.twyst.app.android.activities.MainActivity;
 import com.twyst.app.android.activities.TwystCashHistoryActivity;
 import com.twyst.app.android.adapters.ImagePagerAdapter;
 import com.twyst.app.android.adapters.RedeemRVAdapter;
+import com.twyst.app.android.model.BaseResponse;
+import com.twyst.app.android.model.CashHistoryData;
+import com.twyst.app.android.model.TwystCashHistory;
+import com.twyst.app.android.service.HttpService;
+import com.twyst.app.android.util.AppConstants;
+import com.twyst.app.android.util.UtilMethods;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +47,7 @@ public class RedeemFragment extends Fragment {
     private CirclePageIndicator mIndicator;
 
     private List<RedeemRVAdapter.CardItemRedeem> cardItemList = new ArrayList<>();
+
 
     // Initialization of constants.
     private final String[] TextForGrid =
@@ -67,6 +79,7 @@ public class RedeemFragment extends Fragment {
         view.findViewById(R.id.ll_twyst_cash_launcher).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent twystCashIntent = new Intent(view.getContext(), TwystCashHistoryActivity.class);
                 view.getContext().startActivity(twystCashIntent);
             }
