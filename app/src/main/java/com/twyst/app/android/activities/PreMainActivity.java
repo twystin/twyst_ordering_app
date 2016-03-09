@@ -892,7 +892,11 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             if (index >= 0) mAddressDetailsLocationData.setLine1(address.getAddressLine(0));
             if (index >= 1) mAddressDetailsLocationData.setLine2(address.getAddressLine(1));
 //            if (index >= 2)mAddressDetailsLocationData.setLandmark(address.getAddressLine(2));
-            mAddressDetailsLocationData.setCity(address.getSubAdminArea()); // to be checked
+            if (address.getSubAdminArea()!=null) {
+                mAddressDetailsLocationData.setCity(address.getSubAdminArea()); // to be checked
+            } else {
+                mAddressDetailsLocationData.setCity(address.getLocality()); // to be checked
+            }
             mAddressDetailsLocationData.setState(address.getAdminArea()); // to be checked
 
             sharedPreferenceSingleton.saveCurrentUsedLocation(mAddressDetailsLocationData);

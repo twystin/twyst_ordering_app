@@ -116,12 +116,24 @@ public class AddressDetailsLocationData implements Serializable {
         this.name = name;
     }
 
+//    @Override
+//    public String toString() {
+//        return "AddressDetailsLocationData{" +
+//                "line2='" + line2 + '\'' +
+//                ", landmark='" + landmark + '\'' +
+//                ", line1='" + line1 + '\'' +
+//                '}';
+//    }
+
+
     @Override
     public String toString() {
         return "AddressDetailsLocationData{" +
-                "line2='" + line2 + '\'' +
+                "line1='" + line1 + '\'' +
+                ", line2='" + line2 + '\'' +
                 ", landmark='" + landmark + '\'' +
-                ", line1='" + line1 + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
                 '}';
     }
 

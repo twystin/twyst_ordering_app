@@ -313,9 +313,13 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
 //            mAddressOutput += mAddress.getAddressLine(mAddress.getMaxAddressLineIndex());
 //            locationData.setLine1(mAddressOutput);
 
-            if (index >= 0) locationData.setLine2(address.getAddressLine(0));
+            if (index >= 0) locationData.setLine1(address.getAddressLine(0));
             if (index >= 1) locationData.setLine2(address.getAddressLine(1));
-            locationData.setCity(address.getSubAdminArea()); // to be checked
+            if (address.getSubAdminArea()!=null) {
+                locationData.setCity(address.getSubAdminArea()); // to be checked
+            } else {
+                locationData.setCity(address.getLocality()); // to be checked
+            }
             locationData.setState(address.getAdminArea()); // to be checked
 
             Bundle info = new Bundle();

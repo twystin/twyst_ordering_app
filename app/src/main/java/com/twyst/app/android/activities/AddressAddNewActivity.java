@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -211,7 +212,7 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
         EditText line2 = (EditText) findViewById(R.id.editView_line2);
         EditText landmark = (EditText) findViewById(R.id.editView_landmark);
 
-        if (validateEditText(line1) && validateEditText(line2) && validateEditText(landmark)) {
+        if (validateEditText(line1) && validateEditText(line2)) {
             mNewAddress.setLine1(line1.getText().toString());
             mNewAddress.setLine2(line2.getText().toString());
             mNewAddress.setLandmark(landmark.getText().toString());
@@ -246,7 +247,6 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
         } else {
             validateEditText(line1);
             validateEditText(line2);
-            validateEditText(landmark);
         }
     }
 
@@ -256,7 +256,7 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
         EditText line2 = (EditText) findViewById(R.id.editView_line2);
         EditText landmark = (EditText) findViewById(R.id.editView_landmark);
 
-        if (validateEditText(line2) && validateEditText(line1) && validateEditText(landmark)) {
+        if (validateEditText(line2) && validateEditText(line1)) {
             mNewAddress.setLine1(line1.getText().toString());
             mNewAddress.setLine2(line2.getText().toString());
             mNewAddress.setLandmark(landmark.getText().toString());
@@ -277,7 +277,6 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
         } else {
             validateEditText(line1);
             validateEditText(line2);
-            validateEditText(landmark);
         }
     }
 
@@ -352,10 +351,18 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
     }
 
     private void setTextLocationFetch(AddressDetailsLocationData locationData) {
-        address.setText(locationData.getLine1() + ", " + locationData.getLine2() + ", " + locationData.getLandmark());
+        if (!TextUtils.isEmpty(locationData.getLandmark())) {
+            address.setText(locationData.getLine1() + ", " + locationData.getLine2() + ", " +  locationData.getLandmark() + ", " +
+                    locationData.getCity() + ", " + locationData.getState());
+        } else {
+            address.setText( locationData.getLine1() + ", " + locationData.getLine2() + ", " +
+                    locationData.getCity() + ", " + locationData.getState());
+        }
         line1.setText(locationData.getLine1());
         line2.setText(locationData.getLine2());
-        landmark.setText(locationData.getLandmark());
+        if (!TextUtils.isEmpty(locationData.getLandmark())) {
+            landmark.setText(locationData.getLandmark());
+        }
     }
 
     @Override

@@ -369,9 +369,14 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
             if (index >= 0) mAddressDetailsLocationData.setLine1(address.getAddressLine(0));
             if (index >= 1) mAddressDetailsLocationData.setLine2(address.getAddressLine(1));
 //            if (index >= 2)mAddressDetailsLocationData.setLandmark(address.getAddressLine(2));
-            mAddressDetailsLocationData.setCity(address.getSubAdminArea()); // to be checked
+            if (address.getSubAdminArea() != null) {
+                mAddressDetailsLocationData.setCity(address.getSubAdminArea()); // to be checked
+            } else {
+                mAddressDetailsLocationData.setCity(address.getLocality()); // to be checked
+            }
             mAddressDetailsLocationData.setState(address.getAdminArea()); // to be checked
-            mLocationAddressTextView.setText(address.getAddressLine(0) + ", " + address.getAddressLine(1));
+            mLocationAddressTextView.setText( mAddressDetailsLocationData.getLine1() + ", " + mAddressDetailsLocationData.getLine2() + ", " +
+                    mAddressDetailsLocationData.getCity() + ", " + mAddressDetailsLocationData.getState());
         }
         updateUIWidgets(resultCode);
     }

@@ -1,6 +1,7 @@
 package com.twyst.app.android.adapters;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -72,7 +73,11 @@ public class SimpleArrayAdapter extends ArrayAdapter<AddressDetailsLocationData>
         }
 
         private void populateFrom(AddressDetailsLocationData addr) {
-            address.setText(addr.getLine1() + ", " + addr.getLine2() + ", " + addr.getLandmark());
+            if (!TextUtils.isEmpty(addr.getLandmark())) {
+                address.setText(addr.getLine1() + ", " + addr.getLine2() + ", " + addr.getLandmark() + ", " + addr.getCity() + ", " + addr.getState());
+            } else {
+                address.setText(addr.getLine1() + ", " + addr.getLine2() + ", " + addr.getCity() + ", " + addr.getState());
+            }
 
             switch (addr.getTag()) {
                 case AddressDetailsLocationData.TAG_HOME:
