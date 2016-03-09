@@ -1,12 +1,12 @@
 package com.twyst.app.android.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,11 +19,22 @@ import com.twyst.app.android.util.Utils;
 /**
  * Created by Vipul Sharma on 12/24/2015.
  */
-public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffersAdapter.OfferAvailableHolder> {
+public class AvailableOffersAdapter extends ArrayAdapter<OfferOrder> {
     private final Context mContext;
     private final OrderSummary mOrderSummary;
-    private int selectedPosition = -1;
     private boolean ivCheckedIsSelected;
+    private int selectedPosition = -1;
+
+    private OnViewHolderListener onViewHolderListener;
+
+
+    private static int mCheckIconWidth = 0; //checkIcon width fixed for a specific device
+
+    public AvailableOffersAdapter(Context context, OrderSummary orderSummary) {
+        super(context,R.layout.layout_offer_available,orderSummary.getOfferOrderList());
+        this.mOrderSummary = orderSummary;
+        this.mContext = context;
+    }
 
     public int getSelectedPosition() {
         return selectedPosition;
@@ -33,28 +44,33 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
         this.selectedPosition = selectedPosition;
     }
 
-    private OnViewHolderListener onViewHolderListener;
-    private static int mCheckIconWidth = 0; //checkIcon width fixed for a specific device
 
-    public AvailableOffersAdapter(Context context, OrderSummary orderSummary) {
-        this.mOrderSummary = orderSummary;
-        this.mContext = context;
-    }
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        View row = convertView;
+        OfferAvailableHolder holder;
+        if (row == null) {
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+            row = inflater.inflate(R.layout.layout_offer_available, parent, false);
+            holder = new OfferAvailableHolder(row);
+            row.setTag(holder);
+        } else {
+            holder = (OfferAvailableHolder) row.getTag();
+        }
 
-    @Override
-    public OfferAvailableHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_offer_available, parent, false);
-        OfferAvailableHolder offerAvailableHolder = new OfferAvailableHolder(v);
-        return offerAvailableHolder;
-    }
 
-    @Override
-    public void onBindViewHolder(OfferAvailableHolder offerAvailableHolder, final int position) {
-        final View view = offerAvailableHolder.itemView;
         OfferOrder offerOrder = mOrderSummary.getOfferOrderList().get(position);
-
-        if (offerOrder.isApplicable()) { //applicable offer
-            view.setOnClickListener(new View.OnClickListener() {
+        if (!offerOrder.isApplicable()) {
+            holder.tvSave.setVisibility(View.INVISIBLE);
+            holder.tvSaveLabel.setVisibility(View.INVISIBLE);
+            row.setAlpha(.5f);
+            row.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return true;
+                }
+            });
+        } else {
+            row.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (onViewHolderListener != null) {
@@ -62,22 +78,13 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
                     }
                 }
             });
-            offerAvailableHolder.tvSave.setText(Utils.costString(mOrderSummary.getOrderActualValueWithOutTax() - offerOrder.getOrderValueWithOutTax()));
-
-        } else { // not applicable offer
-            offerAvailableHolder.tvSave.setVisibility(View.INVISIBLE);
-            offerAvailableHolder.tvSaveLabel.setVisibility(View.INVISIBLE);
-            view.setAlpha(.5f);
-            view.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    return true;
-                }
-            });
+            holder.tvSave.setText(Utils.costString(mOrderSummary.getOrderActualValueWithOutTax() - offerOrder.getOrderValueWithOutTax()));
         }
 
-        offerAvailableHolder.tvCashCount.setText(String.valueOf(offerOrder.getOfferCost()));
-        offerAvailableHolder.tvHeader.setText(offerOrder.getHeader());
+
+
+        holder.tvCashCount.setText(String.valueOf(offerOrder.getOfferCost()));
+        holder.tvHeader.setText(offerOrder.getHeader());
         String offerDesc;
 
         // Setting offer description
@@ -89,17 +96,17 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
                 offerDesc = offerDesc + ", " + offerOrder.getLine2();
             }
         }
-        offerAvailableHolder.tvLine12.setText(offerDesc);
+        holder.tvLine12.setText(offerDesc);
 
         //Setting divider
         if (position + 1 == mOrderSummary.getOfferOrderList().size()) {
-            offerAvailableHolder.divider.setVisibility(View.GONE);
+            holder.divider.setVisibility(View.GONE);
         } else {
-            offerAvailableHolder.divider.setVisibility(View.VISIBLE);
+            holder.divider.setVisibility(View.VISIBLE);
         }
 
         if (mCheckIconWidth == 0) {
-            final ImageView ivCheckedFinal = offerAvailableHolder.ivChecked;
+            final ImageView ivCheckedFinal = holder.ivChecked;
             ivCheckedFinal.getViewTreeObserver()
                     .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                         @Override
@@ -112,22 +119,19 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
                         }
                     });
         } else {
-            offerAvailableHolder.ivChecked.getLayoutParams().height = mCheckIconWidth;
-            offerAvailableHolder.ivChecked.requestLayout();
+            holder.ivChecked.getLayoutParams().height = mCheckIconWidth;
+            holder.ivChecked.requestLayout();
         }
 
-        ivCheckedIsSelected = offerAvailableHolder.ivChecked.isSelected();
+        ivCheckedIsSelected = holder.ivChecked.isSelected();
 
-        if (position == selectedPosition) {
-            offerAvailableHolder.ivChecked.setImageResource(R.drawable.checked);
+        if (selectedPosition == position){
+            holder.ivChecked.setImageResource(R.drawable.checked);
         } else {
-            offerAvailableHolder.ivChecked.setImageResource(R.drawable.unchecked);
+            holder.ivChecked.setImageResource(R.drawable.unchecked);
         }
-    }
 
-    @Override
-    public int getItemCount() {
-        return mOrderSummary.getOfferOrderList().size();
+        return row;
     }
 
     public interface OnViewHolderListener {
@@ -138,7 +142,8 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
         this.onViewHolderListener = onViewHolderListener;
     }
 
-    public static class OfferAvailableHolder extends RecyclerView.ViewHolder {
+
+    public static class OfferAvailableHolder {
         ImageView ivChecked;
         TextView tvHeader;
         TextView tvLine12;
@@ -149,7 +154,6 @@ public class AvailableOffersAdapter extends RecyclerView.Adapter<AvailableOffers
         LinearLayout llTwystCash;
 
         public OfferAvailableHolder(View itemView) {
-            super(itemView);
             this.ivChecked = (ImageView) itemView.findViewById(R.id.ivChecked);
             this.tvHeader = (TextView) itemView.findViewById(R.id.tvHeader);
             this.tvLine12 = (TextView) itemView.findViewById(R.id.tvLine12);

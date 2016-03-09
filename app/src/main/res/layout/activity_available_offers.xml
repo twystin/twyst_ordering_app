@@ -26,13 +26,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <android.support.v7.widget.RecyclerView
+                <!--<android.support.v7.widget.RecyclerView-->
+                    <!--android:id="@+id/offerRecyclerView"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="0dp"-->
+                    <!--android:layout_margin="3dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:overScrollMode="never" />-->
+                <ListView
                     android:id="@+id/offerRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_margin="3dp"
                     android:layout_weight="1"
-                    android:overScrollMode="never" />
+                    android:overScrollMode="never"/>
 
             </LinearLayout>
         </android.support.v7.widget.CardView>

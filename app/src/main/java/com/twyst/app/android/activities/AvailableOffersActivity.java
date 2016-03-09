@@ -1,9 +1,8 @@
 package com.twyst.app.android.activities;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.twyst.app.android.R;
@@ -23,7 +22,7 @@ import retrofit.client.Response;
  * Created by Vipul Sharma on 12/23/2015.
  */
 public class AvailableOffersActivity extends BaseActionActivity {
-    private RecyclerView mOfferRecyclerView;
+    private ListView mOfferRecyclerView;
     private OrderSummary mOrderSummary;
     AvailableOffersAdapter mAvailableOffersAdapter;
 
@@ -48,12 +47,7 @@ public class AvailableOffersActivity extends BaseActionActivity {
     }
 
     private void setupOfferRecyclerView() {
-        mOfferRecyclerView = (RecyclerView) findViewById(R.id.offerRecyclerView);
-        mOfferRecyclerView.setHasFixedSize(true);
-
-        //Assigning resources
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        mOfferRecyclerView.setLayoutManager(mLayoutManager);
+        mOfferRecyclerView = (ListView) findViewById(R.id.offerRecyclerView);
 
         mAvailableOffersAdapter = new AvailableOffersAdapter(AvailableOffersActivity.this, mOrderSummary);
         mOfferRecyclerView.setAdapter(mAvailableOffersAdapter);
@@ -85,7 +79,7 @@ public class AvailableOffersActivity extends BaseActionActivity {
                     });
                     findViewById(R.id.bSkip).setEnabled(false);
                 }
-                mAvailableOffersAdapter.notifyItemChanged(position);
+                mAvailableOffersAdapter.notifyDataSetChanged();
             }
         });
     }

@@ -47,6 +47,7 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
     private TextView tvProceed;
     private FrameLayout flProceed;
     private TextView tvAddressDetected;
+    private LinearLayout linlayFullAddress;
 
 
     private OrderSummary mOrderSummary;
@@ -55,6 +56,7 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_add_new);
+
 
         homeTag = (ImageView) findViewById(R.id.add_address_home_tag);
         workTag = (ImageView) findViewById(R.id.add_address_work_tag);
@@ -111,7 +113,9 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
 
         tvProceed = (TextView) findViewById(R.id.tvProceedOk);
         flProceed = (FrameLayout) findViewById(R.id.proceed_ok);
+
         tvAddressDetected = (TextView) findViewById(R.id.tv_detetcted_address);
+        linlayFullAddress = (LinearLayout) findViewById(R.id.linlay_full_address);
         if (SharedPreferenceSingleton.getInstance().isPassedCartCheckoutStage()) {
             tvProceed.getViewTreeObserver()
                     .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -143,7 +147,8 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
 
         setupToolBar();
         if (mNewAddress != null && mNewAddress.getTag() != null) {
-            tvAddressDetected.setText("Saved Address");
+//            tvAddressDetected.setText("Saved Address");
+            linlayFullAddress.setVisibility(View.GONE);
         } else {
             tvAddressDetected.setText("Auto Detected Address");
         }
@@ -204,6 +209,15 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
                 }
             }
         });
+
+        // if change is clicked from MainActivity when save location was previously selected
+        if (extras==null){
+            mNewAddress = SharedPreferenceSingleton.getInstance().getDeliveryLocation();
+            if (mNewAddress!=null && mNewAddress.getTag()!=null){
+                Intent intent = new Intent(AddressAddNewActivity.this, AddressDetailsActivity.class);
+                startActivity(intent);
+            }
+        }
     }
 
     private void clickProceedFunc() {
@@ -362,6 +376,8 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
         line2.setText(locationData.getLine2());
         if (!TextUtils.isEmpty(locationData.getLandmark())) {
             landmark.setText(locationData.getLandmark());
+        } else {
+            landmark.setText("");
         }
     }
 
@@ -404,8 +420,18 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
     }
 
     private void func() {
-        if (!SharedPreferenceSingleton.getInstance().getDeliveryLocation().equals(mNewAddress)) {
-            mNewAddress = SharedPreferenceSingleton.getInstance().getDeliveryLocation();
+        AddressDetailsLocationData selectedLocationOnNewIntent = SharedPreferenceSingleton.getInstance().getDeliveryLocation();
+
+        if (selectedLocationOnNewIntent != null && selectedLocationOnNewIntent.getTag()!=null){
+            SharedPreferenceSingleton preference = SharedPreferenceSingleton.getInstance();
+            preference.saveCurrentUsedLocation(selectedLocationOnNewIntent);
+            Intent intent = new Intent();
+            setResult(Activity.RESULT_OK, intent);
+            finish();
+        }
+
+        if (!selectedLocationOnNewIntent.equals(mNewAddress)) {
+            mNewAddress = selectedLocationOnNewIntent;
 
 
             if (mNewAddress != null) {

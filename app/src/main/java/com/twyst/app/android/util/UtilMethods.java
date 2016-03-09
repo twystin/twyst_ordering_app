@@ -12,6 +12,7 @@ import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
 import com.nispok.snackbar.listeners.ActionClickListener;
 import com.twyst.app.android.activities.AddressAddNewActivity;
+import com.twyst.app.android.activities.AvailableOffersActivity;
 import com.twyst.app.android.activities.OrderInfoSingleton;
 import com.twyst.app.android.activities.OrderSummaryActivity;
 import com.twyst.app.android.model.AddressDetailsLocationData;
@@ -46,11 +47,20 @@ public class UtilMethods {
                     returnOrderSummary.setAddressDetailsLocationData(addressDetailsLocationData);
                     SharedPreferenceSingleton.getInstance().saveCurrentUsedLocation(addressDetailsLocationData);
 
-                    checkOutIntent = new Intent(activity, AddressAddNewActivity.class);
+                    if (toFinish && addressDetailsLocationData != null && addressDetailsLocationData.getTag() != null) {
+                        if (returnOrderSummary.getOfferOrderList().size() > 0) {
+                            checkOutIntent = new Intent(activity, AvailableOffersActivity.class);
+                        } else {
+                            checkOutIntent = new Intent(activity, OrderSummaryActivity.class);
+                        }
+                    } else {
+                        checkOutIntent = new Intent(activity, AddressAddNewActivity.class);
+                    }
                     Bundle orderSummaryData = new Bundle();
                     orderSummaryData.putSerializable(AppConstants.INTENT_ORDER_SUMMARY, returnOrderSummary);
                     checkOutIntent.putExtras(orderSummaryData);
                     activity.startActivity(checkOutIntent);
+
                     if (toFinish) {
                         activity.finish();
                     }
