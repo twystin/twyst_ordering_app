@@ -79,8 +79,8 @@ public class VoucherDetailsActivity extends BaseActionActivity {
                 .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        Drawable img = getDrawable(R.drawable.voucher_validity_icon);
-                        int height = offerValidity.getMeasuredHeight() * 2 / 3;
+                        Drawable img = getResources().getDrawable(R.drawable.voucher_validity_icon);
+                        int height = offerValidity.getMeasuredHeight() * 7 / 8;
                         img.setBounds(0, 0, height, height);
                         offerValidity.setCompoundDrawables(img, null, null, null);
                         offerValidity.getViewTreeObserver()
@@ -148,11 +148,11 @@ public class VoucherDetailsActivity extends BaseActionActivity {
             public void onClick(View v) {
                 if (!tncExpanded) {
                     tncLayout.setVisibility(View.VISIBLE);
-                    tncArrow.setImageDrawable(getDrawable(R.drawable.expanded));
+                    tncArrow.setImageDrawable(getResources().getDrawable(R.drawable.expanded));
                     tncExpanded = true;
                 } else {
                     tncLayout.setVisibility(View.GONE);
-                    tncArrow.setImageDrawable(getDrawable(R.drawable.collapsed));
+                    tncArrow.setImageDrawable(getResources().getDrawable(R.drawable.collapsed));
                     tncExpanded = false;
                 }
             }

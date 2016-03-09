@@ -211,7 +211,7 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
 
         if (outlet.getBackground() != null)
-            Glide.with(view.getContext())
+            Glide.with(mContext.getApplicationContext())
                     .load(outlet.getBackground())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(outletViewHolder.outletImage);

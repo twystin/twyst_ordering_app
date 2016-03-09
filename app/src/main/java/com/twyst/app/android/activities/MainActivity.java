@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -224,7 +226,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     private void setupSearchView() {
-        outletsFragment = (DiscoverOutletFragment) getSupportFragmentManager().getFragments().get(0);
+        Fragment f = this.getSupportFragmentManager().getFragments().get(0);
+        if (f instanceof DiscoverOutletFragment) {
+            outletsFragment = (DiscoverOutletFragment) f;
+        }
         searchExpandableList = (RecyclerView) findViewById(R.id.search_recycler_view);
         searchExpandableList.setHasFixedSize(true);
         searchExpandableList.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));

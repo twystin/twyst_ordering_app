@@ -72,7 +72,7 @@ public class ShoppingVoucherListAdapter extends RecyclerView.Adapter<ShoppingVou
                 .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        Drawable img = mContext.getDrawable(R.drawable.voucher_validity_icon);
+                        Drawable img = mContext.getResources().getDrawable(R.drawable.voucher_validity_icon);
                         int height = holder.validDate.getLineHeight() * 2 / 3;
                         img.setBounds(0, 0, height, height);
                         holder.validDate.setCompoundDrawables(img, null, null, null);

@@ -111,9 +111,10 @@
                     android:id="@+id/tv_voucherValidity"
                     android:layout_width="wrap_content"
                     android:layout_height="16dp"
+                    android:drawableLeft="@drawable/voucher_validity_icon"
                     android:drawablePadding="4dp"
                     android:gravity="end|top"
-                    android:text="(Image) Valid till dd MMM"
+                    android:text="Valid till dd MMM"
                     android:textColor="@android:color/black"
                     android:textSize="14dp" />
             </LinearLayout>
