@@ -20,6 +20,7 @@ import com.twyst.app.android.model.Offer;
 import com.twyst.app.android.model.OrderHistory;
 import com.twyst.app.android.model.OrderUpdate;
 import com.twyst.app.android.model.OutletDetailData;
+import com.twyst.app.android.model.Recharge;
 import com.twyst.app.android.model.UserProfile;
 import com.twyst.app.android.model.ProfileUpdate;
 import com.twyst.app.android.model.Referral;
@@ -207,4 +208,7 @@ public interface TwystService {
 
     @GET("/api/v4/user/twyst/cash/history")
     public void getTwystCashHistory(@Query("token") String token, Callback<BaseResponse<CashHistoryData>> callback);
+
+    @POST("/api/v4/mobikwik/recharge")
+    public void postRecharge(@Query("token") String token, @Body() Recharge recharge, Callback<BaseResponse> callback);
 }
