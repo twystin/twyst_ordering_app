@@ -9,7 +9,6 @@ import android.support.design.widget.TabLayout;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -21,10 +20,8 @@ import android.widget.Toast;
 
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.BaseResponse;
-import com.twyst.app.android.model.ProfileUpdate;
 import com.twyst.app.android.model.Recharge;
 import com.twyst.app.android.service.HttpService;
-import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.NumberDatabaseSingleton;
 import com.twyst.app.android.util.TwystProgressHUD;
 
@@ -40,7 +37,8 @@ import retrofit.client.Response;
 public class RechargeActivity extends BaseActionActivity {
     private static final int PICK_CONTACT = 2;
 
-    Spinner mOperatorSpinner, mCircleSpinner;
+    private String mAmount;
+    private Spinner mOperatorSpinner, mCircleSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,14 +90,19 @@ public class RechargeActivity extends BaseActionActivity {
     }
 
     private void proceedToRecharge() {
+        TextView tvAmount = (TextView) findViewById(R.id.tvAmount);
         EditText etNumber = (EditText) findViewById(R.id.et_number);
         if (TextUtils.isEmpty(etNumber.getText().toString())) {
             etNumber.setError("Please enter phone number!");
+        } else if (etNumber.getText().toString().length() < 10) {
+            etNumber.setError("Please enter a valid phone number!");
+        } else if (TextUtils.isEmpty(mAmount)) {
+            tvAmount.setError("Please select an amount!");
         } else {
             int selectedOperator = ((OperatorMapping) mOperatorSpinner.getSelectedItem()).getOperatorID();
             int selectedCircle = ((CircleMapping) mCircleSpinner.getSelectedItem()).getCircleCode();
 
-                    Recharge recharge = new Recharge(Long.parseLong(etNumber.getText().toString()), 10, selectedOperator, selectedCircle);
+            Recharge recharge = new Recharge(Long.parseLong(etNumber.getText().toString()), Integer.parseInt(mAmount), selectedOperator, selectedCircle);
             final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
             HttpService.getInstance().postRecharge(getUserToken(), recharge, new Callback<BaseResponse>() {
                 @Override
@@ -107,6 +110,7 @@ public class RechargeActivity extends BaseActionActivity {
                     twystProgressHUD.dismiss();
                     if (loginDataBaseResponse.isResponse()) {
                         Toast.makeText(RechargeActivity.this, "Recharge done successfully!", Toast.LENGTH_SHORT).show();
+                        finish();
                     } else {
                         Toast.makeText(RechargeActivity.this, loginDataBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -153,6 +157,7 @@ public class RechargeActivity extends BaseActionActivity {
         mCircleSpinner.setAdapter(new ArrayAdapter<CircleMapping>(this, R.layout.custom_spinner, CircleMapping.values()));
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.slidingTabsAmount);
+        tabLayout.addTab(tabLayout.newTab().setText("10"));
         tabLayout.addTab(tabLayout.newTab().setText("99"));
         tabLayout.addTab(tabLayout.newTab().setText("199"));
         tabLayout.addTab(tabLayout.newTab().setText("299"));
@@ -176,6 +181,7 @@ public class RechargeActivity extends BaseActionActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 ((TextView) findViewById(R.id.tvAmount)).setText("₹ " + tab.getText());
+                mAmount = tab.getText().toString();
             }
 
             @Override
