@@ -8,10 +8,7 @@ import java.util.List;
 /**
  * Created by rahuls on 31/8/15.
  */
-public class UserProfile extends Data implements Serializable{
-
-    private String _id;
-
+public class UserProfile extends Data implements Serializable {
     @SerializedName("friends")
     private List<FriendLists> friendLists;
 
@@ -98,16 +95,7 @@ public class UserProfile extends Data implements Serializable{
         this.email = email;
     }
 
-    public String get_id() {
-        return _id;
-    }
-
-    public void set_id(String _id) {
-        this._id = _id;
-    }
-
-
-    public static class FriendLists implements Serializable{
+    public static class FriendLists implements Serializable {
 
         private String source;
 
@@ -181,7 +169,7 @@ public class UserProfile extends Data implements Serializable{
 
         @Override
         public String toString() {
-            if (name==null || name.equals(""))
+            if (name == null || name.equals(""))
                 return phone;
 
             return name;
