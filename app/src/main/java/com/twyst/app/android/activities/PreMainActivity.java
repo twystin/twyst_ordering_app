@@ -83,6 +83,7 @@ import com.twyst.app.android.model.ProfileUpdate;
 import com.twyst.app.android.model.Referral;
 import com.twyst.app.android.model.ReferralMeta;
 import com.twyst.app.android.model.UpdateProfile;
+import com.twyst.app.android.model.UserProfile;
 import com.twyst.app.android.model.order.Coords;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
@@ -132,25 +133,35 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     private boolean isAddressesSynced = false;
 
 
-
     // User Verification Variables
     //Submit button
     View btnSubmit;
 
     // Verify Number
     private boolean isNumberVerified = false;
-    @Bind(R.id.verify_number_hint) TextView tvVerifyNumberHint;
-    @Bind(R.id.verify_number_phone_pre) EditText etPhonePre;
-    @Bind(R.id.verify_number_phone_code) EditText etPhoneCodeInput;
-    @Bind(R.id.verify_number_go )View verifyNumberGo;
-    @Bind(R.id.verify_number_go_text) TextView tvVerifyNumberGoText;
-    @Bind(R.id.tv_register_line1) TextView tvRegister1;
-    @Bind(R.id.tv_register_line2) TextView tvRegister2;
+    @Bind(R.id.verify_number_hint)
+    TextView tvVerifyNumberHint;
+    @Bind(R.id.verify_number_phone_pre)
+    EditText etPhonePre;
+    @Bind(R.id.verify_number_phone_code)
+    EditText etPhoneCodeInput;
+    @Bind(R.id.verify_number_go)
+    View verifyNumberGo;
+    @Bind(R.id.verify_number_go_text)
+    TextView tvVerifyNumberGoText;
+    @Bind(R.id.tv_register_line1)
+    TextView tvRegister1;
+    @Bind(R.id.tv_register_line2)
+    TextView tvRegister2;
 
-    @Bind(R.id.verify_number_progress_bar)CircularProgressBar verifyNumberProgressBar;
-    @Bind(R.id.verify_number_lower_hint) TextView tvVerifyNumberLowerHint;
-    @Bind(R.id.verify_number_resend_enter_manually) TextView tvVerifyNumberResendManually;
-    @Bind(R.id.verify_number_go_layout) RelativeLayout tvVerifyNumberGoLayout;
+    @Bind(R.id.verify_number_progress_bar)
+    CircularProgressBar verifyNumberProgressBar;
+    @Bind(R.id.verify_number_lower_hint)
+    TextView tvVerifyNumberLowerHint;
+    @Bind(R.id.verify_number_resend_enter_manually)
+    TextView tvVerifyNumberResendManually;
+    @Bind(R.id.verify_number_go_layout)
+    RelativeLayout tvVerifyNumberGoLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -309,7 +320,6 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         final Animation exitLocations = AnimationUtils.loadAnimation(this, R.anim.exit_to_right);
         locations.setAnimation(enterLocations);
     }
-
 
 
     MyRunnable myRunnable;
@@ -881,22 +891,17 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     public void onReceiveAddress(int resultCode, Address address) {
         SharedPreferenceSingleton sharedPreferenceSingleton = SharedPreferenceSingleton.getInstance();
         if (resultCode == AppConstants.SHOW_CURRENT_LOCATION) {
-            int index = address.getMaxAddressLineIndex();
-//            String mAddressOutput = "";
-//            for (int i = 0; i < index; i++) {
-//                mAddressOutput += address.getAddressLine(i);
-//                mAddressOutput += ", ";
-//            }
-//            mAddressOutput += address.getAddressLine(index);
-//            mAddressDetailsLocationData.setLine1(mAddressOutput);
-            if (index >= 0) mAddressDetailsLocationData.setLine1(address.getAddressLine(0));
-            if (index >= 1) mAddressDetailsLocationData.setLine2(address.getAddressLine(1));
-//            if (index >= 2)mAddressDetailsLocationData.setLandmark(address.getAddressLine(2));
-            if (address.getSubAdminArea()!=null) {
-                mAddressDetailsLocationData.setCity(address.getSubAdminArea()); // to be checked
-            } else {
-                mAddressDetailsLocationData.setCity(address.getLocality()); // to be checked
+            String mAddressOutput = "";
+            for (int i = 0; i < address.getMaxAddressLineIndex(); i++) {
+                mAddressOutput += address.getAddressLine(i);
+                mAddressOutput += ", ";
             }
+
+            mAddressOutput += address.getAddressLine(address.getMaxAddressLineIndex());
+            mAddressDetailsLocationData.setAddress(mAddressOutput);
+            mAddressDetailsLocationData.setNeighborhood(address.getAddressLine(0));
+            mAddressDetailsLocationData.setLandmark(address.getAddressLine(1));
+            mAddressDetailsLocationData.setCity(address.getSubAdminArea()); // to be checked
             mAddressDetailsLocationData.setState(address.getAdminArea()); // to be checked
 
             sharedPreferenceSingleton.saveCurrentUsedLocation(mAddressDetailsLocationData);
@@ -913,6 +918,13 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             if (twystProgressHUD != null) {
                 twystProgressHUD.dismiss();
             }
+//            mAddressDetailsLocationData.setAddress("Unnamed Address");
+//            mAddressDetailsLocationData.setNeighborhood("Unnamed Address");
+//            mAddressDetailsLocationData.setLandmark("Unnamed Address");
+//            sharedPreferenceSingleton.saveCurrentUsedLocation(mAddressDetailsLocationData);
+//            Intent intent = new Intent(PreMainActivity.this, MainActivity.class);
+//            intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_CURRENT);
+//            startActivity(intent);
             Toast.makeText(PreMainActivity.this, R.string.couldnot_fetch_location, Toast.LENGTH_LONG).show();
             Intent intent = new Intent(PreMainActivity.this, AddressMapActivity.class);
             intent.putExtra(AppConstants.FROM_CHOOSE_ACTIVITY_TO_MAP, true);
@@ -1675,12 +1687,13 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
 
     private void synAddressFromProfile() {
         isAddressesSynced = false;
-        HttpService.getInstance().getProfile(UtilMethods.getUserToken(PreMainActivity.this), new Callback<BaseResponse<com.twyst.app.android.model.Profile>>() {
+        HttpService.getInstance().getProfile(UtilMethods.getUserToken(PreMainActivity.this), new Callback<BaseResponse<UserProfile>>() {
             @Override
-            public void success(final BaseResponse<com.twyst.app.android.model.Profile> profileBaseResponse, Response response) {
+            public void success(final BaseResponse<UserProfile> profileBaseResponse, Response response) {
 
                 if (profileBaseResponse.isResponse()) {
-                    ArrayList<AddressDetailsLocationData> addressList = new ArrayList<>(profileBaseResponse.getData().getAddressList());
+                    UserProfile userProfile = profileBaseResponse.getData();
+                    ArrayList<AddressDetailsLocationData> addressList = (ArrayList<AddressDetailsLocationData>) userProfile.getAddressList();
                     ArrayList<AddressDetailsLocationData> savedAddressList = new ArrayList<AddressDetailsLocationData>();
                     for (AddressDetailsLocationData address : addressList) {
                         if (address.getTag() != null && address.getTag() != "") {
@@ -1707,6 +1720,9 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                         }
                     }
                     isAddressesSynced = true;
+
+                    //save Twyst Cash
+                    setTwystCash(userProfile.getTwystCash());
                 }
             }
 
@@ -1775,5 +1791,13 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         }
     }
 
+
+    private int getTwystCash() {
+        return HttpService.getInstance().getSharedPreferences().getInt(AppConstants.PREFERENCE_LAST_TWYST_CASH, 0);
+    }
+
+    private void setTwystCash(int twystCash) {
+        HttpService.getInstance().getSharedPreferences().edit().putInt(AppConstants.PREFERENCE_LAST_TWYST_CASH, twystCash).apply();
+    }
 
 }

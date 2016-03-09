@@ -10,6 +10,7 @@ import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 import com.twyst.app.android.model.AuthToken;
 import com.twyst.app.android.model.BaseResponse;
+import com.twyst.app.android.model.CashHistoryData;
 import com.twyst.app.android.model.Cashback;
 import com.twyst.app.android.model.CheckinData;
 import com.twyst.app.android.model.Data;
@@ -27,7 +28,7 @@ import com.twyst.app.android.model.Offer;
 import com.twyst.app.android.model.OrderHistory;
 import com.twyst.app.android.model.OrderUpdate;
 import com.twyst.app.android.model.OutletDetailData;
-import com.twyst.app.android.model.Profile;
+import com.twyst.app.android.model.UserProfile;
 import com.twyst.app.android.model.ProfileUpdate;
 import com.twyst.app.android.model.Referral;
 import com.twyst.app.android.model.ReportProblem;
@@ -41,7 +42,6 @@ import com.twyst.app.android.model.UpdateProfile;
 import com.twyst.app.android.model.UploadBill;
 import com.twyst.app.android.model.UseOffer;
 import com.twyst.app.android.model.UserLocation;
-import com.twyst.app.android.model.VerifMailResonse;
 import com.twyst.app.android.model.Voucher;
 import com.twyst.app.android.model.WalletData;
 import com.twyst.app.android.model.WriteToUs;
@@ -263,7 +263,7 @@ public class HttpService {
         twystService.reportProblem(token, reportProblem, callback);
     }
 
-    public void getProfile(String token, Callback<BaseResponse<Profile>> callback) {
+    public void getProfile(String token, Callback<BaseResponse<UserProfile>> callback) {
         twystService.getProfile(token, callback);
     }
 
@@ -303,6 +303,10 @@ public class HttpService {
 
     public void getResendVerifMail(String token, Callback<BaseResponse> callback) {
         twystService.getResendVerifMail(token, callback);
+    }
+
+    public void getTwystCashHistory(String token, Callback<BaseResponse<CashHistoryData>> callback){
+        twystService.getTwystCashHistory(token, callback);
     }
 
 

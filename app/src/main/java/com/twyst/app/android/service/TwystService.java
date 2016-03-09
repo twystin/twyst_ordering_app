@@ -2,6 +2,7 @@ package com.twyst.app.android.service;
 
 import com.twyst.app.android.model.AuthToken;
 import com.twyst.app.android.model.BaseResponse;
+import com.twyst.app.android.model.CashHistoryData;
 import com.twyst.app.android.model.Cashback;
 import com.twyst.app.android.model.CheckinData;
 import com.twyst.app.android.model.Data;
@@ -19,7 +20,7 @@ import com.twyst.app.android.model.Offer;
 import com.twyst.app.android.model.OrderHistory;
 import com.twyst.app.android.model.OrderUpdate;
 import com.twyst.app.android.model.OutletDetailData;
-import com.twyst.app.android.model.Profile;
+import com.twyst.app.android.model.UserProfile;
 import com.twyst.app.android.model.ProfileUpdate;
 import com.twyst.app.android.model.Referral;
 import com.twyst.app.android.model.ReportProblem;
@@ -33,7 +34,6 @@ import com.twyst.app.android.model.UpdateProfile;
 import com.twyst.app.android.model.UploadBill;
 import com.twyst.app.android.model.UseOffer;
 import com.twyst.app.android.model.UserLocation;
-import com.twyst.app.android.model.VerifMailResonse;
 import com.twyst.app.android.model.Voucher;
 import com.twyst.app.android.model.WalletData;
 import com.twyst.app.android.model.WriteToUs;
@@ -176,7 +176,7 @@ public interface TwystService {
     public void reportProblem(@Query("token") String token, @Body() ReportProblem reportProblem, Callback<BaseResponse> callback);
 
     @GET("/api/v4/profile")
-    public void getProfile(@Query("token") String token, Callback<BaseResponse<Profile>> callback);
+    public void getProfile(@Query("token") String token, Callback<BaseResponse<UserProfile>> callback);
 
     @GET("/api/v4/search")
     public void searchOffer(@Query("token") String token, @Query("text") String searchText, @Query("lat") String lat, @Query("long") String lng, @Query("date") String date, @Query(value = "time", encodeValue = false) String time, Callback<BaseResponse<DiscoverData>> callback);
@@ -204,4 +204,7 @@ public interface TwystService {
 
     @GET("/api/v4/send/verification/email")
     public void getResendVerifMail(@Query("token") String token, Callback<BaseResponse> callback);
+
+    @GET("/api/v4/user/twyst/cash/history")
+    public void getTwystCashHistory(@Query("token") String token, Callback<BaseResponse<CashHistoryData>> callback);
 }

@@ -12,6 +12,7 @@ import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
 import com.nispok.snackbar.listeners.ActionClickListener;
 import com.twyst.app.android.R;
+import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 
 import java.util.Collection;
@@ -57,7 +58,7 @@ public class BaseActionActivity extends AppCompatActivity {
     public void buildAndShowSnackbarWithMessage(String msg) {
         final Snackbar snackbar = Snackbar.with(this.getApplicationContext())
                 .type(SnackbarType.MULTI_LINE)
-                        //.color(getResources().getColor(android.R.color.black))
+                //.color(getResources().getColor(android.R.color.black))
                 .text(msg)
                 .actionLabel("RETRY") // action button label
                 .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
@@ -94,5 +95,13 @@ public class BaseActionActivity extends AppCompatActivity {
         SharedPreferences prefs = this.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");
 //        return "0iw1Khe77bldnB23JxSi5wemtkz7OQ9c";
+    }
+
+    public int getTwystCash() {
+        return HttpService.getInstance().getSharedPreferences().getInt(AppConstants.PREFERENCE_LAST_TWYST_CASH, 0);
+    }
+
+    public void setTwystCash(int twystCash) {
+        HttpService.getInstance().getSharedPreferences().edit().putInt(AppConstants.PREFERENCE_LAST_TWYST_CASH, twystCash).apply();
     }
 }

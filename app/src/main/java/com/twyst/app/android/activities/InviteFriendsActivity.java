@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.appsflyer.AppsFlyerLib;
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.BaseResponse;
-import com.twyst.app.android.model.Profile;
+import com.twyst.app.android.model.UserProfile;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
@@ -29,7 +29,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class InviteFriendsActivity extends BaseActionActivity {
-    private List<Profile.FriendLists> friendLists;
+    private List<UserProfile.FriendLists> friendLists;
     private boolean fromDrawer;
 
     @Override
@@ -53,16 +53,16 @@ public class InviteFriendsActivity extends BaseActionActivity {
 
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
 
-        HttpService.getInstance().getProfile(UtilMethods.getUserToken(InviteFriendsActivity.this), new Callback<BaseResponse<Profile>>() {
+        HttpService.getInstance().getProfile(UtilMethods.getUserToken(InviteFriendsActivity.this), new Callback<BaseResponse<UserProfile>>() {
             @Override
-            public void success(BaseResponse<Profile> friendDataBaseResponse, Response response) {
+            public void success(BaseResponse<UserProfile> friendDataBaseResponse, Response response) {
                 twystProgressHUD.dismiss();
                 if (friendDataBaseResponse.isResponse()) {
                     if (friendDataBaseResponse.getData() != null) {
                         friendLists = friendDataBaseResponse.getData().getTwystFriendLists();
                         if (friendLists.size() > 0) {
 
-                            inviteTwystList.setAdapter(new ArrayAdapter<Profile.FriendLists>(InviteFriendsActivity.this, R.layout.listview_item_invite_contact, R.id.contactName, friendLists));
+                            inviteTwystList.setAdapter(new ArrayAdapter<UserProfile.FriendLists>(InviteFriendsActivity.this, R.layout.listview_item_invite_contact, R.id.contactName, friendLists));
 
                         } else {
                             Toast.makeText(InviteFriendsActivity.this, "Friend list is empty!", Toast.LENGTH_SHORT).show();

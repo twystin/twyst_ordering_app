@@ -43,6 +43,7 @@ import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.DrawerListAdapter;
 import com.twyst.app.android.model.DrawerItem;
 import com.twyst.app.android.model.OutletList;
+import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
 
@@ -523,7 +524,7 @@ public abstract class BaseActivity extends ActionBarActivity {
     public void buildAndShowSnackbarWithMessage(String msg) {
         final Snackbar snackbar = Snackbar.with(getApplicationContext())
                 .type(SnackbarType.MULTI_LINE)
-                        //.color(getResources().getColor(android.R.color.black))
+                //.color(getResources().getColor(android.R.color.black))
                 .text(msg)
                 .actionLabel("RETRY") // action button label
                 .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
@@ -767,13 +768,11 @@ public abstract class BaseActivity extends ActionBarActivity {
     }
 
     public int getTwystCash() {
-        SharedPreferences prefs = this.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        return prefs.getInt(AppConstants.PREFERENCE_LAST_TWYST_CASH, 0);
+        return HttpService.getInstance().getSharedPreferences().getInt(AppConstants.PREFERENCE_LAST_TWYST_CASH, 0);
     }
 
     public void setTwystCash(int twystCash) {
-        sharedPreferences.putInt(AppConstants.PREFERENCE_LAST_TWYST_CASH, twystCash);
-        sharedPreferences.commit();
+        HttpService.getInstance().getSharedPreferences().edit().putInt(AppConstants.PREFERENCE_LAST_TWYST_CASH, twystCash).apply();
     }
 
     public void updatePicName() {

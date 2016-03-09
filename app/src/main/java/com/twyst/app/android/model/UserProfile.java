@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by rahuls on 31/8/15.
  */
-public class Profile implements Serializable{
+public class UserProfile extends Data implements Serializable{
 
     private String _id;
 

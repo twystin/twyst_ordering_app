@@ -48,7 +48,7 @@ import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.EventDate;
 import com.twyst.app.android.model.Friend;
 import com.twyst.app.android.model.LifeEvents;
-import com.twyst.app.android.model.Profile;
+import com.twyst.app.android.model.UserProfile;
 import com.twyst.app.android.model.ProfileUpdate;
 import com.twyst.app.android.model.UpdateProfile;
 import com.twyst.app.android.service.HttpService;
@@ -98,7 +98,7 @@ public class EditProfileActivity extends BaseActionActivity implements GoogleApi
     protected SharedPreferences.Editor sharedPreferences;
 
     private ProfileTracker profileTracker;
-    Profile profile;
+    UserProfile profile;
     /* Should we automatically resolve ConnectionResults when possible? */
     private boolean mShouldResolve = false;
 
@@ -260,9 +260,9 @@ public class EditProfileActivity extends BaseActionActivity implements GoogleApi
                 .addScope(Plus.SCOPE_PLUS_LOGIN)
                 .build();
 
-        HttpService.getInstance().getProfile(UtilMethods.getUserToken(EditProfileActivity.this), new Callback<BaseResponse<Profile>>() {
+        HttpService.getInstance().getProfile(UtilMethods.getUserToken(EditProfileActivity.this), new Callback<BaseResponse<UserProfile>>() {
             @Override
-            public void success(final BaseResponse<Profile> profileBaseResponse, Response response) {
+            public void success(final BaseResponse<UserProfile> profileBaseResponse, Response response) {
 
                 if (profileBaseResponse.isResponse()) {
                     hideProgressHUDInLayout();

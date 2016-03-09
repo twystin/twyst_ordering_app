@@ -158,5 +158,6 @@
 
     <!-- Background Alpha OrderOnlineLogo -->
     <color name="order_online_bg_alpha">#30191919</color>
+    <color name="transaction_green">#0fb14a</color>
 
 </resources>
