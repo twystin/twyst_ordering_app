@@ -39,6 +39,7 @@ import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
 import com.nispok.snackbar.listeners.ActionClickListener;
+import com.squareup.picasso.Picasso;
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.DrawerListAdapter;
 import com.twyst.app.android.model.DrawerItem;
@@ -523,7 +524,7 @@ public abstract class BaseActivity extends ActionBarActivity {
     public void buildAndShowSnackbarWithMessage(String msg) {
         final Snackbar snackbar = Snackbar.with(getApplicationContext())
                 .type(SnackbarType.MULTI_LINE)
-                //.color(getResources().getColor(android.R.color.black))
+                        //.color(getResources().getColor(android.R.color.black))
                 .text(msg)
                 .actionLabel("RETRY") // action button label
                 .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
@@ -781,12 +782,16 @@ public abstract class BaseActivity extends ActionBarActivity {
         userName.setText(name);
 
         if (!TextUtils.isEmpty(pic)) {
-
-            Glide.with(this)
+            // Picasso is used only here. If glide is used, its supportRequestFragmentManager mixes up with DiscoverFragmentManager
+            // and crashes the app.
+            Picasso.with(this)
                     .load(pic)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .centerCrop()
                     .into(userImage);
+//            Glide.with(this)
+//                    .load(pic)
+//                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                    .centerCrop()
+//                    .into(userImage);
         }
     }
 
