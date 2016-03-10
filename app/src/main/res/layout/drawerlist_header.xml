@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/drawer_sidebartexture"
@@ -14,30 +15,14 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <RelativeLayout
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userImage"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginRight="20dp">
-
-            <ImageView
-                android:id="@+id/backImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:background="@drawable/drawer_user_border_bg"
-                android:visibility="visible" />
-
-            <ImageView
-                android:id="@+id/userImage"
-                android:layout_width="74dp"
-                android:layout_height="74dp"
-                android:layout_centerInParent="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/drawer_user_icon"
-                android:visibility="visible" />
-
-        </RelativeLayout>
-
+            android:layout_marginRight="20dp"
+            android:src="@drawable/drawer_user_icon"
+            app:civ_border_color="@color/app_accent_color"
+            app:civ_border_width="4dp" />
 
         <LinearLayout
             android:layout_width="match_parent"

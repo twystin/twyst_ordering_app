@@ -44,18 +44,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerInParent="true"
-                        android:background="@drawable/edit_profile_circularshape_red"
+                        android:background="@drawable/drawer_user_border_bg"
                         android:padding="10dp" />
 
-
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/editProfileUserImage"
                         android:layout_width="55dp"
                         android:layout_height="55dp"
                         android:layout_centerInParent="true"
                         android:src="@drawable/edit_profile_placeholder_image_icon"
                         android:visibility="visible" />
-
 
                 </RelativeLayout>
 
@@ -571,12 +569,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/button_primary"
-                    android:text="Update"
                     android:gravity="center"
-                    android:textColor="@android:color/white"
-                    android:textSize="18dp"
+                    android:paddingBottom="8dp"
                     android:paddingTop="8dp"
-                    android:paddingBottom="8dp"/>
+                    android:text="Update"
+                    android:textColor="@android:color/white"
+                    android:textSize="18dp" />
             </FrameLayout>
 
         </LinearLayout>

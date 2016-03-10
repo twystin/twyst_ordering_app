@@ -54,6 +54,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import retrofit.RetrofitError;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -76,7 +77,6 @@ public abstract class BaseActivity extends ActionBarActivity {
 
     TextView localityDrawer;
     TextView userName;
-    ImageView backImage;
     ImageView userImage;
 
     private final int DRAWER_ITEM_POS_HEADER = 0;
@@ -187,7 +187,6 @@ public abstract class BaseActivity extends ActionBarActivity {
         View list_footer = getLayoutInflater().inflate(R.layout.drawerlist_footer, null);
 
         userName = (TextView) list_header.findViewById(R.id.userName);
-        backImage = (ImageView) list_header.findViewById(R.id.backImage);
         userImage = (ImageView) list_header.findViewById(R.id.userImage);
 /*        LinearLayout editProfile = (LinearLayout) list_header.findViewById(R.id.editProfile);
         localityDrawer = (TextView) list_header.findViewById(R.id.localityDrawer);*/
@@ -788,7 +787,6 @@ public abstract class BaseActivity extends ActionBarActivity {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .centerCrop()
                     .into(userImage);
-
         }
     }
 
