@@ -107,7 +107,7 @@ public class VoucherDetailsActivity extends BaseActionActivity {
                 .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        Drawable img = getDrawable(R.drawable.twyst_cash_icon);
+                        Drawable img = getResources().getDrawable(R.drawable.twyst_cash_icon);
                         int height = twystCashCost.getMeasuredHeight() * 2 / 3;
                         img.setBounds(0, 0, height, height);
                         twystCashCost.setCompoundDrawables(img, null, null, null);
