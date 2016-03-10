@@ -124,7 +124,7 @@ public class OfferDisplayPagerAdpater extends PagerAdapter {
         if (line2 != null) {
             mLine2.setText(line2);
         } else
-            ll_tvplusview.setVisibility(View.INVISIBLE);
+            ll_tvplusview.setVisibility(View.GONE);
 
         // Twyst cash
         if ((typeOffer.equals(OFFER_TYPE)) && (twystCash != 0)) {

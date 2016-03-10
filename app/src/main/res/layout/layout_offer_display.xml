@@ -13,92 +13,98 @@
         android:orientation="vertical"
         android:paddingTop="50dp">
 
-        <TextView
-            android:id="@+id/offer_item_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
-            android:text="On Veg/Chicken Starters"
-            android:textColor="@android:color/black"
-            android:textSize="22sp" />
-
-        <TextView
-            android:id="@+id/offer_item_line1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:ellipsize="marquee"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:gravity="center"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
-            android:text="Select Items only"
-            android:textColor="@android:color/black"
-            android:textSize="22sp" />
-
         <LinearLayout
-            android:id="@+id/ll_tvplusview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
-
             <TextView
-                android:id="@+id/offer_item_line2"
+                android:id="@+id/offer_item_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:padding="4dp"
+                android:gravity="center"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
-                android:text="Minimum Bill Rs. 500" />
+                android:text="On Veg/Chicken Starters"
+                android:textColor="@android:color/black"
+                android:textSize="22sp" />
 
-            <View
+            <TextView
+                android:id="@+id/offer_item_line1"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/background_grey" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="Select Items only"
+                android:textColor="@android:color/black"
+                android:textSize="22sp" />
+
+            <LinearLayout
+                android:id="@+id/ll_tvplusview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/offer_item_line2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:padding="4dp"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
+                    android:text="Minimum Bill Rs. 500" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/background_grey" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/twystCashInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="4dp">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/twyst_cash_icon" />
+
+                <TextView
+                    android:id="@+id/my_twyst_cash"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text=" 45 "
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Twyst Cash" />
+            </LinearLayout>
+
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/twystCashInfo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="4dp">
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_gravity="center"
-                android:src="@drawable/twyst_cash_icon" />
-
-            <TextView
-                android:id="@+id/my_twyst_cash"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text=" 45 "
-                android:textColor="@android:color/black" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Twyst Cash" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
 
         <TextView
             android:layout_width="wrap_content"
