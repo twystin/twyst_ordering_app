@@ -72,15 +72,18 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_margin="5dp">
+            android:layout_marginRight="16dp">
 
             <FrameLayout
                 android:id="@+id/fNextMenu"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:background="@drawable/button_primary"
+                android:paddingBottom="8dp"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                android:paddingRight="16dp"
+                android:paddingTop="8dp">
 
                 <TextView
                     android:id="@+id/tvNextMenu"
@@ -89,6 +92,7 @@
                     android:layout_gravity="center_vertical"
                     android:drawablePadding="5dp"
                     android:focusable="false"
+                    android:gravity="center"
                     android:text="NEXT"
                     android:textColor="@android:color/white"
                     android:textSize="14dp" />
@@ -97,19 +101,22 @@
             <TextView
                 android:id="@+id/bAddNewItem"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:gravity="center"
-                android:layout_margin="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/button_primary"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="8dp"
                 android:text="Add new item"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/outlet_details_coupon_txt"
-                android:visibility="gone"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"/>
+                android:visibility="gone" />
 
         </LinearLayout>
 

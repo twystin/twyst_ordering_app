@@ -165,22 +165,28 @@
                 android:src="@drawable/choose_location_add_icon" />
         </LinearLayout>
 
-
-        <TextView
-            android:id="@+id/tv_skip_location"
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/choose_location_background"
-            android:paddingBottom="8dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="8dp"
-            android:text="Skip"
-            android:textColor="@color/white"
-            android:textSize="@dimen/layout_extra_wide_text_size"
-            android:textStyle="italic" />
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/tv_skip_location"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/button_primary"
+                android:focusable="false"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="8dp"
+                android:text="Skip"
+                android:textColor="@color/white"
+                android:textSize="16dp" />
+        </FrameLayout>
 
     </LinearLayout>
 
