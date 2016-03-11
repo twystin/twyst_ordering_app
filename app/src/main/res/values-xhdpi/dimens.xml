@@ -130,6 +130,7 @@
 
     <dimen name="address_layout_vertical_huge_margin">16dp</dimen>
     <dimen name="address_layout_vertical_wide_margin">12dp</dimen>
+    <dimen name="address_layout_vertical_large_margin">10dp</dimen>
     <dimen name="address_layout_vertical_medium_margin">8dp</dimen>
     <dimen name="address_layout_vertical_small_margin">4dp</dimen>
 

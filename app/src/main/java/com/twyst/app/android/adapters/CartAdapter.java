@@ -23,6 +23,7 @@ import java.util.ArrayList;
  */
 public class CartAdapter extends RecyclerView.Adapter<MenuChildViewHolder> {
     private static int mVegIconHeight = 0; //menuItemName height fixed for a specific device
+    private static int mMaxWidthHiddenLayout = 0; // max width of hidden layout fixed for specific device
 
     private final Context mContext;
     DataTransferInterfaceCart mDataTransferInterfaceCart;
@@ -148,15 +149,20 @@ public class CartAdapter extends RecyclerView.Adapter<MenuChildViewHolder> {
             }
 
             hiddenLayout.setVisibility(View.VISIBLE);
-            hiddenLayout.post(new Runnable() {
-                @Override
-                public void run() {
-                    int maxWidth = hiddenLayout.getWidth();
-                    Utils.populateText(hiddenLayout, textViews, mContext, maxWidth - mVegIconHeight - menuItemNameFinal.getCompoundDrawablePadding());
-                }
-            });
+            if (mMaxWidthHiddenLayout == 0) {
+                hiddenLayout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mMaxWidthHiddenLayout = hiddenLayout.getWidth();
+                        Utils.populateText(hiddenLayout, textViews, mContext, mMaxWidthHiddenLayout - mVegIconHeight - menuItemNameFinal.getCompoundDrawablePadding());
+                    }
+                });
+            } else {
+                Utils.populateText(hiddenLayout, textViews, mContext, mMaxWidthHiddenLayout - mVegIconHeight - menuItemNameFinal.getCompoundDrawablePadding());
+            }
+        } else
 
-        } else {
+        {
             if (hiddenLayout.getChildCount() != 0) {
                 hiddenLayout.removeAllViews();
             }

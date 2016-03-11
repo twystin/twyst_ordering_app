@@ -59,7 +59,6 @@ public class VoucherDetailsActivity extends BaseActionActivity {
             Glide.with(this)
                     .load(merchantLogoUri)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .centerCrop()
                     .into(merchantLogo);
         }
 
@@ -69,7 +68,6 @@ public class VoucherDetailsActivity extends BaseActionActivity {
             Glide.with(this)
                     .load(merchantLogoUri)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .centerCrop()
                     .into(offerBanner);
         }
 

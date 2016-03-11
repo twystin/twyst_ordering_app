@@ -62,7 +62,6 @@ public class ShoppingVoucherListAdapter extends RecyclerView.Adapter<ShoppingVou
             Glide.with(mContext)
                     .load(mMerchant_logo)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .centerCrop()
                     .into(holder.merchantLogo);
         }
 

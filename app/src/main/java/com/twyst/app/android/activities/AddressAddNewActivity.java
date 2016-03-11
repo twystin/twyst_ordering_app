@@ -6,7 +6,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -199,7 +201,7 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
         findViewById(R.id.tvChangeLocation).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (SharedPreferenceSingleton.getInstance().isPassedCartCheckoutStage()){
+                if (SharedPreferenceSingleton.getInstance().isPassedCartCheckoutStage()) {
                     Intent intent = new Intent(AddressAddNewActivity.this, AddressDetailsActivity.class);
                     startActivity(intent);
                     finish();
@@ -211,9 +213,9 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
         });
 
         // if change is clicked from MainActivity when save location was previously selected
-        if (extras==null){
+        if (extras == null) {
             mNewAddress = SharedPreferenceSingleton.getInstance().getDeliveryLocation();
-            if (mNewAddress!=null && mNewAddress.getTag()!=null){
+            if (mNewAddress != null && mNewAddress.getTag() != null) {
                 Intent intent = new Intent(AddressAddNewActivity.this, AddressDetailsActivity.class);
                 startActivity(intent);
             }
@@ -366,10 +368,10 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
 
     private void setTextLocationFetch(AddressDetailsLocationData locationData) {
         if (!TextUtils.isEmpty(locationData.getLandmark())) {
-            address.setText(locationData.getLine1() + ", " + locationData.getLine2() + ", " +  locationData.getLandmark() + ", " +
+            address.setText(locationData.getLine1() + ", " + locationData.getLine2() + ", " + locationData.getLandmark() + ", " +
                     locationData.getCity() + ", " + locationData.getState());
         } else {
-            address.setText( locationData.getLine1() + ", " + locationData.getLine2() + ", " +
+            address.setText(locationData.getLine1() + ", " + locationData.getLine2() + ", " +
                     locationData.getCity() + ", " + locationData.getState());
         }
         line1.setText(locationData.getLine1());
@@ -422,7 +424,7 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
     private void func() {
         AddressDetailsLocationData selectedLocationOnNewIntent = SharedPreferenceSingleton.getInstance().getDeliveryLocation();
 
-        if (selectedLocationOnNewIntent != null && selectedLocationOnNewIntent.getTag()!=null){
+        if (selectedLocationOnNewIntent != null && selectedLocationOnNewIntent.getTag() != null) {
             SharedPreferenceSingleton preference = SharedPreferenceSingleton.getInstance();
             preference.saveCurrentUsedLocation(selectedLocationOnNewIntent);
             Intent intent = new Intent();
