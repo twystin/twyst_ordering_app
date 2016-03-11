@@ -12,7 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:scrollbars="none"
         android:visibility="visible">
 
         <LinearLayout
@@ -133,7 +135,7 @@
                         android:layout_height="wrap_content"
                         android:dividerPadding="@dimen/address_layout_vertical_huge_margin"
                         android:orientation="vertical"
-                        android:paddingBottom="@dimen/address_layout_vertical_medium_margin"
+                        android:paddingBottom="@dimen/address_layout_vertical_wide_margin"
                         android:paddingLeft="@dimen/address_layout_horizontal_huge_margin"
                         android:paddingRight="@dimen/address_layout_horizontal_huge_margin"
                         android:paddingTop="@dimen/address_layout_vertical_medium_margin">
@@ -152,6 +154,7 @@
                                 android:ellipsize="end"
                                 android:hint="@string/hint_line1"
                                 android:imeOptions="actionDone"
+                                android:background="@drawable/underline_selector"
                                 android:inputType="textImeMultiLine|textNoSuggestions"
                                 android:singleLine="true"
                                 android:textColor="@color/black_54"
@@ -173,6 +176,7 @@
                                 android:layout_weight="1"
                                 android:ellipsize="end"
                                 android:hint="@string/hint_line2"
+                                android:background="@drawable/underline_selector"
                                 android:imeOptions="actionDone"
                                 android:inputType="textNoSuggestions"
                                 android:singleLine="true"
@@ -195,6 +199,7 @@
                                 android:layout_weight="1"
                                 android:ellipsize="end"
                                 android:hint="@string/hint_landmark"
+                                android:background="@drawable/underline_selector"
                                 android:imeOptions="actionDone"
                                 android:inputType="textNoSuggestions"
                                 android:singleLine="true"
