@@ -5,15 +5,13 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.support.design.widget.TabLayout;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,8 +35,8 @@ import retrofit.client.Response;
 public class RechargeActivity extends BaseActionActivity {
     private static final int PICK_CONTACT = 2;
 
-    private String mAmount;
     private Spinner mOperatorSpinner, mCircleSpinner;
+    private EditText etNumber, etAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,14 +51,18 @@ public class RechargeActivity extends BaseActionActivity {
             }
         });
         setupSpinners();
+        setupEditTextNumber();
+        setupEditTextAmount();
         findViewById(R.id.bRecharge).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 proceedToRecharge();
             }
         });
+    }
 
-        EditText etNumber = (EditText) findViewById(R.id.et_number);
+    private void setupEditTextNumber() {
+        etNumber = (EditText) findViewById(R.id.et_number);
         etNumber.addTextChangedListener(
                 new TextWatcher() {
                     @Override
@@ -89,40 +91,100 @@ public class RechargeActivity extends BaseActionActivity {
         );
     }
 
-    private void proceedToRecharge() {
-        TextView tvAmount = (TextView) findViewById(R.id.tvAmount);
-        EditText etNumber = (EditText) findViewById(R.id.et_number);
-        if (TextUtils.isEmpty(etNumber.getText().toString())) {
-            etNumber.setError("Please enter phone number!");
-        } else if (etNumber.getText().toString().length() < 10) {
-            etNumber.setError("Please enter a valid phone number!");
-        } else if (TextUtils.isEmpty(mAmount)) {
-            tvAmount.setError("Please select an amount!");
-        } else {
-            int selectedOperator = ((OperatorMapping) mOperatorSpinner.getSelectedItem()).getOperatorID();
-            int selectedCircle = ((CircleMapping) mCircleSpinner.getSelectedItem()).getCircleCode();
+    private void setupEditTextAmount() {
+        etAmount = (EditText) findViewById(R.id.et_amount);
+        etAmount.addTextChangedListener(
+                new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
 
-            Recharge recharge = new Recharge(Long.parseLong(etNumber.getText().toString()), Integer.parseInt(mAmount), selectedOperator, selectedCircle);
-            final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
-            HttpService.getInstance().postRecharge(getUserToken(), recharge, new Callback<BaseResponse>() {
-                @Override
-                public void success(BaseResponse loginDataBaseResponse, Response response) {
-                    twystProgressHUD.dismiss();
-                    if (loginDataBaseResponse.isResponse()) {
-                        Toast.makeText(RechargeActivity.this, "Recharge done successfully!", Toast.LENGTH_SHORT).show();
-                        finish();
-                    } else {
-                        Toast.makeText(RechargeActivity.this, loginDataBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                        String operator = "";
+//                        String circle = "";
+//                        if (s.length() >= 4) {
+//                            String[] string = NumberDatabaseSingleton.getInstance().getNumberDatabase().
+//                                    getFilteredNumberMapping(s.toString());
+//                            operator = string[0];
+//                            circle = string[1];
+//                        }
+//                        mOperatorSpinner.setSelection(getOperatorIndex(operator));
+//                        mCircleSpinner.setSelection(getCircleIndex(circle));
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
                     }
                 }
+        );
+    }
 
-                @Override
-                public void failure(RetrofitError error) {
-                    twystProgressHUD.dismiss();
-                    handleRetrofitError(error);
-                }
-            });
+    private void proceedToRecharge() {
+        etNumber.setError(null);
+        etAmount.setError(null);
+        TextView errorText = (TextView) mOperatorSpinner.getSelectedView();
+        errorText.setError(null);
+        errorText = (TextView) mCircleSpinner.getSelectedView();
+        errorText.setError(null);
+
+        if (TextUtils.isEmpty(etNumber.getText().toString())) {
+            etNumber.setError("Please enter phone number!");
+            return;
         }
+        if (etNumber.getText().toString().length() < 10) {
+            etNumber.setError("Please enter a valid phone number!");
+            return;
+        }
+
+        int selectedOperator = ((OperatorMapping) mOperatorSpinner.getSelectedItem()).getOperatorID();
+        if (selectedOperator == 0) {
+            TextView errorText1 = (TextView) mOperatorSpinner.getSelectedView();
+            errorText1.setError("Please select an operator");
+            return;
+        }
+        int selectedCircle = ((CircleMapping) mCircleSpinner.getSelectedItem()).getCircleCode();
+        if (selectedCircle == 0) {
+            TextView errorText1 = (TextView) mCircleSpinner.getSelectedView();
+            errorText1.setError("Please select a circle");
+            return;
+        }
+
+        if (TextUtils.isEmpty(etAmount.getText().toString())) {
+            etAmount.setError("Pleease enter an amount!");
+            return;
+        }
+
+        Recharge recharge = new Recharge(Long.parseLong(etNumber.getText().toString()), Integer.parseInt(etAmount.getText().toString()), selectedOperator, selectedCircle);
+        RadioButton rbPrepaid = (RadioButton) findViewById(R.id.rb_prepaid);
+        RadioButton rbPostpaid = (RadioButton) findViewById(R.id.rb_postpaid);
+
+        if (rbPrepaid.isChecked()) {
+            recharge.setConntype(null);
+        }
+        if (rbPostpaid.isChecked()) {
+            recharge.setConntype(Recharge.POSTPAID);
+        }
+
+        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
+        HttpService.getInstance().postRecharge(getUserToken(), recharge, new Callback<BaseResponse>() {
+            @Override
+            public void success(BaseResponse loginDataBaseResponse, Response response) {
+                twystProgressHUD.dismiss();
+                if (loginDataBaseResponse.isResponse()) {
+                    Toast.makeText(RechargeActivity.this, "Recharge done successfully!", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(RechargeActivity.this, loginDataBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                twystProgressHUD.dismiss();
+                handleRetrofitError(error);
+            }
+        });
     }
 
     private int getCircleIndex(String circle) {
@@ -155,45 +217,6 @@ public class RechargeActivity extends BaseActionActivity {
 
         mCircleSpinner = (Spinner) findViewById(R.id.spinnerCircleList);
         mCircleSpinner.setAdapter(new ArrayAdapter<CircleMapping>(this, R.layout.custom_spinner, CircleMapping.values()));
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.slidingTabsAmount);
-        tabLayout.addTab(tabLayout.newTab().setText("10"));
-        tabLayout.addTab(tabLayout.newTab().setText("99"));
-        tabLayout.addTab(tabLayout.newTab().setText("199"));
-        tabLayout.addTab(tabLayout.newTab().setText("299"));
-        tabLayout.addTab(tabLayout.newTab().setText("399"));
-        tabLayout.addTab(tabLayout.newTab().setText("499"));
-        tabLayout.addTab(tabLayout.newTab().setText("599"));
-        tabLayout.addTab(tabLayout.newTab().setText("699"));
-
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = tabLayout.getTabAt(i);
-            RelativeLayout relativeLayout = (RelativeLayout)
-                    LayoutInflater.from(this).inflate(R.layout.amount_custom_tab_layout, tabLayout, false);
-
-            TextView tabTextView = (TextView) relativeLayout.findViewById(R.id.tab_title);
-            tabTextView.setText("₹ " + tab.getText());
-            tab.setCustomView(relativeLayout);
-            tab.select();
-        }
-
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                ((TextView) findViewById(R.id.tvAmount)).setText("₹ " + tab.getText());
-                mAmount = tab.getText().toString();
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
     }
 
     private void openContacts() {

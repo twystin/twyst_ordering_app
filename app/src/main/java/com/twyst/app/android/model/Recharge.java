@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Created by Vipul Sharma on 3/9/2016.
  */
 public class Recharge implements Serializable {
-    private static final String POSTPAID = "postpaid";
+    public static final String POSTPAID = "postpaid";
 
     public Recharge(long phone, int amount, int operatorCode, int circleCode) {
         this.phone = phone;
@@ -25,4 +25,12 @@ public class Recharge implements Serializable {
     private int circleCode;
     @SerializedName("connType")
     private String conntype;
+
+    public String getConntype() {
+        return conntype;
+    }
+
+    public void setConntype(String conntype) {
+        this.conntype = conntype;
+    }
 }
