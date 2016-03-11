@@ -101,16 +101,12 @@ public class RechargeActivity extends BaseActionActivity {
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                        String operator = "";
-//                        String circle = "";
-//                        if (s.length() >= 4) {
-//                            String[] string = NumberDatabaseSingleton.getInstance().getNumberDatabase().
-//                                    getFilteredNumberMapping(s.toString());
-//                            operator = string[0];
-//                            circle = string[1];
-//                        }
-//                        mOperatorSpinner.setSelection(getOperatorIndex(operator));
-//                        mCircleSpinner.setSelection(getCircleIndex(circle));
+                        if (!TextUtils.isEmpty(s)) {
+                            findViewById(R.id.llCashUsage).setVisibility(View.VISIBLE);
+                            updateUsageTexts(s.toString());
+                        } else {
+                            findViewById(R.id.llCashUsage).setVisibility(View.GONE);
+                        }
                     }
 
                     @Override
@@ -118,6 +114,21 @@ public class RechargeActivity extends BaseActionActivity {
                     }
                 }
         );
+    }
+
+    private void updateUsageTexts(String amount) {
+        TextView tvUsageHandling = (TextView) findViewById(R.id.tvUsageHandling);
+        TextView tvTotalHandling = (TextView) findViewById(R.id.tvTotalHandling);
+
+        int handlingCost = getHandlingCost(amount);
+        tvUsageHandling.setText("Handling fee: " + String.valueOf(handlingCost) + " Twyst Cash");
+        tvTotalHandling.setText("Total Twyst Cash to be used: " + String.valueOf(Integer.parseInt(amount) + handlingCost));
+    }
+
+    private int getHandlingCost(String amount) {
+        int FACTOR = 10;
+        int MIN = 10;
+        return Math.max(MIN, (int) Math.round((double) (FACTOR) / 100 * Double.parseDouble(amount)));
     }
 
     private void proceedToRecharge() {
@@ -151,7 +162,7 @@ public class RechargeActivity extends BaseActionActivity {
         }
 
         if (TextUtils.isEmpty(etAmount.getText().toString())) {
-            etAmount.setError("Pleease enter an amount!");
+            etAmount.setError("Please enter an amount!");
             return;
         }
 
