@@ -49,7 +49,6 @@ public class ShoppingVouchersAdapter extends RecyclerView.Adapter<ShoppingVouche
             Glide.with(mContext)
                     .load(imgUri)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .centerCrop()
                     .into(holder.voucherIV);
         }
 
