@@ -51,6 +51,7 @@ public class OrderTrackingState {
     public static final String STATE_NOT_DELIVERED = "NOT_DELIVERED";
     public static final String STATE_ABANDONED = "ABANDONED";
     public static final String STATE_DELIVERED = "DELIVERED";
+    public static final String STATE_CLOSED = "CLOSED";
     public static final String STATE_DEFAULT = "DEFAULT";
 
     public String getTime() {
@@ -120,6 +121,11 @@ public class OrderTrackingState {
     public static OrderTrackingState getDeliveredOrderTrackingState(Context context) {
         String[] timeArray = getTimeArray(new Date());
         return new OrderTrackingState(timeArray[0], timeArray[1], context.getResources().getString(R.string.order_delivered_message), STATE_DELIVERED);
+    }
+
+    public static OrderTrackingState getClosedOrderTrackingState(Context context) {
+        String[] timeArray = getTimeArray(new Date());
+        return new OrderTrackingState(timeArray[0], timeArray[1], context.getResources().getString(R.string.order_closed_message), STATE_CLOSED);
     }
 
     public static OrderTrackingState getNotDeliveredOrderTrackingState(Context context) {

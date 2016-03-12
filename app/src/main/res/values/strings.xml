@@ -259,6 +259,7 @@ each friend who joins.</p>
     <string name="order_dispatched_message_success">Yes. I received it. Let me have my Cashback.</string>
     <string name="order_not_delivered_message">OK, we\'re checking on your order. This may take  some time. Please let us know if you get it in the meanwhile.</string>
     <string name="order_not_delivered_message_success">Yes, I received it. Let me have my cashback</string>
+    <string name="order_closed_message">Thanks for your feedback!</string>
     <string name="track_order">Track Order</string>
     <string name="online_payment">Online Payment</string>
 

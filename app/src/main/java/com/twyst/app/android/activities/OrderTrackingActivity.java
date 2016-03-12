@@ -49,7 +49,7 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
     private String mOrderID;
     protected TwystApplication twystApplication;
     private boolean ivArrowExpanded;
-    private boolean isOrderDeliverySuccessInProgress;
+    private boolean isOrderDeliverySuccessInProgress, isOrderClosed;
     OrderInfoLocal mOrderInfoLocal;
     private boolean isSyncing;
 
@@ -330,9 +330,13 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
                     break;
 
                 case OrderTrackingState.STATE_DELIVERED:
-                    if (!isOrderDeliverySuccessInProgress) {
+                    if (!isOrderClosed && !isOrderDeliverySuccessInProgress) {
                         orderDeliveredSuccess();
                     }
+                    break;
+
+                case OrderTrackingState.STATE_CLOSED:
+                    isOrderClosed = true;
                     break;
 
                 default:
@@ -370,7 +374,6 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
                     }
                 }
             });
-
         }
 
         @Override

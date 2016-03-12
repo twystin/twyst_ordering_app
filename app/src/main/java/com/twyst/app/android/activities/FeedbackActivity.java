@@ -16,6 +16,7 @@ import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.FeedbackAdapter;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.OrderFeedback;
+import com.twyst.app.android.model.OrderTrackingState;
 import com.twyst.app.android.model.OrderUpdate;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
@@ -155,6 +156,8 @@ public class FeedbackActivity extends BaseActionActivity {
                     HttpService.getInstance().getSharedPreferences().edit().putString(AppConstants.INTENT_ORDER_ID_FEEDBACK, "").apply();
                     Toast.makeText(FeedbackActivity.this, "Thank You for your feedback!", Toast.LENGTH_SHORT).show();
                     HttpService.getInstance().getSharedPreferences().edit().putBoolean(orderId + AppConstants.INTENT_ORDER_FEEDBACK, true);
+                    OrderTrackingState.addToListLocally(orderId, OrderTrackingState.getClosedOrderTrackingState(FeedbackActivity.this), FeedbackActivity.this);
+
                     Intent intent = new Intent(FeedbackActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
                             | Intent.FLAG_ACTIVITY_NEW_TASK);
