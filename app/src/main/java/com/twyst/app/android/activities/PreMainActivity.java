@@ -121,7 +121,6 @@ import retrofit.client.Response;
  * Created by anshul on 1/18/2016.
  */
 public class PreMainActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationFetchUtil.LocationFetchResultCodeListener, ActivityCompat.OnRequestPermissionsResultCallback {
-
     private AddressDetailsLocationData mAddressDetailsLocationData;
     private LocationFetchUtil locationFetchUtil;
     private Location mLocation;
@@ -1798,7 +1797,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
 
 
     private int getTwystCash() {
-        return HttpService.getInstance().getSharedPreferences().getInt(AppConstants.PREFERENCE_LAST_TWYST_CASH, 0);
+        return HttpService.getInstance().getSharedPreferences().getInt(AppConstants.PREFERENCE_LAST_TWYST_CASH, -1);
     }
 
     private void setTwystCash(int twystCash) {
