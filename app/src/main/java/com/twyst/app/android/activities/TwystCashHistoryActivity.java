@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.appsflyer.AppsFlyerLib;
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.TwystCashPagerAdapter;
 import com.twyst.app.android.model.BaseResponse;
@@ -81,6 +82,19 @@ public class TwystCashHistoryActivity extends BaseActionActivity {
 //        tabLayout.setupWithViewPager(viewPager);
         updateTwystCash();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        AppsFlyerLib.onActivityResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        AppsFlyerLib.onActivityPause(this);
+    }
+
 
     private void updateTwystCash() {
         if (Utils.getTwystCash() != -1) {

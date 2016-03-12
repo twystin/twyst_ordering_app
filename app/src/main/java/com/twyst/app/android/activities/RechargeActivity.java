@@ -21,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.appsflyer.AppsFlyerLib;
 import com.bumptech.glide.util.Util;
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.BaseResponse;
@@ -75,6 +76,18 @@ public class RechargeActivity extends BaseActionActivity {
             }
         });
         updateTwystCash();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        AppsFlyerLib.onActivityResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        AppsFlyerLib.onActivityPause(this);
     }
 
     private void updateTwystCash() {

@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.appsflyer.AppsFlyerLib;
 import com.mobikwik.sdk.MobikwikSDK;
 import com.mobikwik.sdk.lib.MKTransactionResponse;
 import com.mobikwik.sdk.lib.SDKErrorCodes;
@@ -135,6 +136,18 @@ public class PaymentOptionsActivity extends BaseActionActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        AppsFlyerLib.onActivityResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        AppsFlyerLib.onActivityPause(this);
     }
 
     private void cod() {

@@ -131,7 +131,6 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     private static final String TAG = "PreMainActivity";
     private boolean isAddressesSynced = false;
 
-
     // User Verification Variables
     //Submit button
     View btnSubmit;
@@ -170,10 +169,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         PermissionUtil askPermission = PermissionUtil.getInstance();
         startInitialAnimation();
         splashCode();
-
-
     }
-
 
     private void startInitialAnimation() {
         final ImageView app_background = (ImageView) findViewById(R.id.app_background_iv);
@@ -212,7 +208,6 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                 }
             }
         });
-
 
         listViewSavedLocations = (ListView) findViewById(R.id.lv_saved_locations);
         adapter = new com.twyst.app.android.adapters.SimpleArrayAdapter(PreMainActivity.this, addressList, null);
@@ -723,8 +718,16 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     @Override
     protected void onResume() {
         super.onResume();
+        AppsFlyerLib.onActivityResume(this);
         hideSoftKeyBoard(findViewById(R.id.card_verify_number));
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        AppsFlyerLib.onActivityPause(this);
+    }
+
 
     public void setupUI(View view) {
         //Set up touch listener for non-text box views to hide keyboard.

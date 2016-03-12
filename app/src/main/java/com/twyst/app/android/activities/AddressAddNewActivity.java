@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -51,14 +52,12 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
     private TextView tvAddressDetected;
     private LinearLayout linlayFullAddress;
 
-
     private OrderSummary mOrderSummary;
     private AddressDetailsLocationData mNewAddress = new AddressDetailsLocationData();
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_add_new);
-
 
         homeTag = (ImageView) findViewById(R.id.add_address_home_tag);
         workTag = (ImageView) findViewById(R.id.add_address_work_tag);
@@ -220,6 +219,18 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
                 startActivity(intent);
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        AppsFlyerLib.onActivityResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        AppsFlyerLib.onActivityPause(this);
     }
 
     private void clickProceedFunc() {

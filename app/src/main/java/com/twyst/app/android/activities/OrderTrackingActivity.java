@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.appsflyer.AppsFlyerLib;
 import com.twyst.app.android.R;
 import com.twyst.app.android.TwystApplication;
 import com.twyst.app.android.adapters.SummaryAdapter;
@@ -149,6 +150,7 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
     protected void onResume() {
         super.onResume();
         twystApplication.setCurrentActivity(this);
+        AppsFlyerLib.onActivityResume(this);
         refreshList();
         sync(false);
     }
@@ -191,6 +193,7 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
 
     protected void onPause() {
         clearReferences();
+        AppsFlyerLib.onActivityPause(this);
         super.onPause();
     }
 

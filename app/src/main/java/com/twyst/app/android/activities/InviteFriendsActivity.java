@@ -30,11 +30,9 @@ import retrofit.client.Response;
 
 public class InviteFriendsActivity extends BaseActionActivity {
     private List<UserProfile.FriendLists> friendLists;
-    private boolean fromDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        setupAsChild = true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite_friends);
 
@@ -46,9 +44,6 @@ public class InviteFriendsActivity extends BaseActionActivity {
         String inviteTextFormatted = String.format(inviteText, twystCashToDisplay);
         TextView textView1 = (TextView) findViewById(R.id.textView1);
         textView1.setText(inviteTextFormatted);
-
-        fromDrawer = getIntent().getBooleanExtra(AppConstants.INTENT_PARAM_FROM_DRAWER, false);
-
         final ListView inviteTwystList = (ListView) findViewById(R.id.inviteTwystList);
 
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);

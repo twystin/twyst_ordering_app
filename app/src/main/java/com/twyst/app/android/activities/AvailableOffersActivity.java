@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.appsflyer.AppsFlyerLib;
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.AvailableOffersAdapter;
 import com.twyst.app.android.model.BaseResponse;
@@ -44,6 +45,18 @@ public class AvailableOffersActivity extends BaseActionActivity {
                 UtilMethods.goToSummary(AvailableOffersActivity.this, -1, mOrderSummary);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        AppsFlyerLib.onActivityResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        AppsFlyerLib.onActivityPause(this);
     }
 
     private void setupOfferRecyclerView() {

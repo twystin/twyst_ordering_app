@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.appsflyer.AppsFlyerLib;
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.SimpleArrayAdapter;
 import com.twyst.app.android.model.AddressDetailsLocationData;
@@ -86,6 +87,19 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
         setup();
         fetchSavedAddresses();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        AppsFlyerLib.onActivityResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        AppsFlyerLib.onActivityPause(this);
+    }
+
 
     private void setupAdapter(ArrayList<LocationsVerified> locationsVerifiedList) {
         // saved address related code

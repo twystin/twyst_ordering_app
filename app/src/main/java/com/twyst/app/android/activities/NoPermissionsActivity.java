@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.twyst.app.android.R;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.PermissionUtil;
@@ -22,10 +23,11 @@ public class NoPermissionsActivity extends AppCompatActivity {
     private static final int REQUEST_PHONE = 2;
     private static final int REQUEST_SMS = 3;
 
-    private static final int REQUEST_SETTINGS      = 4;
+    private static final int REQUEST_SETTINGS = 4;
     private TextView tvRetry;
     private int permissionRequested = -1;
     private String rationale = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,16 +35,16 @@ public class NoPermissionsActivity extends AppCompatActivity {
 
         setupToolBar();
 
-        tvRetry = (TextView)findViewById(R.id.retry_permission);
+        tvRetry = (TextView) findViewById(R.id.retry_permission);
         tvRetry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch(permissionRequested){
+                switch (permissionRequested) {
                     case REQUEST_LOCATION:
-                        if (PermissionUtil.getInstance().approveLocation(NoPermissionsActivity.this,true)){
+                        if (PermissionUtil.getInstance().approveLocation(NoPermissionsActivity.this, true)) {
                             finish();
                         } else {
-                            if (rationale != null){
+                            if (rationale != null) {
                                 showSettingsAlert(rationale);
                             }
                         }
@@ -55,13 +57,21 @@ public class NoPermissionsActivity extends AppCompatActivity {
 
 
         rationale = getIntent().getStringExtra(AppConstants.INTENT_PERMISSIONS_RATIONALE);
-        permissionRequested = getIntent().getIntExtra(AppConstants.INTENT_PERMISSION,-1);
+        permissionRequested = getIntent().getIntExtra(AppConstants.INTENT_PERMISSION, -1);
         showSettingsAlert(rationale);
-
-
-
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        AppsFlyerLib.onActivityResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        AppsFlyerLib.onActivityPause(this);
+    }
 
     public void showSettingsAlert(String message) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(NoPermissionsActivity.this);
@@ -73,7 +83,7 @@ public class NoPermissionsActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                         Uri.fromParts("package", getPackageName(), null));
-                startActivityForResult (intent, REQUEST_SETTINGS);
+                startActivityForResult(intent, REQUEST_SETTINGS);
             }
         });
         // on pressing cancel button
@@ -88,10 +98,10 @@ public class NoPermissionsActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == REQUEST_SETTINGS){
-            switch(permissionRequested){
+        if (requestCode == REQUEST_SETTINGS) {
+            switch (permissionRequested) {
                 case REQUEST_LOCATION:
-                    if (PermissionUtil.getInstance().approveLocation(NoPermissionsActivity.this,true)){
+                    if (PermissionUtil.getInstance().approveLocation(NoPermissionsActivity.this, true)) {
                         finish();
                     }
                     break;

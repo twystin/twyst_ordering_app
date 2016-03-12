@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.twyst.app.android.R;
 import com.twyst.app.android.fragments.CuisinesFragment;
 import com.twyst.app.android.fragments.OffersFragment;
@@ -53,7 +54,6 @@ public class FiltersActivity extends BaseActionActivity implements TagFragment.O
                 paymentFragment = new PaymentFragment(null);
                 offersFragment = new OffersFragment(null);
             }
-
         }
 
         applyBtn = (TextView) findViewById(R.id.btn_apply_filters);
@@ -117,6 +117,19 @@ public class FiltersActivity extends BaseActionActivity implements TagFragment.O
             }
         });
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        AppsFlyerLib.onActivityResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        AppsFlyerLib.onActivityPause(this);
+    }
+
 
     @Override
     public void onTagSelected(int position, TagItem tagItem) {

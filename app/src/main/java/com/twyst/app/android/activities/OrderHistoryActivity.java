@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.appsflyer.AppsFlyerLib;
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.OrderHistoryAdapter;
 import com.twyst.app.android.model.BaseResponse;
@@ -46,9 +47,16 @@ public class OrderHistoryActivity extends BaseActionActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        AppsFlyerLib.onActivityResume(this);
         if (mOrderHistoryAdapter != null) {
             refreshOrderHistoryBackground();
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        AppsFlyerLib.onActivityPause(this);
     }
 
     private void refreshOrderHistoryBackground() {

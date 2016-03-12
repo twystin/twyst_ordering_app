@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.ShoppingVoucherListAdapter;
 import com.twyst.app.android.model.Cashback;
@@ -21,6 +22,18 @@ public class ShoppingVoucherListActivity extends BaseActionActivity {
         Bundle bundle = getIntent().getExtras();
         offerSource = (Cashback) bundle.getSerializable(AppConstants.BUNDLE_CASHBACK_OFFERS);
         showVouchers();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        AppsFlyerLib.onActivityResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        AppsFlyerLib.onActivityPause(this);
     }
 
     private void showVouchers() {
