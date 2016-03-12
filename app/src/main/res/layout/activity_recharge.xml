@@ -87,6 +87,7 @@
                         android:singleLine="true"
                         android:text="+91"
                         android:textColor="@color/black"
+                        android:layout_gravity="center_vertical"
                         android:textCursorDrawable="@null"
                         android:textSize="@dimen/layout_huge_text_size" />
 
@@ -97,13 +98,14 @@
                         android:layout_marginLeft="4dp"
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
-                        android:hint="@string/verify_number_phone_hint"
+                        android:hint="Mobile Number"
                         android:inputType="number"
                         android:maxLength="10"
                         android:singleLine="true"
                         android:textColor="@color/black"
                         android:textColorHint="@color/verify_half_white"
                         android:textCursorDrawable="@null"
+                        android:layout_gravity="center_vertical"
                         android:textSize="@dimen/layout_huge_text_size" />
 
                     <ImageButton
@@ -147,6 +149,7 @@
                         android:background="@drawable/underline_selector"
                         android:hint="Enter Amount"
                         android:inputType="number"
+                        android:layout_gravity="center_vertical"
                         android:maxLength="5"
                         android:singleLine="true"
                         android:textColor="@color/black"
