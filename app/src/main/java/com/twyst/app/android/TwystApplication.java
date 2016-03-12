@@ -10,6 +10,7 @@ import android.support.multidex.MultiDex;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 
+import com.crittercism.app.Crittercism;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.twyst.app.android.activities.FeedbackActivity;
@@ -26,6 +27,7 @@ public class TwystApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Crittercism.initialize(getApplicationContext(), AppConstants.CRITTERCISM_APP_ID);
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                         .setDefaultFontPath("fonts/Roboto-Regular.ttf")
