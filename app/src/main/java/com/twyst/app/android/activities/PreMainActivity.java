@@ -1726,7 +1726,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                     isAddressesSynced = true;
 
                     //save Twyst Cash
-                    setTwystCash(userProfile.getTwystCash());
+                    Utils.setTwystCash(userProfile.getTwystCash());
                 }
             }
 
@@ -1794,14 +1794,4 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
 
         }
     }
-
-
-    private int getTwystCash() {
-        return HttpService.getInstance().getSharedPreferences().getInt(AppConstants.PREFERENCE_LAST_TWYST_CASH, -1);
-    }
-
-    private void setTwystCash(int twystCash) {
-        HttpService.getInstance().getSharedPreferences().edit().putInt(AppConstants.PREFERENCE_LAST_TWYST_CASH, twystCash).apply();
-    }
-
 }

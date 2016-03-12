@@ -94,14 +94,5 @@ public class BaseActionActivity extends AppCompatActivity {
     public String getUserToken() {
         SharedPreferences prefs = this.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");
-//        return "0iw1Khe77bldnB23JxSi5wemtkz7OQ9c";
-    }
-
-    public int getTwystCash() {
-        return HttpService.getInstance().getSharedPreferences().getInt(AppConstants.PREFERENCE_LAST_TWYST_CASH, -1);
-    }
-
-    public void setTwystCash(int twystCash) {
-        HttpService.getInstance().getSharedPreferences().edit().putInt(AppConstants.PREFERENCE_LAST_TWYST_CASH, twystCash).apply();
     }
 }

@@ -767,14 +767,6 @@ public abstract class BaseActivity extends ActionBarActivity {
         return terms;
     }
 
-    public int getTwystCash() {
-        return HttpService.getInstance().getSharedPreferences().getInt(AppConstants.PREFERENCE_LAST_TWYST_CASH, -1);
-    }
-
-    public void setTwystCash(int twystCash) {
-        HttpService.getInstance().getSharedPreferences().edit().putInt(AppConstants.PREFERENCE_LAST_TWYST_CASH, twystCash).apply();
-    }
-
     public void updatePicName() {
         SharedPreferences prefs = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
         String name = prefs.getString(AppConstants.PREFERENCE_USER_NAME, "");

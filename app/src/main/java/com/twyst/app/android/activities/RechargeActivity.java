@@ -21,12 +21,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.util.Util;
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.Recharge;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.NumberDatabaseSingleton;
 import com.twyst.app.android.util.TwystProgressHUD;
+import com.twyst.app.android.util.Utils;
 
 import java.util.Arrays;
 
@@ -76,8 +78,8 @@ public class RechargeActivity extends BaseActionActivity {
     }
 
     private void updateTwystCash() {
-        if (getTwystCash() != -1) {
-            ((TextView) findViewById(R.id.tv_my_twyst_cash)).setText(String.valueOf(getTwystCash()));
+        if (Utils.getTwystCash() != -1) {
+            ((TextView) findViewById(R.id.tv_my_twyst_cash)).setText(String.valueOf(Utils.getTwystCash()));
         }
     }
 

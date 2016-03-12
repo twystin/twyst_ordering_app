@@ -9,6 +9,7 @@ import android.widget.ListView;
 
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.TimeStamp;
+import com.twyst.app.android.service.HttpService;
 
 import java.lang.reflect.Field;
 import java.text.DateFormat;
@@ -228,5 +229,13 @@ public class Utils {
                 break;
         }
         return imageId;
+    }
+
+    public static int getTwystCash() {
+        return HttpService.getInstance().getSharedPreferences().getInt(AppConstants.PREFERENCE_LAST_TWYST_CASH, -1);
+    }
+
+    public static void setTwystCash(int twystCash) {
+        HttpService.getInstance().getSharedPreferences().edit().putInt(AppConstants.PREFERENCE_LAST_TWYST_CASH, twystCash).apply();
     }
 }

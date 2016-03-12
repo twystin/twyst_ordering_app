@@ -1,5 +1,7 @@
 package com.twyst.app.android.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
@@ -11,6 +13,7 @@ public class Data implements Serializable {
 
     private int __v;
 
+    @SerializedName("twyst_cash")
     private int twystCash;
 
     public int getTwystCash() {

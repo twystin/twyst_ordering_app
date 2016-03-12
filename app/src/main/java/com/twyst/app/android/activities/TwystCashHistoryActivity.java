@@ -15,6 +15,7 @@ import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
+import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
 
@@ -49,7 +50,7 @@ public class TwystCashHistoryActivity extends BaseActionActivity {
                 if (historyDataBaseResponse.isResponse()) {
                     CashHistoryData cashHistoryData = historyDataBaseResponse.getData();
                     cashHistory = cashHistoryData.getCashHistory();
-                    setTwystCash(cashHistoryData.getTwystCash());
+                    Utils.setTwystCash(cashHistoryData.getTwystCash());
                     updateTwystCash();
 
                     viewPager = (ViewPager) findViewById(R.id.pager_my_twyst_cash);
@@ -82,8 +83,8 @@ public class TwystCashHistoryActivity extends BaseActionActivity {
     }
 
     private void updateTwystCash() {
-        if (getTwystCash() != -1) {
-            ((TextView) findViewById(R.id.tv_cash_amount)).setText(String.valueOf(getTwystCash()));
+        if (Utils.getTwystCash() != -1) {
+            ((TextView) findViewById(R.id.tv_cash_amount)).setText(String.valueOf(Utils.getTwystCash()));
         }
     }
 }

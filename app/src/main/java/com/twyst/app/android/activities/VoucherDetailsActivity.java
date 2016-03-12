@@ -23,6 +23,7 @@ import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
+import com.twyst.app.android.util.Utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -167,8 +168,8 @@ public class VoucherDetailsActivity extends BaseActionActivity {
     }
 
     private void updateTwystCash() {
-        if (getTwystCash() != -1) {
-            ((TextView) findViewById(R.id.tv_my_twyst_cash)).setText(String.valueOf(getTwystCash()));
+        if (Utils.getTwystCash() != -1) {
+            ((TextView) findViewById(R.id.tv_my_twyst_cash)).setText(String.valueOf(Utils.getTwystCash()));
         }
     }
 

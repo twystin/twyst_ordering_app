@@ -25,6 +25,7 @@ import com.twyst.app.android.model.TwystCashHistory;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.UtilMethods;
+import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,12 +86,9 @@ public class RedeemFragment extends Fragment {
             }
         });
 
-        MainActivity activity = (MainActivity) getActivity();
-        if (activity != null) {
-            if (activity.getTwystCash() != -1) {
-                ((TextView) view.findViewById(R.id.tv_my_twyst_cash)).setText(String.valueOf(activity.getTwystCash()));
+          if (Utils.getTwystCash() != -1) {
+                ((TextView) view.findViewById(R.id.tv_my_twyst_cash)).setText(String.valueOf(Utils.getTwystCash()));
             }
-        }
 
         setAddsViewPager(view);
         setGridAdapter(view);
