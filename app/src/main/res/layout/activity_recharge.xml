@@ -1,192 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/menu_background_color">
+    android:background="@color/menu_background_color"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardView_listview"
-        style="@style/card_view_style"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardView_listview"
+            style="@style/card_view_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="vertical"
-            android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="5dp">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <RadioGroup
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|center_vertical"
-                    android:orientation="horizontal">
-                    <!-- tabs -->
-                    <RadioButton
-                        android:id="@+id/rb_prepaid"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:checked="true"
-                        android:text="Prepaid"
-                        android:textSize="@dimen/layout_huge_text_size" />
-
-                    <RadioButton
-                        android:id="@+id/rb_postpaid"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Postpaid"
-                        android:textSize="@dimen/layout_huge_text_size" />
-                </RadioGroup>
-
-            </FrameLayout>
-
-            <LinearLayout
-                android:id="@+id/llNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/underline_selector"
-                android:orientation="horizontal"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp">
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:focusable="false"
-                    android:gravity="center_horizontal"
-                    android:singleLine="true"
-                    android:text="+91"
-                    android:textColor="@color/black"
-                    android:textCursorDrawable="@null"
-                    android:textSize="@dimen/layout_huge_text_size" />
-
-                <EditText
-                    android:id="@+id/et_number"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:hint="@string/verify_number_phone_hint"
-                    android:inputType="number"
-                    android:maxLength="10"
-                    android:singleLine="true"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/verify_half_white"
-                    android:textCursorDrawable="@null"
-                    android:textSize="@dimen/layout_huge_text_size" />
-
-                <ImageButton
-                    android:id="@+id/ibContact"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/contact_icon" />
-            </LinearLayout>
-
-            <Spinner
-                android:id="@+id/spinnerOperatorList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/underline_selector"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp" />
-
-            <Spinner
-                android:id="@+id/spinnerCircleList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/underline_selector"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp" />
+            android:layout_gravity="top">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp">
-
-                <EditText
-                    android:id="@+id/et_amount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/underline_selector"
-                    android:hint="Enter Amount"
-                    android:inputType="number"
-                    android:maxLength="10"
-                    android:singleLine="true"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/verify_half_white"
-                    android:textSize="@dimen/layout_huge_text_size" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/llCashUsage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_marginTop="5dp"
+                android:background="@color/white"
                 android:orientation="vertical"
                 android:paddingBottom="5dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:paddingTop="5dp"
-                android:visibility="gone">
+                android:paddingTop="5dp">
 
-                <TextView
-                    android:id="@+id/tvUsageHandling"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:singleLine="true"
-                    android:textColor="@color/primary"
-                    android:textSize="@dimen/layout_extra_wide_text_size" />
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tvTotalHandling"
+                    <RadioGroup
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center_vertical"
+                        android:orientation="horizontal">
+                        <!-- tabs -->
+                        <RadioButton
+                            android:id="@+id/rb_prepaid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:checked="true"
+                            android:text="Prepaid"
+                            android:textSize="@dimen/layout_huge_text_size" />
+
+                        <RadioButton
+                            android:id="@+id/rb_postpaid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Postpaid"
+                            android:textSize="@dimen/layout_huge_text_size" />
+                    </RadioGroup>
+
+                </FrameLayout>
+
+                <LinearLayout
+                    android:id="@+id/llNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:gravity="right"
-                    android:singleLine="true"
-                    android:textColor="@color/primary"
-                    android:textSize="@dimen/layout_extra_wide_text_size" />
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/underline_selector"
+                    android:orientation="horizontal"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:gravity="center_horizontal"
+                        android:singleLine="true"
+                        android:text="+91"
+                        android:textColor="@color/black"
+                        android:textCursorDrawable="@null"
+                        android:textSize="@dimen/layout_huge_text_size" />
+
+                    <EditText
+                        android:id="@+id/et_number"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:hint="@string/verify_number_phone_hint"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/verify_half_white"
+                        android:textCursorDrawable="@null"
+                        android:textSize="@dimen/layout_huge_text_size" />
+
+                    <ImageButton
+                        android:id="@+id/ibContact"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/contact_icon" />
+                </LinearLayout>
+
+                <Spinner
+                    android:id="@+id/spinnerOperatorList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/underline_selector"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp" />
+
+                <Spinner
+                    android:id="@+id/spinnerCircleList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/underline_selector"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:id="@+id/et_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/underline_selector"
+                        android:hint="Enter Amount"
+                        android:inputType="number"
+                        android:maxLength="5"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/verify_half_white"
+                        android:textSize="@dimen/layout_huge_text_size" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/llCashUsage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="5dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tvUsageHandling"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:singleLine="true"
+                        android:textColor="@color/primary"
+                        android:textSize="@dimen/layout_extra_wide_text_size" />
+
+                    <TextView
+                        android:id="@+id/tvTotalHandling"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:gravity="right"
+                        android:singleLine="true"
+                        android:textColor="@color/primary"
+                        android:textSize="@dimen/layout_extra_wide_text_size" />
+                </LinearLayout>
+
             </LinearLayout>
 
-        </LinearLayout>
+        </android.support.v7.widget.CardView>
 
-    </android.support.v7.widget.CardView>
+    </ScrollView>
 
     <FrameLayout
         android:id="@+id/bRecharge"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:layout_alignParentBottom="true"
         android:background="@drawable/big_button"
         android:padding="10dp">
 
@@ -200,4 +207,4 @@
             android:textColor="@android:color/white"
             android:textSize="20dp" />
     </FrameLayout>
-</RelativeLayout>
+</LinearLayout>

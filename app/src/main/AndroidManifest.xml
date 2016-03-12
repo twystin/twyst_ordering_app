@@ -239,7 +239,8 @@
             android:name=".activities.RechargeActivity"
             android:label="@string/title_activity_recharge"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustNothing" />
 
         <activity
             android:name=".activities.ShoppingVouchersActivity"
