@@ -27,6 +27,7 @@ import com.twyst.app.android.R;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.Recharge;
 import com.twyst.app.android.service.HttpService;
+import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.NumberDatabaseSingleton;
 import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.Utils;
@@ -45,6 +46,9 @@ public class RechargeActivity extends BaseActionActivity {
 
     private Spinner mOperatorSpinner, mCircleSpinner;
     private EditText etNumber, etAmount;
+
+    private static int FACTOR = HttpService.getInstance().getSharedPreferences().getInt(AppConstants.PREFERENCE_RECHARGE_HANDLING_FEE_FACTOR, AppConstants.RECHARGE_HANDLING_FEE_FACTOR);
+    private static int MIN = HttpService.getInstance().getSharedPreferences().getInt(AppConstants.PREFERENCE_RECHARGE_MIN_HANDLING_FEE, AppConstants.RECHARGE_MIN_HANDLING_FEE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,9 +203,7 @@ public class RechargeActivity extends BaseActionActivity {
     }
 
     private int getHandlingCost(String amount) {
-        int FACTOR = 10;
-        int MIN = 10;
-        return Math.max(MIN, (int) Math.round((double) (FACTOR) / 100 * Double.parseDouble(amount)));
+        return Math.max(FACTOR, (int) Math.round((double) (MIN) / 100 * Double.parseDouble(amount)));
     }
 
     private void proceedToRecharge() {

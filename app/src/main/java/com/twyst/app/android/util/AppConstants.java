@@ -6,7 +6,7 @@ import com.twyst.app.android.BuildConfig;
  * Created by satish on 31/05/15.
  */
 public class AppConstants {
-//    public static final String HOST = "http://beta.twyst.in";
+    //    public static final String HOST = "http://beta.twyst.in";
 //    public static final String HOST = "http://192.168.1.18:3000";
 //    public static final String HOST = "http://staging.twyst.in";
     public static final String HOST = BuildConfig.HOST;
@@ -57,6 +57,12 @@ public class AppConstants {
     public static final String PREFERENCE_TWYST_CASH_EXTEND = "twyst_cash_extend";
     public static final String PREFERENCE_TWYST_CASH_REDEEM = "twyst_cash_redeem";
     public static final String PREFERENCE_TWYST_CASH_BUY_CHECKIN = "twyst_cash_buy_checkin";
+
+    public static final String PREFERENCE_RECHARGE_HANDLING_FEE_FACTOR = "recharge_handling_fee_factor";
+    public static final String PREFERENCE_RECHARGE_MIN_HANDLING_FEE = "recharge_min_handling_fee";
+
+    public static final int RECHARGE_HANDLING_FEE_FACTOR = 10;
+    public static final int RECHARGE_MIN_HANDLING_FEE = 10;
 
     public static final String INTENT_PARAM_OTP_CODE = "otp_code";
     public static final String INTENT_PARAM_OTP_PHONE = "otp_phone_number";

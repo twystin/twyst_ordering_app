@@ -1664,6 +1664,10 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             Double TWYST_CASH_REDEEM = (mContainerHolder.getContainer().getDouble("redeem"));
             Double TWYST_CASH_BUY_CHECKIN = (mContainerHolder.getContainer().getDouble("buy_checkin"));
 
+            //Recharge Handling
+            Double RECHARGE_HANDLING_FEE_FACTOR = (mContainerHolder.getContainer().getDouble("recharge_handling_fee_factor"));
+            Double RECHARGE_MIN_HANDLING_FEE = (mContainerHolder.getContainer().getDouble("recharge_min_handling_fee"));
+
             final SharedPreferences.Editor prefsEdit = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE).edit();
             prefsEdit.putInt((AppConstants.PREFERENCE_USER_ONE_LOCATION_CHECK_TIME), USER_ONE_LOCATION_CHECK_TIME.intValue());
             prefsEdit.putInt((AppConstants.PREFERENCE_DISTANCE_LIMIT), DISTANCE_LIMIT.intValue());
@@ -1687,6 +1691,9 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_CASH_EXTEND), TWYST_CASH_EXTEND.intValue());
             prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_CASH_REDEEM), TWYST_CASH_REDEEM.intValue());
             prefsEdit.putInt((AppConstants.PREFERENCE_TWYST_CASH_BUY_CHECKIN), TWYST_CASH_BUY_CHECKIN.intValue());
+
+            prefsEdit.putInt((AppConstants.PREFERENCE_RECHARGE_HANDLING_FEE_FACTOR), RECHARGE_HANDLING_FEE_FACTOR.intValue());
+            prefsEdit.putInt((AppConstants.PREFERENCE_RECHARGE_MIN_HANDLING_FEE), RECHARGE_MIN_HANDLING_FEE.intValue());
 
             prefsEdit.apply();
         }
