@@ -20,11 +20,11 @@ import butterknife.OnClick;
  * Created by Vipul Sharma on 2/11/2016.
  */
 public class AboutActivity extends BaseActionActivity {
-    @Bind(R.id.tvAppVersion) TextView tvAppVersion;
+    @Bind(R.id.tvAppVersion)
+    TextView tvAppVersion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        setupAsChild=true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         ButterKnife.bind(this);
@@ -67,7 +67,7 @@ public class AboutActivity extends BaseActionActivity {
         }
         String version = "";
         if (pInfo != null && pInfo.versionName != null) {
-            version = "v" + pInfo.versionName + " Beta";
+            version = "v" + pInfo.versionName;
         }
         tvAppVersion.setText(version);
     }

@@ -20,7 +20,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 20017
-        versionName "4.3"
+        versionName "Beta-4.31"
         multiDexEnabled true
     }
 
