@@ -1,5 +1,6 @@
 package com.twyst.app.android.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -8,7 +9,9 @@ import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -87,8 +90,18 @@ public class RechargeActivity extends BaseActionActivity {
                     public void afterTextChanged(Editable s) {
                     }
                 }
-
         );
+
+        etNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    findViewById(R.id.llNumber).setBackgroundResource(R.drawable.underline_selected);
+                } else {
+                    findViewById(R.id.llNumber).setBackgroundResource(R.drawable.underline_unselected);
+                }
+            }
+        });
     }
 
     private void setupEditTextAmount() {
@@ -224,10 +237,12 @@ public class RechargeActivity extends BaseActionActivity {
 
     private void setupSpinners() {
         mOperatorSpinner = (Spinner) findViewById(R.id.spinnerOperatorList);
-        mOperatorSpinner.setAdapter(new ArrayAdapter<OperatorMapping>(this, R.layout.custom_spinner, OperatorMapping.values()));
+        mOperatorSpinner.setAdapter(new RechargeSpinnerAdapter(this, R.layout.custom_spinner, OperatorMapping.values()));
+        mOperatorSpinner.setPrompt(OperatorMapping.DEFAULT.toString()); // will work only if spinnerMode is dialog
 
         mCircleSpinner = (Spinner) findViewById(R.id.spinnerCircleList);
-        mCircleSpinner.setAdapter(new ArrayAdapter<CircleMapping>(this, R.layout.custom_spinner, CircleMapping.values()));
+        mCircleSpinner.setAdapter(new RechargeSpinnerAdapter(this, R.layout.custom_spinner, CircleMapping.values()));
+        mCircleSpinner.setPrompt(CircleMapping.DEFAULT.toString());
     }
 
     private void openContacts() {
@@ -415,4 +430,45 @@ public class RechargeActivity extends BaseActionActivity {
             return circleName;
         }
     }
+
+    public class RechargeSpinnerAdapter<T> extends ArrayAdapter<T> {
+        final private Context mContext;
+        final private T[] mValues;
+        final private LayoutInflater mInflater;
+
+        public RechargeSpinnerAdapter(Context context, int layoutResourceId, T[] values) {
+            super(context, layoutResourceId, values);
+            this.mContext = context;
+            this.mValues = values;
+            mInflater = LayoutInflater.from(context);
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View row = mInflater.inflate(R.layout.custom_spinner, parent,
+                    false);
+            Object object = mValues[position];
+            TextView buttonShowDropDown = (TextView) row.findViewById(R.id.buttonShowDropDown);
+            buttonShowDropDown.setText(object.toString());
+            if (position == 0) {
+                buttonShowDropDown.setTextColor(mContext.getResources().getColor(R.color.verify_half_white));
+            }
+            return row;
+        }
+
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            View row = mInflater.inflate(R.layout.custom_spinner_dropdown, parent,
+                    false);
+            super.getDropDownView(position, row, parent);
+            Object object = mValues[position];
+            TextView buttonShowDropDown = (TextView) row.findViewById(R.id.buttonShowDropDown);
+            buttonShowDropDown.setText(object.toString());
+
+            if (position == 0) {
+                buttonShowDropDown.setHeight(0);
+            }
+            return row;
+        }
+
+    }
+
 }
