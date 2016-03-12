@@ -176,7 +176,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/button_primary"
+                android:background="@drawable/gradient_logo"
                 android:focusable="false"
                 android:gravity="center"
                 android:paddingBottom="8dp"
