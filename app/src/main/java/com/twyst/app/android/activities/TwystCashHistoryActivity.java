@@ -27,7 +27,7 @@ public class TwystCashHistoryActivity extends BaseActionActivity {
     private ViewPager viewPager;
     private TwystCashPagerAdapter mPagerAdapter;
     private TextView TwystCashTV;
-    private CashHistoryData cashHistoryData = new CashHistoryData();
+    //    private CashHistoryData cashHistoryData = new CashHistoryData();
     private ArrayList<TwystCashHistory> cashHistory = new ArrayList<TwystCashHistory>();
 
     @Override
@@ -45,24 +45,20 @@ public class TwystCashHistoryActivity extends BaseActionActivity {
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
         HttpService.getInstance().getTwystCashHistory(getUserToken(), new Callback<BaseResponse<CashHistoryData>>() {
             @Override
-            public void success(BaseResponse<CashHistoryData> TwystCashResponse, Response response) {
-                if (TwystCashResponse.isResponse()) {
-                    cashHistoryData = TwystCashResponse.getData();
+            public void success(BaseResponse<CashHistoryData> historyDataBaseResponse, Response response) {
+                if (historyDataBaseResponse.isResponse()) {
+                    CashHistoryData cashHistoryData = historyDataBaseResponse.getData();
                     cashHistory = cashHistoryData.getCashHistory();
                     setTwystCash(cashHistoryData.getTwystCash());
-
-                    TwystCashTV = (TextView) findViewById(R.id.tv_cash_amount);
-                    TwystCashTV.setText(Integer.toString(getTwystCash()));
+                    updateTwystCash();
 
                     viewPager = (ViewPager) findViewById(R.id.pager_my_twyst_cash);
                     mPagerAdapter = new TwystCashPagerAdapter(TAB_COUNT, cashHistory, getSupportFragmentManager(), TwystCashHistoryActivity.this);
                     viewPager.setAdapter(mPagerAdapter);
-//                    final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs_my_twyst_cash);
-//                    tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
                     tabLayout.setupWithViewPager(viewPager);
 
                 } else {
-                    Toast.makeText(TwystCashHistoryActivity.this, TwystCashResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TwystCashHistoryActivity.this, historyDataBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
                 twystProgressHUD.dismiss();
                 UtilMethods.hideSnackbar();
@@ -76,15 +72,18 @@ public class TwystCashHistoryActivity extends BaseActionActivity {
             }
         });
 
-//        TextView TwystCashTV = (TextView) findViewById(R.id.tv_cash_amount);
-//        TwystCashTV.setText(Integer.toString(twystCash));
-//
 //        viewPager = (ViewPager) findViewById(R.id.pager_my_twyst_cash);
 //        mPagerAdapter = new TwystCashPagerAdapter(TAB_COUNT, cashHistory, getSupportFragmentManager(), TwystCashHistoryActivity.this);
 //        viewPager.setAdapter(mPagerAdapter);
 //        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs_my_twyst_cash);
 //        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 //        tabLayout.setupWithViewPager(viewPager);
+        updateTwystCash();
+    }
 
+    private void updateTwystCash() {
+        if (getTwystCash() != -1) {
+            ((TextView) findViewById(R.id.tv_cash_amount)).setText(String.valueOf(getTwystCash()));
+        }
     }
 }

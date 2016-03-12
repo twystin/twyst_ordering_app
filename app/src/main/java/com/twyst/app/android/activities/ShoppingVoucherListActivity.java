@@ -10,7 +10,6 @@ import com.twyst.app.android.model.Cashback;
 import com.twyst.app.android.util.AppConstants;
 
 public class ShoppingVoucherListActivity extends BaseActionActivity {
-
     private Cashback offerSource;
 
     @Override

@@ -47,59 +47,9 @@
             </RelativeLayout>
         </android.support.design.widget.CollapsingToolbarLayout>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:elevation="4dp">
-
-            <LinearLayout
-                android:id="@+id/ll_twyst_cash_launcher"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="@dimen/layout_huge_margin">
-
-                <ImageView
-                    android:layout_width="@dimen/layout_huge_margin"
-                    android:layout_height="@dimen/layout_huge_margin"
-                    android:layout_marginRight="@dimen/layout_wide_margin"
-                    android:src="@drawable/twyst_cash_icon" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="My Twyst Cash"
-                    android:textSize="@dimen/layout_wide_margin" />
-
-                <TextView
-                    android:id="@+id/tv_current_address_location"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:paddingRight="@dimen/layout_wide_margin"
-                    android:singleLine="true"
-                    android:textSize="@dimen/layout_wide_margin" />
-
-                <TextView
-                    android:id="@+id/tv_my_twyst_cash"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/layout_small_margin"
-                    android:textSize="@dimen/layout_wide_margin" />
-
-                <ImageView
-                    android:layout_width="@dimen/layout_huge_margin"
-                    android:layout_height="@dimen/layout_huge_margin"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/go_button" />
-
-            </LinearLayout>
-
-        </FrameLayout>
+        <include
+            android:id="@+id/ll_twyst_cash_launcher"
+            layout="@layout/twyst_cash_launcher" />
 
     </android.support.design.widget.AppBarLayout>
 </android.support.design.widget.CoordinatorLayout>

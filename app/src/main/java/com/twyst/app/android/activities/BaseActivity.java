@@ -768,7 +768,7 @@ public abstract class BaseActivity extends ActionBarActivity {
     }
 
     public int getTwystCash() {
-        return HttpService.getInstance().getSharedPreferences().getInt(AppConstants.PREFERENCE_LAST_TWYST_CASH, 0);
+        return HttpService.getInstance().getSharedPreferences().getInt(AppConstants.PREFERENCE_LAST_TWYST_CASH, -1);
     }
 
     public void setTwystCash(int twystCash) {

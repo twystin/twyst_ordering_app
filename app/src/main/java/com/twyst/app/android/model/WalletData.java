@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by rahuls on 10/8/15.
  */
-public class WalletData implements Serializable{
+public class WalletData implements Serializable {
 
     @SerializedName("coupons")
     private ArrayList<Outlet> outlets = new ArrayList<>();

@@ -29,51 +29,9 @@
         android:layout_height="1dp"
         android:background="@color/background_grey" />
 
-    <LinearLayout
+    <include
         android:id="@+id/ll_twyst_cash_launcher"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="@dimen/layout_huge_margin">
-
-        <ImageView
-            android:layout_width="@dimen/layout_huge_margin"
-            android:layout_height="@dimen/layout_huge_margin"
-            android:layout_marginRight="@dimen/layout_wide_margin"
-            android:src="@drawable/twyst_cash_icon" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="My Twyst Cash"
-            android:textSize="14dp" />
-
-        <TextView
-            android:id="@+id/tv_current_address_location"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:paddingRight="@dimen/layout_wide_margin"
-            android:singleLine="true"
-            android:textSize="@dimen/layout_wide_margin" />
-
-        <TextView
-            android:id="@+id/tv_my_twyst_cash"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/layout_small_margin"
-            android:textSize="@dimen/layout_wide_margin" />
-
-        <ImageView
-            android:id="@+id/iv_mtbArrow"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:src="@drawable/go_button" />
-
-    </LinearLayout>
+        layout="@layout/twyst_cash_launcher" />
 
     <LinearLayout
         android:layout_width="match_parent"

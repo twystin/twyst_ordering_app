@@ -35,7 +35,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class VoucherDetailsActivity extends BaseActionActivity {
-
     private CashbackOffers offer;
     private boolean tncExpanded = false;
     boolean emailVerified = false;
@@ -164,10 +163,16 @@ public class VoucherDetailsActivity extends BaseActionActivity {
                 startActivity(twystCashIntent);
             }
         });
+        updateTwystCash();
+    }
+
+    private void updateTwystCash() {
+        if (getTwystCash() != -1) {
+            ((TextView) findViewById(R.id.tv_my_twyst_cash)).setText(String.valueOf(getTwystCash()));
+        }
     }
 
     private void canOfferbeUsed() {
-
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
         ShoppingVoucher sv = new ShoppingVoucher(offer.getOffer_id());
         HttpService.getInstance().postCashbackOffer(getUserToken(), sv, new Callback<BaseResponse<ShoppingVoucherResponse>>() {
@@ -192,7 +197,6 @@ public class VoucherDetailsActivity extends BaseActionActivity {
 
                     @Override
                     public void failure(RetrofitError error) {
-//                        Toast.makeText(VoucherDetailsActivity.this, error.getResponse().getReason() + " " + error.getResponse().getStatus() , Toast.LENGTH_SHORT).show();
                         twystProgressHUD.dismiss();
                         UtilMethods.handleRetrofitError(VoucherDetailsActivity.this, error);
                         UtilMethods.hideSnackbar();
@@ -297,6 +301,4 @@ public class VoucherDetailsActivity extends BaseActionActivity {
 
         return date;
     }
-
-
 }

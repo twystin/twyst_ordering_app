@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.common.primitives.Ints;
@@ -79,11 +80,17 @@ public class RedeemFragment extends Fragment {
         view.findViewById(R.id.ll_twyst_cash_launcher).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent twystCashIntent = new Intent(view.getContext(), TwystCashHistoryActivity.class);
                 view.getContext().startActivity(twystCashIntent);
             }
         });
+
+        MainActivity activity = (MainActivity) getActivity();
+        if (activity != null) {
+            if (activity.getTwystCash() != -1) {
+                ((TextView) view.findViewById(R.id.tv_my_twyst_cash)).setText(String.valueOf(activity.getTwystCash()));
+            }
+        }
 
         setAddsViewPager(view);
         setGridAdapter(view);
@@ -108,7 +115,6 @@ public class RedeemFragment extends Fragment {
         viewPager.setCurrentItem(1);
         viewPager.setScrollDurationFactor(5);
     }
-
 
     /*
      *  Set the Adapter on the Recycler View.

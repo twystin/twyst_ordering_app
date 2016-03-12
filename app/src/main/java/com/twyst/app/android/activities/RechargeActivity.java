@@ -64,6 +64,21 @@ public class RechargeActivity extends BaseActionActivity {
                 proceedToRecharge();
             }
         });
+
+        findViewById(R.id.ll_twyst_cash_launcher).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent twystCashIntent = new Intent(RechargeActivity.this, TwystCashHistoryActivity.class);
+                startActivity(twystCashIntent);
+            }
+        });
+        updateTwystCash();
+    }
+
+    private void updateTwystCash() {
+        if (getTwystCash() != -1) {
+            ((TextView) findViewById(R.id.tv_my_twyst_cash)).setText(String.valueOf(getTwystCash()));
+        }
     }
 
     private void setupEditTextNumber() {
