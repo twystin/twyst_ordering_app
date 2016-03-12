@@ -3,6 +3,7 @@ package com.twyst.app.android.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -12,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -130,12 +132,40 @@ public class RechargeActivity extends BaseActionActivity {
     }
 
     private void updateUsageTexts(String amount) {
-        TextView tvUsageHandling = (TextView) findViewById(R.id.tvUsageHandling);
-        TextView tvTotalHandling = (TextView) findViewById(R.id.tvTotalHandling);
+        final TextView tvUsageHandling = (TextView) findViewById(R.id.tvUsageHandling);
+        final TextView tvTotal = (TextView) findViewById(R.id.tvTotal);
 
         int handlingCost = getHandlingCost(amount);
-        tvUsageHandling.setText("Handling fee: " + String.valueOf(handlingCost) + " Twyst Cash");
-        tvTotalHandling.setText("Total Twyst Cash to be used: " + String.valueOf(Integer.parseInt(amount) + handlingCost));
+        tvUsageHandling.setText(String.valueOf(handlingCost));
+        tvTotal.setText(String.valueOf(Integer.parseInt(amount) + handlingCost));
+
+        tvUsageHandling.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        Drawable img = getResources().getDrawable(
+                                R.drawable.twyst_cash_icon);
+                        int height = tvUsageHandling.getMeasuredHeight() * 2 / 3;
+                        img.setBounds(0, 0, ((220 * height) / 311), height);
+                        tvUsageHandling.setCompoundDrawables(null, null, img, null);
+                        tvUsageHandling.getViewTreeObserver()
+                                .removeOnGlobalLayoutListener(this);
+                    }
+                });
+
+        tvTotal.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        Drawable img = getResources().getDrawable(
+                                R.drawable.twyst_cash_icon);
+                        int height = tvTotal.getMeasuredHeight() * 2 / 3;
+                        img.setBounds(0, 0, ((220 * height) / 311), height);
+                        tvTotal.setCompoundDrawables(null, null, img, null);
+                        tvTotal.getViewTreeObserver()
+                                .removeOnGlobalLayoutListener(this);
+                    }
+                });
     }
 
     private int getHandlingCost(String amount) {

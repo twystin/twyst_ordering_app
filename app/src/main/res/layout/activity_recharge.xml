@@ -150,38 +150,71 @@
                         android:textSize="@dimen/layout_huge_text_size" />
                 </LinearLayout>
 
-
                 <LinearLayout
                     android:id="@+id/llCashUsage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
                     android:layout_marginTop="5dp"
                     android:orientation="vertical"
                     android:paddingBottom="5dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
                     android:paddingTop="5dp"
                     android:visibility="gone">
 
-                    <TextView
-                        android:id="@+id/tvUsageHandling"
+                    <LinearLayout
+                        android:id="@+id/llUsageHandling"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:singleLine="true"
-                        android:textColor="@color/primary"
-                        android:textSize="@dimen/layout_extra_wide_text_size" />
+                        android:orientation="horizontal"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp">
 
-                    <TextView
-                        android:id="@+id/tvTotalHandling"
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:text="Handling fee:"
+                            android:textColor="@color/black_text_color"
+                            android:textSize="@dimen/outlet_offer_header_textsize" />
+
+                        <TextView
+                            android:id="@+id/tvUsageHandling"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="100"
+                            android:drawablePadding="10dp"
+                            android:textColor="@color/black_text_color"
+                            android:textSize="@dimen/outlet_offer_header_textsize" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llTotal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:gravity="right"
-                        android:singleLine="true"
-                        android:textColor="@color/primary"
-                        android:textSize="@dimen/layout_extra_wide_text_size" />
+                        android:orientation="horizontal"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:text="Total Twyst Cash to be used:"
+                            android:textColor="@color/black_text_color"
+                            android:textSize="@dimen/outlet_offer_header_textsize" />
+
+                        <TextView
+                            android:id="@+id/tvTotal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="100"
+                            android:drawablePadding="10dp"
+                            android:textColor="@color/black_text_color"
+                            android:textSize="@dimen/outlet_offer_header_textsize" />
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
