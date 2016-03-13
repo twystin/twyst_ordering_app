@@ -19,7 +19,7 @@ android {
         applicationId "com.twyst.app.android"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 20017
+        versionCode 20018
         versionName "Beta-4.31"
         multiDexEnabled true
     }
