@@ -15,5 +15,10 @@
         android:id="@+id/rv_shopping_vouchers"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"></android.support.v7.widget.RecyclerView>
+        android:layout_below="@id/toolbar" />
+
+    <include
+        android:id="@+id/no_shopping_vouchers"
+        layout="@layout/layout_no_data"
+        android:visibility="gone" />
 </RelativeLayout>

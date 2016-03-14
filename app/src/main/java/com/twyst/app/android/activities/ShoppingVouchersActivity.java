@@ -3,6 +3,9 @@ package com.twyst.app.android.activities;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appsflyer.AppsFlyerLib;
@@ -46,6 +49,7 @@ public class ShoppingVouchersActivity extends BaseActionActivity {
                 }
                 hideSnackbar(); // why?
                 hideProgressHUDInLayout();
+                showNoDataLayout();
             }
 
             @Override
@@ -55,6 +59,17 @@ public class ShoppingVouchersActivity extends BaseActionActivity {
                 handleRetrofitError(error);
             }
         });
+    }
+
+    private void showNoDataLayout() {
+        findViewById(R.id.no_shopping_vouchers).setVisibility(View.GONE);
+        if (voucherList.size() == 0) {
+            findViewById(R.id.no_shopping_vouchers).setVisibility(View.VISIBLE);
+            ImageView iv_no_data = (ImageView) findViewById(R.id.iv_no_data);
+            iv_no_data.setImageResource(R.drawable.redeem_shopping);
+            TextView tv_no_data = (TextView) findViewById(R.id.tv_no_data);
+            tv_no_data.setText(getResources().getString(R.string.no_data_vouchers));
+        }
     }
 
     @Override
