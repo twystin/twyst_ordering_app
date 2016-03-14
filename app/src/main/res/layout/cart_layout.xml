@@ -9,31 +9,32 @@
         android:id="@+id/bCheckOutCart"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:padding="10dp"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/big_button">
+        android:background="@drawable/big_button"
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/tvCheckOutCart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CHECKOUT"
-            android:focusable="false"
-            android:drawablePadding="10dp"
             android:layout_gravity="right|center_vertical"
+            android:drawablePadding="10dp"
+            android:focusable="false"
+            android:paddingRight="10dp"
+            android:text="CHECKOUT"
             android:textColor="@android:color/white"
             android:textSize="20dp" />
     </FrameLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/cartRecyclerView"
-        android:layout_above="@+id/bCheckOutCart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="2dp"
+        android:layout_above="@+id/bCheckOutCart"
         android:layout_marginBottom="3dp"
-        android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="2dp"
         android:overScrollMode="never" />
 
 </RelativeLayout>

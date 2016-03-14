@@ -319,6 +319,7 @@
             android:layout_gravity="right|center_vertical"
             android:drawablePadding="10dp"
             android:focusable="false"
+            android:paddingRight="10dp"
             android:text="OK"
             android:textColor="@android:color/white"
             android:textSize="20dp" />
