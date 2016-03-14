@@ -1,5 +1,6 @@
 package com.twyst.app.android.activities;
 
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -594,9 +596,40 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
             if (!searchView.isIconified()) {
                 closeSearchView();
             } else {
-                super.onBackPressed();
+//                super.onBackPressed();
+                askUserToDiscardOrder();
             }
         }
+    }
+
+    private void askUserToDiscardOrder() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = LayoutInflater.from(OrderOnlineActivity.this).inflate(R.layout.dialog_generic, null);
+        builder.setView(dialogView);
+        final AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+        TextView tvTitle = ((TextView) (dialog.findViewById(R.id.tv_title)));
+        tvTitle.setText("Discard order?");
+        TextView tvMessage = (TextView) dialog.findViewById(R.id.tv_message);
+        tvMessage.setText("Are you sure, you want to discard this order?");
+        TextView tvOk = (TextView) dialog.findViewById(R.id.tv_ok);
+        tvOk.setText("Yes");
+        TextView tvCancel = (TextView) dialog.findViewById(R.id.tv_cancel);
+        tvCancel.setText("No");
+
+        dialog.findViewById(R.id.fOK).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderOnlineActivity.this.finish();
+            }
+        });
+        dialog.findViewById(R.id.fCancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 
     private void closeSearchView() {

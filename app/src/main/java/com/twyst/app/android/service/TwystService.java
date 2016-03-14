@@ -210,5 +210,5 @@ public interface TwystService {
     public void getTwystCashHistory(@Query("token") String token, Callback<BaseResponse<CashHistoryData>> callback);
 
     @POST("/api/v4/mobikwik/recharge")
-    public void postRecharge(@Query("token") String token, @Body() Recharge recharge, Callback<BaseResponse> callback);
+    public void postRecharge(@Query("token") String token, @Body() Recharge recharge, Callback<BaseResponse<Integer>> callback);
 }

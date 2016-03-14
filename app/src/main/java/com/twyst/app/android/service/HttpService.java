@@ -310,7 +310,7 @@ public class HttpService {
         twystService.getTwystCashHistory(token, callback);
     }
 
-    public void postRecharge(String token, Recharge recharge, Callback<BaseResponse> callback) {
+    public void postRecharge(String token, Recharge recharge, Callback<BaseResponse<Integer>> callback) {
         twystService.postRecharge(token, recharge, callback);
     }
 }

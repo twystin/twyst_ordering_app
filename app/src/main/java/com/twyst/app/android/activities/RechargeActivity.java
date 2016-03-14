@@ -253,11 +253,16 @@ public class RechargeActivity extends BaseActionActivity {
         }
 
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
-        HttpService.getInstance().postRecharge(getUserToken(), recharge, new Callback<BaseResponse>() {
+        HttpService.getInstance().postRecharge(getUserToken(), recharge, new Callback<BaseResponse<Integer>>() {
             @Override
-            public void success(BaseResponse loginDataBaseResponse, Response response) {
+            public void success(BaseResponse<Integer> loginDataBaseResponse, Response response) {
                 twystProgressHUD.dismiss();
                 if (loginDataBaseResponse.isResponse()) {
+                    if (loginDataBaseResponse.getData() != null) {
+                        int twystCash = loginDataBaseResponse.getData();
+                        Utils.setTwystCash(twystCash);
+                        updateTwystCash();
+                    }
                     Toast.makeText(RechargeActivity.this, "Recharge done successfully!", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
