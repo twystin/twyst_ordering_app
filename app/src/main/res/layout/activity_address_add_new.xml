@@ -316,12 +316,12 @@
             android:id="@+id/tvProceedOk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="right|center_vertical"
             android:drawablePadding="10dp"
             android:focusable="false"
             android:text="OK"
             android:textColor="@android:color/white"
-            android:textSize="18dp" />
+            android:textSize="20dp" />
     </FrameLayout>
 
 </LinearLayout>
