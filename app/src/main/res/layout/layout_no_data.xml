@@ -16,7 +16,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/no_data_order" />
+            android:src="@drawable/no_data_order" />
 
         <TextView
             android:id="@+id/tv_no_data"

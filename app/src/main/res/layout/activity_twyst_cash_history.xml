@@ -25,7 +25,6 @@
             android:id="@+id/iv_twyst_cash_icon"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_below="@+id/tv_header"
             android:layout_marginBottom="2dp"
             android:src="@drawable/twyst_cash_icon" />
 
@@ -33,9 +32,9 @@
             android:id="@+id/tv_cash_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_twyst_cash_icon"
             android:text="0"
-            android:textSize="@dimen/twyst_cash_text_huge" />
+            android:textColor="@android:color/black"
+            android:textSize="20dp" />
 
     </LinearLayout>
 
@@ -114,11 +113,31 @@
 
     </LinearLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager_my_twyst_cash"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@id/ll_cash_row_header"
-        android:background="@color/white"></android.support.v4.view.ViewPager>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_cash_row_header">
 
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager_my_twyst_cash"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+
+            android:background="@color/white" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp">
+
+            <include
+                android:id="@+id/circularProgressBar"
+                layout="@layout/twyst_progress_hud" />
+        </RelativeLayout>
+
+        <include
+            android:id="@+id/no_twystCash_transactions"
+            layout="@layout/layout_no_data"
+            android:visibility="gone" />
+    </RelativeLayout>
 </RelativeLayout>

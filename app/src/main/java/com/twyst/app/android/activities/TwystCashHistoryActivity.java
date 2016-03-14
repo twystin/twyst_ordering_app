@@ -3,6 +3,8 @@ package com.twyst.app.android.activities;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,13 +15,12 @@ import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.CashHistoryData;
 import com.twyst.app.android.model.TwystCashHistory;
 import com.twyst.app.android.service.HttpService;
-import com.twyst.app.android.util.AppConstants;
-import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
 import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
 
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -44,7 +45,7 @@ public class TwystCashHistoryActivity extends BaseActionActivity {
         tabLayout.addTab(tabLayout.newTab().setText("Debit"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
+//        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
         HttpService.getInstance().getTwystCashHistory(getUserToken(), new Callback<BaseResponse<CashHistoryData>>() {
             @Override
             public void success(BaseResponse<CashHistoryData> historyDataBaseResponse, Response response) {
@@ -53,22 +54,21 @@ public class TwystCashHistoryActivity extends BaseActionActivity {
                     cashHistory = cashHistoryData.getCashHistory();
                     Utils.setTwystCash(cashHistoryData.getTwystCash());
                     updateTwystCash();
-
                     viewPager = (ViewPager) findViewById(R.id.pager_my_twyst_cash);
                     mPagerAdapter = new TwystCashPagerAdapter(TAB_COUNT, cashHistory, getSupportFragmentManager(), TwystCashHistoryActivity.this);
                     viewPager.setAdapter(mPagerAdapter);
                     tabLayout.setupWithViewPager(viewPager);
-
+                    showNoDataLayout();
                 } else {
                     Toast.makeText(TwystCashHistoryActivity.this, historyDataBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-                twystProgressHUD.dismiss();
+                hideProgressHUDInLayout();
                 UtilMethods.hideSnackbar();
             }
 
             @Override
             public void failure(RetrofitError error) {
-                twystProgressHUD.dismiss();
+                hideProgressHUDInLayout();
                 UtilMethods.handleRetrofitError(TwystCashHistoryActivity.this, error);
                 UtilMethods.hideSnackbar();
             }
@@ -81,6 +81,18 @@ public class TwystCashHistoryActivity extends BaseActionActivity {
 //        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 //        tabLayout.setupWithViewPager(viewPager);
         updateTwystCash();
+    }
+
+    private void showNoDataLayout() {
+        findViewById(R.id.no_twystCash_transactions).setVisibility(View.GONE);
+        if (cashHistory.size() == 0) {
+            findViewById(R.id.no_twystCash_transactions).setVisibility(View.VISIBLE);
+            viewPager.setVisibility(View.GONE);
+            ImageView iv_no_data = (ImageView) findViewById(R.id.iv_no_data);
+            iv_no_data.setImageResource(R.drawable.twyst_cash_icon);
+            TextView tv_no_data = (TextView) findViewById(R.id.tv_no_data);
+            tv_no_data.setText(getResources().getString(R.string.no_data_transactions));
+        }
     }
 
     @Override
