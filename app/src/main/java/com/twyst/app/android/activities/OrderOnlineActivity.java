@@ -596,8 +596,11 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
             if (!searchView.isIconified()) {
                 closeSearchView();
             } else {
-//                super.onBackPressed();
-                askUserToDiscardOrder();
+                if (mCartAdapter.getItemCount() > 0) {
+                    askUserToDiscardOrder();
+                } else {
+                    super.onBackPressed();
+                }
             }
         }
     }
