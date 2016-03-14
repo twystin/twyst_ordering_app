@@ -265,6 +265,7 @@ each friend who joins.</p>
 
     <string name="no_data_outlet">Oops! Couldn\'t find any outlet delivering to this location at this time!</string>
     <string name="no_data_reorder">Oops! You have no previous orders to show!</string>
+    <string name="no_data_transactions">No transactions yet!</string>
 
     <string name="ok">OK</string>
     <string name="permission_contacts_rationale">Contacts permission is needed to get contact info</string>
