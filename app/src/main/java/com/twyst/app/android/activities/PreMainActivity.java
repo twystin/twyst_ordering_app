@@ -251,6 +251,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                                 AddressDetailsLocationData chosenLocation = addressList.get(position);
                                 preference.saveCurrentUsedLocation(chosenLocation);
                                 preference.setSaveLocationClicked(true);
+
                                 Intent intent = new Intent(PreMainActivity.this, MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_SAVED);

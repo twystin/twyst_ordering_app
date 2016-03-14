@@ -14,14 +14,13 @@
         android:duplicateParentState="true"
         android:scaleType="centerCrop" />
 
-
     <TextView
         android:id="@+id/tv_address"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="center_vertical"
         android:ellipsize="end"
+        android:gravity="center_vertical"
         android:paddingLeft="@dimen/address_layout_horizontal_medium_margin"
         android:singleLine="true"
         android:text="A-5/16, DLF Phase 1"

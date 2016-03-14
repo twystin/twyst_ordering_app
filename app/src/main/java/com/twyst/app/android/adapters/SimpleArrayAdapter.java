@@ -2,6 +2,7 @@ package com.twyst.app.android.adapters;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,7 +34,7 @@ public class SimpleArrayAdapter extends ArrayAdapter<AddressDetailsLocationData>
 
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
-        AddressHolder holder;
+        final AddressHolder holder;
         if (row == null) {
             LayoutInflater inflater = LayoutInflater.from(mContext);
             row = inflater.inflate(R.layout.saved_address_row, parent, false);
@@ -56,6 +57,20 @@ public class SimpleArrayAdapter extends ArrayAdapter<AddressDetailsLocationData>
                 }
             });
         }
+
+        row.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                    holder.getRadioButton().setImageDrawable(mContext.getResources().getDrawable(R.drawable.checked));
+                }
+                if (event.getAction() == KeyEvent.ACTION_UP) {
+                    holder.getRadioButton().setImageDrawable(mContext.getResources().getDrawable(R.drawable.unchecked));
+                }
+                return false;
+            }
+        });
+
         return row;
     }
 
