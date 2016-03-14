@@ -193,6 +193,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
 
         PermissionUtil.getInstance().approveLocation(PreMainActivity.this, false);
 
+        findViewById(R.id.ll_terms_of_use).setVisibility(View.GONE);
         findViewById(R.id.layout_choose_location).setVisibility(View.VISIBLE);
         findViewById(R.id.layout_user_verification).setVisibility(View.GONE);
         LinearLayout linLayCurrentLocation = (LinearLayout) findViewById(R.id.linlay_choose_location_current);
@@ -363,10 +364,23 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         return this.getClass().getSimpleName();
     }
 
+    private void openTermsOfUseURL() {
+        String url = "http://docs.google.com/gview?embedded=true&url=" + AppConstants.HOST + "/terms_of_use.pdf";
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
+    }
+
     // Show User Verification Layout
     private void showUserVerificationLayout() {
-
         startUserVerficationAnimation();
+
+        findViewById(R.id.tv_terms_of_use).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openTermsOfUseURL();
+            }
+        });
         findViewById(R.id.layout_choose_location).setVisibility(View.GONE);
         findViewById(R.id.layout_user_verification).setVisibility(View.VISIBLE);
         setupVerifyEmail();
@@ -904,7 +918,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             if (index >= 0) mAddressDetailsLocationData.setLine1(address.getAddressLine(0));
             if (index >= 1) mAddressDetailsLocationData.setLine2(address.getAddressLine(1));
 //            if (index >= 2)mAddressDetailsLocationData.setLandmark(address.getAddressLine(2));
-            if (address.getSubAdminArea()!=null) {
+            if (address.getSubAdminArea() != null) {
                 mAddressDetailsLocationData.setCity(address.getSubAdminArea()); // to be checked
             } else {
                 mAddressDetailsLocationData.setCity(address.getLocality()); // to be checked
