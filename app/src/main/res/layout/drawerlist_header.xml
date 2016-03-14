@@ -5,9 +5,9 @@
     android:layout_height="match_parent"
     android:background="@drawable/drawer_sidebartexture"
     android:gravity="center"
-    android:paddingBottom="25dp"
+    android:paddingBottom="30dp"
     android:paddingLeft="16dp"
-    android:paddingTop="40dp">
+    android:paddingTop="30dp">
 
     <LinearLayout
         android:layout_width="match_parent"

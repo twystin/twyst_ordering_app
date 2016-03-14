@@ -9,7 +9,6 @@
     app:insetForeground="#4000">
 
     <ListView
-        android:paddingTop="20dp"
         android:id="@+id/drawer_listview"
         android:layout_width="@dimen/navigation_drawer_width"
         android:layout_height="match_parent"

@@ -3,42 +3,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/app_bg_color">
+        android:fitsSystemWindows="true">
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar" />
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tab_layout"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/toolbar"
-            android:background="@android:color/white"
-            android:elevation="6dp"
-            android:minHeight="?attr/actionBarSize"
-            app:tabIndicatorColor="@color/colorPrimary"
-            app:tabIndicatorHeight="4dp"
-            app:tabSelectedTextColor="@android:color/black"
-            app:tabTextColor="@android:color/black" />
+            android:layout_height="match_parent"
+            android:background="@color/app_bg_color">
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@id/tab_layout" />
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar" />
 
-        <include
-            android:id="@+id/layout_search_outlet"
-            layout="@layout/layout_search"
-            android:visibility="gone" />
-    </RelativeLayout>
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/toolbar"
+                android:background="@android:color/white"
+                android:elevation="6dp"
+                android:minHeight="?attr/actionBarSize"
+                app:tabIndicatorColor="@color/colorPrimary"
+                app:tabIndicatorHeight="4dp"
+                app:tabSelectedTextColor="@android:color/black"
+                app:tabTextColor="@android:color/black" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/tab_layout" />
+
+            <include
+                android:id="@+id/layout_search_outlet"
+                layout="@layout/layout_search"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </FrameLayout>
 
     <include
         android:id="@+id/drawer_list"
