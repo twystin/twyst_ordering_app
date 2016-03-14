@@ -43,9 +43,7 @@ public class CashRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         String year = date.substring(7, 11);
         mHolder.dateTV.setText(day);
         mHolder.yearTV.setText(year);
-        mHolder.orderNameTV.setText(mList.get(position).getOutlet());
-        mHolder.orderAmountTV.setText(mList.get(position).getType());
-//        mHolder.transactionTV.setText(mList.get(position).getTransaction());
+        mHolder.messageTV.setText(mList.get(position).getMessage());
         boolean transaction = mList.get(position).isEarn();
         if (transaction) {
             mHolder.transactionAmountTV.setText("+" + mList.get(position).getTwyst_cash());
@@ -54,7 +52,6 @@ public class CashRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             mHolder.transactionAmountTV.setText("-" + mList.get(position).getTwyst_cash());
             mHolder.transactionAmountTV.setTextColor(Color.RED);
         }
-//        mHolder.balanceTV.setText(mList.get(position).getBalance());
     }
 
     @Override
@@ -65,21 +62,15 @@ public class CashRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public static class RowsViewHolder extends RecyclerView.ViewHolder {
         TextView dateTV;
         TextView yearTV;
-        TextView orderNameTV;
-        TextView orderAmountTV;
-        //        TextView transactionTV;
+        TextView messageTV;
         TextView transactionAmountTV;
-        TextView balanceTV;
 
         public RowsViewHolder(View itemView) {
             super(itemView);
             dateTV = (TextView) itemView.findViewById(R.id.tv_date);
             yearTV = (TextView) itemView.findViewById(R.id.tv_year);
-            orderNameTV = (TextView) itemView.findViewById(R.id.tv_order_name);
-            orderAmountTV = (TextView) itemView.findViewById(R.id.tv_order_amount);
-//            transactionTV = (TextView) itemView.findViewById(R.id.tv_transaction);
+            messageTV = (TextView) itemView.findViewById(R.id.tv_message);
             transactionAmountTV = (TextView) itemView.findViewById(R.id.tv_transaction_amount);
-//            balanceTV = (TextView) itemView.findViewById(R.id.tv_balance);
         }
     }
 

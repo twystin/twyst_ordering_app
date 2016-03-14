@@ -44,28 +44,18 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_order_name"
+            android:id="@+id/tv_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="left"
-            android:maxLines="1"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:text="Biryaani Blues"
             android:textColor="@android:color/black"
             android:textSize="@dimen/twyst_cash_text_medium" />
 
-        <TextView
-            android:id="@+id/tv_order_amount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:text="Order: Rs. 500"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/twyst_cash_text_medium" />
+
     </LinearLayout>
 
     <TextView
@@ -73,7 +63,9 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="20"
-        android:gravity="left|center_vertical"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:gravity="center"
         android:padding="2dp"
         android:text="50"
         android:textColor="@android:color/black"

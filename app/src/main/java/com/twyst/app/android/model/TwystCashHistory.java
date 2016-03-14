@@ -8,7 +8,6 @@ import java.io.Serializable;
  * Created by Raman on 3/8/2016.
  */
 public class TwystCashHistory implements Serializable {
-
     @SerializedName("type")
     private String type;
 
@@ -23,25 +22,6 @@ public class TwystCashHistory implements Serializable {
 
     @SerializedName("message")
     String message;
-
-    @SerializedName("outlet")
-    private String outlet;
-
-    public String getOutlet() {
-        return outlet;
-    }
-
-    public void setOutlet(String outlet) {
-        this.outlet = outlet;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public Boolean isEarn() {
         return earn;
