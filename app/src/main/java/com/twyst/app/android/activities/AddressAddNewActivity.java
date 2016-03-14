@@ -140,10 +140,16 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
             mNewAddress = mOrderSummary.getAddressDetailsLocationData();
             setTextLocationFetch(mNewAddress);
             tvProceed.setText("PROCEED");
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) tvProceed.getLayoutParams();
+            params.gravity = Gravity.RIGHT | Gravity.CENTER_VERTICAL;
+            tvProceed.setLayoutParams(params);
         } else {
             mNewAddress = SharedPreferenceSingleton.getInstance().getDeliveryLocation();
             setTextLocationFetch(mNewAddress);
             tvProceed.setText("OK");
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) tvProceed.getLayoutParams();
+            params.gravity = Gravity.CENTER;
+            tvProceed.setLayoutParams(params);
         }
 
         setupToolBar();
@@ -469,6 +475,7 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
                 } else {
                     tvAddressDetected.setText("Auto Detected Address");
                     this.setTitle("Edit Address");
+
                 }
                 currentPosition = new LatLng(Double.parseDouble(mNewAddress.getCoords().getLat()), Double.parseDouble(mNewAddress.getCoords().getLon()));
                 setMarkerOnMap(currentPosition, "Current location", true);
