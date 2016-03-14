@@ -1756,6 +1756,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
 
             @Override
             public void failure(RetrofitError error) {
+                findViewById(R.id.loader_row).setVisibility(View.GONE);
                 UtilMethods.handleRetrofitError(PreMainActivity.this, error);
                 isAddressesSynced = false;
             }
