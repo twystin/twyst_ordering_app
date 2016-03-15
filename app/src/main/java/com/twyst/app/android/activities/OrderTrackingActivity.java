@@ -74,6 +74,9 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
     }
 
     private void processExtraData() {
+        isOrderDeliverySuccessInProgress = false;
+        isOrderClosed = false;
+        
         mOrderID = getIntent().getExtras().getString(AppConstants.INTENT_ORDER_ID, "");
         refreshList();
 
