@@ -3,10 +3,13 @@ package com.twyst.app.android.activities;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.webkit.URLUtil;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,7 +41,7 @@ import retrofit.client.Response;
 
 public class VoucherDetailsActivity extends BaseActionActivity {
     private CashbackOffers offer;
-    private boolean tncExpanded = false;
+    //    private boolean tncExpanded = false;
     boolean emailVerified = false;
     boolean emailVerifiedButOtherProblemEncountered = false;
     private String messageToDisplay;
@@ -139,21 +142,22 @@ public class VoucherDetailsActivity extends BaseActionActivity {
         // Load TnC
         LinearLayout tncRow = (LinearLayout) findViewById(R.id.ll_tncLayout);
         final ImageView tncArrow = (ImageView) findViewById(R.id.iv_tncArrow);
-        final LinearLayout tncLayout = (LinearLayout) findViewById(R.id.ll_tncText);
-        final TextView tnc = (TextView) findViewById(R.id.tv_tncText);
-        tnc.setText(offer.getOffer_tnc());
+//        final LinearLayout tncLayout = (LinearLayout) findViewById(R.id.ll_tncText);
+//        final TextView tnc = (TextView) findViewById(R.id.tv_tncText);
+//        tnc.setText(offer.getOffer_tnc());
         tncRow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!tncExpanded) {
-                    tncLayout.setVisibility(View.VISIBLE);
-                    tncArrow.setImageDrawable(getResources().getDrawable(R.drawable.expanded));
-                    tncExpanded = true;
-                } else {
-                    tncLayout.setVisibility(View.GONE);
-                    tncArrow.setImageDrawable(getResources().getDrawable(R.drawable.collapsed));
-                    tncExpanded = false;
-                }
+//                if (!tncExpanded) {
+////                    tncLayout.setVisibility(View.VISIBLE);
+//                    tncArrow.setImageDrawable(getResources().getDrawable(R.drawable.expanded));
+//                    tncExpanded = true;
+//                } else {
+////                    tncLayout.setVisibility(View.GONE);
+//                    tncArrow.setImageDrawable(getResources().getDrawable(R.drawable.collapsed));
+//                    tncExpanded = false;
+//                }
+                openURL(offer.getOffer_tnc());
             }
         });
 
@@ -166,6 +170,14 @@ public class VoucherDetailsActivity extends BaseActionActivity {
             }
         });
         updateTwystCash();
+    }
+
+    private void openURL(String url) {
+        if (TextUtils.isEmpty(url) || !URLUtil.isValidUrl(url)) return;
+
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
     }
 
     private void updateTwystCash() {

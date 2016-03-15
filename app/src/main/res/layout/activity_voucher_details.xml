@@ -206,7 +206,7 @@
                 android:id="@+id/iv_tncArrow"
                 android:layout_width="12dp"
                 android:layout_height="12dp"
-                android:src="@drawable/collapsed" />
+                android:src="@drawable/go_button" />
         </LinearLayout>
 
         <LinearLayout
