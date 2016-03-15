@@ -77,7 +77,6 @@ public class TwystCashHistoryActivity extends BaseActionActivity {
     }
 
     private void showNoDataLayout() {
-        findViewById(R.id.no_twystCash_transactions).setVisibility(View.GONE);
         findViewById(R.id.no_twystCash_transactions).setVisibility(View.VISIBLE);
         viewPager.setVisibility(View.GONE);
         ImageView iv_no_data = (ImageView) findViewById(R.id.iv_no_data);

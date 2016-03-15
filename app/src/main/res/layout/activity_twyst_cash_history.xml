@@ -88,8 +88,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="65"
-                android:gravity="center"
-                android:padding="4dp"
+                android:gravity="left"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:text="Transaction"
                 android:textSize="@dimen/twyst_cash_text_medium" />
 
@@ -108,7 +111,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginBottom="8dp"
             android:background="@color/background_grey" />
 
     </LinearLayout>

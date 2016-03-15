@@ -38,7 +38,7 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_weight="65"
         android:orientation="vertical">
@@ -46,11 +46,13 @@
         <TextView
             android:id="@+id/tv_message"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:ellipsize="end"
-            android:gravity="left"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
+            android:gravity="left|top"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
             android:text="Biryaani Blues"
             android:textColor="@android:color/black"
             android:textSize="@dimen/twyst_cash_text_medium" />
@@ -63,10 +65,8 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="20"
-        android:paddingLeft="3dp"
-        android:paddingRight="3dp"
-        android:gravity="center"
         android:padding="2dp"
+        android:gravity="center_horizontal|top"
         android:text="50"
         android:textColor="@android:color/black"
         android:textSize="@dimen/twyst_cash_text_medium" />

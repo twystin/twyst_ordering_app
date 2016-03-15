@@ -22,14 +22,14 @@ public class CashRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final Context mContext;
     private ArrayList<TwystCashHistory> mList = new ArrayList<>();
 
-    public CashRowAdapter(Context mContext, ArrayList<TwystCashHistory> mList) {
-        this.mContext = mContext;
-        this.mList = mList;
+    public CashRowAdapter(Context context, ArrayList<TwystCashHistory> list) {
+        this.mContext = context;
+        this.mList = list;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_cash_row, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.layout_cash_row, parent, false);
         RowsViewHolder vh = new RowsViewHolder(v);
         return vh;
     }
