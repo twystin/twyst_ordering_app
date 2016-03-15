@@ -3,8 +3,10 @@ package com.twyst.app.android.activities;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
@@ -14,6 +16,7 @@ import com.appsflyer.AppsFlyerLib;
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.SummaryAdapter;
 import com.twyst.app.android.model.BaseResponse;
+import com.twyst.app.android.model.OTPCode;
 import com.twyst.app.android.model.order.OrderCheckOut;
 import com.twyst.app.android.model.order.OrderCheckOutResponse;
 import com.twyst.app.android.model.order.OrderInfoLocal;
@@ -124,5 +127,22 @@ public class OrderSummaryActivity extends BaseActionActivity {
         mSummaryAdapter = new SummaryAdapter(OrderSummaryActivity.this, mOrderSummary, mFreeItemIndex, true);
         mSummaryRecyclerView.setAdapter(mSummaryAdapter);
 
+        // Runnable to scroll the recyclerview to bottom
+        handler.postDelayed(new MyRunnable(), SCROLL_TIME);
     }
+
+    private static final int SCROLL_TIME = 20;
+    final Handler handler = new Handler();
+    private class MyRunnable implements Runnable {
+        private int retry = 0;
+
+        public void run() {
+            if (retry < mSummaryAdapter.getItemCount()) {
+                mSummaryRecyclerView.smoothScrollToPosition(retry);
+            }
+            retry++;
+            handler.postDelayed(this, SCROLL_TIME);
+        }
+    }
+
 }
