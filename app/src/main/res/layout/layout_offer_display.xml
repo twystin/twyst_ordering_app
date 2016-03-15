@@ -30,7 +30,7 @@
                 android:singleLine="true"
                 android:text="On Veg/Chicken Starters"
                 android:textColor="@android:color/black"
-                android:textSize="22sp" />
+                android:textSize="@dimen/layout_extra_huge_text_size" />
 
             <TextView
                 android:id="@+id/offer_item_line1"
@@ -47,7 +47,7 @@
                 android:singleLine="true"
                 android:text="Select Items only"
                 android:textColor="@android:color/black"
-                android:textSize="22sp" />
+                android:textSize="@dimen/layout_extra_huge_text_size" />
 
             <LinearLayout
                 android:id="@+id/ll_tvplusview"
@@ -64,6 +64,7 @@
                     android:padding="4dp"
                     android:scrollHorizontally="true"
                     android:singleLine="true"
+                    android:textSize="@dimen/layout_extra_wide_text_size"
                     android:text="Minimum Bill Rs. 500" />
 
                 <View
@@ -93,12 +94,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text=" 45 "
+                    android:textSize="@dimen/layout_extra_wide_text_size"
                     android:textColor="@android:color/black" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:textSize="@dimen/layout_extra_wide_text_size"
                     android:text="Twyst Cash" />
             </LinearLayout>
 
@@ -110,6 +113,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="12dp"
+            android:textSize="@dimen/layout_wide_text_size"
             android:text="T&amp;C apply*" />
 
         <TextView
@@ -118,7 +122,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/big_button"
             android:gravity="center"
-            android:padding="@dimen/layout_huge_margin"
+            android:padding="@dimen/layout_huge_text_size"
             android:text="OK"
             android:textColor="@android:color/white" />
     </LinearLayout>
