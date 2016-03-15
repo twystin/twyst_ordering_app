@@ -28,8 +28,6 @@ import retrofit.client.Response;
 public class TwystCashHistoryActivity extends BaseActionActivity {
     private final int TAB_COUNT = 3;
     private ViewPager viewPager;
-    private TwystCashPagerAdapter mTwystCashPagerAdapter;
-    private ArrayList<TwystCashHistory> cashHistory = new ArrayList<TwystCashHistory>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +46,18 @@ public class TwystCashHistoryActivity extends BaseActionActivity {
             public void success(BaseResponse<CashHistoryData> historyDataBaseResponse, Response response) {
                 if (historyDataBaseResponse.isResponse()) {
                     CashHistoryData cashHistoryData = historyDataBaseResponse.getData();
-                    cashHistory = cashHistoryData.getCashHistory();
+                    ArrayList<TwystCashHistory> cashHistoryList = cashHistoryData.getCashHistoryList();
                     Utils.setTwystCash(cashHistoryData.getTwystCash());
                     updateTwystCash();
                     viewPager = (ViewPager) findViewById(R.id.pager_my_twyst_cash);
-                    mTwystCashPagerAdapter = new TwystCashPagerAdapter(TAB_COUNT, cashHistory, getSupportFragmentManager(), TwystCashHistoryActivity.this);
-                    viewPager.setAdapter(mTwystCashPagerAdapter);
-                    tabLayout.setupWithViewPager(viewPager);
-                    showNoDataLayout();
+
+                    if (cashHistoryList.size() > 0) {
+                        TwystCashPagerAdapter twystCashPagerAdapter = new TwystCashPagerAdapter(TAB_COUNT, cashHistoryList, getSupportFragmentManager(), TwystCashHistoryActivity.this);
+                        viewPager.setAdapter(twystCashPagerAdapter);
+                        tabLayout.setupWithViewPager(viewPager);
+                    } else {
+                        showNoDataLayout();
+                    }
                 } else {
                     Toast.makeText(TwystCashHistoryActivity.this, historyDataBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -76,14 +78,12 @@ public class TwystCashHistoryActivity extends BaseActionActivity {
 
     private void showNoDataLayout() {
         findViewById(R.id.no_twystCash_transactions).setVisibility(View.GONE);
-        if (cashHistory.size() == 0) {
-            findViewById(R.id.no_twystCash_transactions).setVisibility(View.VISIBLE);
-            viewPager.setVisibility(View.GONE);
-            ImageView iv_no_data = (ImageView) findViewById(R.id.iv_no_data);
-            iv_no_data.setImageResource(R.drawable.twyst_cash_icon);
-            TextView tv_no_data = (TextView) findViewById(R.id.tv_no_data);
-            tv_no_data.setText(getResources().getString(R.string.no_data_transactions));
-        }
+        findViewById(R.id.no_twystCash_transactions).setVisibility(View.VISIBLE);
+        viewPager.setVisibility(View.GONE);
+        ImageView iv_no_data = (ImageView) findViewById(R.id.iv_no_data);
+        iv_no_data.setImageResource(R.drawable.twyst_cash_icon);
+        TextView tv_no_data = (TextView) findViewById(R.id.tv_no_data);
+        tv_no_data.setText(getResources().getString(R.string.no_data_transactions));
     }
 
     @Override

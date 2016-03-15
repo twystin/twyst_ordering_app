@@ -10,12 +10,11 @@ import java.util.ArrayList;
  * Created by Raman on 3/9/2016.
  */
 public class CashHistoryData implements Serializable {
-
     @SerializedName("twyst_cash")
-    int twystCash;
+    private int twystCash;
 
     @SerializedName("twyst_cash_history")
-    ArrayList<TwystCashHistory> cashHistory = new ArrayList<TwystCashHistory>();
+    private ArrayList<TwystCashHistory> cashHistoryList = new ArrayList<TwystCashHistory>();
 
     public int getTwystCash() {
         return twystCash;
@@ -25,11 +24,11 @@ public class CashHistoryData implements Serializable {
         this.twystCash = twystCash;
     }
 
-    public ArrayList<TwystCashHistory> getCashHistory() {
-        return cashHistory;
+    public ArrayList<TwystCashHistory> getCashHistoryList() {
+        return cashHistoryList;
     }
 
-    public void setCashHistory(ArrayList<TwystCashHistory> cashHistory) {
-        this.cashHistory = cashHistory;
+    public void setCashHistoryList(ArrayList<TwystCashHistory> cashHistoryList) {
+        this.cashHistoryList = cashHistoryList;
     }
 }
