@@ -115,10 +115,10 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         setupToolBar();
         setupTopLayout();
         setupScrollingOfferAdapters();
-
         setupCartRecyclerView();
-        ifReordered = checkifReordered();
         fetchMenu();
+
+        ifReordered = checkifReordered();
     }
 
     @Override
@@ -132,7 +132,6 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         super.onPause();
         AppsFlyerLib.onActivityPause(this);
     }
-
 
     public boolean checkifReordered() {
         reorderMenuAndCart = (ReorderMenuAndCart) getIntent().getSerializableExtra(AppConstants.INTENT_PLACE_REORDER);
@@ -182,8 +181,6 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                     .load(mOutlet.getBackground())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(ivOutletImage);
-
-
     }
 
     private void setupToolBar() {

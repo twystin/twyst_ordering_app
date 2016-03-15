@@ -31,9 +31,9 @@ import java.util.Locale;
  * Created by Raman on 2/1/2016.
  */
 public class ShoppingVoucherListAdapter extends RecyclerView.Adapter<ShoppingVoucherListAdapter.ViewHolder> {
-    ArrayList<CashbackOffers> mOffers;
-    String mMerchant_logo;
-    Context mContext;
+    private ArrayList<CashbackOffers> mOffers;
+    private String mMerchant_logo;
+    private Context mContext;
 
     public ShoppingVoucherListAdapter(Context context, ArrayList<CashbackOffers> offers, String merchant_logo) {
         mContext = context;

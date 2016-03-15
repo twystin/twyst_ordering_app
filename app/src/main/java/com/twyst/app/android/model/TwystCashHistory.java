@@ -1,6 +1,11 @@
 package com.twyst.app.android.model;
 
+import android.text.TextUtils;
+
 import com.google.gson.annotations.SerializedName;
+import com.twyst.app.android.util.Utils;
+
+import org.w3c.dom.Text;
 
 import java.io.Serializable;
 
@@ -12,39 +17,47 @@ public class TwystCashHistory implements Serializable {
     private String type;
 
     @SerializedName("earn")
-    private Boolean earn;
+    private boolean earn;
 
     @SerializedName("twyst_cash")
-    private Double twyst_cash;
+    private int twystCash;
 
     @SerializedName("earn_at")
-    private String earn_at;
+    private String earnAt;
 
     @SerializedName("message")
-    String message;
+    private String message;
 
-    public Boolean isEarn() {
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public boolean isEarn() {
         return earn;
     }
 
-    public void setEarn(Boolean earn) {
+    public void setEarn(boolean earn) {
         this.earn = earn;
     }
 
-    public Double getTwyst_cash() {
-        return twyst_cash;
+    public int getTwystCash() {
+        return twystCash;
     }
 
-    public void setTwyst_cash(Double twyst_cash) {
-        this.twyst_cash = twyst_cash;
+    public void setTwystCash(int twystCash) {
+        this.twystCash = twystCash;
     }
 
-    public String getEarn_at() {
-        return earn_at;
+    public String getEarnAt() {
+        return earnAt;
     }
 
-    public void setEarn_at(String earn_at) {
-        this.earn_at = earn_at;
+    public void setEarnAt(String earnAt) {
+        this.earnAt = earnAt;
     }
 
     public String getMessage() {

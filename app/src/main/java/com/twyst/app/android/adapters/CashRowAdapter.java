@@ -19,8 +19,8 @@ import java.util.ArrayList;
  * Created by raman on 2/4/2016.
  */
 public class CashRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    Context mContext;
-    ArrayList<TwystCashHistory> mList = new ArrayList<>();
+    private final Context mContext;
+    private ArrayList<TwystCashHistory> mList = new ArrayList<>();
 
     public CashRowAdapter(Context mContext, ArrayList<TwystCashHistory> mList) {
         this.mContext = mContext;
@@ -37,19 +37,20 @@ public class CashRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         RowsViewHolder mHolder = (RowsViewHolder) holder;
-        TimeStamp timeStamp = Utils.getTimeStamp(mList.get(position).getEarn_at());
+
+        TimeStamp timeStamp = Utils.getTimeStamp(mList.get(position).getEarnAt());
         String date = timeStamp.getDate();
         String day = date.substring(0, 6);
         String year = date.substring(7, 11);
         mHolder.dateTV.setText(day);
         mHolder.yearTV.setText(year);
         mHolder.messageTV.setText(mList.get(position).getMessage());
-        boolean transaction = mList.get(position).isEarn();
-        if (transaction) {
-            mHolder.transactionAmountTV.setText("+" + mList.get(position).getTwyst_cash());
+
+        if (mList.get(position).isEarn()) {
+            mHolder.transactionAmountTV.setText("+" + mList.get(position).getTwystCash());
             mHolder.transactionAmountTV.setTextColor(mContext.getResources().getColor(R.color.transaction_green));
-        } else if (!transaction) {
-            mHolder.transactionAmountTV.setText("-" + mList.get(position).getTwyst_cash());
+        } else {
+            mHolder.transactionAmountTV.setText("-" + mList.get(position).getTwystCash());
             mHolder.transactionAmountTV.setTextColor(Color.RED);
         }
     }
@@ -73,5 +74,4 @@ public class CashRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             transactionAmountTV = (TextView) itemView.findViewById(R.id.tv_transaction_amount);
         }
     }
-
 }
