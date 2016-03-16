@@ -21,13 +21,6 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <ImageView
-            android:id="@+id/iv_twyst_cash_icon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginBottom="2dp"
-            android:src="@drawable/twyst_cash_icon" />
-
         <TextView
             android:id="@+id/tv_cash_amount"
             android:layout_width="wrap_content"
@@ -35,6 +28,25 @@
             android:text="0"
             android:textColor="@android:color/black"
             android:textSize="20dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/iv_twyst_cash_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/twyst_cash_icon"
+                android:layout_marginRight="2dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Twyst Cash"
+                android:layout_gravity="center_vertical"
+                android:textSize="16dp" />
+        </LinearLayout>
 
     </LinearLayout>
 

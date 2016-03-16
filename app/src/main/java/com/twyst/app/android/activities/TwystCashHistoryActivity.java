@@ -16,6 +16,7 @@ import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.CashHistoryData;
 import com.twyst.app.android.model.TwystCashHistory;
 import com.twyst.app.android.service.HttpService;
+import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.UtilMethods;
 import com.twyst.app.android.util.Utils;
 
@@ -37,8 +38,8 @@ public class TwystCashHistoryActivity extends BaseActionActivity {
 
         final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs_my_twyst_cash);
         tabLayout.addTab(tabLayout.newTab().setText("All"));
-        tabLayout.addTab(tabLayout.newTab().setText("Credit"));
-        tabLayout.addTab(tabLayout.newTab().setText("Debit"));
+        tabLayout.addTab(tabLayout.newTab().setText("Earned"));
+        tabLayout.addTab(tabLayout.newTab().setText("Spent"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         HttpService.getInstance().getTwystCashHistory(getUserToken(), new Callback<BaseResponse<CashHistoryData>>() {
@@ -99,7 +100,7 @@ public class TwystCashHistoryActivity extends BaseActionActivity {
 
     private void updateTwystCash() {
         if (Utils.getTwystCash() != -1) {
-            ((TextView) findViewById(R.id.tv_cash_amount)).setText(String.valueOf(Utils.getTwystCash()));
+            ((TextView) findViewById(R.id.tv_cash_amount)).setText(AppConstants.INDIAN_RUPEE_SYMBOL+ " "+String.valueOf(Utils.getTwystCash()));
         }
     }
 }

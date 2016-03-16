@@ -73,9 +73,9 @@ public class TwystCashPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return "All";
             case 1:
-                return "Credit";
+                return "Earned";
             case 2:
-                return "Debit";
+                return "Spent";
             default:
                 return null;
         }
