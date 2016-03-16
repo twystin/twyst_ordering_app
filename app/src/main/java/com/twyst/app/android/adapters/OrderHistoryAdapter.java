@@ -17,10 +17,13 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.PolyUtil;
 import com.twyst.app.android.R;
 import com.twyst.app.android.activities.OrderHistoryActivity;
 import com.twyst.app.android.activities.OrderOnlineActivity;
 import com.twyst.app.android.activities.OrderTrackingActivity;
+import com.twyst.app.android.model.AddressDetailsLocationData;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.DeliveryZone;
 import com.twyst.app.android.model.OrderHistory;
@@ -39,6 +42,7 @@ import com.twyst.app.android.model.menu.SubOptionSet;
 import com.twyst.app.android.model.menu.SubOptions;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
+import com.twyst.app.android.util.SharedPreferenceSingleton;
 import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
 import com.twyst.app.android.util.Utils;
@@ -524,7 +528,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         } else {
             // intent needs to be fired to OrderOnlineActivity
             mTwystProgressHUD.dismiss();
-            fetchOutletAndPassIntent(reOrder);
+            fetchOutletAndPassIntent(reOrder, getFilteredDeliveryZone(reOrder.getDelivery_zone()));
 
         }
 
@@ -560,7 +564,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             public void onClick(View view) {
                 // intent needs to be fired
                 dialog.dismiss();
-                fetchOutletAndPassIntent(orderHistory);
+                fetchOutletAndPassIntent(orderHistory, getFilteredDeliveryZone(orderHistory.getDelivery_zone()));
             }
         });
 
@@ -573,38 +577,101 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
     }
 
-    private void fetchOutletAndPassIntent(final OrderHistory orderHistory) {
-        Outlet reorderOutlet = new Outlet();
+    private void fetchOutletAndPassIntent(final OrderHistory orderHistory, final DeliveryZone filteredDeliveryZone) {
+        if (filteredDeliveryZone == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            View dialogView = LayoutInflater.from(mContext).inflate(R.layout.dialog_generic, null);
+            builder.setView(dialogView);
+            final AlertDialog dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.show();
+            TextView tvTitle = ((TextView) (dialog.findViewById(R.id.tv_title)));
+            tvTitle.setText("Continue?");
+            TextView tvMessage = (TextView) dialog.findViewById(R.id.tv_message);
+            tvMessage.setText("This outlet does not deliver to your selected location. You can change the location later. Continue?");
+            TextView tvOk = (TextView) dialog.findViewById(R.id.tv_ok);
+            tvOk.setText("Yes");
+            TextView tvCancel = (TextView) dialog.findViewById(R.id.tv_cancel);
+            tvCancel.setText("No");
 
-        // getting relevant delivery zone:
-        DeliveryZone filteredDeliveryZone = getFilteredDeliveryZone(orderHistory.getDelivery_zone());
+            dialog.findViewById(R.id.fOK).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fetchOutletAndPassIntent(orderHistory, getMinimumDeliveryZone(orderHistory.getDelivery_zone()));
+                    dialog.dismiss();
+                }
+            });
+            dialog.findViewById(R.id.fCancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
 
-        reorderOutlet.setName(orderHistory.getOutletName());
-        reorderOutlet.set_id(orderHistory.getOutletId());
-        reorderOutlet.setDeliveryTime(filteredDeliveryZone.getDeliveryEstimatedTime());
-        reorderOutlet.setMinimumOrder(filteredDeliveryZone.getMinDeliveryAmt());
-        reorderOutlet.setPaymentOptions(filteredDeliveryZone.getPaymentOptions());
-        reorderOutlet.setBackground(orderHistory.getBackground());
-        if (orderHistory.getMenuId() != null) {
-            reorderOutlet.setMenuId(orderHistory.getMenuId());
-        } else if (orderHistory.getItems().size() > 0) {
-            reorderOutlet.setMenuId(orderHistory.getItems().get(0).getMenuId());
         } else {
-            Toast.makeText(mContext, "Unable to Proceed", Toast.LENGTH_SHORT);
-            return;
-        }
-        reorderOutlet.setLogo(orderHistory.getBackground());
-        reorderOutlet.setPhone(orderHistory.getPhone());
+            Outlet reorderOutlet = new Outlet();
+            reorderOutlet.setName(orderHistory.getOutletName());
+            reorderOutlet.set_id(orderHistory.getOutletId());
+            reorderOutlet.setDeliveryTime(filteredDeliveryZone.getDeliveryEstimatedTime());
+            reorderOutlet.setMinimumOrder(filteredDeliveryZone.getMinDeliveryAmt());
+            reorderOutlet.setPaymentOptions(filteredDeliveryZone.getPaymentOptions());
+            reorderOutlet.setBackground(orderHistory.getBackground());
+            if (orderHistory.getMenuId() != null) {
+                reorderOutlet.setMenuId(orderHistory.getMenuId());
+            } else if (orderHistory.getItems().size() > 0) {
+                reorderOutlet.setMenuId(orderHistory.getItems().get(0).getMenuId());
+            } else {
+                Toast.makeText(mContext, "Unable to Proceed", Toast.LENGTH_SHORT);
+                return;
+            }
+            reorderOutlet.setLogo(orderHistory.getBackground());
+            reorderOutlet.setPhone(orderHistory.getPhone());
 
-        Intent intent = new Intent(mContext, OrderOnlineActivity.class);
-        intent.putExtra(AppConstants.INTENT_PLACE_REORDER_MENUID, orderHistory.getMenuId());
-        intent.putExtra(AppConstants.INTENT_PLACE_REORDER, reorderMenuAndCart);
-        intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_OBJECT, reorderOutlet);
-        mContext.startActivity(intent);
+            Intent intent = new Intent(mContext, OrderOnlineActivity.class);
+            intent.putExtra(AppConstants.INTENT_PLACE_REORDER_MENUID, orderHistory.getMenuId());
+            intent.putExtra(AppConstants.INTENT_PLACE_REORDER, reorderMenuAndCart);
+            intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_OBJECT, reorderOutlet);
+            mContext.startActivity(intent);
+        }
     }
 
-    private DeliveryZone getFilteredDeliveryZone(ArrayList<DeliveryZone> delivery_zone) {
+    private DeliveryZone getMinimumDeliveryZone(ArrayList<DeliveryZone> deliveryZonesList) {
+        DeliveryZone minimumDeliveryZone = null;
+        for (int i = 0; i < deliveryZonesList.size(); i++) {
+            if (minimumDeliveryZone == null) {
+                minimumDeliveryZone = deliveryZonesList.get(i);
+            } else {
+                DeliveryZone deliveryZone = deliveryZonesList.get(i);
+                if (Double.parseDouble(deliveryZone.getMinDeliveryAmt()) < Double.parseDouble(minimumDeliveryZone.getMinDeliveryAmt())) {
+                    minimumDeliveryZone = deliveryZone;
+                }
+            }
+        }
+        return minimumDeliveryZone;
+    }
 
-        return null;
+    private DeliveryZone getFilteredDeliveryZone(ArrayList<DeliveryZone> deliveryZonesList) {
+        AddressDetailsLocationData currentLocationData = SharedPreferenceSingleton.getInstance().getCurrentUsedLocation();
+        LatLng currentPosition = new LatLng(Double.parseDouble(currentLocationData.getCoords().getLat()), Double.parseDouble(currentLocationData.getCoords().getLon()));
+
+        DeliveryZone filteredDeliveryZone = null;
+        for (int i = 0; i < deliveryZonesList.size(); i++) {
+            DeliveryZone deliveryZone = deliveryZonesList.get(i);
+            ArrayList<LatLng> lngArrayList = new ArrayList<>();
+            for (int j = 0; j < deliveryZone.getCoordList().size(); j++) {
+                LatLng latLng = new LatLng(Double.valueOf(deliveryZone.getCoordList().get(j).getLat()), Double.valueOf(deliveryZone.getCoordList().get(j).getLon()));
+                lngArrayList.add(latLng);
+            }
+            if (PolyUtil.containsLocation(currentPosition, lngArrayList, true)) {
+                if (filteredDeliveryZone == null) {
+                    filteredDeliveryZone = deliveryZone;
+                } else {
+                    if (deliveryZone.getZoneType() > filteredDeliveryZone.getZoneType()) {
+                        filteredDeliveryZone = deliveryZone;
+                    }
+                }
+            }
+        }
+        return filteredDeliveryZone;
     }
 }
