@@ -27,7 +27,6 @@ import com.mobikwik.sdk.lib.TransactionConfiguration;
 import com.mobikwik.sdk.lib.User;
 import com.mobikwik.sdk.lib.payinstrument.PaymentInstrumentType;
 import com.twyst.app.android.R;
-import com.twyst.app.android.fragments.DebitTwystCashFragment;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.PaymentData;
 import com.twyst.app.android.model.order.OrderCheckOutResponse;

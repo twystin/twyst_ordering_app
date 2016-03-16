@@ -255,8 +255,6 @@ public class AppConstants {
     public static final String KEY_DATABASE_SAVED = "database_saved";
 
     //Twyst Cash History
-    public static final String INTENT_PARAM_CASH_HISTORY = "intent_twyst_Cash_history";
-    public static final String BUNDLE_ALL_CASH_HISTORY = "all_cash_history";
-    public static final String BUNDLE_CREDIT_CASH_HISTORY = "credit_cash_history";
-    public static final String BUNDLE_DEBIT_CASH_HISTORY = "debit_cash_history";
+    public static final String BUNDLE_CASH_HISTORY = "cash_history";
+    public static final String CASH_HISTORY_TYPE = "cash_history_type";
 }

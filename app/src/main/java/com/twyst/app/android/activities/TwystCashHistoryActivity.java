@@ -41,6 +41,7 @@ public class TwystCashHistoryActivity extends BaseActionActivity {
         tabLayout.addTab(tabLayout.newTab().setText("Earned"));
         tabLayout.addTab(tabLayout.newTab().setText("Spent"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        viewPager = (ViewPager) findViewById(R.id.pager_my_twyst_cash);
 
         HttpService.getInstance().getTwystCashHistory(getUserToken(), new Callback<BaseResponse<CashHistoryData>>() {
             @Override
@@ -50,9 +51,8 @@ public class TwystCashHistoryActivity extends BaseActionActivity {
                     ArrayList<TwystCashHistory> cashHistoryList = cashHistoryData.getCashHistoryList();
                     Utils.setTwystCash(cashHistoryData.getTwystCash());
                     updateTwystCash();
-                    viewPager = (ViewPager) findViewById(R.id.pager_my_twyst_cash);
 
-                    if (cashHistoryList.size() > 0) {
+                    if (cashHistoryList != null && cashHistoryList.size() > 0) {
                         TwystCashPagerAdapter twystCashPagerAdapter = new TwystCashPagerAdapter(TAB_COUNT, cashHistoryList, getSupportFragmentManager(), TwystCashHistoryActivity.this);
                         viewPager.setAdapter(twystCashPagerAdapter);
                         tabLayout.setupWithViewPager(viewPager);
@@ -83,7 +83,7 @@ public class TwystCashHistoryActivity extends BaseActionActivity {
         ImageView iv_no_data = (ImageView) findViewById(R.id.iv_no_data);
         iv_no_data.setImageResource(R.drawable.twyst_cash_icon);
         TextView tv_no_data = (TextView) findViewById(R.id.tv_no_data);
-        tv_no_data.setText(getResources().getString(R.string.no_data_transactions));
+        tv_no_data.setText(getResources().getString(R.string.no_cash_data));
     }
 
     @Override

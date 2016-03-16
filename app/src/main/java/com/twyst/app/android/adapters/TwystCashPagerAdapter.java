@@ -6,10 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.twyst.app.android.activities.TwystCashHistoryActivity;
-import com.twyst.app.android.fragments.AllTwystCashFragment;
-import com.twyst.app.android.fragments.CreditTwystCashFragment;
-import com.twyst.app.android.fragments.DebitTwystCashFragment;
+import com.twyst.app.android.fragments.CashTransactionFragment;
 import com.twyst.app.android.model.TwystCashHistory;
 import com.twyst.app.android.util.AppConstants;
 
@@ -35,31 +32,28 @@ public class TwystCashPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+        CashTransactionFragment cashTransactionFragment = new CashTransactionFragment();
+        Bundle bundle = new Bundle();
+
         switch (position) {
             case 0: {
-                Bundle allBundle = new Bundle();
-                allBundle.putSerializable(AppConstants.BUNDLE_ALL_CASH_HISTORY, mCashHistory);
-                AllTwystCashFragment allFragment = new AllTwystCashFragment();
-                allFragment.setArguments(allBundle);
-                return allFragment;
+                bundle.putSerializable(AppConstants.BUNDLE_CASH_HISTORY, mCashHistory);
+                bundle.putInt(AppConstants.CASH_HISTORY_TYPE, position);
+                break;
             }
             case 1: {
-                Bundle creditBundle = new Bundle();
-                creditBundle.putSerializable(AppConstants.BUNDLE_CREDIT_CASH_HISTORY, creditList);
-                CreditTwystCashFragment creditFragment = new CreditTwystCashFragment();
-                creditFragment.setArguments(creditBundle);
-                return creditFragment;
+                bundle.putSerializable(AppConstants.BUNDLE_CASH_HISTORY, creditList);
+                bundle.putInt(AppConstants.CASH_HISTORY_TYPE, position);
+                break;
             }
             case 2: {
-                Bundle debitBundle = new Bundle();
-                debitBundle.putSerializable(AppConstants.BUNDLE_DEBIT_CASH_HISTORY, debitList);
-                DebitTwystCashFragment debitFragment = new DebitTwystCashFragment();
-                debitFragment.setArguments(debitBundle);
-                return debitFragment;
+                bundle.putSerializable(AppConstants.BUNDLE_CASH_HISTORY, debitList);
+                bundle.putInt(AppConstants.CASH_HISTORY_TYPE, position);
+                break;
             }
-            default:
-                return null;
         }
+        cashTransactionFragment.setArguments(bundle);
+        return cashTransactionFragment;
     }
 
     @Override
