@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -143,7 +144,7 @@ public class CartAdapter extends RecyclerView.Adapter<MenuChildViewHolder> {
                 textViews[i] = new TextView(mContext);
                 textViews[i].setText(customisationList.get(i));
                 textViews[i].setTextColor(mContext.getResources().getColor(R.color.customisations_text_color));
-                textViews[i].setTextSize(12.0f);
+                textViews[i].setTextSize(TypedValue.COMPLEX_UNIT_DIP,10);
                 textViews[i].setPadding(15, 4, 15, 4);
                 textViews[i].setBackgroundResource(R.drawable.border_customisations);
             }
