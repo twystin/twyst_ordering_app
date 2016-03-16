@@ -223,7 +223,7 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             if(outlet.getOfferCount() == 1){
                 ((OutletViewHolder) holder).noOfOffers.setText(outlet.getOfferCount() + " Offer Available");
             }else
-                ((OutletViewHolder) holder).noOfOffers.setText(outlet.getOfferCount() + " Offer Available");
+                ((OutletViewHolder) holder).noOfOffers.setText(outlet.getOfferCount() + " Offers Available");
         }
     }
 
