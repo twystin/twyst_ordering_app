@@ -1141,6 +1141,8 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             return;
         }
 
+        HttpService.getInstance().getSharedPreferences().edit().putString(AppConstants.PREFERENCE_USER_EMAIL, socialEmail).apply();
+
         final String token = HttpService.getInstance().getSharedPreferences().getString(AppConstants.PREFERENCE_USER_TOKEN, "");
         String deviceId = HttpService.getInstance().getSharedPreferences().getString(AppConstants.PREFERENCE_REGISTRATION_ID, "");
 
