@@ -1,13 +1,16 @@
 package com.twyst.app.android.service;
 
+import android.Manifest;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.v4.app.ActivityCompat;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -44,7 +47,7 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
     private final static int LOCATION_REQUEST_SMALLEST_DISPLACEMENT = 500;
     private final static int LOCATION_OFFLINE_LIST_MAX_SIZE = 10;
 
-    private static Handler handler  = new Handler();
+    private static Handler handler = new Handler();
 
     @Override
     public void onCreate() {
@@ -64,10 +67,10 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
 
         mLocationRequest = new LocationRequest();
         final SharedPreferences prefs = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        mLocationRequest.setInterval(prefs.getInt(AppConstants.PREFERENCE_LOCATION_REQUEST_REFRESH_INTERVAL,LOCATION_REQUEST_REFRESH_INTERVAL));
+        mLocationRequest.setInterval(prefs.getInt(AppConstants.PREFERENCE_LOCATION_REQUEST_REFRESH_INTERVAL, LOCATION_REQUEST_REFRESH_INTERVAL));
         mLocationRequest.setFastestInterval(1000);
-        mLocationRequest.setSmallestDisplacement(prefs.getInt(AppConstants.PREFERENCE_LOCATION_REQUEST_SMALLEST_DISPLACEMENT,LOCATION_REQUEST_SMALLEST_DISPLACEMENT));
-        mLocationRequest.setPriority(prefs.getInt(AppConstants.PREFERENCE_LOCATION_REQUEST_PRIORITY,LOCATION_REQUEST_PRIORITY));
+        mLocationRequest.setSmallestDisplacement(prefs.getInt(AppConstants.PREFERENCE_LOCATION_REQUEST_SMALLEST_DISPLACEMENT, LOCATION_REQUEST_SMALLEST_DISPLACEMENT));
+        mLocationRequest.setPriority(prefs.getInt(AppConstants.PREFERENCE_LOCATION_REQUEST_PRIORITY, LOCATION_REQUEST_PRIORITY));
 
         if (mGoogleApiClient != null) {
             mGoogleApiClient.connect();
@@ -95,6 +98,16 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
     @Override
     public void onConnected(Bundle bundle) {
         System.out.println("LocationService.onConnected bundle = " + bundle);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
     }
 
@@ -109,11 +122,21 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
         System.out.println("Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
     }
 
-    private Runnable timedTask = new Runnable(){
+    private Runnable timedTask = new Runnable() {
 
         @Override
         public void run() {
             final SharedPreferences prefs = getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
+            if (ActivityCompat.checkSelfPermission(LocationService.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(LocationService.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
             Location currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             if (currentLocation!=null){
                 String locationOfflineListString = prefs.getString(AppConstants.PREFERENCE_LAST_SAVED_LOCATIONS_LIST, "");
@@ -195,6 +218,5 @@ public class LocationService extends Service implements GoogleApiClient.Connecti
     public String getUserToken() {
         SharedPreferences prefs = this.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");
-
     }
 }
