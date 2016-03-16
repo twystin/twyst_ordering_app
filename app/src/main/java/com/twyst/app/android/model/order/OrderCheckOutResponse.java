@@ -3,6 +3,7 @@ package com.twyst.app.android.model.order;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by Vipul Sharma on 1/30/2016.
@@ -19,6 +20,17 @@ public class OrderCheckOutResponse implements Serializable {
 
     @SerializedName("_id")
     private String orderID;
+
+    @SerializedName("payment_options")
+    private ArrayList<String> paymentOptionsList;
+
+    public ArrayList<String> getPaymentOptionsList() {
+        return paymentOptionsList;
+    }
+
+    public void setPaymentOptionsList(ArrayList<String> paymentOptionsList) {
+        this.paymentOptionsList = paymentOptionsList;
+    }
 
     public int getCod_cashback() {
         return cod_cashback;

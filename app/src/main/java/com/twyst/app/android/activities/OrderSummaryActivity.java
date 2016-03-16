@@ -98,8 +98,13 @@ public class OrderSummaryActivity extends BaseActionActivity {
                     Intent paymentOptionsIntent = new Intent(OrderSummaryActivity.this, PaymentOptionsActivity.class);
                     paymentOptionsIntent.putExtra(AppConstants.INTENT_ORDER_CHECKOUT_RESPONSE, orderCheckOutResponse);
                     paymentOptionsIntent.putExtra(AppConstants.INTENT_ORDER_INFO_LOCAL, new OrderInfoLocal(orderCheckOutResponse.getOrderNumber(), mOrderSummary, mFreeItemIndex));
-                    paymentOptionsIntent.putExtra(AppConstants.INTENT_PAYMENT_OPTION_IS_COD, isCOD(mOrderSummary.getOutlet().getPaymentOptions()));
-                    paymentOptionsIntent.putExtra(AppConstants.INTENT_PAYMENT_OPTION_IS_ONLINE, isOnline(mOrderSummary.getOutlet().getPaymentOptions()));
+                    if (orderCheckOutResponse.getPaymentOptionsList() != null) {
+                        paymentOptionsIntent.putExtra(AppConstants.INTENT_PAYMENT_OPTION_IS_COD, isCOD(orderCheckOutResponse.getPaymentOptionsList()));
+                        paymentOptionsIntent.putExtra(AppConstants.INTENT_PAYMENT_OPTION_IS_ONLINE, isOnline(orderCheckOutResponse.getPaymentOptionsList()));
+                    } else {
+                        paymentOptionsIntent.putExtra(AppConstants.INTENT_PAYMENT_OPTION_IS_COD, isCOD(mOrderSummary.getOutlet().getPaymentOptions()));
+                        paymentOptionsIntent.putExtra(AppConstants.INTENT_PAYMENT_OPTION_IS_ONLINE, isOnline(mOrderSummary.getOutlet().getPaymentOptions()));
+                    }
                     startActivity(paymentOptionsIntent);
                 } else {
                     Toast.makeText(OrderSummaryActivity.this, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();
