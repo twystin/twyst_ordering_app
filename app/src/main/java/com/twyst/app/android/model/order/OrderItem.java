@@ -2,6 +2,7 @@ package com.twyst.app.android.model.order;
 
 import com.google.gson.annotations.SerializedName;
 import com.twyst.app.android.model.menu.Addons;
+import com.twyst.app.android.model.menu.Options;
 import com.twyst.app.android.model.menu.SubOptions;
 
 import java.io.Serializable;
@@ -23,6 +24,9 @@ public class OrderItem implements Serializable {
 
     @SerializedName("option_id")
     private String optionId;
+
+    @SerializedName("options")
+    private ArrayList<String> optionsList = new ArrayList<>();
 
     @SerializedName("sub_option_set_ids")
     private ArrayList<String> subOptionsSetIdList = new ArrayList<>();
@@ -61,6 +65,14 @@ public class OrderItem implements Serializable {
 
     public void setItemId(String itemId) {
         this.itemId = itemId;
+    }
+
+    public ArrayList<String> getOptionsList() {
+        return optionsList;
+    }
+
+    public void setOptionsList(ArrayList<String> optionsList) {
+        this.optionsList = optionsList;
     }
 
     public String getOptionId() {

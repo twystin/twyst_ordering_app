@@ -249,7 +249,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
                     for (int i = 0; i < menuMultipleOptionsAdapter.getSelectedPositions().size(); i++) {
                         Options option = cartItem.getOptionsList().get(menuMultipleOptionsAdapter.getSelectedPositions().get(i));
                         Options optionNew = new Options(option);
-                        cartItem.setItemCost(cartItem.getItemOriginalReference().getItemCost() + optionNew.getOptionCost());
+                        cartItem.setItemCost(cartItem.getItemCost() + optionNew.getOptionCost());
                         optionsArrayList.add(optionNew);
                     }
                     cartItem.getOptionsList().clear();
