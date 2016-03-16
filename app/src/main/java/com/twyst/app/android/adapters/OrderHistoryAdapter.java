@@ -22,6 +22,7 @@ import com.twyst.app.android.activities.OrderHistoryActivity;
 import com.twyst.app.android.activities.OrderOnlineActivity;
 import com.twyst.app.android.activities.OrderTrackingActivity;
 import com.twyst.app.android.model.BaseResponse;
+import com.twyst.app.android.model.DeliveryZone;
 import com.twyst.app.android.model.OrderHistory;
 import com.twyst.app.android.model.OrderUpdate;
 import com.twyst.app.android.model.Outlet;
@@ -136,9 +137,9 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.outletNameTextView.setText(orderHistory.getOutletName());
         holder.outletAddressTextView.setText(orderHistory.addressString());
         holder.orderCostTextView.setText(Utils.costString(orderHistory.getOrderCost()));
-        String orderDate = orderHistory.getOrderDate();		
+        String orderDate = orderHistory.getOrderDate();
         TimeStamp timeStamp = Utils.getTimeStamp(orderDate);
-        holder.dateTextView.setText(timeStamp.getDate()+" at "+timeStamp.getTime());
+        holder.dateTextView.setText(timeStamp.getDate() + " at " + timeStamp.getTime());
         holder.itemBodyTextView.setText(getCompleteItemName(orderHistory));
 
         if (orderHistory.isTrackable()) {
@@ -295,12 +296,12 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
     private void reorderProcessing(final OrderHistory reOrder) {
         String menuId;
-        if (reOrder.getMenuId()!=null) {
+        if (reOrder.getMenuId() != null) {
             menuId = reOrder.getMenuId();
-        } else if (reOrder.getItems().size()>0 && reOrder.getItems().get(0).getMenuId()!=null){
-            menuId  = reOrder.getItems().get(0).getMenuId();
+        } else if (reOrder.getItems().size() > 0 && reOrder.getItems().get(0).getMenuId() != null) {
+            menuId = reOrder.getItems().get(0).getMenuId();
         } else {
-            Toast.makeText(mContext,"Couldn't proceed as MenuId not available",Toast.LENGTH_SHORT);
+            Toast.makeText(mContext, "Couldn't proceed as MenuId not available", Toast.LENGTH_SHORT);
             return;
         }
 
@@ -575,17 +576,21 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     private void fetchOutletAndPassIntent(final OrderHistory orderHistory) {
         Outlet reorderOutlet = new Outlet();
 
+        // getting relevant delivery zone:
+        DeliveryZone filteredDeliveryZone = getFilteredDeliveryZone(orderHistory.getDelivery_zone());
+
         reorderOutlet.setName(orderHistory.getOutletName());
         reorderOutlet.set_id(orderHistory.getOutletId());
-        reorderOutlet.setDeliveryTime(orderHistory.getDelivery_zone().get(0).getDeliveryEstimatedTime());
-        reorderOutlet.setMinimumOrder(orderHistory.getDelivery_zone().get(0).getMinDeliveryAmt());
+        reorderOutlet.setDeliveryTime(filteredDeliveryZone.getDeliveryEstimatedTime());
+        reorderOutlet.setMinimumOrder(filteredDeliveryZone.getMinDeliveryAmt());
+        reorderOutlet.setPaymentOptions(filteredDeliveryZone.getPaymentOptions());
         reorderOutlet.setBackground(orderHistory.getBackground());
-        if (orderHistory.getMenuId()!=null) {
+        if (orderHistory.getMenuId() != null) {
             reorderOutlet.setMenuId(orderHistory.getMenuId());
-        } else if(orderHistory.getItems().size() > 0) {
+        } else if (orderHistory.getItems().size() > 0) {
             reorderOutlet.setMenuId(orderHistory.getItems().get(0).getMenuId());
         } else {
-            Toast.makeText(mContext,"Unable to Proceed",Toast.LENGTH_SHORT);
+            Toast.makeText(mContext, "Unable to Proceed", Toast.LENGTH_SHORT);
             return;
         }
         reorderOutlet.setLogo(orderHistory.getBackground());
@@ -596,5 +601,10 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         intent.putExtra(AppConstants.INTENT_PLACE_REORDER, reorderMenuAndCart);
         intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_OBJECT, reorderOutlet);
         mContext.startActivity(intent);
+    }
+
+    private DeliveryZone getFilteredDeliveryZone(ArrayList<DeliveryZone> delivery_zone) {
+
+        return null;
     }
 }
