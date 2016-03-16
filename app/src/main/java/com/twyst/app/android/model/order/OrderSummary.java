@@ -2,6 +2,7 @@ package com.twyst.app.android.model.order;
 
 import com.google.gson.annotations.SerializedName;
 import com.twyst.app.android.model.AddressDetailsLocationData;
+import com.twyst.app.android.model.Outlet;
 import com.twyst.app.android.model.menu.Addons;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.menu.Options;
@@ -14,10 +15,10 @@ import java.util.ArrayList;
  * Created by Vipul Sharma on 12/21/2015.
  */
 public class OrderSummary implements Serializable {
-    public OrderSummary(ArrayList<Items> cartItemsList, String outletId, String phone, Coords coords) {
+    public OrderSummary(ArrayList<Items> cartItemsList, String outletId, Outlet outlet, Coords coords) {
         this.mCartItemsList = cartItemsList;
         this.outletId = outletId;
-        this.phone = phone;
+        this.outlet = outlet;
         this.coordinates = coords;
         createOrder();
     }
@@ -100,14 +101,15 @@ public class OrderSummary implements Serializable {
         return delivery_charges;
     }
 
-    private String phone;
+    @SerializedName("outlet_object") //Need to set name as "outlet" is used in id
+    private Outlet outlet;
 
-    public String getPhone() {
-        return phone;
+    public Outlet getOutlet() {
+        return outlet;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setOutlet(Outlet outlet) {
+        this.outlet = outlet;
     }
 
     public void setDelivery_charges(double delivery_charges) {

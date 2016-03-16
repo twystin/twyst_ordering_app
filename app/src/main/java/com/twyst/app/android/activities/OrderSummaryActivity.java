@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
@@ -16,7 +15,6 @@ import com.appsflyer.AppsFlyerLib;
 import com.twyst.app.android.R;
 import com.twyst.app.android.adapters.SummaryAdapter;
 import com.twyst.app.android.model.BaseResponse;
-import com.twyst.app.android.model.OTPCode;
 import com.twyst.app.android.model.order.OrderCheckOut;
 import com.twyst.app.android.model.order.OrderCheckOutResponse;
 import com.twyst.app.android.model.order.OrderInfoLocal;
@@ -25,6 +23,8 @@ import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
+
+import java.util.ArrayList;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -98,6 +98,8 @@ public class OrderSummaryActivity extends BaseActionActivity {
                     Intent paymentOptionsIntent = new Intent(OrderSummaryActivity.this, PaymentOptionsActivity.class);
                     paymentOptionsIntent.putExtra(AppConstants.INTENT_ORDER_CHECKOUT_RESPONSE, orderCheckOutResponse);
                     paymentOptionsIntent.putExtra(AppConstants.INTENT_ORDER_INFO_LOCAL, new OrderInfoLocal(orderCheckOutResponse.getOrderNumber(), mOrderSummary, mFreeItemIndex));
+                    paymentOptionsIntent.putExtra(AppConstants.INTENT_PAYMENT_OPTION_IS_COD, isCOD(mOrderSummary.getOutlet().getPaymentOptions()));
+                    paymentOptionsIntent.putExtra(AppConstants.INTENT_PAYMENT_OPTION_IS_ONLINE, isOnline(mOrderSummary.getOutlet().getPaymentOptions()));
                     startActivity(paymentOptionsIntent);
                 } else {
                     Toast.makeText(OrderSummaryActivity.this, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();
@@ -114,6 +116,14 @@ public class OrderSummaryActivity extends BaseActionActivity {
                 UtilMethods.hideSnackbar();
             }
         });
+    }
+
+    private boolean isCOD(ArrayList<String> paymentOptions) {
+        return (paymentOptions != null && paymentOptions.contains("cod"));
+    }
+
+    private boolean isOnline(ArrayList<String> paymentOptions) {
+        return (paymentOptions != null && paymentOptions.contains("inapp"));
     }
 
     private void setupSummaryRecyclerView() {
@@ -133,6 +143,7 @@ public class OrderSummaryActivity extends BaseActionActivity {
 
     private static final int SCROLL_TIME = 20;
     final Handler handler = new Handler();
+
     private class MyRunnable implements Runnable {
         private int retry = 0;
 

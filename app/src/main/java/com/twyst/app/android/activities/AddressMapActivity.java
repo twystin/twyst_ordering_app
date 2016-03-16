@@ -29,6 +29,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.twyst.app.android.R;
 import com.twyst.app.android.model.AddressDetailsLocationData;
+import com.twyst.app.android.model.Outlet;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.order.Coords;
 import com.twyst.app.android.util.AppConstants;
@@ -328,7 +329,7 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
 
             if (index >= 0) locationData.setLine1(address.getAddressLine(0));
             if (index >= 1) locationData.setLine2(address.getAddressLine(1));
-            if (address.getSubAdminArea()!=null) {
+            if (address.getSubAdminArea() != null) {
                 locationData.setCity(address.getSubAdminArea()); // to be checked
             } else {
                 locationData.setCity(address.getLocality()); // to be checked
@@ -353,10 +354,10 @@ public class AddressMapActivity extends FragmentActivity implements LocationFetc
                     // in Payment flow
                     Bundle bundle = getIntent().getExtras();
                     String outletId = bundle.getString(AppConstants.INTENT_PARAM_OUTLET_ID);
-                    String phone = bundle.getString(AppConstants.INTENT_PARAM_PHONE);
+                    Outlet outlet = (Outlet) bundle.getSerializable(AppConstants.INTENT_PARAM_OUTLET_OBJECT);
                     ArrayList<Items> cartItemsList = (ArrayList<Items>) bundle.getSerializable(AppConstants.INTENT_PARAM_CART_LIST);
                     SharedPreferenceSingleton.getInstance().setSaveLocationClicked(false);
-                    UtilMethods.checkOut(locationData, cartItemsList, outletId, phone, AddressMapActivity.this, true);
+                    UtilMethods.checkOut(locationData, cartItemsList, outletId, outlet, AddressMapActivity.this, true);
                 } else {
                     Intent intent = new Intent(AddressMapActivity.this, AddressAddNewActivity.class);
                     SharedPreferenceSingleton.getInstance().setSaveLocationClicked(false);

@@ -235,6 +235,9 @@ public class AppConstants {
     public static final String INTENT_ORDER_IS_DELIVERED = "order_is_delivered";
     public static final String INTENT_ORDER_NUMBER = "order_number";
 
+    public static final String INTENT_PAYMENT_OPTION_IS_COD = "payment_option_is_cod";
+    public static final String INTENT_PAYMENT_OPTION_IS_ONLINE = "payment_option_is_online";
+
     //Payment Data
     public static final String INTENT_ORDER_HISTORY = "intent_order_history";
 

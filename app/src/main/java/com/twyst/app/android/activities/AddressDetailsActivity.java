@@ -25,6 +25,7 @@ import com.twyst.app.android.model.AddressDetailsLocationData;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.LocationDetails.LocationsVerified;
 import com.twyst.app.android.model.LocationDetails.LocationsVerify;
+import com.twyst.app.android.model.Outlet;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.order.Coords;
 import com.twyst.app.android.service.HttpService;
@@ -70,7 +71,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
 
     // From Cart
     private String mOutletId;
-    private String mPhone;
+    private Outlet mOutlet;
     private ArrayList<Items> mCartItemsList = new ArrayList<>();
 
     @Override
@@ -80,7 +81,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
 
         if (SharedPreferenceSingleton.getInstance().isPassedCartCheckoutStage() && OrderInfoSingleton.getInstance().getOrderSummary() != null) {
             mOutletId = OrderInfoSingleton.getInstance().getOrderSummary().getOutletId();
-            mPhone = OrderInfoSingleton.getInstance().getOrderSummary().getPhone();
+            mOutlet = OrderInfoSingleton.getInstance().getOrderSummary().getOutlet();
             mCartItemsList = OrderInfoSingleton.getInstance().getOrderSummary().getmCartItemsList();
         }
         setupToolBar();
@@ -122,7 +123,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
                 SharedPreferenceSingleton.getInstance().setSaveLocationClicked(true);
                 AddressDetailsLocationData addressDetailsLocationData = (AddressDetailsLocationData) listView.getItemAtPosition(position);
                 SharedPreferenceSingleton.getInstance().saveCurrentUsedLocation(addressDetailsLocationData);
-                UtilMethods.checkOut(addressDetailsLocationData, mCartItemsList, mOutletId, mPhone, AddressDetailsActivity.this, true);
+                UtilMethods.checkOut(addressDetailsLocationData, mCartItemsList, mOutletId, mOutlet, AddressDetailsActivity.this, true);
             }
         });
     }
@@ -183,7 +184,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
                     ((ImageView) findViewById(R.id.radio_current_loc)).setSelected(true);
 //                    checkCurrentDeliverableAndProceed();
                     if (SharedPreferenceSingleton.getInstance().isPassedCartCheckoutStage()) {
-                        UtilMethods.checkOut(mAddressDetailsLocationData, mCartItemsList, mOutletId, mPhone, AddressDetailsActivity.this, true);
+                        UtilMethods.checkOut(mAddressDetailsLocationData, mCartItemsList, mOutletId, mOutlet, AddressDetailsActivity.this, true);
                     } else {
                         SharedPreferenceSingleton.getInstance().setSaveLocationClicked(false);
                         SharedPreferenceSingleton.getInstance().saveCurrentUsedLocation(mAddressDetailsLocationData);
@@ -217,7 +218,7 @@ public class AddressDetailsActivity extends BaseActionActivity implements Locati
         if (SharedPreferenceSingleton.getInstance().isPassedCartCheckoutStage()) {
             Bundle addressDetailsBundle = new Bundle();
             addressDetailsBundle.putString(AppConstants.INTENT_PARAM_OUTLET_ID, mOutletId);
-            addressDetailsBundle.putString(AppConstants.INTENT_PARAM_PHONE, mPhone);
+            addressDetailsBundle.putSerializable(AppConstants.INTENT_PARAM_OUTLET_OBJECT, mOutlet);
             addressDetailsBundle.putSerializable(AppConstants.INTENT_PARAM_CART_LIST, mCartItemsList);
             addressDetailsIntent.putExtras(addressDetailsBundle);
         }

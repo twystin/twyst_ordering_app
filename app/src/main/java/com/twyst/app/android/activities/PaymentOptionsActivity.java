@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -48,6 +49,7 @@ public class PaymentOptionsActivity extends BaseActionActivity {
     private List<PaymentData> mPaymentDataList = new ArrayList<PaymentData>();
     private static final int PAYMENT_REQ_CODE = 0;
 
+    private boolean isCODAvailable, isOnlineAvailable;
     private String mPaymentType;
 
     private OrderCheckOutResponse mOrderCheckoutResponse;
@@ -65,6 +67,8 @@ public class PaymentOptionsActivity extends BaseActionActivity {
 
         Intent intent = getIntent();
         mOrderCheckoutResponse = (OrderCheckOutResponse) intent.getSerializableExtra(AppConstants.INTENT_ORDER_CHECKOUT_RESPONSE);
+        isCODAvailable = intent.getBooleanExtra(AppConstants.INTENT_PAYMENT_OPTION_IS_COD, false);
+        isOnlineAvailable = intent.getBooleanExtra(AppConstants.INTENT_PAYMENT_OPTION_IS_ONLINE, false);
 
         PaymentData pd1 = new PaymentData();
         PaymentData pd2 = new PaymentData();
@@ -282,15 +286,26 @@ public class PaymentOptionsActivity extends BaseActionActivity {
                 pdholder = (PaymentDataHolder) row.getTag();
             }
 
-//            if (position == 1 || position == 2) {//  Disable Net Banking, MK Wallet as of now
-//                row.setAlpha(.5f);
-//                row.setOnTouchListener(new View.OnTouchListener() {
-//                    @Override
-//                    public boolean onTouch(View v, MotionEvent event) {
-//                        return true;
-//                    }
-//                });
-//            }
+            if (!isCODAvailable && position == 0) {
+                row.setAlpha(.5f);
+                row.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return true;
+                    }
+                });
+            }
+
+
+            if (!isOnlineAvailable && (position == 1 || position == 2 || position == 3 || position == 4)) {
+                row.setAlpha(.5f);
+                row.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return true;
+                    }
+                });
+            }
 
             pdholder.checkedbox.setSelected(selectedPosition == position);
             pdholder.paymentmode.setText(mPaymentDataList.get(position).getPaymentMode());

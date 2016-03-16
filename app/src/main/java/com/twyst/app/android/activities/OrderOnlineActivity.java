@@ -449,9 +449,10 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     private void checkOut() {
         SharedPreferenceSingleton.getInstance().setPassedCartCheckoutStage(true);
 
+        Outlet outlet = mOutlet;
         if (getIntent().getBooleanExtra(AppConstants.INTENT_PARAM_FROM_FOOD_OFFER, false) || SharedPreferenceSingleton.getInstance().isSkipLocationClicked()) {
             Intent addressDetailsIntent = new Intent(OrderOnlineActivity.this, AddressDetailsActivity.class);
-            OrderSummary orderSummary = new OrderSummary(mCartAdapter.getmCartItemsList(), mOutletId, mOutlet.getPhone(), null); // location will be set in AddressDetailsActivity
+            OrderSummary orderSummary = new OrderSummary(mCartAdapter.getmCartItemsList(), mOutletId, mOutlet, null); // location will be set in AddressDetailsActivity
             OrderInfoSingleton.getInstance().setOrderSummary(orderSummary);
 
 //            Bundle addressDetailsBundle = new Bundle();
@@ -459,7 +460,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
 //            addressDetailsBundle.putSerializable(AppConstants.INTENT_PARAM_CART_LIST, mCartAdapter.getmCartItemsList());
             startActivity(addressDetailsIntent);
         } else {
-            UtilMethods.checkOut(SharedPreferenceSingleton.getInstance().getDeliveryLocation(), mCartAdapter.getmCartItemsList(), mOutletId, mOutlet.getPhone(), OrderOnlineActivity.this, false);
+            UtilMethods.checkOut(SharedPreferenceSingleton.getInstance().getDeliveryLocation(), mCartAdapter.getmCartItemsList(), mOutletId, mOutlet, OrderOnlineActivity.this, false);
         }
     }
 

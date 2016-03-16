@@ -95,7 +95,7 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
                 mPhoneNumber = getIntent().getExtras().getString(AppConstants.INTENT_PARAM_PHONE, "");
             }
         } else {
-            mPhoneNumber = mOrderInfoLocal.getOrderSummary().getPhone();
+            mPhoneNumber = mOrderInfoLocal.getOrderSummary().getOutlet().getPhone();
             showOrderNumber(mOrderInfoLocal.getOrderNumber());
             setupSummaryRecyclerView(mOrderInfoLocal);
             findViewById(R.id.iv_arrow).setVisibility(View.VISIBLE);
