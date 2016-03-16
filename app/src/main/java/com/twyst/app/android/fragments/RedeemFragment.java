@@ -68,7 +68,7 @@ public class RedeemFragment extends Fragment {
             };
     private final int[] add_imageIds =
             {
-                    R.drawable.app_redeem_slide1,
+//                    R.drawable.app_redeem_slide1,
                     R.drawable.app_redeem_slide2
             };
 
