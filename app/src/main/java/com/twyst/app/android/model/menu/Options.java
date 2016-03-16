@@ -9,7 +9,6 @@ import java.util.ArrayList;
  * Created by Vipul Sharma on 12/7/2015.
  */
 public class Options implements Serializable {
-
     public Options(Options optionOriginal) {
         this.id = optionOriginal.getId();
         this.isVegetarian = optionOriginal.isVegetarian();
@@ -31,9 +30,6 @@ public class Options implements Serializable {
     @SerializedName("option_value")
     private String optionValue;
 
-    @SerializedName("option_is_addon")
-    private boolean optionIsAddon;
-
     @SerializedName("addons")
     private ArrayList<Addons> addonsList = new ArrayList<>();
 
@@ -42,14 +38,6 @@ public class Options implements Serializable {
 
     @SerializedName("is_available")
     private boolean isAvailable;
-
-    public boolean isOptionIsAddon() {
-        return optionIsAddon;
-    }
-
-    public void setOptionIsAddon(boolean optionIsAddon) {
-        this.optionIsAddon = optionIsAddon;
-    }
 
     public String getId() {
         return id;

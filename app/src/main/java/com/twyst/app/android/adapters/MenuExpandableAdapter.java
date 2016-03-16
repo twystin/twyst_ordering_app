@@ -226,47 +226,83 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
 
-        final MenuOptionsAdapter menuOptionsAdapter = new MenuOptionsAdapter(mContext, cartItem.getOptionsList());
-        listMenuOptions.setAdapter(menuOptionsAdapter);
+        if (cartItem.isOptionIsAddon()) {
+            bOK.setText("CONFIRM");
 
-        listMenuOptions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                    long id) {
-                bOK.setEnabled(true);
-                Options option = cartItem.getOptionsList().get(position);
-                if (option.getSubOptionsList().size() > 0 || option.getAddonsList().size() > 0) {
-                    bOK.setText("NEXT");
-                }
-                menuOptionsAdapter.setSelectedPosition(position);
-                menuOptionsAdapter.notifyDataSetChanged();
-            }
-        });
+            final MenuMultipleOptionsAdapter menuMultipleOptionsAdapter = new MenuMultipleOptionsAdapter(mContext, cartItem.getOptionsList());
+            listMenuOptions.setAdapter(menuMultipleOptionsAdapter);
 
-        bOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Options option = cartItem.getOptionsList().get(menuOptionsAdapter.getSelectedPosition());
-                Options optionNew = new Options(option);
-                cartItem.getOptionsList().clear();
-                cartItem.getOptionsList().add(optionNew);
-                if (cartItem.getItemOriginalReference().isOptionPriceIsAdditive()) {
-                    cartItem.setItemCost(cartItem.getItemOriginalReference().getItemCost() + optionNew.getOptionCost());
-                } else {
-                    cartItem.setItemCost(optionNew.getOptionCost());
+            listMenuOptions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position,
+                                        long id) {
+                    bOK.setEnabled(true);
+                    menuMultipleOptionsAdapter.clickedPosition(position);
+                    menuMultipleOptionsAdapter.notifyDataSetChanged();
                 }
-                if (option.getSubOptionsList().size() > 0) {
-                    showDialogSubOptions(cartItem, 0);
-                } else {
-                    if (option.getAddonsList().size() > 0) {
-                        showDialogAddons(cartItem, 0);
-                    } else {
-                        addToCart(cartItem);
+            });
+
+            bOK.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ArrayList<Options> optionsArrayList = new ArrayList<Options>();
+                    for (int i = 0; i < menuMultipleOptionsAdapter.getSelectedPositions().size(); i++) {
+                        Options option = cartItem.getOptionsList().get(menuMultipleOptionsAdapter.getSelectedPositions().get(i));
+                        Options optionNew = new Options(option);
+                        cartItem.setItemCost(cartItem.getItemOriginalReference().getItemCost() + optionNew.getOptionCost());
+                        optionsArrayList.add(optionNew);
                     }
+                    cartItem.getOptionsList().clear();
+                    cartItem.getOptionsList().addAll(optionsArrayList);
+
+                    addToCart(cartItem);
+                    dialog.dismiss();
                 }
-                dialog.dismiss();
-            }
-        });
+            });
+
+        } else {
+            final MenuOptionsAdapter menuOptionsAdapter = new MenuOptionsAdapter(mContext, cartItem.getOptionsList());
+            listMenuOptions.setAdapter(menuOptionsAdapter);
+
+            listMenuOptions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position,
+                                        long id) {
+                    bOK.setEnabled(true);
+                    Options option = cartItem.getOptionsList().get(position);
+                    if (option.getSubOptionsList().size() > 0 || option.getAddonsList().size() > 0) {
+                        bOK.setText("NEXT");
+                    }
+                    menuOptionsAdapter.setSelectedPosition(position);
+                    menuOptionsAdapter.notifyDataSetChanged();
+                }
+            });
+
+            bOK.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Options option = cartItem.getOptionsList().get(menuOptionsAdapter.getSelectedPosition());
+                    Options optionNew = new Options(option);
+                    cartItem.getOptionsList().clear();
+                    cartItem.getOptionsList().add(optionNew);
+                    if (cartItem.getItemOriginalReference().isOptionPriceIsAdditive()) {
+                        cartItem.setItemCost(cartItem.getItemOriginalReference().getItemCost() + optionNew.getOptionCost());
+                    } else {
+                        cartItem.setItemCost(optionNew.getOptionCost());
+                    }
+                    if (option.getSubOptionsList().size() > 0) {
+                        showDialogSubOptions(cartItem, 0);
+                    } else {
+                        if (option.getAddonsList().size() > 0) {
+                            showDialogAddons(cartItem, 0);
+                        } else {
+                            addToCart(cartItem);
+                        }
+                    }
+                    dialog.dismiss();
+                }
+            });
+        }
 
         dialogView.findViewById(R.id.buttonCancel).setOnClickListener(new View.OnClickListener() {
             @Override

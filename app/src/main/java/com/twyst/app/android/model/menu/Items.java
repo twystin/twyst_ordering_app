@@ -301,11 +301,15 @@ public class Items implements Serializable {
 
     private boolean isOptionListEqual(Items newItem, Items oldItem) {
         if (newItem.getOptionsList().size() > 0) {
-            Options newOption = newItem.getOptionsList().get(0);
-            Options oldOption = oldItem.getOptionsList().get(0);
-            return (newOption.getId().equals(oldOption.getId()) &&
-                    isSubOptionListEqual(newOption, oldOption) &&
-                    isAddOnListEqual(newOption, oldOption));
+            if (newItem.isOptionIsAddon()) {
+                return isOptionListEqual(newItem.getOptionsList(), oldItem.getOptionsList());
+            } else {
+                Options newOption = newItem.getOptionsList().get(0);
+                Options oldOption = oldItem.getOptionsList().get(0);
+                return (newOption.getId().equals(oldOption.getId()) &&
+                        isSubOptionListEqual(newOption, oldOption) &&
+                        isAddOnListEqual(newOption, oldOption));
+            }
         }
         return true;
     }
@@ -355,6 +359,28 @@ public class Items implements Serializable {
         return true;
     }
 
+    private boolean isOptionListEqual(ArrayList<Options> newOptionsList, ArrayList<Options> oldOptionsList) {
+        if (newOptionsList.size() != oldOptionsList.size()) {
+            return false;
+        } else {
+            for (int i = 0; i < newOptionsList.size(); i++) {
+                Options newOption = newOptionsList.get(i);
+                boolean newOptionFound = false;
+                for (int j = 0; j < oldOptionsList.size(); j++) {
+                    Options oldOption = oldOptionsList.get(j);
+                    if (newOption.getId().equals(oldOption.getId())) {
+                        newOptionFound = true;
+                        break;
+                    }
+                }//inner loop
+                if (!newOptionFound) {
+                    return false;
+                }
+            } //outer loop
+        }
+        return true;
+    }
+
     public ArrayList<String> getCustomisationList() {
         ArrayList<String> customisationList = new ArrayList<String>();
         if (this.getOptionsList().size() == 1) {
@@ -369,6 +395,11 @@ public class Items implements Serializable {
                     String addonValue = this.getOptionsList().get(0).getAddonsList().get(i).getAddonSetList().get(j).getAddonValue();
                     customisationList.add(addonValue);
                 }
+            }
+        } else if (this.getOptionsList().size() > 1) {
+            for (int i = 0; i < this.getOptionsList().size(); i++) {
+                String optionValue = this.getOptionsList().get(i).getOptionValue();
+                customisationList.add(optionValue);
             }
         }
         return customisationList;
