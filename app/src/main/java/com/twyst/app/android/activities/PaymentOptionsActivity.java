@@ -100,7 +100,8 @@ public class PaymentOptionsActivity extends BaseActionActivity {
         mPaymentDataList.add(pd5);
 
         final PaymentArrayAdapter pdAdapter = new PaymentArrayAdapter();
-        final View proceed = (View) findViewById(R.id.bProceed);
+        final View proceed = (View) findViewById(R.id.proceed_ok);
+        proceed.setEnabled(false);
         ListView listView = (ListView) findViewById(R.id.lv_payment_options);
         listView.setAdapter(pdAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

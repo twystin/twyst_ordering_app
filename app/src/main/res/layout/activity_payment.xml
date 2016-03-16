@@ -4,46 +4,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_bg_color"
+    android:orientation="vertical"
     tools:context=".activities.PaymentOptionsActivity">
 
-    <RelativeLayout
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <android.support.v7.widget.CardView
+        style="@style/card_view_style"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-        <LinearLayout
+        <ListView
+            android:id="@+id/lv_payment_options"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent" />
+    </android.support.v7.widget.CardView>
 
-            <include
-                android:id="@+id/toolbar"
-                layout="@layout/toolbar" />
-
-            <android.support.v7.widget.CardView style="@style/card_view_style">
-
-                <ListView
-                    android:id="@+id/lv_payment_options"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="8dp">
-
-                </ListView>
-            </android.support.v7.widget.CardView>
-
-        </LinearLayout>
+    <FrameLayout
+        android:id="@+id/proceed_ok"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@drawable/big_button"
+        android:padding="5dp">
 
         <TextView
-            android:id="@+id/bProceed"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/big_button"
-            android:clickable="true"
-            android:enabled="false"
-            android:gravity="center"
+            android:id="@+id/tvProceedOk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawablePadding="10dp"
+            android:focusable="false"
+            android:paddingRight="10dp"
             android:text="PROCEED"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/layout_huge_text_size" />
-    </RelativeLayout>
-
+            android:textSize="20dp" />
+    </FrameLayout>
 </LinearLayout>
