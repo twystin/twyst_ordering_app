@@ -17,13 +17,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.maps.android.PolyUtil;
 import com.twyst.app.android.R;
 import com.twyst.app.android.activities.OrderHistoryActivity;
 import com.twyst.app.android.activities.OrderOnlineActivity;
 import com.twyst.app.android.activities.OrderTrackingActivity;
-import com.twyst.app.android.model.AddressDetailsLocationData;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.DeliveryZone;
 import com.twyst.app.android.model.OrderHistory;
@@ -42,7 +39,6 @@ import com.twyst.app.android.model.menu.SubOptionSet;
 import com.twyst.app.android.model.menu.SubOptions;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
-import com.twyst.app.android.util.SharedPreferenceSingleton;
 import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
 import com.twyst.app.android.util.Utils;
@@ -528,10 +524,8 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         } else {
             // intent needs to be fired to OrderOnlineActivity
             mTwystProgressHUD.dismiss();
-            fetchOutletAndPassIntent(reOrder, getFilteredDeliveryZone(reOrder.getDelivery_zone()));
-
+            fetchOutletAndPassIntent(reOrder, Utils.getFilteredDeliveryZone(reOrder.getDelivery_zone()));
         }
-
     }
 
     private void showReorderErrorsDialog(ArrayList<String> list, final OrderHistory orderHistory) {
@@ -564,7 +558,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             public void onClick(View view) {
                 // intent needs to be fired
                 dialog.dismiss();
-                fetchOutletAndPassIntent(orderHistory, getFilteredDeliveryZone(orderHistory.getDelivery_zone()));
+                fetchOutletAndPassIntent(orderHistory, Utils.getFilteredDeliveryZone(orderHistory.getDelivery_zone()));
             }
         });
 
@@ -597,7 +591,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             dialog.findViewById(R.id.fOK).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    fetchOutletAndPassIntent(orderHistory, getMinimumDeliveryZone(orderHistory.getDelivery_zone()));
+                    fetchOutletAndPassIntent(orderHistory, Utils.getMinimumDeliveryZone(orderHistory.getDelivery_zone()));
                     dialog.dismiss();
                 }
             });
@@ -633,45 +627,5 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_OBJECT, reorderOutlet);
             mContext.startActivity(intent);
         }
-    }
-
-    private DeliveryZone getMinimumDeliveryZone(ArrayList<DeliveryZone> deliveryZonesList) {
-        DeliveryZone minimumDeliveryZone = null;
-        for (int i = 0; i < deliveryZonesList.size(); i++) {
-            if (minimumDeliveryZone == null) {
-                minimumDeliveryZone = deliveryZonesList.get(i);
-            } else {
-                DeliveryZone deliveryZone = deliveryZonesList.get(i);
-                if (Double.parseDouble(deliveryZone.getMinDeliveryAmt()) < Double.parseDouble(minimumDeliveryZone.getMinDeliveryAmt())) {
-                    minimumDeliveryZone = deliveryZone;
-                }
-            }
-        }
-        return minimumDeliveryZone;
-    }
-
-    private DeliveryZone getFilteredDeliveryZone(ArrayList<DeliveryZone> deliveryZonesList) {
-        AddressDetailsLocationData currentLocationData = SharedPreferenceSingleton.getInstance().getCurrentUsedLocation();
-        LatLng currentPosition = new LatLng(Double.parseDouble(currentLocationData.getCoords().getLat()), Double.parseDouble(currentLocationData.getCoords().getLon()));
-
-        DeliveryZone filteredDeliveryZone = null;
-        for (int i = 0; i < deliveryZonesList.size(); i++) {
-            DeliveryZone deliveryZone = deliveryZonesList.get(i);
-            ArrayList<LatLng> lngArrayList = new ArrayList<>();
-            for (int j = 0; j < deliveryZone.getCoordList().size(); j++) {
-                LatLng latLng = new LatLng(Double.valueOf(deliveryZone.getCoordList().get(j).getLat()), Double.valueOf(deliveryZone.getCoordList().get(j).getLon()));
-                lngArrayList.add(latLng);
-            }
-            if (PolyUtil.containsLocation(currentPosition, lngArrayList, true)) {
-                if (filteredDeliveryZone == null) {
-                    filteredDeliveryZone = deliveryZone;
-                } else {
-                    if (deliveryZone.getZoneType() > filteredDeliveryZone.getZoneType()) {
-                        filteredDeliveryZone = deliveryZone;
-                    }
-                }
-            }
-        }
-        return filteredDeliveryZone;
     }
 }

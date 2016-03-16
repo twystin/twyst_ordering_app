@@ -7,7 +7,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.PolyUtil;
 import com.twyst.app.android.R;
+import com.twyst.app.android.model.AddressDetailsLocationData;
+import com.twyst.app.android.model.DeliveryZone;
 import com.twyst.app.android.model.TimeStamp;
 import com.twyst.app.android.service.HttpService;
 
@@ -16,6 +20,7 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -229,6 +234,47 @@ public class Utils {
                 break;
         }
         return imageId;
+    }
+
+
+    public static DeliveryZone getMinimumDeliveryZone(ArrayList<DeliveryZone> deliveryZonesList) {
+        DeliveryZone minimumDeliveryZone = null;
+        for (int i = 0; i < deliveryZonesList.size(); i++) {
+            if (minimumDeliveryZone == null) {
+                minimumDeliveryZone = deliveryZonesList.get(i);
+            } else {
+                DeliveryZone deliveryZone = deliveryZonesList.get(i);
+                if (Double.parseDouble(deliveryZone.getMinDeliveryAmt()) < Double.parseDouble(minimumDeliveryZone.getMinDeliveryAmt())) {
+                    minimumDeliveryZone = deliveryZone;
+                }
+            }
+        }
+        return minimumDeliveryZone;
+    }
+
+    public static DeliveryZone getFilteredDeliveryZone(ArrayList<DeliveryZone> deliveryZonesList) {
+        AddressDetailsLocationData currentLocationData = SharedPreferenceSingleton.getInstance().getCurrentUsedLocation();
+        LatLng currentPosition = new LatLng(Double.parseDouble(currentLocationData.getCoords().getLat()), Double.parseDouble(currentLocationData.getCoords().getLon()));
+
+        DeliveryZone filteredDeliveryZone = null;
+        for (int i = 0; i < deliveryZonesList.size(); i++) {
+            DeliveryZone deliveryZone = deliveryZonesList.get(i);
+            ArrayList<LatLng> lngArrayList = new ArrayList<>();
+            for (int j = 0; j < deliveryZone.getCoordList().size(); j++) {
+                LatLng latLng = new LatLng(Double.valueOf(deliveryZone.getCoordList().get(j).getLat()), Double.valueOf(deliveryZone.getCoordList().get(j).getLon()));
+                lngArrayList.add(latLng);
+            }
+            if (PolyUtil.containsLocation(currentPosition, lngArrayList, true)) {
+                if (filteredDeliveryZone == null) {
+                    filteredDeliveryZone = deliveryZone;
+                } else {
+                    if (deliveryZone.getZoneType() > filteredDeliveryZone.getZoneType()) {
+                        filteredDeliveryZone = deliveryZone;
+                    }
+                }
+            }
+        }
+        return filteredDeliveryZone;
     }
 
     public static int getTwystCash() {

@@ -1,5 +1,6 @@
 package com.twyst.app.android.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -12,10 +13,12 @@ import android.widget.TextView;
 
 import com.twyst.app.android.R;
 import com.twyst.app.android.activities.OrderOnlineActivity;
+import com.twyst.app.android.model.DeliveryZone;
 import com.twyst.app.android.model.OrderTrackingState;
 import com.twyst.app.android.model.Outlet;
 import com.twyst.app.android.offer.FoodOffer;
 import com.twyst.app.android.util.AppConstants;
+import com.twyst.app.android.util.Utils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,25 +52,62 @@ public class FoodVouchersAdapter extends RecyclerView.Adapter<FoodVouchersAdapte
         holder.flUseOffer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FoodOffer.OutletHeader outletHeader = foodOffer.getOutletHeader();
-                final Outlet outlet = new Outlet();
-                outlet.setName(outletHeader.getOutletName());
-                outlet.setMenuId(foodOffer.getMenuId());
-                outlet.set_id(outletHeader.get_id());
-                if (outletHeader.getDelivery_zone().size() > 0) {
-                    outlet.setDeliveryTime(outletHeader.getDelivery_zone().get(0).getDeliveryEstimatedTime());
-                    outlet.setMinimumOrder(outletHeader.getDelivery_zone().get(0).getMinDeliveryAmt());
-                }
-                outlet.setBackground(outletHeader.getBackground());
-                outlet.setLogo(outletHeader.getBackground());
-                outlet.setPhone(outletHeader.getPhone());
-                Intent intent = new Intent(mContext, OrderOnlineActivity.class);
-                intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_OBJECT, outlet);
-                intent.putExtra(AppConstants.INTENT_PARAM_FROM_FOOD_OFFER, true);
-                mContext.startActivity(intent);
+                openMenuPage(foodOffer, Utils.getFilteredDeliveryZone(foodOffer.getOutletHeader().getDelivery_zone()));
             }
         });
 
+    }
+
+    private void openMenuPage(final FoodOffer foodOffer, final DeliveryZone filteredDeliveryZone) {
+        if (filteredDeliveryZone == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            View dialogView = LayoutInflater.from(mContext).inflate(R.layout.dialog_generic, null);
+            builder.setView(dialogView);
+            final AlertDialog dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.show();
+            TextView tvTitle = ((TextView) (dialog.findViewById(R.id.tv_title)));
+            tvTitle.setText("Continue?");
+            TextView tvMessage = (TextView) dialog.findViewById(R.id.tv_message);
+            tvMessage.setText("This outlet does not deliver to your selected location. You can change the location later. Continue?");
+            TextView tvOk = (TextView) dialog.findViewById(R.id.tv_ok);
+            tvOk.setText("Yes");
+            TextView tvCancel = (TextView) dialog.findViewById(R.id.tv_cancel);
+            tvCancel.setText("No");
+
+            dialog.findViewById(R.id.fOK).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openMenuPage(foodOffer, Utils.getMinimumDeliveryZone(foodOffer.getOutletHeader().getDelivery_zone()));
+                    dialog.dismiss();
+                }
+            });
+            dialog.findViewById(R.id.fCancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+        } else {
+            FoodOffer.OutletHeader outletHeader = foodOffer.getOutletHeader();
+            final Outlet outlet = new Outlet();
+            outlet.setName(outletHeader.getOutletName());
+            outlet.setMenuId(foodOffer.getMenuId());
+            outlet.set_id(outletHeader.get_id());
+
+            outlet.setDeliveryTime(filteredDeliveryZone.getDeliveryEstimatedTime());
+            outlet.setMinimumOrder(filteredDeliveryZone.getMinDeliveryAmt());
+            outlet.setPaymentOptions(filteredDeliveryZone.getPaymentOptions());
+
+            outlet.setBackground(outletHeader.getBackground());
+            outlet.setLogo(outletHeader.getBackground());
+            outlet.setPhone(outletHeader.getPhone());
+            Intent intent = new Intent(mContext, OrderOnlineActivity.class);
+            intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_OBJECT, outlet);
+            intent.putExtra(AppConstants.INTENT_PARAM_FROM_FOOD_OFFER, true);
+            mContext.startActivity(intent);
+        }
     }
 
     @Override
