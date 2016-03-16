@@ -30,7 +30,8 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="App Version" />
+            android:text="App Version"
+            android:textSize="12dp"/>
 
         <TextView
             android:layout_width="match_parent"

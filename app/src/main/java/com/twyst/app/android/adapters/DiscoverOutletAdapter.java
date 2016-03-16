@@ -220,7 +220,10 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             ((OutletViewHolder) holder).noOfOffers.setVisibility(View.INVISIBLE);
         } else {
             ((OutletViewHolder) holder).noOfOffers.setVisibility(View.VISIBLE);
-            ((OutletViewHolder) holder).noOfOffers.setText(outlet.getOfferCount() + " Offers Available");
+            if(outlet.getOfferCount() == 1){
+                ((OutletViewHolder) holder).noOfOffers.setText(outlet.getOfferCount() + " Offer Available");
+            }else
+                ((OutletViewHolder) holder).noOfOffers.setText(outlet.getOfferCount() + " Offer Available");
         }
     }
 
