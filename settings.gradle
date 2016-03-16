@@ -1,1 +1,1 @@
-include ':app', ':mobikwik-sdk-1_06'
+include ':app', ':mobikwik-sdk-1_06', ':library'
