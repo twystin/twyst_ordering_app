@@ -54,6 +54,9 @@ public class Items implements Serializable {
 
     private Items itemOriginalReference;
 
+    @SerializedName("option_ids")
+    private ArrayList<String> optionsStringList = new ArrayList<>();
+
     @SerializedName("item_quantity")
     private int itemQuantity;
 
@@ -92,6 +95,14 @@ public class Items implements Serializable {
 
     @SerializedName("sub_options")
     private ArrayList<SubOptions> SubOptionsList = new ArrayList<>();
+
+    public ArrayList<String> getOptionsStringList() {
+        return optionsStringList;
+    }
+
+    public void setOptionsStringList(ArrayList<String> optionsStringList) {
+        this.optionsStringList = optionsStringList;
+    }
 
     public boolean isOptionPriceIsAdditive() {
         return optionPriceIsAdditive;
