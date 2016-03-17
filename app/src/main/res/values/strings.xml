@@ -265,9 +265,9 @@ each friend who joins.</p>
 
     <string name="no_data_outlet">Oops! Couldn\'t find any outlet delivering to this location at this time!</string>
     <string name="no_data_reorder">Oops! You have no previous orders to show!</string>
-    <string name="no_cash_data">No cash data!</string>
-    <string name="no_cash_earned">No cash earned yet!</string>
-    <string name="no_cash_spent">No cash spent yet!</string>
+    <string name="no_cash_data">No data to show!</string>
+    <string name="no_cash_earned">No Twyst Cash earned yet!</string>
+    <string name="no_cash_spent">No Twyst Cash spent yet!</string>
     <string name="no_data_vouchers">No Vouchers found!</string>
 
     <string name="ok">OK</string>
