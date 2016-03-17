@@ -20,7 +20,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 20018
-        versionName "Beta-4.33"
+        versionName "4.34"
         multiDexEnabled true
     }
 
@@ -29,7 +29,7 @@ android {
             minifyEnabled false
             resValue "drawable", "ic_launcher_icon", "@drawable/ic_launcher"
             resValue "string", "app_name", "Twyst"
-            buildConfigField "String", "HOST", "\"http://beta.twyst.in\""
+            buildConfigField "String", "HOST", "\"https://twyst.in\""
         }
 
         debug {
