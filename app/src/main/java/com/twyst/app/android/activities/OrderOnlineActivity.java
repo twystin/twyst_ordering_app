@@ -116,9 +116,9 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         setupTopLayout();
         setupScrollingOfferAdapters();
         setupCartRecyclerView();
-        fetchMenu();
 
         ifReordered = checkifReordered();
+        fetchMenu();
     }
 
     @Override
