@@ -545,18 +545,20 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
             protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
                 Profile.fetchProfileForCurrentAccessToken();
 
-                userImage = String.valueOf(currentProfile.getProfilePictureUri(250, 250));
-                firstName = currentProfile.getFirstName();
-                middleName = currentProfile.getMiddleName();
-                lastName = currentProfile.getLastName();
-                fbid = currentProfile.getId();
-                linkUri = String.valueOf(currentProfile.getLinkUri());
-                sharedPreferences.putString(AppConstants.PREFERENCE_USER_PIC, String.valueOf(currentProfile.getProfilePictureUri(250, 250)));
-                sharedPreferences.putString(AppConstants.PREFERENCE_USER_NAME, currentProfile.getFirstName());
-                sharedPreferences.putString(AppConstants.PREFERENCE_USER_FULL_NAME, currentProfile.getName());
-                sharedPreferences.putString(AppConstants.PREFERENCE_USER_EMAIL, socialEmail);
-                sharedPreferences.putBoolean(AppConstants.PREFERENCE_IS_FACEBOOK_CONNECTED, true);
-                sharedPreferences.apply();
+                if (currentProfile != null) {
+                    userImage = String.valueOf(currentProfile.getProfilePictureUri(250, 250));
+                    firstName = currentProfile.getFirstName();
+                    middleName = currentProfile.getMiddleName();
+                    lastName = currentProfile.getLastName();
+                    fbid = currentProfile.getId();
+                    linkUri = String.valueOf(currentProfile.getLinkUri());
+                    sharedPreferences.putString(AppConstants.PREFERENCE_USER_PIC, String.valueOf(currentProfile.getProfilePictureUri(250, 250)));
+                    sharedPreferences.putString(AppConstants.PREFERENCE_USER_NAME, currentProfile.getFirstName());
+                    sharedPreferences.putString(AppConstants.PREFERENCE_USER_FULL_NAME, currentProfile.getName());
+                    sharedPreferences.putString(AppConstants.PREFERENCE_USER_EMAIL, socialEmail);
+                    sharedPreferences.putBoolean(AppConstants.PREFERENCE_IS_FACEBOOK_CONNECTED, true);
+                    sharedPreferences.apply();
+                }
             }
 
         };
