@@ -284,9 +284,11 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     private void closeSearchView() {
-        searchView.setQuery("", false);
-        searchView.clearFocus();
-        searchView.setIconified(true);
+        if (searchView != null) {
+            searchView.setQuery("", false);
+            searchView.clearFocus();
+            searchView.setIconified(true);
+        }
         findViewById(R.id.layout_search_outlet).setVisibility(View.GONE);
         findViewById(R.id.tab_layout).setVisibility(View.VISIBLE);
     }
