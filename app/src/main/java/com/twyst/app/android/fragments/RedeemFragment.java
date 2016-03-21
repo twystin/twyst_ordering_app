@@ -44,6 +44,8 @@ public class RedeemFragment extends Fragment {
     public static final String REDEEM_SHOPPING = "SHOPPING";
     public static final String REDEEM_COMING_SOON = "COMING SOON";
 
+    private TextView tvMyTwystCash;
+
     private RecyclerView mGridtile;
     private cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager viewPager;
     private CirclePageIndicator mIndicator;
@@ -86,14 +88,26 @@ public class RedeemFragment extends Fragment {
             }
         });
 
-          if (Utils.getTwystCash() != -1) {
-                ((TextView) view.findViewById(R.id.tv_my_twyst_cash)).setText(String.valueOf(Utils.getTwystCash()));
-            }
+        tvMyTwystCash = (TextView) view.findViewById(R.id.tv_my_twyst_cash);
+
+        updateTwystCashAmount();
 
         setAddsViewPager(view);
         setGridAdapter(view);
 
         return view;
+    }
+
+    private void updateTwystCashAmount() {
+        if (Utils.getTwystCash() != -1) {
+            tvMyTwystCash.setText(String.valueOf(Utils.getTwystCash()));
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateTwystCashAmount();
     }
 
     /*
