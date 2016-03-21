@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.twyst.app.android.service.HttpService;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,7 +63,11 @@ public class NumberDatabase extends SQLiteOpenHelper {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             sqLiteDatabase.setTransactionSuccessful();
+            HttpService.getInstance().getSharedPreferences().edit().putBoolean(AppConstants.KEY_DATABASE_SAVED, true).apply();
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             sqLiteDatabase.endTransaction();
         }

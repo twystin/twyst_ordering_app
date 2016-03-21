@@ -38,7 +38,6 @@ public class NumberDatabaseSingleton {
         numberDatabase = new NumberDatabase(context);
         if (!HttpService.getInstance().getSharedPreferences().getBoolean(AppConstants.KEY_DATABASE_SAVED, false)) {
             numberDatabase.insertValues(loadJSONFromAsset(context));
-            HttpService.getInstance().getSharedPreferences().edit().putBoolean(AppConstants.KEY_DATABASE_SAVED, true).apply();
         }
     }
 
