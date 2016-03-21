@@ -70,10 +70,11 @@ public class PermissionUtil implements ActivityCompat.OnRequestPermissionsResult
 
     private View mLayout = null;
 
-    private static final int REQUEST_CONTATCS = 0;
-    private static final int REQUEST_LOCATION = 1;
-    private static final int REQUEST_PHONE = 2;
-    private static final int REQUEST_SMS = 3;
+    public static final int REQUEST_CONTACTS = 0;
+    public static final int REQUEST_LOCATION = 1;
+    public static final int REQUEST_PHONE = 2;
+    public static final int REQUEST_SMS = 3;
+    public static final int REQUEST_GET_ACCOUNTS = 4;
 
     private static String[] PERMISSIONS_LOCATION = {Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION};
@@ -82,9 +83,9 @@ public class PermissionUtil implements ActivityCompat.OnRequestPermissionsResult
     private static String[] PERMISSIONS_SMS = {Manifest.permission.READ_SMS,
             Manifest.permission.RECEIVE_SMS};
 
-    public boolean approveContacts(Context context,boolean checkOnly) {
+    public boolean approveContacts(Context context, boolean checkOnly) {
         Log.i(TAG, "Checking Contacts permission.");
-        activity = (Activity)context;
+        activity = (Activity) context;
         // Check if the Contacts permission is already available.
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -95,14 +96,14 @@ public class PermissionUtil implements ActivityCompat.OnRequestPermissionsResult
         } else {
             // Camera permissions is already available, show the camera preview.
             Log.i(TAG,
-                    "CAMERA permission has already been granted. Displaying camera preview.");
+                    "CONTACT permission has already been granted.");
             return true;
         }
     }
 
-    public boolean approveLocation( Context context,boolean checkOnly) {
+    public boolean approveLocation(Context context, boolean checkOnly) {
         Log.i(TAG, "Checking Location permissions.");
-        activity = (Activity)context;
+        activity = (Activity) context;
 
         // Verify that all required contact permissions have been granted.
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -124,9 +125,9 @@ public class PermissionUtil implements ActivityCompat.OnRequestPermissionsResult
         }
     }
 
-    public boolean approvePhone(Context context,boolean checkOnly) {
+    public boolean approvePhone(Context context, boolean checkOnly) {
         Log.i(TAG, "Show contacts button pressed. Checking permissions.");
-        activity = (Activity)context;
+        activity = (Activity) context;
         // Verify that all required contact permissions have been granted.
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE)
                 != PackageManager.PERMISSION_GRANTED
@@ -147,9 +148,9 @@ public class PermissionUtil implements ActivityCompat.OnRequestPermissionsResult
         }
     }
 
-    public boolean approveSMS(Context context,boolean checkOnly) {
+    public boolean approveSMS(Context context, boolean checkOnly) {
         Log.i(TAG, "Show contacts button pressed. Checking permissions.");
-        activity = (Activity)context;
+        activity = (Activity) context;
         // Verify that all required contact permissions have been granted.
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_SMS)
                 != PackageManager.PERMISSION_GRANTED
@@ -157,7 +158,7 @@ public class PermissionUtil implements ActivityCompat.OnRequestPermissionsResult
                 != PackageManager.PERMISSION_GRANTED) {
             // Contacts permissions have not been granted.
             Log.i(TAG, "SMS permissions has NOT been granted. Requesting permissions.");
-            if(!checkOnly) {
+            if (!checkOnly) {
                 requestSmsPermissions((Activity) context);
             }
             return false;
@@ -170,6 +171,46 @@ public class PermissionUtil implements ActivityCompat.OnRequestPermissionsResult
         }
     }
 
+    public boolean approveGetAccounts(Context context, boolean checkOnly) {
+        Log.i(TAG, "Checking GET_ACCOUNTS permission.");
+        activity = (Activity) context;
+        // Check if the Contacts permission is already available.
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.GET_ACCOUNTS)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (!checkOnly) {
+                requestGetAccountsPermission((Activity) context);
+            }
+            return false;
+        } else {
+            // Camera permissions is already available, show the camera preview.
+            Log.i(TAG,
+                    "CONTACT permission has already been granted.");
+            return true;
+        }
+    }
+
+    private void requestGetAccountsPermission(final Activity activity) {
+        Log.i(TAG, "GET_ACCOUNTS permission has NOT been granted. Requesting permission.");
+
+        // BEGIN_INCLUDE(camera_permission_request)
+        if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                Manifest.permission.GET_ACCOUNTS)) {
+            // Provide an additional rationale to the user if the permission was not granted
+            // and the user would benefit from additional context for the use of the permission.
+
+            Log.i(TAG,
+                    "GET_ACCOUNTS permission rationale to provide additional context.");
+
+            Intent intent = new Intent(activity, NoPermissionsActivity.class);
+            intent.putExtra(AppConstants.INTENT_PERMISSION, REQUEST_GET_ACCOUNTS);
+            intent.putExtra(AppConstants.INTENT_PERMISSIONS_RATIONALE, activity.getResources().getString(R.string.permission_accounts_rationale));
+            activity.startActivity(intent);
+        } else {
+            // Camera permission has not been granted yet. Request it directly.
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.GET_ACCOUNTS},
+                    REQUEST_GET_ACCOUNTS);
+        }
+    }
 
     private void requestContactsPermission(final Activity activity) {
         Log.i(TAG, "Contacts permission has NOT been granted. Requesting permission.");
@@ -184,13 +225,13 @@ public class PermissionUtil implements ActivityCompat.OnRequestPermissionsResult
                     "Displaying camera permission rationale to provide additional context.");
 
             Intent intent = new Intent(activity, NoPermissionsActivity.class);
-            intent.putExtra(AppConstants.INTENT_PERMISSION,REQUEST_CONTATCS);
+            intent.putExtra(AppConstants.INTENT_PERMISSION, REQUEST_CONTACTS);
             intent.putExtra(AppConstants.INTENT_PERMISSIONS_RATIONALE, activity.getResources().getString(R.string.permission_contacts_rationale));
             activity.startActivity(intent);
         } else {
             // Camera permission has not been granted yet. Request it directly.
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_CONTACTS},
-                    REQUEST_CONTATCS);
+                    REQUEST_CONTACTS);
         }
     }
 
@@ -205,8 +246,8 @@ public class PermissionUtil implements ActivityCompat.OnRequestPermissionsResult
                     "Displaying contacts permission rationale to provide additional context.");
 
             Intent intent = new Intent(activity, NoPermissionsActivity.class);
-            intent.putExtra(AppConstants.INTENT_PERMISSION,REQUEST_LOCATION);
-            intent.putExtra(AppConstants.INTENT_PERMISSIONS_RATIONALE,activity.getResources().getString(R.string.permission_location_rationale));
+            intent.putExtra(AppConstants.INTENT_PERMISSION, REQUEST_LOCATION);
+            intent.putExtra(AppConstants.INTENT_PERMISSIONS_RATIONALE, activity.getResources().getString(R.string.permission_location_rationale));
             activity.startActivity(intent);
 
         } else {
@@ -226,7 +267,7 @@ public class PermissionUtil implements ActivityCompat.OnRequestPermissionsResult
                     "Displaying contacts permission rationale to provide additional context.");
 
             Intent intent = new Intent(activity, NoPermissionsActivity.class);
-            intent.putExtra(AppConstants.INTENT_PERMISSION,REQUEST_PHONE);
+            intent.putExtra(AppConstants.INTENT_PERMISSION, REQUEST_PHONE);
             intent.putExtra(AppConstants.INTENT_PERMISSIONS_RATIONALE, activity.getResources().getString(R.string.permission_phone_rationale));
             activity.startActivity(intent);
         } else {
@@ -246,7 +287,7 @@ public class PermissionUtil implements ActivityCompat.OnRequestPermissionsResult
                     "Displaying SMS permission rationale to provide additional context.");
 
             Intent intent = new Intent(activity, NoPermissionsActivity.class);
-            intent.putExtra(AppConstants.INTENT_PERMISSION,REQUEST_SMS);
+            intent.putExtra(AppConstants.INTENT_PERMISSION, REQUEST_SMS);
             intent.putExtra(AppConstants.INTENT_PERMISSIONS_RATIONALE, activity.getResources().getString(R.string.permission_sms_rationale));
             activity.startActivity(intent);
 
@@ -262,7 +303,7 @@ public class PermissionUtil implements ActivityCompat.OnRequestPermissionsResult
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_CONTATCS) {
+        if (requestCode == REQUEST_CONTACTS) {
             // BEGIN_INCLUDE(permission_result)
             // Received permission result for contacts permission.
             Log.i(TAG, "Received response for Contact permission request.");
@@ -273,7 +314,7 @@ public class PermissionUtil implements ActivityCompat.OnRequestPermissionsResult
             } else {
                 Log.i(TAG, "CONTACT permission was NOT granted.");
                 Intent intent = new Intent(activity, NoPermissionsActivity.class);
-                intent.putExtra(AppConstants.INTENT_PERMISSION,REQUEST_CONTATCS);
+                intent.putExtra(AppConstants.INTENT_PERMISSION, REQUEST_CONTACTS);
                 intent.putExtra(AppConstants.INTENT_PERMISSIONS_RATIONALE, R.string.permission_contacts_rationale);
                 activity.startActivity(intent);
 
@@ -291,7 +332,7 @@ public class PermissionUtil implements ActivityCompat.OnRequestPermissionsResult
                 Log.i(TAG, "Location permissions were NOT granted.");
 
                 Intent intent = new Intent(activity, NoPermissionsActivity.class);
-                intent.putExtra(AppConstants.INTENT_PERMISSION,REQUEST_LOCATION);
+                intent.putExtra(AppConstants.INTENT_PERMISSION, REQUEST_LOCATION);
                 intent.putExtra(AppConstants.INTENT_PERMISSIONS_RATIONALE, R.string.permission_location_rationale);
                 activity.startActivity(intent);
 
@@ -307,7 +348,7 @@ public class PermissionUtil implements ActivityCompat.OnRequestPermissionsResult
             } else {
                 Log.i(TAG, "Phone permissions were NOT granted.");
                 Intent intent = new Intent(activity, NoPermissionsActivity.class);
-                intent.putExtra(AppConstants.INTENT_PERMISSION,REQUEST_PHONE);
+                intent.putExtra(AppConstants.INTENT_PERMISSION, REQUEST_PHONE);
                 intent.putExtra(AppConstants.INTENT_PERMISSIONS_RATIONALE, R.string.permission_phone_rationale);
                 activity.startActivity(intent);
             }
@@ -322,7 +363,7 @@ public class PermissionUtil implements ActivityCompat.OnRequestPermissionsResult
             } else {
                 Log.i(TAG, "SMS permissions were NOT granted.");
                 Intent intent = new Intent(activity, NoPermissionsActivity.class);
-                intent.putExtra(AppConstants.INTENT_PERMISSION,REQUEST_SMS);
+                intent.putExtra(AppConstants.INTENT_PERMISSION, REQUEST_SMS);
                 intent.putExtra(AppConstants.INTENT_PERMISSIONS_RATIONALE, R.string.permission_sms_rationale);
                 activity.startActivity(intent);
             }

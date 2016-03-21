@@ -17,12 +17,6 @@ import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.PermissionUtil;
 
 public class NoPermissionsActivity extends AppCompatActivity {
-
-    private static final int REQUEST_CONTATCS = 0;
-    private static final int REQUEST_LOCATION = 1;
-    private static final int REQUEST_PHONE = 2;
-    private static final int REQUEST_SMS = 3;
-
     private static final int REQUEST_SETTINGS = 4;
     private TextView tvRetry;
     private int permissionRequested = -1;
@@ -40,7 +34,7 @@ public class NoPermissionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 switch (permissionRequested) {
-                    case REQUEST_LOCATION:
+                    case PermissionUtil.REQUEST_LOCATION:
                         if (PermissionUtil.getInstance().approveLocation(NoPermissionsActivity.this, true)) {
                             finish();
                         } else {
@@ -100,7 +94,7 @@ public class NoPermissionsActivity extends AppCompatActivity {
 
         if (requestCode == REQUEST_SETTINGS) {
             switch (permissionRequested) {
-                case REQUEST_LOCATION:
+                case PermissionUtil.REQUEST_LOCATION:
                     if (PermissionUtil.getInstance().approveLocation(NoPermissionsActivity.this, true)) {
                         finish();
                     }

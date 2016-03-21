@@ -125,9 +125,6 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     private LocationFetchUtil locationFetchUtil;
     private Location mLocation;
     private TwystProgressHUD twystProgressHUD = null;
-    private static final int REQUEST_CONTATCS = 0;
-    private static final int REQUEST_LOCATION = 1;
-    private static final int REQUEST_SMS = 3;
     private static final String TAG = "PreMainActivity";
     private boolean isAddressesSynced = false;
 
@@ -1769,7 +1766,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_LOCATION) {
+        if (requestCode == PermissionUtil.REQUEST_LOCATION) {
             Log.i(TAG, "Received response for location permissions request.");
 
             // We have requested multiple permissions for contacts, so all of them need to be
@@ -1780,13 +1777,13 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                 Log.i(TAG, "Location permissions were NOT granted.");
 
                 Intent intent = new Intent(PreMainActivity.this, NoPermissionsActivity.class);
-                intent.putExtra(AppConstants.INTENT_PERMISSION, REQUEST_LOCATION);
+                intent.putExtra(AppConstants.INTENT_PERMISSION, PermissionUtil.REQUEST_LOCATION);
                 intent.putExtra(AppConstants.INTENT_PERMISSIONS_RATIONALE, getResources().getString(R.string.permission_location_rationale));
                 startActivity(intent);
 
             }
 
-        } else if (requestCode == REQUEST_SMS) {
+        } else if (requestCode == PermissionUtil.REQUEST_SMS) {
             Log.i(TAG, "Received response for sms permissions request.");
 
             // We have requested multiple permissions for contacts, so all of them need to be
@@ -1802,7 +1799,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
                 fetchOTP();
             }
 
-        } else if (requestCode == REQUEST_CONTATCS) {
+        } else if (requestCode == PermissionUtil.REQUEST_CONTACTS) {
             // BEGIN_INCLUDE(permission_result)
             // Received permission result for contacts permission.
             Log.i(TAG, "Received response for Contact permission request.");

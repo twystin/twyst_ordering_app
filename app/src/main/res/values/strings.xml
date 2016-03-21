@@ -272,6 +272,7 @@ each friend who joins.</p>
 
     <string name="ok">OK</string>
     <string name="permission_contacts_rationale">Contacts permission is needed to get contact info</string>
+    <string name="permission_accounts_rationale">Accounts permission is needed to fetch your accounts</string>
     <string name="permission_location_rationale">Location permission is needed to fetch current location</string>
     <string name="permission_phone_rationale">Phone permission is needed to get phone info</string>
     <string name="permission_sms_rationale">SMS permission is needed to get send and recieve sms</string>
