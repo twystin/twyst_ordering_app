@@ -47,23 +47,19 @@ public class NumberDatabase extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         sqLiteDatabase.beginTransaction();
         try {
-            try {
-                JSONObject jsonObject = new JSONObject(loadJSONFromAsset);
-                JSONArray jsonArray = jsonObject.getJSONArray("result");
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                    String operator = jsonObject1.getString(FIELD_OPERATOR).toString();
-                    String circle = jsonObject1.getString(FIELD_CIRCLE).toString();
-                    String prefix = jsonObject1.getString(FIELD_PREFIX).toString();
-                    values.put(FIELD_OPERATOR, operator);
-                    values.put(FIELD_CIRCLE, circle);
-                    values.put(FIELD_PREFIX, prefix);
-                    sqLiteDatabase.insert(TABLE, null, values);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            JSONObject jsonObject = new JSONObject(loadJSONFromAsset);
+            JSONArray jsonArray = jsonObject.getJSONArray("result");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                String operator = jsonObject1.getString(FIELD_OPERATOR).toString();
+                String circle = jsonObject1.getString(FIELD_CIRCLE).toString();
+                String prefix = jsonObject1.getString(FIELD_PREFIX).toString();
+                values.put(FIELD_OPERATOR, operator);
+                values.put(FIELD_CIRCLE, circle);
+                values.put(FIELD_PREFIX, prefix);
+                sqLiteDatabase.insert(TABLE, null, values);
             }
-
+            
             sqLiteDatabase.setTransactionSuccessful();
             HttpService.getInstance().getSharedPreferences().edit().putBoolean(AppConstants.KEY_DATABASE_SAVED, true).apply();
         } catch (Exception e) {
