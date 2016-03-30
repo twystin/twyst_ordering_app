@@ -11,7 +11,7 @@
         android:orientation="horizontal"
         android:padding="16dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -32,10 +32,20 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="24dp"
+                android:layout_toRightOf="@+id/iv_rb_payment_select"
                 android:text="@string/online_payment"
                 android:textColor="@android:color/black"
                 android:textSize="16dp" />
-        </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_promo_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/tv_payment_option_name"
+                android:layout_below="@+id/tv_payment_option_name"
+                android:layout_marginTop="2dp"
+                android:textSize="10dp" />
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/ll_cashback_info"

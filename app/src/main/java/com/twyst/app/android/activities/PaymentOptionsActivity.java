@@ -80,6 +80,7 @@ public class PaymentOptionsActivity extends BaseActionActivity {
         pd1.setCashBackPercent(mOrderCheckoutResponse.getCod_cashback_percent());
         pd1.setCashBackAmount(mOrderCheckoutResponse.getCod_cashback());
         pd2.setPaymentMode(PAYMENT_MODE_MK_WALLET);
+        pd2.setPromoCode("Use code:MBKTWYST & Get flat 10% cashback");
         pd2.setCashBackPercent(mOrderCheckoutResponse.getInapp_cashback_percent());
         pd2.setCashBackAmount(mOrderCheckoutResponse.getInapp_cashback());
         pd3.setPaymentMode(PAYMENT_MODE_BANKING);
@@ -309,6 +310,9 @@ public class PaymentOptionsActivity extends BaseActionActivity {
 
             pdholder.checkedbox.setSelected(selectedPosition == position);
             pdholder.paymentmode.setText(mPaymentDataList.get(position).getPaymentMode());
+            if (mPaymentDataList.get(position).getPromoCode() != null) {
+                pdholder.tvPromoCode.setText(mPaymentDataList.get(position).getPromoCode());
+            }
 
             if (mPaymentDataList.get(position).getCashBackPercent() == 0) {
                 pdholder.cashbackIcon.setVisibility(View.INVISIBLE);
@@ -330,6 +334,7 @@ public class PaymentOptionsActivity extends BaseActionActivity {
     }
 
     static class PaymentDataHolder {
+        private TextView tvPromoCode;
         private TextView paymentmode;
         private TextView cashBackPercent;
         private ImageView checkedbox;
@@ -337,6 +342,7 @@ public class PaymentOptionsActivity extends BaseActionActivity {
         private TextView cashBackAmount;
 
         PaymentDataHolder(View view) {
+            tvPromoCode = (TextView) view.findViewById(R.id.tv_promo_code);
             paymentmode = (TextView) view.findViewById(R.id.tv_payment_option_name);
             cashBackPercent = (TextView) view.findViewById(R.id.tv_cashback_percent);
             cashBackAmount = (TextView) view.findViewById(R.id.tv_cashback_amount);

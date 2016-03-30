@@ -7,6 +7,7 @@ public class PaymentData {
     private String paymentMode;
     private double cashBackPercent;
     private int cashBackAmount;
+    private String promoCode;
 
     public int getCashBackAmount() {
         return cashBackAmount;
@@ -22,6 +23,14 @@ public class PaymentData {
 
     public void setPaymentMode(String paymentMode) {
         this.paymentMode = paymentMode;
+    }
+
+    public String getPromoCode() {
+        return promoCode;
+    }
+
+    public void setPromoCode(String promoCode) {
+        this.promoCode = promoCode;
     }
 
     public double getCashBackPercent() {
