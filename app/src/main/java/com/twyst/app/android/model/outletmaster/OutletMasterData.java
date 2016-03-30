@@ -10,13 +10,13 @@ import java.io.Serializable;
  */
 public class OutletMasterData implements Serializable {
     @SerializedName("outlet")
-    private Outlet outlet;
+    private OutletMaster outletMaster;
 
-    public Outlet getOutlet() {
-        return outlet;
+    public OutletMaster getOutletMaster() {
+        return outletMaster;
     }
 
-    public void setOutlet(Outlet outlet) {
-        this.outlet = outlet;
+    public void setOutletMaster(OutletMaster outletMaster) {
+        this.outletMaster = outletMaster;
     }
 }

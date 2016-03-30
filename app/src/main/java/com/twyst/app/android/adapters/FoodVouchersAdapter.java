@@ -105,6 +105,7 @@ public class FoodVouchersAdapter extends RecyclerView.Adapter<FoodVouchersAdapte
             outlet.setPhone(outletHeader.getPhone());
             Intent intent = new Intent(mContext, OrderOnlineActivity.class);
             intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_OBJECT, outlet);
+            intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_ID, outlet.get_id());
             intent.putExtra(AppConstants.INTENT_PARAM_FROM_FOOD_OFFER, true);
             mContext.startActivity(intent);
         }
