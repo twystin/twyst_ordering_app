@@ -46,6 +46,7 @@ import com.twyst.app.android.model.UserLocation;
 import com.twyst.app.android.model.Voucher;
 import com.twyst.app.android.model.WalletData;
 import com.twyst.app.android.model.WriteToUs;
+import com.twyst.app.android.model.banners.OrderBanner;
 import com.twyst.app.android.model.menu.MenuData;
 import com.twyst.app.android.model.outletmaster.OutletMasterData;
 import com.twyst.app.android.model.order.CancelOrder;
@@ -317,5 +318,9 @@ public class HttpService {
 
     public void postRecharge(String token, Recharge recharge, Callback<BaseResponse<Integer>> callback) {
         twystService.postRecharge(token, recharge, callback);
+    }
+
+    public void getOrderBanners(String token, Callback<BaseResponse<ArrayList<OrderBanner>>> callback) {
+        twystService.getOrderBanners(token, callback);
     }
 }

@@ -16,8 +16,10 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <RelativeLayout
+                android:id="@+id/rl_scrolling_pager"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
+                android:visibility="gone"
                 app:layout_collapseMode="parallax">
 
                 <cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager

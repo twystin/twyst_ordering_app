@@ -13,11 +13,6 @@ import android.widget.ImageView;
 
 import java.util.List;
 
-/**
- * ImagePagerAdapter
- *
- * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2014-2-23
- */
 public class ImagePagerAdapter extends PagerAdapter {
     Context mContext;
     LayoutInflater mLayoutInflater;
@@ -43,7 +38,6 @@ public class ImagePagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-
         ViewHolder holder = new ViewHolder();
         ImageView view = holder.imageView = new ImageView(mContext);
         view.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -51,7 +45,6 @@ public class ImagePagerAdapter extends PagerAdapter {
         view.setImageResource(mResources.get(position));
 
         container.addView(view);
-
         return view;
     }
 
@@ -61,7 +54,6 @@ public class ImagePagerAdapter extends PagerAdapter {
     }
 
     private static class ViewHolder {
-
         ImageView imageView;
     }
 }

@@ -38,6 +38,7 @@ import com.twyst.app.android.model.UserLocation;
 import com.twyst.app.android.model.Voucher;
 import com.twyst.app.android.model.WalletData;
 import com.twyst.app.android.model.WriteToUs;
+import com.twyst.app.android.model.banners.OrderBanner;
 import com.twyst.app.android.model.menu.MenuData;
 import com.twyst.app.android.model.outletmaster.OutletMasterData;
 import com.twyst.app.android.model.order.CancelOrder;
@@ -215,4 +216,8 @@ public interface TwystService {
 
     @POST("/api/v4/mobikwik/recharge")
     public void postRecharge(@Query("token") String token, @Body() Recharge recharge, Callback<BaseResponse<Integer>> callback);
+
+    @GET("/api/v4/banners")
+    public void getOrderBanners(@Query("token") String token, Callback<BaseResponse<ArrayList<OrderBanner>>> callback);
+
 }

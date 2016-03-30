@@ -34,7 +34,6 @@ import java.util.ArrayList;
  * Created by Anshul on 1/14/2016.
  */
 public class MainActivity extends BaseActivity implements SearchView.OnQueryTextListener {
-    protected boolean search;
     private DiscoverOutletFragment outletsFragment;
     private DiscoverOutletAdapter mSearchExpandableAdapter;
     private RecyclerView searchExpandableList;

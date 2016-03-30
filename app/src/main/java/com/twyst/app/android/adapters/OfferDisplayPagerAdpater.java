@@ -75,10 +75,7 @@ public class OfferDisplayPagerAdpater extends PagerAdapter {
             }
         });
 
-
         ((ViewPager) container).addView(itemView);
-
-
         return itemView;
     }
 
