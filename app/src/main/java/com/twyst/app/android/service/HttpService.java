@@ -47,6 +47,7 @@ import com.twyst.app.android.model.Voucher;
 import com.twyst.app.android.model.WalletData;
 import com.twyst.app.android.model.WriteToUs;
 import com.twyst.app.android.model.menu.MenuData;
+import com.twyst.app.android.model.outletmaster.OutletMasterData;
 import com.twyst.app.android.model.order.CancelOrder;
 import com.twyst.app.android.model.order.OrderCheckOut;
 import com.twyst.app.android.model.order.OrderCheckOutResponse;
@@ -162,6 +163,10 @@ public class HttpService {
             time = null;
         }
         twystService.getRecommendedOutlets(userToken, lat, lng, date, time, callback);
+    }
+
+    public void getOutletMasterDetail(String outletId, String userToken, Callback<BaseResponse<OutletMasterData>> callback) {
+        twystService.getOutletMasterDetail(outletId, userToken, callback);
     }
 
     public void getOutletDetails(String outletId, String userToken, String lat, String lng, Callback<BaseResponse<OutletDetailData>> callback) {
