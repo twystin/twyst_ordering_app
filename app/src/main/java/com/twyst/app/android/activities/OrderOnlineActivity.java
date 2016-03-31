@@ -43,7 +43,6 @@ import com.twyst.app.android.adapters.MenuExpandableAdapter;
 import com.twyst.app.android.adapters.MenuTabsPagerAdapter;
 import com.twyst.app.android.adapters.ScrollingOffersAdapter;
 import com.twyst.app.android.model.BaseResponse;
-import com.twyst.app.android.model.DeliveryZone;
 import com.twyst.app.android.model.Offer;
 import com.twyst.app.android.model.Outlet;
 import com.twyst.app.android.model.ReorderMenuAndCart;
@@ -52,8 +51,6 @@ import com.twyst.app.android.model.menu.MenuCategories;
 import com.twyst.app.android.model.menu.MenuData;
 import com.twyst.app.android.model.menu.SubCategories;
 import com.twyst.app.android.model.order.OrderSummary;
-import com.twyst.app.android.model.outletmaster.OutletMaster;
-import com.twyst.app.android.model.outletmaster.OutletMasterData;
 import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.SharedPreferenceSingleton;
@@ -94,6 +91,8 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     RecyclerView mCartRecyclerView;
     CartAdapter mCartAdapter;
     List<MenuExpandableAdapter> mMenuAdaptersList = new ArrayList();
+    boolean ifReordered = false;
+    //    private ArrayList<Items> cartItemsTobeAddedFromReorder = null;
     private ReorderMenuAndCart reorderMenuAndCart = null;
     private Outlet mOutlet;
 
@@ -106,27 +105,20 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
             finish();
         }
 
-        mSlidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-        mSlidingUpPanelLayout.setPanelHeight(0);
-
         mOutlet = (Outlet) getIntent().getSerializableExtra(AppConstants.INTENT_PARAM_OUTLET_OBJECT);
-        mOutletId = getIntent().getStringExtra(AppConstants.INTENT_PARAM_OUTLET_ID);
 
-        if (checkifReordered()) {
-            setupToolBar();
-            setupTopLayout();
-            setupCartRecyclerView();
-            setupScrollingOfferAdapters(mOutletId);
-            reorderedMenuOffers();
-        } else {
-            if (mOutlet != null) {
-                setupToolBar();
-                setupTopLayout();
-                setupCartRecyclerView();
-            }
-            fetchOutletMaster(mOutletId);
+        // To be deleted
+        if (mOutlet == null) {
+            mOutlet = new Outlet();
         }
 
+        setupToolBar();
+        setupTopLayout();
+        setupScrollingOfferAdapters();
+        setupCartRecyclerView();
+
+        ifReordered = checkifReordered();
+        fetchMenu();
     }
 
     @Override
@@ -227,139 +219,58 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         });
     }
 
-    private void reorderedMenuOffers() {
-        setupMenuFetched(reorderMenuAndCart.getMenuData());
-        hideProgressHUDInLayout();
-        for (Items item : reorderMenuAndCart.getCartItemsList()) {
-            addMenu(item);
-        }
-        mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-        findViewById(R.id.fNextMenu).setVisibility(View.GONE);
-        findViewById(R.id.bAddNewItem).setVisibility(View.VISIBLE);
-    }
-
-    private void fetchOutletMaster(String outletID) {
-        HttpService.getInstance().getOutletMasterDetail(outletID, UtilMethods.getUserToken(OrderOnlineActivity.this), new Callback<BaseResponse<OutletMasterData>>() {
-            @Override
-            public void success(BaseResponse<OutletMasterData> outletMasterDataBaseResponse, Response response) {
-                if (outletMasterDataBaseResponse.isResponse()) {
-                    OutletMasterData outletMasterData = outletMasterDataBaseResponse.getData();
-
-                    //Setting up Menu
-                    if (outletMasterData.getOutletMaster().getMenuData() != null) {
-                        setupMenuFetched(outletMasterData.getOutletMaster().getMenuData());
-                    } else {
-                        Toast.makeText(OrderOnlineActivity.this, "No data found", Toast.LENGTH_SHORT).show();
-                    }
-
-                    //Setting up offers
-                    populateOffers(outletMasterData.getOutletMaster().getOfferList());
-
-                    assignOutletFromMaster(outletMasterData.getOutletMaster(),
-                            Utils.getFilteredDeliveryZone(outletMasterData.getOutletMaster().getOutletAttributes().getOutletDelivery().getDeliveryZonesList()));
-
-                } else {
-                    Toast.makeText(OrderOnlineActivity.this, outletMasterDataBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-
-                hideProgressHUDInLayout();
-                hideSnackbar();
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                hideProgressHUDInLayout();
-                hideSnackbar();
-                handleRetrofitError(error);
-            }
-        });
-    }
-
-    private void assignOutletFromMaster(final OutletMaster outletMaster, final DeliveryZone filteredDeliveryZone) {
-        if (mOutlet != null) {
-            return;
-        }
-
-        if (filteredDeliveryZone == null) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(OrderOnlineActivity.this);
-            View dialogView = LayoutInflater.from(OrderOnlineActivity.this).inflate(R.layout.dialog_generic, null);
-            builder.setView(dialogView);
-            final AlertDialog dialog = builder.create();
-            dialog.setCanceledOnTouchOutside(true);
-            dialog.show();
-            TextView tvTitle = ((TextView) (dialog.findViewById(R.id.tv_title)));
-            tvTitle.setText("Continue?");
-            TextView tvMessage = (TextView) dialog.findViewById(R.id.tv_message);
-            tvMessage.setText("This outlet does not deliver to your selected location. You can change the location later. Continue?");
-            TextView tvOk = (TextView) dialog.findViewById(R.id.tv_ok);
-            tvOk.setText("Yes");
-            TextView tvCancel = (TextView) dialog.findViewById(R.id.tv_cancel);
-            tvCancel.setText("No");
-
-            dialog.findViewById(R.id.fOK).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    assignOutletFromMaster(outletMaster,
-                            Utils.getMinimumDeliveryZone(outletMaster.getOutletAttributes().getOutletDelivery().getDeliveryZonesList()));
-                    dialog.dismiss();
-                }
-            });
-            dialog.findViewById(R.id.fCancel).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                    finish();
-                }
-            });
+    private void fetchMenu() {
+        String menuId;
+        if (ifReordered) {
+            menuId = getIntent().getStringExtra(AppConstants.INTENT_PLACE_REORDER_MENUID);
         } else {
-            mOutlet = new Outlet();
-            mOutlet.setName(outletMaster.getName());
-            mOutlet.set_id(outletMaster.getId());
-            mOutlet.setDeliveryTime(filteredDeliveryZone.getDeliveryEstimatedTime());
-            mOutlet.setMinimumOrder(filteredDeliveryZone.getMinDeliveryAmt());
-            mOutlet.setPaymentOptions(filteredDeliveryZone.getPaymentOptions());
-            mOutlet.setBackground(outletMaster.getBackground());
-            mOutlet.setLogo(outletMaster.getBackground());
-            mOutlet.setPhone(outletMaster.getPhone());
-
-            setupToolBar();
-            setupTopLayout();
-            setupCartRecyclerView();
+            menuId = mOutlet.getMenuId();
         }
 
-    }
+        if (ifReordered) {
+            setupMenuFetched(reorderMenuAndCart.getMenuData());
+            hideProgressHUDInLayout();
+            for (Items item : reorderMenuAndCart.getCartItemsList()) {
+                addMenu(item);
+            }
+            mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+            findViewById(R.id.fNextMenu).setVisibility(View.GONE);
+            findViewById(R.id.bAddNewItem).setVisibility(View.VISIBLE);
+        } else {
 
-    private void fetchMenuData(String menuId) {
-        HttpService.getInstance().getMenu(menuId, UtilMethods.getUserToken(OrderOnlineActivity.this), new Callback<BaseResponse<MenuData>>() {
-            @Override
-            public void success(BaseResponse<MenuData> menuDataBaseResponse, Response response) {
-                if (menuDataBaseResponse.isResponse()) {
-                    MenuData menuData = menuDataBaseResponse.getData();
-                    if (menuData != null) {
-                        setupMenuFetched(menuData);
+            HttpService.getInstance().getMenu(menuId, UtilMethods.getUserToken(OrderOnlineActivity.this), new Callback<BaseResponse<MenuData>>() {
+                @Override
+                public void success(BaseResponse<MenuData> menuDataBaseResponse, Response response) {
+                    if (menuDataBaseResponse.isResponse()) {
+                        MenuData menuData = menuDataBaseResponse.getData();
+                        if (menuData != null) {
+                            setupMenuFetched(menuData);
+                        } else {
+                            Toast.makeText(OrderOnlineActivity.this, "No data found", Toast.LENGTH_SHORT).show();
+                        }
+
                     } else {
-                        Toast.makeText(OrderOnlineActivity.this, "No data found", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(OrderOnlineActivity.this, menuDataBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
-                } else {
-                    Toast.makeText(OrderOnlineActivity.this, menuDataBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    hideProgressHUDInLayout();
+                    hideSnackbar();
                 }
 
-                hideProgressHUDInLayout();
-                hideSnackbar();
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                hideProgressHUDInLayout();
-                hideSnackbar();
-                handleRetrofitError(error);
-            }
-        });
+                @Override
+                public void failure(RetrofitError error) {
+                    hideProgressHUDInLayout();
+                    hideSnackbar();
+                    handleRetrofitError(error);
+                }
+            });
+        }
     }
 
 
     private void setupMenuFetched(MenuData menuData) {
+        mOutletId = menuData.getOutlet();
+
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         mMenuTabsPagerAdapter =
                 new MenuTabsPagerAdapter(getUpdatedMenuCategoriesList(menuData.getMenuCategoriesList()), getSupportFragmentManager(), OrderOnlineActivity.this);
@@ -434,6 +345,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         mCartRecyclerView.setLayoutManager(mLayoutManager);
         mCartAdapter = new CartAdapter(OrderOnlineActivity.this);
         mCartRecyclerView.setAdapter(mCartAdapter);
+        mSlidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         tvCartCount = (TextView) findViewById(R.id.tv_cart_count);
         tvCartTotalCost = (TextView) findViewById(R.id.tvCartTotalCost);
         mSlidingUpPanelLayout.setPanelHeight(0);
@@ -537,11 +449,15 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     private void checkOut() {
         SharedPreferenceSingleton.getInstance().setPassedCartCheckoutStage(true);
 
+        Outlet outlet = mOutlet;
         if (getIntent().getBooleanExtra(AppConstants.INTENT_PARAM_FROM_FOOD_OFFER, false) || SharedPreferenceSingleton.getInstance().isSkipLocationClicked()) {
             Intent addressDetailsIntent = new Intent(OrderOnlineActivity.this, AddressDetailsActivity.class);
             OrderSummary orderSummary = new OrderSummary(mCartAdapter.getmCartItemsList(), mOutletId, mOutlet, null); // location will be set in AddressDetailsActivity
             OrderInfoSingleton.getInstance().setOrderSummary(orderSummary);
 
+//            Bundle addressDetailsBundle = new Bundle();
+//            addressDetailsBundle.putString(AppConstants.INTENT_PARAM_OUTLET_ID, mOutletId);
+//            addressDetailsBundle.putSerializable(AppConstants.INTENT_PARAM_CART_LIST, mCartAdapter.getmCartItemsList());
             startActivity(addressDetailsIntent);
         } else {
             UtilMethods.checkOut(SharedPreferenceSingleton.getInstance().getDeliveryLocation(), mCartAdapter.getmCartItemsList(), mOutletId, mOutlet, OrderOnlineActivity.this, false);
@@ -814,18 +730,29 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         }
     }
 
-    private void setupScrollingOfferAdapters(String outletID) {
-        if (outletID == null) {
+    private void setupScrollingOfferAdapters() {
+        if (mOutlet.get_id() == null) {
             return;
         }
 
         scrollingOfffersProgressBar = (CircularProgressBar) findViewById(R.id.scrollingOfffersProgressBar);
-        HttpService.getInstance().getOffers(outletID, UtilMethods.getUserToken(OrderOnlineActivity.this), new Callback<BaseResponse<ArrayList<Offer>>>() {
+        HttpService.getInstance().getOffers(mOutlet.get_id(), UtilMethods.getUserToken(OrderOnlineActivity.this), new Callback<BaseResponse<ArrayList<Offer>>>() {
             @Override
             public void success(BaseResponse<ArrayList<Offer>> offersBaseResponse, Response response) {
                 if (offersBaseResponse.isResponse()) {
+                    View view = (View) findViewById(R.id.middleLayout);
                     ArrayList<Offer> offersList = offersBaseResponse.getData();
-                    populateOffers(offersList);
+                    if (offersList.size() > 0) {
+                        view.setVisibility(View.VISIBLE);
+                        mScrollingOffersAdapter = new ScrollingOffersAdapter(OrderOnlineActivity.this, offersList);
+                        mScrollingOffersViewPager = (ViewPager) findViewById(R.id.scrollingOffersPager);
+                        mScrollingOffersViewPager.setPadding(32, 0, 32, 0);
+                        mScrollingOffersViewPager.setPageMargin(16);
+                        mScrollingOffersViewPager.setAdapter(mScrollingOffersAdapter);
+                    } else {
+                        view.setVisibility(View.GONE);
+                        Log.d("OrderOnlineActivity", "No offers available");
+                    }
                 } else {
                     Toast.makeText(OrderOnlineActivity.this, offersBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -841,21 +768,6 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                 handleRetrofitError(error);
             }
         });
-    }
-
-    private void populateOffers(ArrayList<Offer> offersList) {
-        View view = (View) findViewById(R.id.middleLayout);
-        if (offersList.size() > 0) {
-            view.setVisibility(View.VISIBLE);
-            mScrollingOffersAdapter = new ScrollingOffersAdapter(OrderOnlineActivity.this, offersList);
-            mScrollingOffersViewPager = (ViewPager) findViewById(R.id.scrollingOffersPager);
-            mScrollingOffersViewPager.setPadding(32, 0, 32, 0);
-            mScrollingOffersViewPager.setPageMargin(16);
-            mScrollingOffersViewPager.setAdapter(mScrollingOffersAdapter);
-        } else {
-            view.setVisibility(View.GONE);
-            Log.d("OrderOnlineActivity", "No offers available");
-        }
     }
 
     public void hideProgressHUDInOffers() {

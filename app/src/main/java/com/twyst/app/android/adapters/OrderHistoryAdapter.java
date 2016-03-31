@@ -340,6 +340,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         ArrayList<Items> itemsToBeAddedToCart = new ArrayList<>();
 
         if (menuData != null) {
+            String mOutletId = menuData.getOutlet();
             for (Items reOrderItem : reOrder.getItems()) {
 
                 boolean costIssueFound = false;
@@ -624,7 +625,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             intent.putExtra(AppConstants.INTENT_PLACE_REORDER_MENUID, orderHistory.getMenuId());
             intent.putExtra(AppConstants.INTENT_PLACE_REORDER, reorderMenuAndCart);
             intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_OBJECT, reorderOutlet);
-            intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_ID, reorderOutlet.get_id());
             mContext.startActivity(intent);
         }
     }

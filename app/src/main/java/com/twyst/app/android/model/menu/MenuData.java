@@ -12,6 +12,8 @@ public class MenuData implements Serializable{
     @SerializedName("menu_categories")
     private ArrayList<MenuCategories> menuCategoriesList;
 
+    private String outlet;
+
     @SerializedName("_id")
     private String id;
 
@@ -34,6 +36,14 @@ public class MenuData implements Serializable{
 
     public void setMenuCategoriesList(ArrayList<MenuCategories> menuCategoriesList) {
         this.menuCategoriesList = menuCategoriesList;
+    }
+
+    public String getOutlet() {
+        return outlet;
+    }
+
+    public void setOutlet(String outlet) {
+        this.outlet = outlet;
     }
 
     public String getMenuType() {
