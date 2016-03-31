@@ -80,7 +80,7 @@ public class PaymentOptionsActivity extends BaseActionActivity {
         pd1.setCashBackPercent(mOrderCheckoutResponse.getCod_cashback_percent());
         pd1.setCashBackAmount(mOrderCheckoutResponse.getCod_cashback());
         pd2.setPaymentMode(PAYMENT_MODE_MK_WALLET);
-        pd2.setPromoCode("Use code:MBKTWYST & Get flat 10% cashback");
+//        pd2.setPromoCode("Use code:MBKTWYST & Get flat 10% cashback");
         pd2.setCashBackPercent(mOrderCheckoutResponse.getInapp_cashback_percent());
         pd2.setCashBackAmount(mOrderCheckoutResponse.getInapp_cashback());
         pd3.setPaymentMode(PAYMENT_MODE_BANKING);
