@@ -40,6 +40,7 @@ import com.twyst.app.android.model.WalletData;
 import com.twyst.app.android.model.WriteToUs;
 import com.twyst.app.android.model.banners.OrderBanner;
 import com.twyst.app.android.model.menu.MenuData;
+import com.twyst.app.android.model.outletmaster.OutletMasterData;
 import com.twyst.app.android.model.order.CancelOrder;
 import com.twyst.app.android.model.order.OrderCheckOut;
 import com.twyst.app.android.model.order.OrderCheckOutResponse;
@@ -90,6 +91,9 @@ public interface TwystService {
 
     @GET("/api/v4/delivery/recos")
     public void getRecommendedOutlets(@Query("token") String token, @Query("lat") String lat, @Query("long") String lng, @Query("date") String date, @Query(value = "time", encodeValue = false) String time, Callback<BaseResponse<DiscoverData>> callback);
+
+    @GET("/api/v4/outlets/{outlet_id}")
+    public void getOutletMasterDetail(@Path("outlet_id") String outletId, @Query("token") String token, Callback<BaseResponse<OutletMasterData>> callback);
 
     @GET("/api/v4/outlets/{outlet_id}")
     public void getOutletDetails(@Path("outlet_id") String outletId, @Query("token") String token, @Query("lat") String lat, @Query("long") String lng, Callback<BaseResponse<OutletDetailData>> callback);
