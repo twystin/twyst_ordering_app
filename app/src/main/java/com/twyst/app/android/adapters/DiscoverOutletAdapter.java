@@ -137,6 +137,7 @@ public class DiscoverOutletAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 if (outlet.getMenuId() != null && outlet.getMenuId() != "") {
                     Intent intent = new Intent(view.getContext(), OrderOnlineActivity.class);
                     intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_OBJECT, outlet);
+                    intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_ID, outlet.get_id());
                     view.getContext().startActivity(intent);
                 } else {
                     Toast.makeText(mContext, "No menuId available!", Toast.LENGTH_SHORT).show();
