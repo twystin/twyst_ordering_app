@@ -7,18 +7,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.twyst.app.android.R;
+import com.twyst.app.android.activities.OrderSummaryActivity;
+import com.twyst.app.android.model.BaseResponse;
+import com.twyst.app.android.model.CouponCode;
+import com.twyst.app.android.model.CouponCodeResponse;
 import com.twyst.app.android.model.menu.Items;
 import com.twyst.app.android.model.order.OrderSummary;
+import com.twyst.app.android.service.HttpService;
+import com.twyst.app.android.util.TwystProgressHUD;
+import com.twyst.app.android.util.UtilMethods;
 import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by Vipul Sharma on 12/21/2015.
@@ -294,6 +309,24 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             }
 
+            //Coupon code
+            summaryViewHolderFooter.cbCouponApply.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        summaryViewHolderFooter.llCouponInitial.setVisibility(View.GONE);
+                        summaryViewHolderFooter.llCoupon.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+
+            summaryViewHolderFooter.bApplyCoupon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    applyCouponCode(summaryViewHolderFooter);
+                }
+            });
+
             if (isSuggestionToShow) {
                 summaryViewHolderFooter.etSuggestion.setVisibility(View.VISIBLE);
             } else {
@@ -301,6 +334,35 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
         }
+    }
+
+    private void applyCouponCode(final SummaryViewHolderFooter summaryViewHolderFooter) {
+        String couponCodeString = summaryViewHolderFooter.etCouponCode.getText().toString();
+
+        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(mContext, false, null);
+        CouponCode couponCode = new CouponCode(mOrderSummary.getOrderNumber(), mOrderSummary.getOutletId(), couponCodeString);
+        HttpService.getInstance().postApplyCouponCode(UtilMethods.getUserToken(mContext), couponCode, new Callback<BaseResponse<CouponCodeResponse>>() {
+            @Override
+            public void success(BaseResponse<CouponCodeResponse> baseResponse, Response response) {
+                if (baseResponse.isResponse()) {
+                    CouponCodeResponse couponCodeResponse = baseResponse.getData();
+                    double cashBack = couponCodeResponse.getCashBack();
+
+                } else {
+                    Toast.makeText(mContext, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                twystProgressHUD.dismiss();
+                UtilMethods.hideSnackbar();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                twystProgressHUD.dismiss();
+                UtilMethods.handleRetrofitError((OrderSummaryActivity) mContext, error);
+                UtilMethods.hideSnackbar();
+            }
+        });
     }
 
     private String costFormatter(double d) {
@@ -335,6 +397,12 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         LinearLayout llGrandTotal;
         TextView tvGrandTotal;
 
+        LinearLayout llCoupon;
+        LinearLayout llCouponInitial;
+        CheckBox cbCouponApply;
+        EditText etCouponCode;
+        FrameLayout bApplyCoupon;
+
         public EditText getEtSuggestion() {
             return etSuggestion;
         }
@@ -362,6 +430,12 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             this.llGrandTotal = (LinearLayout) itemView.findViewById(R.id.llGrandTotal);
             this.tvGrandTotal = (TextView) itemView.findViewById(R.id.tvGrandTotal);
             this.etSuggestion = (EditText) itemView.findViewById(R.id.etSuggestion);
+
+            this.llCoupon = (LinearLayout) itemView.findViewById(R.id.llCoupon);
+            this.llCouponInitial = (LinearLayout) itemView.findViewById(R.id.llCouponInitial);
+            this.cbCouponApply = (CheckBox) itemView.findViewById(R.id.cb_coupon_apply);
+            this.etCouponCode = (EditText) itemView.findViewById(R.id.et_coupon_code);
+            this.bApplyCoupon = (FrameLayout) itemView.findViewById(R.id.bApplyCoupon);
         }
     }
 

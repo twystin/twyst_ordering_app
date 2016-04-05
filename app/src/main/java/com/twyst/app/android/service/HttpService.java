@@ -13,6 +13,8 @@ import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.CashHistoryData;
 import com.twyst.app.android.model.Cashback;
 import com.twyst.app.android.model.CheckinData;
+import com.twyst.app.android.model.CouponCode;
+import com.twyst.app.android.model.CouponCodeResponse;
 import com.twyst.app.android.model.Data;
 import com.twyst.app.android.model.DiscoverData;
 import com.twyst.app.android.model.Feedback;
@@ -322,5 +324,9 @@ public class HttpService {
 
     public void getOrderBanners(String token, Callback<BaseResponse<ArrayList<OrderBanner>>> callback) {
         twystService.getOrderBanners(token, callback);
+    }
+
+    public void postApplyCouponCode(String token, CouponCode couponCode, Callback<BaseResponse<CouponCodeResponse>> callback) {
+        twystService.postApplyCouponCode(token, couponCode, callback);
     }
 }

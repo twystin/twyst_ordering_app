@@ -127,8 +127,8 @@ public class UtilMethods {
         SnackbarManager.dismiss();
     }
 
-    public static String getUserToken(Activity activity) {
-        SharedPreferences prefs = activity.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
+    public static String getUserToken(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");
     }
 

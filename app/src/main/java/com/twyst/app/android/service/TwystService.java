@@ -5,6 +5,8 @@ import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.CashHistoryData;
 import com.twyst.app.android.model.Cashback;
 import com.twyst.app.android.model.CheckinData;
+import com.twyst.app.android.model.CouponCode;
+import com.twyst.app.android.model.CouponCodeResponse;
 import com.twyst.app.android.model.Data;
 import com.twyst.app.android.model.DiscoverData;
 import com.twyst.app.android.model.Feedback;
@@ -219,5 +221,8 @@ public interface TwystService {
 
     @GET("/api/v4/banners")
     public void getOrderBanners(@Query("token") String token, Callback<BaseResponse<ArrayList<OrderBanner>>> callback);
+
+    @POST("/api/v4/order/apply/coupon")
+    public void postApplyCouponCode(@Query("token") String token, @Body() CouponCode couponCode, Callback<BaseResponse<CouponCodeResponse>> callback);
 
 }
