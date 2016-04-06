@@ -185,7 +185,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
 
         ImageView ivOutletImage = (ImageView) findViewById(R.id.outletImage);
         if (mOutlet.getBackground() != null)
-            Glide.with(ivOutletImage.getContext())
+            Glide.with(OrderOnlineActivity.this)
                     .load(mOutlet.getBackground())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(ivOutletImage);
@@ -675,10 +675,10 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                         mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.DRAGGING)) {
             mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         } else {
-            if (!searchView.isIconified()) {
+            if (searchView != null && !searchView.isIconified()) {
                 closeSearchView();
             } else {
-                if (mCartAdapter.getItemCount() > 0) {
+                if (mCartAdapter != null && mCartAdapter.getItemCount() > 0) {
                     askUserToDiscardOrder();
                 } else {
                     super.onBackPressed();
