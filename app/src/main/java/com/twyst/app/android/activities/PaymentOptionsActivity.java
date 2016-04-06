@@ -92,11 +92,12 @@ public class PaymentOptionsActivity extends BaseActionActivity {
         pd5.setCashBackPercent(mOrderCheckoutResponse.getInapp_cashback_percent());
         pd5.setCashBackAmount(mOrderCheckoutResponse.getInapp_cashback());
 
-        mPaymentDataList.add(pd1);
         mPaymentDataList.add(pd2);
         mPaymentDataList.add(pd3);
         mPaymentDataList.add(pd4);
         mPaymentDataList.add(pd5);
+
+        mPaymentDataList.add(pd1); //COD
 
         final PaymentArrayAdapter pdAdapter = new PaymentArrayAdapter();
         final View proceed = (View) findViewById(R.id.proceed_ok);
@@ -115,24 +116,24 @@ public class PaymentOptionsActivity extends BaseActionActivity {
         proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (pdAdapter.getSelectedPosition()) {
-                    case 0:
+                switch (mPaymentDataList.get(pdAdapter.getSelectedPosition()).getPaymentMode()) {
+                    case PAYMENT_MODE_COD:
                         //COD
                         cod();
                         break;
-                    case 1:
+                    case PAYMENT_MODE_MK_WALLET:
                         //Mobikwik Wallet
                         goToPayment(PaymentInstrumentType.MK_WALLET);
                         break;
-                    case 2:
+                    case PAYMENT_MODE_BANKING:
                         //Net Banking
                         goToPayment(PaymentInstrumentType.NETBANKING);
                         break;
-                    case 3:
+                    case PAYMENT_MODE_CREDIT_CARD:
                         //Credit Card
                         goToPayment(PaymentInstrumentType.CREDIT_CARD);
                         break;
-                    case 4:
+                    case PAYMENT_MODE_DEBIT_CARD:
                         //Debit Card
                         goToPayment(PaymentInstrumentType.DEBIT_CARD);
                         break;
@@ -286,25 +287,20 @@ public class PaymentOptionsActivity extends BaseActionActivity {
                 pdholder = (PaymentDataHolder) row.getTag();
             }
 
-            if (!isCODAvailable && position == 0) {
-                row.setAlpha(.5f);
-                row.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        return true;
-                    }
-                });
+            if (!isCODAvailable && mPaymentDataList.get(position).getPaymentMode().equals(PAYMENT_MODE_COD)) {
+//                row.setAlpha(.5f);
+//                row.setOnTouchListener(new View.OnTouchListener() {
+//                    @Override
+//                    public boolean onTouch(View v, MotionEvent event) {
+//                        return true;
+//                    }
+//                });
+                row.setVisibility(View.GONE);
             }
 
 
-            if (!isOnlineAvailable && (position == 1 || position == 2 || position == 3 || position == 4)) {
-                row.setAlpha(.5f);
-                row.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        return true;
-                    }
-                });
+            if (!isOnlineAvailable && !mPaymentDataList.get(position).getPaymentMode().equals(PAYMENT_MODE_COD)) {
+                row.setVisibility(View.GONE);
             }
 
             pdholder.checkedbox.setSelected(selectedPosition == position);
