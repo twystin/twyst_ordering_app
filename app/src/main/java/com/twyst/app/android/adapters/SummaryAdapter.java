@@ -355,7 +355,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (baseResponse.isResponse()) {
                     CouponCodeResponse couponCodeResponse = baseResponse.getData();
                     String cashBack = couponCodeResponse.getCashBack();
-                    String cashBackText = "You will get ₹ " + cashBack + " Twyst cash for this order";
+                    String cashBackText = "Smart move! You earned ₹ " + cashBack + " Twyst Cash for this order";
                     summaryViewHolderFooter.tvCouponDesc.setText(cashBackText);
                     summaryViewHolderFooter.tvCouponDesc.setVisibility(View.VISIBLE);
 
