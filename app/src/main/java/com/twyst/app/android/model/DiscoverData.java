@@ -9,7 +9,6 @@ import java.util.ArrayList;
  * Created by rahuls on 12/8/15.
  */
 public class DiscoverData implements Serializable{
-
     @SerializedName("outlets")
     private ArrayList<Outlet> outlets;
 

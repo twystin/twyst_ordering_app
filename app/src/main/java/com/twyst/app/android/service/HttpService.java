@@ -168,6 +168,10 @@ public class HttpService {
         twystService.getRecommendedOutlets(userToken, lat, lng, date, time, callback);
     }
 
+    public void getBannerOutlets(String bannerID, String userToken, Callback<BaseResponse<DiscoverData>> callback) {
+        twystService.getBannerOutlets(bannerID, userToken, callback);
+    }
+
     public void getOutletMasterDetail(String outletId, String userToken, Callback<BaseResponse<OutletMasterData>> callback) {
         twystService.getOutletMasterDetail(outletId, userToken, callback);
     }

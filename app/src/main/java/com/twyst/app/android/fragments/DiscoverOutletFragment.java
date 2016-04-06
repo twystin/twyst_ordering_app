@@ -140,12 +140,12 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
                 case AppConstants.CHOOSE_LOCATION_OPTION_CURRENT:
                     mAddressDetailsLocationData = sharedPreferenceSingleton.getDeliveryLocation();
                     updateCurrentAddressName(mAddressDetailsLocationData);
-                    fetchOutlets(1);
+                    fetchOutlets();
                     break;
                 case AppConstants.CHOOSE_LOCATION_OPTION_SAVED:
                     mAddressDetailsLocationData = sharedPreferenceSingleton.getDeliveryLocation();
                     updateCurrentAddressName(mAddressDetailsLocationData);
-                    fetchOutlets(1);
+                    fetchOutlets();
                     break;
                 case AppConstants.CHOOSE_LOCATION_OPTION_ADD:
                     mAddressDetailsLocationData = sharedPreferenceSingleton.getDeliveryLocation();
@@ -153,7 +153,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
                     if (getActivity().getIntent().getBooleanExtra(AppConstants.CHOOSE_LOCATION_DEFAULT, false)) {
                         showDefaultLocationError.setVisibility(View.VISIBLE);
                     }
-                    fetchOutlets(1);
+                    fetchOutlets();
                     break;
                 case AppConstants.CHOOSE_LOCATION_OPTION_SKIPPED:
                     Fragment discoverOutletFragment = (DiscoverOutletFragment) (getActivity().getSupportFragmentManager().getFragments().get(0));
@@ -166,7 +166,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
         } else {
             mAddressDetailsLocationData = sharedPreferenceSingleton.getDeliveryLocation();
             updateCurrentAddressName(mAddressDetailsLocationData);
-            fetchOutlets(1);
+            fetchOutlets();
         }
 
         showErrorLayout.setOnClickListener(new View.OnClickListener() {
@@ -198,29 +198,25 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
     }
 
     private void setupBannersViewPager(final View view) {
-//        List<Integer> imageIdList = new ArrayList<Integer>();
-//        imageIdList.add(R.drawable.banner1);
-//        imageIdList.add(R.drawable.banner2);
-//        imageIdList.add(R.drawable.banner3);
-//        imageIdList.add(R.drawable.banner4);
-
         HttpService.getInstance().getOrderBanners(UtilMethods.getUserToken(getActivity()), new Callback<BaseResponse<ArrayList<OrderBanner>>>() {
             @Override
             public void success(BaseResponse<ArrayList<OrderBanner>> arrayListBaseResponse, Response response) {
-                ArrayList<OrderBanner> orderBannerList = arrayListBaseResponse.getData();
-                if (orderBannerList.size() > 0) {
-                    AutoScrollViewPager bannersViewPager = (AutoScrollViewPager) view.findViewById(R.id.ads_pager);
-                    bannersViewPager.setAdapter(new ScrollingOrderBanners(getActivity(), orderBannerList));
-                    view.findViewById(R.id.rl_scrolling_pager).setVisibility(View.VISIBLE);
+                if (arrayListBaseResponse.isResponse()) {
+                    ArrayList<OrderBanner> orderBannerList = arrayListBaseResponse.getData();
+                    if (orderBannerList.size() > 0) {
+                        AutoScrollViewPager bannersViewPager = (AutoScrollViewPager) view.findViewById(R.id.ads_pager);
+                        bannersViewPager.setAdapter(new ScrollingOrderBanners(getActivity(), orderBannerList));
+                        view.findViewById(R.id.rl_scrolling_pager).setVisibility(View.VISIBLE);
 
-                    mIndicator = (CirclePageIndicator) view.findViewById(R.id.indicator);
-                    mIndicator.setViewPager(bannersViewPager);
-                    mIndicator.setOnPageChangeListener(new MyOnPageChangeListener());
+                        mIndicator = (CirclePageIndicator) view.findViewById(R.id.indicator);
+                        mIndicator.setViewPager(bannersViewPager);
+                        mIndicator.setOnPageChangeListener(new MyOnPageChangeListener());
 
-                    bannersViewPager.setInterval(5000);
-                    bannersViewPager.startAutoScroll();
-                    bannersViewPager.setCurrentItem(0);
-                    bannersViewPager.setScrollDurationFactor(5);
+                        bannersViewPager.setInterval(5000);
+                        bannersViewPager.startAutoScroll();
+                        bannersViewPager.setCurrentItem(0);
+                        bannersViewPager.setScrollDurationFactor(5);
+                    }
                 }
             }
 
@@ -237,7 +233,6 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
         if (mAddressDetailsLocationData != null) {
             SharedPreferenceSingleton.getInstance().saveCurrentUsedLocation(mAddressDetailsLocationData);
         }
-
     }
 
     public void updateCurrentAddressName(AddressDetailsLocationData mAddressDetailsLocationData) {
@@ -315,7 +310,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
 
                     if (!newAddressLocationData.equals(mAddressDetailsLocationData)) {
                         mAddressDetailsLocationData = newAddressLocationData;
-                        fetchOutlets(1);
+                        fetchOutlets();
                     }
                 }
             }
@@ -327,16 +322,9 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
     public void onReceiveAddress(int resultCode, Address address) {
         if (resultCode == AppConstants.SHOW_CURRENT_LOCATION) {
             int index = address.getMaxAddressLineIndex();
-//            String mAddressOutput = "";
-//            for (int i = 0; i < index; i++) {
-//                mAddressOutput += address.getAddressLine(i);
-//                mAddressOutput += ", ";
-//            }
-//            mAddressOutput += address.getAddressLine(index);
-//            mAddressDetailsLocationData.setLine1(mAddressOutput);
             if (index >= 0) mAddressDetailsLocationData.setLine1(address.getAddressLine(0));
             if (index >= 1) mAddressDetailsLocationData.setLine2(address.getAddressLine(1));
-//            if (index >= 2)mAddressDetailsLocationData.setLandmark(address.getAddressLine(2));
+
             if (address.getSubAdminArea() != null) {
                 mAddressDetailsLocationData.setCity(address.getSubAdminArea()); // to be checked
             } else {
@@ -346,7 +334,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
 
             sharedPreferenceSingleton.saveCurrentUsedLocation(mAddressDetailsLocationData);
             updateCurrentAddressName(mAddressDetailsLocationData);
-            fetchOutlets(1);
+            fetchOutlets();
         } else {
             Toast.makeText(getActivity(), R.string.couldnot_fetch_location, Toast.LENGTH_LONG).show();
             Intent intent = new Intent(getActivity(), AddressMapActivity.class);
@@ -365,7 +353,6 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
             mAddressDetailsLocationData.setCoords(coords);
             locationFetchUtil.requestAddress(location, false);
         } else {
-//            Toast.makeText(getActivity(), "onReceiveLocationError : " + resultCode, Toast.LENGTH_LONG).show();
             Toast.makeText(getActivity(), R.string.couldnot_fetch_location, Toast.LENGTH_LONG).show();
             resolveError(resultCode);
         }
@@ -389,7 +376,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
             updateCurrentAddressName(mAddressDetailsLocationData);
             setupDiscoverAdapter();
             refreshDateTime();
-            fetchOutlets(1);
+            fetchOutlets();
         }
     }
 
@@ -414,64 +401,29 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
         mRecyclerView.setAdapter(discoverAdapter);
     }
 
-    private void fetchOutlets(final int start) {
+    private void fetchOutlets() {
         discoverAdapter.getItems().clear();
         discoverAdapter.notifyDataSetChanged();
         noDataHolder.noDataOutlet.setVisibility(View.GONE);
         showProgressBar();
         fabFilter.setVisibility(View.GONE);
-//        String latitude = getPrefs().getString(AppConstants.PREFERENCE_CURRENT_USED_LAT, null);
-//        String longitude = getPrefs().getString(AppConstants.PREFERENCE_CURRENT_USED_LNG, null);
+
         String latitude = mAddressDetailsLocationData != null ? mAddressDetailsLocationData.getCoords().getLat() : "28.4733044";
         String longitude = mAddressDetailsLocationData != null ? mAddressDetailsLocationData.getCoords().getLon() : "77.0994511";
 
-        Log.d(getTagName(), "Going to fetch outlets with, start: " + start + ", lat " + latitude + ", long: " + longitude + ", date: " + mDate + ", time: " + mTime);
         fetchingOutlets = true;
-
-        int end = start + AppConstants.DISCOVER_LIST_PAGESIZE - 1;
-
         HttpService.getInstance().getRecommendedOutlets(getUserToken(), latitude, longitude, mDate, mTime, new Callback<BaseResponse<DiscoverData>>() {
             @Override
             public void success(BaseResponse<DiscoverData> arrayListBaseResponse, Response response) {
                 fetchingOutlets = false;
-
-                fetchedOutlets = arrayListBaseResponse.getData().getOutlets();
-                String twystCash = arrayListBaseResponse.getData().getTwystCash();
-
-                if (fetchedOutlets != null) {
-                    if (fetchedOutlets.isEmpty()) {
-                        outletsNotFound = true;
-                        discoverAdapter.setOutletsNotFound(true);
-                        discoverAdapter.getItems().clear();
-                        discoverAdapter.notifyDataSetChanged();
-                        noDataHolder.noDataOutlet.setVisibility(View.VISIBLE);
-                        noDataHolder.tvNoData.setText(getResources().getString(R.string.no_data_outlet));
-                        noDataHolder.ivNoData.setImageResource(R.drawable.no_data_order);
-                    } else {
-                        if (start == 1) {//Clear the items in adapter, fresh download
-                            Log.d(getTagName(), "clearing outlets on discover screen");
-                            discoverAdapter.getItems().clear();
-                        }
-
-                        outletsNotFound = false;
-                        discoverAdapter.setOutletsNotFound(false);
-                        discoverAdapter.getItems().addAll(fetchedOutlets);
-                        discoverAdapter.notifyDataSetChanged();
-                        LinkedHashSet<String> cuisinesSet = new LinkedHashSet<String>();
-                        for (Outlet outlet : fetchedOutlets) {
-                            cuisinesSet.addAll(outlet.getCuisines());
-                        }
-
-                        ArrayList<String> cuisinesList = new ArrayList<String>();
-                        for (String cuisine : cuisinesSet) {
-                            cuisinesList.add(cuisine);
-                        }
-                        cuisinesSet = null;
-                        FilterOptions.updateCuisinesList(cuisinesList);
-
-                        int a = 0;
-                    }
+                if (arrayListBaseResponse.isResponse()) {
+                    fetchedOutlets = arrayListBaseResponse.getData().getOutlets();
+                    String twystCash = arrayListBaseResponse.getData().getTwystCash();
+                    updateOutlets(fetchedOutlets);
+                } else {
+                    Toast.makeText(getActivity(), arrayListBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+
                 hideProgressBar();
                 fabFilter.setVisibility(View.VISIBLE);
             }
@@ -483,6 +435,73 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
                 mActivity.handleRetrofitError(error);
             }
         });
+    }
+
+    public void fetchOutletsBanners(String bannerID) {
+        discoverAdapter.getItems().clear();
+        discoverAdapter.notifyDataSetChanged();
+        noDataHolder.noDataOutlet.setVisibility(View.GONE);
+        showProgressBar();
+        fabFilter.setVisibility(View.GONE);
+
+        fetchingOutlets = true;
+        HttpService.getInstance().getBannerOutlets(bannerID, getUserToken(), new Callback<BaseResponse<DiscoverData>>() {
+            @Override
+            public void success(BaseResponse<DiscoverData> arrayListBaseResponse, Response response) {
+                fetchingOutlets = false;
+
+                if (arrayListBaseResponse.isResponse()) {
+                    fetchedOutlets = arrayListBaseResponse.getData().getOutlets();
+                    String twystCash = arrayListBaseResponse.getData().getTwystCash();
+
+                    updateOutlets(fetchedOutlets);
+                } else {
+                    Toast.makeText(getActivity(), arrayListBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                hideProgressBar();
+                fabFilter.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                fetchingOutlets = false;
+                hideProgressBar();
+                mActivity.handleRetrofitError(error);
+            }
+        });
+    }
+
+    private void updateOutlets(ArrayList<Outlet> fetchedOutlets) {
+        if (fetchedOutlets != null) {
+            if (fetchedOutlets.isEmpty()) {
+                outletsNotFound = true;
+                discoverAdapter.setOutletsNotFound(true);
+                discoverAdapter.getItems().clear();
+                discoverAdapter.notifyDataSetChanged();
+                noDataHolder.noDataOutlet.setVisibility(View.VISIBLE);
+                noDataHolder.tvNoData.setText(getResources().getString(R.string.no_data_outlet));
+                noDataHolder.ivNoData.setImageResource(R.drawable.no_data_order);
+            } else {
+                outletsNotFound = false;
+                discoverAdapter.setOutletsNotFound(false);
+                discoverAdapter.getItems().addAll(fetchedOutlets);
+                discoverAdapter.notifyDataSetChanged();
+                LinkedHashSet<String> cuisinesSet = new LinkedHashSet<String>();
+                for (Outlet outlet : fetchedOutlets) {
+                    cuisinesSet.addAll(outlet.getCuisines());
+                }
+
+                ArrayList<String> cuisinesList = new ArrayList<String>();
+                for (String cuisine : cuisinesSet) {
+                    cuisinesList.add(cuisine);
+                }
+                cuisinesSet = null;
+                FilterOptions.updateCuisinesList(cuisinesList);
+
+                int a = 0;
+            }
+        }
     }
 
     private void hideProgressBar() {

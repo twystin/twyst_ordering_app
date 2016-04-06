@@ -94,6 +94,9 @@ public interface TwystService {
     @GET("/api/v4/delivery/recos")
     public void getRecommendedOutlets(@Query("token") String token, @Query("lat") String lat, @Query("long") String lng, @Query("date") String date, @Query(value = "time", encodeValue = false) String time, Callback<BaseResponse<DiscoverData>> callback);
 
+    @GET("/api/v4/banners/outlet/{banner_id}")
+    public void getBannerOutlets(@Path("banner_id") String bannerID, @Query("token") String token, Callback<BaseResponse<DiscoverData>> callback);
+
     @GET("/api/v4/outlets/{outlet_id}")
     public void getOutletMasterDetail(@Path("outlet_id") String outletId, @Query("token") String token, Callback<BaseResponse<OutletMasterData>> callback);
 
