@@ -93,12 +93,16 @@ public class PaymentOptionsActivity extends BaseActionActivity {
         pd5.setCashBackPercent(mOrderCheckoutResponse.getInapp_cashback_percent());
         pd5.setCashBackAmount(mOrderCheckoutResponse.getInapp_cashback());
 
-        mPaymentDataList.add(pd2);
-        mPaymentDataList.add(pd3);
-        mPaymentDataList.add(pd4);
-        mPaymentDataList.add(pd5);
+        if (isOnlineAvailable){
+            mPaymentDataList.add(pd2);
+            mPaymentDataList.add(pd3);
+            mPaymentDataList.add(pd4);
+            mPaymentDataList.add(pd5);
+        }
 
-        mPaymentDataList.add(pd1); //COD
+        if (isCODAvailable){
+            mPaymentDataList.add(pd1); //COD
+        }
 
         final PaymentArrayAdapter pdAdapter = new PaymentArrayAdapter();
         final View proceed = (View) findViewById(R.id.proceed_ok);
@@ -286,22 +290,6 @@ public class PaymentOptionsActivity extends BaseActionActivity {
                 row.setTag(pdholder);
             } else {
                 pdholder = (PaymentDataHolder) row.getTag();
-            }
-
-            if (!isCODAvailable && mPaymentDataList.get(position).getPaymentMode().equals(PAYMENT_MODE_COD)) {
-//                row.setAlpha(.5f);
-//                row.setOnTouchListener(new View.OnTouchListener() {
-//                    @Override
-//                    public boolean onTouch(View v, MotionEvent event) {
-//                        return true;
-//                    }
-//                });
-                row.setVisibility(View.GONE);
-            }
-
-
-            if (!isOnlineAvailable && !mPaymentDataList.get(position).getPaymentMode().equals(PAYMENT_MODE_COD)) {
-                row.setVisibility(View.GONE);
             }
 
             pdholder.checkedbox.setSelected(selectedPosition == position);
