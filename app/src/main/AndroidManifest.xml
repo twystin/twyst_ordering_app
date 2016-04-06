@@ -267,6 +267,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
+        <activity
+            android:name=".activities.WebViewActivity"
+            android:label="@string/web_view_activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
         <!--
           .
           WakefulBroadcastReceiver that will receive intents from GCM

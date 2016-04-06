@@ -132,6 +132,9 @@ public class AppConstants {
     public static final String INTENT_PARAM_CHECKIN_OUTLET_ID = "checkin_outlet_id";
     public static final String INTENT_PARAM_CHECKIN_COUNT = "checkin_count";
 
+    public static final String INTENT_PARAM_WEBVIEW_URL = "webview_url";
+    public static final String INTENT_PARAM_WEBVIEW_HEADER = "webview_header";
+
     public static final String INTENT_PARAM_FROM_DRAWER = "from_drawer";
     public static final String INTENT_PARAM_FROM_PUSH_NOTIFICATION_CLICKED = "from_push_notification";
     public static final String INTENT_PARAM_FROM_ORDER_HISTORY = "from_order_history";

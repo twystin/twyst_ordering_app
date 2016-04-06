@@ -90,6 +90,7 @@
 
     <string name="title_activity_food_vouchers">Food Vouchers</string>
     <string name="title_activity_twyst_cash_history">My Twyst Cash</string>
+    <string name="web_view_activity">Detail</string>
     <string name="my_twyst_cash_balance">My Twyst Cash Balance</string>
     <string name="earn_more">Earn More</string>
 
