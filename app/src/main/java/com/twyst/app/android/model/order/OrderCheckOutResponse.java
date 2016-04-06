@@ -24,6 +24,17 @@ public class OrderCheckOutResponse implements Serializable {
     @SerializedName("payment_options")
     private ArrayList<String> paymentOptionsList;
 
+    @SerializedName("mobikwik_cashback")
+    private String mobikwikCashback;
+
+    public String getMobikwikCashback() {
+        return mobikwikCashback;
+    }
+
+    public void setMobikwikCashback(String mobikwikCashback) {
+        this.mobikwikCashback = mobikwikCashback;
+    }
+
     public ArrayList<String> getPaymentOptionsList() {
         return paymentOptionsList;
     }
