@@ -329,4 +329,8 @@ public class HttpService {
     public void postApplyCouponCode(String token, CouponCode couponCode, Callback<BaseResponse<CouponCodeResponse>> callback) {
         twystService.postApplyCouponCode(token, couponCode, callback);
     }
+
+    public void postRemoveCouponCode(String token, CouponCode couponCode, Callback<BaseResponse> callback) {
+        twystService.postRemoveCouponCode(token, couponCode, callback);
+    }
 }

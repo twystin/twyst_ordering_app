@@ -225,4 +225,6 @@ public interface TwystService {
     @POST("/api/v4/order/apply/coupon")
     public void postApplyCouponCode(@Query("token") String token, @Body() CouponCode couponCode, Callback<BaseResponse<CouponCodeResponse>> callback);
 
+    @POST("/api/v4/order/remove/coupon")
+    public void postRemoveCouponCode(@Query("token") String token, @Body() CouponCode couponCode, Callback<BaseResponse> callback);
 }

@@ -3,6 +3,7 @@ package com.twyst.app.android.adapters;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -339,6 +340,13 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private void applyCouponCode(final SummaryViewHolderFooter summaryViewHolderFooter) {
         String couponCodeString = summaryViewHolderFooter.etCouponCode.getText().toString();
 
+        if (TextUtils.isEmpty(couponCodeString)) {
+            summaryViewHolderFooter.etCouponCode.setError("Please enter coupon code!");
+            return;
+        }
+
+        summaryViewHolderFooter.etCouponCode.setError(null);
+
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(mContext, false, null);
         CouponCode couponCode = new CouponCode(mOrderSummary.getOrderNumber(), mOrderSummary.getOutletId(), couponCodeString);
         HttpService.getInstance().postApplyCouponCode(UtilMethods.getUserToken(mContext), couponCode, new Callback<BaseResponse<CouponCodeResponse>>() {
@@ -346,7 +354,20 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             public void success(BaseResponse<CouponCodeResponse> baseResponse, Response response) {
                 if (baseResponse.isResponse()) {
                     CouponCodeResponse couponCodeResponse = baseResponse.getData();
-                    double cashBack = couponCodeResponse.getCashBack();
+                    String cashBack = couponCodeResponse.getCashBack();
+                    String cashBackText = "You will get ₹ " + cashBack + " Twyst cash for this order";
+                    summaryViewHolderFooter.tvCouponDesc.setText(cashBackText);
+                    summaryViewHolderFooter.tvCouponDesc.setVisibility(View.VISIBLE);
+
+                    summaryViewHolderFooter.tvApplyCoupon.setText("Remove");
+                    summaryViewHolderFooter.etCouponCode.setEnabled(false);
+
+                    summaryViewHolderFooter.bApplyCoupon.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            removeCouponCode(summaryViewHolderFooter);
+                        }
+                    });
 
                 } else {
                     Toast.makeText(mContext, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();
@@ -363,6 +384,45 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 UtilMethods.hideSnackbar();
             }
         });
+    }
+
+    private void removeCouponCode(final SummaryViewHolderFooter summaryViewHolderFooter) {
+        String couponCodeString = summaryViewHolderFooter.etCouponCode.getText().toString();
+
+        final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(mContext, false, null);
+        CouponCode couponCode = new CouponCode(mOrderSummary.getOrderNumber(), mOrderSummary.getOutletId(), couponCodeString);
+        HttpService.getInstance().postRemoveCouponCode(UtilMethods.getUserToken(mContext), couponCode, new Callback<BaseResponse>() {
+            @Override
+            public void success(BaseResponse baseResponse, Response response) {
+                if (baseResponse.isResponse()) {
+                    summaryViewHolderFooter.tvCouponDesc.setVisibility(View.GONE);
+
+                    summaryViewHolderFooter.tvApplyCoupon.setText("Apply");
+                    summaryViewHolderFooter.etCouponCode.setEnabled(true);
+
+                    summaryViewHolderFooter.bApplyCoupon.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            applyCouponCode(summaryViewHolderFooter);
+                        }
+                    });
+
+                } else {
+                    Toast.makeText(mContext, baseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                twystProgressHUD.dismiss();
+                UtilMethods.hideSnackbar();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                twystProgressHUD.dismiss();
+                UtilMethods.handleRetrofitError((OrderSummaryActivity) mContext, error);
+                UtilMethods.hideSnackbar();
+            }
+        });
+
     }
 
     private String costFormatter(double d) {
@@ -402,6 +462,8 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         CheckBox cbCouponApply;
         EditText etCouponCode;
         FrameLayout bApplyCoupon;
+        TextView tvApplyCoupon;
+        TextView tvCouponDesc;
 
         public EditText getEtSuggestion() {
             return etSuggestion;
@@ -436,6 +498,8 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             this.cbCouponApply = (CheckBox) itemView.findViewById(R.id.cb_coupon_apply);
             this.etCouponCode = (EditText) itemView.findViewById(R.id.et_coupon_code);
             this.bApplyCoupon = (FrameLayout) itemView.findViewById(R.id.bApplyCoupon);
+            this.tvApplyCoupon = (TextView) itemView.findViewById(R.id.tv_apply_coupon);
+            this.tvCouponDesc = (TextView) itemView.findViewById(R.id.tv_coupon_desc);
         }
     }
 

@@ -9,13 +9,13 @@ import java.io.Serializable;
  */
 public class CouponCodeResponse implements Serializable {
     @SerializedName("cashback")
-    private double cashBack;
+    private String cashBack;
 
-    public double getCashBack() {
+    public String getCashBack() {
         return cashBack;
     }
 
-    public void setCashBack(double cashBack) {
+    public void setCashBack(String cashBack) {
         this.cashBack = cashBack;
     }
 }
