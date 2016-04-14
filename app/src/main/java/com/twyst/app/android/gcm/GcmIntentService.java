@@ -8,7 +8,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
@@ -23,6 +25,12 @@ import com.twyst.app.android.activities.NotificationActivity;
 import com.twyst.app.android.activities.OrderTrackingActivity;
 import com.twyst.app.android.model.OrderTrackingState;
 import com.twyst.app.android.util.AppConstants;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Created by satish on 03/01/15.
@@ -78,7 +86,7 @@ public class GcmIntentService extends IntentService {
                 if (!TextUtils.isEmpty(extras.getString(OrderTrackingState.ORDER_ID))) {
                     sendOrderTrackingNotification(extras);
                 } else {
-                    sendNotification(extras.getString("title"), extras.getString("message"), extras.getString("url"));
+                    sendNotification(extras);
                 }
             }
         }
@@ -90,7 +98,6 @@ public class GcmIntentService extends IntentService {
         String time = extras.getString(OrderTrackingState.TIME);
         String orderID = extras.getString(OrderTrackingState.ORDER_ID);
         String state = extras.getString(OrderTrackingState.STATE);
-        String title = extras.getString(OrderTrackingState.TITLE);
         String message = extras.getString(OrderTrackingState.MESSAGE);
 
         OrderTrackingState.addToList(orderID, state, message, time, this);
@@ -102,77 +109,21 @@ public class GcmIntentService extends IntentService {
             orderTrackingActivity.refreshListServer(orderID);
         }
 
-        NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent notificationIntent = new Intent(this, OrderTrackingActivity.class);
         notificationIntent.putExtra(AppConstants.INTENT_PARAM_FROM_PUSH_NOTIFICATION_CLICKED, true);
         notificationIntent.putExtra(AppConstants.INTENT_ORDER_ID, orderID);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 10, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        String notificationTitle = TextUtils.isEmpty(title) ? getString(R.string.app_name) : title;
-
-        NotificationCompat.Style style = new NotificationCompat.BigTextStyle()
-                .bigText(message)
-                .setBigContentTitle(notificationTitle);
-
-        if (style != null) {
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                    .setContentIntent(contentIntent)
-                    .setAutoCancel(true)
-                    .setDefaults(Notification.DEFAULT_ALL)
-                    .setSmallIcon(R.drawable.ic_stat_notify)
-                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
-                    .setColor(getResources().getColor(R.color.app_accent_color))
-                    .setStyle(style)
-                    .setContentTitle(notificationTitle)
-                    .setContentText(message);
-
-            mNotificationManager.notify(getNotificationCount(), mBuilder.build());
-        }
+        new GeneratePictureStyleNotification(this, extras, contentIntent).execute();
     }
 
-    private void sendNotification(String title, String message, String url) {
-        NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-
+    private void sendNotification(Bundle extras) {
         Intent notificationIntent = new Intent(this, NotificationActivity.class);
         notificationIntent.putExtra(AppConstants.INTENT_PARAM_FROM_PUSH_NOTIFICATION_CLICKED, true);
-
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-        String notificationTitle = TextUtils.isEmpty(title) ? getString(R.string.app_name) : title;
 
-        NotificationCompat.Style style = null;
-        if (TextUtils.isEmpty(url)) {
-            style = new NotificationCompat.BigTextStyle()
-                    .bigText(message)
-                    .setBigContentTitle(notificationTitle);
-        } else {
-            BitmapAjaxCallback cb = new BitmapAjaxCallback();
-            style = new NotificationCompat.BigPictureStyle()
-                    .setBigContentTitle(notificationTitle)
-                    .setSummaryText(message)
-                    .bigPicture(cb.url(url).getResult());
-        }
-
-
-        if (style != null) {
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                    .setContentIntent(contentIntent)
-                    .setAutoCancel(true)
-                    .setDefaults(Notification.DEFAULT_ALL)
-
-                    .setSmallIcon(R.drawable.ic_stat_notify)
-                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
-
-                    .setColor(getResources().getColor(R.color.app_accent_color))
-
-                    .setStyle(style)
-                    .setContentTitle(notificationTitle)
-                    .setContentText(message);
-
-
-            mNotificationManager.notify(getNotificationCount(), mBuilder.build());
-        }
-
+        new GeneratePictureStyleNotification(this, extras, contentIntent).execute();
     }
 
     private int getNotificationCount() {
@@ -180,5 +131,82 @@ public class GcmIntentService extends IntentService {
         int lastCount = prefs.getInt(AppConstants.PREFERENCE_NOTIFICATION_COUNT, 0);
         prefs.edit().putInt(AppConstants.PREFERENCE_NOTIFICATION_COUNT, lastCount + 1).apply();
         return lastCount;
+    }
+
+    public class GeneratePictureStyleNotification extends AsyncTask<Void, Void, Bitmap> {
+        private Context mContext;
+        private Bundle mExtras;
+        private PendingIntent mPendingIntent;
+
+        public GeneratePictureStyleNotification(Context context, Bundle extras, PendingIntent pendingIntent) {
+            super();
+            this.mContext = context;
+            this.mExtras = extras;
+            this.mPendingIntent = pendingIntent;
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... params) {
+            String imageUrl = mExtras.getString("image");
+
+            if (TextUtils.isEmpty(imageUrl)) {
+                return null;
+            }
+
+            InputStream in;
+            try {
+                URL url = new URL(imageUrl);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                in = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(in);
+                return myBitmap;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            super.onPostExecute(result);
+
+            String title = mExtras.getString("title");
+            String message = mExtras.getString("message");
+
+            String notificationTitle = TextUtils.isEmpty(title) ? getString(R.string.app_name) : title;
+
+            NotificationCompat.Style style = null;
+            if (result == null) {
+                style = new NotificationCompat.BigTextStyle()
+                        .bigText(message)
+                        .setBigContentTitle(notificationTitle);
+            } else {
+                style = new NotificationCompat.BigPictureStyle()
+                        .setBigContentTitle(notificationTitle)
+                        .setSummaryText(message)
+                        .bigPicture(result);
+            }
+
+            if (style != null) {
+                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext)
+                        .setContentIntent(mPendingIntent)
+                        .setAutoCancel(true)
+                        .setDefaults(Notification.DEFAULT_ALL)
+                        .setSmallIcon(R.drawable.ic_stat_notify)
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
+                        .setColor(getResources().getColor(R.color.app_accent_color))
+                        .setStyle(style)
+                        .setContentTitle(notificationTitle)
+                        .setContentText(message);
+
+                NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+                mNotificationManager.notify(getNotificationCount(), mBuilder.build());
+            }
+
+        }
     }
 }
