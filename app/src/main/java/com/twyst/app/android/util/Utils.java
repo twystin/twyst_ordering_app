@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 
@@ -194,7 +195,7 @@ public class Utils {
         String orderDateOld = orderDate;
         TimeStamp timeStamp = new TimeStamp();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
         sdf.setTimeZone(TimeZone.getTimeZone("IST"));
         DateFormat dateInstance = DateFormat.getDateInstance(DateFormat.MEDIUM);
         DateFormat timeInstance = DateFormat.getTimeInstance(DateFormat.SHORT);

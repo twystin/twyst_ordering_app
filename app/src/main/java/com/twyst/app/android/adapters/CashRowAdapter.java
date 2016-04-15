@@ -40,10 +40,13 @@ public class CashRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         TimeStamp timeStamp = Utils.getTimeStamp(mList.get(position).getEarnAt());
         String date = timeStamp.getDate();
-        String day = date.substring(0, 6);
-        String year = date.substring(7, 11);
-        mHolder.dateTV.setText(day);
-        mHolder.yearTV.setText(year);
+        if (date != null) {
+            int dateLength = date.length();
+            String year = date.substring(dateLength - 4, dateLength);
+            String day = date.substring(0, dateLength - 5);
+            mHolder.dateTV.setText(day.trim());
+            mHolder.yearTV.setText(year.trim());
+        }
         mHolder.messageTV.setText(mList.get(position).getMessage());
 
         if (mList.get(position).isEarn()) {
