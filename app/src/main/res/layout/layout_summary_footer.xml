@@ -176,6 +176,7 @@
         android:background="@color/gray_divider" />
 
     <RelativeLayout
+        android:id="@+id/rl_main_coupon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
@@ -201,8 +202,8 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:hint="Enter coupon code"
-                    android:padding="10dp"
                     android:inputType="textCapCharacters"
+                    android:padding="10dp"
                     android:textColor="@color/black_text_color"
                     android:textSize="@dimen/outlet_offer_header_textsize"
                     android:textStyle="bold" />
@@ -254,10 +255,10 @@
             android:textColor="@color/colorPrimary"
             android:textSize="12dp"
             android:visibility="gone" />
-
     </RelativeLayout>
 
     <View
+        android:id="@+id/divider_coupon"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/gray_divider" />

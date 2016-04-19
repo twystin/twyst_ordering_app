@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -334,6 +335,14 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 summaryViewHolderFooter.etSuggestion.setVisibility(View.GONE);
             }
 
+            if (isSuggestionToShow) {
+                summaryViewHolderFooter.rlMainCoupon.setVisibility(View.VISIBLE);
+                summaryViewHolderFooter.dividerCoupon.setVisibility(View.VISIBLE);
+            } else {
+                summaryViewHolderFooter.rlMainCoupon.setVisibility(View.GONE);
+                summaryViewHolderFooter.dividerCoupon.setVisibility(View.GONE);
+            }
+
         }
     }
 
@@ -457,6 +466,8 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         LinearLayout llGrandTotal;
         TextView tvGrandTotal;
 
+        RelativeLayout rlMainCoupon;
+        View dividerCoupon;
         LinearLayout llCoupon;
         LinearLayout llCouponInitial;
         CheckBox cbCouponApply;
@@ -493,6 +504,8 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             this.tvGrandTotal = (TextView) itemView.findViewById(R.id.tvGrandTotal);
             this.etSuggestion = (EditText) itemView.findViewById(R.id.etSuggestion);
 
+            this.rlMainCoupon = (RelativeLayout) itemView.findViewById(R.id.rl_main_coupon);
+            this.dividerCoupon = (View) itemView.findViewById(R.id.divider_coupon);
             this.llCoupon = (LinearLayout) itemView.findViewById(R.id.llCoupon);
             this.llCouponInitial = (LinearLayout) itemView.findViewById(R.id.llCouponInitial);
             this.cbCouponApply = (CheckBox) itemView.findViewById(R.id.cb_coupon_apply);
