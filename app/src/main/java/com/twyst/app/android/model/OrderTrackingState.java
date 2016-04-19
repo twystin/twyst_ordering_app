@@ -143,7 +143,14 @@ public class OrderTrackingState {
     }
 
     private static void addNewStateToList(Context context, String orderIDServer, ArrayList<OrderTrackingState> initialList, OrderTrackingState orderTrackingState) {
-        //To be added after time based sorting
+        //To be added, only if no similar state exists
+        String orderState = orderTrackingState.getOrderState();
+        for (OrderTrackingState orderTrackingState1 : initialList) {
+            if (orderTrackingState1.getOrderState().equals(orderState)) {
+                return;
+            }
+        }
+
         initialList.add(0, orderTrackingState);
         updateListLocally(context, orderIDServer, initialList);
     }
