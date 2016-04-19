@@ -11,13 +11,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -246,112 +251,139 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            LayoutInflater inflater = getLayoutInflater();
-            View row = inflater.inflate(R.layout.order_tracking_state_row, parent, false);
-            TrackOrderStateViewholder viewholder = new TrackOrderStateViewholder(row);
+            //Header
+            if (position == 0) {
+                LinearLayout linearLayout = new LinearLayout(OrderTrackingActivity.this);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                layoutParams.setMargins(0, 3, 0, 20);
+                linearLayout.setGravity(Gravity.CENTER);
+                ImageView imageView = new ImageView(OrderTrackingActivity.this);
+                imageView.setImageResource(R.drawable.order_tracking_header);
+                linearLayout.addView(imageView, layoutParams);
+                return linearLayout;
+            } else {
+                LayoutInflater inflater = getLayoutInflater();
+                View row = inflater.inflate(R.layout.order_tracking_state_row, parent, false);
+                TrackOrderStateViewholder viewholder = new TrackOrderStateViewholder(row);
 
-            OrderTrackingState orderstate = mTrackOrderStatesList.get(position);
+                OrderTrackingState orderstate = mTrackOrderStatesList.get(position - 1);
 
-            viewholder.message.setText(orderstate.getMessage());
-            viewholder.trackOrderStateTime.setText(orderstate.getTime());
-            viewholder.trackOrderStateAmOrPm.setText(orderstate.getAmpm());
+                viewholder.message.setText(orderstate.getMessage());
+                viewholder.trackOrderStateTime.setText(orderstate.getTime());
+                viewholder.trackOrderStateAmOrPm.setText(orderstate.getAmpm());
 
-            boolean isCurrent = (position == 0);
+                //last item
+                if (position == mTrackOrderStatesList.size()) {
+                    viewholder.flGreyLine.setVisibility(View.INVISIBLE);
+                } else {
+                    viewholder.flGreyLine.setVisibility(View.VISIBLE);
+                }
 
-            switch (orderstate.getOrderState()) {
-                case OrderTrackingState.STATE_PLACED:
-                    if (isCurrent) {
-                        viewholder.tvClickForFailure.setVisibility(View.VISIBLE);
-                        viewholder.tvClickForFailure.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                cancelOrderDialogShow();
+                boolean isCurrent = (position == 1);
+
+                switch (orderstate.getOrderState()) {
+                    case OrderTrackingState.STATE_PLACED:
+                        if (isCurrent) {
+                            viewholder.tvClickForFailure.setVisibility(View.VISIBLE);
+                            viewholder.tvClickForFailure.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    cancelOrderDialogShow();
+                                }
+                            });
+                            viewholder.tvClickForFailure.setText(getResources().getString(R.string.order_placed_cancel_message));
+                            viewholder.tvClickForFailure.setBackground(getResources().getDrawable(R.drawable.button_primary));
+                        }
+                        break;
+
+                    case OrderTrackingState.STATE_ACCEPTED:
+                        if (isCurrent) {
+                            if (!TextUtils.isEmpty(mPhoneNumber)) {
+                                viewholder.tvClickForSuccess.setVisibility(View.VISIBLE);
+                                viewholder.tvClickForSuccess.setBackground(getResources().getDrawable(R.drawable.button_green));
+                                viewholder.tvClickForSuccess.setText(getResources().getString(R.string.order_accepted_contact_outlet_message));
+                                viewholder.tvClickForSuccess.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        showDialogCall(mPhoneNumber);
+                                    }
+                                });
+                            } else {
+                                viewholder.tvClickForSuccess.setVisibility(View.GONE);
                             }
-                        });
-                        viewholder.tvClickForFailure.setText(getResources().getString(R.string.order_placed_cancel_message));
-                    }
-                    break;
+                        }
+                        break;
 
-                case OrderTrackingState.STATE_ACCEPTED:
-                    if (isCurrent) {
-                        if (!TextUtils.isEmpty(mPhoneNumber)) {
+                    case OrderTrackingState.STATE_DISPATCHED:
+                        if (isCurrent) {
                             viewholder.tvClickForSuccess.setVisibility(View.VISIBLE);
                             viewholder.tvClickForSuccess.setBackground(getResources().getDrawable(R.drawable.button_green));
-                            viewholder.tvClickForSuccess.setText(getResources().getString(R.string.order_accepted_contact_outlet_message));
+                            viewholder.tvClickForSuccess.setText(getResources().getString(R.string.order_dispatched_message_success));
                             viewholder.tvClickForSuccess.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    showDialogCall(mPhoneNumber);
+                                    orderDelivered(true);
                                 }
                             });
-                        } else {
-                            viewholder.tvClickForSuccess.setVisibility(View.GONE);
                         }
-                    }
-                    break;
+                        break;
 
-                case OrderTrackingState.STATE_DISPATCHED:
-                    if (isCurrent) {
-                        viewholder.tvClickForSuccess.setVisibility(View.VISIBLE);
-                        viewholder.tvClickForSuccess.setText(getResources().getString(R.string.order_dispatched_message_success));
-                        viewholder.tvClickForSuccess.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                orderDelivered(true);
-                            }
-                        });
-                    }
-                    break;
+                    case OrderTrackingState.STATE_ASSUMED_DELIVERED:
+                        if (isCurrent) {
+                            viewholder.tvClickForFailure.setVisibility(View.VISIBLE);
+                            viewholder.tvClickForFailure.setText(getResources().getString(R.string.order_assumed_delivery_message_failure));
+                            viewholder.tvClickForFailure.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    orderDelivered(false);
+                                }
+                            });
+                            viewholder.tvClickForFailure.setBackground(getResources().getDrawable(R.drawable.button_red));
 
-                case OrderTrackingState.STATE_ASSUMED_DELIVERED:
-                    if (isCurrent) {
-                        viewholder.tvClickForFailure.setVisibility(View.VISIBLE);
-                        viewholder.tvClickForFailure.setText(getResources().getString(R.string.order_assumed_delivery_message_failure));
-                        viewholder.tvClickForFailure.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                orderDelivered(false);
-                            }
-                        });
-                        viewholder.tvClickForSuccess.setVisibility(View.VISIBLE);
-                        viewholder.tvClickForSuccess.setText(getResources().getString(R.string.order_assumed_delivery_message_success));
-                        viewholder.tvClickForSuccess.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                orderDelivered(true);
-                            }
-                        });
-                    }
-                    break;
+                            viewholder.tvClickForSuccess.setVisibility(View.VISIBLE);
+                            viewholder.tvClickForSuccess.setText(getResources().getString(R.string.order_assumed_delivery_message_success));
+                            viewholder.tvClickForSuccess.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    orderDelivered(true);
+                                }
+                            });
+                            viewholder.tvClickForSuccess.setBackground(getResources().getDrawable(R.drawable.button_green));
+                        }
+                        break;
 
-                case OrderTrackingState.STATE_NOT_DELIVERED:
-                    if (isCurrent) {
-                        viewholder.tvClickForSuccess.setVisibility(View.VISIBLE);
-                        viewholder.tvClickForSuccess.setText(getResources().getString(R.string.order_not_delivered_message_success));
-                        viewholder.tvClickForSuccess.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                orderDelivered(true);
-                            }
-                        });
-                    }
-                    break;
+                    case OrderTrackingState.STATE_NOT_DELIVERED:
+                        if (isCurrent) {
+                            viewholder.tvClickForSuccess.setVisibility(View.VISIBLE);
+                            viewholder.tvClickForSuccess.setText(getResources().getString(R.string.order_not_delivered_message_success));
+                            viewholder.tvClickForSuccess.setBackground(getResources().getDrawable(R.drawable.button_green));
 
-                case OrderTrackingState.STATE_DELIVERED:
-                    if (!isOrderClosed && !isOrderDeliverySuccessInProgress) {
-                        orderDeliveredSuccess();
-                    }
-                    break;
+                            viewholder.tvClickForSuccess.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    orderDelivered(true);
+                                }
+                            });
+                        }
+                        break;
 
-                case OrderTrackingState.STATE_CLOSED:
-                    isOrderClosed = true;
-                    break;
+                    case OrderTrackingState.STATE_DELIVERED:
+                        if (!isOrderClosed && !isOrderDeliverySuccessInProgress) {
+                            orderDeliveredSuccess();
+                        }
+                        break;
 
-                default:
-                    break;
+                    case OrderTrackingState.STATE_CLOSED:
+                        isOrderClosed = true;
+                        break;
+
+                    default:
+                        break;
+                }
+
+                return row;
+
             }
-
-            return row;
         }
 
         private void showDialogCall(final String phNo) {
@@ -386,7 +418,7 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
 
         @Override
         public int getCount() {
-            return mTrackOrderStatesList.size();
+            return mTrackOrderStatesList.size() + 1;
         }
     }
 
@@ -511,6 +543,8 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
         private TextView trackOrderStateAmOrPm;
         private TextView tvClickForFailure;
         private TextView tvClickForSuccess;
+        private FrameLayout flGreyLine;
+        private FrameLayout flOrangeCircle;
 
         TrackOrderStateViewholder(View view) {
             message = (TextView) view.findViewById(R.id.tv_message);
@@ -518,6 +552,8 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
             trackOrderStateAmOrPm = (TextView) view.findViewById(R.id.tv_track_order_state_time_amOrPm);
             tvClickForFailure = (TextView) view.findViewById(R.id.tv_click_for_failure);
             tvClickForSuccess = (TextView) view.findViewById(R.id.tv_click_for_success);
+            flGreyLine = (FrameLayout) view.findViewById(R.id.fl_grey_line);
+            flOrangeCircle = (FrameLayout) view.findViewById(R.id.fl_orange_circle);
         }
     }
 
