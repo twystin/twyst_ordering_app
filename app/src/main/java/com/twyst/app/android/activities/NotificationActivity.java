@@ -30,18 +30,12 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class NotificationActivity extends BaseActionActivity {
-
     private RecyclerView notifyRecyclerView;
     NotificationAdapter adapter;
-    private FloatingActionButton submitFab;
-    private FloatingActionButton checkinFab;
-    private FloatingActionsMenu fabMenu;
-    private RelativeLayout obstructor;
     private boolean fromDrawer, fromPushNotificationClicked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        setupAsChild= true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
 
@@ -56,131 +50,6 @@ public class NotificationActivity extends BaseActionActivity {
 
         adapter = new NotificationAdapter();
         notifyRecyclerView.setAdapter(adapter);
-
-        fabMenu = (FloatingActionsMenu) findViewById(R.id.fabMenu);
-        obstructor = (RelativeLayout) findViewById(R.id.obstructor);
-        submitFab = (FloatingActionButton) findViewById(R.id.submitFab);
-        checkinFab = (FloatingActionButton) findViewById(R.id.checkinFab);
-
-        fabMenu.setVisibility(View.VISIBLE);
-
-
-        fabMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
-            @Override
-            public void onMenuExpanded() {
-                if (obstructor.getVisibility() == View.INVISIBLE) {
-                    obstructor.setVisibility(View.VISIBLE);
-                }
-
-            }
-
-            @Override
-            public void onMenuCollapsed() {
-                if (obstructor.getVisibility() == View.VISIBLE) {
-                    obstructor.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
-
-        obstructor.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Log.d(getLocalClassName(), "fab menu obstructor clicked .... ");
-
-                if (obstructor.getVisibility() == View.VISIBLE) {
-                    fabMenu.collapse();
-                    return true;
-                }
-
-                return false;
-            }
-        });
-
-//        checkinFab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                fabMenu.collapse();
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        //IntentIntegrator integrator = new IntentIntegrator(DiscoverActivity.this);
-//                        //integrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
-//                        Intent intent = new Intent(NotificationActivity.this, ScannerActivity.class);
-//                        startActivity(intent);
-//                    }
-//                }, 100);
-//            }
-//        });
-
-//        submitFab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (obstructor.getVisibility() == View.VISIBLE) {
-//                    Intent intent = new Intent(NotificationActivity.this, SubmitOfferActivity.class);
-//                    intent.setAction("setChildYes");
-//                    startActivity(intent);
-//                    fabMenu.collapse();
-//
-//                }
-//            }
-//        });
-
-        final View checkinObstructor = findViewById(R.id.checkinObstructor);
-        final View checkinObstructor2 = findViewById(R.id.checkinObstructor2);
-
-        checkinObstructor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkinObstructor.setVisibility(View.GONE);
-                checkinObstructor2.setVisibility(View.GONE);
-            }
-        });
-
-        checkinFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fabMenu.collapse();
-                checkinObstructor.setVisibility(View.VISIBLE);
-                checkinObstructor2.setVisibility(View.VISIBLE);
-            }
-        });
-
-//        findViewById(R.id.scanBtn).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                checkinObstructor.setVisibility(View.GONE);
-//                checkinObstructor2.setVisibility(View.GONE);
-//
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        //IntentIntegrator integrator = new IntentIntegrator(DiscoverActivity.this);
-//                        //integrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
-//                        Intent intent = new Intent(NotificationActivity.this, ScannerActivity.class);
-//                        startActivity(intent);
-//                    }
-//                }, 100);
-//            }
-//        });
-
-//        findViewById(R.id.uploadBillBtn).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                checkinObstructor.setVisibility(View.GONE);
-//                checkinObstructor2.setVisibility(View.GONE);
-//
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//
-//                        Intent intent = new Intent(NotificationActivity.this, UploadBillActivity.class);
-//                        intent.setAction("setChildYes");
-//                        startActivity(intent);
-//                    }
-//                }, 100);
-//            }
-//        });
-
         getNotifications();
 
     }

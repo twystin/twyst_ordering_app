@@ -64,8 +64,7 @@ public class DrawerListAdapter extends BaseAdapter {
         DrawerItem drawerItem = drawerItems.get(position);
 
         // Disabling Notification & Invite Friends as of now
-        if ((drawerItem.getTitle().equals(BaseActivity.DRAWER_ITEM_INVITE_FRIENDS)) ||
-                drawerItem.getTitle().equals(BaseActivity.DRAWER_ITEM_NOTIFICATIONS)) {
+        if (drawerItem.getTitle().equals(BaseActivity.DRAWER_ITEM_INVITE_FRIENDS)) {
             convertView.setAlpha(.5f);
             convertView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
