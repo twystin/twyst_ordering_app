@@ -63,7 +63,7 @@ public class ScrollingOrderBanners extends PagerAdapter {
             public void onClick(View v) {
                 switch (orderBanner.getBannerType()) {
                     case OrderBanner.TYPE_FOOD_BANNER:
-                        mContext.startActivity(Utils.getOutletIntent(mContext, orderBanner.getOutletIdList().get(0)));
+                        mContext.startActivity(Utils.getOutletIntent(mContext, orderBanner.getOutletIdList().get(0),orderBanner.getCouponCode()));
                         break;
 
                     case OrderBanner.TYPE_LANDING_PAGE_BANNER:
@@ -77,9 +77,6 @@ public class ScrollingOrderBanners extends PagerAdapter {
                             outletsFragment.fetchOutletsBanners(orderBanner.getId());
                         }
 
-                        break;
-
-                    case OrderBanner.TYPE_COPY_CODE:
                         break;
                 }
             }

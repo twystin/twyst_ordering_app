@@ -38,7 +38,7 @@ public class WebViewActivity extends BaseActionActivity {
         this.setTitle(header);
 
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
-        
+
         //Initialize the WebView object with data from the 'activity_webview.xmlxml' file
         final WebView webView = (WebView) findViewById(R.id.wb_webview);
         //Scroll bars should not be hidden
@@ -75,6 +75,18 @@ public class WebViewActivity extends BaseActionActivity {
                 webView.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getIntent().getBooleanExtra(AppConstants.INTENT_PARAM_FROM_PUSH_NOTIFICATION_CLICKED, false)) {
+            Intent intent = new Intent(WebViewActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_CURRENT);
+            startActivity(intent);
+        }
+        super.onBackPressed();
     }
 
     @Override

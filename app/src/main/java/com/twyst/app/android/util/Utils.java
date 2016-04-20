@@ -193,10 +193,11 @@ public class Utils {
         return builder;
     }
 
-    public static Intent getOutletIntent(Context context, String outletID) {
+    public static Intent getOutletIntent(Context context, String outletID, String couponCode) {
         //open Outlet detail page on the basis of outlet ID
         Intent intent = new Intent(context, OrderOnlineActivity.class);
         intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_ID, outletID);
+        intent.putExtra(AppConstants.INTENT_PARAM_COUPON_CODE, couponCode);
         return intent;
     }
 

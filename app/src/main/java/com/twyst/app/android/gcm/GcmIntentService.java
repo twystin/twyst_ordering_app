@@ -123,14 +123,18 @@ public class GcmIntentService extends IntentService {
 
     private void sendNotification(Bundle extras) {
 //        Intent notificationIntent = new Intent(this, NotificationActivity.class);
-//        notificationIntent.putExtra(AppConstants.INTENT_PARAM_FROM_PUSH_NOTIFICATION_CLICKED, true);
+        Intent notificationIntent = new Intent();
+        notificationIntent.putExtra(AppConstants.INTENT_PARAM_FROM_PUSH_NOTIFICATION_CLICKED, true);
 
-//        Intent intent = new Intent(this, OrderOnlineActivity.class);
-//        intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_ID, orderBanner.getOutletIdList().get(0));
-
-        PackageManager manager = this.getPackageManager();
-        Intent notificationIntent = manager.getLaunchIntentForPackage(getApplicationContext().getPackageName());
-        notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        String couponCode="";
+        String outletID = extras.getString("");
+        if (!TextUtils.isEmpty(outletID)) {
+            notificationIntent = Utils.getOutletIntent(this, outletID, couponCode);
+        } else {
+            PackageManager manager = this.getPackageManager();
+            notificationIntent = manager.getLaunchIntentForPackage(getApplicationContext().getPackageName());
+            notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        }
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
         new GeneratePictureStyleNotification(this, extras, contentIntent).execute();

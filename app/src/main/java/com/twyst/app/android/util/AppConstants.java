@@ -70,6 +70,7 @@ public class AppConstants {
     public static final String INTENT_PARAM_OUTLET_LOCATION_LONG = "lng";
     public static final String INTENT_PARAM_OUTLET_NAME = "outlet_name";
     public static final String INTENT_PARAM_OUTLET_ID = "outlet_id";
+    public static final String INTENT_PARAM_COUPON_CODE= "coupon_code";
     public static final String INTENT_PARAM_PHONE = "outlet_phone";
     public static final String INTENT_PARAM_OFFER_ID = "offer_id";
     public static final String INTENT_PARAM_OUTLET_OBJECT = "outlet_object";

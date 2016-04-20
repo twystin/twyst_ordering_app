@@ -9,12 +9,10 @@ import java.util.ArrayList;
  * Created by Vipul Sharma on 3/30/2016.
  */
 public class OrderBanner implements Serializable {
-    public static final String TYPE_THIRD_PARTY_BANNER = "third_party_banner";
-    public static final String TYPE_FOOD_BANNER = "food_banner";
-    public static final String TYPE_LANDING_PAGE_BANNER = "landing_page_banner";
-    public static final String TYPE_OUTLET_BANNER = "outlet_banner";
-    public static final String TYPE_COPY_CODE = "copy_code";
-
+    public static final String TYPE_THIRD_PARTY_BANNER = "third_party";
+    public static final String TYPE_FOOD_BANNER = "single_outlet";
+    public static final String TYPE_LANDING_PAGE_BANNER = "landing_page";
+    public static final String TYPE_OUTLET_BANNER = "multi_outlets";
     @SerializedName("_id")
     private String id;
 
@@ -32,6 +30,9 @@ public class OrderBanner implements Serializable {
     @SerializedName("outlets")
     private ArrayList<String> outletIdList = new ArrayList<>();
 
+    @SerializedName("coupon_code")
+    private String couponCode;
+
     public String getId() {
         return id;
     }
@@ -46,6 +47,14 @@ public class OrderBanner implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getCouponCode() {
+        return couponCode;
+    }
+
+    public void setCouponCode(String couponCode) {
+        this.couponCode = couponCode;
     }
 
     public String getBannerType() {

@@ -2,6 +2,7 @@ package com.twyst.app.android.activities;
 
 import android.app.AlertDialog;
 import android.app.SearchManager;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -16,6 +17,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.ClipboardManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -111,6 +114,10 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
 
         mOutlet = (Outlet) getIntent().getSerializableExtra(AppConstants.INTENT_PARAM_OUTLET_OBJECT);
         mOutletId = getIntent().getStringExtra(AppConstants.INTENT_PARAM_OUTLET_ID);
+        String couponCode = getIntent().getStringExtra(AppConstants.INTENT_PARAM_COUPON_CODE);
+        if (!TextUtils.isEmpty(couponCode)) {
+            showToast(couponCode);
+        }
 
         if (checkifReordered()) {
             setupToolBar();
@@ -127,6 +134,13 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
             fetchOutletMaster(mOutletId);
         }
 
+    }
+
+    private void showToast(String couponCode) {
+        android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        android.content.ClipData clip = android.content.ClipData.newPlainText("Coupon Code", couponCode);
+        clipboard.setPrimaryClip(clip);
+        Toast.makeText(this, couponCode + " copied to clipboard!", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -681,6 +695,13 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                 if (mCartAdapter != null && mCartAdapter.getItemCount() > 0) {
                     askUserToDiscardOrder();
                 } else {
+                    if (getIntent().getBooleanExtra(AppConstants.INTENT_PARAM_FROM_PUSH_NOTIFICATION_CLICKED, false)) {
+                        Intent intent = new Intent(OrderOnlineActivity.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_CURRENT);
+                        startActivity(intent);
+                    }
                     super.onBackPressed();
                 }
             }
