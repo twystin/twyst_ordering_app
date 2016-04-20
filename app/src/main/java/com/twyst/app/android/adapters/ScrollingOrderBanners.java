@@ -18,8 +18,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.twyst.app.android.R;
+import com.twyst.app.android.activities.MainActivity;
 import com.twyst.app.android.activities.OrderOnlineActivity;
 import com.twyst.app.android.activities.WebViewActivity;
+import com.twyst.app.android.fragments.DiscoverOutletFragment;
 import com.twyst.app.android.model.banners.OrderBanner;
 import com.twyst.app.android.util.AppConstants;
 
@@ -73,12 +75,14 @@ public class ScrollingOrderBanners extends PagerAdapter {
 
                     case OrderBanner.TYPE_OUTLET_BANNER:
                         //fetch lists of outlets on the basis of banner id : alternative of reco API
-                        // TODO
-//                        DiscoverOutletFragment outletsFragment = (DiscoverOutletFragment) ((MainActivity) mContext).getSupportFragmentManager().getFragments().get(0);
-//                        if (outletsFragment != null) {
-//                            outletsFragment.fetchOutletsBanners(orderBanner.getId());
-//                        }
+                        DiscoverOutletFragment outletsFragment = (DiscoverOutletFragment) ((MainActivity) mContext).getSupportFragmentManager().getFragments().get(0);
+                        if (outletsFragment != null) {
+                            outletsFragment.fetchOutletsBanners(orderBanner.getId(),orderBanner.getBannerName());
+                        }
 
+                        break;
+
+                    case OrderBanner.TYPE_COPY_CODE:
                         break;
                 }
             }

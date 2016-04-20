@@ -13,6 +13,7 @@ public class OrderBanner implements Serializable {
     public static final String TYPE_FOOD_BANNER = "food_banner";
     public static final String TYPE_LANDING_PAGE_BANNER = "landing_page_banner";
     public static final String TYPE_OUTLET_BANNER = "outlet_banner";
+    public static final String TYPE_COPY_CODE = "copy_code";
 
     @SerializedName("_id")
     private String id;
