@@ -23,6 +23,7 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.twyst.app.android.R;
 import com.twyst.app.android.TwystApplication;
 import com.twyst.app.android.activities.NotificationActivity;
+import com.twyst.app.android.activities.OrderOnlineActivity;
 import com.twyst.app.android.activities.OrderTrackingActivity;
 import com.twyst.app.android.model.OrderTrackingState;
 import com.twyst.app.android.util.AppConstants;
@@ -124,12 +125,14 @@ public class GcmIntentService extends IntentService {
 //        Intent notificationIntent = new Intent(this, NotificationActivity.class);
 //        notificationIntent.putExtra(AppConstants.INTENT_PARAM_FROM_PUSH_NOTIFICATION_CLICKED, true);
 
+//        Intent intent = new Intent(this, OrderOnlineActivity.class);
+//        intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_ID, orderBanner.getOutletIdList().get(0));
+
         PackageManager manager = this.getPackageManager();
-        Intent i = manager.getLaunchIntentForPackage(getApplicationContext().getPackageName());
-        i.addCategory(Intent.CATEGORY_LAUNCHER);
+        Intent notificationIntent = manager.getLaunchIntentForPackage(getApplicationContext().getPackageName());
+        notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, i, 0);
-
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
         new GeneratePictureStyleNotification(this, extras, contentIntent).execute();
     }
 

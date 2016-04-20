@@ -24,6 +24,7 @@ import com.twyst.app.android.activities.WebViewActivity;
 import com.twyst.app.android.fragments.DiscoverOutletFragment;
 import com.twyst.app.android.model.banners.OrderBanner;
 import com.twyst.app.android.util.AppConstants;
+import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
 
@@ -62,15 +63,11 @@ public class ScrollingOrderBanners extends PagerAdapter {
             public void onClick(View v) {
                 switch (orderBanner.getBannerType()) {
                     case OrderBanner.TYPE_FOOD_BANNER:
-                        //open Outlet detail page on the basis of outlet ID
-                        Intent intent = new Intent(mContext, OrderOnlineActivity.class);
-                        intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_ID, orderBanner.getOutletIdList().get(0));
-                        mContext.startActivity(intent);
+                        mContext.startActivity(Utils.getOutletIntent(mContext, orderBanner.getOutletIdList().get(0)));
                         break;
 
                     case OrderBanner.TYPE_LANDING_PAGE_BANNER:
-                        //open a webview on the basis of banner name
-                        openURL(orderBanner.getHeader(), AppConstants.HOST + "/api/v4/banners/landing/page/" + orderBanner.getBannerName());
+                        mContext.startActivity(Utils.getURLLandingPageIntent(mContext, orderBanner.getHeader(), AppConstants.HOST + "/api/v4/banners/landing/page/" + orderBanner.getBannerName()));
                         break;
 
                     case OrderBanner.TYPE_OUTLET_BANNER:
@@ -90,13 +87,6 @@ public class ScrollingOrderBanners extends PagerAdapter {
 
         ((ViewPager) container).addView(itemView);
         return itemView;
-    }
-
-    private void openURL(String header, String url) {
-        Intent intent = new Intent(mContext, WebViewActivity.class);
-        intent.putExtra(AppConstants.INTENT_PARAM_WEBVIEW_URL, url);
-        intent.putExtra(AppConstants.INTENT_PARAM_WEBVIEW_HEADER, header);
-        mContext.startActivity(intent);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.twyst.app.android.util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.ListView;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.PolyUtil;
 import com.twyst.app.android.R;
+import com.twyst.app.android.activities.OrderOnlineActivity;
+import com.twyst.app.android.activities.WebViewActivity;
 import com.twyst.app.android.model.AddressDetailsLocationData;
 import com.twyst.app.android.model.DeliveryZone;
 import com.twyst.app.android.model.TimeStamp;
@@ -188,6 +191,21 @@ public class Utils {
             }
         }
         return builder;
+    }
+
+    public static Intent getOutletIntent(Context context, String outletID) {
+        //open Outlet detail page on the basis of outlet ID
+        Intent intent = new Intent(context, OrderOnlineActivity.class);
+        intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_ID, outletID);
+        return intent;
+    }
+
+    public static Intent getURLLandingPageIntent(Context context, String header, String url) {
+        //open a webview on the basis of banner name
+        Intent intent = new Intent(context, WebViewActivity.class);
+        intent.putExtra(AppConstants.INTENT_PARAM_WEBVIEW_URL, url);
+        intent.putExtra(AppConstants.INTENT_PARAM_WEBVIEW_HEADER, header);
+        return intent;
     }
 
     //Added by Raman for getting date & time.
