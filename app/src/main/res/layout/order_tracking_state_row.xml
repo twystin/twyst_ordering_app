@@ -13,7 +13,7 @@
 
         <FrameLayout
             android:id="@+id/fl_grey_line"
-            android:layout_width="4dp"
+            android:layout_width="3dp"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
             android:background="@color/background_grey" />
