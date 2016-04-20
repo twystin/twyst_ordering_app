@@ -77,7 +77,7 @@ public class ScrollingOrderBanners extends PagerAdapter {
                         //fetch lists of outlets on the basis of banner id : alternative of reco API
                         DiscoverOutletFragment outletsFragment = (DiscoverOutletFragment) ((MainActivity) mContext).getSupportFragmentManager().getFragments().get(0);
                         if (outletsFragment != null) {
-                            outletsFragment.fetchOutletsBanners(orderBanner.getId(),orderBanner.getBannerName());
+                            outletsFragment.fetchOutletsBanners(orderBanner.getId());
                         }
 
                         break;

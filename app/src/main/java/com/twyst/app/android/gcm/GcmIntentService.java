@@ -121,14 +121,14 @@ public class GcmIntentService extends IntentService {
     }
 
     private void sendNotification(Bundle extras) {
-        Intent notificationIntent = new Intent(this, NotificationActivity.class);
-        notificationIntent.putExtra(AppConstants.INTENT_PARAM_FROM_PUSH_NOTIFICATION_CLICKED, true);
+//        Intent notificationIntent = new Intent(this, NotificationActivity.class);
+//        notificationIntent.putExtra(AppConstants.INTENT_PARAM_FROM_PUSH_NOTIFICATION_CLICKED, true);
 
-//        PackageManager manager = this.getPackageManager();
-//        Intent i = manager.getLaunchIntentForPackage(getApplicationContext().getPackageName());
-//        i.addCategory(Intent.CATEGORY_LAUNCHER);
+        PackageManager manager = this.getPackageManager();
+        Intent i = manager.getLaunchIntentForPackage(getApplicationContext().getPackageName());
+        i.addCategory(Intent.CATEGORY_LAUNCHER);
 
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, i, 0);
 
         new GeneratePictureStyleNotification(this, extras, contentIntent).execute();
     }
