@@ -695,14 +695,16 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
                 if (mCartAdapter != null && mCartAdapter.getItemCount() > 0) {
                     askUserToDiscardOrder();
                 } else {
-                    if (getIntent().getBooleanExtra(AppConstants.INTENT_PARAM_FROM_PUSH_NOTIFICATION_CLICKED, false)) {
+                    if (getIntent().getExtras().getBoolean(AppConstants.INTENT_PARAM_FROM_PUSH_NOTIFICATION_CLICKED, false)) {
                         Intent intent = new Intent(OrderOnlineActivity.this, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 | Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED, AppConstants.CHOOSE_LOCATION_OPTION_CURRENT);
                         startActivity(intent);
+                        finish();
+                    } else {
+                        super.onBackPressed();
                     }
-                    super.onBackPressed();
                 }
             }
         }

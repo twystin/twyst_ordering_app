@@ -16,6 +16,7 @@ import com.twyst.app.android.activities.WebViewActivity;
 import com.twyst.app.android.model.AddressDetailsLocationData;
 import com.twyst.app.android.model.DeliveryZone;
 import com.twyst.app.android.model.TimeStamp;
+import com.twyst.app.android.model.banners.OrderBanner;
 import com.twyst.app.android.service.HttpService;
 
 import java.lang.reflect.Field;
@@ -193,7 +194,9 @@ public class Utils {
         return builder;
     }
 
-    public static Intent getOutletIntent(Context context, String outletID, String couponCode) {
+    public static Intent getOutletIntent(Context context, OrderBanner orderBanner) {
+        String outletID = orderBanner.getOutletIdList().get(0);
+        String couponCode = orderBanner.getCouponCode();
         //open Outlet detail page on the basis of outlet ID
         Intent intent = new Intent(context, OrderOnlineActivity.class);
         intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_ID, outletID);
@@ -201,7 +204,9 @@ public class Utils {
         return intent;
     }
 
-    public static Intent getURLLandingPageIntent(Context context, String header, String url) {
+    public static Intent getURLLandingPageIntent(Context context, OrderBanner orderBanner) {
+        String header = orderBanner.getHeader();
+        String url = AppConstants.HOST + "/api/v4/banners/landing/page/" + orderBanner.getBannerName();
         //open a webview on the basis of banner name
         Intent intent = new Intent(context, WebViewActivity.class);
         intent.putExtra(AppConstants.INTENT_PARAM_WEBVIEW_URL, url);

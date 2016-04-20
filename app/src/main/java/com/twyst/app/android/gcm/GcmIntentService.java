@@ -20,12 +20,17 @@ import android.util.Log;
 
 import com.androidquery.callback.BitmapAjaxCallback;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.gson.Gson;
 import com.twyst.app.android.R;
 import com.twyst.app.android.TwystApplication;
+import com.twyst.app.android.activities.MainActivity;
 import com.twyst.app.android.activities.NotificationActivity;
 import com.twyst.app.android.activities.OrderOnlineActivity;
 import com.twyst.app.android.activities.OrderTrackingActivity;
+import com.twyst.app.android.fragments.DiscoverOutletFragment;
+import com.twyst.app.android.model.LocationOfflineList;
 import com.twyst.app.android.model.OrderTrackingState;
+import com.twyst.app.android.model.banners.OrderBanner;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.Utils;
 
@@ -123,20 +128,36 @@ public class GcmIntentService extends IntentService {
 
     private void sendNotification(Bundle extras) {
 //        Intent notificationIntent = new Intent(this, NotificationActivity.class);
-        Intent notificationIntent = new Intent();
-        notificationIntent.putExtra(AppConstants.INTENT_PARAM_FROM_PUSH_NOTIFICATION_CLICKED, true);
+        Intent notificationIntent;
+        String promoObject = extras.getString("promo_obj");
 
-        String couponCode="";
-        String outletID = extras.getString("");
-        if (!TextUtils.isEmpty(outletID)) {
-            notificationIntent = Utils.getOutletIntent(this, outletID, couponCode);
+        if (!TextUtils.isEmpty(promoObject)) {
+            Gson gson = new Gson();
+            OrderBanner orderBanner = gson.fromJson(promoObject, OrderBanner.class);
+
+            switch (orderBanner.getBannerType()) {
+                case OrderBanner.TYPE_FOOD_BANNER:
+                    notificationIntent = Utils.getOutletIntent(this, orderBanner);
+                    break;
+
+                case OrderBanner.TYPE_LANDING_PAGE_BANNER:
+                    notificationIntent = Utils.getURLLandingPageIntent(this, orderBanner);
+                    break;
+
+                default:
+                    PackageManager manager = this.getPackageManager();
+                    notificationIntent = manager.getLaunchIntentForPackage(getApplicationContext().getPackageName());
+                    notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+                    break;
+            }
         } else {
             PackageManager manager = this.getPackageManager();
             notificationIntent = manager.getLaunchIntentForPackage(getApplicationContext().getPackageName());
             notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         }
 
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        notificationIntent.putExtra(AppConstants.INTENT_PARAM_FROM_PUSH_NOTIFICATION_CLICKED, true);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 11, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         new GeneratePictureStyleNotification(this, extras, contentIntent).execute();
     }
 
