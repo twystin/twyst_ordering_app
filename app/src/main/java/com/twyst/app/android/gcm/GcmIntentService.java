@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -25,6 +26,7 @@ import com.twyst.app.android.activities.NotificationActivity;
 import com.twyst.app.android.activities.OrderTrackingActivity;
 import com.twyst.app.android.model.OrderTrackingState;
 import com.twyst.app.android.util.AppConstants;
+import com.twyst.app.android.util.Utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -121,6 +123,11 @@ public class GcmIntentService extends IntentService {
     private void sendNotification(Bundle extras) {
         Intent notificationIntent = new Intent(this, NotificationActivity.class);
         notificationIntent.putExtra(AppConstants.INTENT_PARAM_FROM_PUSH_NOTIFICATION_CLICKED, true);
+
+//        PackageManager manager = this.getPackageManager();
+//        Intent i = manager.getLaunchIntentForPackage(getApplicationContext().getPackageName());
+//        i.addCategory(Intent.CATEGORY_LAUNCHER);
+
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
         new GeneratePictureStyleNotification(this, extras, contentIntent).execute();
