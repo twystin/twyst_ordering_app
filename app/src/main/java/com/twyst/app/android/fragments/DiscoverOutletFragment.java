@@ -99,6 +99,12 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
 
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = (MainActivity) activity;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.discover_outlet_fragment, container, false);
 
@@ -106,7 +112,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
         mRecyclerView.setHasFixedSize(true);
 
         noDataHolder = new NoDataHolder(view);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         setupBannersViewPager(view);
@@ -115,7 +121,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
         fabFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), FiltersActivity.class);
+                Intent intent = new Intent(mActivity, FiltersActivity.class);
                 Bundle extras = new Bundle();
                 extras.putSerializable(AppConstants.FILTER_MAP, filterTagsMap);
                 intent.putExtras(extras);
@@ -123,11 +129,9 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
             }
         });
 
-        mActivity = (MainActivity) getActivity();
-
         setupDiscoverAdapter();
         refreshDateTime();
-        String optionSelected = getActivity().getIntent().getStringExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED);
+        String optionSelected = mActivity.getIntent().getStringExtra(AppConstants.CHOOSE_LOCATION_OPTION_SELECTED);
         currentAddressName = (TextView) view.findViewById(R.id.tv_current_address_location);
         circularProgressBarOutlet = (CircularProgressBar) view.findViewById(R.id.circularProgressBarOutlet);
         showErrorLayout = (LinearLayout) view.findViewById(R.id.linlay_discover_fragment_error_layout);
@@ -150,14 +154,14 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
                 case AppConstants.CHOOSE_LOCATION_OPTION_ADD:
                     mAddressDetailsLocationData = sharedPreferenceSingleton.getDeliveryLocation();
                     updateCurrentAddressName(mAddressDetailsLocationData);
-                    if (getActivity().getIntent().getBooleanExtra(AppConstants.CHOOSE_LOCATION_DEFAULT, false)) {
+                    if (mActivity.getIntent().getBooleanExtra(AppConstants.CHOOSE_LOCATION_DEFAULT, false)) {
                         showDefaultLocationError.setVisibility(View.VISIBLE);
                     }
                     fetchOutlets();
                     break;
                 case AppConstants.CHOOSE_LOCATION_OPTION_SKIPPED:
-                    Fragment discoverOutletFragment = (DiscoverOutletFragment) (getActivity().getSupportFragmentManager().getFragments().get(0));
-                    locationFetchUtil = new LocationFetchUtil(getActivity(), discoverOutletFragment);
+                    Fragment discoverOutletFragment = (DiscoverOutletFragment) (mActivity.getSupportFragmentManager().getFragments().get(0));
+                    locationFetchUtil = new LocationFetchUtil(mActivity, discoverOutletFragment);
                     locationFetchUtil.requestLocation(true);
                     break;
                 default:
@@ -187,7 +191,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
                     filterTagsMap.clear();
                     showDefaultLocationError.setVisibility(View.GONE);
                     SharedPreferenceSingleton.getInstance().setPassedCartCheckoutStage(false);
-                    Intent intent = new Intent(getActivity(), AddressAddNewActivity.class);
+                    Intent intent = new Intent(mActivity, AddressAddNewActivity.class);
                     startActivityForResult(intent, AppConstants.EDIT_ADDRESS);
                 }
             }
@@ -198,14 +202,14 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
     }
 
     private void setupBannersViewPager(final View view) {
-        HttpService.getInstance().getOrderBanners(UtilMethods.getUserToken(getActivity()), new Callback<BaseResponse<ArrayList<OrderBanner>>>() {
+        HttpService.getInstance().getOrderBanners(UtilMethods.getUserToken(mActivity), new Callback<BaseResponse<ArrayList<OrderBanner>>>() {
             @Override
             public void success(BaseResponse<ArrayList<OrderBanner>> arrayListBaseResponse, Response response) {
                 if (arrayListBaseResponse.isResponse()) {
                     ArrayList<OrderBanner> orderBannerList = arrayListBaseResponse.getData();
                     if (orderBannerList.size() > 0) {
                         AutoScrollViewPager bannersViewPager = (AutoScrollViewPager) view.findViewById(R.id.ads_pager);
-                        bannersViewPager.setAdapter(new ScrollingOrderBanners(getActivity(), orderBannerList));
+                        bannersViewPager.setAdapter(new ScrollingOrderBanners(mActivity, orderBannerList));
                         view.findViewById(R.id.rl_scrolling_pager).setVisibility(View.VISIBLE);
 
                         mIndicator = (CirclePageIndicator) view.findViewById(R.id.indicator);
@@ -269,7 +273,6 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
                     }
                 }
 
-//                Toast.makeText(getActivity(), tags.toString(), Toast.LENGTH_LONG).show();
                 if (tags.size() > 0) {
 
                     ArrayList<Outlet> list = fetchOutletsWithFilters();
@@ -336,11 +339,11 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
             updateCurrentAddressName(mAddressDetailsLocationData);
             fetchOutlets();
         } else {
-            Toast.makeText(getActivity(), R.string.couldnot_fetch_location, Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(getActivity(), AddressMapActivity.class);
+            Toast.makeText(mActivity, R.string.couldnot_fetch_location, Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(mActivity, AddressMapActivity.class);
             intent.putExtra(AppConstants.FROM_CHOOSE_ACTIVITY_TO_MAP, true);
             startActivity(intent);
-            getActivity().finish();
+            mActivity.finish();
         }
     }
 
@@ -353,7 +356,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
             mAddressDetailsLocationData.setCoords(coords);
             locationFetchUtil.requestAddress(location, false);
         } else {
-            Toast.makeText(getActivity(), R.string.couldnot_fetch_location, Toast.LENGTH_LONG).show();
+            Toast.makeText(mActivity, R.string.couldnot_fetch_location, Toast.LENGTH_LONG).show();
             resolveError(resultCode);
         }
     }
@@ -362,7 +365,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
         mAddressDetailsLocationData = sharedPreferenceSingleton.getCurrentUsedLocation();
 
         if (mAddressDetailsLocationData == null) {
-            Intent intent = new Intent(getActivity(), AddressMapActivity.class);
+            Intent intent = new Intent(mActivity, AddressMapActivity.class);
             intent.putExtra("Choose activity directed to map", true);
             startActivity(intent);
             hideProgressBar();
@@ -397,7 +400,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
 
     private void setupDiscoverAdapter() {
         discoverAdapter = new DiscoverOutletAdapter();
-        discoverAdapter.setmContext(getActivity());
+        discoverAdapter.setmContext(mActivity);
         mRecyclerView.setAdapter(discoverAdapter);
     }
 
@@ -421,7 +424,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
                     String twystCash = arrayListBaseResponse.getData().getTwystCash();
                     updateOutlets(fetchedOutlets);
                 } else {
-                    Toast.makeText(getActivity(), arrayListBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity, arrayListBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
                 hideProgressBar();
@@ -456,7 +459,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
 
                     updateOutlets(fetchedOutlets);
                 } else {
-                    Toast.makeText(getActivity(), arrayListBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity, arrayListBaseResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
                 hideProgressBar();
@@ -577,7 +580,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
     }
 
     public String getUserToken() {
-        SharedPreferences prefs = getActivity().getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences prefs = mActivity.getSharedPreferences(AppConstants.PREFERENCE_SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return prefs.getString(AppConstants.PREFERENCE_USER_TOKEN, "");
     }
 
