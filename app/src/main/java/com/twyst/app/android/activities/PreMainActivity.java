@@ -113,6 +113,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fr.castorflex.android.circularprogressbar.CircularProgressBar;
+import io.branch.referral.Branch;
+import io.branch.referral.BranchError;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -166,6 +168,25 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         PermissionUtil askPermission = PermissionUtil.getInstance();
         startInitialAnimation();
         splashCode();
+
+        branchMetrics();
+    }
+
+    private void branchMetrics() {
+        Branch branch = Branch.getInstance();
+
+        branch.initSession(new Branch.BranchReferralInitListener(){
+            @Override
+            public void onInitFinished(JSONObject referringParams, BranchError error) {
+                if (error == null) {
+                    // params are the deep linked params associated with the link that the user clicked -> was re-directed to this app
+                    // params will be empty if no data found
+                    // ... insert custom logic here ...
+                } else {
+                    Log.i("Twyst", error.getMessage());
+                }
+            }
+        }, this.getIntent().getData(), this);
     }
 
     private void startInitialAnimation() {

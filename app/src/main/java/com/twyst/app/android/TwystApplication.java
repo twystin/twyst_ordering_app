@@ -20,6 +20,7 @@ import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.NumberDatabaseSingleton;
 import com.twyst.app.android.util.SharedPreferenceSingleton;
 
+import io.branch.referral.Branch;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class TwystApplication extends Application {
@@ -30,6 +31,8 @@ public class TwystApplication extends Application {
         if (!AppConstants.IS_DEVELOPMENT) {
             Crittercism.initialize(getApplicationContext(), AppConstants.CRITTERCISM_APP_ID);
         }
+
+        Branch.getAutoInstance(this);
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                         .setDefaultFontPath("fonts/Roboto-Regular.ttf")

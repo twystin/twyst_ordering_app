@@ -106,6 +106,7 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'com.crittercism:crittercism-android-agent:+'
     compile project(':mobikwik-sdk-1_06')
+    compile 'io.branch.sdk.android:library:1.11.2'
     compile('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') {
         exclude module: 'support-v4'
     }

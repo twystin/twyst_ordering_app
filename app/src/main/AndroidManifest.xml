@@ -78,6 +78,16 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen">
             <intent-filter>
+                <data
+                    android:host="www.twyst.in"
+                    android:scheme="https" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -239,7 +249,7 @@
             android:name=".activities.RechargeActivity"
             android:label="@string/title_activity_recharge"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
 
         <activity
             android:name=".activities.ShoppingVouchersActivity"
@@ -304,6 +314,15 @@
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
+
+        <receiver
+            android:name="io.branch.referral.InstallListener"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+
         <receiver
             android:name=".sms.ReferrerReceiver"
             android:exported="true"
@@ -323,6 +342,10 @@
         <meta-data
             android:name="AppsFlyerDevKey"
             android:value="yezoub3j6KZJt3VPyKoJ2Z" />
+
+        <meta-data
+            android:name="io.branch.sdk.BranchKey"
+            android:value="key_live_emo6q2hi0MRRw9d06KbJUockDFpWr19f" />
 
         <receiver android:name=".alarm.NotificationPublisherReceiver" />
 
