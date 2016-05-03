@@ -78,9 +78,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen">
             <intent-filter>
-                <data
-                    android:host="www.twyst.in"
-                    android:scheme="https" />
+                <data android:scheme="twyst" />
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -89,7 +87,6 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -190,16 +187,7 @@
             android:name=".activities.InviteFriendsActivity"
             android:label="@string/invite"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="twyst" />
-            </intent-filter>
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.WriteToUsActivity"
             android:label="@string/write_to_us"
