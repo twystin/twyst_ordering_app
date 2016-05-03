@@ -168,6 +168,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         PermissionUtil askPermission = PermissionUtil.getInstance();
         startInitialAnimation();
         splashCode();
+        Utils.sentEventTracking(this, AppConstants.EVENT_PREMAIN_ACTIVITY);
 
         branchMetrics();
     }
@@ -175,7 +176,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     private void branchMetrics() {
         Branch branch = Branch.getInstance();
 
-        branch.initSession(new Branch.BranchReferralInitListener(){
+        branch.initSession(new Branch.BranchReferralInitListener() {
             @Override
             public void onInitFinished(JSONObject referringParams, BranchError error) {
                 if (error == null) {

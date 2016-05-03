@@ -30,6 +30,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import io.branch.referral.Branch;
+
 
 /**
  * Created by Vipul Sharma on 22/07/15.
@@ -308,5 +310,9 @@ public class Utils {
 
     public static void setTwystCash(int twystCash) {
         HttpService.getInstance().getSharedPreferences().edit().putInt(AppConstants.PREFERENCE_LAST_TWYST_CASH, twystCash).apply();
+    }
+
+    public static void sentEventTracking(Context context, String eventName) {
+        Branch.getInstance(context.getApplicationContext()).userCompletedAction(eventName);
     }
 }

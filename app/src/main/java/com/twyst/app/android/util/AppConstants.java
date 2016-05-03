@@ -70,7 +70,7 @@ public class AppConstants {
     public static final String INTENT_PARAM_OUTLET_LOCATION_LONG = "lng";
     public static final String INTENT_PARAM_OUTLET_NAME = "outlet_name";
     public static final String INTENT_PARAM_OUTLET_ID = "outlet_id";
-    public static final String INTENT_PARAM_COUPON_CODE= "coupon_code";
+    public static final String INTENT_PARAM_COUPON_CODE = "coupon_code";
     public static final String INTENT_PARAM_PHONE = "outlet_phone";
     public static final String INTENT_PARAM_OFFER_ID = "offer_id";
     public static final String INTENT_PARAM_OUTLET_OBJECT = "outlet_object";
@@ -261,4 +261,6 @@ public class AppConstants {
     //Twyst Cash History
     public static final String BUNDLE_CASH_HISTORY = "cash_history";
     public static final String CASH_HISTORY_TYPE = "cash_history_type";
+
+    public static final String EVENT_PREMAIN_ACTIVITY = "EVENT_PRE_MAIN_ACTIVITY";
 }
