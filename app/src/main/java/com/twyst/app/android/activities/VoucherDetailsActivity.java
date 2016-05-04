@@ -135,6 +135,7 @@ public class VoucherDetailsActivity extends BaseActionActivity {
         useOffer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utils.sentEventTracking(VoucherDetailsActivity.this, AppConstants.EVENT_SHOPPING_VOUCHER_REDEEMED);
                 canOfferbeUsed();
             }
         });
@@ -170,6 +171,12 @@ public class VoucherDetailsActivity extends BaseActionActivity {
             }
         });
         updateTwystCash();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Utils.sentEventTracking(this, AppConstants.EVENT_SHOPPING_VOUCHER_DETAIL_VIEW);
     }
 
     private void openURL(String url) {

@@ -83,6 +83,12 @@ public class RechargeActivity extends BaseActionActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        Utils.sentEventTracking(this, AppConstants.EVENT_RECHARGE_VIEW);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         AppsFlyerLib.onActivityResume(this);
@@ -252,6 +258,8 @@ public class RechargeActivity extends BaseActionActivity {
             recharge.setConntype(Recharge.POSTPAID);
         }
 
+
+        Utils.sentEventTracking(this, AppConstants.EVENT_RECHARGE_DONE);
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
         HttpService.getInstance().postRecharge(getUserToken(), recharge, new Callback<BaseResponse<Integer>>() {
             @Override

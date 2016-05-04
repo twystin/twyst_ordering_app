@@ -45,6 +45,7 @@ import com.twyst.app.android.util.FilterOptions;
 import com.twyst.app.android.util.LocationFetchUtil;
 import com.twyst.app.android.util.SharedPreferenceSingleton;
 import com.twyst.app.android.util.UtilMethods;
+import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -121,6 +122,7 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
         fabFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utils.sentEventTracking(mActivity, AppConstants.EVENT_FILTER_CLICKED);
                 Intent intent = new Intent(mActivity, FiltersActivity.class);
                 Bundle extras = new Bundle();
                 extras.putSerializable(AppConstants.FILTER_MAP, filterTagsMap);
@@ -200,6 +202,13 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
         return view;
 
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Utils.sentEventTracking(mActivity, AppConstants.EVENT_OUTLET_LIST_VIEW);
+    }
+
 
     private void setupBannersViewPager(final View view) {
         HttpService.getInstance().getOrderBanners(UtilMethods.getUserToken(mActivity), new Callback<BaseResponse<ArrayList<OrderBanner>>>() {

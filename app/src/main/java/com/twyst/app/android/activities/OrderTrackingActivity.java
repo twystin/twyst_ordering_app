@@ -41,6 +41,7 @@ import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.PermissionUtil;
 import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
+import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
 
@@ -76,6 +77,13 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
         mAdapter = new TrackOrderStatesAdapter();
         trackOrderStatesListview.setAdapter(mAdapter);
         twystApplication = (TwystApplication) this.getApplicationContext();
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Utils.sentEventTracking(this, AppConstants.EVENT_ORDER);
     }
 
     private void processExtraData() {

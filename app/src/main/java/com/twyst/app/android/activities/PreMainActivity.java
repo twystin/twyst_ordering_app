@@ -168,7 +168,6 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
         PermissionUtil askPermission = PermissionUtil.getInstance();
         startInitialAnimation();
         splashCode();
-        Utils.sentEventTracking(this, AppConstants.EVENT_PREMAIN_ACTIVITY);
 
         branchMetrics();
     }
@@ -1418,7 +1417,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     @Override
     protected void onStart() {
         super.onStart();
-        // mGoogleApiClient.connect();
+        Utils.sentEventTracking(this, AppConstants.EVENT_FIRST_SCREEN);
     }
 
     @Override

@@ -136,6 +136,12 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Utils.sentEventTracking(this, AppConstants.EVENT_OUTLET_VIEW);
+    }
+
     private void showToast(String couponCode) {
         android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         android.content.ClipData clip = android.content.ClipData.newPlainText("Coupon Code", couponCode);
@@ -549,6 +555,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
     }
 
     private void checkOut() {
+        Utils.sentEventTracking(this, AppConstants.EVENT_POST_CART);
         SharedPreferenceSingleton.getInstance().setPassedCartCheckoutStage(true);
 
         if (getIntent().getBooleanExtra(AppConstants.INTENT_PARAM_FROM_FOOD_OFFER, false) || SharedPreferenceSingleton.getInstance().isSkipLocationClicked()) {
@@ -729,6 +736,7 @@ public class OrderOnlineActivity extends AppCompatActivity implements MenuExpand
         dialog.findViewById(R.id.fOK).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utils.sentEventTracking(OrderOnlineActivity.this, AppConstants.EVENT_CART_ABANDON);
                 OrderOnlineActivity.this.finish();
             }
         });

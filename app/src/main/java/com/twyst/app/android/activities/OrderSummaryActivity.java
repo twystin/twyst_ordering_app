@@ -23,6 +23,7 @@ import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
+import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
 
@@ -69,9 +70,16 @@ public class OrderSummaryActivity extends BaseActionActivity {
         findViewById(R.id.bNext).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utils.sentEventTracking(OrderSummaryActivity.this, AppConstants.EVENT_CHECKOUT);
                 showPaymentOptions();
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Utils.sentEventTracking(this, AppConstants.EVENT_ORDER_SUMMARY);
     }
 
     @Override

@@ -29,6 +29,7 @@ import com.twyst.app.android.model.AddressDetailsLocationData;
 import com.twyst.app.android.model.order.OrderSummary;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.SharedPreferenceSingleton;
+import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
 
@@ -179,8 +180,10 @@ public class AddressAddNewActivity extends BaseActionActivity implements OnMapRe
             @Override
             public void onClick(View v) {
                 if (extras != null) {
+                    Utils.sentEventTracking(AddressAddNewActivity.this, AppConstants.EVENT_ADDRESS_SAVE);
                     clickProceedFunc();
                 } else {
+                    Utils.sentEventTracking(AddressAddNewActivity.this, AppConstants.EVENT_ADDRESS_CHANGE_MAIN);
                     clickOkFunc();
                 }
             }

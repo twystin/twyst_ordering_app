@@ -77,6 +77,12 @@ public class TwystCashHistoryActivity extends BaseActionActivity {
         updateTwystCash();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Utils.sentEventTracking(this, AppConstants.EVENT_TWYST_CASH_HISTORY_VIEW);
+    }
+
     private void showNoDataLayout() {
         findViewById(R.id.no_twystCash_transactions).setVisibility(View.VISIBLE);
         viewPager.setVisibility(View.GONE);
@@ -100,7 +106,7 @@ public class TwystCashHistoryActivity extends BaseActionActivity {
 
     private void updateTwystCash() {
         if (Utils.getTwystCash() != -1) {
-            ((TextView) findViewById(R.id.tv_cash_amount)).setText(AppConstants.INDIAN_RUPEE_SYMBOL+ " "+String.valueOf(Utils.getTwystCash()));
+            ((TextView) findViewById(R.id.tv_cash_amount)).setText(AppConstants.INDIAN_RUPEE_SYMBOL + " " + String.valueOf(Utils.getTwystCash()));
         }
     }
 }

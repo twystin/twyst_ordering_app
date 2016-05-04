@@ -10,7 +10,9 @@ import com.twyst.app.android.adapters.FoodVouchersAdapter;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.offer.FoodOffer;
 import com.twyst.app.android.service.HttpService;
+import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.UtilMethods;
+import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
 
@@ -29,6 +31,12 @@ public class FoodVouchersActivity extends BaseActionActivity {
         setupToolBar();
         fetchFoodOffers();
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Utils.sentEventTracking(this, AppConstants.EVENT_FOOD_OFFERS_VIEW);
     }
 
     @Override

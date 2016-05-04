@@ -36,6 +36,7 @@ import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
+import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -161,6 +162,7 @@ public class PaymentOptionsActivity extends BaseActionActivity {
     }
 
     private void cod() {
+        Utils.sentEventTracking(PaymentOptionsActivity.this, AppConstants.EVENT_COD_PAYMENT);
         final TwystProgressHUD twystProgressHUD = TwystProgressHUD.show(this, false, null);
         OrderConfirmedCOD orderConfirmedCOD = new OrderConfirmedCOD(mOrderCheckoutResponse.getOrderNumber(), mOrderCheckoutResponse.getOutletID());
         HttpService.getInstance().postOrderConfirmCOD(UtilMethods.getUserToken(PaymentOptionsActivity.this), orderConfirmedCOD, new Callback<BaseResponse>() {
@@ -207,6 +209,7 @@ public class PaymentOptionsActivity extends BaseActionActivity {
     }
 
     private void goToPayment(PaymentInstrumentType paymentType) {
+        Utils.sentEventTracking(PaymentOptionsActivity.this, AppConstants.EVENT_ONLINE_PAYMENT);
         setPaymentType(paymentType.getType());
 
         TransactionConfiguration config = new TransactionConfiguration();

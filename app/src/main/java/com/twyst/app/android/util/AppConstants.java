@@ -262,5 +262,29 @@ public class AppConstants {
     public static final String BUNDLE_CASH_HISTORY = "cash_history";
     public static final String CASH_HISTORY_TYPE = "cash_history_type";
 
-    public static final String EVENT_PREMAIN_ACTIVITY = "EVENT_PRE_MAIN_ACTIVITY";
+    public static final String EVENT_FIRST_SCREEN = "first_screen";
+    public static final String EVENT_OUTLET_LIST_VIEW = "outlet_list_view";
+    public static final String EVENT_ADDRESS_CHANGE_MAIN = "address_change_main";
+    public static final String EVENT_OUTLET_VIEW = "outlet_view";
+    public static final String EVENT_FILTER_CLICKED = "filter_clicked";
+    public static final String EVENT_CART_ABANDON = "cart_abandon";
+    public static final String EVENT_POST_CART = "post_cart";
+    public static final String EVENT_ADDRESS_SAVE = "address_save";
+    public static final String EVENT_OFFER_VIEWED = "offer_viewed";
+    public static final String EVENT_OFFER_APPLIED = "offer_applied";
+    public static final String EVENT_ORDER_SUMMARY = "order_summary";
+    public static final String EVENT_CHECKOUT = "checkout";
+    public static final String EVENT_ONLINE_PAYMENT = "online_payment";
+    public static final String EVENT_COD_PAYMENT = "cod_payment";
+    public static final String EVENT_ORDER = "order";
+    public static final String EVENT_TWYST_CASH_HISTORY_VIEW = "twyst_cash_history_view";
+
+    public static final String EVENT_REDEEM_TAB = "redeem_tab";
+    public static final String EVENT_RECHARGE_VIEW = "recharge_view";
+    public static final String EVENT_RECHARGE_DONE = "recharge_done";
+    public static final String EVENT_SHOPPING_VOUCHERS_VIEW = "shopping_vouchers_view";
+    public static final String EVENT_SHOPPING_VOUCHER_DETAIL_VIEW = "shopping_voucher_detail_view";
+    public static final String EVENT_SHOPPING_VOUCHER_REDEEMED = "shopping_voucher_redeemed";
+    public static final String EVENT_FOOD_OFFERS_VIEW = "food_offers_view";
+    public static final String EVENT_FOOD_OFFER_USED = "food_offer_used";
 }

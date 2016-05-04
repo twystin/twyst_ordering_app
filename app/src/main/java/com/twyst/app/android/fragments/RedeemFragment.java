@@ -85,6 +85,12 @@ public class RedeemFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        Utils.sentEventTracking(mActivity, AppConstants.EVENT_REDEEM_TAB);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.redeem_fragment, null);

@@ -14,6 +14,7 @@ import com.twyst.app.android.service.HttpService;
 import com.twyst.app.android.util.AppConstants;
 import com.twyst.app.android.util.TwystProgressHUD;
 import com.twyst.app.android.util.UtilMethods;
+import com.twyst.app.android.util.Utils;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -45,6 +46,12 @@ public class AvailableOffersActivity extends BaseActionActivity {
                 UtilMethods.goToSummary(AvailableOffersActivity.this, -1, mOrderSummary);
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Utils.sentEventTracking(this, AppConstants.EVENT_OFFER_VIEWED);
     }
 
     @Override
@@ -87,6 +94,7 @@ public class AvailableOffersActivity extends BaseActionActivity {
                     findViewById(R.id.bApply).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            Utils.sentEventTracking(AvailableOffersActivity.this, AppConstants.EVENT_OFFER_APPLIED);
                             applyOffer();
                         }
                     });

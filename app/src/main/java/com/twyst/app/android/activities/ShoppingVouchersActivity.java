@@ -14,6 +14,8 @@ import com.twyst.app.android.adapters.ShoppingVouchersAdapter;
 import com.twyst.app.android.model.BaseResponse;
 import com.twyst.app.android.model.Cashback;
 import com.twyst.app.android.service.HttpService;
+import com.twyst.app.android.util.AppConstants;
+import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
 
@@ -32,6 +34,13 @@ public class ShoppingVouchersActivity extends BaseActionActivity {
         setupToolBar();
         getAllOffers();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Utils.sentEventTracking(this, AppConstants.EVENT_SHOPPING_VOUCHERS_VIEW);
+    }
+
 
     private void getAllOffers() {
         HttpService.getInstance().getCashbackOffers(getUserToken(), new Callback<BaseResponse<ArrayList<Cashback>>>() {

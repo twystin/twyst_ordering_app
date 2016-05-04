@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.twyst.app.android.R;
+import com.twyst.app.android.activities.FoodVouchersActivity;
 import com.twyst.app.android.activities.OrderOnlineActivity;
 import com.twyst.app.android.model.DeliveryZone;
 import com.twyst.app.android.model.OrderTrackingState;
@@ -108,6 +109,7 @@ public class FoodVouchersAdapter extends RecyclerView.Adapter<FoodVouchersAdapte
             intent.putExtra(AppConstants.INTENT_PARAM_OUTLET_ID, outlet.get_id());
             intent.putExtra(AppConstants.INTENT_PARAM_FROM_FOOD_OFFER, true);
             mContext.startActivity(intent);
+            Utils.sentEventTracking(mContext, AppConstants.EVENT_FOOD_OFFER_USED);
         }
     }
 
