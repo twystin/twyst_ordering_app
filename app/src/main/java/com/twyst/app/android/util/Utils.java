@@ -313,6 +313,7 @@ public class Utils {
     }
 
     public static void sentEventTracking(Context context, String eventName) {
+        if (AppConstants.IS_DEVELOPMENT) return;
         Branch.getInstance(context.getApplicationContext()).userCompletedAction(eventName);
     }
 }

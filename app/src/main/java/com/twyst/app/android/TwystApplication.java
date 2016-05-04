@@ -30,9 +30,8 @@ public class TwystApplication extends Application {
         super.onCreate();
         if (!AppConstants.IS_DEVELOPMENT) {
             Crittercism.initialize(getApplicationContext(), AppConstants.CRITTERCISM_APP_ID);
+            Branch.getAutoInstance(this);
         }
-
-        Branch.getAutoInstance(this);
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                         .setDefaultFontPath("fonts/Roboto-Regular.ttf")
