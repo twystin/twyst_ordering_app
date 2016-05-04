@@ -91,7 +91,6 @@ public class TwystApplication extends Application {
         tracker.enableExceptionReporting(true);
         //tracker.setSampleRate(20);
         tracker.enableAutoActivityTracking(true);
-
         return tracker;
     }
 

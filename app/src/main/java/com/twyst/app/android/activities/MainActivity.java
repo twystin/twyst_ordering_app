@@ -27,6 +27,7 @@ import com.twyst.app.android.adapters.DiscoverPagerAdapter;
 import com.twyst.app.android.fragments.DiscoverOutletFragment;
 import com.twyst.app.android.model.Outlet;
 import com.twyst.app.android.util.AppConstants;
+import com.twyst.app.android.util.Utils;
 
 import java.util.ArrayList;
 
@@ -48,6 +49,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         super.onCreate(savedInstanceState);
 
         showSearchView();
+        Utils.sentEventTracking(MainActivity.this, AppConstants.EVENT_OUTLET_LIST_VIEW);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Order"));
@@ -64,8 +66,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 viewPager.setCurrentItem(tab.getPosition());
                 if (tab.getPosition() == 0) {
                     //Discover fragment selected, enable searchView
+                    Utils.sentEventTracking(MainActivity.this, AppConstants.EVENT_OUTLET_LIST_VIEW);
                     showSearchView();
                 } else {
+                    Utils.sentEventTracking(MainActivity.this, AppConstants.EVENT_REDEEM_TAB);
                     closeSearchView();
                     hideSearchView();
                 }

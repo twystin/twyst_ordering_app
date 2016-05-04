@@ -203,13 +203,6 @@ public class DiscoverOutletFragment extends Fragment implements LocationFetchUti
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        Utils.sentEventTracking(mActivity, AppConstants.EVENT_OUTLET_LIST_VIEW);
-    }
-
-
     private void setupBannersViewPager(final View view) {
         HttpService.getInstance().getOrderBanners(UtilMethods.getUserToken(mActivity), new Callback<BaseResponse<ArrayList<OrderBanner>>>() {
             @Override

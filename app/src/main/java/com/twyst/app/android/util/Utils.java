@@ -1,5 +1,6 @@
 package com.twyst.app.android.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -8,9 +9,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.PolyUtil;
 import com.twyst.app.android.R;
+import com.twyst.app.android.TwystApplication;
 import com.twyst.app.android.activities.OrderOnlineActivity;
 import com.twyst.app.android.activities.WebViewActivity;
 import com.twyst.app.android.model.AddressDetailsLocationData;
@@ -315,5 +319,14 @@ public class Utils {
     public static void sentEventTracking(Context context, String eventName) {
         if (AppConstants.IS_DEVELOPMENT) return;
         Branch.getInstance(context.getApplicationContext()).userCompletedAction(eventName);
+
+        // Get tracker.
+        Tracker t = ((TwystApplication) context.getApplicationContext()).getGATracker();
+
+        // Build and send an Event.
+        t.send(new HitBuilders.EventBuilder()
+                .setCategory("Twyst")
+                .setAction(eventName)
+                .build());
     }
 }

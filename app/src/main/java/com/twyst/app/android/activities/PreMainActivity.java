@@ -173,6 +173,7 @@ public class PreMainActivity extends Activity implements GoogleApiClient.Connect
     }
 
     private void branchMetrics() {
+        if (AppConstants.IS_DEVELOPMENT) return;
         Branch branch = Branch.getInstance();
 
         branch.initSession(new Branch.BranchReferralInitListener() {
