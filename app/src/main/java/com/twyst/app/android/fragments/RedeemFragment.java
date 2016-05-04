@@ -1,5 +1,6 @@
 package com.twyst.app.android.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -44,6 +45,8 @@ public class RedeemFragment extends Fragment {
     public static final String REDEEM_SHOPPING = "SHOPPING";
     public static final String REDEEM_COMING_SOON = "COMING SOON";
 
+    private MainActivity mActivity;
+
     private TextView tvMyTwystCash;
 
     private RecyclerView mGridtile;
@@ -74,6 +77,12 @@ public class RedeemFragment extends Fragment {
                     R.drawable.app_redeem_slide2
             };
 
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = (MainActivity) activity;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -116,7 +125,7 @@ public class RedeemFragment extends Fragment {
     private void setAddsViewPager(View view) {
         viewPager = (AutoScrollViewPager) view.findViewById(R.id.ads_pager);
 
-        viewPager.setAdapter(new ImagePagerAdapter(getActivity(), Ints.asList(add_imageIds)));
+        viewPager.setAdapter(new ImagePagerAdapter(mActivity, Ints.asList(add_imageIds)));
 
         mIndicator = (CirclePageIndicator) view.findViewById(R.id.indicator);
         mIndicator.setViewPager(viewPager);
@@ -135,10 +144,10 @@ public class RedeemFragment extends Fragment {
     private void setGridAdapter(View view) {
         mGridtile = (RecyclerView) view.findViewById(R.id.gv_redeem);
         mGridtile.setHasFixedSize(true);
-        GridLayoutManager glmRedeem = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
+        GridLayoutManager glmRedeem = new GridLayoutManager(mActivity, 2, GridLayoutManager.VERTICAL, false);
         mGridtile.setLayoutManager(glmRedeem);
         createList();
-        RedeemRVAdapter adapter = new RedeemRVAdapter(getActivity(), cardItemList);
+        RedeemRVAdapter adapter = new RedeemRVAdapter(mActivity, cardItemList);
         mGridtile.setAdapter(adapter);
     }
 
