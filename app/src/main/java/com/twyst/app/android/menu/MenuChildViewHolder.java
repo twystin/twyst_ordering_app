@@ -21,6 +21,7 @@ public class MenuChildViewHolder extends ChildViewHolder {
     public TextView menuItemDesc;
     public TextView tvQuantity;
     public TextView tvCost;
+    public TextView tvUnavailable;
 
     public MenuChildViewHolder(View itemView) {
         super(itemView);
@@ -33,5 +34,6 @@ public class MenuChildViewHolder extends ChildViewHolder {
         this.menuItemDesc = (TextView) itemView.findViewById(R.id.item_desc);
         this.tvQuantity = (TextView) itemView.findViewById(R.id.tvQuantity);
         this.tvCost = (TextView) itemView.findViewById(R.id.tvCost);
+        this.tvUnavailable = (TextView) itemView.findViewById(R.id.item_unavailable);
     }
 }

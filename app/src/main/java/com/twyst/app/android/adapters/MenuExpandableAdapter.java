@@ -53,10 +53,11 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
 
     @Override
     public void onParentListItemExpanded(int parentPosition) {
+        super.onParentListItemExpanded(parentPosition);
         LinearLayoutManager llm = (LinearLayoutManager) mMenuExpandableList.getLayoutManager();
         llm.scrollToPositionWithOffset(parentPosition, 0);
         // Alternatively keep track of the single item that is expanded and explicitly collapse that row (more efficient)
-        super.onParentListItemExpanded(parentPosition);
+
     }
 
     @Override
@@ -93,46 +94,58 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
     @Override
     public void onBindChildViewHolder(final MenuChildViewHolder childViewHolder, final int childPosition, Object childListItem) {
         final Items item = (Items) childListItem;
-        childViewHolder.mIvPLus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                add(item);
-            }
-        });
-
-        childViewHolder.mIvMinus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                remove(item);
-            }
-        });
-
-        if (item.getItemQuantity() == 0) {
+        if (!item.isAvailable()) {
+            childViewHolder.tvUnavailable.setVisibility(View.VISIBLE);
+            childViewHolder.mIvPLus.setVisibility(View.INVISIBLE);
             childViewHolder.mIvMinus.setVisibility(View.INVISIBLE);
             childViewHolder.tvQuantity.setVisibility(View.INVISIBLE);
         } else {
-            childViewHolder.mIvMinus.setVisibility(View.VISIBLE);
-            childViewHolder.tvQuantity.setVisibility(View.VISIBLE);
-            childViewHolder.tvQuantity.setText(String.valueOf(item.getItemQuantity()));
+            childViewHolder.tvUnavailable.setVisibility(View.GONE);
+            childViewHolder.mIvPLus.setVisibility(View.VISIBLE);
+
+            childViewHolder.mIvPLus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    add(item);
+                }
+            });
+
+            childViewHolder.mIvMinus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    remove(item);
+                }
+            });
+
+            if (item.getItemQuantity() == 0) {
+                childViewHolder.mIvMinus.setVisibility(View.INVISIBLE);
+                childViewHolder.tvQuantity.setVisibility(View.INVISIBLE);
+            } else {
+                childViewHolder.mIvMinus.setVisibility(View.VISIBLE);
+                childViewHolder.tvQuantity.setVisibility(View.VISIBLE);
+                childViewHolder.tvQuantity.setText(String.valueOf(item.getItemQuantity()));
+            }
+
         }
+
+        final Drawable img;
+        if (item.isVegetarian()) {
+            img = mContext.getResources().getDrawable(
+                    R.drawable.veg);
+        } else {
+            img = mContext.getResources().getDrawable(
+                    R.drawable.nonveg);
+        }
+
+        childViewHolder.mIvVegNonVegIcon.setImageDrawable(img);
 
         if (mVegIconHeight == 0) {
             final TextView tvMenuItemName = childViewHolder.menuItemName;
-            final TextView tvMenuItemDesc = childViewHolder.menuItemDesc;
-            final TextView tvMenuBreadCrumb = childViewHolder.menuItemBreadCrumb;
             tvMenuItemName.getViewTreeObserver()
                     .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                         @Override
                         public void onGlobalLayout() {
-                            Drawable img;
-                            if (item.isVegetarian()) {
-                                img = mContext.getResources().getDrawable(
-                                        R.drawable.veg);
-                            } else {
-                                img = mContext.getResources().getDrawable(
-                                        R.drawable.nonveg);
-                            }
-                            mVegIconHeight = tvMenuItemName.getLineHeight() * 7 / 8;
+                            mVegIconHeight = childViewHolder.menuItemName.getLineHeight() * 7 / 8;
                             ViewGroup.LayoutParams lp = childViewHolder.mIvVegNonVegIcon.getLayoutParams();
                             lp.width = mVegIconHeight;
                             lp.height = mVegIconHeight;
@@ -144,20 +157,11 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
                         }
                     });
         } else {
-            Drawable img;
-            if (item.isVegetarian()) {
-                img = mContext.getResources().getDrawable(
-                        R.drawable.veg);
-            } else {
-                img = mContext.getResources().getDrawable(
-                        R.drawable.nonveg);
-            }
             ViewGroup.LayoutParams lp = childViewHolder.mIvVegNonVegIcon.getLayoutParams();
             lp.width = mVegIconHeight;
             lp.height = mVegIconHeight;
             childViewHolder.mIvVegNonVegIcon.setLayoutParams(lp);
             childViewHolder.mIvVegNonVegIcon.setImageDrawable(img);
-
         }
 
         childViewHolder.menuItemName.setText(item.getItemName());
@@ -175,6 +179,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
             if (item.getSubCategoryName() != null && !item.getSubCategoryName().equalsIgnoreCase(AppConstants.DEFAULT_SUB_CATEGORY)) {
                 breadCrumb = breadCrumb + " > " + item.getSubCategoryName();
             }
+            childViewHolder.menuItemBreadCrumb.setVisibility(View.VISIBLE);
             childViewHolder.menuItemBreadCrumb.setText(breadCrumb);
         } else {
             childViewHolder.menuItemBreadCrumb.setVisibility(View.GONE);
