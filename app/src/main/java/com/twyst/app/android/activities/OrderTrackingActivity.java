@@ -292,15 +292,15 @@ public class OrderTrackingActivity extends BaseActionActivity implements Activit
                 switch (orderstate.getOrderState()) {
                     case OrderTrackingState.STATE_PLACED:
                         if (isCurrent) {
-                            viewholder.tvClickForFailure.setVisibility(View.VISIBLE);
-                            viewholder.tvClickForFailure.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    cancelOrderDialogShow();
-                                }
-                            });
-                            viewholder.tvClickForFailure.setText(getResources().getString(R.string.order_placed_cancel_message));
-                            viewholder.tvClickForFailure.setBackground(getResources().getDrawable(R.drawable.button_primary));
+                            viewholder.tvClickForFailure.setVisibility(View.GONE);
+//                            viewholder.tvClickForFailure.setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    cancelOrderDialogShow();
+//                                }
+//                            });
+//                            viewholder.tvClickForFailure.setText(getResources().getString(R.string.order_placed_cancel_message));
+//                            viewholder.tvClickForFailure.setBackground(getResources().getDrawable(R.drawable.button_primary));
                         }
                         break;
 
