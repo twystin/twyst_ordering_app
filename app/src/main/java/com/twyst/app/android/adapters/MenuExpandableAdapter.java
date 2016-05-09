@@ -233,6 +233,7 @@ public class MenuExpandableAdapter extends ExpandableRecyclerAdapter<MenuParentV
 
         if (cartItem.isOptionIsAddon()) {
             bOK.setText("CONFIRM");
+            bOK.setEnabled(true);
 
             final MenuMultipleOptionsAdapter menuMultipleOptionsAdapter = new MenuMultipleOptionsAdapter(mContext, cartItem.getOptionsList());
             listMenuOptions.setAdapter(menuMultipleOptionsAdapter);
