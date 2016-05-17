@@ -1,11 +1,9 @@
 apply plugin: 'com.android.application'
-// app/build/outputs/dexcount
 apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
-//    useLibrary 'org.apache.http.legacy'
+    buildToolsVersion "23.0.3"
 
     dexOptions {
         javaMaxHeapSize "4g"
